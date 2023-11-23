@@ -210,8 +210,8 @@ export const WithdrawPanel = ({
       withdrawTo === 'sym'
         ? [runeObject, assetObject]
         : withdrawTo === 'rune'
-        ? [runeObject]
-        : [assetObject];
+          ? [runeObject]
+          : [assetObject];
 
     const label = outAssets
       .map((outAsset) => `${outAsset.toSignificant(6)} ${outAsset.ticker}`)

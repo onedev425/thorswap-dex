@@ -70,10 +70,10 @@ export const CreateLiquidity = () => {
               balance.chain === Chain.Ethereum
                 ? ethWhitelist
                 : balance.chain === Chain.Avalanche
-                ? avaxWhitelist
-                : balance.chain === Chain.BinanceSmartChain
-                ? bscWhitelist
-                : [];
+                  ? avaxWhitelist
+                  : balance.chain === Chain.BinanceSmartChain
+                    ? bscWhitelist
+                    : [];
 
             if (isTokenWhitelisted(balance, whitelist)) {
               assets.push(balance);
@@ -165,8 +165,8 @@ export const CreateLiquidity = () => {
       assetAmount?.lte(0)
         ? assetAmount.set(0)
         : assetAmount
-        ? runeAmount.div(assetAmount)
-        : runeAmount,
+          ? runeAmount.div(assetAmount)
+          : runeAmount,
     [assetAmount, runeAmount],
   );
 

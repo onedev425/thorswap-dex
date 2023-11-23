@@ -310,10 +310,10 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         chain === Chain.Bitcoin
           ? BTCToolbox({})
           : chain === Chain.Litecoin
-          ? LTCToolbox({})
-          : chain === Chain.BitcoinCash
-          ? BCHToolbox({})
-          : DOGEToolbox({});
+            ? LTCToolbox({})
+            : chain === Chain.BitcoinCash
+              ? BCHToolbox({})
+              : DOGEToolbox({});
 
       const getAddress = () => ledgerLiveAccount.address;
 

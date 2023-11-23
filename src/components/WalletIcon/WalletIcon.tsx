@@ -34,10 +34,10 @@ export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onCli
     walletType === WalletOption.KEYSTORE
       ? t('views.walletModal.viewPhrase')
       : walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE
-      ? t('views.walletModal.verifyAddress')
-      : t('views.wallet.walletTypeConnected', {
-          walletType: walletType ? WalletNameByWalletOption[walletType] : t('common.connected'),
-        });
+        ? t('views.walletModal.verifyAddress')
+        : t('views.wallet.walletTypeConnected', {
+            walletType: walletType ? WalletNameByWalletOption[walletType] : t('common.connected'),
+          });
 
   return (
     <Tooltip content={tooltipContent} disabled={tooltipDisabled}>

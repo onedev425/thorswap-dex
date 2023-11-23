@@ -26,8 +26,8 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
         inChain === Chain.Ethereum
           ? TransactionType.ETH_APPROVAL
           : inChain === Chain.Avalanche
-          ? TransactionType.AVAX_APPROVAL
-          : TransactionType.BSC_APPROVAL;
+            ? TransactionType.AVAX_APPROVAL
+            : TransactionType.BSC_APPROVAL;
 
       appDispatch(
         addTransaction({

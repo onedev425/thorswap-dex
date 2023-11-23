@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 import { TableCell } from './TableCell';
-import type { TableCellType, TableRowType } from './types';
+import type { TableRowType } from './types';
 
 type Props = {
   row: TableRowType;
@@ -19,7 +19,7 @@ export const TableRow = ({ row, hasShadow, onRowClick }: Props) => {
       })}
       onClick={() => onRowClick?.(row)}
     >
-      {row.cells.map((cell: TableCellType) => (
+      {row.cells.map((cell) => (
         <TableCell cell={cell} key={cell.getCellProps().key} />
       ))}
     </tr>

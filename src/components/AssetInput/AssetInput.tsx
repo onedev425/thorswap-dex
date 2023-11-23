@@ -79,10 +79,10 @@ export const AssetInput = ({
       rawValue.length > 30
         ? '1rem'
         : rawValue.length > 25
-        ? '1.2rem'
-        : rawValue.length > 20
-        ? '1.4rem'
-        : '1.5rem';
+          ? '1.2rem'
+          : rawValue.length > 20
+            ? '1.4rem'
+            : '1.5rem';
 
     return { fontSize, lineHeight: '2rem' };
   }, [formatPrice, asset]);

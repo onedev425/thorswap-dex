@@ -172,15 +172,15 @@ export const TxLegPreview = ({
       badgeLabel: isStreamming
         ? t('txManager.streaming')
         : leg.txnType
-        ? getLabelForType({
-            fromAsset: fromAssetTicker,
-            toAsset: toAssetTicker,
-            type: leg.txnType,
-            provider: leg.provider,
-            index,
-            txDisplayType,
-          })
-        : undefined,
+          ? getLabelForType({
+              fromAsset: fromAssetTicker,
+              toAsset: toAssetTicker,
+              type: leg.txnType,
+              provider: leg.provider,
+              index,
+              txDisplayType,
+            })
+          : undefined,
       badgeColorScheme: colorSchemeForChain[leg.chain],
     }),
     [

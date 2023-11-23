@@ -12,8 +12,8 @@ const getTooltipContent = (hasHistory: boolean, pendingCount: number) =>
   pendingCount > 0
     ? `${t('common.pendingTransactions')}:${'\u00A0\u00A0'}${pendingCount}`
     : hasHistory
-    ? t('txManager.transactionHistory')
-    : t('common.noTxHistory');
+      ? t('txManager.transactionHistory')
+      : t('common.noTxHistory');
 
 export const OpenButton = memo(({ pendingCount, hasHistory }: Props) => {
   const { isMdActive } = useWindowSize();

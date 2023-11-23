@@ -99,8 +99,8 @@ export const useVthorUtil = () => {
           ? new SwapKitNumber(1)
           : thorStaked.div(vthorTS)
         : thorStaked.eqValue(0)
-        ? new SwapKitNumber(1)
-        : vthorTS.div(thorStaked),
+          ? new SwapKitNumber(1)
+          : vthorTS.div(thorStaked),
     [thorStaked, vthorTS],
   );
 

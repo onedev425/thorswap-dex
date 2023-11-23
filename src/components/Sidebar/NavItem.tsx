@@ -41,16 +41,16 @@ export const NavItem = memo(
                 variant === 'primary'
                   ? 'brand.alpha.btnPrimary'
                   : variant === 'secondary'
-                  ? 'brand.alpha.btnSecondary'
-                  : undefined,
+                    ? 'brand.alpha.btnSecondary'
+                    : undefined,
             }}
             align="center"
             bg={
               isActive && variant === 'primary'
                 ? 'brand.btnPrimary'
                 : isActive && variant === 'secondary'
-                ? 'brand.btnSecondary'
-                : undefined
+                  ? 'brand.btnSecondary'
+                  : undefined
             }
             borderRadius="2xl"
             boxSizing="border-box"

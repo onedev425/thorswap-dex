@@ -29,15 +29,15 @@ const MIDGARD_STAGENET_API = 'https://stagenet-midgard.ninerealms.com';
 export const MIDGARD_URL = IS_DEV_API
   ? MIDGARD_DEV_API
   : IS_STAGENET
-  ? MIDGARD_STAGENET_API
-  : MIDGARD_MAINNET_API;
+    ? MIDGARD_STAGENET_API
+    : MIDGARD_MAINNET_API;
 
 export const TEST_ENVIRONMENT_NAME = IS_BETA
   ? 'BETA'
   : IS_STAGENET
-  ? 'STAGENET'
-  : IS_DEV_API
-  ? 'DEV'
-  : IS_LOCAL
-  ? 'LOCAL'
-  : 'TEST';
+    ? 'STAGENET'
+    : IS_DEV_API
+      ? 'DEV'
+      : IS_LOCAL
+        ? 'LOCAL'
+        : 'TEST';

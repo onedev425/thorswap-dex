@@ -1,12 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { genericBgClasses } from 'components/constants';
+import type { Cell } from 'react-table';
 
-import type { TableCellType } from './types';
+import type { TableData } from './types';
 import { columnAlignClasses } from './types';
 
 type Props = {
-  cell: TableCellType;
+  cell: Cell<TableData, any>;
 };
 
 export const TableCell = (props: Props) => {
@@ -26,7 +27,7 @@ export const TableCell = (props: Props) => {
           columnAlignClasses[cell.column.align || 'left'],
         )}
       >
-        {cell.render('Cell')}
+        {cell.render('Cell') as string}
       </Text>
     </td>
   );

@@ -10,7 +10,7 @@ export const TableHeaderGroup = (props: Props) => {
 
   return (
     <tr className="text-left" {...headerGroup.getHeaderGroupProps()}>
-      {headerGroup.headers.map((column: TableHeaderGroupType) => (
+      {headerGroup.headers.map((column) => (
         <TableHeaderColumn column={column} key={column.getHeaderProps().key} />
       ))}
     </tr>

@@ -77,8 +77,8 @@ export const LiquidityCard = ({
       shareType === PoolShareType.SYM
         ? [RUNEAsset.ticker, poolTicker]
         : shareType === PoolShareType.ASSET_ASYM
-        ? [poolTicker]
-        : [RUNEAsset.ticker];
+          ? [poolTicker]
+          : [RUNEAsset.ticker];
 
     return `${tickers.join(' + ')} LP`;
   }, [poolTicker, shareType]);

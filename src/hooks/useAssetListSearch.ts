@@ -1,11 +1,12 @@
 import { Chain } from '@swapkit/core';
 import type { AssetSelectType } from 'components/AssetSelect/types';
+import type { IFuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SORTED_CHAINS, SUPPORTED_CHAINS } from 'settings/chain';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 
-const options: Fuse.IFuseOptions<AssetSelectType> = {
+const options: IFuseOptions<AssetSelectType> = {
   keys: [
     { name: 'asset.ticker', weight: 1 },
     { name: 'asset.symbol', weight: 0.5 },

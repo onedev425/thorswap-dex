@@ -127,6 +127,7 @@ const SelectList = ({
         flex={1}
       >
         {filteredAssets.length ? (
+          // @ts-expect-error
           <List
             className="!overflow-x-clip overflow-y-auto"
             height={!IS_LEDGER_LIVE ? (isLgActive ? 410 : 1000) : 721}

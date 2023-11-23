@@ -12,8 +12,8 @@ import type { Token } from 'store/thorswap/types';
 export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
   ? []
   : IS_LEDGER_LIVE
-  ? ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth', 'Traderjoe', 'Pangolin']
-  : [];
+    ? ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth', 'Traderjoe', 'Pangolin']
+    : [];
 
 export const useTokenList = () => {
   const [tokens, setTokens] = useState<Token[]>([]);

@@ -1,13 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import React from 'react';
+import type { HeaderGroup } from 'react-table';
 
 import { SortIndicator } from './SortIndicator';
-import type { TableHeaderGroupType } from './types';
+import type { TableData } from './types';
 import { columnAlignClasses, SortType } from './types';
 
 type Props = {
-  column: TableHeaderGroupType & { toolTip?: React.ReactNode };
+  column: HeaderGroup<TableData>;
 };
 
 export const TableHeaderColumn = (props: Props) => {
@@ -36,9 +36,10 @@ export const TableHeaderColumn = (props: Props) => {
         textStyle="caption-xs"
         variant="secondary"
       >
-        {column.render('Header')}
+        {column.render('Header') as string}
         {column.canSort && <SortIndicator sortType={getSortType()} />}
       </Text>
+      {/* @ts-expect-error */}
       {column.toolTip && <div className="inline-flex">{column.toolTip}</div>}
     </th>
   );

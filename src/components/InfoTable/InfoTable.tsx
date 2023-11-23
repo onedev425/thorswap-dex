@@ -22,10 +22,10 @@ export const InfoTable = memo(
           const rowKey = key
             ? key
             : typeof label === 'string'
-            ? label?.toString()
-            : typeof value === 'string'
-            ? value
-            : `not-a-proper-key-${index}`;
+              ? label?.toString()
+              : typeof value === 'string'
+                ? value
+                : `not-a-proper-key-${index}`;
 
           return (
             <InfoRow

@@ -30,8 +30,8 @@ import type {
 const baseUrl = IS_STAGENET
   ? 'https://api-stagenet.thorswap.net'
   : IS_DEV_API
-  ? 'https://dev-api.thorswap.net'
-  : 'https://api.thorswap.net';
+    ? 'https://dev-api.thorswap.net'
+    : 'https://api.thorswap.net';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',

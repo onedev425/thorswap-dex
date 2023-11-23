@@ -85,10 +85,10 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             tooltip: isDetected(WalletOption.BRAVE)
               ? t('views.walletModal.disableBraveWallet')
               : getETHDefaultWallet() !== WalletOption.METAMASK
-              ? t('views.walletModal.disableDefaultWallet', {
-                  wallet: WalletNameByWalletOption[getETHDefaultWallet()],
-                })
-              : '',
+                ? t('views.walletModal.disableDefaultWallet', {
+                    wallet: WalletNameByWalletOption[getETHDefaultWallet()],
+                  })
+                : '',
           },
           {
             disabled: !isDetected(WalletOption.COINBASE_WEB),
@@ -119,8 +119,8 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             tooltip: !navigator?.brave?.isBrave?.()
               ? t('views.walletModal.installBraveBrowser')
               : getETHDefaultWallet() !== WalletOption.BRAVE
-              ? t('views.walletModal.enableBraveWallet')
-              : '',
+                ? t('views.walletModal.enableBraveWallet')
+                : '',
           },
           {
             disabled: !okxWalletEnabled(),

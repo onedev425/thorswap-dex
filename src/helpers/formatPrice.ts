@@ -11,8 +11,8 @@ const getNumberOfDecimals = (amount: Value) => {
     typeof amount === 'object'
       ? parseFloat(amount.toSignificant(2))
       : typeof amount === 'string'
-      ? parseFloat(amount)
-      : amount;
+        ? parseFloat(amount)
+        : amount;
 
   if (price > 9) {
     return 2;

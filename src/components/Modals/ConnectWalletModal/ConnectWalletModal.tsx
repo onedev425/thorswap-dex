@@ -140,8 +140,8 @@ const ConnectWalletModal = () => {
         ].includes(selectedWalletType)
           ? [chain]
           : prevSelectedChains.includes(chain)
-          ? prevSelectedChains.filter((c) => c !== chain)
-          : [...prevSelectedChains, chain],
+            ? prevSelectedChains.filter((c) => c !== chain)
+            : [...prevSelectedChains, chain],
       );
     },
     [selectedWalletType],
