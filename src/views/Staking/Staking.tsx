@@ -98,17 +98,15 @@ const Staking = () => {
   }, [isDeposit, thorBalBn, vthorBalBn, previewDeposit, previewRedeem]);
 
   const onAmountChange = useCallback(
-    (amount: SwapKitNumber, targetAction?: StakeActions) => {
+    (amount: SwapKitNumber, targetAction: StakeActions) => {
       setInputAmount(amount);
 
       const expectedOutput =
-        targetAction === StakeActions.Deposit || isDeposit
-          ? previewDeposit(amount)
-          : previewRedeem(amount);
+        targetAction === StakeActions.Deposit ? previewDeposit(amount) : previewRedeem(amount);
 
       setOutputAmount(expectedOutput);
     },
-    [isDeposit, previewDeposit, previewRedeem],
+    [previewDeposit, previewRedeem],
   );
 
   const handleAction = useCallback(() => {
@@ -126,10 +124,6 @@ const Staking = () => {
     }
   }, [ethWalletType, handleAction]);
 
-  const handleStakeTypeChange = useCallback(() => {
-    setAction((v) => (v === StakeActions.Deposit ? StakeActions.Unstake : StakeActions.Deposit));
-  }, []);
-
   const closeModal = useCallback(() => {
     setModalOpened(false);
   }, []);
@@ -142,6 +136,10 @@ const Staking = () => {
     },
     [inputAmount, onAmountChange],
   );
+
+  const handleStakeTypeChange = useCallback(() => {
+    handleTabChange(action === StakeActions.Deposit ? StakeActions.Unstake : StakeActions.Deposit);
+  }, [action, handleTabChange]);
 
   const disabledButton = useMemo(
     () =>
@@ -236,7 +234,7 @@ const Staking = () => {
                     amountValue={inputAmount}
                     className={classNames('-ml-1 !text-2xl font-normal text-left flex-1')}
                     containerClassName="!py-0"
-                    onAmountChange={onAmountChange}
+                    onAmountChange={(val) => onAmountChange(val, action)}
                   />
                 </Box>
 

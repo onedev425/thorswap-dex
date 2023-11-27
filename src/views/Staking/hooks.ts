@@ -95,18 +95,18 @@ export const useVthorUtil = () => {
   const getRate = useCallback(
     (isReverted = false) =>
       isReverted
-        ? vthorTS.eqValue(0)
+        ? thorStaked.eqValue(0)
           ? new SwapKitNumber(1)
-          : thorStaked.div(vthorTS)
-        : thorStaked.eqValue(0)
+          : vthorTS.div(thorStaked)
+        : vthorTS.eqValue(0)
           ? new SwapKitNumber(1)
-          : vthorTS.div(thorStaked),
+          : thorStaked.div(vthorTS),
     [thorStaked, vthorTS],
   );
 
   const getRateString = useCallback(
     (isReverted = false) => {
-      const rate = getRate(isReverted);
+      const rate = getRate(!isReverted);
 
       return isReverted
         ? `1 vTHOR = ${rate.toSignificant(4)} THOR`
@@ -147,19 +147,13 @@ export const useVthorUtil = () => {
   }, [ethAddr, appDispatch]);
 
   const previewDeposit = useCallback(
-    (inputAmount: SwapKitNumber) =>
-      vthorTS.eq(0)
-        ? inputAmount.toSignificant(6)
-        : inputAmount.mul(thorStaked).div(vthorTS).toSignificant(6),
-    [thorStaked, vthorTS],
+    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate(true)).toSignificant(6),
+    [getRate],
   );
 
   const previewRedeem = useCallback(
-    (inputAmount: SwapKitNumber) =>
-      vthorTS.eq(0)
-        ? inputAmount.toSignificant(6)
-        : inputAmount.mul(thorStaked).div(vthorTS).toSignificant(6),
-    [thorStaked, vthorTS],
+    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate()).toSignificant(6),
+    [getRate],
   );
 
   const getVthorBalance = useCallback(async () => {
