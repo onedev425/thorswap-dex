@@ -56,8 +56,8 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      sellAsset: inputAsset.toString(),
-      buyAsset: outputAsset.toString(),
+      sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
+      buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
       slippage: slippageTolerance.toString(),
       sellAmount: inputAmount.getValue('string'),
       senderAddress,
