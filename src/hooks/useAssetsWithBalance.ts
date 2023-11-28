@@ -43,7 +43,8 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
     }
 
     if (loading.current) return;
-    loading.current = true;
+    loading.current = !!pools.length;
+
     Promise.all(assetPromises).then((balancePools) => {
       setAssetsWithBalance(
         assetsMap.length > 0
@@ -51,7 +52,7 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
           : balancePools,
       );
 
-      loading.current = true;
+      loading.current = false;
     });
   }, [assets, getMaxBalance, includeRune, isWalletConnected, pools]);
 

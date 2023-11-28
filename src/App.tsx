@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { PropsWithChildren } from 'react';
-import { Component, useEffect, useState } from 'react';
+import { Component, useCallback, useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { IS_LOCAL, IS_PROD } from 'settings/config';
@@ -100,17 +100,15 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 const AppProviders = () => {
   const [assetsLoaded, setAssetLoaded] = useState(false);
 
-  useEffect(() => {
-    loadAssets();
+  const loadAssets = useCallback(() => {
+    AssetValue.loadStaticAssets().then(({ ok }) => setAssetLoaded(ok));
   }, []);
 
-  const loadAssets = () =>
-    AssetValue.loadStaticAssets().then(({ ok }) => {
-      setAssetLoaded(ok);
-    });
+  useEffect(() => {
+    loadAssets();
+  }, [loadAssets]);
 
-  if (!checkOrigin()) return null;
-  if (!assetsLoaded) return null;
+  if (!checkOrigin() || !assetsLoaded) return null;
 
   return (
     <ErrorBoundary>
