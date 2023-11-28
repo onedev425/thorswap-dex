@@ -7,18 +7,16 @@ export type TokenParam = { assetValue: AssetValue };
 
 export const useTokenPrices = (
   assets?: AssetValue[],
-  {
-    pollingInterval,
-    lookup,
-    sparkline,
-  }: { pollingInterval?: number; sparkline?: boolean; lookup?: boolean } = {},
+  { lookup, sparkline }: { pollingInterval?: number; sparkline?: boolean; lookup?: boolean } = {},
 ) => {
   const tokens = useMemo(() => assets?.map(parseAssetToToken) || [], [assets]);
 
-  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(
-    { tokens, options: { metadata: true, sparkline, lookup } },
-    { skip: !tokens.length, pollingInterval },
+  const params = useMemo(
+    () => ({ tokens, options: { metadata: true, sparkline, lookup } }),
+    [tokens, sparkline, lookup],
   );
+
+  const { data, refetch, isLoading, isFetching } = useGetTokenCachedPricesQuery(params);
 
   const tokenPricesPerIdentifier = useMemo(() => {
     if (!data) return {};

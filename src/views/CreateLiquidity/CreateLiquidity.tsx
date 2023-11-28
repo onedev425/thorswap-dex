@@ -145,7 +145,9 @@ export const CreateLiquidity = () => {
     assetValue: poolAsset.set(assetAmount?.getValue('string') || 0),
   });
 
-  const { data: pricesData } = useTokenPrices([poolAsset, RUNEAsset]);
+  const assets = useMemo(() => [poolAsset, RUNEAsset], [poolAsset]);
+
+  const { data: pricesData } = useTokenPrices(assets);
 
   const { assetUnitPrice, runeUnitPrice, assetUSDPrice, runeUSDPrice } = useMemo(() => {
     // TODO this might be wrong
@@ -176,12 +178,16 @@ export const CreateLiquidity = () => {
   );
 
   useEffect(() => {
-    getMaxBalance(poolAsset).then((assetMaxBalance) => setMaxPoolAssetBalance(assetMaxBalance));
-  }, [poolAsset, getMaxBalance]);
+    getMaxBalance(assetAmount ? poolAsset.set(assetAmount) : poolAsset).then((assetMaxBalance) =>
+      setMaxPoolAssetBalance(assetMaxBalance),
+    );
+  }, [poolAsset, getMaxBalance, assetAmount]);
 
   useEffect(() => {
-    getMaxBalance(RUNEAsset).then((runeMaxBalance) => setMaxRuneBalance(runeMaxBalance));
-  }, [getMaxBalance]);
+    getMaxBalance(RUNEAsset.set(runeAmount)).then((runeMaxBalance) =>
+      setMaxRuneBalance(runeMaxBalance),
+    );
+  }, [getMaxBalance, runeAmount]);
 
   const runeBalance = useMemo(
     () => (wallet ? getAssetBalance(RUNEAsset, wallet) : RUNEAsset.set(0)),
@@ -197,13 +203,13 @@ export const CreateLiquidity = () => {
       const baseAssetAmount =
         maxPoolAssetBalance && amount.gt(maxPoolAssetBalance)
           ? maxPoolAssetBalance
-          : (poolAsset.set(amount.getValue('string')) as AssetValue);
+          : poolAsset.set(amount.getValue('string'));
       const baseRuneAmount = baseAssetAmount.mul(assetUnitPrice).div(runeUnitPrice);
       const exceedsRuneAmount = maxRuneBalance && baseRuneAmount.gt(maxRuneBalance);
 
       const runeAmount = exceedsRuneAmount ? maxRuneBalance : baseRuneAmount;
       const assetAmount = exceedsRuneAmount
-        ? runeAmount.mul(runeUnitPrice).div(assetUnitPrice)
+        ? baseAssetAmount.set(runeAmount.mul(runeUnitPrice).div(assetUnitPrice))
         : baseAssetAmount;
 
       return { assetAmount, runeAmount };
@@ -211,9 +217,29 @@ export const CreateLiquidity = () => {
     [assetUnitPrice, maxPoolAssetBalance, maxRuneBalance, poolAsset, runeUnitPrice],
   );
 
+  const getBalancedAmountsForRune = useCallback(
+    (amount: SwapKitNumber) => {
+      const baseRuneAmount =
+        maxRuneBalance && amount.gt(maxRuneBalance)
+          ? maxRuneBalance
+          : RUNEAsset.set(amount.getValue('string'));
+      const baseAssetAmount = baseRuneAmount.mul(runeUnitPrice).div(assetUnitPrice);
+      const exceedsAssetAmount = maxPoolAssetBalance && baseAssetAmount.gt(maxPoolAssetBalance);
+
+      const assetAmount = exceedsAssetAmount ? maxPoolAssetBalance : baseAssetAmount;
+      const runeAmount = exceedsAssetAmount
+        ? baseRuneAmount.set(assetAmount.mul(assetUnitPrice).div(runeUnitPrice))
+        : baseRuneAmount;
+
+      return { assetAmount, runeAmount };
+    },
+    [assetUnitPrice, maxPoolAssetBalance, maxRuneBalance, runeUnitPrice],
+  );
+
   const handleChangeAssetAmount = useCallback(
     (amount: SwapKitNumber) => {
       const { assetAmount, runeAmount } = getBalancedAmountsForAsset(amount);
+
       setAssetAmount(
         new SwapKitNumber({ value: assetAmount.getValue('string'), decimal: assetAmount.decimal }),
       );
@@ -226,16 +252,16 @@ export const CreateLiquidity = () => {
 
   const handleChangeRuneAmount = useCallback(
     (amount: SwapKitNumber) => {
+      const { assetAmount, runeAmount } = getBalancedAmountsForRune(amount);
+
+      setAssetAmount(
+        new SwapKitNumber({ value: assetAmount.getValue('string'), decimal: assetAmount.decimal }),
+      );
       setRuneAmount(
-        amount.gt(maxRuneBalance)
-          ? new SwapKitNumber({
-              value: maxRuneBalance.getValue('string'),
-              decimal: maxRuneBalance.decimal,
-            })
-          : amount,
+        new SwapKitNumber({ value: runeAmount.getValue('string'), decimal: runeAmount.decimal }),
       );
     },
-    [maxRuneBalance],
+    [getBalancedAmountsForRune],
   );
 
   const handleConfirmAdd = useCallback(async () => {
@@ -423,8 +449,9 @@ export const CreateLiquidity = () => {
   );
 
   const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
-  const filteredAssets = assetSelectList.filter((x) =>
-    inputAssets.some((asset) => asset.eq(x.asset)),
+  const filteredAssets = useMemo(
+    () => assetSelectList.filter((x) => inputAssets.some((asset) => asset.eq(x.asset))),
+    [assetSelectList, inputAssets],
   );
 
   const title = useMemo(
@@ -470,13 +497,12 @@ export const CreateLiquidity = () => {
     [isWalletConnected, isApproveRequired],
   );
 
+  const actionsComponent = useMemo(() => <GlobalSettingsPopover />, []);
+
   return (
     <PanelView
       header={
-        <ViewHeader
-          actionsComponent={<GlobalSettingsPopover />}
-          title={t('common.createLiquidity')}
-        />
+        <ViewHeader actionsComponent={actionsComponent} title={t('common.createLiquidity')} />
       }
       title={title}
     >

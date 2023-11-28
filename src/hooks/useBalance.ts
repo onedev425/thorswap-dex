@@ -52,6 +52,7 @@ export const useBalance = (skipFees?: boolean) => {
         multiplier: getMultiplierForAsset(asset),
       });
       const balance = getAssetBalance(asset, wallet);
+
       if (balance.eqValue(0)) return balance;
 
       if (!UTXOChainList.includes(chain as UTXOChain)) {

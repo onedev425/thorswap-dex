@@ -1,7 +1,6 @@
 import { BaseDecimal, type SwapKitNumber } from '@swapkit/core';
 import type { AmountProps } from 'components/InputAmount/types';
 import { getAmountFromString } from 'components/InputAmount/utils';
-import { useFormatPrice } from 'helpers/formatPrice';
 import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -9,14 +8,15 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
   const { decimal } = amountValue;
   const inputValue = useMemo(() => (amountValue?.gt(0) ? amountValue : undefined), [amountValue]);
 
-  const formatPrice = useFormatPrice(decimal, '');
-  const [rawValue, setRawValue] = useState(inputValue ? formatPrice(inputValue) : '');
+  const [rawValue, setRawValue] = useState(
+    inputValue ? inputValue.toCurrency('', { decimal }) : '',
+  );
 
   const handleRawValueChange = useCallback(
     (amount: SwapKitNumber | string) => {
-      setRawValue(formatPrice(amount));
+      setRawValue(typeof amount === 'string' ? amount : amount.toCurrency('', { decimal }));
     },
-    [formatPrice],
+    [decimal],
   );
 
   const onChange = useCallback(
