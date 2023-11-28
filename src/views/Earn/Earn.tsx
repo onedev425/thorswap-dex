@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
+import { SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Link, Tooltip } from 'components/Atomic';
@@ -194,11 +195,7 @@ const Earn = () => {
     const percent = withdrawPercent.getValue('number');
     const params = isDeposit
       ? { assetValue: asset.set(amount.getValue('string')), type: 'add' as const }
-      : {
-          assetValue: AssetValue.fromChainOrSignature(asset.chain),
-          type: 'withdraw' as const,
-          percent,
-        };
+      : { assetValue: asset, type: 'withdraw' as const, percent };
 
     return savings(params);
   }, [amount, asset, isDeposit, withdrawPercent]);
