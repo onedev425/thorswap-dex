@@ -72,25 +72,28 @@ export const getMultisigTxCreateRoute = (asset?: AssetValue) => {
 export const getSwapRoute = (
   input: AssetValue,
   output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
+  route = ROUTES.Swap,
 ) => {
   const outputAsset =
     isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  const assetUrl = `${input.toString()}_${outputAsset.toString()}`.replace(/\//g, '.');
+  const inputPrefix = input.isSynthetic ? 'THOR.' : '';
+  const outputPrefix = outputAsset.isSynthetic ? 'THOR.' : '';
 
-  return `${ROUTES.Swap}/${assetUrl}`;
+  const assetUrl =
+    `${inputPrefix}${input.toString()}_${outputPrefix}${outputAsset.toString()}`.replace(
+      /\//g,
+      '.',
+    );
+
+  return `${route}/${assetUrl}`;
 };
 
 export const getKyberSwapRoute = (
   input: AssetValue,
   output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
 ) => {
-  const outputAsset =
-    isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
-
-  const assetUrl = `${input.toString()}_${outputAsset.toString()}`.replace(/\//g, '.');
-
-  return `${ROUTES.Kyber}/${assetUrl}`;
+  return getSwapRoute(input, output, ROUTES.Kyber);
 };
 
 export const navigateToPoolDetail = (asset: AssetValue) => {
