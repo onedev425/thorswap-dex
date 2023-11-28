@@ -77,14 +77,14 @@ export const getSwapRoute = (
   const outputAsset =
     isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
 
-  const inputPrefix = input.isSynthetic ? 'THOR.' : '';
-  const outputPrefix = outputAsset.isSynthetic ? 'THOR.' : '';
+  const inputString = input.isSynthetic
+    ? `THOR.${input.symbol.replace('/', '.')}`
+    : input.toString();
+  const outputString = outputAsset.isSynthetic
+    ? `THOR.${outputAsset.symbol.replace('/', '.')}`
+    : outputAsset.toString();
 
-  const assetUrl =
-    `${inputPrefix}${input.toString()}_${outputPrefix}${outputAsset.toString()}`.replace(
-      /\//g,
-      '.',
-    );
+  const assetUrl = `${inputString}_${outputString}`.replace(/\//g, '.');
 
   return `${route}/${assetUrl}`;
 };
