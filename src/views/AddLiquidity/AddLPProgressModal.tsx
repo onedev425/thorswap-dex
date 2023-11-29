@@ -139,7 +139,16 @@ export const AddLPProgressModal = ({
         appDispatch(completeTransaction({ id: assetId, status: 'error' }));
       }
     }
-  }, [appDispatch, assetAddress, poolAddress, poolAssetValue, runeAddress, runeAssetValue, step]);
+  }, [
+    appDispatch,
+    assetAddress,
+    poolAddress,
+    poolAssetValue,
+    runeAddress,
+    runeAssetValue,
+    step,
+    onClose,
+  ]);
 
   const items = useMemo(() => {
     const items: InfoRowConfig[] = [];
