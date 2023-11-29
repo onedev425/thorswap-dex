@@ -13,9 +13,19 @@ const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
 const ssl = process.env.SSL === 'true';
 const sourcemap = withSourcemap || analyze;
-const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN;
 
-const plugins: any[] = [react(), rewriteAll(), svgr({ svgrOptions: { icon: true } }), removeConsole()]
+const plugins: any[] = [
+  react(),
+  rewriteAll(),
+  svgr({ svgrOptions: { icon: true } }),
+  removeConsole(),
+  sentryVitePlugin({
+    telemetry: false,
+    authToken: '56d3ae89505b4735b3c3406a0af4adbb7772a89118204789934866b9965656ef',
+    org: 'thorswap-dex',
+    project: 'dex',
+  }),
+]
   .concat(
     analyze
       ? [
@@ -27,19 +37,7 @@ const plugins: any[] = [react(), rewriteAll(), svgr({ svgrOptions: { icon: true 
         ]
       : [],
   )
-  .concat(ssl ? [basicSsl()] : [])
-  .concat(
-    sentryAuthToken
-      ? [
-          sentryVitePlugin({
-            telemetry: false,
-            authToken: sentryAuthToken,
-            org: 'thorswap-dex',
-            project: 'dex',
-          }),
-        ]
-      : [],
-  );
+  .concat(ssl ? [basicSsl()] : []);
 
 export default defineConfig({
   root: '',
