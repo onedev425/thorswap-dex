@@ -77,12 +77,12 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'bond',
       label: t('views.nodes.bond'),
-      value: new SwapKitNumber({ value: nodeInfo.total_bond, decimal: 8 }).toFixed(1),
+      value: new SwapKitNumber(nodeInfo.total_bond).div(1e8).toCurrency(''),
     },
     {
       key: 'current_award',
       label: t('views.nodes.currentReward'),
-      value: new SwapKitNumber({ value: nodeInfo.current_award, decimal: 8 }).toFixed(1),
+      value: new SwapKitNumber(nodeInfo.current_award).div(1e8).toCurrency(''),
     },
     {
       key: 'slash_points',
@@ -92,7 +92,7 @@ export const useNodeStats = (nodeInfo: THORNode) => {
     {
       key: 'active_block_height',
       label: t('views.nodes.activeBlock'),
-      value: new SwapKitNumber(nodeInfo.active_block_height).toFixed(1),
+      value: new SwapKitNumber(nodeInfo.active_block_height).toCurrency(''),
     },
     {
       key: 'requested_to_leave',
