@@ -47,6 +47,8 @@ export const AddLPProgressModal = ({
   const [step, setStep] = useState<Step>(runeAssetValue ? Step.AddRune : Step.AddAsset);
 
   const handleLPAdd = useCallback(async () => {
+    if (Step.Completed === step) return onClose();
+
     const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
     const symmetric = !!(runeAssetValue && poolAssetValue);
     const runeId = v4();

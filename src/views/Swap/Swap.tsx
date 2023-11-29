@@ -163,21 +163,16 @@ const SwapView = () => {
   );
 
   const {
-    data: pricesData,
     refetch: refetchPrice,
     isLoading: isPriceLoading,
+    inputUnitPrice,
+    outputUnitPrice,
   } = useTokenPrices([inputAsset, outputAsset]);
 
-  const { inputUSDPrice, inputUnitPrice, outputUnitPrice } = useMemo(() => {
-    const inputUnitPrice = pricesData?.[inputAsset.toString()]?.price_usd || 0;
-    const outputUnitPrice = pricesData?.[outputAsset.toString()]?.price_usd || 0;
-
-    return {
-      outputUnitPrice,
-      inputUnitPrice,
-      inputUSDPrice: inputUnitPrice * inputAmount.getValue('number'),
-    };
-  }, [pricesData, inputAsset, outputAsset, inputAmount]);
+  const inputUSDPrice = useMemo(
+    () => inputUnitPrice * inputAmount.getValue('number'),
+    [inputAmount, inputUnitPrice],
+  );
 
   const {
     affiliateBasisPoints,

@@ -76,6 +76,9 @@ export default defineConfig({
        * file and use like below and run yarn start --force
        */
       // '@swapkit/core': resolve(__dirname, 'src/c'),
+      // '@swapkit/wallet-xdefi': resolve(__dirname, 'src/x'),
+      // '@swapkit/wallet-keystore': resolve(__dirname, 'src/k'),
+      // '@swapkit/toolbox-cosmos': resolve(__dirname, 'src/cos'),
     },
   },
   build: {

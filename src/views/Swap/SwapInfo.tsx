@@ -68,7 +68,7 @@ export const SwapInfo = ({
 
     return {
       rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : '-',
-      ratePrice: `($${formatPrice(price)})`,
+      ratePrice: `(${formatPrice(price)})`,
     };
   }, [formatPrice, inputAsset, inputUnitPrice, outputAsset, outputUnitPrice, reverted]);
 

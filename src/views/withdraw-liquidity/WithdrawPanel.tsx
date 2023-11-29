@@ -165,7 +165,7 @@ export const WithdrawPanel = ({
   }, []);
 
   const handleChangePercent = useCallback((p: SwapKitNumber) => {
-    setPercent(Number(p.toFixed(2)));
+    setPercent(Number(p.toFixed(2)) || 0);
   }, []);
 
   const withdrawFrom = useMemo(() => {

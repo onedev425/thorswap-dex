@@ -103,7 +103,7 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
       const { address, chain } = payload;
       const hiddenAssets = {
         ...state.hiddenAssets,
-        [chain]: [...state.hiddenAssets[chain], address],
+        [chain]: [...(state.hiddenAssets[chain] || []), address],
       };
       const chainWallet = state.wallet[chain as keyof typeof initialWallet];
 
@@ -120,7 +120,7 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
       return { ...state, hiddenAssets, wallet: { ...state.wallet, [chain]: filteredWallet } };
     }
     case 'restoreHiddenAssets': {
-      const hiddenAssets = { ...state.hiddenAssets, [payload]: [] };
+      const hiddenAssets = { ...state.hiddenAssets, [payload]: undefined };
       saveInStorage({ key: 'hiddenAssets', value: hiddenAssets });
 
       return {
@@ -143,9 +143,10 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
 
       return {
         ...state,
+        oldBalance: { ...state.oldBalance, [payload.chain]: payload.data?.balance },
         wallet: {
           ...state.wallet,
-          [payload.chain]: { ...payload.data, balance, oldBalance: payload.data?.balance },
+          [payload.chain]: { ...payload.data, balance },
         },
         chainLoading: { ...state.chainLoading, [payload.chain]: false },
       };

@@ -32,5 +32,21 @@ export const useTokenPrices = (
     );
   }, [data]);
 
-  return { data: tokenPricesPerIdentifier, refetch, isLoading: isLoading || isFetching } as const;
+  const { inputUnitPrice, outputUnitPrice } = useMemo(() => {
+    const inputIdentifier = assets?.[0]?.toString(assets?.[0]?.isSynthetic) || '';
+    const outputIdentifier = assets?.[1]?.toString(assets?.[1]?.isSynthetic) || '';
+
+    return {
+      inputUnitPrice: tokenPricesPerIdentifier[inputIdentifier]?.price_usd || 0,
+      outputUnitPrice: tokenPricesPerIdentifier[outputIdentifier]?.price_usd || 0,
+    };
+  }, [assets, tokenPricesPerIdentifier]);
+
+  return {
+    inputUnitPrice,
+    outputUnitPrice,
+    data: tokenPricesPerIdentifier,
+    refetch,
+    isLoading: isLoading || isFetching,
+  } as const;
 };
