@@ -2,8 +2,9 @@ import type { Asset } from '@swapkit/core';
 import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { RUNEAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
+import { useDebouncedCallback } from 'hooks/useDebouncedValue';
 import { usePools } from 'hooks/usePools';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type Props = {
   includeRune?: boolean;
@@ -11,16 +12,44 @@ type Props = {
 };
 
 export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
-  const loading = useRef(false);
-  const { getMaxBalance, isWalletConnected } = useBalance();
+  const { getMaxBalance } = useBalance();
   const { pools } = usePools();
 
   const [assetsWithBalance, setAssetsWithBalance] = useState<
     { asset: AssetValue; balance?: AssetValue }[]
   >([]);
 
+  const assetsMap = useMemo(() => assets?.map((asset) => asset.symbol) || [], [assets]);
+
+  const handleAssetsWithBalanceSet = useDebouncedCallback(
+    (balances: { asset: AssetValue; balance?: AssetValue }[]) => setAssetsWithBalance(balances),
+    500,
+  );
+
+  const handleAssetSet = useCallback(
+    async (pools: { asset: string }[]) => {
+      const poolsToMaxBalance = includeRune ? [...pools, { asset: RUNEAsset.toString() }] : pools;
+
+      const poolsPromises = poolsToMaxBalance.map(async (pool) => {
+        const asset = AssetValue.fromStringSync(pool.asset)!;
+        const balance = await getMaxBalance(asset, true);
+
+        return { asset, balance };
+      });
+
+      const poolsWithBalance = await Promise.all(poolsPromises);
+
+      const filteredBalances =
+        assetsMap.length > 0
+          ? poolsWithBalance.filter((pool) => assetsMap.includes(pool.asset.symbol))
+          : poolsWithBalance;
+
+      handleAssetsWithBalanceSet(filteredBalances);
+    },
+    [assetsMap, getMaxBalance, handleAssetsWithBalanceSet, includeRune],
+  );
+
   useEffect(() => {
-    const assetsMap = assets?.map((asset) => asset.symbol) || [];
     const filteredPools =
       pools
         ?.filter((pool) => pool.saversDepth !== '0')
@@ -30,31 +59,8 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
             .getValue('number');
         }) || [];
 
-    const assetPromises = filteredPools.map((pool) => {
-      const asset = AssetValue.fromStringSync(pool.asset)!;
-
-      return getMaxBalance(asset, true).then((balance) => ({ asset, balance }));
-    });
-
-    if (includeRune) {
-      assetPromises.unshift(
-        getMaxBalance(RUNEAsset, true).then((balance) => ({ asset: RUNEAsset, balance })),
-      );
-    }
-
-    if (loading.current) return;
-    loading.current = !!pools.length;
-
-    Promise.all(assetPromises).then((balancePools) => {
-      setAssetsWithBalance(
-        assetsMap.length > 0
-          ? balancePools.filter((pool) => assetsMap.includes(pool.asset.symbol))
-          : balancePools,
-      );
-
-      loading.current = false;
-    });
-  }, [assets, getMaxBalance, includeRune, isWalletConnected, pools]);
+    handleAssetSet(filteredPools);
+  }, [handleAssetSet, pools]);
 
   return assetsWithBalance;
 };

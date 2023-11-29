@@ -134,7 +134,7 @@ export const AddLPProgressModal = ({
           appDispatch(completeTransaction({ id: assetId, status: 'error' }));
         }
       } catch (error) {
-        setStep(Step.AddRune);
+        setStep(Step.AddAsset);
         showErrorToast(t('txManager.addLiquidity'), t('txManager.failed'));
         appDispatch(completeTransaction({ id: assetId, status: 'error' }));
       }

@@ -692,11 +692,11 @@ export const useAddLiquidity = ({
   }, [liquidityType, poolAsset]);
 
   const depositAssetInputs = useMemo(() => {
-    if (liquidityType === LiquidityTypeOption.RUNE) {
+    if (isAssetPending || liquidityType === LiquidityTypeOption.RUNE) {
       return [{ asset: RUNEAsset, value: runeAmount.toSignificant(6) }];
     }
 
-    if (liquidityType === LiquidityTypeOption.ASSET) {
+    if (isRunePending || liquidityType === LiquidityTypeOption.ASSET) {
       return [{ asset: poolAsset, value: assetAmount.toSignificant(6) }];
     }
 
@@ -704,7 +704,7 @@ export const useAddLiquidity = ({
       { asset: RUNEAsset, value: runeAmount.toSignificant(6) },
       { asset: poolAsset, value: assetAmount.toSignificant(6) },
     ];
-  }, [liquidityType, poolAsset, assetAmount, runeAmount]);
+  }, [isAssetPending, liquidityType, isRunePending, runeAmount, poolAsset, assetAmount]);
 
   const isValidDeposit = useMemo(() => {
     if (isLPActionPaused) {

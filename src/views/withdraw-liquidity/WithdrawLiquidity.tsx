@@ -41,9 +41,9 @@ export const WithdrawLiquidity = () => {
     const pendingPosition = positions?.find(
       ({ assetPending, runePending }) => Number(assetPending) > 0 || Number(runePending) > 0,
     );
-    const symPosition = positions?.find(
-      ({ runeAddress, assetAddress }) => runeAddress && assetAddress,
-    );
+    const symPosition =
+      !pendingPosition &&
+      positions?.find(({ runeAddress, assetAddress }) => runeAddress && assetAddress);
     const runeAsymPosition = positions?.find(
       ({ runeAddress, assetAddress }) => runeAddress && !assetAddress,
     );
