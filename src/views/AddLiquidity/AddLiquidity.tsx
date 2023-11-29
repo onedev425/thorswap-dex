@@ -34,7 +34,7 @@ const liquidityToPoolShareType = (type: LiquidityTypeOption): PoolShareType => {
 export const AddLiquidity = () => {
   const { liquidityType, setLiquidityType } = useLiquidityType();
   const { poolAsset, handleSelectPoolAsset } = useAddLiquidityPools();
-  const { pools, poolAssets } = usePools();
+  const { pools, allPoolAssets: poolAssets } = usePools();
   const depositAssetsBalance = useDepositAssetsBalance({ poolAsset });
   const hardCapReached = useCheckHardCap();
   const assetsWithBalances = useAssetsWithBalance();
