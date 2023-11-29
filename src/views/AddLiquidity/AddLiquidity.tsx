@@ -113,10 +113,12 @@ export const AddLiquidity = () => {
       header={
         <ViewHeader
           actionsComponent={<GlobalSettingsPopover transactionMode />}
-          title={t('common.addLiquidity')}
+          title={`${t('common.addLiquidity')} - ${poolAsset?.ticker}${
+            pool?.status === 'staged' ? ' (Staged)' : ''
+          }`}
         />
       }
-      keywords=" LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
+      keywords="LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
       title={t('views.addLiquidity.title')}
     >
       <LiquidityType

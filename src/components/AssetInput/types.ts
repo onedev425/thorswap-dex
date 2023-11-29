@@ -27,7 +27,6 @@ export type AssetInputProps = {
   maxButtonLabel?: string;
   onValueChange?: (assetValue: SwapKitNumber) => void;
   isPriceLoading?: boolean;
-  secondaryLabel?: string;
   selectedAsset: AssetInputType;
   warning?: string;
   noFilters?: boolean;

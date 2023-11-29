@@ -19,7 +19,6 @@ export const AssetInput = ({
   className,
   singleAsset,
   selectedAsset,
-  secondaryLabel,
   onValueChange,
   hideMaxButton,
   inputClassName,
@@ -163,7 +162,7 @@ export const AssetInput = ({
             <Icon spin className="flex w-full" color="primary" name="loader" size={12} />
           ) : assetPriceInUSD ? (
             <Text fontWeight="semibold" variant="secondary">
-              {secondaryLabel || `${assetPriceInUSD}`}
+              {assetPriceInUSD}
             </Text>
           ) : null}
         </Box>
