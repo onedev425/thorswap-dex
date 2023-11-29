@@ -36,8 +36,8 @@ export const usePools = (period?: PoolPeriods) => {
 
   const [poolAssets, synthAssets] = useMemo(
     () => [
-      allPoolAssets.filter(({ type }) => type.includes('Staged')) ?? [],
-      allSynthAssets.filter(({ type }) => type.includes('Staged')) ?? [],
+      allPoolAssets.filter(({ type }) => !type.includes('Staged')) ?? [],
+      allSynthAssets.filter(({ type }) => !type.includes('Staged')) ?? [],
     ],
     [allPoolAssets, allSynthAssets],
   );
