@@ -178,15 +178,13 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
       const id = v4();
 
       try {
-        const currentClaimableAmount = amount.getValue('number');
-
         appDispatch(
           addTransaction({
             id,
             inChain: Chain.Ethereum,
             type: TransactionType.ETH_STATUS,
             label: `${t('txManager.claim')} ${toOptionalFixed(
-              currentClaimableAmount,
+              amount.getValue('number'),
             )} ${vestingAction}`,
           }),
         );
@@ -194,7 +192,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         const txHash = (await triggerContractCall(
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
           'claim',
-          [currentClaimableAmount],
+          [amount.getBaseValue('bigint')],
         )) as string;
 
         if (txHash) {
