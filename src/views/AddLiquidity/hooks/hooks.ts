@@ -165,6 +165,7 @@ type Actions =
         poolAddress: string;
         poolAssetValue?: AssetValue;
         runeAddress?: string;
+        symmetric: boolean;
         runeAssetValue?: AssetValue;
       };
     };
@@ -172,6 +173,7 @@ type Actions =
 const initialState = {
   assetAddress: '',
   contract: '',
+  symmetric: false,
   lpProgressModal: false,
   poolAddress: '',
   poolAssetValue: undefined as AssetValue | undefined,
@@ -610,6 +612,7 @@ export const useAddLiquidity = ({
         payload: {
           runeAssetValue,
           poolAssetValue,
+          symmetric: liquidityType === LiquidityTypeOption.SYMMETRICAL,
           poolAddress: poolAsset.toString(),
           runeAddress: getAddress(Chain.THORChain),
           assetAddress: getAddress(poolAsset.chain),

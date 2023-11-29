@@ -66,6 +66,7 @@ export const AddLiquidity = () => {
     confirmInfo,
     depositAssets,
     feeInUSD,
+    symmetric,
     handleAddLiquidity,
     handleApprove,
     handleChangeAssetAmount,
@@ -256,6 +257,7 @@ export const AddLiquidity = () => {
           poolAssetValue={poolAssetValue}
           runeAddress={runeAddress}
           runeAssetValue={runeAssetValue}
+          symmetric={symmetric}
         />
       )}
     </PanelView>

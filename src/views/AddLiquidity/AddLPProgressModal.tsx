@@ -16,6 +16,7 @@ import { v4 } from 'uuid';
 
 type Params = {
   isOpened: boolean;
+  symmetric: boolean;
   onClose: () => void;
   assetAddress?: string;
   poolAddress: string;
@@ -38,6 +39,7 @@ export const AddLPProgressModal = ({
   poolAddress,
   assetAddress,
   runeAddress,
+  symmetric: isSymmetric,
   isOpened,
   onClose,
 }: Params) => {
@@ -50,7 +52,7 @@ export const AddLPProgressModal = ({
     if (Step.Completed === step) return onClose();
 
     const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
-    const symmetric = !!(runeAssetValue && poolAssetValue);
+    const symmetric = isSymmetric || !!(runeAssetValue && poolAssetValue);
     const runeId = v4();
     const assetId = v4();
 
@@ -67,6 +69,7 @@ export const AddLPProgressModal = ({
           }),
         }),
       );
+
       try {
         const runeTx = await addLiquidityPart({
           address: assetAddress,
@@ -140,14 +143,15 @@ export const AddLPProgressModal = ({
       }
     }
   }, [
+    step,
+    onClose,
+    isSymmetric,
+    runeAssetValue,
+    poolAssetValue,
     appDispatch,
     assetAddress,
     poolAddress,
-    poolAssetValue,
     runeAddress,
-    runeAssetValue,
-    step,
-    onClose,
   ]);
 
   const items = useMemo(() => {
