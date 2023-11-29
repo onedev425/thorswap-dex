@@ -24,7 +24,9 @@ export function useAssetSelect({
   const filteredAssets = useMemo(() => {
     if (typeFilter === 'all') return assets;
 
-    const filtered = assets.filter(({ asset: { type } }) => type.toLowerCase() === typeFilter);
+    const filtered = assets.filter(({ asset: { type } }) =>
+      type.toLowerCase().includes(typeFilter.toLowerCase()),
+    );
 
     if (assetFilterType.chainAsset) {
       const chainAssetSelectType = assets.find((a) => assetFilterType.chainAsset?.eq(a.asset));
