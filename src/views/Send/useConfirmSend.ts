@@ -46,15 +46,16 @@ export const useConfirmSend = ({
       const { transfer, deposit } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
+        const assetValue = sendAsset.set(sendAmount);
         const txid = customTxEnabled
           ? await deposit({
-              assetValue: sendAsset.set(sendAmount),
+              assetValue,
               recipient,
               memo,
               from,
             })
           : await transfer({
-              assetValue: sendAsset,
+              assetValue,
               recipient,
               memo,
               from,
