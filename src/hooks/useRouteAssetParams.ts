@@ -11,6 +11,7 @@ export const useRouteAssetParams = (baseRoute: string, defaultAsset?: AssetValue
   const [asset, setAsset] = useState(
     () => (assetParam && AssetValue.fromStringSync(assetParam)) || defaultAsset || BTCAsset,
   );
+
   const [amount, setAmount] = useState(zeroAmount);
   const [initAmountString] = useState(searchParams.get('amount'));
 

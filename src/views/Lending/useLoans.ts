@@ -20,11 +20,11 @@ export const useLoans = () => {
   const totalCollateral = useMemo(() => {
     if (tokenPricesLoading) return new SwapKitNumber(0);
 
-    return loans?.reduce(
-      (sum, { asset, collateralCurrent }) =>
-        sum.add(tokenPrices[asset.toString()]?.price_usd * Number(collateralCurrent.toFixed(2))),
-      new SwapKitNumber(0),
-    );
+    return loans?.reduce((sum, { asset, collateralCurrent }) => {
+      const tokenPrice = tokenPrices[asset.toString()]?.price_usd || 0;
+      const collateral = Number(collateralCurrent.toFixed(2)) || 0;
+      return sum.add(new SwapKitNumber(tokenPrice).mul(collateral));
+    }, new SwapKitNumber(0));
   }, [loans, tokenPrices, tokenPricesLoading]);
 
   const getLoanPosition = useCallback(

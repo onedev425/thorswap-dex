@@ -3,7 +3,6 @@ import type { WalletOption } from '@swapkit/core';
 import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
-import { useFormatPrice } from 'helpers/formatPrice';
 import { toOptionalFixed } from 'helpers/number';
 import { fetchVthorApr } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -23,7 +22,6 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
   const [vthorApr, setVthorApr] = useState(0);
   const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
-  const formatPrice = useFormatPrice();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);
@@ -99,7 +97,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Tooltip>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {vthorApr > 0 ? `${toOptionalFixed(vthorApr)}%` : '-'}
+              {vthorApr > 0 ? `${toOptionalFixed(vthorApr, 3)}%` : '-'}
             </Text>
           </Box>
 
@@ -114,7 +112,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Tooltip>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {ethAddress ? formatPrice(thorRedeemable) : '-'}
+              {thorRedeemable.gt(0) ? thorRedeemable.toCurrency('', { decimal: 4 }) : '-'}
             </Text>
           </Box>
 
@@ -125,7 +123,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Text>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {ethAddress ? formatPrice(vthorBalance) : '-'}
+              {vthorBalance.gt(0) ? vthorBalance.toCurrency('', { decimal: 4 }) : '-'}
             </Text>
           </Box>
         </Box>

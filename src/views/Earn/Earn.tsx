@@ -11,7 +11,6 @@ import { PercentageSlider } from 'components/PercentageSlider';
 import { TabsSelect } from 'components/TabsSelect';
 import { SAVERS_MEDIUM } from 'config/constants';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { getEVMDecimal } from 'helpers/getEVMDecimal';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useCheckHardCap } from 'hooks/useCheckHardCap';
@@ -166,21 +165,7 @@ const Earn = () => {
 
   useEffect(() => {
     refreshPositions();
-  }, [asset, refreshPositions]);
-
-  useEffect(() => {
-    const setAssetDecimals = async () => {
-      if (asset) {
-        const assetDecimal = await getEVMDecimal(asset);
-        if (!assetDecimal || asset.decimal === assetDecimal) return;
-
-        asset.decimal = assetDecimal;
-        setAsset(asset);
-      }
-    };
-
-    setAssetDecimals();
-  }, [asset, setAsset]);
+  }, [refreshPositions]);
 
   const handleAssetChange = useCallback(
     (asset: AssetValue) => {
