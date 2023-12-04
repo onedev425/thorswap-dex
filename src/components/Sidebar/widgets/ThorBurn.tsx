@@ -19,7 +19,7 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = new SwapKitNumber({ value: 12000000, decimal: 8 });
+const TARGET_AMOUNT = new SwapKitNumber({ value: 13000000, decimal: 8 });
 const currentMonth = dayjs().format('MMMM');
 const INFO_ARTICLE_URL = 'https://twitter.com/THORSwap/status/1653655296336879618';
 
