@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
+import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
@@ -18,7 +18,7 @@ import { VestingType } from './types';
 const Vesting = () => {
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const [vestingTab, setVestingTab] = useState(VestingType.THOR);
-  const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: 1 }));
+  const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
   const { ethAddress, vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();
   const {
     vestingPeriod,
@@ -41,7 +41,7 @@ const Vesting = () => {
       setAmount(
         new SwapKitNumber({
           value: (claimableAmount.getValue('number') * percent) / 100,
-          decimal: 1,
+          decimal: BaseDecimal.ETH,
         }),
       );
     },

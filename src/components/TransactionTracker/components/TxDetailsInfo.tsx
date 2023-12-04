@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
+import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { Button, Icon } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
@@ -51,17 +51,19 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
   const firstLegInfo =
     (!!firstLeg.fromAmount &&
       parseFloat(firstLeg.fromAmount) &&
-      `${new SwapKitNumber({ value: firstLeg.fromAmount, decimal: 18 }).toSignificant(
-        6,
-      )} ${getTickerFromIdentifier(firstLeg.fromAsset || '')}`) ||
+      `${new SwapKitNumber({
+        value: firstLeg.fromAmount,
+        decimal: BaseDecimal[firstLeg.chain],
+      }).toSignificant(6)} ${getTickerFromIdentifier(firstLeg.fromAsset || '')}`) ||
     '';
 
   const lastLegInfo =
     (!!lastLeg.toAmount &&
       parseFloat(lastLeg.toAmount) &&
-      `${new SwapKitNumber({ value: lastLeg.toAmount, decimal: 18 }).toSignificant(
-        6,
-      )} ${getTickerFromIdentifier(lastLeg.toAsset || '')}`) ||
+      `${new SwapKitNumber({
+        value: lastLeg.toAmount,
+        decimal: BaseDecimal[lastLeg.chain],
+      }).toSignificant(6)} ${getTickerFromIdentifier(lastLeg.toAsset || '')}`) ||
     '';
 
   const swapLabelValue = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;
