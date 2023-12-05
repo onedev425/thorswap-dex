@@ -21,7 +21,7 @@ export const useBorrow = ({
   amount,
   slippage,
 }: UseBorrowProps) => {
-  const amountString = amount.toFixed(8);
+  const amountString = amount.gte(0) ? amount.toSignificant(8) : '0';
   const debouncedAmount = useDebouncedValue(amountString);
   const debouncedSlippage = useDebouncedValue(slippage);
 
@@ -38,7 +38,7 @@ export const useBorrow = ({
       senderAddress,
       recipientAddress,
     },
-    { skip: !debouncedAmount, refetchOnMountOrArgChange: true },
+    { skip: amount.lte(0), refetchOnMountOrArgChange: true },
   );
 
   const { canStream, toggleStream, stream } = useStreamTxToggle(
