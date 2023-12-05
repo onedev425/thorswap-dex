@@ -24,7 +24,7 @@ Sentry.init({
     : IS_DEV_API
     ? 'dev-api'
     : 'development',
-  debug: false,
+  debug: process.env.NODE_ENV === 'development',
   integrations: [new Sentry.Replay()],
   denyUrls: [/eu\.posthog\.com/i],
 });

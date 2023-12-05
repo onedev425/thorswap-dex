@@ -87,7 +87,7 @@ export const SelectedRoute = memo(
 
             <Box col className="pr-2" justify="end">
               <Box className="gap-x-1" justify="end">
-                <Text>{expectedAssetOutput}</Text>
+                <Text>{new SwapKitNumber(expectedAssetOutput).toSignificant(6)}</Text>
                 <Text>{assetTicker}</Text>
               </Box>
 

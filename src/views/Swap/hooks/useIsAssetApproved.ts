@@ -13,8 +13,9 @@ type Params = {
 
 export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
   const { isAssetValueApproved } = await (await import('services/swapKit')).getSwapKitClient();
+  const isApproved = await isAssetValueApproved(assetValue, contract);
 
-  return isAssetValueApproved(assetValue, contract);
+  return isApproved;
 };
 
 let prevNumberOfPendingApprovals = 0;
@@ -37,17 +38,21 @@ const useApproveResult = ({
   const [isLoading, setIsLoading] = useState(false);
   const cacheKey = useRef(`${assetValue.toString()}-${contract || 'all'}`);
   const currentParams = useRef<Params>({ assetValue, contract });
+  currentParams.current = { assetValue, contract };
 
   const debouncedCheckAssetApprove = useRef(
     debounce(
       async () => {
         const isApproved = await checkAssetApprove(currentParams.current);
+
         setApproved(isApproved);
       },
       500,
       { leading: true, trailing: false },
     ),
   );
+
+  const value = useMemo(() => assetValue.getValue('string'), [assetValue]);
 
   const checkApproved = useCallback(async () => {
     const cacheValue = cachedResults[cacheKey.current];
@@ -57,13 +62,13 @@ const useApproveResult = ({
     }
 
     try {
-      currentParams.current = { assetValue, contract };
       await debouncedCheckAssetApprove.current();
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
     }
-  }, [assetValue, contract, numberOfPendingApprovals]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contract, numberOfPendingApprovals]);
 
   useEffect(() => {
     if (skip || !isWalletConnected) {
@@ -75,12 +80,12 @@ const useApproveResult = ({
        * and rpc returns the old state. This will cause the UI to show the
        * approve button again.
        */
+
       const timeoutDuration = prevNumberOfPendingApprovals > numberOfPendingApprovals ? 10000 : 0;
 
-      cacheKey.current = `${assetValue.toString()}-${contract || 'all'}`;
       setTimeout(() => checkApproved(), timeoutDuration);
     }
-  }, [assetValue, checkApproved, contract, isWalletConnected, numberOfPendingApprovals, skip]);
+  }, [value, checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
 
   return { isApproved, isLoading };
 };

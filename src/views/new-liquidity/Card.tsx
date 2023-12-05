@@ -68,8 +68,8 @@ export const LiquidityCard = ({
   const poolAsset = useMemo(() => AssetValue.fromStringSync(pool) as AssetValue, [pool]);
 
   const pendingTicker = useMemo(() => {
-    if (Number(runePending) > 0) return RUNEAsset.ticker;
-    if (Number(assetPending) > 0) return poolTicker;
+    if (Number(runePending) > 0) return poolTicker;
+    if (Number(assetPending) > 0) return RUNEAsset.ticker;
   }, [assetPending, poolTicker, runePending]);
 
   const lpName = useMemo(() => {
@@ -91,24 +91,27 @@ export const LiquidityCard = ({
       assetDepth: poolAssetDepth,
     };
 
-    const runeAmount = getAsymmetricRuneShare(params).getValue('string');
-    const assetAmount = getAsymmetricAssetShare(params).getValue('string');
+    const hasPoolUnits = parseInt(poolUnits) > 0;
+    const runeAmount = hasPoolUnits ? getAsymmetricRuneShare(params).getValue('string') : '0';
+    const assetAmount = hasPoolUnits ? getAsymmetricAssetShare(params).getValue('string') : '0';
 
     const runeShare =
-      shareType === PoolShareType.SYM
+      shareType === PoolShareType.SYM && hasPoolUnits
         ? SwapKitNumber.fromBigInt(BigInt(params.runeDepth), BaseDecimal.THOR)
             .mul(params.liquidityUnits)
             .div(poolUnits)
             .getValue('string')
         : runeAmount;
     const assetShare =
-      shareType === PoolShareType.SYM
+      shareType === PoolShareType.SYM && hasPoolUnits
         ? SwapKitNumber.fromBigInt(BigInt(params.assetDepth), BaseDecimal.THOR)
             .mul(params.liquidityUnits)
             .div(poolUnits)
             .getValue('string')
         : assetAmount;
-    const poolShare = getBasePoolShare({ liquidityUnits: sharedUnits, poolUnits });
+    const poolShare = hasPoolUnits
+      ? getBasePoolShare({ liquidityUnits: sharedUnits, poolUnits })
+      : 0;
 
     return {
       //TODO this might not work

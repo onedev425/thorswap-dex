@@ -21,6 +21,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { useExternalConfig } from 'store/externalConfig/hooks';
+import { getInboundData } from 'store/midgard/actions';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -38,6 +39,7 @@ import { useConfirmInfoItems } from './useConfirmInfoItems';
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
   const [inputAssets, setInputAssets] = useState<AssetValue[]>([]);
+  const [contract, setContract] = useState('');
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { hasWallet, wallet, getWallet } = useWallet();
   const { poolAssets } = usePools();
@@ -85,6 +87,17 @@ export const CreateLiquidity = () => {
 
     return assets;
   }, [avaxWhitelist, bscWhitelist, ethWhitelist, getWallet, hasWallet, poolAssets, wallet]);
+
+  const getContractAddress = useCallback(async (chain: Chain) => {
+    const inboundData = (await getInboundData()) || [];
+    const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
+
+    if (halted && !router) {
+      throw new Error('Trading & LP is temporarily halted, please try again later.');
+    }
+
+    setContract(router || '');
+  }, []);
 
   const handleInputAssetUpdate = useCallback(() => {
     if (hasWallet) {
@@ -140,9 +153,14 @@ export const CreateLiquidity = () => {
     [isInputWalletConnected, getWallet],
   );
 
+  const approveAssetAmount = useMemo(
+    () => poolAsset.set(assetAmount?.getValue('string') || 0),
+    [poolAsset, assetAmount],
+  );
+
   const { isApproved, isLoading } = useIsAssetApproved({
-    force: true,
-    assetValue: poolAsset.set(assetAmount?.getValue('string') || 0),
+    contract,
+    assetValue: approveAssetAmount,
   });
 
   const assets = useMemo(() => [poolAsset, RUNEAsset], [poolAsset]);
@@ -176,6 +194,10 @@ export const CreateLiquidity = () => {
     () => (wallet ? getAssetBalance(poolAsset, wallet) : (poolAsset.set(0) as AssetValue)),
     [poolAsset, wallet],
   );
+
+  useEffect(() => {
+    getContractAddress(poolAsset.chain);
+  }, [getContractAddress, poolAsset.chain]);
 
   useEffect(() => {
     getMaxBalance(assetAmount ? poolAsset.set(assetAmount) : poolAsset).then((assetMaxBalance) =>

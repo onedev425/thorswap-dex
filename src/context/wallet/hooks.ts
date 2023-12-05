@@ -167,16 +167,11 @@ export const useConnectWallet = () => {
         await import('services/swapKit')
       ).getSwapKitClient();
 
-      try {
-        showInfoToast(t('notification.connectingLedger', options));
-        await swapKitConnectLedger(chain, derivationPath);
-        await getWalletByChain(chain);
+      showInfoToast(t('notification.connectingLedger', options));
+      await swapKitConnectLedger(chain, derivationPath);
+      await getWalletByChain(chain);
 
-        showInfoToast(t('notification.connectedLedger', options));
-      } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(t('notification.ledgerFailed', options));
-      }
+      showInfoToast(t('notification.connectedLedger', options));
     },
     [getWalletByChain],
   );

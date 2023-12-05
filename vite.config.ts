@@ -43,7 +43,7 @@ export default defineConfig({
   root: '',
   define: {
     'process.env': {},
-    'process.version': JSON.stringify('v18.0.0'),
+    'process.version': JSON.stringify('v20.9.0'),
   },
   plugins,
   resolve: {
@@ -74,6 +74,7 @@ export default defineConfig({
        * file and use like below and run yarn start --force
        */
       // '@swapkit/core': resolve(__dirname, 'src/c'),
+      // '@swapkit/toolbox-evm': resolve(__dirname, 'src/e'),
       // '@swapkit/wallet-xdefi': resolve(__dirname, 'src/x'),
       // '@swapkit/wallet-keystore': resolve(__dirname, 'src/k'),
       // '@swapkit/toolbox-cosmos': resolve(__dirname, 'src/cos'),
