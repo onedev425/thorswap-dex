@@ -35,7 +35,18 @@ const Send = () => {
   const [searchParams] = useSearchParams();
 
   const [sendAsset, setSendAsset] = useState(RUNEAsset);
-  const [sendAmount, setSendAmount] = useState('0');
+
+  const setSendAmount = useCallback(
+    (amount: string) => {
+      const updatedAsset = AssetValue.fromStringSync(sendAsset.toString(), amount);
+      if (updatedAsset) {
+        setSendAsset(updatedAsset);
+      }
+    },
+    [sendAsset],
+  );
+
+  const sendAmount = useMemo(() => sendAsset.getValue('string'), [sendAsset]);
 
   const [maxSpendableBalance, setMaxSpendableBalance] = useState<AssetValue | undefined>(
     sendAsset.set(0),
@@ -75,7 +86,6 @@ const Send = () => {
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
     sendAsset,
-    sendAmount,
     recipientAddress: txRecipient,
     memo: txMemo,
     from: wallet ? getWalletAddress(sendAsset.chain) : undefined,
@@ -185,7 +195,7 @@ const Send = () => {
           : amount.getValue('string'),
       );
     },
-    [maxSpendableBalance],
+    [maxSpendableBalance, setSendAmount],
   );
 
   const handleChangeRecipient = useCallback(

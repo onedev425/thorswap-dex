@@ -9,7 +9,6 @@ import { v4 } from 'uuid';
 
 type Params = {
   sendAsset: AssetValue;
-  sendAmount: string;
   recipientAddress: string;
   memo: string;
   setIsOpenConfirmModal: (isOpen: boolean) => void;
@@ -19,7 +18,6 @@ type Params = {
 
 export const useConfirmSend = ({
   sendAsset,
-  sendAmount,
   recipientAddress: recipient,
   memo,
   setIsOpenConfirmModal,
@@ -30,7 +28,7 @@ export const useConfirmSend = ({
 
   const handleConfirmSend = useCallback(async () => {
     setIsOpenConfirmModal(false);
-    if (sendAsset && sendAmount) {
+    if (sendAsset && sendAsset.getValue('bigint') > 0) {
       const id = v4();
       const label = `${t('txManager.send')} ${sendAsset.toSignificant(6)} ${sendAsset.ticker}`;
 
@@ -46,16 +44,15 @@ export const useConfirmSend = ({
       const { transfer, deposit } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const assetValue = sendAsset.set(sendAmount);
         const txid = customTxEnabled
           ? await deposit({
-              assetValue,
+              assetValue: sendAsset,
               recipient,
               memo,
               from,
             })
           : await transfer({
-              assetValue,
+              assetValue: sendAsset,
               recipient,
               memo,
               from,
@@ -70,16 +67,7 @@ export const useConfirmSend = ({
         showErrorToast(t('notification.sendTxFailed'), error?.toString());
       }
     }
-  }, [
-    setIsOpenConfirmModal,
-    sendAsset,
-    appDispatch,
-    recipient,
-    memo,
-    from,
-    customTxEnabled,
-    sendAmount,
-  ]);
+  }, [setIsOpenConfirmModal, sendAsset, appDispatch, recipient, memo, from, customTxEnabled]);
 
   return handleConfirmSend;
 };
