@@ -70,7 +70,8 @@ export const useSaverPositions = () => {
 
     const pos = await Promise.all(promises);
     setPositions(pos.filter(Boolean) as SaverPosition[]);
-  }, [getSaverPosition, isWalletLoading, pools]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWalletLoading, pools]);
 
   const getPosition = useCallback(
     (asset: AssetValue) => saverPositions.find((item) => item.asset.eq(asset)),
@@ -79,6 +80,7 @@ export const useSaverPositions = () => {
 
   const handlePoolsAvailability = useCallback(async () => {
     const response = await getSaverPools();
+
     setThornodePools(response);
 
     const availability = response.reduce(
@@ -91,6 +93,7 @@ export const useSaverPositions = () => {
       },
       {} as Record<Chain, boolean>,
     );
+
     setSynthAvailability(availability);
   }, []);
 

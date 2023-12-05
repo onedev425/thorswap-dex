@@ -18,7 +18,7 @@ export const useAssetsWithApr = () => {
         const assetDepthAmount = SwapKitNumber.fromBigInt(BigInt(pool.assetDepth), 8);
         const saverCap = assetDepthAmount.mul(synthCap);
         const synthSupply = SwapKitNumber.fromBigInt(BigInt(pool.synthSupply), 8);
-        const filled = Number(synthSupply.div(saverCap).mul(100).toFixed(2));
+        const filled = saverCap.gt(0) ? Number(synthSupply.div(saverCap).mul(100).toFixed(2)) : 0;
 
         return {
           apr: getFormattedPercent(apr),

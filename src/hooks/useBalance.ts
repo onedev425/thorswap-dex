@@ -13,7 +13,7 @@ import { getInboundFeeDataForChain } from '../../ledgerLive/wallet/swap';
 export const useBalance = (skipFees?: boolean) => {
   const { data: gasPriceRates } = useGetGasPriceRatesQuery(undefined, { skip: skipFees });
   const feeOptionType = useAppSelector(({ app: { feeOptionType } }) => feeOptionType);
-  const { wallet, getWallet } = useWallet();
+  const { getWalletAddress, wallet, getWallet } = useWallet();
 
   const isWalletAssetConnected = useCallback(
     (asset: AssetValue) => !!getWallet(asset.chain),
@@ -89,5 +89,5 @@ export const useBalance = (skipFees?: boolean) => {
     [skipFees, wallet, getWallet, gasPriceRates, feeOptionType],
   );
 
-  return { isWalletAssetConnected, isWalletConnected, getMaxBalance };
+  return { getWalletAddress, isWalletAssetConnected, isWalletConnected, getMaxBalance };
 };

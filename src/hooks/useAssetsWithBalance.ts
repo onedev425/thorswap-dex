@@ -46,7 +46,8 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
 
       handleAssetsWithBalanceSet(filteredBalances);
     },
-    [assetsMap, getMaxBalance, handleAssetsWithBalanceSet, includeRune],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [assetsMap, getMaxBalance, includeRune],
   );
 
   useEffect(() => {

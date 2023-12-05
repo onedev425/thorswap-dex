@@ -3,7 +3,10 @@ import { useGetNetworkQuery } from 'store/midgard/api';
 
 export const useCheckHardCap = () => {
   const hardCapPercentage = useHardCapPercentage();
-  return hardCapPercentage >= 100;
+
+  const isHardCapReached = useMemo(() => hardCapPercentage >= 100, [hardCapPercentage]);
+
+  return isHardCapReached;
 };
 
 export const useHardCapPercentage = () => {
