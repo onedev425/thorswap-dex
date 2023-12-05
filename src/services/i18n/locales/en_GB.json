@@ -438,6 +438,7 @@
       "lpProgressModalDescription": "You are about to add liquidity to a pool.\nThis process may involve two transactions. You can change your wallet in middle of the process. Please make sure you have enough balance to cover the transaction fee.\nThis process may take from few minutes to few hours depending on the network congestion.",
       "lpProgressModalTitle": "Adding Liquidity",
       "pendingAssetLabel": "Pending %{asset}",
+      "openLedgerWallet": "%{wallet} detected, please make sure to open the %{chain} app before clicking on 'Add %{asset}'",
       "pricesAndPoolShare": "Prices and Pool Share",
       "shareOfPool": "Share of Pool",
       "title": "Provide liquidity to THORChain"

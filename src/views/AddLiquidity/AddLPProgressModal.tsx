@@ -1,12 +1,14 @@
 import { Text } from '@chakra-ui/react';
 import { TransactionType } from '@swapkit/api';
-import type { AssetValue } from '@swapkit/core';
+import { type AssetValue, Chain, WalletOption } from '@swapkit/core';
 import { Box, Button, Icon, Modal } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
 import { showErrorToast, showSuccessToast } from 'components/Toast';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
+import { RUNEAsset } from 'helpers/assets';
+import { chainName } from 'helpers/chainName';
 import { useCallback, useMemo, useState } from 'react';
 import { LoaderIcon } from 'react-hot-toast';
 import { t } from 'services/i18n';
@@ -43,10 +45,12 @@ export const AddLPProgressModal = ({
   isOpened,
   onClose,
 }: Params) => {
-  const { isWalletLoading } = useWallet();
+  const { isWalletLoading, getWallet } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const appDispatch = useAppDispatch();
   const [step, setStep] = useState<Step>(runeAssetValue ? Step.AddRune : Step.AddAsset);
+
+  //   const walletType = useMemo(() => ([getWallet(Chain.THORChain)?.walletType, ])}, [getWallet]);
 
   const handleLPAdd = useCallback(async () => {
     if (Step.Completed === step) return onClose();
@@ -219,6 +223,31 @@ export const AddLPProgressModal = ({
     }
   }, [poolAssetValue, runeAssetValue, step]);
 
+  const openWalletReminder = useMemo((): string | undefined => {
+    switch (step) {
+      case Step.AddRune:
+      case Step.PendingRune:
+        return getWallet(Chain.THORChain)?.walletType === WalletOption.LEDGER
+          ? t('views.addLiquidity.openLedgerWallet', {
+              chain: chainName(Chain.THORChain),
+              asset: RUNEAsset.ticker,
+              wallet: WalletOption.LEDGER,
+            })
+          : undefined;
+      case Step.AddAsset:
+      case Step.PendingAsset:
+        return poolAssetValue && getWallet(poolAssetValue.chain)?.walletType === WalletOption.LEDGER
+          ? t('views.addLiquidity.openLedgerWallet', {
+              chain: chainName(poolAssetValue.chain),
+              asset: poolAssetValue.ticker,
+              wallet: WalletOption.LEDGER,
+            })
+          : undefined;
+      case Step.Completed:
+        return undefined;
+    }
+  }, [getWallet, poolAssetValue, step]);
+
   const completed = useMemo(() => step === Step.Completed, [step]);
 
   return (
@@ -229,11 +258,14 @@ export const AddLPProgressModal = ({
     >
       <Box col>
         <InfoTable items={items} />
-
         <Box className="py-4">
           <InfoTip content={t('views.addLiquidity.lpProgressModalDescription')} type="info" />
         </Box>
-
+        {openWalletReminder && (
+          <Box className="py-4">
+            <InfoTip content={openWalletReminder} type="warn" />
+          </Box>
+        )}
         <Box row className="pt-4" justify={completed ? 'around' : 'between'}>
           {!completed && (
             <Button
