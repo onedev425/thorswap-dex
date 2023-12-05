@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Gas berekening mislukt",
     "insufficientAmount": "Bedrag Onvoldoende",
     "invalidAmount": "Ongeldig bedrag",
-    "invalidL1ChainAddy": "Adres ontvanger is geen geldig %{chain} adres, gelieve het adres na te kijken.",
+    "invalidChainAddy": "Adres ontvanger is geen geldig %{chain} adres, gelieve het adres na te kijken.",
     "invalidRecipientAddy": "Ongeldig ontvangersadres",
     "invalidRecipientAddyDesc": "Het adres van de ontvanger moet een geldig adres zijn",
     "invalidTHORName": "Ongeldige THORName",

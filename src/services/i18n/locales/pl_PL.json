@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Nie można wyestymować ceny gazu",
     "insufficientAmount": "Niewystarczająca kwota",
     "invalidAmount": "Nieprawidłowa kwota",
-    "invalidL1ChainAddy": "Adres odbiorcy nie jest prawidłowym adresem %{chain}, sprawdź ponownie swój adres.",
+    "invalidChainAddy": "Adres odbiorcy nie jest prawidłowym adresem %{chain}, sprawdź ponownie swój adres.",
     "invalidRecipientAddy": "Nieprawidłowy adres odbiorcy",
     "invalidRecipientAddyDesc": "Adres odbiorcy powinien być prawidłowym adresem.",
     "invalidTHORName": "Nieprawidłowa nazwa THOR",

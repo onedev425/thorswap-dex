@@ -273,7 +273,7 @@
     "gasEstimationFailed": "No se puede estimar el gas",
     "insufficientAmount": "Cantidad insuficiente",
     "invalidAmount": "Cantidad inválida",
-    "invalidL1ChainAddy": "La dirección del receptor no es una dirección de la red %{chain} válida.",
+    "invalidChainAddy": "La dirección del receptor no es una dirección de la red %{chain} válida.",
     "invalidRecipientAddy": "Dirección del receptor inválida",
     "invalidRecipientAddyDesc": "La dirección del receptor debería ser una dirección válida.",
     "invalidTHORName": "THORName inválido",

@@ -36,15 +36,9 @@ const Send = () => {
 
   const [sendAsset, setSendAsset] = useState(RUNEAsset);
 
-  const setSendAmount = useCallback(
-    (amount: string) => {
-      const updatedAsset = AssetValue.fromStringSync(sendAsset.toString(), amount);
-      if (updatedAsset) {
-        setSendAsset(updatedAsset);
-      }
-    },
-    [sendAsset],
-  );
+  const setSendAmount = useCallback((amount: string) => {
+    setSendAsset((asset) => asset.set(amount));
+  }, []);
 
   const sendAmount = useMemo(() => sendAsset.getValue('string'), [sendAsset]);
 
@@ -190,12 +184,12 @@ const Send = () => {
   const handleChangeSendAmount = useCallback(
     (amount: SwapKitNumber) => {
       setSendAmount(
-        maxSpendableBalance && amount.gt(maxSpendableBalance)
+        isWalletConnected && maxSpendableBalance && amount.gt(maxSpendableBalance)
           ? maxSpendableBalance.getValue('string')
           : amount.getValue('string'),
       );
     },
-    [maxSpendableBalance, setSendAmount],
+    [isWalletConnected, maxSpendableBalance, setSendAmount],
   );
 
   const handleChangeRecipient = useCallback(
@@ -218,7 +212,7 @@ const Send = () => {
     const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
 
     if (!customTxEnabled && !validateAddress({ chain: sendAsset.chain, address: txRecipient })) {
-      showErrorToast(t('notification.invalidchainAddy', { chain: sendAsset.chain }));
+      showErrorToast(t('notification.invalidChainAddy', { chain: sendAsset.chain }));
     } else {
       setIsOpenConfirmModal(true);
     }

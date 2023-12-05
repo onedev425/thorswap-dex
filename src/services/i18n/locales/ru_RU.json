@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Невозможно оценить газ",
     "insufficientAmount": "Недостаточное количество",
     "invalidAmount": "Недействительное количество",
-    "invalidL1ChainAddy": "Адрес получателя не действителен в сети %{chain}, пожалуйста, проверьте Ваш адрес ещё раз.",
+    "invalidChainAddy": "Адрес получателя не действителен в сети %{chain}, пожалуйста, проверьте Ваш адрес ещё раз.",
     "invalidRecipientAddy": "Недействительный адрес получателя",
     "invalidRecipientAddyDesc": "Адрес получателя должен быть действительным",
     "invalidTHORName": "Неверное имя THORName",

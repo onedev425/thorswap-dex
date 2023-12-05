@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Non riesco a stimare il Gas",
     "insufficientAmount": "Importo non sufficiente",
     "invalidAmount": "Importo non valido",
-    "invalidL1ChainAddy": "L'indirizzo del destinatario non è un valido Indirizzo %{chain}, controlla di nuovo l'indirizzo.",
+    "invalidChainAddy": "L'indirizzo del destinatario non è un valido Indirizzo %{chain}, controlla di nuovo l'indirizzo.",
     "invalidRecipientAddy": "Indirizzo del destinatario non valido",
     "invalidRecipientAddyDesc": "L'indirizzo del destinatario dovrebbe essere un indirizzo valido",
     "invalidTHORName": "THORName non valido",

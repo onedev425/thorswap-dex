@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Gas konnte nicht geschätzt werden",
     "insufficientAmount": "Unzureichender Betrag",
     "invalidAmount": "Ungültiger Betrag",
-    "invalidL1ChainAddy": "Die Empfängeradresse ist keine gültige %{chain} Adresse. Bitte prüfe die Adresse noch einmal",
+    "invalidChainAddy": "Die Empfängeradresse ist keine gültige %{chain} Adresse. Bitte prüfe die Adresse noch einmal",
     "invalidRecipientAddy": "Ungültige Empfängeradresse",
     "invalidRecipientAddyDesc": "Empfängeradresse muss eine valide Adresse sein",
     "invalidTHORName": "Ungültiger THORName",

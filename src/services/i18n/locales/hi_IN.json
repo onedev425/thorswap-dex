@@ -273,7 +273,7 @@
     "gasEstimationFailed": "गैस का अनुमान नहीं लगा सकते",
     "insufficientAmount": "अपर्याप्त राशि",
     "invalidAmount": "अवैध राशि",
-    "invalidL1ChainAddy": "प्राप्तकर्ता का पता मान्य नहीं है %{chain} पता, कृपया अपना पता दोबारा जांचें",
+    "invalidChainAddy": "प्राप्तकर्ता का पता मान्य नहीं है %{chain} पता, कृपया अपना पता दोबारा जांचें",
     "invalidRecipientAddy": "अमान्य प्राप्तकर्ता पता",
     "invalidRecipientAddyDesc": "प्राप्तकर्ता का पता एक वैध पता होना चाहिए",
     "invalidTHORName": "अमान्य THORनाम",

@@ -273,7 +273,7 @@
     "gasEstimationFailed": "가스 추정 불가능",
     "insufficientAmount": "금액 부족",
     "invalidAmount": "잘못된 금액",
-    "invalidL1ChainAddy": "수령인 주소가 유효하지 않은 %{chain} 주소입니다. 주소를 다시 확인하세요.",
+    "invalidChainAddy": "수령인 주소가 유효하지 않은 %{chain} 주소입니다. 주소를 다시 확인하세요.",
     "invalidRecipientAddy": "수령인 주소는 유효하지 않습니다",
     "invalidRecipientAddyDesc": "수령인 주소는 유효한 주소여야 합니다",
     "invalidTHORName": "잘못된 토르 이름",

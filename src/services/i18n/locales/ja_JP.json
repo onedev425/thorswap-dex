@@ -273,7 +273,7 @@
     "gasEstimationFailed": "ガスの試算ができません",
     "insufficientAmount": "金額不足",
     "invalidAmount": "無効な金額",
-    "invalidL1ChainAddy": "受信者アドレスが有効な %{chain} アドレスではありません、もう一度アドレスを確認してください。",
+    "invalidChainAddy": "受信者アドレスが有効な %{chain} アドレスではありません、もう一度アドレスを確認してください。",
     "invalidRecipientAddy": "無効な受信者アドレス",
     "invalidRecipientAddyDesc": "受信者アドレスは有効なアドレスである必要があります",
     "invalidTHORName": "無効なTHORName",

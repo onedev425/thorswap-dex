@@ -273,7 +273,7 @@
     "gasEstimationFailed": "無法預估燃料價格",
     "insufficientAmount": "金額不足",
     "invalidAmount": "無效金額",
-    "invalidL1ChainAddy": "收款人地址並不是有效的 %{chain} 地址, 請再次檢查您的地址。",
+    "invalidChainAddy": "收款人地址並不是有效的 %{chain} 地址, 請再次檢查您的地址。",
     "invalidRecipientAddy": "收款人地址無效",
     "invalidRecipientAddyDesc": "收款人地址應為有效地址",
     "invalidTHORName": "THORName 無效",

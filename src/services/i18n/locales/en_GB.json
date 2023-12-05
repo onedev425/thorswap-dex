@@ -275,7 +275,7 @@
     "gasEstimationFailed": "Cannot estimate gas",
     "insufficientAmount": "Insufficient Amount",
     "invalidAmount": "Invalid Amount",
-    "invalidL1ChainAddy": "Recipient Address is not valid %{chain} Address, please check your address again.",
+    "invalidChainAddy": "Recipient Address is not valid %{chain} Address, please check your address again.",
     "invalidRecipientAddy": "Invalid Recipient Address",
     "invalidRecipientAddyDesc": "Recipient address should be a valid address",
     "invalidTHORName": "Invalid THORName",

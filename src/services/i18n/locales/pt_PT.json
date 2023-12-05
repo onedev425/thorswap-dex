@@ -273,7 +273,7 @@
     "gasEstimationFailed": "Não é possível estimar gás",
     "insufficientAmount": "Quantidade insuficiente",
     "invalidAmount": "Quantidade inválida",
-    "invalidL1ChainAddy": "O endereço do beneficiário não é válido %{chain} endereço, por favor verifique o seu endereço de novo.",
+    "invalidChainAddy": "O endereço do beneficiário não é válido %{chain} endereço, por favor verifique o seu endereço de novo.",
     "invalidRecipientAddy": "Endereço de beneficiário inválido",
     "invalidRecipientAddyDesc": "Endereço de beneficiário deve ser válido",
     "invalidTHORName": "THORName inválido",
