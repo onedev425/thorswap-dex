@@ -237,7 +237,7 @@ export const AddLiquidity = () => {
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
-      {poolAsset && poolAsset.gt(0) && (
+      {poolAsset && (
         <ConfirmModal
           inputAssets={[poolAsset]}
           isOpened={visibleApproveModal}

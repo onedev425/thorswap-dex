@@ -3,6 +3,7 @@ import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { useWallet } from 'context/wallet/hooks';
 import { useMemo } from 'react';
 import { useGetFullMemberQuery } from 'store/midgard/api';
+import { LiquidityTypeOption } from 'store/midgard/types';
 
 export const useLiquidityData = ({
   testAddresses,
@@ -24,15 +25,26 @@ export const useLiquidityData = ({
   return { data, refetch, isLoading: isFetching || isLoading };
 };
 
-export const useLPMemberData = (assetString: string) => {
+export const useLPMemberData = ({
+  assetString,
+  liquidityType,
+}: {
+  assetString: string;
+  liquidityType: LiquidityTypeOption;
+}) => {
+  const { walletAddresses } = useWallet();
   const { data, refetch, isLoading } = useLiquidityData();
   const lpMemberData = useMemo(
     () =>
-      data?.find(({ pool }) => pool.toLowerCase() === assetString.toLowerCase()) ||
-      ({} as FullMemberPool),
-    [assetString, data],
+      data?.find(({ pool, runeAddress, assetAddress }) => {
+        if (pool.toLowerCase() !== assetString.toLowerCase()) return false;
+        if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
+          return walletAddresses.includes(runeAddress) && walletAddresses.includes(assetAddress);
+        }
+        return true;
+      }) || ({} as FullMemberPool),
+    [assetString, data, walletAddresses, liquidityType],
   );
-
   const isRunePending = useMemo(
     () => parseInt(lpMemberData?.runePending || '0') > 0,
     [lpMemberData?.runePending],

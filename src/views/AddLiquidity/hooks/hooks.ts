@@ -233,7 +233,10 @@ export const useAddLiquidity = ({
     return isChainPauseLPAction(poolAsset.chain) || getChainDepositLPPaused(poolAsset.chain);
   }, [isChainPauseLPAction, poolAsset.chain, getChainDepositLPPaused]);
 
-  const { lpMemberData, isAssetPending, isRunePending } = useLPMemberData(poolAsset.toString());
+  const { lpMemberData, isAssetPending, isRunePending } = useLPMemberData({
+    assetString: poolAsset.toString(),
+    liquidityType,
+  });
 
   const isSymDeposit = useMemo(
     () => liquidityType === LiquidityTypeOption.SYMMETRICAL && !expertMode,
