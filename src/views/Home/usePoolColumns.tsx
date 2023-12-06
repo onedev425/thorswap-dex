@@ -1,5 +1,5 @@
 import { Link, Text } from '@chakra-ui/react';
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter, sortPoolColumn } from 'components/Atomic/Table/utils';
@@ -138,7 +138,7 @@ export const usePoolColumns = ({ poolsLoading }: IProps) => {
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(getSwapRoute(value));
+                navigate(getSwapRoute(AssetValue.fromChainOrSignature(Chain.Ethereum), value));
               }}
               variant="outlineSecondary"
             >
