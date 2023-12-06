@@ -2,13 +2,13 @@ import { Text } from '@chakra-ui/react';
 import type { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { Box, Select } from 'components/Atomic';
 import { Input } from 'components/Input';
+import { usePools } from 'hooks/usePools';
 import useWindowSize from 'hooks/useWindowSize';
 import type { ChangeEvent } from 'react';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 import { PoolTable } from './PoolTable';
-import { useLiquidityPools } from './useLiquidityPools';
 
 const POOLS_TIME_PERIODS_OPTIONS = ['1h', '24h', '7d', '14d', '30d', '90d', '100d', '180d', '365d'];
 const POOLS_TIME_PERIODS_OPTIONS_LABELS = [
@@ -28,10 +28,20 @@ export const PoolListView = memo(() => {
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(4);
   const { isMdActive } = useWindowSize();
 
-  const { filteredPools, poolsLoading } = useLiquidityPools({
-    keyword,
-    period: POOLS_TIME_PERIODS_OPTIONS[selectedTimePeriod] as unknown as PoolPeriods,
-  });
+  const { pools, poolsLoading } = usePools(
+    POOLS_TIME_PERIODS_OPTIONS[selectedTimePeriod] as unknown as PoolPeriods,
+  );
+
+  const filteredPools = useMemo(() => {
+    if (!keyword) return pools;
+
+    return pools.filter(({ asset }) => {
+      const poolStr = asset.toString().toLowerCase();
+      const keywordStr = keyword.toLowerCase();
+
+      return poolStr.includes(keywordStr);
+    });
+  }, [pools, keyword]);
 
   const handleChangeKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);

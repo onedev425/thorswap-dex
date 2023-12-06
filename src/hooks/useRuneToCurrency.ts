@@ -10,7 +10,12 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
   const { pools } = usePools();
 
   const formatter = useCallback(
-    (value: number) => (abbreviate ? new SwapKitNumber(value).toAbbreviation() : value),
+    (value: number) =>
+      abbreviate
+        ? value >= 1_000
+          ? new SwapKitNumber(value).toAbbreviation(2)
+          : new SwapKitNumber(value).toSignificant(6)
+        : value,
     [abbreviate],
   );
   const { data } = useTokenPrices([RUNEAsset]);

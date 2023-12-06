@@ -30,6 +30,7 @@ export const usePoolColumns = ({ poolsLoading }: IProps) => {
           <div className="flex flex-row items-center">
             <AssetIcon asset={AssetValue.fromStringSync(value.asset) as AssetValue} size={40} />
             <Text className="hidden pl-4 h4 md:block">
+              {value.status === 'staged' ? '(Staged)\n' : ''}
               {AssetValue.fromStringSync(value.asset)?.ticker}
             </Text>
           </div>
