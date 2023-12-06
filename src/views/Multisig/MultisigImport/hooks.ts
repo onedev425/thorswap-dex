@@ -6,6 +6,7 @@ import { useMultisig } from 'store/multisig/hooks';
 import type { MultisigMember } from 'store/multisig/types';
 
 type WalletData = {
+  treshold?: number; // backward compatiiblity with old wallets
   threshold: number;
   members: MultisigMember[];
 };
@@ -25,7 +26,7 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       throw Error('Incorrect wallet members');
     }
 
-    const threshold = Number(data.threshold);
+    const threshold = Number(data.threshold) || Number(data.treshold);
     if (!threshold || threshold > data.members.length) {
       throw Error('Incorrect threshold');
     }
