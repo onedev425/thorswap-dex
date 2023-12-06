@@ -37,8 +37,10 @@ export const ChartPlaceholder = memo(({ previewChartType, options }: Props) => {
     <>
       <Box className="w-full h-full">
         {previewChartType === ChartType.Bar ? (
+          // @ts-expect-error
           <Bar data={randomSeries as BarChartType} options={options} />
         ) : (
+          // @ts-expect-error
           <Line data={randomSeries as LineChartType} options={options} />
         )}
       </Box>

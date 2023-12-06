@@ -179,7 +179,7 @@ export const AddLPProgressModal = ({
             </Text>
           </Box>
         ),
-        value: `${runeAssetValue.toSignificant(6)} ${runeAssetValue.toString(true)}`,
+        value: `${runeAssetValue.toSignificant(6)} ${runeAssetValue.ticker}`,
       });
     }
 
@@ -201,7 +201,7 @@ export const AddLPProgressModal = ({
             </Text>
           </Box>
         ),
-        value: `${poolAssetValue.toSignificant(6)} ${poolAssetValue.toString(true)}`,
+        value: `${poolAssetValue.toSignificant(6)} ${poolAssetValue.ticker}`,
       });
     }
 

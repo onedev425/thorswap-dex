@@ -47,6 +47,7 @@ export const ChartPreview = memo(
 
     return (
       <Box className={classNames('flex-1 w-full h-full relative', className)}>
+        {/* @ts-expect-error */}
         <Line data={chartData} options={options} />
       </Box>
     );

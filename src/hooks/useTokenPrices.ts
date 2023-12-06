@@ -33,8 +33,8 @@ export const useTokenPrices = (
   }, [data]);
 
   const { inputUnitPrice, outputUnitPrice } = useMemo(() => {
-    const inputIdentifier = assets?.[0]?.toString(assets?.[0]?.isSynthetic) || '';
-    const outputIdentifier = assets?.[1]?.toString(assets?.[1]?.isSynthetic) || '';
+    const inputIdentifier = assets?.[0]?.toString() || '';
+    const outputIdentifier = assets?.[1]?.toString() || '';
 
     return {
       inputUnitPrice: tokenPricesPerIdentifier[inputIdentifier]?.price_usd || 0,

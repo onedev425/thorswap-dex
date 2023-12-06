@@ -46,11 +46,13 @@ export const Chart = memo(
 
       switch (selectedChartType) {
         case ChartType.Bar:
+          // @ts-expect-error
           return <Bar data={parsedChartData as BarChartType} options={options} />;
 
         case ChartType.CurvedLine:
         case ChartType.Area:
         case ChartType.Line:
+          // @ts-expect-error
           return <Line data={parsedChartData as LineChartType} options={options} />;
       }
     }, [selectedChartType, options, parsedChartData]);

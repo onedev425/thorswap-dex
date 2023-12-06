@@ -251,7 +251,7 @@ const Send = () => {
     () => [
       {
         label: t('common.send'),
-        value: `${sendAsset?.toSignificant(6)} ${sendAsset.toString(true)}`,
+        value: `${sendAsset?.toSignificant(6)} ${sendAsset.ticker}`,
       },
       {
         label: t('common.recipient'),
