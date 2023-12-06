@@ -8,6 +8,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import { App } from './App';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
 
 Sentry.init({
@@ -18,12 +19,12 @@ Sentry.init({
   environment: IS_PROD
     ? 'production'
     : IS_BETA
-    ? 'beta'
-    : IS_STAGENET
-    ? 'stagenet'
-    : IS_DEV_API
-    ? 'dev-api'
-    : 'development',
+      ? 'beta'
+      : IS_STAGENET
+        ? 'stagenet'
+        : IS_DEV_API
+          ? 'dev-api'
+          : 'development',
   debug: process.env.NODE_ENV === 'development',
   integrations: [new Sentry.Replay()],
   denyUrls: [/eu\.posthog\.com/i],
@@ -31,11 +32,14 @@ Sentry.init({
 
 const container = document.getElementById('root');
 const root = createRoot(container);
+
 const renderApp = () => {
   root.render(
     <StrictMode>
-      <ColorModeScript />
-      <App />
+      <Sentry.ErrorBoundary fallback={(error) => <ErrorBoundary error={error} />}>
+        <ColorModeScript />
+        <App />
+      </Sentry.ErrorBoundary>
     </StrictMode>
   );
 };
