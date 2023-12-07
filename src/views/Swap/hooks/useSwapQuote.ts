@@ -115,7 +115,7 @@ export const useSwapQuote = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [inputAsset.toString()],
+    [inputAsset.toString(), senderAddress],
   );
 
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
