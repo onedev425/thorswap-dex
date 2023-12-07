@@ -3115,10 +3115,10 @@
     "@swapkit/types" "1.0.0-rc.25"
     "@walletconnect/modal-sign-html" "^2.6.2"
 
-"@swapkit/wallet-xdefi@1.0.0-rc.60":
-  version "1.0.0-rc.60"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.60.tgz#093194fe09ae0034ffb6668585f007f8735f49d0"
-  integrity sha512-k/i28lAi52kG2Lf0Ec3yQ5a6zFRJV5LsAqyzKhB1lJzPmrOtvFptCykjf/poIAnjyQBq8uvfzouSD63gR37ISA==
+"@swapkit/wallet-xdefi@1.0.0-rc.61":
+  version "1.0.0-rc.61"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.61.tgz#870bc6d8f8e6c52807875bfe8bcf16c224baa0ee"
+  integrity sha512-C64SnGt9JEtwfY+n9r0HAISVv/+M7T8AHzpht8faQWqif1kfal4HAy3HK0S4E/lSxMMa/nCS3pBzX9gB6/yczA==
   dependencies:
     "@swapkit/types" "1.0.0-rc.25"
 
