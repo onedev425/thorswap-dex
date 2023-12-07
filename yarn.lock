@@ -2982,10 +2982,10 @@
     "@swapkit/types" "1.0.0-rc.25"
     ky "1.1.3"
 
-"@swapkit/core@1.0.0-rc.59":
-  version "1.0.0-rc.59"
-  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.59.tgz#52b72528aa96215fec1463a016220b5ae6697a47"
-  integrity sha512-Pcxvv63LiRAAj1IPfTfVlb9bOTvB2uX7UWIRiToAd6MYpOBM/1Kcaxl7vhn25zge06VRcCFlVzkcoqWk3rhfKw==
+"@swapkit/core@1.0.0-rc.60":
+  version "1.0.0-rc.60"
+  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.60.tgz#d1a9f824fe3fd9bdb0ce9c6589484b2fae713bf9"
+  integrity sha512-Vu7JdnsNx+FO3/AtWoZdUy06jWfPvaoTvW8JoCjRPjTJ5KKXR0XJ87FUkLMuCRVkBrkk0/Ig9HyDmsCw9l0T9Q==
   dependencies:
     "@swapkit/helpers" "1.0.0-rc.48"
     "@swapkit/types" "1.0.0-rc.25"
@@ -3077,10 +3077,10 @@
     crypto-js "4.2.0"
     uuid "9.0.1"
 
-"@swapkit/wallet-ledger@1.0.0-rc.61":
-  version "1.0.0-rc.61"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.61.tgz#7c5d9c060a8af453300d19567ac2f485de0e8922"
-  integrity sha512-/TG7WvMLDpGPrjUPQ1K+wsIWL0+/m8xab58aPgcF69EBsjUqtPskBMMso5rTVt1Ur69vfSneZo6aHID0OSM/xQ==
+"@swapkit/wallet-ledger@1.0.0-rc.62":
+  version "1.0.0-rc.62"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.62.tgz#cbcc592c8300883bc8ee1acd4803281ac539e5ca"
+  integrity sha512-xe5Fl7HWZpTMcIL8WNdmDciDQxLxTi+y0jnd95YfJuLyrXNl4iZQqnV9xqXoFcGxQAUqgyyoJj1QG+P3YcKlJA==
   dependencies:
     "@ledgerhq/devices" "8.1.0"
     "@ledgerhq/errors" "6.16.0"
