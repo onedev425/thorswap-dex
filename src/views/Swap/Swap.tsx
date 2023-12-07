@@ -26,7 +26,9 @@ import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
+import { StreamingSwapSettings } from 'views/Swap/StreamingSwapSettings';
 import THORInfoContent from 'views/Swap/THORInfoContent';
+import { useStreamingSwapParams } from 'views/Swap/useStreamingSwapParams';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -178,28 +180,41 @@ const SwapView = () => {
     affiliateBasisPoints,
     estimatedTime,
     isFetching,
-    minReceive,
-    outputAmount,
     refetch: refetchQuote,
     routes,
     error,
-    selectedRoute,
+    selectedRoute: selectedRouteRaw,
     setSwapRoute,
     quoteId,
-    streamSwap,
-    toggleStreamSwap,
-    canStreamSwap,
-    selectedRouteFees: fees,
     vTHORDiscount,
   } = useSwapQuote({
     inputUSDPrice,
     ethAddress,
-    noPriceProtection,
     inputAsset,
     inputAmount,
     outputAsset,
     senderAddress: sender,
     recipientAddress: recipient,
+  });
+
+  const {
+    streamSwap,
+    toggleStreamSwap,
+    canStreamSwap,
+    minReceive,
+    outputAmount,
+    fees,
+    route: selectedRoute,
+    hasStreamingSettings,
+    setStreamingSwapParams,
+    savingsInUSD,
+    streamingSlippagePercent,
+    setStreamingSlippagePercent,
+  } = useStreamingSwapParams({
+    selectedRoute: selectedRouteRaw,
+    inputAmount,
+    noPriceProtection,
+    outputAsset,
   });
 
   const { isKyberSwapPage, kyberRoutes } = useKyberSwap({ routes });
@@ -442,13 +457,26 @@ const SwapView = () => {
             />
           )}
 
-          <TxOptimizeSection
-            canStream={canStreamSwap}
-            outputAsset={outputAsset}
-            quote={selectedRoute}
-            stream={streamSwap}
-            toggleStream={toggleStreamSwap}
-          />
+          {hasStreamingSettings ? (
+            <StreamingSwapSettings
+              minReceive={minReceive}
+              onSettingsChange={setStreamingSwapParams}
+              outputAmount={outputAmount}
+              outputAsset={outputAsset}
+              priceOptimization={savingsInUSD}
+              route={selectedRoute}
+              setSlippagePercent={setStreamingSlippagePercent}
+              slippagePercent={streamingSlippagePercent}
+            />
+          ) : (
+            <TxOptimizeSection
+              canStream={canStreamSwap}
+              outputAsset={outputAsset}
+              quote={selectedRoute}
+              stream={streamSwap}
+              toggleStream={toggleStreamSwap}
+            />
+          )}
 
           <SwapInfo
             affiliateBasisPoints={Number(affiliateBasisPoints)}

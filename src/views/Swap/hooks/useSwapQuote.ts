@@ -1,4 +1,4 @@
-import { type AssetValue, SwapKitNumber } from '@swapkit/core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -11,7 +11,6 @@ import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
 type Params = {
   inputAsset: AssetValue;
   inputAmount: SwapKitNumber;
-  noPriceProtection: boolean;
   ethAddress?: string;
   outputAsset: AssetValue;
   recipientAddress?: string;
@@ -22,7 +21,6 @@ type Params = {
 
 export const useSwapQuote = ({
   ethAddress,
-  noPriceProtection,
   inputAsset,
   inputAmount,
   outputAsset,
@@ -34,7 +32,7 @@ export const useSwapQuote = ({
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
-  const [streamSwap, setStreamSwap] = useState(false);
+
   const VTHORBalance = useVTHORBalance(ethAddress);
 
   const affiliateBasisPoints = useMemo(() => {
@@ -138,49 +136,6 @@ export const useSwapQuote = ({
     [error, inputAmount, isLoading, routes, swapQuote],
   );
 
-  const canStreamSwap = useMemo(
-    () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
-    [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
-  );
-
-  const outputAmount = useMemo(() => {
-    const value =
-      selectedRoute && !(inputAmount.getValue('number') === 0)
-        ? streamSwap && selectedRoute?.streamingSwap?.expectedOutput
-          ? selectedRoute.streamingSwap.expectedOutput
-          : selectedRoute.expectedOutput
-        : 0;
-
-    return new SwapKitNumber({ value, decimal: outputAsset.decimal });
-  }, [selectedRoute, inputAmount, streamSwap, outputAsset.decimal]);
-
-  const minReceive = useMemo(
-    () =>
-      new SwapKitNumber({
-        value:
-          (streamSwap && selectedRoute?.streamingSwap?.expectedOutputMaxSlippage) ||
-          selectedRoute?.expectedOutputMaxSlippage ||
-          0,
-        decimal: outputAsset.decimal,
-      }),
-    [
-      streamSwap,
-      selectedRoute?.streamingSwap?.expectedOutputMaxSlippage,
-      selectedRoute?.expectedOutputMaxSlippage,
-      outputAsset.decimal,
-    ],
-  );
-
-  const selectedRouteFees = useMemo(() => {
-    if (streamSwap && selectedRoute?.streamingSwap?.fees) {
-      return selectedRoute?.fees
-        ? { ...selectedRoute.fees, ...selectedRoute.streamingSwap.fees }
-        : selectedRoute.streamingSwap.fees;
-    }
-
-    return selectedRoute?.fees;
-  }, [selectedRoute?.fees, selectedRoute?.streamingSwap?.fees, streamSwap]);
-
   useEffect(() => {
     if (!error) {
       const route = routes.find(
@@ -191,32 +146,16 @@ export const useSwapQuote = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, routes]);
 
-  const toggleStreamSwap = useCallback(
-    (enabled: boolean) => setStreamSwap(enabled && !!canStreamSwap),
-    [canStreamSwap],
-  );
-
-  useEffect(() => {
-    // reset stream swap state only when path changed
-    toggleStreamSwap(!!selectedRoute?.path);
-  }, [selectedRoute?.path, toggleStreamSwap]);
-
   return {
     affiliateBasisPoints,
     vTHORDiscount: !IS_LEDGER_LIVE && VTHORBalance.gte(1_000),
     error,
     estimatedTime: selectedRoute?.estimatedTime,
     isFetching: approvalsLoading || isLoading || isFetching,
-    minReceive,
-    outputAmount,
     refetch,
     routes,
     selectedRoute,
     setSwapRoute,
     quoteId: data?.quoteId,
-    streamSwap,
-    toggleStreamSwap,
-    canStreamSwap,
-    selectedRouteFees,
   };
 };

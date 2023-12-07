@@ -171,7 +171,8 @@
     "wallet": "Wallet",
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
-    "yourTransactions": "Your Transactions"
+    "yourTransactions": "Your Transactions",
+    "slippageSettings": "Slippage options"
   },
   "components": {
     "announcements": {
@@ -937,7 +938,8 @@
       "totalFeeTooltip": "Total Fee for Swap.",
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "TX Fee Tokens",
+      "savings": "Savings"
     },
     "thorname": {
       "available": "Available",

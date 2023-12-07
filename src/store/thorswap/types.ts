@@ -210,6 +210,10 @@ export type GetTokensQuoteResponse = {
         expectedOutputMaxSlippageUSD: string;
         estimatedTime: number;
         fees: QuoteRoute['fees'];
+        maxQuantity?: number;
+        maxIntervalForMaxQuantity?: number;
+        savingsInAsset?: string;
+        savingsInUSD?: string;
       };
     },
   ];
