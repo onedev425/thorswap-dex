@@ -2,6 +2,7 @@ import type { AssetValue } from '@swapkit/core';
 import { SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { IS_PROD } from 'settings/config';
 
 type Props = {
   selectedRoute?: RouteWithApproveType;
@@ -25,7 +26,9 @@ export const useStreamingSwapParams = ({
   const [streamingSwapParams, setStreamingSwapParams] = useState<null | StreamSwapParams>(null);
   const hasStreamingSettings =
     selectedRoute?.streamingSwap?.maxQuantity &&
-    selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity;
+    selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity &&
+    // TODO: remove, feature flag for prod
+    !IS_PROD;
   // 3% slippage by default
   const [streamingSlippagePercent, setStreamingSlippagePercent] = useState(3);
 
