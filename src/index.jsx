@@ -11,24 +11,26 @@ import { App } from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
 
-Sentry.init({
-  dsn: 'https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120',
-  tracePropagationTargets: ['api.thorswap.net', 'mu.thorswap.net'],
-  tracesSampleRate: IS_LOCAL ? 1.0 : 0.05,
-  replaysSessionSampleRate: IS_LOCAL ? 1.0 : 0.05,
-  environment: IS_PROD
-    ? 'production'
-    : IS_BETA
-      ? 'beta'
-      : IS_STAGENET
-        ? 'stagenet'
-        : IS_DEV_API
-          ? 'dev-api'
-          : 'development',
-  debug: process.env.NODE_ENV === 'development',
-  integrations: [new Sentry.Replay()],
-  denyUrls: [/eu\.posthog\.com/i],
-});
+if (!IS_LOCAL) {
+  Sentry.init({
+    dsn: 'https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120',
+    tracePropagationTargets: ['api.thorswap.net', 'mu.thorswap.net'],
+    tracesSampleRate: IS_LOCAL ? 1.0 : 0.05,
+    replaysSessionSampleRate: IS_LOCAL ? 1.0 : 0.05,
+    environment: IS_PROD
+      ? 'production'
+      : IS_BETA
+        ? 'beta'
+        : IS_STAGENET
+          ? 'stagenet'
+          : IS_DEV_API
+            ? 'dev-api'
+            : 'development',
+    debug: process.env.NODE_ENV === 'development',
+    enabled: !IS_LOCAL,
+    integrations: [new Sentry.Replay()],
+  });
+}
 
 const container = document.getElementById('root');
 const root = createRoot(container);

@@ -8,16 +8,11 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
   const { decimal } = amountValue;
   const inputValue = useMemo(() => (amountValue?.gt(0) ? amountValue : undefined), [amountValue]);
 
-  const [rawValue, setRawValue] = useState(
-    inputValue ? inputValue.toCurrency('', { decimal }) : '',
-  );
+  const [rawValue, setRawValue] = useState(inputValue ? inputValue.toFixed(decimal) : '');
 
-  const handleRawValueChange = useCallback(
-    (amount: SwapKitNumber | string) => {
-      setRawValue(typeof amount === 'string' ? amount : amount.toCurrency('', { decimal }));
-    },
-    [decimal],
-  );
+  const handleRawValueChange = useCallback((amount: SwapKitNumber | string) => {
+    setRawValue(typeof amount === 'string' ? amount : amount.getValue('string'));
+  }, []);
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
