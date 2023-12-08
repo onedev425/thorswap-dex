@@ -65,9 +65,11 @@ export const useSwap = ({
       if (route) {
         if (!from) throw new Error('No address found');
 
-        const label = `${inputAsset.toSignificant(6)} ${
+        const label = `${inputAsset.toSignificant(6)} ${inputAsset.isSynthetic ? 'Synth ' : ''}${
           inputAsset.ticker
-        } → ${outputAsset.toSignificant(6)} ${outputAsset.ticker}`;
+        } → ${outputAsset.toSignificant(6)} ${outputAsset.isSynthetic ? 'Synth ' : ''}${
+          outputAsset.ticker
+        }`;
 
         const { swap, validateAddress } = await (
           await import('services/swapKit')
