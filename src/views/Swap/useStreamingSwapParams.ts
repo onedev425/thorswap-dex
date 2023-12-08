@@ -183,7 +183,12 @@ export const useStreamingSwapParams = ({
   }, [streamSwap, streamingSwapParams, toggleStreamSwap]);
 
   const route = useMemo(() => {
-    if (!selectedRoute || !streamSwap || !selectedRoute?.calldata.memoStreamingSwap) {
+    if (
+      !hasStreamingSettings ||
+      !selectedRoute ||
+      !streamSwap ||
+      !selectedRoute?.calldata.memoStreamingSwap
+    ) {
       return selectedRoute;
     }
 
