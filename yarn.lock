@@ -2982,10 +2982,10 @@
     "@swapkit/types" "1.0.0-rc.25"
     ky "1.1.3"
 
-"@swapkit/core@1.0.0-rc.62":
-  version "1.0.0-rc.62"
-  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.62.tgz#853c80eb31f4d9b090c64867cff4c816c1da39a7"
-  integrity sha512-TZCh0n68AgnXJO+j8ljvR3pz4Ss3Po32gTVCwij5DFWrT/gcUjYZw9pq4jX+ll4Hy2YVW1epDEFk3K30eHIlOg==
+"@swapkit/core@1.0.0-rc.63":
+  version "1.0.0-rc.63"
+  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.63.tgz#9707761ec59e22b322a06e26e91a556e40dd0f05"
+  integrity sha512-7QfpnXg3A8JUdNcyLLvqnrTR64gPbQTr3K9y7MBacb/5dh2G2HiA5Q8k2YW1wNyM0uipFcGD3iaYSR9DTc/lQA==
   dependencies:
     "@swapkit/helpers" "1.0.0-rc.48"
     "@swapkit/types" "1.0.0-rc.25"
