@@ -45,7 +45,7 @@ export const THORYIELD_LP_PATH = 'accounts';
 export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
 
 const getAssetRoute = (route: ROUTES, asset?: AssetValue) =>
-  `${route}${asset ? `/${asset.toString()}` : ''}`;
+  `${route}${asset ? `/${asset.toUrl()}` : ''}`;
 
 export const navigateToExternalLink = (url: string) => {
   window.open(url, '_blank noreferrer noopener');

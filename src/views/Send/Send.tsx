@@ -114,7 +114,10 @@ const Send = () => {
       if (!assetParam) {
         setSendAsset(RUNEAsset);
       } else {
-        const assetEntity = AssetValue.fromStringSync(assetParam);
+        const [chain, synthChain, symbol] = assetParam.split('.');
+        const isSynth = chain === Chain.THORChain && symbol;
+        const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : assetParam;
+        const assetEntity = AssetValue.fromStringSync(assetString);
 
         if (assetEntity) {
           setSendAsset(assetEntity);
