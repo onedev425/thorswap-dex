@@ -114,8 +114,8 @@ export const useSwapQuote = ({
         setApprovalsLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [inputAsset.toString(), senderAddress],
+
+    [inputAsset, senderAddress, inputAmount],
   );
 
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);

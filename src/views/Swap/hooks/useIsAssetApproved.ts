@@ -1,5 +1,4 @@
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
+import type { AssetValue, Chain } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -35,17 +34,14 @@ const useApproveResult = ({
   skip: boolean;
 }) => {
   const [isApproved, setApproved] = useState(assetValue.isGasAsset || !isWalletConnected);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(!isApproved);
   const cacheKey = useRef(`${assetValue.toString()}-${contract || 'all'}`);
   const currentParams = useRef<Params>({ assetValue, contract });
   currentParams.current = { assetValue, contract };
-
   const debouncedCheckAssetApprove = useRef(
     debounce(
       async () => {
-        const isApproved = await checkAssetApprove(currentParams.current);
-
-        setApproved(isApproved);
+        return await checkAssetApprove(currentParams.current);
       },
       500,
       { leading: true, trailing: false },
@@ -62,7 +58,7 @@ const useApproveResult = ({
     }
 
     try {
-      await debouncedCheckAssetApprove.current();
+      setApproved(await debouncedCheckAssetApprove.current());
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
@@ -87,24 +83,20 @@ const useApproveResult = ({
     }
   }, [value, checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
 
-  return { isApproved, isLoading };
+  return { isApproved: assetValue.eqValue('0') ? false : isApproved, isLoading };
 };
 
 export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
   const { getWalletAddress } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
-  const walletAddress = useMemo(
-    () => getWalletAddress(assetValue.chain as Chain),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [assetValue.chain],
-  );
+  //   const walletAddress = useMemo(
+  //     () => getWalletAddress(assetValue.chain as Chain),
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //     [assetValue.chain, assetValue.bigIntValue, walletAddresses],
+  //   );
+  const walletAddress = getWalletAddress(assetValue.chain as Chain);
 
-  const possibleApprove = useMemo(
-    () =>
-      !assetValue.isGasAsset ||
-      [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(assetValue.chain),
-    [assetValue.chain, assetValue.isGasAsset],
-  );
+  const possibleApprove = useMemo(() => !assetValue.isGasAsset, [assetValue]);
 
   const { isApproved, isLoading } = useApproveResult({
     isWalletConnected: !!walletAddress,
@@ -115,7 +107,7 @@ export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
   });
 
   return {
-    isApproved,
+    isApproved: isApproved || !walletAddress || !possibleApprove,
     isWalletConnected: !!walletAddress,
     isLoading: isLoading || numberOfPendingApprovals > 0,
   };

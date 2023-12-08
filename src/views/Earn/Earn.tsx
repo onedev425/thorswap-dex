@@ -83,7 +83,7 @@ const Earn = () => {
   }, [amount, asset, tokenPricesData]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
-    assetValue: asset,
+    assetValue: asset.set(amount.getValue('string')),
     force: true,
   });
 
@@ -376,7 +376,7 @@ const Earn = () => {
 
                       <InfoTable horizontalInset items={summary} />
 
-                      {!buttonDisabled && !isApproved && isDeposit ? (
+                      {!buttonDisabled && (!isApproved || isLoading) && isDeposit ? (
                         <Box className="w-full pt-5">
                           <Button
                             stretch
