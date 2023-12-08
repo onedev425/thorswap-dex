@@ -212,7 +212,14 @@ export const useStreamingSwapParams = ({
       ...selectedRoute,
       calldata: { ...selectedRoute.calldata, memoStreamingSwap: updatedMemoStreamingSwap },
     };
-  }, [minReceive, selectedRoute, streamSwap, streamingSlippagePercent, streamingSwapParams]);
+  }, [
+    hasStreamingSettings,
+    minReceive,
+    selectedRoute,
+    streamSwap,
+    streamingSlippagePercent,
+    streamingSwapParams,
+  ]);
 
   return {
     streamSwap,
