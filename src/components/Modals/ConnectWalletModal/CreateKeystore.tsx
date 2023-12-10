@@ -43,17 +43,11 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
 
   const handleCreate = useCallback(async () => {
     if (ready) {
-      const { validatePhrase } = await import('@swapkit/toolbox-utxo');
-
       setProcessing(true);
       const { generatePhrase, encryptToKeyStore } = await import('@swapkit/wallet-keystore');
 
       try {
         const phrase = generatePhrase();
-        const isValid = validatePhrase(phrase);
-        if (!isValid) {
-          return;
-        }
 
         const keystore = await encryptToKeyStore(phrase, password);
 

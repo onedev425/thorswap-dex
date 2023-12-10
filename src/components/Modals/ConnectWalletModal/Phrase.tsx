@@ -8,38 +8,27 @@ import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 
 export const PhraseView = () => {
-  const [phrase, setPhrase] = useState('');
-  const [invalidPhrase, setInvalidPhrase] = useState(false);
-
-  const [password, setPassword] = useState<string>('');
   const [invalidStatus, setInvalidStatus] = useState(false);
+  const [password, setPassword] = useState<string>('');
+  const [phrase, setPhrase] = useState('');
   const [processing, setProcessing] = useState(false);
 
   const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
     setInvalidStatus(false);
+    setPassword(e.target.value);
   }, []);
 
   const handlePhraseChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setInvalidPhrase(false);
+    setInvalidStatus(false);
     setPhrase(e.target.value);
   }, []);
 
   const handleBackupKeystore = useCallback(async () => {
     if (phrase && password) {
       setProcessing(true);
-      const { validatePhrase } = await import('@swapkit/toolbox-utxo');
       const { encryptToKeyStore } = await import('@swapkit/wallet-keystore');
 
       try {
-        const isValidPhrase = validatePhrase(phrase);
-
-        if (!isValidPhrase) {
-          setInvalidPhrase(true);
-          setProcessing(false);
-          return;
-        }
-
         const keystore = await encryptToKeyStore(phrase, password);
 
         downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore));
@@ -49,13 +38,14 @@ export const PhraseView = () => {
         setPhrase('');
       } catch (error: NotWorth) {
         console.error(error);
+        setProcessing(false);
         setInvalidStatus(true);
       }
       setProcessing(false);
     }
   }, [phrase, password]);
 
-  const ready = password.length > 0 && !invalidPhrase && !processing;
+  const ready = password.length > 0 && !invalidStatus && !processing;
 
   return (
     <Box col className="w-full">
@@ -68,6 +58,7 @@ export const PhraseView = () => {
           {t('views.walletModal.enterSeed')}
         </Text>
       </Box>
+
       <Box className="ph-no-capture w-full">
         <Input
           stretch
@@ -78,14 +69,17 @@ export const PhraseView = () => {
           value={phrase}
         />
       </Box>
-      {invalidPhrase && (
+
+      {invalidStatus && (
         <Text className="mt-2 ml-3" textStyle="caption" variant="red">
-          {t('views.walletModal.invalidPhrase')}
+          {t('common.defaultErrMsg')}
         </Text>
       )}
+
       <Box row className="space-x-2 mt-6 mb-2">
         <Text textStyle="subtitle2">{t('views.walletModal.keystorePassword')}</Text>
       </Box>
+
       <Box className="w-full">
         <Input
           stretch
@@ -98,11 +92,6 @@ export const PhraseView = () => {
           value={password}
         />
       </Box>
-      {invalidStatus && (
-        <Text className="mt-2 ml-3" textStyle="caption" variant="red">
-          {t('common.defaultErrMsg')}
-        </Text>
-      )}
 
       <Box className="mt-6">
         <Button
