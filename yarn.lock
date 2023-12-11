@@ -3077,10 +3077,10 @@
     crypto-js "4.2.0"
     uuid "9.0.1"
 
-"@swapkit/wallet-ledger@1.0.0-rc.64":
-  version "1.0.0-rc.64"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.64.tgz#b4450bccc49e193d34bb7d7bcfe9b0db0c991041"
-  integrity sha512-iCKt5V6V5hn0WVSXvbEabLfOOpLl8cNYTc4qjAc/C5uVhLn9SgAC7lJqZYxkvcuOk/ZejaZKjF/m1htBl/NKAA==
+"@swapkit/wallet-ledger@1.0.0-rc.65":
+  version "1.0.0-rc.65"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.65.tgz#d7ab749eb65b7c27f4c30e82c54ef21072b08284"
+  integrity sha512-UULViPC6u+wOyrRfPUahhdRSgcO9vqUXz+aShdWP3XVtsTIUhG6rDIJjKK8sW+jf931XPF1NmWF2D38AkPjvwQ==
   dependencies:
     "@ledgerhq/devices" "8.1.0"
     "@ledgerhq/errors" "6.16.0"
@@ -3115,10 +3115,10 @@
     "@swapkit/types" "1.0.0-rc.25"
     "@walletconnect/modal-sign-html" "^2.6.2"
 
-"@swapkit/wallet-xdefi@1.0.0-rc.62":
-  version "1.0.0-rc.62"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.62.tgz#6024c1a0b294258168ca5a93eb4fb04b96f33340"
-  integrity sha512-2EOPci/Oltvz4qUGzXEF1Syu5RLzSwMnc/WgZd2HVli63i+pELD0BOwGZ7c65Gg3tZmdGjM7Vs6yvxYtID/jDA==
+"@swapkit/wallet-xdefi@1.0.0-rc.63":
+  version "1.0.0-rc.63"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.63.tgz#71a5ce270ac209e0c93101a20ef4248d204419fd"
+  integrity sha512-GL5fXedL6I7mwleBuYkkJhIm+OD+fukSZUrDYSyLwUZ5eb/LE/V9wq0/y+F+UgVOhYmnrSLJ4pXY86xgt0t4Vg==
   dependencies:
     "@swapkit/types" "1.0.0-rc.25"
 
