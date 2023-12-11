@@ -3107,10 +3107,10 @@
     "@swapkit/types" "1.0.0-rc.25"
     "@trezor/connect-web" "9.1.5"
 
-"@swapkit/wallet-wc@1.0.0-rc.56":
-  version "1.0.0-rc.56"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.56.tgz#827c31bd2a726d0bd7f0d78c70d9ebe5f21625df"
-  integrity sha512-uOf9/bvVEHgK0BCv2dVC7llbxQMRfLz3JwGzvysQ/gqFhotiD23uRK3mEvq5NCgGTHy7CZSDs3WsOD6+SHJbDg==
+"@swapkit/wallet-wc@1.0.0-rc.57":
+  version "1.0.0-rc.57"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.57.tgz#a3f6db6ac3ecd7d26ab9d4fd2dfc5a337f10b086"
+  integrity sha512-RdPsPJ3DVf7ol1m3Gz5JYJ9VZYbGcAV/pE0tOnDPfFedIR0d8Dt39BGL4no8aQLLoypT1wnmFCr6dBxhwqszkA==
   dependencies:
     "@swapkit/types" "1.0.0-rc.25"
     "@walletconnect/modal-sign-html" "^2.6.2"
