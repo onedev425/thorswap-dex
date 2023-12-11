@@ -99,12 +99,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
-  [WalletType.TrustWallet]: [
-    Chain.Avalanche,
-    Chain.Ethereum,
-    Chain.THORChain,
-    Chain.BinanceSmartChain,
-  ],
+  [WalletType.TrustWallet]: [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.Xdefi]: AllChainsSupported,
   [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain],
