@@ -1,5 +1,5 @@
-import type { AssetValue, UTXOChain } from '@swapkit/core';
-import { Chain, isGasAsset, UTXOChainList } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
+import { Chain, isGasAsset } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { getAssetBalance } from 'helpers/wallet';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
@@ -49,23 +49,17 @@ export const useBalance = (skipFees?: boolean) => {
       const gasRate = getNetworkFee({
         gasPrice: chainInfo?.gasAsset || 0,
         feeOptionType,
-        multiplier: getMultiplierForAsset(asset),
+        multiplier: getMultiplierForAsset(asset) || 1,
       });
       const balance = getAssetBalance(asset, wallet);
 
       if (balance.eqValue(0)) return balance;
 
-      if (!UTXOChainList.includes(chain as UTXOChain)) {
-        const maxSpendableAmount = isGasAsset(asset)
-          ? balance.sub(parseFeeToAssetAmount({ gasRate, asset }))
-          : balance;
-
-        return maxSpendableAmount.gt(0) ? maxSpendableAmount : maxSpendableAmount.set(0);
-      }
-
       const maxSpendableAmount = IS_LEDGER_LIVE
         ? (chainWallet?.balance.find((balance) => balance.eq(asset)) as AssetValue) || asset.set(0)
-        : balance;
+        : isGasAsset(asset)
+          ? balance.sub(parseFeeToAssetAmount({ gasRate, asset }))
+          : balance;
 
       // TODO remove after LL is tested
       //   const baseAmountString = IS_LEDGER_LIVE
