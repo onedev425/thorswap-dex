@@ -30,7 +30,7 @@ const startSlipSliderValue = 15;
 const maxSlip = 10;
 const minSlip = 1;
 
-export const StreamingSwapSlippage = ({
+export const SwapSlippage = ({
   route,
   outputAsset,
   outputAmount,
@@ -184,79 +184,10 @@ export const StreamingSwapSlippage = ({
                   left: `calc(${startSlipSliderValue}% - 7px)`,
                 }}
               />
-
-              {/*<Flex
-                  sx={{
-                    w: 4,
-                    h: 4,
-                    borderRadius: '50%',
-                    bg: value > 50 ? 'brand.btnSecondary' : 'textSecondary',
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    left: 'calc(50% - 7px)',
-                  }}
-                />
-
-                <Flex
-                  sx={{
-                    w: 3,
-                    h: 3,
-                    borderRadius: '50%',
-                    backgroundColor: 'textSecondary',
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    right: '-8px',
-                  }}
-                /> */}
             </RangeSlider>
           </Flex>
-
-          {/* <Flex flex={1} justify="space-between" mt={1}>
-              <Flex>
-                <Button
-                  onClick={() => setValue(0)}
-                  size="xs"
-                  sx={{ px: 2 }}
-                  variant="borderlessPrimary"
-                >
-                  Faster
-                </Button>
-              </Flex>
-              <Flex>
-                <Button onClick={() => setValue(50)} size="xs" variant="borderlessPrimary">
-                  Best pice
-                </Button>
-              </Flex>
-              <Flex>
-                <Button
-                  onClick={() => setValue(100)}
-                  size="xs"
-                  sx={{ px: 2 }}
-                  variant="borderlessPrimary"
-                >
-                  Slower
-                </Button>
-              </Flex>
-            </Flex> */}
         </Flex>
       </Flex>
-
-      {/* <Collapse animateOpacity in={!!priceOptimization}>
-          <Flex gap={1}>
-            <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption-xs">
-              {t('views.swap.savings')}:
-            </Text>
-            <Text textStyle="caption-xs">
-              {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
-            </Text>
-
-            <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
-              (+{formatPrice(priceOptimization)})
-            </Text>
-          </Flex>
-        </Collapse> */}
     </Flex>
   );
 };

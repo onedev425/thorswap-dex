@@ -18,8 +18,8 @@ import { useFormatPrice } from 'helpers/formatPrice';
 import { useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { navigateToExternalLink } from 'settings/router';
-import { StreamingSwapSlippage } from 'views/Swap/StreamingSwapSlippage';
-import type { StreamSwapParams } from 'views/Swap/useStreamingSwapParams';
+import { SwapSlippage } from 'views/Swap/SwapSlippage';
+import type { StreamSwapParams } from 'views/Swap/useSwapParams';
 
 type Props = {
   route?: RouteWithApproveType;
@@ -47,7 +47,7 @@ function getAvailableOptionsArrau(maxQuantity: number, maxSteps: number = 5) {
 
   return values;
 }
-export const StreamingSwapSettings = ({
+export const SwapSettings = ({
   route,
   onSettingsChange,
   outputAmount,
@@ -264,7 +264,7 @@ export const StreamingSwapSettings = ({
         </Flex>
 
         <Collapse animateOpacity in={value > 0}>
-          <StreamingSwapSlippage
+          <SwapSlippage
             outputAmount={outputAmount}
             outputAsset={outputAsset}
             route={route}

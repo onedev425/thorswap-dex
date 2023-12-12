@@ -1,8 +1,9 @@
 import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
+import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_PROD } from 'settings/config';
+import { useApp } from 'store/app/hooks';
 
 type Props = {
   selectedRoute?: RouteWithApproveType;
@@ -16,12 +17,13 @@ export type StreamSwapParams = {
   interval: number;
 };
 
-export const useStreamingSwapParams = ({
+export const useSwapParams = ({
   selectedRoute,
   noPriceProtection,
   inputAmount,
   outputAsset,
 }: Props) => {
+  const { slippageTolerance } = useApp();
   const [streamSwap, setStreamSwap] = useState(false);
   const [streamingSwapParams, setStreamingSwapParams] = useState<null | StreamSwapParams>(null);
   const hasStreamingSettings =
@@ -29,8 +31,8 @@ export const useStreamingSwapParams = ({
     selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity &&
     // TODO: remove, feature flag for prod
     !IS_PROD;
-  // 3% slippage by default
-  const [streamingSlippagePercent, setStreamingSlippagePercent] = useState(3);
+
+  const [slippagePercent, setSlippagePercent] = useState(slippageTolerance);
 
   const canStreamSwap = useMemo(
     () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
@@ -102,7 +104,7 @@ export const useStreamingSwapParams = ({
 
     // update default slippage when path changed
     if (!selectedRoute) {
-      setStreamingSlippagePercent(3);
+      setSlippagePercent(slippageTolerance);
       return;
     }
 
@@ -121,7 +123,7 @@ export const useStreamingSwapParams = ({
       .toFixed(2);
     const slipPercent = 100 - Number(defaultSlippage) * 100;
 
-    setStreamingSlippagePercent(slipPercent);
+    setSlippagePercent(slipPercent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outputAsset.decimal, streamSwap, selectedRoute?.path]);
 
@@ -155,11 +157,11 @@ export const useStreamingSwapParams = ({
       });
     }
 
-    return outputAmount.mul(1 - streamingSlippagePercent / 100);
+    return outputAmount.mul(1 - slippagePercent / 100);
   }, [
     streamSwap,
     outputAmount,
-    streamingSlippagePercent,
+    slippagePercent,
     selectedRoute?.expectedOutputMaxSlippage,
     outputAsset.decimal,
   ]);
@@ -205,7 +207,16 @@ export const useStreamingSwapParams = ({
     // replace min receive
     updatedMemoStreamingSwap = updatedMemoStreamingSwap.replace(
       /:([0-9]+)\//,
-      `:${streamingSlippagePercent ? minReceive.getBaseValue('string') : '0'}/`,
+      `:${
+        slippagePercent
+          ? // convert to 8 decimals TC value
+            SwapKitNumber.shiftDecimals({
+              value: minReceive,
+              from: outputAsset.decimal || BaseDecimal.THOR,
+              to: BaseDecimal.THOR,
+            }).getValue('bigint')
+          : '0'
+      }/`,
     );
 
     return {
@@ -215,9 +226,10 @@ export const useStreamingSwapParams = ({
   }, [
     hasStreamingSettings,
     minReceive,
+    outputAsset.decimal,
     selectedRoute,
     streamSwap,
-    streamingSlippagePercent,
+    slippagePercent,
     streamingSwapParams,
   ]);
 
@@ -233,7 +245,7 @@ export const useStreamingSwapParams = ({
     route,
     hasStreamingSettings,
     savingsInUSD,
-    streamingSlippagePercent,
-    setStreamingSlippagePercent,
+    slippagePercent,
+    setSlippagePercent,
   };
 };

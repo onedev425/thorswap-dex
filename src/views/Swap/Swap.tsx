@@ -26,9 +26,9 @@ import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
-import { StreamingSwapSettings } from 'views/Swap/StreamingSwapSettings';
+import { SwapSettings } from 'views/Swap/SwapSettings';
 import THORInfoContent from 'views/Swap/THORInfoContent';
-import { useStreamingSwapParams } from 'views/Swap/useStreamingSwapParams';
+import { useSwapParams } from 'views/Swap/useSwapParams';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -208,9 +208,9 @@ const SwapView = () => {
     hasStreamingSettings,
     setStreamingSwapParams,
     savingsInUSD,
-    streamingSlippagePercent,
-    setStreamingSlippagePercent,
-  } = useStreamingSwapParams({
+    slippagePercent,
+    setSlippagePercent,
+  } = useSwapParams({
     selectedRoute: selectedRouteRaw,
     inputAmount,
     noPriceProtection,
@@ -458,15 +458,15 @@ const SwapView = () => {
           )}
 
           {hasStreamingSettings ? (
-            <StreamingSwapSettings
+            <SwapSettings
               minReceive={minReceive}
               onSettingsChange={setStreamingSwapParams}
               outputAmount={outputAmount}
               outputAsset={outputAsset}
               priceOptimization={savingsInUSD}
               route={selectedRoute}
-              setSlippagePercent={setStreamingSlippagePercent}
-              slippagePercent={streamingSlippagePercent}
+              setSlippagePercent={setSlippagePercent}
+              slippagePercent={slippagePercent}
             />
           ) : (
             <TxOptimizeSection
