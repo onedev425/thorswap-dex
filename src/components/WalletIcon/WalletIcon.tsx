@@ -27,6 +27,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.XDEFI]: 'xdefi',
   [WalletOption.KEPLR]: 'keplr',
   [WalletOption.OKX]: 'okx',
+  [WalletOption.OKX_MOBILE]: 'okx',
 };
 
 export const WalletIcon = ({ className, walletType, size, tooltipDisabled, onClick }: Props) => {

@@ -37,15 +37,11 @@ export type WalletSection = {
 
 export type DerivationPathType = 'nativeSegwitMiddleAccount' | 'segwit' | 'legacy' | 'ledgerLive';
 
-const okxWalletEnabled = () => {
-  const ua = navigator.userAgent;
-  const isIOS = /iphone|ipad|ipod|ios/i.test(ua);
-  const isAndroid = /android|XiaoMi|MiuiBrowser/i.test(ua);
-  const isMobile = isIOS || isAndroid;
-  const isOKApp = /OKApp/i.test(ua);
+export const isMobile = /iphone|ipad|ipod|ios|android|XiaoMi|MiuiBrowser/i.test(
+  navigator.userAgent,
+);
 
-  return window.okxwallet || (isMobile && isOKApp);
-};
+export const okxWalletDetected = window.okxwallet || /OKApp/i.test(navigator.userAgent);
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
@@ -123,9 +119,9 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                 : '',
           },
           {
-            disabled: !okxWalletEnabled(),
+            disabled: !okxWalletDetected && !isMobile,
             icon: 'okx' as IconName,
-            type: WalletType.Okx,
+            type: isMobile ? WalletType.OkxMobile : WalletType.Okx,
             label: t('views.walletModal.okxWallet'),
             tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
           },
@@ -232,6 +228,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Brave:
           case WalletType.MetaMask:
           case WalletType.TrustWalletExtension:
+          case WalletType.OkxMobile:
           case WalletType.CoinbaseExtension:
             return connectEVMWalletExtension(
               selectedChains,
@@ -292,6 +289,7 @@ const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.Ledger]: WalletOption.LEDGER,
   [WalletType.MetaMask]: WalletOption.METAMASK,
   [WalletType.Okx]: WalletOption.OKX,
+  [WalletType.OkxMobile]: WalletOption.OKX_MOBILE,
   [WalletType.Phrase]: WalletOption.KEYSTORE,
   [WalletType.Rainbow]: WalletOption.WALLETCONNECT,
   [WalletType.Trezor]: WalletOption.TREZOR,
@@ -321,6 +319,8 @@ export const useHandleWalletTypeSelect = ({
         return window.open('https://xdefi.io');
       case WalletType.Brave:
         return window.open('brave://wallet/');
+      case WalletType.OkxMobile:
+        return window.open('okx://wallet/dapp/details?dappUrl=https://app.thorswap.finance/swap');
     }
   }, []);
 

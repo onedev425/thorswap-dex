@@ -9,6 +9,7 @@ export enum WalletType {
   Ledger = 'Ledger',
   MetaMask = 'MetaMask',
   Okx = 'Okx',
+  OkxMobile = 'OkxMobile',
   Phrase = 'Phrase',
   Rainbow = 'Rainbow',
   Trezor = 'Trezor',
@@ -33,7 +34,8 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
   [WalletType.Xdefi]: 'Xdefi',
   [WalletType.Walletconnect]: 'Walletconnect',
-  [WalletType.Okx]: 'Okx',
+  [WalletType.Okx]: 'OKX',
+  [WalletType.OkxMobile]: 'OKX App',
 };
 
 export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
@@ -52,6 +54,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.Xdefi]: WalletOption.XDEFI,
   [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
   [WalletType.Okx]: WalletOption.OKX,
+  [WalletType.OkxMobile]: WalletOption.OKX_MOBILE,
 };
 
 export const WalletNameByWalletOption: Record<WalletOption, string> = {
@@ -66,6 +69,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.XDEFI]: WalletType.Xdefi,
   [WalletOption.KEYSTORE]: WalletType.Keystore,
   [WalletOption.OKX]: WalletType.Okx,
+  [WalletOption.OKX_MOBILE]: WalletType.OkxMobile,
 };
 
 const AllChainsSupported = [
@@ -115,4 +119,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Cosmos,
     Chain.BinanceSmartChain,
   ],
+  [WalletType.OkxMobile]: EVMChainsSupported,
 };

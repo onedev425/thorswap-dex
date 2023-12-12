@@ -1,6 +1,7 @@
 import type { AssetValue, DerivationPathArray, EVMWalletOptions } from '@swapkit/core';
 import { Chain, WalletOption } from '@swapkit/core';
 import type { Keystore } from '@swapkit/wallet-keystore';
+import { isMobile, okxWalletDetected } from 'components/Modals/ConnectWalletModal/hooks';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useWalletContext, useWalletDispatch, useWalletState } from 'context/wallet/WalletProvider';
 import { chainName } from 'helpers/chainName';
@@ -223,6 +224,11 @@ export const useConnectWallet = () => {
 
   const connectEVMWalletExtension = useCallback(
     async (chains: Chain[], wallet: EVMWalletOptions) => {
+      if (wallet === WalletOption.OKX_MOBILE && isMobile && !okxWalletDetected) {
+        window.open('okx://wallet/dapp/details?dappUrl=https://app.thorswap.finance/swap');
+        return;
+      }
+
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
