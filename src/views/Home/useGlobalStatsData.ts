@@ -26,22 +26,11 @@ export const useGlobalStatsData = () => {
 
   const volume24h = useMemo(() => {
     if (!swapsData || !liquidityData) return '$0';
-    const { totalVolumeUsd, synthMintVolume, synthRedeemVolume, runePriceUSD } =
-      swapsData.intervals[0];
-    const { addLiquidityVolume, withdrawVolume } = liquidityData.intervals[0];
-    const runePrice = parseFloat(runePriceUSD);
-
-    const synthVolume =
-      (parseBaseValueToNumber(synthMintVolume) + parseBaseValueToNumber(synthRedeemVolume)) *
-      runePrice;
-
-    const lpVolume =
-      parseBaseValueToNumber(addLiquidityVolume) +
-      parseBaseValueToNumber(withdrawVolume) * runePrice;
+    const { totalVolumeUsd } = swapsData.intervals[0];
 
     const totalVolume = parseBaseValueToNumber(totalVolumeUsd);
 
-    return `$${new SwapKitNumber(synthVolume + lpVolume + totalVolume).toAbbreviation()}`;
+    return `$${new SwapKitNumber(totalVolume).toAbbreviation()}`;
   }, [liquidityData, swapsData]);
 
   const { totalPooledRune } = useMimir();

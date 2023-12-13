@@ -40,7 +40,7 @@ export const GlobalChart = memo(() => {
     }, {} as ChartData);
   }, []);
 
-  const [volumeChartIndex, setVolumeChartIndex] = useState<string>(VolumeChartIndex.Total);
+  const [volumeChartIndex, setVolumeChartIndex] = useState<string>(VolumeChartIndex.Swap);
   const [liquidityChartIndex, setLiquidityChartIndex] = useState<string>(
     LiquidityChartIndex.Liquidity,
   );
@@ -55,7 +55,6 @@ export const GlobalChart = memo(() => {
     const lpAddVolume: ChartDetail[] = [];
     const lpWithdrawVolume: ChartDetail[] = [];
     const synthsVolume: ChartDetail[] = [];
-    const totalVolume: ChartDetail[] = [];
 
     swapIntervals.forEach((item, index) => {
       const { addLiquidityVolume, withdrawVolume } = liquidityIntervals?.[index] || {};
@@ -72,11 +71,9 @@ export const GlobalChart = memo(() => {
       swapVolume.push({ time, value: totalValue });
       lpAddVolume.push({ time, value: lpAddValue });
       lpWithdrawVolume.push({ time, value: lpWithdrawValue });
-      totalVolume.push({ time, value: totalValue + lpAddValue + lpWithdrawValue + synthValue });
     });
 
     return {
-      [VolumeChartIndex.Total]: { values: totalVolume, unit: '$', type: ChartType.Bar },
       [VolumeChartIndex.Swap]: { values: swapVolume, unit: '$', type: ChartType.Bar },
       [VolumeChartIndex.Add]: { values: lpAddVolume, unit: '$', type: ChartType.Bar },
       [VolumeChartIndex.Synth]: { values: synthsVolume, unit: '$', type: ChartType.Bar },

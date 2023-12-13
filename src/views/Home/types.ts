@@ -7,7 +7,6 @@ export const poolCategoryOptions = [PoolCategoryOption.Savers, PoolCategoryOptio
 export const poolStatusOptions = ['Available', 'Staged'];
 
 export enum VolumeChartIndex {
-  Total = 'total',
   Swap = 'swap',
   Add = 'add',
   Withdraw = 'withdraw',
@@ -26,7 +25,6 @@ export enum LiquidityChartIndex {
 }
 
 export const volumeChartIndexes = [
-  VolumeChartIndex.Total,
   VolumeChartIndex.Swap,
   VolumeChartIndex.Synth,
   VolumeChartIndex.Add,
