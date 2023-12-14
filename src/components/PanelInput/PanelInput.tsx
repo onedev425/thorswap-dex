@@ -29,13 +29,9 @@ export const PanelInput = ({
   const fontSizeClass = useMemo(() => {
     const { length } = String(value);
 
-    if (length > 50) {
-      return '!text-[12px]';
-    }
-
-    if (length > 30) {
-      return '!text-[14px]';
-    }
+    if (length > 50) return '!text-[12px]';
+    if (length > 40) return '!text-[13px]';
+    if (length > 30) return '!text-[14px]';
 
     return '!text-[16px]';
   }, [value]);
