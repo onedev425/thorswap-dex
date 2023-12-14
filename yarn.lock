@@ -3174,10 +3174,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/types/-/types-1.0.0-rc.31.tgz#acd0e4fca1bc53f2aa42d245d39e95a789e6663b"
   integrity sha512-oK7j+uOTrGGgNDbbsVKM5Aqi0XhfvkVetKZ9NSfPI6BaRyejrpRgEHjEU+n1uxCnnE1Fu/i1jhDt9qZ8zZ9e1A==
 
-"@swapkit/wallet-evm-extensions@1.0.0-rc.61":
-  version "1.0.0-rc.61"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.61.tgz#f27ab08cfdaa93d2ec4113161ab7f432c47b7004"
-  integrity sha512-Tw4r5CCRnQrZmayH6kBE18vklkzDyHsT7NehPGPOR2FtVtxPQKsa9OfRKEzfH4oSZRk1+Z1NUKqJw4uAwqJ95g==
+"@swapkit/wallet-evm-extensions@1.0.0-rc.62":
+  version "1.0.0-rc.62"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.62.tgz#d0c4bd10ac7837ed6718f36db39d468a86ec24b9"
+  integrity sha512-N2m4R/lUEtMv89umhqBtHov5gkx1K2sepsk7O15209Uy7/hZNAwY3Uo+O5EckpZDKrvxgrJRIAvhNGMEB+Jrfg==
 
 "@swapkit/wallet-keplr@1.0.0-rc.60":
   version "1.0.0-rc.60"
@@ -3206,10 +3206,10 @@
     "@ledgerhq/hw-transport-webusb" "6.28.0"
     ripemd160 "2.0.2"
 
-"@swapkit/wallet-okx@1.0.0-rc.68":
-  version "1.0.0-rc.68"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.68.tgz#6c00b8f1f9041ae939595cdbfc451bc2e15c2444"
-  integrity sha512-ZB4aLJg4K+vTkHYo+jPITv6+crbGAPjA2gb/GjSZZuIWKxfGjPmqPUYtm5GuWc07emXw7kisivBXbMwu7AcJEA==
+"@swapkit/wallet-okx@1.0.0-rc.69":
+  version "1.0.0-rc.69"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.69.tgz#863b5b15fc73d7fbd64902bdee06b194cc0ea90e"
+  integrity sha512-2zU3TP1WREjFjegDHtDeR4qByrlLwH1FwxoyEpA06st8ixPqEZmprprPRgJ53mJJl083TUWGAG3tATB3zCmWZw==
 
 "@swapkit/wallet-trezor@1.0.0-rc.64":
   version "1.0.0-rc.64"
@@ -3218,10 +3218,10 @@
   dependencies:
     "@trezor/connect-web" "9.1.6"
 
-"@swapkit/wallet-wc@1.0.0-rc.65":
-  version "1.0.0-rc.65"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.65.tgz#a2e81e3b89e59d81700b6f070da8b098c7fccc04"
-  integrity sha512-A0iSc03dx/m/qUMYElPUR0ZyyCjmeftdDFrSCj4mKnx3iGt4PwV04mx2Z9hmLMtZAzgtkcyItZZc2FKqXS1yzg==
+"@swapkit/wallet-wc@1.0.0-rc.66":
+  version "1.0.0-rc.66"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.66.tgz#3533c2310d88cb22899a9931c92669c87a26baf3"
+  integrity sha512-LLjJZ/l1LwVKM11eOXSU2zU7gbvKdMS3rKDzvQc+Y78HuMV8LMmoIoxtEkVkx109HPPo52/9oe2Q3LBkYspW+A==
   dependencies:
     "@walletconnect/modal-sign-html" "2.6.2"
 
