@@ -3114,18 +3114,18 @@
     "@swapkit/types" "1.0.0-rc.31"
     ky "1.1.3"
 
-"@swapkit/core@1.0.0-rc.72":
-  version "1.0.0-rc.72"
-  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.72.tgz#13bfc7e2ea8a7bee7182f3bd2abf5acf19f7f9d9"
-  integrity sha512-/LH0oCL7Rq7+I3XJLr5v8EhlokVU43SD8K7uri6TfV5K/cMuy5rOAye/K+LuMAw8rZAY3FpN5q+o49V9QM2k6g==
+"@swapkit/core@1.0.0-rc.73":
+  version "1.0.0-rc.73"
+  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.73.tgz#8c0f5fd5bad4c76eec06eb0c7ea2aef71798abf8"
+  integrity sha512-N7p9gge0Ep5NmA9oVlt5Xz0klnlGS8ZwoVpBwLJJ/Jc1LwTMtfk3uvBHgf+pglob0L4M0svNe9w5MSBHNjJlHg==
   dependencies:
-    "@swapkit/helpers" "1.0.0-rc.56"
+    "@swapkit/helpers" "1.0.0-rc.57"
     "@swapkit/types" "1.0.0-rc.31"
 
-"@swapkit/helpers@1.0.0-rc.56":
-  version "1.0.0-rc.56"
-  resolved "https://registry.yarnpkg.com/@swapkit/helpers/-/helpers-1.0.0-rc.56.tgz#da5d5aed3008ecf0790cea9baabecb974590d95a"
-  integrity sha512-wa5Tfbu91jEq8H6GFnGVkS6M6/Mmb0Jo9yMKQoxQo6+vzxmh6BM7+uWKN4flxgv4SOoG3saSvXfa8udbsp0xYQ==
+"@swapkit/helpers@1.0.0-rc.57":
+  version "1.0.0-rc.57"
+  resolved "https://registry.yarnpkg.com/@swapkit/helpers/-/helpers-1.0.0-rc.57.tgz#07a89f90497ba4082f6a63b661f8d306d9eebcf3"
+  integrity sha512-oVEOaqJyJffhqW97lHitJjpzsSs/A8uT841LRVEKh5sd917/pHlITHmUgkw4FprZUFQKG9WzGDTQ6Dk/mHF+XA==
   dependencies:
     ky "1.1.3"
 
@@ -3134,10 +3134,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/tokens/-/tokens-1.0.0-rc.32.tgz#664d164892d22b181cc6c9dc25b6dac62dcd5145"
   integrity sha512-vZb3lqpqhg49k9JdWLUAKoctAYLQ731ACP/sjcVKVn9H2/PJ0rS2ShfHyxmiVmxf7ET9EENO9UqPV8CiO10q0Q==
 
-"@swapkit/toolbox-cosmos@1.0.0-rc.60":
-  version "1.0.0-rc.60"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.60.tgz#045efa8094ba4705d03bc5a6eb70b3898fa1446b"
-  integrity sha512-CklJfLGBfvSQ0P+v+KuM2OxEo7ayzU20dNANQLmkeTdYN/hRXxx4AFEaxXSCJb7qJxui8RNvY7ppHU9vvDr0pQ==
+"@swapkit/toolbox-cosmos@1.0.0-rc.61":
+  version "1.0.0-rc.61"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.61.tgz#9429d183472b670d4b695893ac70104093c143e3"
+  integrity sha512-rEKCcJw7mRco4mYGW+06Os1K/3c2j2ZlNDs8QkI9s7ra6BBtZ/9aP98xVDKi3JR/mErZOjrNxn0rNHkRfNKIOA==
   dependencies:
     "@cosmjs/amino" "0.32.1"
     "@cosmjs/crypto" "0.32.1"
@@ -3156,17 +3156,17 @@
     protocol-buffers-encodings "1.2.0"
     tiny-secp256k1 "1.1.6"
 
-"@swapkit/toolbox-evm@1.0.0-rc.60":
-  version "1.0.0-rc.60"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-evm/-/toolbox-evm-1.0.0-rc.60.tgz#b8838fdeb32fa25a207d0d1a5f0bbe1db4273771"
-  integrity sha512-9HZOW1H+CfydSIvo4Yz5JgDPQNHpd88ovs9HDo6sv0sGJvsRVVwZdKmsvBgf3BHITPWW8HxPkeBIu89F0OGsmw==
+"@swapkit/toolbox-evm@1.0.0-rc.61":
+  version "1.0.0-rc.61"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-evm/-/toolbox-evm-1.0.0-rc.61.tgz#2575f318a2d20bbe2aff8c4a68f983584cf2e575"
+  integrity sha512-codghL+yHVQzb16ffmFdw6hePHrafNoxn8yfZeVmoocM3gLyL+2yJkRG1hk5cmWTV8K/psMuzj7lPTmcpHbCTA==
   dependencies:
     ethers "6.9.0"
 
-"@swapkit/toolbox-utxo@1.0.0-rc.59":
-  version "1.0.0-rc.59"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-utxo/-/toolbox-utxo-1.0.0-rc.59.tgz#36c134a020d62302e0c3cdc4e4cc76260f4d8f3c"
-  integrity sha512-evfBhH22QLuMZjEs7eWeT9p4WRkdSzqCYVkdJIDOCMqYlfcVyCmv81Nc3DfRFyHxV2ghn2QBJ2J/U0wsmo8E6A==
+"@swapkit/toolbox-utxo@1.0.0-rc.60":
+  version "1.0.0-rc.60"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-utxo/-/toolbox-utxo-1.0.0-rc.60.tgz#ff6ad8710f82e90c7e01375472f6648c196c9a7b"
+  integrity sha512-ixQrK+eEDBKRsYvkwRLXH7Oh6XWU0Jw2lW5jd0IrQuEmDhUz+ZuIqOq+8v/khq0C7kywfKdXVTGET0WTNmxV4g==
   dependencies:
     "@psf/bitcoincashjs-lib" "4.0.3"
     "@scure/bip32" "1.3.2"
@@ -3183,28 +3183,28 @@
   resolved "https://registry.yarnpkg.com/@swapkit/types/-/types-1.0.0-rc.31.tgz#acd0e4fca1bc53f2aa42d245d39e95a789e6663b"
   integrity sha512-oK7j+uOTrGGgNDbbsVKM5Aqi0XhfvkVetKZ9NSfPI6BaRyejrpRgEHjEU+n1uxCnnE1Fu/i1jhDt9qZ8zZ9e1A==
 
-"@swapkit/wallet-evm-extensions@1.0.0-rc.62":
-  version "1.0.0-rc.62"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.62.tgz#d0c4bd10ac7837ed6718f36db39d468a86ec24b9"
-  integrity sha512-N2m4R/lUEtMv89umhqBtHov5gkx1K2sepsk7O15209Uy7/hZNAwY3Uo+O5EckpZDKrvxgrJRIAvhNGMEB+Jrfg==
+"@swapkit/wallet-evm-extensions@1.0.0-rc.63":
+  version "1.0.0-rc.63"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.63.tgz#296dbad92ee5e1936fc3d3937ceb1f2b67a61fd0"
+  integrity sha512-UUYu/ZO+leQDeXqbu79+1unoktLVuykEw2hsLz4vG1uKXWGriIk3vb81KjhaYnrurhRR4fn5vHuy5i/z81j0eQ==
 
-"@swapkit/wallet-keplr@1.0.0-rc.60":
-  version "1.0.0-rc.60"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.60.tgz#8deeda0a5505853b10ac4577695a275bdc4ef935"
-  integrity sha512-JhK4/2Uqud2UZsGLExLKxHq5tDa7jN5xdGZ3eB4UVtj/Eb0CqHcJ65ZzwUmhNQxVrMAEbLxS2PGYeZ3eeCEzsA==
+"@swapkit/wallet-keplr@1.0.0-rc.61":
+  version "1.0.0-rc.61"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.61.tgz#9086aac61b37f9fe8803e50e2d892ace04d86e06"
+  integrity sha512-gWwwjwS7muz70H+meM2paDSRCtyM8bFigBJEQUcDj6GcytbrDnqvMpl3+JUFlPr8TzawuNQLt+6/aVV4Hjw5yA==
 
-"@swapkit/wallet-keystore@1.0.0-rc.69":
-  version "1.0.0-rc.69"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.69.tgz#58e03c7ea9948bba08226e742259eb2dca0b63f3"
-  integrity sha512-wawU9BCr9xO0q6KEKyPkfZaldXI+MLujUKgkhz46BzVsIM3vay8XwMW5rEO/BHfTjdAiDT8WotN00ZBnQBS6VQ==
+"@swapkit/wallet-keystore@1.0.0-rc.70":
+  version "1.0.0-rc.70"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.70.tgz#159ce2e9cc5a147c2136663034d564f25e06816f"
+  integrity sha512-9XeMlRRIBEjEO+UEH2zieuNH/Yll59yFBuO12zjMnDPNlg6tAi0Av2bvbM4j6S25P6F4vgB37qmsZB9ZvA9qlw==
   dependencies:
     "@scure/bip39" "1.2.1"
     blakejs "1.2.1"
 
-"@swapkit/wallet-ledger@1.0.0-rc.73":
-  version "1.0.0-rc.73"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.73.tgz#1ec0fd5f142e33b094156c8e36b7a4822521ed43"
-  integrity sha512-HaqmLEWs7nh0cUt+6VPVgvhdAa/7txujztHwTdI+QSK6vT83BwVSQYWvAnc7S2gMMlP76iak5eoGyxxWJhydVg==
+"@swapkit/wallet-ledger@1.0.0-rc.74":
+  version "1.0.0-rc.74"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.74.tgz#263fe669dc63996027de1f3bfef747112f408abc"
+  integrity sha512-qqgI1N5I98nfR4DXtMHGAo5g1ne+05UP7Pwkk+xH+lQIrWEH7OwOLttmGzOYUD6nCIK+GPNxXxc2hJu5axOt0Q==
   dependencies:
     "@ledgerhq/devices" "8.1.0"
     "@ledgerhq/errors" "6.16.0"
@@ -3215,29 +3215,29 @@
     "@ledgerhq/hw-transport-webusb" "6.28.0"
     ripemd160 "2.0.2"
 
-"@swapkit/wallet-okx@1.0.0-rc.69":
-  version "1.0.0-rc.69"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.69.tgz#863b5b15fc73d7fbd64902bdee06b194cc0ea90e"
-  integrity sha512-2zU3TP1WREjFjegDHtDeR4qByrlLwH1FwxoyEpA06st8ixPqEZmprprPRgJ53mJJl083TUWGAG3tATB3zCmWZw==
+"@swapkit/wallet-okx@1.0.0-rc.70":
+  version "1.0.0-rc.70"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.70.tgz#67f1f2f4fa398d315af5008047483ff74cd02cb3"
+  integrity sha512-YpPsn/9zftJStzuPyMiERx3tJupPotiZP6mgQIYMPMOwaXJNS/xK94TCcmQgTxVxmH9OWkrHlHN2mO1ILR7ZlA==
 
-"@swapkit/wallet-trezor@1.0.0-rc.64":
-  version "1.0.0-rc.64"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.64.tgz#5da51e8a9db3b64c993b2bbedf75a7df01c5aec7"
-  integrity sha512-SJPxolhZvOOGU01kEJmQ4SAT/KzKbxFuHyvPcdY0ltoeMNqz0cho9p3WZhWBBP+AxE5XtKrlI1t4zhxhy7lssQ==
+"@swapkit/wallet-trezor@1.0.0-rc.65":
+  version "1.0.0-rc.65"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.65.tgz#d1be207da9924f72350161003a78da4916a57b20"
+  integrity sha512-/dLRo25Z7LNeWaunVkAdvUf6aR1WMlCzOLYLz1/EhWEy9MQoc99klNpJMREz6+aws43Z4aCWt2+EFSSnUhOAPg==
   dependencies:
     "@trezor/connect-web" "9.1.6"
 
-"@swapkit/wallet-wc@1.0.0-rc.66":
-  version "1.0.0-rc.66"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.66.tgz#3533c2310d88cb22899a9931c92669c87a26baf3"
-  integrity sha512-LLjJZ/l1LwVKM11eOXSU2zU7gbvKdMS3rKDzvQc+Y78HuMV8LMmoIoxtEkVkx109HPPo52/9oe2Q3LBkYspW+A==
+"@swapkit/wallet-wc@1.0.0-rc.67":
+  version "1.0.0-rc.67"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.67.tgz#077cce63f763e9c2b9c0a57a0ef37658b07fdf89"
+  integrity sha512-zwGz3hDkJxlgzd6+viv1dgFfoGd0Qx8Hg0Irxgky0Ij1il6dbdLlmEQb2RD/qdzatyWcgG34IZYdO4oQKXZ8NQ==
   dependencies:
     "@walletconnect/modal-sign-html" "2.6.2"
 
-"@swapkit/wallet-xdefi@1.0.0-rc.71":
-  version "1.0.0-rc.71"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.71.tgz#74b7ff413370a9d953a86051bd11c9a8e337f80c"
-  integrity sha512-VglPAgWng7h4vrjrRTdNA+IEVi6XjlqM6uo41vIgTqgcTFGXXVHB2Hvh5XbloD0NPLqn2L7G8U78+nXXL5cPBw==
+"@swapkit/wallet-xdefi@1.0.0-rc.72":
+  version "1.0.0-rc.72"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.72.tgz#07d09cbcc4f3081da4383a3f2d36ed93879fa045"
+  integrity sha512-Ad4Y4I37kropRT/rbX7It+90Q5AviuCqDFEfTuvOn0885s2jmavEZ1nTwpEhiXizFYImD/wtbc9+c0iot7B90g==
 
 "@tanstack/query-core@4.35.0":
   version "4.35.0"
