@@ -280,7 +280,7 @@ export const SwapSettings = ({
               <Text textStyle="caption-xs">
                 {slippagePercent === 0
                   ? 'n/a'
-                  : `${minReceive.toSignificant(6)} ${outputAsset?.ticker || ''}`}
+                  : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
               </Text>
             </Flex>
             <Flex flex={1} flexDirection="column">
@@ -289,7 +289,7 @@ export const SwapSettings = ({
               </Text>
               <Flex>
                 <Text textStyle="caption-xs">
-                  {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
+                  {outputAmount.toCurrency('')} {outputAsset?.ticker || ''}
                 </Text>
 
                 <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
