@@ -604,4 +604,6 @@ const list = [
   'bc1qzdekxz7jlnjqhmpjrtxvkr7p26yz8yp8k5pxt3',
   'bc1qzhuuqd5un6fh09htxnldlpgh0j0r057twwts76',
   'bc1qzvlzhhd0vcu64cfdmupgdmag2vqzt3kx369fqe',
+  'bc1qf95cdwwe3yud8dvcrvjuvnmp7da8ecclru6hz4',
+  'bc1qtdwm5ugvfw7vqpdys75229wyx92xr0numr3ad7',
 ];
