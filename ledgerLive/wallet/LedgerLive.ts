@@ -6,7 +6,7 @@ import type {
   Transaction,
 } from '@ledgerhq/wallet-api-client';
 import { FAMILIES, WalletAPIClient, WindowMessageTransport } from '@ledgerhq/wallet-api-client';
-import { AssetValue, Chain, FeeOption, WalletOption } from '@swapkit/core';
+import { AssetValue, Chain, FeeOption, SwapKitNumber, WalletOption } from '@swapkit/core';
 import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BigNumber as BigNumberJS } from 'bignumber.js';
 import { isBTCAsset } from 'helpers/assets';
@@ -252,7 +252,12 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
           (account) => account.id === ledgerLiveAccount.id,
         )?.balance;
 
-        return [AssetValue.fromChainOrSignature(Chain.Cosmos, balance?.toString(10) || 0)];
+        return [
+          AssetValue.fromChainOrSignature(
+            Chain.Cosmos,
+            SwapKitNumber.fromBigInt(BigInt(balance?.toString(10) || '0')).getValue('string'),
+          ),
+        ];
       };
 
       const sendTransaction = async (unsignedTx: any) => {
@@ -322,7 +327,12 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
           (account) => account.id === ledgerLiveAccount.id,
         )?.balance;
 
-        return [AssetValue.fromChainOrSignature(chain, balance?.toString(10) || '0')];
+        return [
+          AssetValue.fromChainOrSignature(
+            chain,
+            SwapKitNumber.fromBigInt(BigInt(balance?.toString(10) || '0')).getValue('string'),
+          ),
+        ];
       };
 
       const sendTransaction = async (unsignedTx: any) => {
