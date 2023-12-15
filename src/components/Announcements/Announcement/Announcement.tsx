@@ -99,17 +99,19 @@ export const Announcement = memo(
           )}
 
           {typeof message === 'string' ? (
-            <Text textStyle={dismissed || isSmall ? 'caption-xs' : 'body'}>
-              {`${message} `}
+            <>
+              <Text textStyle={dismissed || isSmall ? 'caption-xs' : 'body'}>{`${message} `}</Text>
               {!!link?.url && (
-                <Link
-                  className="text-btn-secondary dark:text-btn-primary hover:underline"
-                  to={link.url}
-                >
-                  {link.name || t('common.learnMore')}
+                <Link to={link.url}>
+                  <Text
+                    className="text-btn-secondary dark:text-btn-primary hover:underline"
+                    textStyle={dismissed || isSmall ? 'caption-xs' : 'body'}
+                  >
+                    {link.name || t('common.learnMore')}
+                  </Text>
                 </Link>
               )}
-            </Text>
+            </>
           ) : (
             message
           )}

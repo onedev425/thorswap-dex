@@ -40,7 +40,9 @@ export const LoanInfoRow = ({
   const [show, setShow] = useState(false);
   const [sliderValue, setSliderValue] = useState(new SwapKitNumber({ decimal: 2, value: 0 }));
   const [repayBalance, setRepayBalance] = useState<AssetValue>();
-  const [repayAsset, setRepayAsset] = useState(AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER));
+  const [repayAsset, setRepayAsset] = useState(
+    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER) as AssetValue,
+  );
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const { getMaxBalance } = useBalance();

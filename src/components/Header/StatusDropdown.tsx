@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';
 import { useHardCapPercentage } from 'hooks/useCheckHardCap';
@@ -7,6 +6,7 @@ import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
+import { SUPPORTED_CHAINS } from 'settings/chain';
 import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
@@ -25,25 +25,13 @@ const getHostnameFromUrl = (u: string): string | null => {
   return parsed?.hostname ?? null;
 };
 
-export const StatusDropdown = memo(() => {
-  const { statusType, outboundQueue, outboundQueueLevel } = useNetwork();
-  const hardCapPercentage = useHardCapPercentage();
-  const {
-    isBCHChainHalted,
-    isBNBChainHalted,
-    isBSCChainHalted,
-    isBTCChainHalted,
-    isDOGEChainHalted,
-    isETHChainHalted,
-    isAVAXChainHalted,
-    isGAIAChainHalted,
-    isLTCChainHalted,
-    isTHORChainHalted,
-    isGlobalHalted,
-  } = useMimir();
+// Midgard IP on devnet OR on test|chaos|mainnet
+const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || '';
 
-  // Midgard IP on devnet OR on test|chaos|mainnet
-  const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || '';
+export const StatusDropdown = memo(() => {
+  const { outboundQueue, outboundQueueLevel } = useNetwork();
+  const hardCapPercentage = useHardCapPercentage();
+  const { isGlobalHalted, isChainTradingHalted, isChainPauseLP, isChainHalted } = useMimir();
 
   const liquidityCapLabel = useMemo(
     () =>
@@ -54,31 +42,34 @@ export const StatusDropdown = memo(() => {
   );
 
   const chainsData = useMemo(
-    () => [
-      { label: chainName(Chain.THORChain, true), value: isTHORChainHalted },
-      { label: chainName(Chain.Cosmos, true), value: isGAIAChainHalted },
-      { label: chainName(Chain.Binance, true), value: isBNBChainHalted },
-      { label: chainName(Chain.BinanceSmartChain, true), value: isBSCChainHalted },
-      { label: chainName(Chain.Ethereum, true), value: isETHChainHalted },
-      { label: chainName(Chain.Bitcoin, true), value: isBTCChainHalted },
-      { label: chainName(Chain.Litecoin, true), value: isLTCChainHalted },
-      { label: chainName(Chain.Dogecoin, true), value: isDOGEChainHalted },
-      { label: chainName(Chain.BitcoinCash, true), value: isBCHChainHalted },
-      { label: chainName(Chain.Avalanche, true), value: isAVAXChainHalted },
-    ],
-    [
-      isAVAXChainHalted,
-      isBCHChainHalted,
-      isBNBChainHalted,
-      isBSCChainHalted,
-      isBTCChainHalted,
-      isDOGEChainHalted,
-      isETHChainHalted,
-      isGAIAChainHalted,
-      isLTCChainHalted,
-      isTHORChainHalted,
-    ],
+    () =>
+      SUPPORTED_CHAINS.map((chain) => ({
+        label: chainName(chain, true),
+        status: isChainHalted[chain]
+          ? StatusType.Offline
+          : isChainTradingHalted[chain] || isChainPauseLP[chain]
+            ? StatusType.Slow
+            : StatusType.Good,
+      })),
+    [isChainHalted, isChainPauseLP, isChainTradingHalted],
   );
+
+  const hardCapStatus = useMemo(
+    () => (hardCapPercentage >= 100 ? StatusType.Slow : StatusType.Good),
+    [hardCapPercentage],
+  );
+
+  const statusType = useMemo(() => {
+    if (isGlobalHalted) return StatusType.Offline;
+
+    const chainStatuses = chainsData.map(({ status }) => status);
+    if (chainStatuses.includes(StatusType.Offline)) return StatusType.Offline;
+
+    if (outboundQueueLevel !== StatusType.Good) return outboundQueueLevel;
+    if (hardCapStatus !== StatusType.Good) return hardCapStatus;
+
+    return chainStatuses.includes(StatusType.Slow) ? StatusType.Slow : StatusType.Good;
+  }, [chainsData, hardCapStatus, isGlobalHalted, outboundQueueLevel]);
 
   const menuItemData: StatusItem[] = useMemo(
     () => [
@@ -90,14 +81,15 @@ export const StatusDropdown = memo(() => {
       {
         label: t('components.statusDropdown.liqCap'),
         value: liquidityCapLabel,
-        statusType: hardCapPercentage >= 100 ? StatusType.Slow : StatusType.Good,
+        statusType: hardCapStatus,
       },
-      ...chainsData.map(({ label, value }) => ({
+      ...chainsData.map(({ label, status }) => ({
         label,
-        statusType: value ? StatusType.Busy : StatusType.Good,
-        value: value
-          ? t('components.statusDropdown.offline')
-          : t('components.statusDropdown.online'),
+        statusType: status,
+        value:
+          status === StatusType.Offline
+            ? t('components.statusDropdown.offline')
+            : t('components.statusDropdown.online'),
       })),
       {
         label: t('components.statusDropdown.midgard'),
@@ -110,20 +102,7 @@ export const StatusDropdown = memo(() => {
         statusType: StatusType.Good,
       },
     ],
-    [
-      outboundQueue,
-      outboundQueueLevel,
-      statusType,
-      liquidityCapLabel,
-      hardCapPercentage,
-      chainsData,
-      midgardUrl,
-    ],
-  );
-
-  const dropdownStatus = useMemo(
-    () => (isGlobalHalted ? StatusType.Offline : statusType),
-    [isGlobalHalted, statusType],
+    [outboundQueue, outboundQueueLevel, statusType, liquidityCapLabel, hardCapStatus, chainsData],
   );
 
   const menuItems = useMemo(
@@ -158,7 +137,7 @@ export const StatusDropdown = memo(() => {
       hideIcon
       menuItems={menuItems}
       onChange={() => {}}
-      openComponent={<StatusBadge status={dropdownStatus} />}
+      openComponent={<StatusBadge status={statusType} />}
       placement="top-end"
       tooltipContent={t('components.statusDropdown.networkStatus')}
       value={t('components.statusDropdown.networkStatus')}

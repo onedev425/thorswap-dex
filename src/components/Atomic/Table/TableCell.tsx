@@ -22,6 +22,7 @@ export const TableCell = (props: Props) => {
       {...cell.getCellProps()}
     >
       <Text
+        as="div"
         className={classNames(
           'text-caption md:text-body',
           columnAlignClasses[cell.column.align || 'left'],

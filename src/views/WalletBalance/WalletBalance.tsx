@@ -101,7 +101,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
                   {assetValue.type}
                 </Text>
               </Box>
-              <Text variant="primary">{assetValue.toSignificant(6)}</Text>
+              <Text variant="primary">{assetValue.toCurrency('', { decimal: 8 })}</Text>
             </Box>
 
             <Box row className="space-x-1">

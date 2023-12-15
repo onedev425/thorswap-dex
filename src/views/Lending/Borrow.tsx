@@ -82,7 +82,7 @@ const Borrow = () => {
   } = useRouteAssetParams(ROUTES.Lending, ETHAsset);
 
   const [borrowAsset, setBorrowAsset] = useState(
-    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER),
+    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER) as AssetValue,
   );
   const [recipient, setRecipient] = useState('');
 

@@ -17,7 +17,10 @@ export const useApp = () => {
     [dispatch],
   );
 
-  const baseCurrencyAsset = AssetValue.fromStringSync(appState.baseCurrency) || USDAsset;
+  const baseCurrencyAsset =
+    appState.baseCurrency === 'THOR.USD'
+      ? USDAsset
+      : AssetValue.fromStringSync(appState.baseCurrency);
 
   const setBaseCurrency = useCallback(
     (baseAsset: AssetValue) => {

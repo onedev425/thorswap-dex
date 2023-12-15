@@ -1,3 +1,5 @@
+/// <reference types="vite-plugin-svgr/client" />
+
 type ArrayLengthMutationKeys = 'splice' | 'push' | 'pop' | 'shift' | 'unshift';
 
 declare type FixMe = any;

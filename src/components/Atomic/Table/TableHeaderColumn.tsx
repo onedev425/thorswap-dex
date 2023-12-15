@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import type { HeaderGroup } from 'react-table';
 
@@ -29,16 +29,22 @@ export const TableHeaderColumn = (props: Props) => {
       )}
       {...column.getHeaderProps(column.getSortByToggleProps())}
     >
-      <Text
+      <Box
         className={classNames('inline-flex items-center gap-1 transition', {
           'hover:text-light-typo-primary dark:hover:text-dark-typo-primary': column.canSort,
         })}
-        textStyle="caption-xs"
-        variant="secondary"
       >
-        {column.render('Header') as string}
+        <Text
+          className={classNames({
+            'hover:text-light-typo-primary dark:hover:text-dark-typo-primary': column.canSort,
+          })}
+          textStyle="caption-xs"
+          variant="secondary"
+        >
+          {column.render('Header') as string}
+        </Text>
         {column.canSort && <SortIndicator sortType={getSortType()} />}
-      </Text>
+      </Box>
       {/* @ts-expect-error */}
       {column.toolTip && <div className="inline-flex">{column.toolTip}</div>}
     </th>
