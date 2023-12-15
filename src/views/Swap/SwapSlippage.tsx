@@ -28,7 +28,7 @@ type Props = {
 const sliderScale = 4;
 const startSlipSliderValue = 15;
 const maxSlip = 10;
-const minSlip = 1;
+const minSlip = 0.5;
 
 export const SwapSlippage = ({
   route,
@@ -46,6 +46,8 @@ export const SwapSlippage = ({
       value: route?.streamingSwap?.expectedOutput || 0,
       decimal: outputAsset.decimal,
     });
+
+    if (maxOutpuAmount.lte(0)) return 100;
 
     const outputRatio = outputAmount.div(maxOutpuAmount);
     const outputValue = Math.floor(outputRatio.getValue('number') * 100);
@@ -130,13 +132,7 @@ export const SwapSlippage = ({
                           Slippage: &nbsp;
                         </Text>
                         <Text
-                          color={
-                            slippagePercent === 1 || slippagePercent === 10
-                              ? 'brand.yellow'
-                              : slippagePercent === 3
-                                ? 'brand.green'
-                                : 'textPrimary'
-                          }
+                          color={slippagePercent === 10 ? 'brand.yellow' : 'textPrimary'}
                           textStyle="caption-xs"
                         >
                           {slippagePercent}%

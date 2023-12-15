@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
 import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
@@ -18,7 +18,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { captureEvent } from 'services/postHog';
-import { IS_LEDGER_LIVE } from 'settings/config';
+import { IS_LEDGER_LIVE, IS_PROD } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
@@ -205,11 +205,10 @@ const SwapView = () => {
     outputAmount,
     fees,
     route: selectedRoute,
-    hasStreamingSettings,
     setStreamingSwapParams,
-    savingsInUSD,
     slippagePercent,
     setSlippagePercent,
+    defaultInterval,
   } = useSwapParams({
     selectedRoute: selectedRouteRaw,
     inputAmount,
@@ -421,7 +420,7 @@ const SwapView = () => {
 
   return (
     <Flex alignSelf="center" gap={3} mt={2} w="full">
-      <Box m="auto" transition={easeInOutTransition}>
+      <Flex flex={1} justify="center" transition={easeInOutTransition}>
         <PanelView
           description={t('views.swap.description', {
             inputAsset: inputAsset.ticker.toUpperCase(),
@@ -457,13 +456,14 @@ const SwapView = () => {
             />
           )}
 
-          {hasStreamingSettings ? (
+          {!IS_PROD ? (
             <SwapSettings
+              canStreamSwap={canStreamSwap}
+              defaultInterval={defaultInterval}
               minReceive={minReceive}
               onSettingsChange={setStreamingSwapParams}
               outputAmount={outputAmount}
               outputAsset={outputAsset}
-              priceOptimization={savingsInUSD}
               route={selectedRoute}
               setSlippagePercent={setSlippagePercent}
               slippagePercent={slippagePercent}
@@ -569,7 +569,7 @@ const SwapView = () => {
             totalFee={formatPrice(totalFee)}
           />
         </PanelView>
-      </Box>
+      </Flex>
 
       <Analysis
         analyticsVisible={analyticsVisible}

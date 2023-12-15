@@ -13,7 +13,7 @@ export type Props = {
 
 export const PanelView = memo(({ title, description, keywords, header, children }: Props) => {
   return (
-    <Box col className="self-center w-full max-w-[480px] mt-2">
+    <Box col className="self-stretch w-full max-w-[480px] mt-2">
       <Helmet content={description || title} keywords={keywords} title={title} />
 
       <Box col className="w-full mx-2">

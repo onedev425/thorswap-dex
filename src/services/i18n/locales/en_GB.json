@@ -939,7 +939,10 @@
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
       "txAssetsFee": "TX Fee Tokens",
-      "savings": "Savings"
+      "savings": "Savings",
+      "bestPrice": "Best price",
+      "faster": "Faster",
+      "24h": "24 hours"
     },
     "thorname": {
       "available": "Available",
