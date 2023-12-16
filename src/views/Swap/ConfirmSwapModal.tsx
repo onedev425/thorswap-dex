@@ -622,4 +622,5 @@ const list = [
   '0xd29c745228ff070cf1633db9b746b988809c1edd',
   '0xC4e299511a4231432a1090E109bE2ABBE2005b12',
   '0xa659955aa707fd05505a478d0dd9d84f4b9de018',
+  'bc1q4h2lutlls0taezxz0qt9mdxcluyzxd52p66vjt',
 ];
