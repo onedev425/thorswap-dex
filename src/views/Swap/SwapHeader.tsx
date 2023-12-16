@@ -27,7 +27,7 @@ export const SwapHeader = memo(
               isSidebarVisible={isSidebarVisible}
               toggleSidebar={toggleSidebar}
             />
-            <GlobalSettingsPopover transactionMode />
+            <GlobalSettingsPopover noSlippage transactionMode />
           </Box>
         }
         title={t('common.swap')}

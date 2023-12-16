@@ -3,7 +3,6 @@ import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
-import { useApp } from 'store/app/hooks';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
@@ -28,7 +27,6 @@ export const useSwapQuote = ({
   senderAddress,
   inputUSDPrice,
 }: Params) => {
-  const { slippageTolerance } = useApp();
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
@@ -56,20 +54,11 @@ export const useSwapQuote = ({
       affiliateBasisPoints,
       sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
       buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
-      slippage: slippageTolerance.toString(),
       sellAmount: inputAmount.getValue('string'),
       senderAddress,
       recipientAddress,
     }),
-    [
-      affiliateBasisPoints,
-      inputAsset,
-      outputAsset,
-      slippageTolerance,
-      inputAmount,
-      senderAddress,
-      recipientAddress,
-    ],
+    [affiliateBasisPoints, inputAsset, outputAsset, inputAmount, senderAddress, recipientAddress],
   );
 
   const {

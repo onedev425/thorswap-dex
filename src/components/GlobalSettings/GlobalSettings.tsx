@@ -12,9 +12,10 @@ import { slippageOptions } from './settingOptions';
 
 type Props = {
   transactionMode?: boolean;
+  noSlippage?: boolean;
 };
 
-export const GlobalSettings = ({ transactionMode }: Props) => {
+export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
   const {
     slippageTolerance,
     feeOptionType,
@@ -52,39 +53,43 @@ export const GlobalSettings = ({ transactionMode }: Props) => {
       <Box>
         <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
       </Box>
-      <Box className="space-x-2">
-        <Text textStyle="caption-xs" variant="secondary">
-          {t('views.swap.slippageTolerance')}
-        </Text>
-        <Tooltip content={t('common.slippageTooltip')} place="top">
-          <Icon color="secondary" name="questionCircle" size={16} />
-        </Tooltip>
-      </Box>
+      {!noSlippage && (
+        <>
+          <Box className="space-x-2">
+            <Text textStyle="caption-xs" variant="secondary">
+              {t('views.swap.slippageTolerance')}
+            </Text>
+            <Tooltip content={t('common.slippageTooltip')} place="top">
+              <Icon color="secondary" name="questionCircle" size={16} />
+            </Tooltip>
+          </Box>
 
-      <Box alignCenter className="w-full space-x-2">
-        <Input
-          stretch
-          border="rounded"
-          className="text-right"
-          containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
-          onChange={(e) => setSlippage(Number(e.target.value))}
-          placeholder={t('common.percentage')}
-          symbol="%"
-          type="number"
-          value={slippageTolerance}
-        />
+          <Box alignCenter className="w-full space-x-2">
+            <Input
+              stretch
+              border="rounded"
+              className="text-right"
+              containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
+              onChange={(e) => setSlippage(Number(e.target.value))}
+              placeholder={t('common.percentage')}
+              symbol="%"
+              type="number"
+              value={slippageTolerance}
+            />
 
-        {slippageOptions.map((option) => (
-          <Button
-            key={option.key}
-            onClick={() => setSlippage(option.value)}
-            size="sm"
-            variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
-          >
-            <Text textStyle="caption-xs">{option.text}</Text>
-          </Button>
-        ))}
-      </Box>
+            {slippageOptions.map((option) => (
+              <Button
+                key={option.key}
+                onClick={() => setSlippage(option.value)}
+                size="sm"
+                variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
+              >
+                <Text textStyle="caption-xs">{option.text}</Text>
+              </Button>
+            ))}
+          </Box>
+        </>
+      )}
 
       <Box className="space-x-2">
         <Text textStyle="caption-xs" variant="secondary">

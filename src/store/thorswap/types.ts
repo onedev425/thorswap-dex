@@ -135,7 +135,7 @@ export type GetTokensQuoteParams = {
   sellAmount: string;
   sellAsset: string;
   senderAddress?: string;
-  slippage: string;
+  slippage?: string;
 };
 
 export type GetAddressVerifyQuoteParams = {

@@ -6,9 +6,10 @@ import { t } from 'services/i18n';
 
 type Props = PropsWithChildren<{
   transactionMode?: boolean;
+  noSlippage?: boolean;
 }>;
 
-export const GlobalSettingsPopover = ({ transactionMode, children }: Props) => {
+export const GlobalSettingsPopover = ({ transactionMode, noSlippage, children }: Props) => {
   return (
     <Popover
       trigger={
@@ -30,7 +31,7 @@ export const GlobalSettingsPopover = ({ transactionMode, children }: Props) => {
     >
       <Card withBorder className="w-[350px] px-8 py-6 shadow-2xl">
         <Box col className="w-full gap-4">
-          {children || <GlobalSettings transactionMode={transactionMode} />}
+          {children || <GlobalSettings noSlippage={noSlippage} transactionMode={transactionMode} />}
         </Box>
       </Card>
     </Popover>

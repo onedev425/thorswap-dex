@@ -1,4 +1,6 @@
+import { Flex } from '@chakra-ui/react';
 import { Box, Card } from 'components/Atomic';
+import { easeInOutTransition } from 'components/constants';
 import { Helmet } from 'components/Helmet';
 import type { ReactNode } from 'react';
 import { memo } from 'react';
@@ -13,20 +15,24 @@ export type Props = {
 
 export const PanelView = memo(({ title, description, keywords, header, children }: Props) => {
   return (
-    <Box col className="self-stretch w-full max-w-[480px] mt-2">
-      <Helmet content={description || title} keywords={keywords} title={title} />
+    <Flex alignSelf="center" mt={2} w="full">
+      <Flex flex={1} justify="center" transition={easeInOutTransition}>
+        <Box col className="self-stretch w-full max-w-[480px] mt-2">
+          <Helmet content={description || title} keywords={keywords} title={title} />
 
-      <Box col className="w-full mx-2">
-        {header}
-      </Box>
+          <Box col className="w-full mx-2">
+            {header}
+          </Box>
 
-      <Card
-        stretch
-        className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:h-auto"
-        size="lg"
-      >
-        {children}
-      </Card>
-    </Box>
+          <Card
+            stretch
+            className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-4 space-y-1 shadow-lg md:w-full md:h-auto"
+            size="lg"
+          >
+            {children}
+          </Card>
+        </Box>
+      </Flex>
+    </Flex>
   );
 });

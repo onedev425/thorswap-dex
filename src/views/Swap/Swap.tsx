@@ -419,7 +419,7 @@ const SwapView = () => {
   const onOutputAmountChange = useCallback(() => handleSelectAsset('output'), [handleSelectAsset]);
 
   return (
-    <Flex alignSelf="center" gap={3} mt={2} w="full">
+    <Flex alignSelf="center" gap={3} w="full">
       <Flex flex={1} justify="center" transition={easeInOutTransition}>
         <PanelView
           description={t('views.swap.description', {
