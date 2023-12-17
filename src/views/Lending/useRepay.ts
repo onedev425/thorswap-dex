@@ -61,10 +61,10 @@ export const useRepay = ({
         return setRepayAssetAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       }
 
-      const repayAssetAmount = SwapKitNumber.fromBigInt(
-        BigInt(repayData.repayAssetAmount),
-        asset.decimal,
-      );
+      const repayAssetAmount = new SwapKitNumber({
+        value: repayData.repayAssetAmount,
+        decimal: asset.decimal,
+      });
 
       setRepayAssetAmount(repayAssetAmount);
     };

@@ -204,11 +204,13 @@ export const useNodeManager = ({
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txURL = await nodeAction({
+        const txHash = await nodeAction({
           address: address || '',
           type: 'bond',
           assetValue: amount,
         });
+
+        const txURL = `https://runescan.io/tx/${txHash}}`;
         showSuccessToast(
           t('views.nodes.detail.ViewBondTx'),
           <Box className="align-center py-2">
@@ -223,11 +225,13 @@ export const useNodeManager = ({
           </Box>,
         );
       } else if (tab.value === BondActionType.Unbond) {
-        const txURL = await nodeAction({
+        const txHash = await nodeAction({
           address: address || '',
           type: 'unbond',
           assetValue: amount,
         });
+
+        const txURL = `https://runescan.io/tx/${txHash}}`;
         showSuccessToast(
           t('views.nodes.detail.ViewUnBondTx'),
           <>
@@ -242,7 +246,9 @@ export const useNodeManager = ({
           </>,
         );
       } else {
-        const txURL = await nodeAction({ address: address || '', type: 'leave' });
+        const txHash = await nodeAction({ address: address || '', type: 'leave' });
+
+        const txURL = `https://runescan.io/tx/${txHash}}`;
         showSuccessToast(
           t('views.nodes.detail.ViewLeaveTx'),
           <>

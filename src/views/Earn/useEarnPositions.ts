@@ -1,4 +1,3 @@
-import type { Chain } from '@swapkit/core';
 import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { usePools } from 'hooks/usePools';
@@ -12,7 +11,7 @@ export const useSaverPositions = () => {
   const [positions, setPositions] = useState<SaverPosition[]>([]);
   const { pools } = usePools();
 
-  const [synthAvailability, setSynthAvailability] = useState<Record<Chain, boolean>>();
+  const [synthAvailability, setSynthAvailability] = useState<Record<string, boolean>>();
   const [thornodePools, setThornodePools] = useState<ThornodePoolType[]>([]);
 
   const saverPositions = useMemo(() => {
@@ -85,13 +84,10 @@ export const useSaverPositions = () => {
 
     const availability = response.reduce(
       (acc, pool) => {
-        if (!pool.asset.includes('-')) {
-          const [chain] = pool.asset.split('.');
-          acc[chain as Chain] = pool.synth_mint_paused;
-        }
+        acc[pool.asset] = pool.synth_mint_paused;
         return acc;
       },
-      {} as Record<Chain, boolean>,
+      {} as Record<string, boolean>,
     );
 
     setSynthAvailability(availability);

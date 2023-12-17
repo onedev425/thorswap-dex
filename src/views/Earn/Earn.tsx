@@ -216,8 +216,8 @@ const Earn = () => {
   );
 
   const isSynthInCapacity = useMemo(
-    () => !synthAvailability?.[asset.chain] && (currentAsset?.filled || 0) < 99.5,
-    [asset.chain, currentAsset?.filled, synthAvailability],
+    () => !synthAvailability?.[asset.toString()] && (currentAsset?.filled || 0) < 99.5,
+    [asset, currentAsset?.filled, synthAvailability],
   );
 
   const buttonDisabled = useMemo(
