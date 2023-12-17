@@ -6,7 +6,14 @@ import type {
   Transaction,
 } from '@ledgerhq/wallet-api-client';
 import { FAMILIES, WalletAPIClient, WindowMessageTransport } from '@ledgerhq/wallet-api-client';
-import { AssetValue, Chain, FeeOption, SwapKitNumber, WalletOption } from '@swapkit/core';
+import {
+  AssetValue,
+  BaseDecimal,
+  Chain,
+  FeeOption,
+  SwapKitNumber,
+  WalletOption,
+} from '@swapkit/core';
 import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BigNumber as BigNumberJS } from 'bignumber.js';
 import { isBTCAsset } from 'helpers/assets';
@@ -223,7 +230,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           data: Buffer.from(memo || ''),
-          amount: new BigNumberJS(assetValue.getBaseValue('string')),
+          amount: new BigNumberJS(assetValue.getValue('string')),
           family: LEDGER_LIVE_FAMILIES[1],
         });
 
@@ -255,7 +262,10 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         return [
           AssetValue.fromChainOrSignature(
             Chain.Cosmos,
-            SwapKitNumber.fromBigInt(BigInt(balance?.toString(10) || '0')).getValue('string'),
+            SwapKitNumber.fromBigInt(
+              BigInt(balance?.toString(10) || '0'),
+              BaseDecimal.GAIA,
+            ).getValue('string'),
           ),
         ];
       };
@@ -285,7 +295,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient,
-          amount: new BigNumberJS(assetValue.getBaseValue('string')),
+          amount: new BigNumberJS(assetValue.getValue('string')),
           memo,
           mode: 'send',
         });
@@ -330,7 +340,10 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         return [
           AssetValue.fromChainOrSignature(
             chain,
-            SwapKitNumber.fromBigInt(BigInt(balance?.toString(10) || '0')).getValue('string'),
+            SwapKitNumber.fromBigInt(
+              BigInt(balance?.toString(10) || '0'),
+              BaseDecimal.BTC,
+            ).getValue('string'),
           ),
         ];
       };
@@ -352,7 +365,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
-          amount: new BigNumberJS(assetValue.getBaseValue('string')),
+          amount: new BigNumberJS(assetValue.getValue('string')),
           feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });
