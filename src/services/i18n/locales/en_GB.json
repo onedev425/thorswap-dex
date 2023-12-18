@@ -1039,6 +1039,7 @@
       "chooseKeystore": "Choose file to upload",
       "coinbaseWalletWeb": "Coinbase Wallet",
       "confirmPassword": "Confirm Password",
+      "bscTooltip": "Binance Smart Chain temporarily disabled",
       "connectOnboard": "Ethereum Wallets",
       "connectWallet": "Connect Wallet",
       "connectWallets": "Connect Wallets",

@@ -72,20 +72,18 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.OKX_MOBILE]: WalletType.OkxMobile,
 };
 
+const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche]; // Chain.BinanceSmartChain - disabled
 const AllChainsSupported = [
-  Chain.Avalanche,
+  ...EVMChainsSupported,
   Chain.Binance,
-  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
   Chain.Dogecoin,
-  Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
 ] as Chain[];
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Avalanche];
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
@@ -103,21 +101,10 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Litecoin,
     Chain.BitcoinCash,
   ],
-  [WalletType.TrustWallet]: [
-    Chain.Avalanche,
-    Chain.Ethereum,
-    Chain.BinanceSmartChain,
-    Chain.THORChain,
-  ],
+  [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.Xdefi]: AllChainsSupported,
-  [WalletType.Walletconnect]: [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain],
-  [WalletType.Okx]: [
-    Chain.Avalanche,
-    Chain.Bitcoin,
-    Chain.Ethereum,
-    Chain.Cosmos,
-    Chain.BinanceSmartChain,
-  ],
+  [WalletType.Walletconnect]: EVMChainsSupported,
+  [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
   [WalletType.OkxMobile]: EVMChainsSupported,
 };

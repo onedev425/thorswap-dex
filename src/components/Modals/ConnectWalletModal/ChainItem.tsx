@@ -17,6 +17,7 @@ type Props = {
   selected: boolean;
   isChainAvailable: boolean;
   selectedWalletType?: WalletType;
+  tooltip?: string;
   onClick: (chain: Chain, skipReset: boolean) => () => void;
 };
 
@@ -27,10 +28,11 @@ const ChainItem = ({
   selectedWalletType,
   isChainAvailable,
   onClick,
+  tooltip,
   walletType,
 }: Props) => {
   const { isMdActive } = useWindowSize();
-
+  console.log(tooltip);
   return (
     <Box
       center
@@ -40,7 +42,7 @@ const ChainItem = ({
       key={chain}
       onClick={disabled ? () => {} : onClick(chain, !!selectedWalletType && isChainAvailable)}
     >
-      <Tooltip content={disabled ? t('common.comingSoon') : chainName(chain, true)}>
+      <Tooltip content={tooltip || (disabled ? t('common.comingSoon') : chainName(chain, true))}>
         <Box
           className={classNames('rounded-full p-[3px] border-transparent', {
             'bg-gradient-teal': selected,

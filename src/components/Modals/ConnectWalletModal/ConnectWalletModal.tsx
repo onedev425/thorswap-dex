@@ -371,6 +371,7 @@ const ConnectWalletModal = () => {
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}
+                    disabled={chain === Chain.BinanceSmartChain}
                     isChainAvailable={availableChainsByWallet[
                       selectedWalletType as WalletType
                     ]?.includes(chain)}
@@ -378,6 +379,9 @@ const ConnectWalletModal = () => {
                     onClick={selectChain}
                     selected={selectedChains.includes(chain)}
                     selectedWalletType={selectedWalletType}
+                    tooltip={
+                      chain === Chain.BinanceSmartChain ? t('views.walletModal.bscTooltip') : ''
+                    }
                     walletType={getWallet(chain)?.walletType}
                   />
                 ))}
