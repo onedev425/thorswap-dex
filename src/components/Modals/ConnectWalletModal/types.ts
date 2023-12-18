@@ -72,7 +72,7 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.OKX_MOBILE]: WalletType.OkxMobile,
 };
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche]; // Chain.BinanceSmartChain - disabled
+const EVMChainsSupported = [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Avalanche];
 const AllChainsSupported = [
   ...EVMChainsSupported,
   Chain.Binance,
