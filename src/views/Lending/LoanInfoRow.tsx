@@ -14,6 +14,7 @@ import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
 import { useBalance } from 'hooks/useBalance';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { useTCApprove } from 'hooks/useTCApprove';
 import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import type { MouseEventHandler } from 'react';
@@ -25,6 +26,8 @@ import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
 import type { LoanPosition } from 'views/Lending/types';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
 import { useRepay } from 'views/Lending/useRepay';
+import { ApproveModal } from 'views/Swap/ApproveModal';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 type Props = {
   loan: LoanPosition;
@@ -38,6 +41,7 @@ export const LoanInfoRow = ({
   setCollateralAsset,
 }: Props) => {
   const [show, setShow] = useState(false);
+  const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [sliderValue, setSliderValue] = useState(new SwapKitNumber({ decimal: 2, value: 0 }));
   const [repayBalance, setRepayBalance] = useState<AssetValue>();
   const [repayAsset, setRepayAsset] = useState(
@@ -79,6 +83,13 @@ export const LoanInfoRow = ({
     totalAmount: debtCurrent,
     hasLoanMatured,
   });
+
+  const { isApproved, isLoading: isLoadingApproval } = useIsAssetApproved({
+    assetValue: repayAsset.set(repayAssetAmount.getValue('string')),
+    force: true,
+  });
+
+  const handleApprove = useTCApprove({ asset });
 
   const collateralUsd = useMemo(() => {
     const price = tokenPricesData[asset.toString()]?.price_usd || 0;
@@ -315,30 +326,51 @@ export const LoanInfoRow = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Button
-                  stretch
-                  disabled={!canRepay}
-                  error={!canRepay}
-                  mt={6}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!repayAddress) {
-                      setIsConnectModalOpen(true);
-                      return;
-                    }
+                {repayAsset.getValue('number') > 0 && (!isApproved || isLoadingApproval) ? (
+                  <Button
+                    stretch
+                    disabled={isLoadingApproval}
+                    loading={isLoadingApproval}
+                    mt={6}
+                    onClick={() => setVisibleApproveModal(true)}
+                    size="md"
+                    variant="fancy"
+                  >
+                    {t('common.approve')}
+                  </Button>
+                ) : (
+                  <Button
+                    stretch
+                    disabled={!canRepay}
+                    error={!canRepay}
+                    mt={6}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!repayAddress) {
+                        setIsConnectModalOpen(true);
+                        return;
+                      }
 
-                    openRepayConfirm();
-                  }}
-                  size="md"
-                  variant="fancy"
-                >
-                  {repayAddress ? t('views.lending.repay') : t('common.connectWallet')}
-                </Button>
+                      openRepayConfirm();
+                    }}
+                    size="md"
+                    variant="fancy"
+                  >
+                    {repayAddress ? t('views.lending.repay') : t('common.connectWallet')}
+                  </Button>
+                )}
               </Flex>
             </Card>
           </Flex>
         </Collapse>
       </Card>
+
+      <ApproveModal
+        handleApprove={handleApprove}
+        inputAsset={repayAsset}
+        setVisible={setVisibleApproveModal}
+        visible={visibleApproveModal}
+      />
 
       <LendingConfirmModal
         amount={repayAssetAmount}
