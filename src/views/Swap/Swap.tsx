@@ -24,11 +24,11 @@ import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
+import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
 import { SwapSettings } from 'views/Swap/SwapSettings';
 import THORInfoContent from 'views/Swap/THORInfoContent';
-import { useSwapParams } from 'views/Swap/useSwapParams';
 
 import { ApproveModal } from './ApproveModal';
 import { AssetInputs } from './AssetInputs';
@@ -205,6 +205,7 @@ const SwapView = () => {
     outputAmount,
     fees,
     route: selectedRoute,
+    streamingSwapParams,
     setStreamingSwapParams,
     slippagePercent,
     setSlippagePercent,
@@ -484,6 +485,8 @@ const SwapView = () => {
               route={selectedRoute}
               setSlippagePercent={setSlippagePercent}
               slippagePercent={slippagePercent}
+              streamSwap={streamSwap}
+              streamingSwapParams={streamingSwapParams}
             />
           ) : (
             <TxOptimizeSection

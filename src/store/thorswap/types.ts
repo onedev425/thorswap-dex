@@ -180,6 +180,7 @@ export type GetTokensQuoteResponse = {
         quoteMode: string;
         lastLegEffectiveSlipPercentage: number;
         thornodeMeta: null;
+        recommendedSlippage?: number;
       };
       inboundAddress: string;
       targetAddress: string;
@@ -214,6 +215,12 @@ export type GetTokensQuoteResponse = {
         maxIntervalForMaxQuantity?: number;
         savingsInAsset?: string;
         savingsInUSD?: string;
+      };
+      timeEstimates: {
+        inboundMs: number;
+        swapMs: number;
+        outboundMs: number;
+        streamingMs: number;
       };
     },
   ];

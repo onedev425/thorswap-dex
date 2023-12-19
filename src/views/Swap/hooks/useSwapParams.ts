@@ -182,21 +182,19 @@ export const useSwapParams = ({
       return selectedRoute;
     }
 
-    let updatedStreamingSwapMemo = streamSwap
-      ? selectedRoute?.calldata.memoStreamingSwap
-      : selectedRoute.calldata.memo;
+    let updatedStreamingSwapMemo = selectedRoute?.calldata.memoStreamingSwap;
 
     if (streamingSwapParams && streamSwap) {
       const { interval, subswaps } = streamingSwapParams;
       // replace interval and subswaps if they are set
-      updatedStreamingSwapMemo = updatedStreamingSwapMemo.replace(
+      updatedStreamingSwapMemo = updatedStreamingSwapMemo?.replace(
         /\/([0-9]+)\/([0-9]+):/,
         `/${interval}/${subswaps}:`,
       );
     }
 
     // replace min receive
-    updatedStreamingSwapMemo = updatedStreamingSwapMemo.replace(
+    updatedStreamingSwapMemo = updatedStreamingSwapMemo?.replace(
       /:([0-9]+)\//,
       `:${
         slippagePercent
@@ -210,7 +208,7 @@ export const useSwapParams = ({
       }/`,
     );
 
-    const updatedMemo = selectedRoute.calldata.memo.replace(
+    const updatedMemo = selectedRoute.calldata.memo?.replace(
       /:([0-9]+):/,
       `:${
         slippagePercent

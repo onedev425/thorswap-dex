@@ -10,14 +10,16 @@ import {
   Tooltip as ChakraTooltip,
 } from '@chakra-ui/react';
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Button, Icon, Tooltip } from 'components/Atomic';
+import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
+import { formatDuration } from 'components/TransactionTracker/helpers';
 import { STREAMING_SWAPS_URL } from 'config/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { navigateToExternalLink } from 'settings/router';
+import type { StreamSwapParams } from 'views/Swap/hooks/useSwapParams';
+import { useSwapTimeEstimate } from 'views/Swap/hooks/useSwapTimeEstimate';
 import { SwapSlippage } from 'views/Swap/SwapSlippage';
-import type { StreamSwapParams } from 'views/Swap/useSwapParams';
 
 type Props = {
   route?: RouteWithApproveType;
@@ -29,6 +31,8 @@ type Props = {
   minReceive: SwapKitNumber;
   defaultInterval: number;
   canStreamSwap: boolean;
+  streamingSwapParams: StreamSwapParams | null;
+  streamSwap: boolean;
 };
 
 type SwapOption = {
@@ -48,6 +52,8 @@ export const SwapSettings = ({
   minReceive,
   defaultInterval,
   canStreamSwap,
+  streamingSwapParams,
+  streamSwap,
 }: Props) => {
   const maxQuantity = route?.streamingSwap?.maxQuantity || 0;
   const maxInterval = route?.streamingSwap?.maxIntervalForMaxQuantity || 10;
@@ -66,7 +72,13 @@ export const SwapSettings = ({
 
   const [showTooltip, setShowTooltip] = useState(false);
   const [isChangingValue, setIsChangingValue] = useState(false);
-  const [manualSlippagePercent, setManualSlippagePercent] = useState(slippagePercent);
+  const [manualSlippagePercent, setManualSlippagePercent] = useState<number | null>(null);
+  const estimatedTime = useSwapTimeEstimate({
+    streamingSwapParams,
+    route,
+    streamSwap,
+    useMaxTime: value === 100,
+  });
 
   const sliderOptions = useMemo(() => {
     const swapsOptions: SwapOption[] = availableSwaps.map((v, i) => ({
@@ -116,11 +128,20 @@ export const SwapSettings = ({
     }, 0);
 
     setValue(closest);
-    if (closest > 50 && (!manualSlippagePercent || slippagePercent === manualSlippagePercent)) {
+    if (
+      closest > 50 &&
+      (manualSlippagePercent === null || slippagePercent === manualSlippagePercent)
+    ) {
       setSlippagePercent(0);
+      setManualSlippagePercent(slippagePercent);
     }
 
-    if (closest <= 50 && slippagePercent === 0 && manualSlippagePercent > 0) {
+    if (
+      closest <= 50 &&
+      slippagePercent === 0 &&
+      manualSlippagePercent &&
+      manualSlippagePercent > 0
+    ) {
       setSlippagePercent(manualSlippagePercent);
     }
   };
@@ -318,7 +339,27 @@ export const SwapSettings = ({
               </Text>
             </Flex>
           </Flex>
+
+          <Flex flex={1} flexDirection="column">
+            <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
+              Time:
+            </Text>
+            <Flex>
+              <Text textStyle="caption-xs">
+                {estimatedTime ? formatDuration(estimatedTime) : 'n/a'}
+              </Text>
+            </Flex>
+          </Flex>
         </Flex>
+
+        {value > 50 && slippagePercent > 0 && (
+          <Box row className="w-full my-3 px-2">
+            <Icon color="yellow" name="infoCircle" size={26} />{' '}
+            <Text className="ml-2" color="brand.yellow" fontWeight="medium" textStyle="caption">
+              {t('views.swap.slippageMarketRateWarning')}
+            </Text>
+          </Box>
+        )}
       </Card>
     </Flex>
   );

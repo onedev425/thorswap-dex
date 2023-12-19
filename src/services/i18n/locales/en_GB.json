@@ -172,7 +172,8 @@
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
     "yourTransactions": "Your Transactions",
-    "slippageSettings": "Slippage options"
+    "slippageSettings": "Slippage options",
+    "recommended": "recommended"
   },
   "components": {
     "announcements": {
@@ -942,7 +943,8 @@
       "savings": "Savings",
       "bestPrice": "Best price",
       "faster": "Faster",
-      "24h": "24 hours"
+      "24h": "24 hours",
+      "slippageMarketRateWarning": "You selected longer swap and set slippage. This may result in partial refund."
     },
     "thorname": {
       "available": "Available",

@@ -40,6 +40,7 @@ export const SwapSlippage = ({
   const [slipValue, setSlipValue] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isChangingValue, setIsChangingValue] = useState(false);
+  const recommendedSlippage = route?.meta.recommendedSlippage;
 
   const outputAmountValue = useMemo(() => {
     const maxOutpuAmount = new SwapKitNumber({
@@ -136,6 +137,8 @@ export const SwapSlippage = ({
                           textStyle="caption-xs"
                         >
                           {slippagePercent}%
+                          {slippagePercent === recommendedSlippage &&
+                            ` (${t('common.recommended')})`}
                         </Text>
                       </Flex>
                     )}
