@@ -3188,10 +3188,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.65.tgz#8198b8ea7c7f72e7e39dc807a554dcc993d5ebe0"
   integrity sha512-6lp22P5LBIbcj/0bbiSKTjAUKdNVqbwQN5gsd2GdUd2JDLfN8nCIyNAjAhpUm+kgrvpTSsV6X+sWoPIic4weuA==
 
-"@swapkit/wallet-keplr@1.0.0-rc.63":
-  version "1.0.0-rc.63"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.63.tgz#165abaf2c6f1d0de16d64ea384d725874659c1a5"
-  integrity sha512-rCanBQpiGBSyjzKCyElx67v8OURLZg8dwnl6bGC/v4sJp7IbtmO4HKMjcErsLRUGmvQWvzyqSUJHEEgpHn9XYw==
+"@swapkit/wallet-keplr@1.0.0-rc.64":
+  version "1.0.0-rc.64"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.64.tgz#8e4cb83404b154b2d5f7da4f8d652e1401dcade7"
+  integrity sha512-PWxb+K7oWJpPsJ1AR1hsVybJL3g/CaCXcfIArfRlvpMr9WsQnpY57LP1/btWqDTYVxv1f01tIjgKg4RzqKlQ1A==
 
 "@swapkit/wallet-keystore@1.0.0-rc.72":
   version "1.0.0-rc.72"
