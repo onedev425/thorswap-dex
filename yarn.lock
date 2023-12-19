@@ -3114,10 +3114,10 @@
     "@swapkit/types" "1.0.0-rc.31"
     ky "1.1.3"
 
-"@swapkit/core@1.0.0-rc.75":
-  version "1.0.0-rc.75"
-  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.75.tgz#6afd05c1d5c0db65d18dba640c3996e9ca999b09"
-  integrity sha512-2cVrvGjL73GYNcDH1nZzNsieHyFs7+kfH+mD7xK7sLOu9jR+n/jBJ7qX8UH5FSVwin/F68LzX4R1AqV0tq9wxw==
+"@swapkit/core@1.0.0-rc.76":
+  version "1.0.0-rc.76"
+  resolved "https://registry.yarnpkg.com/@swapkit/core/-/core-1.0.0-rc.76.tgz#7395b9f1efd30986a1271a46c8587e4070a7f908"
+  integrity sha512-t4gPGY29Q8aEGTkD2dKkKBarUJ58iPGxLZ/F/afoCiA1jkbMTOAXBTYkO4SPPIg+uLGCxTOE6HF7Hbed5KhlGA==
   dependencies:
     "@swapkit/helpers" "1.0.0-rc.59"
     "@swapkit/types" "1.0.0-rc.31"
@@ -3134,10 +3134,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/tokens/-/tokens-1.0.0-rc.32.tgz#664d164892d22b181cc6c9dc25b6dac62dcd5145"
   integrity sha512-vZb3lqpqhg49k9JdWLUAKoctAYLQ731ACP/sjcVKVn9H2/PJ0rS2ShfHyxmiVmxf7ET9EENO9UqPV8CiO10q0Q==
 
-"@swapkit/toolbox-cosmos@1.0.0-rc.63":
-  version "1.0.0-rc.63"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.63.tgz#40749a2a99689924871bf7c8b3fc775ab3dd128f"
-  integrity sha512-acGxAA/rPYS+O3chJwJxQeWTITNAkONzFj4ka9uKU4LkIiVQwBekd2O3iHYR6ehcVICOBOoMQpoGgJXtB9fE1g==
+"@swapkit/toolbox-cosmos@1.0.0-rc.64":
+  version "1.0.0-rc.64"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.64.tgz#08a921d5898519ab175589227135b5af6f3aafae"
+  integrity sha512-bSmhjH09QEHj8zVAMr4IHXeBMOqXQ6ZXJuH4iRcqTUW21sS7xzaD85esXOgV1l4urGs7UJoBFFfOYwSJlZCFXg==
   dependencies:
     "@cosmjs/amino" "0.32.1"
     "@cosmjs/crypto" "0.32.1"
@@ -3188,23 +3188,23 @@
   resolved "https://registry.yarnpkg.com/@swapkit/wallet-evm-extensions/-/wallet-evm-extensions-1.0.0-rc.65.tgz#8198b8ea7c7f72e7e39dc807a554dcc993d5ebe0"
   integrity sha512-6lp22P5LBIbcj/0bbiSKTjAUKdNVqbwQN5gsd2GdUd2JDLfN8nCIyNAjAhpUm+kgrvpTSsV6X+sWoPIic4weuA==
 
-"@swapkit/wallet-keplr@1.0.0-rc.64":
-  version "1.0.0-rc.64"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.64.tgz#8e4cb83404b154b2d5f7da4f8d652e1401dcade7"
-  integrity sha512-PWxb+K7oWJpPsJ1AR1hsVybJL3g/CaCXcfIArfRlvpMr9WsQnpY57LP1/btWqDTYVxv1f01tIjgKg4RzqKlQ1A==
+"@swapkit/wallet-keplr@1.0.0-rc.65":
+  version "1.0.0-rc.65"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keplr/-/wallet-keplr-1.0.0-rc.65.tgz#a269848a0fc3a31fb5c8eeee6c75c1401fc92c06"
+  integrity sha512-pfTFDmvQr1btabQhMjuqH4nuMe2rjZynaww0Sq0nuBHNR/apS23Q5FUhS0xQHLKBxTliiYUth6zqK03kxgpwpw==
 
-"@swapkit/wallet-keystore@1.0.0-rc.72":
-  version "1.0.0-rc.72"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.72.tgz#437dc777f91b71f01e5f02f304f5b26f1ffb4b8c"
-  integrity sha512-VIl/h1+yamHMIF0AsDYoW9jUliYEN1hPbcEwgS4/MomdA30dJoXYPQWWPGoQz3i1F74Jsv2O0CpWWmhmwF10xw==
+"@swapkit/wallet-keystore@1.0.0-rc.73":
+  version "1.0.0-rc.73"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-keystore/-/wallet-keystore-1.0.0-rc.73.tgz#165cc0e0438fb1fab6f8ecb9893c4f3c9521d2ee"
+  integrity sha512-eIuIgZojAutoiLobTsswj0Gg3wK5/PxKbC/v8nYKduz4YWaGNkyhGvy5Rpa0q8lZIfmlBE0KmHhoWOyPHenxng==
   dependencies:
     "@scure/bip39" "1.2.1"
     blakejs "1.2.1"
 
-"@swapkit/wallet-ledger@1.0.0-rc.76":
-  version "1.0.0-rc.76"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.76.tgz#c7ec2c5c253c21a1ba2529d0c94b7b4dbedf650e"
-  integrity sha512-wfG2tekLicTIj6bLtpzggxcGERZjeSBMgfvbZlLGdeSYyg7ncQvA8+bUQgRgQ2+MXpjtrZQQSQktzylMs5FZkA==
+"@swapkit/wallet-ledger@1.0.0-rc.77":
+  version "1.0.0-rc.77"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.77.tgz#59cf805af8169e727d55c1c98f93e9d61c7d234e"
+  integrity sha512-KntJWpEyw+Zhxq+Lj4VHIV6EdjcUBuQcODIYgCgxH7cLKnaHKatB+gxo7gbcnObCHbp+PyapYYRBbgfBx+SMKg==
   dependencies:
     "@ledgerhq/devices" "8.1.0"
     "@ledgerhq/errors" "6.16.0"
@@ -3215,10 +3215,10 @@
     "@ledgerhq/hw-transport-webusb" "6.28.0"
     ripemd160 "2.0.2"
 
-"@swapkit/wallet-okx@1.0.0-rc.72":
-  version "1.0.0-rc.72"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.72.tgz#6c443a627c633921fe6c3277eb91e148df0a5324"
-  integrity sha512-wsYSVWWYaKedwLhkjq/kJkneoJ54g+VYNmBoDPXRRmlAuWRosF3ksBRZJigaRdKfUlBOk3zLIc1qUMaI4us9Ew==
+"@swapkit/wallet-okx@1.0.0-rc.73":
+  version "1.0.0-rc.73"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.73.tgz#cf1eb6a569253d709ff79b9e4dfd2e93593aa8fe"
+  integrity sha512-OorRHmILvB0MqnY+pqKJVabC5kBcUckvPMN1RLiBvq1YU+PR9bMsiHhPRM4Ugl+9ojTGY3VtFZmoSIueKZW+Tg==
 
 "@swapkit/wallet-trezor@1.0.0-rc.67":
   version "1.0.0-rc.67"
@@ -3227,17 +3227,17 @@
   dependencies:
     "@trezor/connect-web" "9.1.6"
 
-"@swapkit/wallet-wc@1.0.0-rc.69":
-  version "1.0.0-rc.69"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.69.tgz#cec63834f2d9aae169c857388e414691f6982101"
-  integrity sha512-56mcYKN+iuib0FPk/ZFpSkpRmgumZyV4/HdVacAupoLn5AwWrsyg9Cu4jj7BNU95Ovj0gQPESqRQ0OjFUQWi0A==
+"@swapkit/wallet-wc@1.0.0-rc.70":
+  version "1.0.0-rc.70"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-wc/-/wallet-wc-1.0.0-rc.70.tgz#9080f3458d188990400e10d946856e62d2ebb117"
+  integrity sha512-Sl+16Vxi8GYr6zruESmG6scyfJ+XP1I3OK91rkNtYcyHliJQD7yRF4I7TlooZWf/caCY7J0Nj86/b2W4Cvf38A==
   dependencies:
     "@walletconnect/modal-sign-html" "2.6.2"
 
-"@swapkit/wallet-xdefi@1.0.0-rc.74":
-  version "1.0.0-rc.74"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.74.tgz#5298ca0b8ab2bdf2b4059117638b195374b4e426"
-  integrity sha512-ktY0k/UlOF9/17i+bclJPv73YxRlheLQULhppYku5ZhNLVR0Fx1S/J2/UnaMZbtRS/3L2T4okQbKkqsDMUY09g==
+"@swapkit/wallet-xdefi@1.0.0-rc.75":
+  version "1.0.0-rc.75"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-xdefi/-/wallet-xdefi-1.0.0-rc.75.tgz#a7c634c69a23f7a8043958f15417baf8c9bace13"
+  integrity sha512-wbV1sext88NVy+VjKq21dc89uCeiOBXHyBBWvkBjGfZFoTTCHNH1Ui+MA+dBQ5pZUvbJ7Jh4L1jCAfHn2emy3g==
 
 "@tanstack/query-core@4.35.0":
   version "4.35.0"
