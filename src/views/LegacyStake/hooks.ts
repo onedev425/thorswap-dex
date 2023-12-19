@@ -31,7 +31,7 @@ export const getLpTokenBalance = async (contractType: LPContractType) => {
   const tokenContract = await getCustomContract(tokenAddr);
   const tokenBalance = await tokenContract.balanceOf(stakingAddr);
 
-  return new SwapKitNumber({ value: tokenBalance, decimal: BaseDecimal.ETH });
+  return SwapKitNumber.fromBigInt(tokenBalance, BaseDecimal.ETH);
 };
 
 export const useStakingModal = () => {
@@ -66,10 +66,10 @@ export const useV1ThorStakeInfo = () => {
       const { amount } = await stakingContract.userInfo(0, ethereumAddr);
 
       setStakedThorAmount(
-        new SwapKitNumber({
-          value: typeof amount === 'string' ? amount : amount?.toString(),
-          decimal: BaseDecimal.ETH,
-        }),
+        SwapKitNumber.fromBigInt(
+          BigInt(typeof amount === 'string' ? amount : amount?.toString()),
+          BaseDecimal.ETH,
+        ),
       );
     }
   }, [wallet]);

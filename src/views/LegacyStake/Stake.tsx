@@ -18,7 +18,7 @@ const Stake = () => {
               <StakingCard
                 {...rest}
                 key={lpToken}
-                lpAsset={AssetValue.fromStringSync(lpToken) as AssetValue}
+                lpAsset={AssetValue.fromStringSync(lpToken)}
                 stakingToken={lpToken}
               />
             ),

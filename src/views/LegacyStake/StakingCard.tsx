@@ -85,7 +85,7 @@ export const StakingCard = ({
 
       const lpTokenBalance = await lpContract.balanceOf(ethAddr);
 
-      setLpTokenBal(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: lpTokenBalance }));
+      setLpTokenBal(SwapKitNumber.fromBigInt(lpTokenBalance, BaseDecimal.ETH));
 
       try {
         const stakingContract = await getEtherscanContract(contractType);
@@ -94,8 +94,8 @@ export const StakingCard = ({
 
         const pendingReward = await stakingContract.pendingRewards(0, ethAddr);
 
-        setStakedAmount(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: amount }));
-        setPendingRewardDebt(new SwapKitNumber({ decimal: BaseDecimal.ETH, value: pendingReward }));
+        setStakedAmount(SwapKitNumber.fromBigInt(BigInt(amount), BaseDecimal.ETH));
+        setPendingRewardDebt(SwapKitNumber.fromBigInt(BigInt(pendingReward), BaseDecimal.ETH));
       } catch (error: NotWorth) {
         console.error(error);
       }
@@ -120,7 +120,7 @@ export const StakingCard = ({
     const stakingContract = await getEtherscanContract(contractType);
     const blockReward = await stakingContract.blockReward();
 
-    return new SwapKitNumber({ value: blockReward, decimal: BaseDecimal.ETH });
+    return SwapKitNumber.fromBigInt(blockReward, BaseDecimal.ETH);
   }, [contractType]);
 
   const getAPRRate = useCallback(async () => {
