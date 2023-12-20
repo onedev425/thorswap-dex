@@ -3220,10 +3220,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/wallet-okx/-/wallet-okx-1.0.0-rc.73.tgz#cf1eb6a569253d709ff79b9e4dfd2e93593aa8fe"
   integrity sha512-OorRHmILvB0MqnY+pqKJVabC5kBcUckvPMN1RLiBvq1YU+PR9bMsiHhPRM4Ugl+9ojTGY3VtFZmoSIueKZW+Tg==
 
-"@swapkit/wallet-trezor@1.0.0-rc.68":
-  version "1.0.0-rc.68"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.68.tgz#c460e9cc064c66ff9fb78e60aca3241fbbfa9c33"
-  integrity sha512-a9JlCOvAlrFKuOlHsVKqrAusfA5S4JIDfzbYHq/TkihLWo46JdlBSoKFUm0bCbwQ5BnxbYdgZC8ctmqJJD7jLw==
+"@swapkit/wallet-trezor@1.0.0-rc.69":
+  version "1.0.0-rc.69"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-trezor/-/wallet-trezor-1.0.0-rc.69.tgz#2142ace0d87e728cff99fe3ceaaeb1596ddc520a"
+  integrity sha512-+L93ZHIf4ofrJPA9zdUB62cLEcmg0JkKR4eJv6M3rN6GtlyxO05TNq4VbGHnLhrLeRHJPHRUalskRLnKD/5JvA==
   dependencies:
     "@trezor/connect-web" "9.1.6"
 

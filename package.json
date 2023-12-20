@@ -33,7 +33,7 @@
     "@swapkit/wallet-keystore": "1.0.0-rc.73",
     "@swapkit/wallet-ledger": "1.0.0-rc.77",
     "@swapkit/wallet-okx": "1.0.0-rc.73",
-    "@swapkit/wallet-trezor": "1.0.0-rc.68",
+    "@swapkit/wallet-trezor": "1.0.0-rc.69",
     "@swapkit/wallet-wc": "1.0.0-rc.70",
     "@swapkit/wallet-xdefi": "1.0.0-rc.75",
     "@tanstack/react-query": "4.35.0",
