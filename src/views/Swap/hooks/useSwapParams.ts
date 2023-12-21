@@ -117,6 +117,10 @@ export const useSwapParams = ({
       decimal: outputAsset.decimal,
     });
 
+    if (maxOutputAmount.lte(0)) {
+      return;
+    }
+
     const expectedOutputSlippage = streamSwap
       ? selectedRoute?.streamingSwap?.expectedOutputMaxSlippage
       : selectedRoute?.expectedOutputMaxSlippage;
@@ -131,7 +135,7 @@ export const useSwapParams = ({
 
     setSlippagePercent(slipPercent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outputAsset.decimal, selectedRoute?.path]);
+  }, [outputAsset.decimal, selectedRoute?.path, streamSwap]);
 
   const savingsInUSD = useMemo(() => {
     const savingsValue = Number(selectedRoute?.streamingSwap?.savingsInUSD || 0);

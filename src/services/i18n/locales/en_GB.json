@@ -927,7 +927,6 @@
       "slippageConfirmationWarning": "Slippage is higher than expected. Are you sure you want to continue?",
       "slippageTolerance": "Slippage Tolerance",
       "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the THORChain part of the swap and will be executed at market rate.",
-      "streamSwapDisclaimer": "Price-optimized swaps (streaming swaps) are executed at market rate",
       "swapAssets": "Swap assets rates",
       "swapPath": "Swap Graph explanation which pools are used to route the trade.",
       "tabsCommon": "Common",

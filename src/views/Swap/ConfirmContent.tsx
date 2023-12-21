@@ -4,7 +4,6 @@ import { AssetIcon } from 'components/AssetIcon';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Checkbox, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
-import { InfoTip } from 'components/InfoTip';
 import { hexlify, toUtf8Bytes } from 'ethers';
 import { parseToPercent } from 'helpers/parseHelpers';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -233,10 +232,6 @@ export const ConfirmContent = memo(
               onValueChange={setConfirmedSlippage}
               value={confirmedSlippage}
             />
-          )}
-
-          {streamSwap && (
-            <InfoTip className="mt-4" title={t('views.swap.streamSwapDisclaimer')} type="warn" />
           )}
 
           {showSmallSwapWarning && (
