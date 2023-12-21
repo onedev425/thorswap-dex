@@ -26,6 +26,7 @@ type Props = {
 };
 
 const sliderScale = 4;
+const maxOutputScale = 10;
 const startSlipSliderValue = 15;
 const maxSlip = 10;
 const minSlip = 0.5;
@@ -51,11 +52,11 @@ export const SwapSlippage = ({
     if (maxOutpuAmount.lte(0)) return 100;
 
     const outputRatio = outputAmount.div(maxOutpuAmount);
-    const outputValue = Math.floor(outputRatio.getValue('number') * 100);
-    const roundedValue = Math.round(outputValue * 100) / 100;
-    const slipPercent = 100 - Number(roundedValue);
 
-    return roundedValue < 100 ? 100 - slipPercent * 6 : 100;
+    const outputValue = outputRatio.getValue('number') * 100;
+    const slipPercent = 100 - Number(outputValue);
+
+    return outputValue < 100 ? 100 - slipPercent * maxOutputScale : 100;
   }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput]);
 
   useEffect(() => {

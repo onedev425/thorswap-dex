@@ -941,10 +941,10 @@
       "transactionSettings": "Transaction Settings",
       "txAssetsFee": "TX Fee Tokens",
       "savings": "Savings",
-      "bestPrice": "Best price",
-      "faster": "Faster",
-      "24h": "24 hours",
-      "slippageMarketRateWarning": "You selected longer swap and set slippage. This may result in partial refund."
+      "slippageMarketRateWarning": "You selected longer swap and set slippage. This may result in partial refund.",
+      "fastest": "Fastest",
+      "optimal": "Optimal",
+      "slowest": "Slowest"
     },
     "thorname": {
       "available": "Available",

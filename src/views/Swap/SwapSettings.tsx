@@ -286,12 +286,12 @@ export const SwapSettings = ({
                       sx={{ px: 2 }}
                       variant="borderlessPrimary"
                     >
-                      {t('views.swap.faster')}
+                      {t('views.swap.fastest')}
                     </Button>
                   </Flex>
                   <Flex>
                     <Button onClick={() => onChange(50)} size="xs" variant="borderlessPrimary">
-                      {t('views.swap.bestPrice')}
+                      {t('views.swap.optimal')}
                     </Button>
                   </Flex>
                   <Flex>
@@ -301,7 +301,7 @@ export const SwapSettings = ({
                       sx={{ px: 2 }}
                       variant="borderlessPrimary"
                     >
-                      {t('views.swap.24h')}
+                      {t('views.swap.slowest')}
                     </Button>
                   </Flex>
                 </Flex>
@@ -323,7 +323,10 @@ export const SwapSettings = ({
             <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
               Minimum:
             </Text>
-            <Text textStyle="caption-xs">
+            <Text
+              color={slippagePercent === 0 ? 'brand.yellow' : 'textPrimary'}
+              textStyle="caption-xs"
+            >
               {slippagePercent === 0
                 ? 'No protection'
                 : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
@@ -334,7 +337,10 @@ export const SwapSettings = ({
               Estimated:
             </Text>
             <Flex>
-              <Text textStyle="caption-xs">
+              <Text
+                color={value < 50 ? 'brand.yellow' : value > 50 ? 'brand.green' : 'textPrimary'}
+                textStyle="caption-xs"
+              >
                 {outputAmount.toCurrency('')} {outputAsset?.ticker || ''}
               </Text>
             </Flex>
@@ -345,7 +351,7 @@ export const SwapSettings = ({
               Time:
             </Text>
             <Flex>
-              <Text textStyle="caption-xs">
+              <Text color={value > 50 ? 'brand.yellow' : 'textPrimary'} textStyle="caption-xs">
                 {estimatedTime ? formatDuration(estimatedTime) : 'n/a'}
               </Text>
             </Flex>
