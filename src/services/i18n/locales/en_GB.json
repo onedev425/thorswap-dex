@@ -944,7 +944,8 @@
       "slippageMarketRateWarning": "You selected longer swap and set slippage. This may result in partial refund.",
       "fastest": "Fastest",
       "optimal": "Optimal",
-      "slowest": "Slowest"
+      "slowest": "Slowest",
+      "swapSettings": "Swap settings"
     },
     "thorname": {
       "available": "Available",

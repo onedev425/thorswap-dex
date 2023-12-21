@@ -63,7 +63,7 @@ export const SwapSettings = ({
       getAvailableOptionsArray({
         minQuantity: defaultInterval,
         maxQuantity: maxInterval,
-        maxSteps: 3,
+        maxSteps: 5,
       }),
     [defaultInterval, maxInterval],
   );
@@ -79,6 +79,7 @@ export const SwapSettings = ({
     streamSwap,
     useMaxTime: value === 100,
   });
+  const recommendedSlippage = route?.meta.recommendedSlippage || 0;
 
   const sliderOptions = useMemo(() => {
     const swapsOptions: SwapOption[] = availableSwaps.map((v, i) => ({
@@ -324,7 +325,11 @@ export const SwapSettings = ({
               Minimum:
             </Text>
             <Text
-              color={slippagePercent === 0 ? 'brand.yellow' : 'textPrimary'}
+              color={
+                slippagePercent === 0 || recommendedSlippage < slippagePercent
+                  ? 'brand.yellow'
+                  : 'textPrimary'
+              }
               textStyle="caption-xs"
             >
               {slippagePercent === 0

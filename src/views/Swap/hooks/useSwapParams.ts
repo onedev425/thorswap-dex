@@ -2,7 +2,6 @@ import type { AssetValue } from '@swapkit/core';
 import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { IS_PROD } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 
 type Props = {
@@ -28,9 +27,7 @@ export const useSwapParams = ({
   const [streamingSwapParams, setStreamingSwapParams] = useState<null | StreamSwapParams>(null);
   const hasStreamingSettings =
     selectedRoute?.streamingSwap?.maxQuantity &&
-    selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity &&
-    // TODO: remove, feature flag for prod
-    !IS_PROD;
+    selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity;
 
   const [slippagePercent, setSlippagePercent] = useState(slippageTolerance);
 

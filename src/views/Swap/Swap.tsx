@@ -7,7 +7,6 @@ import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
 import { SwapRouter } from 'components/SwapRouter';
-import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import { useKeystore, useWallet } from 'context/wallet/hooks';
 import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useFormatPrice } from 'helpers/formatPrice';
@@ -18,7 +17,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { captureEvent } from 'services/postHog';
-import { IS_LEDGER_LIVE, IS_PROD } from 'settings/config';
+import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
@@ -199,7 +198,6 @@ const SwapView = () => {
 
   const {
     streamSwap,
-    toggleStreamSwap,
     canStreamSwap,
     minReceive,
     outputAmount,
@@ -474,29 +472,19 @@ const SwapView = () => {
             />
           )}
 
-          {!IS_PROD ? (
-            <SwapSettings
-              canStreamSwap={canStreamSwap}
-              defaultInterval={defaultInterval}
-              minReceive={minReceive}
-              onSettingsChange={setStreamingSwapParams}
-              outputAmount={outputAmount}
-              outputAsset={outputAsset}
-              route={selectedRoute}
-              setSlippagePercent={setSlippagePercent}
-              slippagePercent={slippagePercent}
-              streamSwap={streamSwap}
-              streamingSwapParams={streamingSwapParams}
-            />
-          ) : (
-            <TxOptimizeSection
-              canStream={canStreamSwap}
-              outputAsset={outputAsset}
-              quote={selectedRoute}
-              stream={streamSwap}
-              toggleStream={toggleStreamSwap}
-            />
-          )}
+          <SwapSettings
+            canStreamSwap={canStreamSwap}
+            defaultInterval={defaultInterval}
+            minReceive={minReceive}
+            onSettingsChange={setStreamingSwapParams}
+            outputAmount={outputAmount}
+            outputAsset={outputAsset}
+            route={selectedRoute}
+            setSlippagePercent={setSlippagePercent}
+            slippagePercent={slippagePercent}
+            streamSwap={streamSwap}
+            streamingSwapParams={streamingSwapParams}
+          />
 
           <SwapInfo
             affiliateBasisPoints={Number(affiliateBasisPoints)}
