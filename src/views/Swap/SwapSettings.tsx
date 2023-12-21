@@ -168,7 +168,7 @@ export const SwapSettings = ({
           <>
             <Flex pb={1}>
               <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                {t('views.swap.priceOptimizationAvailable')}
+                {t('views.swap.swapSettings')}
               </Text>
 
               <Tooltip

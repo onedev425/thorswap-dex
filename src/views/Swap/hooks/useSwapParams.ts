@@ -2,7 +2,6 @@ import type { AssetValue } from '@swapkit/core';
 import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useApp } from 'store/app/hooks';
 
 type Props = {
   selectedRoute?: RouteWithApproveType;
@@ -22,14 +21,13 @@ export const useSwapParams = ({
   inputAmount,
   outputAsset,
 }: Props) => {
-  const { slippageTolerance } = useApp();
   const [streamSwap, setStreamSwap] = useState(false);
   const [streamingSwapParams, setStreamingSwapParams] = useState<null | StreamSwapParams>(null);
   const hasStreamingSettings =
     selectedRoute?.streamingSwap?.maxQuantity &&
     selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity;
 
-  const [slippagePercent, setSlippagePercent] = useState(slippageTolerance);
+  const [slippagePercent, setSlippagePercent] = useState(0);
 
   const canStreamSwap = useMemo(
     () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
@@ -48,7 +46,12 @@ export const useSwapParams = ({
   }, [hasStreamingSettings, canStreamSwap, selectedRoute?.path, toggleStreamSwap]);
 
   const defaultInterval = useMemo(() => {
-    return Number(selectedRoute?.calldata?.memoStreamingSwap?.match(/\/([0-9]+)\//)?.[1] || 3) || 3;
+    const limit = getMemoPart(selectedRoute?.calldata?.memoStreamingSwap, 3);
+    if (!limit) {
+      return 3;
+    }
+
+    return Number(limit.split('/')[1]) || 3;
   }, [selectedRoute?.calldata?.memoStreamingSwap]);
 
   const streamingValue = useMemo(() => {
@@ -103,7 +106,7 @@ export const useSwapParams = ({
   useEffect(() => {
     // update default slippage when path changed
     if (!selectedRoute) {
-      setSlippagePercent(slippageTolerance);
+      setSlippagePercent(0);
       return;
     }
 
@@ -179,45 +182,26 @@ export const useSwapParams = ({
       return selectedRoute;
     }
 
-    let updatedStreamingSwapMemo = selectedRoute?.calldata.memoStreamingSwap;
+    const memoMinAmount = slippagePercent
+      ? // convert to 8 decimals TC value
+        SwapKitNumber.shiftDecimals({
+          value: minReceive,
+          from: outputAsset.decimal || BaseDecimal.THOR,
+          to: BaseDecimal.THOR,
+        })
+          .getValue('bigint')
+          .toString()
+      : '0';
 
-    if (streamingSwapParams && streamSwap) {
-      const { interval, subswaps } = streamingSwapParams;
-      // replace interval and subswaps if they are set
-      updatedStreamingSwapMemo = updatedStreamingSwapMemo?.replace(
-        /\/([0-9]+)\/([0-9]+):/,
-        `/${interval}/${subswaps}:`,
-      );
-    }
+    const updatedStreamingSwapMemo = updateMemoLimit(selectedRoute.calldata.memoStreamingSwap, {
+      minAmount: memoMinAmount,
+      interval: streamingSwapParams?.interval,
+      subswaps: streamingSwapParams?.subswaps,
+    });
 
-    // replace min receive
-    updatedStreamingSwapMemo = updatedStreamingSwapMemo?.replace(
-      /:([0-9]+)\//,
-      `:${
-        slippagePercent
-          ? // convert to 8 decimals TC value
-            SwapKitNumber.shiftDecimals({
-              value: minReceive,
-              from: outputAsset.decimal || BaseDecimal.THOR,
-              to: BaseDecimal.THOR,
-            }).getValue('bigint')
-          : '0'
-      }/`,
-    );
-
-    const updatedMemo = selectedRoute.calldata.memo?.replace(
-      /:([0-9]+):/,
-      `:${
-        slippagePercent
-          ? // convert to 8 decimals TC value
-            SwapKitNumber.shiftDecimals({
-              value: minReceive,
-              from: outputAsset.decimal || BaseDecimal.THOR,
-              to: BaseDecimal.THOR,
-            }).getValue('bigint')
-          : '0'
-      }:`,
-    );
+    const updatedMemo = updateMemoLimit(selectedRoute.calldata.memo, {
+      minAmount: memoMinAmount,
+    });
 
     const calldata = streamSwap
       ? { ...selectedRoute.calldata, memoStreamingSwap: updatedStreamingSwapMemo }
@@ -253,3 +237,42 @@ export const useSwapParams = ({
     defaultInterval,
   };
 };
+
+export function updateMemoLimit(
+  memo: string,
+  { minAmount, interval, subswaps }: { minAmount?: string; interval?: number; subswaps?: number },
+) {
+  const memoParts = memo?.split(':');
+  const memoLimitIndex = 3;
+
+  if (!memoParts || memoParts?.length < memoLimitIndex + 1) {
+    return memo;
+  }
+
+  const isStreamingSwapLimit = memoParts[memoLimitIndex].includes('/');
+
+  const initialLimitValue = memoParts[memoLimitIndex];
+
+  if (isStreamingSwapLimit) {
+    const updatedLimit = minAmount || initialLimitValue.split('/')[0];
+    const updatedInterval = interval || initialLimitValue.split('/')[1];
+    const updatedSubswaps = subswaps || initialLimitValue.split('/')[2];
+
+    memoParts[memoLimitIndex] = `${updatedLimit || '0'}/${updatedInterval || '0'}/${
+      updatedSubswaps || '0'
+    }`;
+  } else {
+    memoParts[memoLimitIndex] = minAmount || '0';
+  }
+
+  return memoParts.join(':');
+}
+
+export function getMemoPart(memo?: string, partNumber?: number) {
+  if (!memo || !partNumber) {
+    return null;
+  }
+
+  const memoParts = memo.split(':');
+  return memoParts[partNumber];
+}
