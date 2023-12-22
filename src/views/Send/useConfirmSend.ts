@@ -28,7 +28,7 @@ export const useConfirmSend = ({
 
   const handleConfirmSend = useCallback(async () => {
     setIsOpenConfirmModal(false);
-    if (sendAsset && sendAsset.getValue('bigint') > 0) {
+    if (sendAsset && (customTxEnabled || sendAsset.getValue('bigint') > 0)) {
       const id = v4();
       const label = `${t('txManager.send')} ${sendAsset.toSignificant(6)} ${
         sendAsset.isSynthetic ? 'Synth ' : ''
