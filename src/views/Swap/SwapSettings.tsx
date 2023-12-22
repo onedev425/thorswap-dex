@@ -326,7 +326,8 @@ export const SwapSettings = ({
             </Text>
             <Text
               color={
-                slippagePercent === 0 || recommendedSlippage < slippagePercent
+                slippagePercent === 0 ||
+                (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
                   ? 'brand.yellow'
                   : 'textPrimary'
               }

@@ -8,6 +8,7 @@ type Props = {
   noPriceProtection: boolean;
   inputAmount: SwapKitNumber;
   outputAsset: AssetValue;
+  setManualSlippage?: (slippage: number) => void;
 };
 
 export type StreamSwapParams = {
@@ -20,7 +21,13 @@ export const useSwapParams = ({
   noPriceProtection,
   inputAmount,
   outputAsset,
+  setManualSlippage,
 }: Props) => {
+  const isDexAgg = useMemo(
+    () =>
+      selectedRoute?.calldata?.memo ? selectedRoute.calldata.memo.split(':').length >= 8 : false,
+    [selectedRoute?.calldata?.memo],
+  );
   const [streamSwap, setStreamSwap] = useState(false);
   const [streamingSwapParams, setStreamingSwapParams] = useState<null | StreamSwapParams>(null);
   const hasStreamingSettings =
@@ -38,6 +45,12 @@ export const useSwapParams = ({
     (enabled: boolean) => setStreamSwap(enabled && !!canStreamSwap),
     [canStreamSwap],
   );
+
+  useEffect(() => {
+    if (isDexAgg && slippagePercent !== selectedRoute?.meta.slippagePercentage) {
+      setManualSlippage?.(slippagePercent);
+    }
+  }, [isDexAgg, selectedRoute?.meta.slippagePercentage, setManualSlippage, slippagePercent]);
 
   useEffect(() => {
     // reset stream swap state only when path changed
@@ -104,6 +117,10 @@ export const useSwapParams = ({
   }, [selectedRoute, outputAsset.decimal, inputAmount, streamSwap, streamingValue]);
 
   useEffect(() => {
+    if (isDexAgg) {
+      return setSlippagePercent(selectedRoute?.meta.slippagePercentage || 0);
+    }
+
     // update default slippage when path changed
     if (!selectedRoute) {
       setSlippagePercent(0);
@@ -182,7 +199,8 @@ export const useSwapParams = ({
   }, [streamSwap, streamingSwapParams, toggleStreamSwap]);
 
   const route = useMemo(() => {
-    if (!selectedRoute) {
+    // do not update slippage for dex agg
+    if (!selectedRoute || isDexAgg) {
       return selectedRoute;
     }
 
@@ -216,12 +234,14 @@ export const useSwapParams = ({
       calldata,
     };
   }, [
+    selectedRoute,
+    isDexAgg,
+    slippagePercent,
     minReceive,
     outputAsset.decimal,
-    selectedRoute,
+    streamingSwapParams?.interval,
+    streamingSwapParams?.subswaps,
     streamSwap,
-    slippagePercent,
-    streamingSwapParams,
   ]);
 
   return {

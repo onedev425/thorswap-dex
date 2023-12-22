@@ -175,6 +175,15 @@ const SwapView = () => {
     [inputAmount, inputUnitPrice],
   );
 
+  const [manualSlippage, setManualSlippage] = useState<number>(0);
+
+  useEffect(() => {
+    // reset slippage if assets change
+    if (inputAsset || outputAsset) {
+      setManualSlippage(0);
+    }
+  }, [inputAsset, outputAsset]);
+
   const {
     affiliateBasisPoints,
     estimatedTime,
@@ -194,6 +203,7 @@ const SwapView = () => {
     outputAsset,
     senderAddress: sender,
     recipientAddress: recipient,
+    manualSlippage,
   });
 
   const {
@@ -213,6 +223,7 @@ const SwapView = () => {
     inputAmount,
     noPriceProtection,
     outputAsset,
+    setManualSlippage,
   });
 
   const { isKyberSwapPage, kyberRoutes } = useKyberSwap({ routes });

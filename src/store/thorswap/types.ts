@@ -181,6 +181,7 @@ export type GetTokensQuoteResponse = {
         lastLegEffectiveSlipPercentage: number;
         thornodeMeta: null;
         recommendedSlippage?: number;
+        slippagePercentage: number;
       };
       inboundAddress: string;
       targetAddress: string;

@@ -1,5 +1,6 @@
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
@@ -16,6 +17,7 @@ type Params = {
   senderAddress?: string;
   skipAffiliate?: boolean;
   inputUSDPrice: number;
+  manualSlippage?: number;
 };
 
 export const useSwapQuote = ({
@@ -26,10 +28,13 @@ export const useSwapQuote = ({
   recipientAddress,
   senderAddress,
   inputUSDPrice,
+  manualSlippage,
 }: Params) => {
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
+
+  const debouncedManualSlippage = useDebouncedValue(manualSlippage, 200);
 
   const VTHORBalance = useVTHORBalance(ethAddress);
 
@@ -49,17 +54,31 @@ export const useSwapQuote = ({
     return `${Math.floor(basisPoints)}`;
   }, [VTHORBalance, inputUSDPrice]);
 
-  const params = useMemo(
-    () => ({
+  const params = useMemo(() => {
+    const params = {
       affiliateBasisPoints,
       sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
       buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
       sellAmount: inputAmount.getValue('string'),
       senderAddress,
       recipientAddress,
-    }),
-    [affiliateBasisPoints, inputAsset, outputAsset, inputAmount, senderAddress, recipientAddress],
-  );
+      slippage: debouncedManualSlippage?.toString(),
+    };
+
+    if (!params.slippage) {
+      delete params.slippage;
+    }
+
+    return params;
+  }, [
+    affiliateBasisPoints,
+    inputAsset,
+    outputAsset,
+    inputAmount,
+    senderAddress,
+    recipientAddress,
+    debouncedManualSlippage,
+  ]);
 
   const {
     refetch,
@@ -110,12 +129,16 @@ export const useSwapQuote = ({
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
+    if (isFetching && !!routes.length) {
+      return;
+    }
+
     if (!data?.routes || isInputZero) return setRoutes([]);
 
     setSortedRoutes(data.routes);
 
     setApprovalsLoading(true);
-  }, [data?.routes, isInputZero, setSortedRoutes]);
+  }, [data?.routes, isFetching, isInputZero, isLoading, routes.length, setSortedRoutes]);
 
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
@@ -134,6 +157,13 @@ export const useSwapQuote = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, routes]);
+
+  useEffect(() => {
+    // reset routes if any of params changed
+    if (inputAsset || inputAmount || outputAsset) {
+      setRoutes([]);
+    }
+  }, [inputAmount, inputAsset, outputAsset]);
 
   return {
     affiliateBasisPoints,
