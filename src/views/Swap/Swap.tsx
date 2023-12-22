@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
 import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
@@ -392,32 +392,18 @@ const SwapView = () => {
     () => outputAsset.ticker === 'RUNE' && outputAsset.chain === Chain.Ethereum,
     [outputAsset],
   );
-  const __TEMPORARY__isBSC = useMemo(
-    () => inputAsset.chain === Chain.BinanceSmartChain,
-    [inputAsset.chain],
-  );
 
-  const tokenOutputWarning = useMemo(
-    () => __TEMPORARY__isBSC || isAvaxTHOR || isEthRUNE,
-    [__TEMPORARY__isBSC, isAvaxTHOR, isEthRUNE],
-  );
+  const tokenOutputWarning = useMemo(() => isAvaxTHOR || isEthRUNE, [isAvaxTHOR, isEthRUNE]);
 
   const tokenOutputContent = useMemo(() => {
     if (isAvaxTHOR) {
       return <THORInfoContent inputAsset={inputAsset} />;
     } else if (isEthRUNE) {
       return <RUNEInfoContent inputAsset={inputAsset} />;
-    } else if (__TEMPORARY__isBSC) {
-      return (
-        <Text textStyle="caption" variant="yellow">
-          Binance Smart Chain is temporarily disabled because of THORChain protocol issues. Please
-          try again later or use different assets.
-        </Text>
-      );
     }
 
     return null;
-  }, [__TEMPORARY__isBSC, inputAsset, isAvaxTHOR, isEthRUNE]);
+  }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
   const invalidSwap = useMemo(
     () =>
