@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { midgardApi } from 'store/midgard/api';
+import { trpcApi } from 'store/trpcApi/api';
 
 import appReducer from './app/slice';
 import assetsReducer from './assets/slice';
@@ -17,12 +18,12 @@ const rootReducer = combineReducers({
   [midgardApi.reducerPath]: midgardApi.reducer,
   [staticApi.reducerPath]: staticApi.reducer,
   [thorswapApi.reducerPath]: thorswapApi.reducer,
+  [trpcApi.reducerPath]: trpcApi.reducer,
 
   app: appReducer,
   assets: assetsReducer,
   multisig: multisigReducer,
   transactions: transactionsReducer,
-  // wallet: walletReducer,
 });
 
 const store = configureStore({
@@ -33,6 +34,7 @@ const store = configureStore({
       midgardApi.middleware,
       thorswapApi.middleware,
       staticApi.middleware,
+      trpcApi.middleware,
     ]),
 });
 
