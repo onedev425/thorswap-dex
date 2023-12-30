@@ -109,12 +109,13 @@ export const XMassHunt = () => {
               <Flex gap={4}>
                 {isTaken ? (
                   <Text textStyle="h4" variant="green">
-                    You have secured the some sweets!
+                    Congratulations! 🎉
                   </Text>
                 ) : (
                   <Text fontWeight="semibold" textStyle="caption">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. hehe Something here about christmas
+                    {`You've uncovered one of the hidden treasures in THORSwap's New Year Scavenger Hunt! To claim your 1,000 $THOR, please enter your Ethereum wallet address below. Your $THOR will be airdropped at the end of the hunt.
+
+Happy New Year and may 2024 continue to bring you good luck! 🎆`}
                   </Text>
                 )}
 
