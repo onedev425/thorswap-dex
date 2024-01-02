@@ -37,6 +37,7 @@ export type ImportedMultisigTx = {
   members: MultisigMember[];
   signatures: Signer[];
   threshold: number;
+  bodyBytes: number[];
 };
 
 let _thorchainToolbox: ReturnType<typeof ThorchainToolbox> | null = null;
@@ -111,11 +112,18 @@ const signMultisigTx = async (phrase: string, tx: string) => {
 const broadcastMultisigTx = async (
   tx: string,
   signers: Signer[],
+  members: MultisigMember[],
   threshold: number,
   bodyBytes: Uint8Array,
 ) => {
   const toolbox = await getThorchainToolbox();
-  return toolbox.broadcastMultisigTx(tx, signers, threshold, bodyBytes);
+  return toolbox.broadcastMultisigTx(
+    tx,
+    signers,
+    members.map((member) => member.pubKey),
+    threshold,
+    bodyBytes,
+  );
 };
 
 const loadMultisigBalances = async () =>

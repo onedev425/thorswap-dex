@@ -35,6 +35,7 @@ export const useTxImportForm = () => {
     const parsedData: ImportedMultisigTx = {
       threshold: data.threshold,
       txBody: data.txBody,
+      bodyBytes: data.bodyBytes,
       members: data.members.map((m) => ({
         pubKey: m.pubKey,
         name: m.name || '',
@@ -77,9 +78,9 @@ export const useTxImportForm = () => {
       return;
     }
 
-    const { txBody, signatures, members, threshold } = importedTx;
+    const { txBody, signatures, members, threshold, bodyBytes } = importedTx;
     navigate(ROUTES.TxMultisig, {
-      state: { tx: txBody, members, threshold, signatures },
+      state: { tx: txBody, members, threshold, signatures, bodyBytes },
     });
   }, [importedTx, navigate]);
 

@@ -117,7 +117,6 @@ export const useTxSend = () => {
 
   const handleSend = useCallback(async () => {
     const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
-
     if (!validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
       showErrorToast(t('notification.invalidchainAddy', { chain: Chain.THORChain }));
     } else {

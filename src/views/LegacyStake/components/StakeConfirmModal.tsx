@@ -128,14 +128,8 @@ export const StakeConfirmModal = ({
   return (
     <Modal isOpened={isOpened} onClose={onCancel} title={actionLabel}>
       <Box col className="w-full md:w-atuo md:!min-w-[350px]" flex={1}>
-        <InfoRow
-          label={t('views.staking.tokenBalance')}
-          value={tokenBalance.toSignificant(4) || 'N/A'}
-        />
-        <InfoRow
-          label={t('views.staking.tokenStaked')}
-          value={stakedAmount.toSignificant(4) || 'N/A'}
-        />
+        <InfoRow label={t('views.staking.tokenBalance')} value={tokenBalance.toFixed(4) || 'N/A'} />
+        <InfoRow label={t('views.staking.tokenStaked')} value={stakedAmount.toFixed(4) || 'N/A'} />
         <InfoRow label={t('views.staking.claimable')} value={claimableAmount.toFixed(2) || 'N/A'} />
 
         {!isClaim && (

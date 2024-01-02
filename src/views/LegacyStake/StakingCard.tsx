@@ -194,7 +194,8 @@ export const StakingCard = ({
         addTransaction({ id, from: ethAddr, inChain: Chain.Ethereum, type: txType, label }),
       );
 
-      const params = methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount, ethAddr];
+      const params =
+        methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount.getBaseValue('string'), ethAddr];
 
       try {
         const hash = (await triggerContractCall(contractType, methodName, params)) as string;

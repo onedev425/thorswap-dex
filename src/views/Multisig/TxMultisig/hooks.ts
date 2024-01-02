@@ -12,6 +12,7 @@ export type ScreenState = {
   members: MultisigMember[];
   signatures?: Signer[];
   threshold: number;
+  bodyBytes?: number[];
 };
 
 export const useTxData = (state: ScreenState | null) => {
@@ -23,7 +24,7 @@ export const useTxData = (state: ScreenState | null) => {
   const [signatures, setSignatures] = useState<Signer[]>(state?.signatures || []);
   const [broadcastedTxHash, setBroadcastedTxHash] = useState('');
   const [isBroadcasting, setIsBroadcasting] = useState(false);
-  const [bodyBytes, setBodyBytes] = useState<number[]>([]);
+  const [bodyBytes, setBodyBytes] = useState<number[]>(state?.bodyBytes || []);
 
   const txBodyStr = JSON.stringify(txData, null, 2) || '';
   const canBroadcast = signatures.length >= threshold;

@@ -87,6 +87,7 @@ export const useMultisig = () => {
         return await multisig.broadcastMultisigTx(
           tx,
           signers,
+          members,
           threshold,
           Uint8Array.from(bodyBytes),
         );
@@ -95,7 +96,7 @@ export const useMultisig = () => {
         showErrorToast(error.message);
       }
     },
-    [initMultisigWallet],
+    [initMultisigWallet, members],
   );
 
   const loadBalances = useCallback(async () => {
