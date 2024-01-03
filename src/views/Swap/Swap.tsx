@@ -547,7 +547,6 @@ const SwapView = () => {
             feeAssets={feeAssets}
             handleSwap={handleSwap}
             inputAssetProps={inputAssetProps}
-            inputUSDPrice={inputUSDPrice}
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}

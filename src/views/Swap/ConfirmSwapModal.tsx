@@ -22,7 +22,6 @@ type Props = {
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
-  inputUSDPrice: number;
   selectedRoute?: RouteWithApproveType;
 };
 
@@ -41,7 +40,6 @@ export const ConfirmSwapModal = memo(
     totalFee,
     visible,
     streamSwap,
-    inputUSDPrice,
     selectedRoute,
   }: Props) => {
     const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
@@ -61,11 +59,6 @@ export const ConfirmSwapModal = memo(
     const from = useMemo(
       () => getWalletAddress(inputAsset.chain),
       [getWalletAddress, inputAsset.chain],
-    );
-
-    const showSmallSwapWarning = useMemo(
-      () => inputUSDPrice <= 500 && !!selectedRoute?.providers.includes('THORCHAIN'),
-      [inputUSDPrice, selectedRoute],
     );
 
     const addresses = useMemo(() => [from, recipient], [from, recipient]);
@@ -127,7 +120,6 @@ export const ConfirmSwapModal = memo(
           outputAsset={outputAssetProps}
           recipient={recipient}
           setConfirmedSlippage={setConfirmedSlippage}
-          showSmallSwapWarning={showSmallSwapWarning}
           slipHigherThanTolerance={slipHigherThanTolerance}
           slippage={slippage}
           streamSwap={streamSwap}

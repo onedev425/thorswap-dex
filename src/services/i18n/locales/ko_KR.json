@@ -86,7 +86,6 @@
     "here": "여기",
     "hide": "숨기기",
     "hidePoolAnalytics": "풀 분석 숨기기",
-    "ilPaid": "지불된 IL",
     "inbound": "인바운드",
     "index": "인덱스",
     "joinDiscord": "Discord 서버 참여",
@@ -516,7 +515,6 @@
       "unlockDescription": "대출을 상환할 수 있는 최소 시간"
     },
     "liquidity": {
-      "ILPTooltip": "유동성 포지션에 대한 ILP가 있는 경우 인출 금액에 해당 금액이 가산됩니다.",
       "addButton": "추가",
       "amountToRemove": "빼실 금액",
       "approve": "승인",
@@ -536,7 +534,6 @@
       "from": "에서",
       "gasFeeTooltip": "토르체인(Thorchain) 프로토콜로 트랜잭션을 제출하는 데 사용되는 가스 수수료",
       "hardCapReachedTooltip": "용량이 가득 찼기 때문에 예치가 일시적으로 비활성화되었습니다.",
-      "ilp": "비영구적 손실 방지",
       "lastAdded": "마지막으로 추가됨",
       "noLiquidityToWithdraw": "인출된 LP 없습니다.",
       "poolShare": "풀 셰어 (Pool share)",
@@ -920,7 +917,6 @@
       "routeContractApproved": "이 경로 교환에 대한 계약이 승인되었습니다.",
       "slippage": "Slippage",
       "slippageTolerance": "슬리피지 허용 오차 (Slippage Tolerance)",
-      "smallSwapDisclaimer": "500달러 미만의 스왑은 THORChain 부분의 가격 보호가 없으며 시장 비율로 실행됩니다.",
       "streamSwapDisclaimer": "가격 최적화 스왑 (스트리밍 스왑)은 시장 가격에 실행됩니다",
       "swapAssets": "스왑 자산 비율",
       "swapPath": "거래를 라우팅하는 데 사용되는 풀을 스왑 그래프에 대해 설명합니다.",

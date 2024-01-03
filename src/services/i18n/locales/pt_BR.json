@@ -86,7 +86,6 @@
     "here": "Aqui",
     "hide": "Esconder",
     "hidePoolAnalytics": "Ocultar Análise de Pool",
-    "ilPaid": "IL Paga",
     "inbound": "Entrada",
     "index": "Índice",
     "joinDiscord": "Entrar no Discord",
@@ -516,7 +515,6 @@
       "unlockDescription": "Tempo mínimo após o qual você pode pagar seu empréstimo"
     },
     "liquidity": {
-      "ILPTooltip": "Se tiver uma posição de liquidez de ILP para si, esta será adicionada ao montante retirado.",
       "addButton": "Adicionar",
       "amountToRemove": "Quantia para retirar",
       "approve": "Aprovar",
@@ -536,7 +534,6 @@
       "from": "De",
       "gasFeeTooltip": "Taxa de gas para enviar a transação usando o protocolo Thorchain",
       "hardCapReachedTooltip": "Os depósitos estão temporariamente desativados porque a capacidade foi atingida.",
-      "ilp": "Protecção contra Perdas Impermanentes",
       "lastAdded": "Última adição",
       "noLiquidityToWithdraw": "Você não tem PL para sacar",
       "poolShare": "Participação",
@@ -920,7 +917,6 @@
       "routeContractApproved": "O contrato para esta troca de rotas foi aprovado.",
       "slippage": "Slippage",
       "slippageTolerance": "Tolerância a Divergência",
-      "smallSwapDisclaimer": "As trocas abaixo de $500 USD não têm proteção de preço na parte THORChain da troca e serão executadas à taxa de mercado.",
       "streamSwapDisclaimer": "Trocas otimizadas por preço (trocas em streaming) são executadas à taxa de mercado",
       "swapAssets": "Taxas de troca de ativos",
       "swapPath": "Explicação do Gráfico de Troca que conjuntos são utilizados para encaminhar o comércio.",

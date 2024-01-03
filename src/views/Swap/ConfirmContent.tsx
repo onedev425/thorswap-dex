@@ -22,7 +22,6 @@ type Props = {
   feeAssets: string;
   swapMemo: string;
   streamSwap: boolean;
-  showSmallSwapWarning: boolean;
   slipHigherThanTolerance: boolean;
   setConfirmedSlippage: (value: boolean) => void;
   confirmedSlippage: boolean;
@@ -44,7 +43,6 @@ export const ConfirmContent = memo(
     affiliateFee,
     feeAssets,
     swapMemo,
-    showSmallSwapWarning,
   }: Props) => {
     const memoHex = useMemo(() => hexlify(toUtf8Bytes(swapMemo)), [swapMemo]);
 
@@ -204,7 +202,7 @@ export const ConfirmContent = memo(
               </>
             )}
 
-            {!streamSwap && !showSmallSwapWarning && (
+            {!streamSwap && (
               <>
                 <Box className="px-4">
                   <Box className="w-full h-[1px] bg-light-border-primary dark:bg-dark-border-primary my-2" />
@@ -232,15 +230,6 @@ export const ConfirmContent = memo(
               onValueChange={setConfirmedSlippage}
               value={confirmedSlippage}
             />
-          )}
-
-          {showSmallSwapWarning && (
-            <Box row className="w-full my-3 px-4">
-              <Icon className="inline" color="orange" name="infoCircle" size={26} />{' '}
-              <Text className="ml-2" fontWeight="medium" textStyle="caption">
-                {t('views.swap.smallSwapDisclaimer')}
-              </Text>
-            </Box>
           )}
         </Box>
       </>

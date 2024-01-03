@@ -88,7 +88,6 @@
     "here": "Here",
     "hide": "Hide",
     "hidePoolAnalytics": "Hide Pool Analytics",
-    "ilPaid": "IL Paid",
     "inbound": "Inbound",
     "index": "Index",
     "joinDiscord": "Join Discord Server",
@@ -527,7 +526,6 @@
       "unlockDescription": "Minimum time after which you can repay your loan"
     },
     "liquidity": {
-      "ILPTooltip": "If you have ILP for you liquidity position it will be added to withdrawn amount.",
       "addButton": "Add",
       "amountToRemove": "Amount to remove",
       "approve": "Approve",
@@ -547,7 +545,6 @@
       "from": "From",
       "gasFeeTooltip": "Gas fee used for submitting the transaction using the thorchain protocol",
       "hardCapReachedTooltip": "Deposits are temporarily disabled because capacity has been reached.",
-      "ilp": "Impermanent Loss Protection",
       "lastAdded": "Last Added",
       "noLiquidityToWithdraw": "You don't have LP to withdraw",
       "poolShare": "Pool share",
@@ -926,7 +923,6 @@
       "slippage": "Slippage",
       "slippageConfirmationWarning": "Slippage is higher than expected. Are you sure you want to continue?",
       "slippageTolerance": "Slippage Tolerance",
-      "smallSwapDisclaimer": "Swaps under $500 USD do not have price protection on the THORChain part of the swap and will be executed at market rate.",
       "swapAssets": "Swap assets rates",
       "swapPath": "Swap Graph explanation which pools are used to route the trade.",
       "tabsCommon": "Common",

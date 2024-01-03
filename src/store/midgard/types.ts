@@ -257,7 +257,6 @@ export type LiquidityHistoryResponse = {
     addLiquidityVolume: string;
     addRuneLiquidityVolume: string;
     endTime: string;
-    impermanentLossProtectionPaid: string;
     net: string;
     runePriceUSD: string;
     startTime: string;
@@ -272,7 +271,6 @@ export type LiquidityHistoryResponse = {
     addLiquidityVolume: string;
     addRuneLiquidityVolume: string;
     endTime: string;
-    impermanentLossProtectionPaid: string;
     net: string;
     runePriceUSD: string;
     startTime: string;

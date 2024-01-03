@@ -9,7 +9,7 @@ import {
 } from '@swapkit/core';
 import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon, Link } from 'components/Atomic';
+import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
@@ -29,7 +29,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getThorYieldLPInfoBaseRoute } from 'settings/router';
+import { getAddLiquidityRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
@@ -306,21 +306,6 @@ export const WithdrawPanel = ({
     return withdrawArray;
   }, [withdrawType, runeAmount, runePrice, poolAsset, assetAmount, assetPrice]);
 
-  const lpLink: string = useMemo((): string => {
-    const lpRoute = getThorYieldLPInfoBaseRoute();
-    let queryParams = '';
-    if (lpType === PoolShareType.ASSET_ASYM) {
-      queryParams = `${poolAsset.chain.toLowerCase()}=${getWalletAddress(poolAsset.chain)}`;
-    } else if (lpType === PoolShareType.RUNE_ASYM) {
-      queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddress(Chain.THORChain)}`;
-    } else if (lpType === PoolShareType.SYM) {
-      queryParams = `${Chain.THORChain.toLowerCase()}=${getWalletAddress(
-        Chain.THORChain,
-      )}&${poolAsset.chain.toLowerCase()}=${getWalletAddress(poolAsset.chain)}`;
-    }
-    return `${lpRoute}?${queryParams}`;
-  }, [getWalletAddress, lpType, poolAsset.chain]);
-
   const warningWithPendingWithdraw = useMemo(
     () => !!shares.pending && Object.keys(shares).length > 1,
     [shares],
@@ -347,27 +332,8 @@ export const WithdrawPanel = ({
               <InfoWithTooltip tooltip={t('views.liquidity.gasFeeTooltip')} value={feeInUSD} />
             ),
           },
-          {
-            label: t('views.liquidity.ilp'),
-            value: (
-              <InfoWithTooltip
-                tooltip={t('views.liquidity.ILPTooltip')}
-                value={
-                  <Link external to={lpLink}>
-                    <Button
-                      className="px-2.5"
-                      leftIcon={<Icon name="chart" size={16} />}
-                      variant="borderlessTint"
-                    >
-                      {t('common.viewOnThoryieldNoArrow')}
-                    </Button>
-                  </Link>
-                }
-              />
-            ),
-          },
         ]),
-    [feeInUSD, lpLink, withdrawAssets],
+    [feeInUSD, withdrawAssets],
   );
 
   const modalInfoItems = useMemo(

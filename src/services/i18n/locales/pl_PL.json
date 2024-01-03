@@ -86,7 +86,6 @@
     "here": "Tutaj",
     "hide": "Ukryj stronę",
     "hidePoolAnalytics": "Ukryj analizy puli",
-    "ilPaid": "IL Opłacono",
     "inbound": "Przychodzące",
     "index": "Indeks",
     "joinDiscord": "Dołącz do serwera Discord",
@@ -516,7 +515,6 @@
       "unlockDescription": "Minimalny czas, po którym możesz spłacić swoją pożyczkę"
     },
     "liquidity": {
-      "ILPTooltip": "Jeśli posiadasz ILP dla swojej pozycji płynnościowej, zostanie on dodany do wypłacanej kwoty.",
       "addButton": "dodaj",
       "amountToRemove": "Kwota do usunięcia",
       "approve": "Zatwierdzenie",
@@ -536,7 +534,6 @@
       "from": "Z",
       "gasFeeTooltip": "Opłata za złożenie transakcji za pomocą protokołu thorchain",
       "hardCapReachedTooltip": "Depozyty są tymczasowo wyłączone, ponieważ osiągnięto pojemność.",
-      "ilp": "Ochrona przed nietrwałymi stratami",
       "lastAdded": "Ostatnio dodane",
       "noLiquidityToWithdraw": "Nie masz LP do wypłaty",
       "poolShare": "Udział puli",
@@ -920,7 +917,6 @@
       "routeContractApproved": "Umowa na tę zamianę tras została zatwierdzona.",
       "slippage": "Poślizg",
       "slippageTolerance": "Tolerancja poślizgu",
-      "smallSwapDisclaimer": "Zamiany poniżej 500 USD nie mają ochrony cenowej w części THORChain zamiany i zostaną wykonane po kursie rynkowym.",
       "streamSwapDisclaimer": "Optymalizowane pod względem ceny zamiany (streaming swaps) są realizowane po kursie rynkowym",
       "swapAssets": "Kursy wymiany aktywów",
       "swapPath": "Wykres swapowy wyjaśnia, które pule są używane do kierowania transakcji.",

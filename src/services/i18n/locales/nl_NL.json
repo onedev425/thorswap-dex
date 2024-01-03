@@ -86,7 +86,6 @@
     "here": "Hier",
     "hide": "Verberg",
     "hidePoolAnalytics": "Verberg Pool Analytics",
-    "ilPaid": "IL betaald",
     "inbound": "Inkomend",
     "index": "Index",
     "joinDiscord": "Join Discord Server",
@@ -516,7 +515,6 @@
       "unlockDescription": "Minimale tijd waarin u uw lening kunt terugbetalen"
     },
     "liquidity": {
-      "ILPTooltip": "Als u ILP hebt voor uw liquiditeitspositie, wordt dit toegevoegd aan het opgenomen bedrag.",
       "addButton": "Toevoegen",
       "amountToRemove": "Te verwijderen bedrag",
       "approve": "Goedkeuren ",
@@ -536,7 +534,6 @@
       "from": "Van",
       "gasFeeTooltip": "Gas kost gebruikt voor het verzenden van de transactie met behulp van het THORChain protocol",
       "hardCapReachedTooltip": "Stortingen zijn tijdelijk uitgeschakeld omdat de capaciteit is bereikt.",
-      "ilp": "Bescherming tegen onherstelbare verliezen",
       "lastAdded": "Laatst toegevoegd",
       "noLiquidityToWithdraw": "U heeft geen LP positie om op te nemen",
       "poolShare": "Pool aandeel",
@@ -920,7 +917,6 @@
       "routeContractApproved": "Het contract voor deze routeverwisseling is goedgekeurd.",
       "slippage": "Slippage",
       "slippageTolerance": "Slip tolerantie",
-      "smallSwapDisclaimer": "Swaps onder de $500 USD hebben geen prijsbescherming op het THORChain deel van de swap en worden uitgevoerd tegen de marktkoers.",
       "streamSwapDisclaimer": "Prijs-geoptimaliseerde swaps (streaming swaps) worden uitgevoerd tegen de marktkoers",
       "swapAssets": "Swap assets rates",
       "swapPath": "Swap Grafiek uitleg welke pools worden gebruikt om de handel te routeren.",
