@@ -417,10 +417,8 @@ const SwapView = () => {
   }, [inputAsset, isAvaxTHOR, isEthRUNE]);
 
   const invalidSwap = useMemo(
-    () =>
-      inputAsset.chain === Chain.BinanceSmartChain ||
-      (maxInputBalance ? inputAmount.gt(maxInputBalance) : false),
-    [inputAmount, inputAsset.chain, maxInputBalance],
+    () => (maxInputBalance ? inputAmount.gt(maxInputBalance) : false),
+    [inputAmount, maxInputBalance],
   );
 
   const assetTickers = useMemo(
