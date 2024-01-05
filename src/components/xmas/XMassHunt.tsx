@@ -10,6 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Button } from 'components/Atomic';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Confetti from 'react-confetti';
 import { useForm } from 'react-hook-form';
@@ -29,7 +30,8 @@ export const XMassHunt = () => {
     return isTx ? `${domain}/tx` : `${domain}${pathname}`;
   }, [location.pathname]);
 
-  const { data } = useValidateUrlQuery(urlToValidate);
+  const url = useDebouncedValue(urlToValidate, 5000);
+  const { data } = useValidateUrlQuery(url);
 
   const [reservePrize] = useReserveMutation();
   const [isTaken, setIsTaken] = useState(false);
