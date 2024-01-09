@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
-import { IS_DEV_API, IS_LEDGER_LIVE, IS_STAGENET } from 'settings/config';
+import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from 'settings/config';
 import type { AnnouncementsData } from 'store/externalConfig/types';
 
 import type {
@@ -37,7 +37,10 @@ export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    headers: { referer: 'https://app.thorswap.finance' },
+    headers: {
+      'x-api-key': IS_PROD ? import.meta.env.VITE_API_KEY : import.meta.env.VITE_STAGING_API_KEY,
+      referer: 'https://app.thorswap.finance',
+    },
     mode: 'cors',
   }),
   endpoints: (build) => ({

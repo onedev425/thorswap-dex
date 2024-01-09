@@ -53,6 +53,12 @@ jobs:
           VITE_POSTHOG_API_KEY: ${{ secrets.VITE_POSTHOG_API_KEY }}
           TARGET_VITE_POSTHOG_API_KEY: production,preview,development
           TYPE_VITE_POSTHOG_API_KEY: encrypted
+          VITE_STAGING_API_KEY: ${{ secrets.VITE_STAGING_API_KEY }}
+          TARGET_VITE_STAGING_API_KEY: production,preview,development
+          TYPE_VITE_STAGING_API_KEY: encrypted
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          TARGET_VITE_API_KEY: production
+          TYPE_VITE_API_KEY: encrypted
 
       - name: Deploy to Vercel
         id: vercel

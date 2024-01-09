@@ -6,6 +6,8 @@ interface ImportMetaEnv {
   readonly VITE_COVALENT_API_KEY: string;
   readonly VITE_ETHPLORER_API_KEY: string;
   readonly VITE_WALLETCONNECT_PROJECT_ID: string;
+  readonly VITE_STAGING_API_KEY: string;
+  readonly VITE_API_KEY: string;
 }
 
 interface ImportMeta {

@@ -45,6 +45,12 @@ jobs:
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
           TARGET_VITE_WALLETCONNECT_PROJECT_ID: production,preview,development
           TYPE_VITE_WALLETCONNECT_PROJECT_ID: encrypted
+          VITE_STAGING_API_KEY: ${{ secrets.VITE_STAGING_API_KEY }}
+          TARGET_VITE_STAGING_API_KEY: production,preview,development
+          TYPE_VITE_STAGING_API_KEY: encrypted
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          TARGET_VITE_API_KEY: production
+          TYPE_VITE_API_KEY: encrypted
 
       - name: Get Branch Name
         shell: bash
