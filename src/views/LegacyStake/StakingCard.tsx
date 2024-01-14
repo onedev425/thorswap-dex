@@ -94,8 +94,8 @@ export const StakingCard = ({
 
         const pendingReward = await stakingContract.pendingRewards(0, ethAddr);
 
-        setStakedAmount(SwapKitNumber.fromBigInt(BigInt(amount), BaseDecimal.ETH));
-        setPendingRewardDebt(SwapKitNumber.fromBigInt(BigInt(pendingReward), BaseDecimal.ETH));
+        setStakedAmount(SwapKitNumber.fromBigInt(BigInt(amount || 0), BaseDecimal.ETH));
+        setPendingRewardDebt(SwapKitNumber.fromBigInt(BigInt(pendingReward || 0), BaseDecimal.ETH));
       } catch (error: NotWorth) {
         console.error(error);
       }
@@ -340,17 +340,19 @@ export const StakingCard = ({
             <InfoRow
               label={t('views.staking.tokenBalance')}
               size="md"
-              value={ethAddr ? lpTokenBal.toLocaleString() : 'N/A'}
+              value={ethAddr && lpTokenBal.gt(0) ? lpTokenBal.toSignificant(4) : 'N/A'}
             />
             <InfoRow
               label={t('views.staking.tokenStaked')}
               size="md"
-              value={ethAddr ? stakedAmount.toSignificant(4) : 'N/A'}
+              value={ethAddr && stakedAmount.gt(0) ? stakedAmount.toSignificant(4) : 'N/A'}
             />
             <InfoRow
               label={t('views.staking.claimable')}
               size="md"
-              value={ethAddr ? pendingRewardDebt.toSignificant(4) : 'N/A'}
+              value={
+                ethAddr && pendingRewardDebt.gt(0) ? pendingRewardDebt.toSignificant(4) : 'N/A'
+              }
             />
           </Box>
 

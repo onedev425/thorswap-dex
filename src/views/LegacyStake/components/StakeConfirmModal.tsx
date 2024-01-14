@@ -128,9 +128,18 @@ export const StakeConfirmModal = ({
   return (
     <Modal isOpened={isOpened} onClose={onCancel} title={actionLabel}>
       <Box col className="w-full md:w-atuo md:!min-w-[350px]" flex={1}>
-        <InfoRow label={t('views.staking.tokenBalance')} value={tokenBalance.toFixed(4) || 'N/A'} />
-        <InfoRow label={t('views.staking.tokenStaked')} value={stakedAmount.toFixed(4) || 'N/A'} />
-        <InfoRow label={t('views.staking.claimable')} value={claimableAmount.toFixed(2) || 'N/A'} />
+        <InfoRow
+          label={t('views.staking.tokenBalance')}
+          value={tokenBalance.gt(0) ? tokenBalance.toFixed(4) : 'N/A'}
+        />
+        <InfoRow
+          label={t('views.staking.tokenStaked')}
+          value={stakedAmount.gt(0) ? stakedAmount.toFixed(4) : 'N/A'}
+        />
+        <InfoRow
+          label={t('views.staking.claimable')}
+          value={claimableAmount.gt(0) ? claimableAmount.toFixed(2) : 'N/A'}
+        />
 
         {!isClaim && (
           <>
@@ -144,7 +153,7 @@ export const StakeConfirmModal = ({
                 border="rounded"
                 className="text-right"
                 onChange={(e) => onAmountUpdate(e.target.value)}
-                value={amount.toString()}
+                value={amount.getValue('string')}
               />
             </Box>
 

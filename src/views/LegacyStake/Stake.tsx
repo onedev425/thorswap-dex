@@ -1,4 +1,3 @@
-import { AssetValue } from '@swapkit/core';
 import { Box } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { t } from 'services/i18n';
@@ -13,14 +12,10 @@ const Stake = () => {
       <Helmet content={t('common.staking')} title={t('common.staking')} />
       <Box className="gap-2.5 flex-wrap justify-center">
         {farmData.map(
-          ({ lpToken, ...rest }) =>
-            lpToken && (
-              <StakingCard
-                {...rest}
-                key={lpToken}
-                lpAsset={AssetValue.fromStringSync(lpToken)}
-                stakingToken={lpToken}
-              />
+          ({ lpToken, lpAsset, ...rest }) =>
+            lpToken &&
+            lpAsset && (
+              <StakingCard {...rest} key={lpToken} lpAsset={lpAsset} stakingToken={lpToken} />
             ),
         )}
 
