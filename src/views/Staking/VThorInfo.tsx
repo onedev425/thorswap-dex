@@ -4,7 +4,7 @@ import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { toOptionalFixed } from 'helpers/number';
-import { fetchVthorApr } from 'helpers/staking';
+import { fetchVthorApy } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { ROUTES } from 'settings/router';
@@ -20,7 +20,7 @@ type Props = {
 export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
-  const [vthorApr, setVthorApr] = useState(0);
+  const [vthorApy, setVthorApy] = useState(0);
   const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
@@ -33,11 +33,11 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const getVthorAPR = useCallback(async () => {
     if (thorStaked && thorStaked.gt(0)) {
       try {
-        const apr = await fetchVthorApr(thorStaked.getValue('number'));
-        setVthorApr(apr);
+        const apr = await fetchVthorApy(thorStaked.getValue('number'));
+        setVthorApy(apr);
       } catch (error: NotWorth) {
         console.error(error);
-        setVthorApr(0);
+        setVthorApy(0);
       }
     }
   }, [thorStaked]);
@@ -97,7 +97,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Tooltip>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {vthorApr > 0 ? `${toOptionalFixed(vthorApr, 3)}%` : '-'}
+              {vthorApy > 0 ? `${toOptionalFixed(vthorApy, 3)}%` : '-'}
             </Text>
           </Box>
 

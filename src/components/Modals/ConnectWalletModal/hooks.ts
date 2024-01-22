@@ -285,6 +285,7 @@ const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
   [WalletType.Keplr]: WalletOption.KEPLR,
+  [WalletType.KeepKey]: WalletOption.KEEPKEY,
   [WalletType.Keystore]: WalletOption.KEYSTORE,
   [WalletType.Ledger]: WalletOption.LEDGER,
   [WalletType.MetaMask]: WalletOption.METAMASK,

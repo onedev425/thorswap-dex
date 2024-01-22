@@ -1,31 +1,59 @@
 import { RequestClient } from '@swapkit/core';
 import { getBlockRewards } from 'services/contract';
 
-export const BLOCKS_PER_YEAR = 6432 * 365;
+type FlipSideData = {
+  DATE: string;
+  AFF_ADDRESS: string;
+  AFF_FEE_EARNED: number;
+  RUNE_PRICE_USD: number;
+  THOR_PRICE_USD: number;
+  AFF_FEE_EARNED_USD: number;
+  AFF_FEE_EARNED_THOR: number;
+};
+
+/**
+ * 1 block every 6 seconds
+ */
+export const BLOCKS_PER_YEAR = 14400 * 365;
+
+/**
+ * daily $THOR affiliateEarned -> take last periodInDays days -> sum -> avg -> multiply by 52 weeks
+ */
+const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
+  const dataFrom7Days = data.slice(-7);
+  const fees = dataFrom7Days
+    .map(({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR)
+    .reduce((prev, current) => prev + current, 0);
+
+  return (fees / 7) * 365;
+};
 
 const getThorBuyback = async () => {
+  const { timestamp, cacheData } = JSON.parse(localStorage.getItem('thorBuybackData') || '{}');
+
+  if (cacheData && Date.now() < timestamp) return getEstimatedYearlyThorBuyback(cacheData);
+
   try {
-    const data = await RequestClient.get<
-      [{ DATE: string; AFF_ADDRESS: string; AFF_FEE_EARNED_THOR: number }]
-    >(
+    const data: FlipSideData[] = await RequestClient.get(
       'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
     );
 
-    const daysWindow = 7;
-    const fees = data.map(({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR);
-    const last7days = fees.length >= daysWindow ? fees.slice(-daysWindow) : fees;
-    const affiliateFees7dAverage = last7days.reduce((prev, current) => prev + current, 0);
+    localStorage.setItem(
+      'thorBuybackData',
+      JSON.stringify({ timestamp: Date.now() + 1000 * 60 * 60, cacheData: data }),
+    );
 
-    return affiliateFees7dAverage * 52;
+    return getEstimatedYearlyThorBuyback(data);
   } catch (error: NotWorth) {
     console.error(error);
     return 0;
   }
 };
 
-export const fetchVthorApr = async (tvl: number) => {
-  const vthorBlockReward = (await getBlockRewards()) * BLOCKS_PER_YEAR;
+export const fetchVthorApy = async (tvl: number) => {
+  const blockRewards = await getBlockRewards();
+  const thorBlockRewards = blockRewards * BLOCKS_PER_YEAR;
   const buybackThor = await getThorBuyback().catch(() => 0);
 
-  return ((vthorBlockReward + buybackThor) / tvl) * 100;
+  return ((thorBlockRewards + buybackThor) / tvl) * 100;
 };
