@@ -21,7 +21,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
   const [vthorApy, setVthorApy] = useState(0);
-  const { thorStaked, vthorBalance, handleRefresh } = useVthorUtil();
+  const { getRate, stakePercentageRate, thorStaked, vthorBalance, handleRefresh } = useVthorUtil();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);
@@ -104,7 +104,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.stakingVThor.redeemableThor')}
+                {t('views.stakingVThor.totalStaked')}
               </Text>
 
               <Tooltip className="cursor-pointer" content={t('views.stakingVThor.totalThorTip')}>
@@ -112,18 +112,21 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Tooltip>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {thorStaked.gt(0) ? thorStaked.toAbbreviation() : '-'}
+              {thorStaked.toAbbreviation()} / {stakePercentageRate}%
             </Text>
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.stakingVThor.vthorBal')}
+                {t('views.stakingVThor.redeemableBalance')}
               </Text>
             </Box>
+
             <Text fontWeight="medium" textStyle="subtitle2">
-              {vthorBalance.gt(0) ? vthorBalance.toCurrency('', { decimal: 4 }) : '-'}
+              {vthorBalance.gt(0)
+                ? `${vthorBalance.mul(getRate()).toCurrency('')} / ${vthorBalance.toCurrency('')}`
+                : '-'}
             </Text>
           </Box>
         </Box>

@@ -21,6 +21,8 @@ export enum StakeActions {
   Deposit = 'deposit',
 }
 
+const MAX_THOR_AMOUNT = new SwapKitNumber({ value: 500_000_000, decimal: BaseDecimal.ETH });
+
 export const useV1ThorStakeInfo = (ethAddress?: string) => {
   const [stakedThorAmount, setStakedThorAmount] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
@@ -49,6 +51,13 @@ const getStakedThorAmount = async () => {
   return SwapKitNumber.fromBigInt(stakedThorAmount, 18);
 };
 
+const getBurnedThorAmount = async () => {
+  const contract = await getCustomContract(stakingV2Addr[VestingType.THOR]);
+  const stakedThorAmount = await contract.balanceOf('0x000000000000000000000000000000000000dead');
+
+  return SwapKitNumber.fromBigInt(stakedThorAmount, 18);
+};
+
 export const getVthorState = async (methodName: string, args?: FixMe[]) => {
   try {
     const contract = await getCustomContract(
@@ -68,6 +77,9 @@ export const useVthorUtil = () => {
   const [thorStaked, setThorStaked] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
+  const [thorBurned, setThorBurned] = useState(
+    new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  );
   const [vthorTS, setVthorTS] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
   const [thorRedeemable, setTHORRedeemable] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
@@ -80,11 +92,11 @@ export const useVthorUtil = () => {
   const ethAddr = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
   const getThorStakedInfo = useCallback(async () => {
-    const res = await getStakedThorAmount().catch(
-      () => new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
-    );
+    const staked = await getStakedThorAmount();
+    setThorStaked(staked);
 
-    setThorStaked(res);
+    const burned = await getBurnedThorAmount();
+    setThorBurned(burned);
   }, []);
 
   const getVthorTS = useCallback(async () => {
@@ -147,12 +159,12 @@ export const useVthorUtil = () => {
   }, [ethAddr, appDispatch]);
 
   const previewDeposit = useCallback(
-    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate(true)).toSignificant(6),
+    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate(true)).toSignificant(),
     [getRate],
   );
 
   const previewRedeem = useCallback(
-    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate()).toSignificant(6),
+    (inputAmount: SwapKitNumber) => inputAmount.mul(getRate()).toSignificant(),
     [getRate],
   );
 
@@ -197,7 +209,7 @@ export const useVthorUtil = () => {
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${stakeAmount.toSignificant(6)} ${thorAsset.ticker}`,
+          label: `${t('txManager.stake')} ${stakeAmount.toSignificant()} ${thorAsset.ticker}`,
           inChain: thorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
@@ -236,7 +248,7 @@ export const useVthorUtil = () => {
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.unstake')} ${unstakeAmount.toSignificant(4)} ${vthorAsset.ticker}`,
+          label: `${t('txManager.unstake')} ${unstakeAmount.toSignificant()} ${vthorAsset.ticker}`,
           inChain: vthorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
@@ -266,6 +278,9 @@ export const useVthorUtil = () => {
   return {
     thorStaked,
     thorRedeemable,
+    stakePercentageRate: (
+      thorStaked.div(MAX_THOR_AMOUNT.sub(thorBurned)).getValue('number') * 100
+    ).toFixed(2),
     vthorBalance,
     vthorTS,
     getRate,

@@ -818,7 +818,7 @@
     },
     "stakingVThor": {
       "addVTHOR": "Add vTHOR",
-      "apyTip": "Rates shown are estimates, and may fluctuate.",
+      "apyTip": "Rates shown are estimates based on 30 day average, and may fluctuate.",
       "buyThor": "Buy THOR",
       "description": "Stake THOR for vTHOR",
       "goToUnstake": "Go to unstake",
@@ -841,9 +841,11 @@
       "thorStaked": "THOR Staked",
       "title": "vTHOR Staking",
       "totalThor": "Total THOR",
-      "totalThorTip": "Total number of redeemable THOR from THOR Staked and Staking Rewards",
+      "totalStaked": "Total $THOR Staked",
+      "totalThorTip": "Total $THOR staked in the contract with % of all available $THOR staked ($THOR staked / (total supply - burned $THOR)",
       "unstake": "Unstake",
       "unstaked": "Unstaked",
+      "redeemableBalance": "Reedemable $THOR / $vTHOR",
       "vthorBal": "vTHOR Balance",
       "yesterdayApr": "Yesterday's APR"
     },

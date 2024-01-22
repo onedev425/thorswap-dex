@@ -11,7 +11,6 @@ import { TabsSelect } from 'components/TabsSelect';
 import { ViewHeader } from 'components/ViewHeader';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
-import { useFormatPrice } from 'helpers/formatPrice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -52,7 +51,6 @@ const Staking = () => {
   const [isReverted, setReverted] = useState(true);
   const [isModalOpened, setModalOpened] = useState(false);
 
-  const formatter = useFormatPrice();
   const { getRateString, previewDeposit, previewRedeem, stakeThor, unstakeThor } = useVthorUtil();
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { getWallet } = useWallet();
@@ -258,7 +256,7 @@ const Staking = () => {
             <Box className="self-stretch flex-1">
               <Box flex={1}>
                 <Text className="-ml-1 !text-2xl text-left flex-1" fontWeight="normal">
-                  {formatter(outputAmount)}
+                  {outputAmount}
                 </Text>
               </Box>
 
