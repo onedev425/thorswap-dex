@@ -16,7 +16,7 @@ function handleDynamicImportError(error: Error) {
   // If the last reload time is more than 10 seconds ago, reload the page
   const isReloading = !time || time + 10_000 < now;
   if (isReloading) {
-    console.log('New version for this module found. Reloading ...');
+    console.info('New version for this module found. Reloading ...');
     sessionStorage.setItem('last-reload', String(now));
     window.location.reload();
 

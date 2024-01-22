@@ -21,7 +21,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
   const [vthorApy, setVthorApy] = useState(0);
-  const { thorStaked, vthorBalance, handleRefresh, thorRedeemable } = useVthorUtil();
+  const { thorStaked, vthorBalance, handleRefresh } = useVthorUtil();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
     setIsFetching(true);
@@ -112,7 +112,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
               </Tooltip>
             </Box>
             <Text fontWeight="medium" textStyle="subtitle2">
-              {thorRedeemable.gt(0) ? thorRedeemable.toCurrency('', { decimal: 4 }) : '-'}
+              {thorStaked.gt(0) ? thorStaked.toAbbreviation() : '-'}
             </Text>
           </Box>
 

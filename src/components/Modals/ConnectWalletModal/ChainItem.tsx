@@ -32,7 +32,7 @@ const ChainItem = ({
   walletType,
 }: Props) => {
   const { isMdActive } = useWindowSize();
-  console.log(tooltip);
+
   return (
     <Box
       center
