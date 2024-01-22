@@ -200,6 +200,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
 
       const toolbox = ETHToolbox({
         provider,
+        // @ts-expect-error
         signer: new VoidSigner(ledgerLiveAccount.address, provider),
         ethplorerApiKey: (import.meta.env.VITE_ETHPLORER_API_KEY ||
           process.env.VITE_ETHPLORER_API_KEY) as string,

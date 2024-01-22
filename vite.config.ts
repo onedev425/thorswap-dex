@@ -4,7 +4,6 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';
-import rewriteAll from 'vite-plugin-rewrite-all';
 import svgr from 'vite-plugin-svgr';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
@@ -16,7 +15,6 @@ const sourcemap = withSourcemap || analyze;
 
 const plugins: any[] = [
   react(),
-  rewriteAll(),
   svgr({ svgrOptions: { icon: true } }),
   removeConsole(),
   sentryVitePlugin({
