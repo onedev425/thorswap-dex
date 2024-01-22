@@ -15,17 +15,18 @@ type FlipSideData = {
  * 1 block every 6 seconds
  */
 export const BLOCKS_PER_YEAR = 14400 * 365;
+const periodInDays = 30;
 
 /**
  * daily $THOR affiliateEarned -> take last periodInDays days -> sum -> avg -> multiply by 52 weeks
  */
 const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
-  const dataFrom7Days = data.slice(-7);
-  const fees = dataFrom7Days
+  const dataFromPeriod = data.slice(-periodInDays);
+  const fees = dataFromPeriod
     .map(({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR)
     .reduce((prev, current) => prev + current, 0);
 
-  return (fees / 7) * 365;
+  return (fees / periodInDays) * 365;
 };
 
 const getThorBuyback = async () => {
