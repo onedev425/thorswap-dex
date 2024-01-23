@@ -3,7 +3,6 @@ import 'chart.js/auto';
 import { Box, Icon } from 'components/Atomic';
 import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
-import { XMassHunt } from 'components/xmas/XMassHunt';
 import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from 'settings/router';
@@ -112,7 +111,6 @@ export const PublicRoutes = memo(() => {
                         </Box>
                       }
                     >
-                      <XMassHunt />
                       <Component />
                     </Suspense>
                   </Layout>
