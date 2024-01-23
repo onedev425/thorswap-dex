@@ -845,7 +845,7 @@
       "totalThorTip": "Total $THOR staked in the contract with % of all available $THOR staked ($THOR staked / (total supply - burned $THOR)",
       "unstake": "Unstake",
       "unstaked": "Unstaked",
-      "redeemableBalance": "Reedemable $THOR / $vTHOR",
+      "redeemableBalance": "Redeemable $THOR / $vTHOR",
       "vthorBal": "vTHOR Balance",
       "yesterdayApr": "Yesterday's APR"
     },
