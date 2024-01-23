@@ -25,11 +25,11 @@
     "https://*"
   ],
   "homepageUrl": "https://ledgerlive.thorswap.finance",
-  "icon": "https://www.thorswap.finance/logo.png",
+  "icon": "https://static.thorswap.net/logo.png",
   "id": "thorswap",
   "manifestVersion": "2",
   "name": "THORSwap",
-  "permissions": [ 
+  "permissions": [
       "account.list",
       "account.request",
       "transaction.sign",
