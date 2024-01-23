@@ -173,7 +173,7 @@ export const useNodeManager = ({
       await import('services/swapKit')
     ).getSwapKitClient();
 
-    const isValidAddress = validateAddress({
+    const isValidAddress = await validateAddress({
       chain: Chain.THORChain,
       address: address || '',
     });
