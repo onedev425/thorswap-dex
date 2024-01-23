@@ -24,9 +24,7 @@ export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
   }, [assetValue, priceData]);
 
   const assetNumberValue = assetValue.getValue('number');
-  const value = `${formatPrice(assetNumberValue)} (${formatPrice(
-    assetNumberValue * currentPrice,
-  )})`;
+  const value = `${assetValue.toSignificant(6)} (${formatPrice(assetNumberValue * currentPrice)})`;
 
   return (
     <Box
