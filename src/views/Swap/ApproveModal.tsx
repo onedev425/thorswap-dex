@@ -2,23 +2,25 @@ import type { AssetValue } from '@swapkit/core';
 import { InfoTable } from 'components/InfoTable';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
+import { ApproveAmountSlider } from 'views/Swap/ApproveAmountSlider';
 
 type Props = {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
+  balance?: AssetValue;
+  handleApprove: (approveAmount?: number) => Promise<void>;
   inputAsset: AssetValue;
+  setVisible: (visible: boolean) => void;
   totalFee?: string;
-  handleApprove: () => Promise<void>;
+  visible: boolean;
 };
 
 export const ApproveModal = memo(
-  ({ inputAsset, handleApprove, setVisible, totalFee, visible }: Props) => {
+  ({ balance, inputAsset, handleApprove, setVisible, totalFee, visible }: Props) => {
+    const [approveAmount, setApproveAmount] = useState<number | undefined>();
     const handleConfirmApprove = useCallback(() => {
       setVisible(false);
-
-      handleApprove();
-    }, [handleApprove, setVisible]);
+      handleApprove(approveAmount);
+    }, [approveAmount, handleApprove, setVisible]);
 
     const approveConfirmInfo = useApproveInfoItems({
       assetName: inputAsset.ticker,
@@ -34,6 +36,10 @@ export const ApproveModal = memo(
         onConfirm={handleConfirmApprove}
       >
         <InfoTable items={approveConfirmInfo} />
+
+        {balance?.getValue('number') ? (
+          <ApproveAmountSlider balance={balance} setApproveAmount={setApproveAmount} />
+        ) : null}
       </ConfirmModal>
     );
   },

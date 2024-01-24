@@ -557,6 +557,7 @@ const SwapView = () => {
           />
 
           <ApproveModal
+            balance={maxInputBalance}
             handleApprove={handleApprove}
             inputAsset={inputAsset}
             setVisible={setVisibleApproveModal}

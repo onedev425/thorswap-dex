@@ -17,43 +17,47 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const appDispatch = useAppDispatch();
   const { getWalletAddress } = useWallet();
 
-  const handleApprove = useCallback(async () => {
-    const from = getWalletAddress(inputAsset.chain);
-    if (from) {
-      const id = v4();
-      const inChain = inputAsset.chain;
-      const type =
-        inChain === Chain.Ethereum
-          ? TransactionType.ETH_APPROVAL
-          : inChain === Chain.Avalanche
-            ? TransactionType.AVAX_APPROVAL
-            : TransactionType.BSC_APPROVAL;
+  const handleApprove = useCallback(
+    async (approveAmount?: number) => {
+      const from = getWalletAddress(inputAsset.chain);
+      if (from) {
+        const id = v4();
+        const inChain = inputAsset.chain;
+        const type =
+          inChain === Chain.Ethereum
+            ? TransactionType.ETH_APPROVAL
+            : inChain === Chain.Avalanche
+              ? TransactionType.AVAX_APPROVAL
+              : TransactionType.BSC_APPROVAL;
 
-      appDispatch(
-        addTransaction({
-          id,
-          from,
-          inChain,
-          type,
-          label: `${t('txManager.approve')} ${inputAsset.ticker}`,
-        }),
-      );
+        appDispatch(
+          addTransaction({
+            id,
+            from,
+            inChain,
+            type,
+            label: `${t('txManager.approve')} ${inputAsset.ticker}`,
+          }),
+        );
 
-      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+        const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
-      try {
-        const txid = await approveAssetValue(inputAsset, contract);
+        try {
+          debugger;
+          const txid = await approveAssetValue(inputAsset.set(approveAmount || 0), contract);
 
-        if (typeof txid === 'string') {
-          appDispatch(updateTransaction({ id, txid }));
+          if (typeof txid === 'string') {
+            appDispatch(updateTransaction({ id, txid }));
+          }
+        } catch (error) {
+          console.error(error);
+          appDispatch(completeTransaction({ id, status: 'error' }));
+          showErrorToast(t('notification.approveFailed'));
         }
-      } catch (error) {
-        console.error(error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'));
       }
-    }
-  }, [getWalletAddress, inputAsset, appDispatch, contract]);
+    },
+    [getWalletAddress, inputAsset, appDispatch, contract],
+  );
 
   return handleApprove;
 };
