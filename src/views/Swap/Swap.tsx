@@ -196,14 +196,14 @@ const SwapView = () => {
     quoteId,
     vTHORDiscount,
   } = useSwapQuote({
-    inputUSDPrice,
     ethAddress,
-    inputAsset,
     inputAmount,
-    outputAsset,
-    senderAddress: sender,
-    recipientAddress: recipient,
+    inputAsset,
+    inputUSDPrice,
     manualSlippage,
+    outputAsset,
+    recipientAddress: recipient,
+    senderAddress: sender,
   });
 
   const {

@@ -35,6 +35,7 @@ export const useSwapQuote = ({
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
 
   const debouncedManualSlippage = useDebouncedValue(manualSlippage, 200);
+  const debouncedSellAmount = useDebouncedValue(inputAmount.getValue('string'), 400);
 
   const VTHORBalance = useVTHORBalance(ethAddress);
 
@@ -54,31 +55,26 @@ export const useSwapQuote = ({
     return `${Math.floor(basisPoints)}`;
   }, [VTHORBalance, inputUSDPrice]);
 
-  const params = useMemo(() => {
-    const params = {
+  const params = useMemo(
+    () => ({
       affiliateBasisPoints,
       sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
       buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
-      sellAmount: inputAmount.getValue('string'),
+      sellAmount: debouncedSellAmount,
       senderAddress,
       recipientAddress,
-      slippage: debouncedManualSlippage?.toString(),
-    };
-
-    if (!params.slippage) {
-      delete params.slippage;
-    }
-
-    return params;
-  }, [
-    affiliateBasisPoints,
-    inputAsset,
-    outputAsset,
-    inputAmount,
-    senderAddress,
-    recipientAddress,
-    debouncedManualSlippage,
-  ]);
+      ...(debouncedManualSlippage && { slippage: debouncedManualSlippage.toString() }),
+    }),
+    [
+      affiliateBasisPoints,
+      debouncedManualSlippage,
+      debouncedSellAmount,
+      inputAsset,
+      outputAsset,
+      recipientAddress,
+      senderAddress,
+    ],
+  );
 
   const {
     refetch,
