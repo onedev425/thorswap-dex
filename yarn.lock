@@ -3241,10 +3241,10 @@
     "@scure/bip39" "1.2.2"
     blakejs "1.2.1"
 
-"@swapkit/wallet-ledger@1.0.0-rc.87":
-  version "1.0.0-rc.87"
-  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.87.tgz#19f95fa2c71e5dfb2473708cda842b77001fe875"
-  integrity sha512-USgbNJARYQQGip5uwkMtwxoZaAvQ6BI0pumJR3J+izMTGFmR/F4SBhQEt5J6+zxiOtYIzeq/OEZFPKPuSFUX2A==
+"@swapkit/wallet-ledger@1.0.0-rc.88":
+  version "1.0.0-rc.88"
+  resolved "https://registry.yarnpkg.com/@swapkit/wallet-ledger/-/wallet-ledger-1.0.0-rc.88.tgz#8f0df4a5cbc0c3f32b06c3f30c3817b73a70844c"
+  integrity sha512-PZs6gb/TKPoOEaNezE9lYjyb9pfJYADlvBjluY6MiwoJvyJyrOWCwiUumPsXLsdbL32iFbxe405mfadL6G2xqw==
   dependencies:
     "@ledgerhq/devices" "8.1.0"
     "@ledgerhq/errors" "6.16.0"
