@@ -21,8 +21,6 @@ export enum StakeActions {
   Deposit = 'deposit',
 }
 
-const MAX_THOR_AMOUNT = new SwapKitNumber({ value: 500_000_000, decimal: BaseDecimal.ETH });
-
 export const useV1ThorStakeInfo = (ethAddress?: string) => {
   const [stakedThorAmount, setStakedThorAmount] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
