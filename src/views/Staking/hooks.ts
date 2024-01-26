@@ -1,4 +1,4 @@
-import { AssetValue, BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, RequestClient, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { stakingV2Addr, VestingType } from 'helpers/assets';
@@ -51,13 +51,6 @@ const getStakedThorAmount = async () => {
   return SwapKitNumber.fromBigInt(stakedThorAmount, 18);
 };
 
-const getBurnedThorAmount = async () => {
-  const contract = await getCustomContract(stakingV2Addr[VestingType.THOR]);
-  const stakedThorAmount = await contract.balanceOf('0x000000000000000000000000000000000000dead');
-
-  return SwapKitNumber.fromBigInt(stakedThorAmount, 18);
-};
-
 export const getVthorState = async (methodName: string, args?: FixMe[]) => {
   try {
     const contract = await getCustomContract(
@@ -77,7 +70,7 @@ export const useVthorUtil = () => {
   const [thorStaked, setThorStaked] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
-  const [thorBurned, setThorBurned] = useState(
+  const [circulatingSupply, setCirculatingSupply] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
   const [vthorTS, setVthorTS] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
@@ -95,8 +88,11 @@ export const useVthorUtil = () => {
     const staked = await getStakedThorAmount();
     setThorStaked(staked);
 
-    const burned = await getBurnedThorAmount();
-    setThorBurned(burned);
+    const circulating = await RequestClient.get<number>(
+      'https://api.thorswap.net/aggregator/stats/supply/circulating',
+    );
+
+    setCirculatingSupply(new SwapKitNumber(circulating));
   }, []);
 
   const getVthorTS = useCallback(async () => {
@@ -278,9 +274,9 @@ export const useVthorUtil = () => {
   return {
     thorStaked,
     thorRedeemable,
-    stakePercentageRate: (
-      thorStaked.div(MAX_THOR_AMOUNT.sub(thorBurned)).getValue('number') * 100
-    ).toFixed(2),
+    stakePercentageRate: circulatingSupply.gt(0)
+      ? thorStaked.div(circulatingSupply).mul(100).getValue('number').toFixed(2)
+      : 0,
     vthorBalance,
     vthorTS,
     getRate,

@@ -842,7 +842,7 @@
       "title": "vTHOR Staking",
       "totalThor": "Total THOR",
       "totalStaked": "Total $THOR Staked",
-      "totalThorTip": "Total $THOR staked in the contract with % of all available $THOR staked ($THOR staked / (total supply - burned $THOR)",
+      "totalThorTip": "Total $THOR staked in the contract with % of all available $THOR staked ($THOR Staked / Circulating Supply)",
       "unstake": "Unstake",
       "unstaked": "Unstaked",
       "redeemableBalance": "Redeemable $THOR / $vTHOR",
