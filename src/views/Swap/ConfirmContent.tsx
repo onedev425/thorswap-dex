@@ -5,7 +5,6 @@ import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Checkbox, Icon, Tooltip } from 'components/Atomic';
 import { ChainBadge } from 'components/ChainBadge';
 import { hexlify, toUtf8Bytes } from 'ethers';
-import { parseToPercent } from 'helpers/parseHelpers';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
@@ -15,7 +14,7 @@ type Props = {
   outputAsset: AssetInputType;
   recipient: string;
   estimatedTime: string;
-  slippage: number;
+  slippagePercent: number;
   minReceive: string;
   totalFee: string;
   affiliateFee: string;
@@ -36,7 +35,7 @@ export const ConfirmContent = memo(
     outputAsset,
     recipient,
     estimatedTime,
-    slippage,
+    slippagePercent,
     minReceive,
     totalFee,
     streamSwap,
@@ -124,7 +123,7 @@ export const ConfirmContent = memo(
                   {t('common.slippage')}
                 </Text>
                 <Text color={slipHigherThanTolerance ? 'red' : ''} textStyle="caption">
-                  {parseToPercent(slippage)}
+                  {slippagePercent}%
                 </Text>
               </Box>
             </Box>

@@ -373,7 +373,6 @@ const SwapView = () => {
     getMaxBalance(inputAsset).then((maxBalance) => setMaxInputBalance(maxBalance));
   }, [inputAsset, getMaxBalance]);
 
-  const slippage = (inputUSDPrice - outputUSDPrice) / inputUSDPrice;
   const minReceiveSlippage =
     (inputUSDPrice - minReceive.getValue('number') * outputUnitPrice) / inputUSDPrice;
 
@@ -550,7 +549,7 @@ const SwapView = () => {
             recipient={recipient}
             selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
-            slippage={slippage}
+            slippagePercent={slippagePercent}
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}

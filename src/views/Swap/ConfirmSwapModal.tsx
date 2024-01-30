@@ -18,7 +18,7 @@ type Props = {
   outputAssetProps: AssetInputType;
   recipient: string;
   setVisible: (visible: boolean) => void;
-  slippage: number;
+  slippagePercent: number;
   handleSwap: () => Promise<void>;
   totalFee: string;
   visible: boolean;
@@ -36,7 +36,7 @@ export const ConfirmSwapModal = memo(
     outputAssetProps,
     recipient,
     setVisible,
-    slippage,
+    slippagePercent,
     totalFee,
     visible,
     streamSwap,
@@ -48,8 +48,8 @@ export const ConfirmSwapModal = memo(
     const [addressesVerified, setAddressesVerified] = useState(true);
     const slippageTolerance = useAppSelector(({ app }) => app.slippageTolerance);
     const slipHigherThanTolerance = useMemo(
-      () => slippage * 100 > slippageTolerance,
-      [slippage, slippageTolerance],
+      () => slippagePercent > slippageTolerance,
+      [slippagePercent, slippageTolerance],
     );
     const [confirmedSlippage, setConfirmedSlippage] = useState(false);
 
@@ -121,7 +121,7 @@ export const ConfirmSwapModal = memo(
           recipient={recipient}
           setConfirmedSlippage={setConfirmedSlippage}
           slipHigherThanTolerance={slipHigherThanTolerance}
-          slippage={slippage}
+          slippagePercent={slippagePercent}
           streamSwap={streamSwap}
           swapMemo={memo}
           totalFee={totalFee}
