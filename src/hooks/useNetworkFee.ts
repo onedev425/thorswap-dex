@@ -19,7 +19,7 @@ const getTxSizeByAsset = (asset: AssetValue): number => {
       return 1500;
     case Chain.Bitcoin:
     case Chain.Litecoin:
-      return 300;
+      return 350;
     case Chain.Dogecoin:
       return 450;
     default:

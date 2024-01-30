@@ -1,4 +1,4 @@
-import type { AssetValue } from '@swapkit/core';
+import { AssetValue } from '@swapkit/core';
 import { Chain, isGasAsset } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { getAssetBalance } from 'helpers/wallet';
@@ -30,7 +30,9 @@ export const useBalance = (skipFees?: boolean) => {
       const chainWallet = getWallet(chain);
       if (!chainWallet) return asset.mul(0);
 
-      const chainInfo = gasPriceRates?.find(({ asset }) => asset.includes(chain));
+      const chainInfo = gasPriceRates?.find(
+        ({ asset }) => AssetValue.fromStringSync(asset).chain === chain,
+      );
 
       if (IS_LEDGER_LIVE && chain === Chain.Bitcoin)
         getInboundFeeDataForChain(chain).then((gasPrice) => {
