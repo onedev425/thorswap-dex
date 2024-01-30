@@ -179,12 +179,10 @@
     "announcements": {
       "announcements": "Announcements",
       "chainHalted": "%{chain} Chain is temporarily halted on THORChain. All trading and LP actions are currently unavailable",
-      "chainLPHalted": "Adding and withdrawing on %{chain} Chain are temporarily unavailable.",
+      "chainLPHalted": "Adding and withdrawing from LP/Earn on %{chain} Chain is temporarily unavailable.",
       "chainTradeHalted": "Trading on %{chain} Chain is temporarily unavailable.",
       "outboundQueue": "THORChain is currently experiencing heavy outbound queue (%{outboundQueue}). Swaps could take longer than usual to process.",
       "thorChainHalted": "THORChain is temporarily unavailable while undergoing maintenance.",
-      "thorChainLPHalted": "Adding and withdrawing liquidity are temporarily disabled on THORChain.",
-      "thorChainTradeHalted": "Trading is temporarily disabled on THORChain.",
       "tradingGloballyDisabled": "THORChain is currently experiencing technical difficulties. Team is investigating."
     },
     "assetSelect": {
