@@ -26,7 +26,7 @@ type Props = {
 };
 
 const sliderScale = 4;
-const maxOutputScale = 10;
+const maxOutputScale = 5;
 const startSlipSliderValue = 15;
 const maxSlip = 10;
 const minSlip = 0.5;
@@ -44,19 +44,22 @@ export const SwapSlippage = ({
   const recommendedSlippage = route?.meta.recommendedSlippage;
 
   const outputAmountValue = useMemo(() => {
-    const maxOutpuAmount = new SwapKitNumber({
+    const maxOutputAmount = new SwapKitNumber({
       value: route?.streamingSwap?.expectedOutput || 0,
       decimal: outputAsset.decimal,
     });
 
-    if (maxOutpuAmount.lte(0)) return 100;
+    if (maxOutputAmount.lte(0)) return 100;
 
-    const outputRatio = outputAmount.div(maxOutpuAmount);
+    const outputRatio = outputAmount.div(maxOutputAmount);
+    const maxSlipValue = startSlipSliderValue + maxSlip * sliderScale;
 
     const outputValue = outputRatio.getValue('number') * 100;
     const slipPercent = 100 - Number(outputValue);
 
-    return outputValue < 100 ? 100 - slipPercent * maxOutputScale : 100;
+    const scaledValue = getScaledValue(maxSlipValue, slipPercent);
+
+    return outputValue < 100 ? scaledValue : 100;
   }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput]);
 
   useEffect(() => {
@@ -191,3 +194,15 @@ export const SwapSlippage = ({
     </Flex>
   );
 };
+
+function getScaledValue(maxValue: number, slipPercent: number) {
+  let scale = maxOutputScale;
+  let scaledValue = 100 - slipPercent * scale;
+
+  while (scale > 0 && maxValue > scaledValue) {
+    scale -= 1;
+    scaledValue = 100 - slipPercent * scale;
+  }
+
+  return scaledValue;
+}
