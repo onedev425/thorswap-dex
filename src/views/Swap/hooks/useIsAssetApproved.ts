@@ -89,13 +89,7 @@ const useApproveResult = ({
 export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
   const { getWalletAddress } = useWallet();
   const { numberOfPendingApprovals } = useTransactionsState();
-  //   const walletAddress = useMemo(
-  //     () => getWalletAddress(assetValue.chain as Chain),
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //     [assetValue.chain, assetValue.bigIntValue, walletAddresses],
-  //   );
   const walletAddress = getWalletAddress(assetValue.chain as Chain);
-
   const possibleApprove = useMemo(() => !assetValue.isGasAsset, [assetValue]);
 
   const { isApproved, isLoading } = useApproveResult({

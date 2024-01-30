@@ -44,9 +44,7 @@ export const LoanInfoRow = ({
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [sliderValue, setSliderValue] = useState(new SwapKitNumber({ decimal: 2, value: 0 }));
   const [repayBalance, setRepayBalance] = useState<AssetValue>();
-  const [repayAsset, setRepayAsset] = useState(
-    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER) as AssetValue,
-  );
+  const [repayAsset, setRepayAsset] = useState(AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER));
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const { getMaxBalance } = useBalance();
@@ -326,7 +324,8 @@ export const LoanInfoRow = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                {repayAsset.getValue('number') > 0 && (!isApproved || isLoadingApproval) ? (
+
+                {repayAssetAmount.getValue('number') > 0 && (!isApproved || isLoadingApproval) ? (
                   <Button
                     stretch
                     disabled={isLoadingApproval}

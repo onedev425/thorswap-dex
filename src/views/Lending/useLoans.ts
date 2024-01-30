@@ -52,7 +52,7 @@ export const useLoans = () => {
         const debtRepaid = new SwapKitNumber({ value: data?.debtRepaid || '0', decimal: 8 });
         const debtCurrent = new SwapKitNumber({ value: data?.debtCurrent || '0', decimal: 8 });
 
-        return debtCurrent
+        return parseFloat(data?.debtCurrent || '0')
           ? {
               asset,
               collateralCurrent,

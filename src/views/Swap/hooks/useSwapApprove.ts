@@ -43,7 +43,6 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
         const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
         try {
-          debugger;
           const txid = await approveAssetValue(inputAsset.set(approveAmount || 0), contract);
 
           if (typeof txid === 'string') {
