@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
+import { Chain, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import { Box, Button, Card, Icon, Link, Tooltip } from 'components/Atomic';
@@ -220,12 +220,14 @@ const Earn = () => {
     [asset, currentAsset?.filled, synthAvailability],
   );
 
+  const bnbDepositDisabled = useMemo(() => asset.chain === Chain.Binance, [asset.chain]);
   const buttonDisabled = useMemo(
     () =>
+      bnbDepositDisabled ||
       amount.lte(new SwapKitNumber({ value: 0, decimal: 8 })) ||
       (isDeposit && ((balance && amount.gt(balance)) || !isSynthInCapacity)) ||
       isChainHalted[asset.chain],
-    [amount, asset.chain, balance, isChainHalted, isDeposit, isSynthInCapacity],
+    [amount, asset.chain, balance, bnbDepositDisabled, isChainHalted, isDeposit, isSynthInCapacity],
   );
 
   const tabLabel = tab === EarnTab.Deposit ? t('common.deposit') : t('common.withdraw');
@@ -380,7 +382,8 @@ const Earn = () => {
                         <Box className="w-full pt-5">
                           <Button
                             stretch
-                            error={hardCapReached}
+                            disabled={bnbDepositDisabled || hardCapReached}
+                            error={bnbDepositDisabled || hardCapReached}
                             loading={isLoading}
                             onClick={() => setVisibleApproveModal(true)}
                             size="lg"

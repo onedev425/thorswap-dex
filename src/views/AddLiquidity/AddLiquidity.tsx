@@ -1,4 +1,4 @@
-import { SwapKitNumber } from '@swapkit/core';
+import { Chain, SwapKitNumber } from '@swapkit/core';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { InfoTable } from 'components/InfoTable';
@@ -106,6 +106,7 @@ export const AddLiquidity = () => {
     setLiquidityType,
   });
 
+  const bnbDepositDisabled = useMemo(() => poolAsset?.chain === Chain.Binance, [poolAsset]);
   const hasLP = useMemo(() => !!Object.keys(lpMemberData || {}).length, [lpMemberData]);
 
   return (
@@ -207,8 +208,8 @@ export const AddLiquidity = () => {
         <Box className="w-full pt-5">
           <Button
             stretch
-            disabled={!isValidDeposit.valid || hardCapReached}
-            error={!isValidDeposit.valid || hardCapReached}
+            disabled={bnbDepositDisabled || !isValidDeposit.valid || hardCapReached}
+            error={bnbDepositDisabled || !isValidDeposit.valid || hardCapReached}
             onClick={handleAddLiquidity}
             rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
