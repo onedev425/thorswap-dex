@@ -311,7 +311,7 @@ const ConnectWalletModal = () => {
         justify="between"
       >
         {customFlow ? (
-          <Box className="w-[360px] px-6 self-center">
+          <Box className="min-w-[360px] px-6 self-center">
             {selectedWalletType === WalletType.Keystore && (
               <ConnectKeystoreView
                 loading={isWalletLoading}

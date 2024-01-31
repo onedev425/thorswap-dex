@@ -1041,6 +1041,7 @@
     },
     "walletModal": {
       "backupKeystore": "Backup Keystore",
+      "confirmBackupKeystore": "I confirm I have securely saved the passphrase to recover my account in the future.",
       "braveWallet": "Brave Wallet",
       "chooseKeystore": "Choose file to upload",
       "coinbaseWalletWeb": "Coinbase Wallet",

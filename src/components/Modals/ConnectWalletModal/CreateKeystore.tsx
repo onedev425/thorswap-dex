@@ -3,9 +3,10 @@ import type { Keystore } from '@swapkit/wallet-keystore';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import { Helmet } from 'components/Helmet';
 import { Input } from 'components/Input';
+import { ConfirmKeystorePhrase } from 'components/Modals/ConnectWalletModal/ConfirmKeystorePhrase';
 import { downloadAsFile } from 'helpers/download';
 import type { ChangeEvent } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -18,6 +19,8 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [invalidStatus, setInvalidStatus] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [keystoreCopyConfirmed, setKeystoreCopyConfirmed] = useState(false);
+  const [phrase, setPhrase] = useState('');
 
   const ready = useMemo(
     () => password.length > 0 && password === confirmPassword,
@@ -44,27 +47,40 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const handleCreate = useCallback(async () => {
     if (ready) {
       setProcessing(true);
-      const { generatePhrase, encryptToKeyStore } = await import('@swapkit/wallet-keystore');
+      const { generatePhrase } = await import('@swapkit/wallet-keystore');
 
       try {
-        const phrase = generatePhrase();
-
-        const keystore = await encryptToKeyStore(phrase, password);
-
-        downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore));
-
-        // clean up
-        setPassword('');
-        setConfirmPassword('');
-
-        onConnect(keystore, phrase);
+        const newPhrase = generatePhrase();
+        setPhrase(newPhrase);
       } catch (error) {
         setInvalidStatus(true);
         console.error(error);
       }
       setProcessing(false);
     }
-  }, [ready, password, onConnect]);
+  }, [ready]);
+
+  const handleCreationConfirm = useCallback(async () => {
+    if (ready && phrase) {
+      setProcessing(true);
+      const { encryptToKeyStore } = await import('@swapkit/wallet-keystore');
+
+      try {
+        const keystore = await encryptToKeyStore(phrase, password);
+        downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore));
+        onConnect(keystore, phrase);
+
+        // clean up
+        setPassword('');
+        setConfirmPassword('');
+        setPhrase('');
+      } catch (error) {
+        setInvalidStatus(true);
+        console.error(error);
+      }
+      setProcessing(false);
+    }
+  }, [ready, phrase, password, onConnect]);
 
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -74,6 +90,18 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
     },
     [handleCreate],
   );
+
+  useEffect(() => {
+    if (keystoreCopyConfirmed && phrase) {
+      handleCreationConfirm();
+    }
+  }, [handleCreationConfirm, keystoreCopyConfirmed, phrase]);
+
+  if (phrase) {
+    return (
+      <ConfirmKeystorePhrase onConfirm={() => setKeystoreCopyConfirmed(true)} phrase={phrase} />
+    );
+  }
 
   return (
     <Box col className="w-full">
