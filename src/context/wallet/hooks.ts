@@ -8,7 +8,7 @@ import { chainName } from 'helpers/chainName';
 import { t } from 'i18next';
 import { useCallback, useMemo } from 'react';
 import { ledgerLive } from 'services/ledgerLive';
-import { captureEvent } from 'services/postHog';
+import { logEvent } from 'services/logger';
 
 import type { LedgerLiveChain } from '../../../ledgerLive/wallet/LedgerLive';
 import { connectLedgerLive, mapLedgerChainToChain } from '../../../ledgerLive/wallet/LedgerLive';
@@ -334,7 +334,7 @@ export const useConnectWallet = () => {
 
       await connectKeystore(chains, phrase);
       walletDispatch({ type: 'connectKeystore', payload: { keystore, phrase, pubKey } });
-      captureEvent('connect_wallet', { type: WalletOption.KEYSTORE, chains });
+      logEvent('connect_wallet', { type: WalletOption.KEYSTORE, chains });
       reloadAllWallets(chains);
     },
     [reloadAllWallets, walletDispatch],

@@ -16,7 +16,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { t } from 'services/i18n';
-import { captureEvent } from 'services/postHog';
+import { logEvent } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
 import { useApp } from 'store/app/hooks';
@@ -81,7 +81,7 @@ const SwapView = () => {
   const outputAsset = useMemo(() => output, [output.toString()]);
 
   useEffect(() => {
-    captureEvent('swapPair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
+    logEvent('swapPair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
   }, [inputAsset, outputAsset]);
 
   const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);

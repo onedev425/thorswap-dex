@@ -9,33 +9,15 @@ import './index.css';
 
 import { App } from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
-
-if (!IS_LOCAL) {
-  Sentry.init({
-    debug: process.env.NODE_ENV === 'development',
-    dsn: 'https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120',
-    enabled: !IS_LOCAL,
-    integrations: [new Sentry.Replay()],
-    replaysSessionSampleRate: IS_BETA ? 1.0 : 0.05,
-    tracePropagationTargets: ['api.thorswap.net', 'mu.thorswap.net'],
-    tracesSampleRate: IS_BETA ? 1.0 : 0.05,
-    environment: IS_PROD
-      ? 'production'
-      : IS_BETA
-        ? 'beta'
-        : IS_STAGENET
-          ? 'stagenet'
-          : IS_DEV_API
-            ? 'dev-api'
-            : 'development',
-  });
-}
+import { initialiseLogger } from './services/logger'
+import { IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 const renderApp = () => {
+  initialiseLogger()
+
   root.render(
     <StrictMode>
       <Sentry.ErrorBoundary fallback={(error) => <ErrorBoundary error={error} />}>

@@ -7,7 +7,7 @@ import { useConnectWallet } from 'context/wallet/hooks';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { captureEvent } from 'services/postHog';
+import { logEvent } from 'services/logger';
 
 import {
   availableChainsByWallet,
@@ -206,7 +206,7 @@ export const useHandleWalletConnect = ({
         });
       }
 
-      captureEvent('connect_wallet', {
+      logEvent('connect_wallet', {
         type: selectedWalletType,
         chains: selectedChains,
         info: { derivationPath, ledgerIndex },
