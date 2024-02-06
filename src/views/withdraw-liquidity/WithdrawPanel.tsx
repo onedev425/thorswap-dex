@@ -7,7 +7,6 @@ import {
   getSymmetricWithdraw,
   SwapKitNumber,
 } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { AssetIcon } from 'components/AssetIcon';
 import { Box, Button } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
@@ -31,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
+import type { FullMemberPool } from 'store/midgard/types';
 import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';

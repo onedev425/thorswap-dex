@@ -12,8 +12,10 @@ export const useFetchThornames = () => {
   const { getWalletAddress } = useWallet();
   const thorAddress = getWalletAddress(Chain.THORChain);
 
-  const { data: thornames } = useGetTNSByOwnerAddressQuery(thorAddress);
   const [getTNSDetail] = useLazyGetTNSDetailQuery();
+  const { data: thornames } = useGetTNSByOwnerAddressQuery(thorAddress, {
+    skip: !thorAddress,
+  });
 
   const fetchRegisteredThornames = useCallback(async () => {
     if (!thornames || !thorAddress || fetching.current) return;
@@ -23,7 +25,8 @@ export const useFetchThornames = () => {
       const thornamesDetails = await Promise.all(
         thornames.map(async (name) => {
           const { data: details } = await getTNSDetail(name);
-          return typeof details === 'boolean'
+
+          return Array.isArray(details) || typeof details === 'boolean'
             ? { thorname: name }
             : { ...(details || {}), thorname: name };
         }),

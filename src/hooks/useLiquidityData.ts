@@ -1,8 +1,8 @@
 import type { Chain } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { useWallet } from 'context/wallet/hooks';
 import { useMemo } from 'react';
 import { useGetFullMemberQuery } from 'store/midgard/api';
+import type { FullMemberPool } from 'store/midgard/types';
 import { LiquidityTypeOption } from 'store/midgard/types';
 
 export const useLiquidityData = ({

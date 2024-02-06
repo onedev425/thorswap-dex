@@ -1,5 +1,4 @@
 import { Chain } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { Box, Button, Icon, Modal } from 'components/Atomic';
 import { InfoTip } from 'components/InfoTip';
 import { Input } from 'components/Input';
@@ -14,6 +13,7 @@ import { t } from 'services/i18n';
 import { IS_PROTECTED } from 'settings/config';
 import { getAddLiquidityRoute, ROUTES } from 'settings/router';
 import { useGetFullMemberQuery } from 'store/midgard/api';
+import type { FullMemberPool } from 'store/midgard/types';
 import { ChainLiquidityPanel } from 'views/new-liquidity/ChainLiquidityPanel';
 
 export const Liquidity = () => {

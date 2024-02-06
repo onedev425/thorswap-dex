@@ -1,4 +1,3 @@
-import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import classNames from 'classnames';
 import { Box, Button, useCollapse } from 'components/Atomic';
 import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
@@ -12,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
 import { useGetNodesQuery } from 'store/midgard/api';
+import type { ProxiedNode } from 'store/midgard/types';
 import { useNodeStats } from 'views/Nodes/hooks/hooks';
 import { NodeDetailsActionPanel } from 'views/Nodes/NodeDetails/NodeDetailsActionPanel';
 
@@ -48,7 +48,7 @@ const NodeDetails = () => {
     [setWatchList, nodeWatchList],
   );
 
-  const nodeTableData = useNodeStats(nodeInfo as THORNode);
+  const nodeTableData = useNodeStats(nodeInfo as ProxiedNode);
 
   if (!nodeInfo) return null;
 

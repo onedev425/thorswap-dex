@@ -6,7 +6,6 @@ import {
   getAsymmetricRuneShare,
   SwapKitNumber,
 } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import classNames from 'classnames';
 import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
 import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
@@ -20,6 +19,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
+import type { FullMemberPool } from 'store/midgard/types';
 import { PoolShareType } from 'store/midgard/types';
 
 import { LiquidityInfo } from './Info';

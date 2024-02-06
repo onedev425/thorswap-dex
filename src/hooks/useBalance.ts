@@ -1,5 +1,4 @@
-import { AssetValue } from '@swapkit/core';
-import { Chain, isGasAsset } from '@swapkit/core';
+import { AssetValue, Chain, isGasAsset } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { getAssetBalance } from 'helpers/wallet';
 import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';

@@ -354,3 +354,56 @@ export type PoolDetail = {
   units: string;
   volume24h: string;
 };
+
+export type ProxiedNode = {
+  active_block_height: number;
+  bond_address: string;
+  current_award: string;
+  forced_to_leave: boolean;
+  ip_address: string;
+  leave_height: number;
+  node_address: string;
+  requested_to_leave: boolean;
+  signer_membership: string[];
+  slash_points: number;
+  status: string;
+  status_since: number;
+  total_bond: string;
+  validator_cons_pub_key: string;
+  version: string;
+  jail: any;
+  preflight_status: any;
+  pub_key_set: any;
+  observe_chains: {
+    chain: string;
+    height: number;
+  }[];
+};
+
+export type InboundAddressesItem = {
+  address: string;
+  chain: string;
+  gas_rate?: string;
+  halted: boolean;
+  pub_key: string;
+  router?: string;
+};
+
+export type MemberPool = {
+  assetAdded: string;
+  assetAddress: string;
+  assetPending: string;
+  assetWithdrawn: string;
+  dateFirstAdded: string;
+  dateLastAdded: string;
+  liquidityUnits: string;
+  pool: string;
+  runeAdded: string;
+  runeAddress: string;
+  runePending: string;
+  runeWithdrawn: string;
+};
+
+export interface FullMemberPool extends Omit<MemberPool, 'liquidityUnits'> {
+  sharedUnits: string;
+}

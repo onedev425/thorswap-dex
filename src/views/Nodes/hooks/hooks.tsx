@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
 import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { useInputAmount } from 'components/InputAmount/useInputAmount';
 import { showErrorToast, showInfoToast, showSuccessToast } from 'components/Toast';
@@ -10,13 +9,14 @@ import { RUNEAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ProxiedNode } from 'store/midgard/types';
 import type { NodeManagePanelProps } from 'views/Nodes/types';
 import { BondActionType } from 'views/Nodes/types';
 
 import { shortenAddress } from '../../../helpers/shortenAddress';
 import { t } from '../../../services/i18n';
 
-export const useNodeStats = (nodeInfo: THORNode) => {
+export const useNodeStats = (nodeInfo: ProxiedNode) => {
   const { isMdActive } = useWindowSize();
   if (!nodeInfo) return [];
 

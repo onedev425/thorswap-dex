@@ -1,5 +1,4 @@
 import { SwapKitNumber } from '@swapkit/core';
-import type { THORNode } from '@thorswap-lib/midgard-sdk';
 import { Button, Icon, Tooltip } from 'components/Atomic';
 import { getAmountColumnSorter } from 'components/Atomic/Table/utils';
 import { HoverIcon } from 'components/HoverIcon';
@@ -9,6 +8,7 @@ import { BreakPoint } from 'hooks/useWindowSize';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { useApp } from 'store/app/hooks';
+import type { ProxiedNode } from 'store/midgard/types';
 
 export const useNodesColumns = (refetch: () => void) => {
   const { setWatchList, nodeWatchList } = useApp();
@@ -41,8 +41,8 @@ export const useNodesColumns = (refetch: () => void) => {
         ),
         align: 'center',
         disableSortBy: true,
-        accessor: (row: THORNode) => row,
-        Cell: ({ cell: { value } }: { cell: { value: THORNode } }) => {
+        accessor: (row: ProxiedNode) => row,
+        Cell: ({ cell: { value } }: { cell: { value: ProxiedNode } }) => {
           const isSelected = nodeWatchList.includes(value.node_address);
           return (
             <Tooltip
@@ -68,7 +68,7 @@ export const useNodesColumns = (refetch: () => void) => {
         id: 'Address',
         Header: () => t('common.address'),
         align: 'center',
-        accessor: (row: THORNode) => row.node_address,
+        accessor: (row: ProxiedNode) => row.node_address,
         disableSortBy: true,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Button
@@ -103,7 +103,7 @@ export const useNodesColumns = (refetch: () => void) => {
       {
         id: 'Rewards',
         Header: () => t('views.nodes.rewards'),
-        accessor: (row: THORNode) => new SwapKitNumber(row.current_award).div(1e8),
+        accessor: (row: ProxiedNode) => new SwapKitNumber(row.current_award).div(1e8),
         Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('Rewards'),
@@ -111,7 +111,7 @@ export const useNodesColumns = (refetch: () => void) => {
       {
         id: 'Slash',
         Header: () => t('views.nodes.slash'),
-        accessor: (row: THORNode) => new SwapKitNumber(row.slash_points),
+        accessor: (row: ProxiedNode) => new SwapKitNumber(row.slash_points),
         Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('Slash'),
@@ -119,14 +119,14 @@ export const useNodesColumns = (refetch: () => void) => {
       {
         id: 'Bond',
         Header: (() => t('views.nodes.bond')) as () => string,
-        accessor: (row: THORNode) => new SwapKitNumber(row.total_bond).div(1e8),
+        accessor: (row: ProxiedNode) => new SwapKitNumber(row.total_bond).div(1e8),
         Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
         sortType: getAmountColumnSorter('Bond'),
       },
       {
         id: 'ActiveBlock',
         Header: () => 'Active Block',
-        accessor: (row: THORNode) => new SwapKitNumber(row.active_block_height),
+        accessor: (row: ProxiedNode) => new SwapKitNumber(row.active_block_height),
         Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
         minScreenSize: BreakPoint.md,
         sortType: getAmountColumnSorter('ActiveBlock'),

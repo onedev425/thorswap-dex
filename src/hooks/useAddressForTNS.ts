@@ -19,8 +19,9 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
     async (providedThorname: string) => {
       try {
         const { data: details } = await getTNSDetail(providedThorname);
+
         const payload =
-          typeof details === 'boolean'
+          Array.isArray(details) || typeof details === 'boolean'
             ? { thorname: providedThorname }
             : { ...(details || {}), thorname: providedThorname };
         setTNS(payload);

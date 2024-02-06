@@ -1,9 +1,8 @@
 import { RequestClient } from '@swapkit/core';
-import type { InboundAddressesItem } from '@thorswap-lib/midgard-sdk';
 import dayjs from 'dayjs';
 import { THORNODE_URL } from 'settings/config';
 
-import type { SaverProvider, ThornodePoolType } from './types';
+import type { InboundAddressesItem, SaverProvider, ThornodePoolType } from './types';
 
 export const getThornameExpireDate = ({
   expire,

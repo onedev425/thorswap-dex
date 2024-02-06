@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
 import { AssetValue, Chain } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { PanelView } from 'components/PanelView';
 import { ViewHeader } from 'components/ViewHeader';
@@ -9,6 +8,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { t } from 'services/i18n';
 import { useGetFullMemberQuery } from 'store/midgard/api';
+import type { FullMemberPool } from 'store/midgard/types';
 import { PoolShareType } from 'store/midgard/types';
 
 import { WithdrawPanel } from './WithdrawPanel';

@@ -1,19 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type {
-  FullMemberPool,
-  PoolPeriods,
-  ProxiedNode,
-  THORNameDetails,
-} from '@thorswap-lib/midgard-sdk';
 import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
+import type { POOLS_TIME_PERIODS_OPTIONS } from 'settings/pools';
+import type { THORNameDetails } from 'types/app';
 
 import type {
+  FullMemberPool,
   HistoryParams,
   LiquidityHistoryResponse,
   MidgardTradeHistory,
   MimirData,
   NetworkResponse,
   PoolDetail,
+  ProxiedNode,
   SwapHistoryResponse,
 } from './types';
 
@@ -29,7 +27,7 @@ export const midgardApi = createApi({
   endpoints: (build) => ({
     getStats: build.query<any, void>({
       keepUnusedDataFor: 3600,
-      query: () => `/stats`,
+      query: () => '/stats',
     }),
     getNetwork: build.query<NetworkResponse, void>({
       keepUnusedDataFor: 3600,
@@ -63,16 +61,16 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 300,
       query: () => '/ts-swaps?interval=month&count=1&unique=true',
     }),
-    getPools: build.query<PoolDetail[], PoolPeriods | void>({
+    getPools: build.query<PoolDetail[], (typeof POOLS_TIME_PERIODS_OPTIONS)[number] | void>({
       keepUnusedDataFor: 60,
       query: (period = '30d') => `/pools?period=${period}`,
     }),
 
     getTNSByOwnerAddress: build.query<string[], string>({
-      query: (address) => `${MIDGARD_URL}/v2/thorname/owner/${address}`,
+      query: (address) => `/thorname/owner/${address}`,
     }),
     getTNSDetail: build.query<THORNameDetails, string>({
-      query: (thorname) => `${MIDGARD_URL}/v2/thorname/lookup/${thorname}`,
+      query: (thorname) => `/thorname/lookup/${thorname}`,
     }),
 
     /**
@@ -108,7 +106,6 @@ export const {
   useGetPoolsQuery,
   useGetStatsQuery,
   useGetTNSByOwnerAddressQuery,
-  useGetTNSDetailQuery,
   useLazyGetTNSDetailQuery,
 
   useGetLastblockQuery,

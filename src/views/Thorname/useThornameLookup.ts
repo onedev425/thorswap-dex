@@ -106,8 +106,9 @@ export const useThornameLookup = (owner?: string) => {
   const loadDetails = useCallback(
     async (providedThorname?: string) => {
       const { data: details } = await getTNSDetail(providedThorname || searchedThorname);
+
       const payload =
-        !details || typeof details === 'boolean'
+        Array.isArray(details) || !details || typeof details === 'boolean'
           ? { details: null, available: true }
           : { details, available: owner ? details.owner === owner : false };
       dispatch({

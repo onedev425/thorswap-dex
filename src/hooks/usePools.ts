@@ -1,9 +1,9 @@
 import { AssetValue } from '@swapkit/core';
-import type { PoolPeriods } from '@thorswap-lib/midgard-sdk';
 import { useMemo } from 'react';
+import type { POOLS_TIME_PERIODS_OPTIONS } from 'settings/pools';
 import { useGetPoolsQuery } from 'store/midgard/api';
 
-export const usePools = (period?: PoolPeriods) => {
+export const usePools = (period?: (typeof POOLS_TIME_PERIODS_OPTIONS)[number]) => {
   const { data: pools = [], isFetching: poolsLoading } = useGetPoolsQuery(period);
 
   const [allPoolAssets, allSynthAssets] = useMemo(

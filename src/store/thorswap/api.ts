@@ -18,8 +18,6 @@ import type {
   GetTxnStatusDetailsResponse,
   GetTxnStatusParams,
   GetTxnStatusResponse,
-  IThornameForAddressParams,
-  IThornameForAddressResponse,
   LendingAssetResponse,
   LendingStatusResponse,
   LoansResponse,
@@ -210,12 +208,6 @@ export const thorswapApi = createApi({
         `${baseUrl}/aggregator/lending/loans?asset=${asset}&address=${address}`,
     }),
 
-    getThornamesByAddress: build.query<IThornameForAddressResponse, IThornameForAddressParams>({
-      query: ({ address, chain }) => {
-        return `${baseUrl}/aggregator/thorname/rlookup?address=${address}&chain=${chain}`;
-      },
-    }),
-
     getWithdrawLPMemo: build.query<
       any,
       {
@@ -257,7 +249,6 @@ export const {
   useGetAnnouncementsQuery,
   useGetGasPriceRatesQuery,
   useGetGasHistoryQuery,
-  useGetThornamesByAddressQuery,
   useGetWithdrawLPMemoQuery,
   useGetLendingAssetsQuery,
   useGetLendingStatusQuery,

@@ -1,12 +1,12 @@
 import { Text } from '@chakra-ui/react';
 import { Chain } from '@swapkit/core';
-import type { FullMemberPool } from '@thorswap-lib/midgard-sdk';
 import { Box, Button, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { chainName } from 'helpers/chainName';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { getThorYieldLPInfoBaseRoute } from 'settings/router';
+import type { FullMemberPool } from 'store/midgard/types';
 import { PoolShareType } from 'store/midgard/types';
 
 import { LiquidityCard } from './Card';
