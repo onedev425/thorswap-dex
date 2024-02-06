@@ -43,15 +43,20 @@ export const thorswapApi = createApi({
   }),
   endpoints: (build) => ({
     getTokensQuote: build.query<GetTokensQuoteResponse, GetTokensQuoteParams>({
-      query: ({ senderAddress = '', recipientAddress = '', affiliateBasisPoints, ...rest }) => {
+      query: ({
+        senderAddress = '',
+        recipientAddress = '',
+        affiliateBasisPoints,
+        affiliateAddress,
+        ...rest
+      }) => {
         const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
 
         if (affiliateBasisPoints) {
           queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
-          queryParams.append(
-            'affiliateAddress',
-            IS_LEDGER_LIVE ? THORSWAP_AFFILIATE_ADDRESS_LL : THORSWAP_AFFILIATE_ADDRESS,
-          );
+        }
+        if (affiliateAddress) {
+          queryParams.append('affiliateAddress', affiliateAddress);
         }
 
         queryParams.append('isAffiliateFeeFlat', 'true');

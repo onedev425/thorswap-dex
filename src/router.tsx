@@ -3,10 +3,14 @@ import 'chart.js/auto';
 import { Box, Icon } from 'components/Atomic';
 import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
-import { lazy, memo, Suspense } from 'react';
+import { isIframe } from 'helpers/isIframe';
+import { lazy, memo, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from 'settings/router';
+import { actions } from 'store/app/slice';
+import { useAppDispatch } from 'store/store';
 import { ToSView } from 'views/ToS';
+import * as z from 'zod';
 
 const Swap = lazy(() => import('views/Swap'));
 const WalletBalance = lazy(() => import('views/WalletBalance'));
@@ -42,46 +46,57 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const routes: RouteType = [
-  { path: ROUTES.AddLiquidity, element: AddLiquidity },
-  { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
-  { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
-  { path: ROUTES.Earn, element: Earn },
-  { path: ROUTES.EarnAsset, element: Earn },
-  { path: ROUTES.Home, element: Home },
-  { path: ROUTES.Kyber, element: Swap },
-  { path: ROUTES.KyberPair, element: Swap },
-  { path: ROUTES.LegacyStake, element: LegacyStake },
-  { path: ROUTES.Lending, element: Lending },
-  { path: ROUTES.LendingAsset, element: Lending },
-  { path: ROUTES.Liquidity, element: Liquidity },
-  { path: ROUTES.Multisig, element: Multisig },
-  { path: ROUTES.MultisigConnect, element: MultisigImport },
-  { path: ROUTES.MultisigCreate, element: MultisigCreate },
-  { path: ROUTES.NodeDetail, element: NodeDetails },
-  { path: ROUTES.NodeDetail, element: NodeDetails },
-  { path: ROUTES.NodeManager, element: NodeManager },
-  { path: ROUTES.NodeManager, element: NodeManager },
-  { path: ROUTES.Nodes, element: Nodes },
-  { path: ROUTES.Nodes, element: Nodes },
-  { path: ROUTES.Send, element: Send },
-  { path: ROUTES.SendAsset, element: Send },
-  { path: ROUTES.Stake, element: Staking },
+const iframeRoutes = [
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
-  { path: ROUTES.Thorname, element: Thorname },
   { path: ROUTES.Transaction, element: Transaction },
   { path: ROUTES.TxBuilder, element: TxBuilder },
   { path: ROUTES.TxCreate, element: TxCreate },
   { path: ROUTES.TxCreatePool, element: TxCreate },
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
-  { path: ROUTES.Vesting, element: Vesting },
-  { path: ROUTES.ToS, element: ToSView },
-  { path: ROUTES.Wallet, element: Wallet },
-  { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
-  { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
 ];
+
+const routes: RouteType = isIframe()
+  ? iframeRoutes
+  : [
+      { path: ROUTES.AddLiquidity, element: AddLiquidity },
+      { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
+      { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
+      { path: ROUTES.Earn, element: Earn },
+      { path: ROUTES.EarnAsset, element: Earn },
+      { path: ROUTES.Home, element: Home },
+      { path: ROUTES.LegacyStake, element: LegacyStake },
+      { path: ROUTES.Lending, element: Lending },
+      { path: ROUTES.LendingAsset, element: Lending },
+      { path: ROUTES.Liquidity, element: Liquidity },
+      { path: ROUTES.Multisig, element: Multisig },
+      { path: ROUTES.MultisigConnect, element: MultisigImport },
+      { path: ROUTES.MultisigCreate, element: MultisigCreate },
+      { path: ROUTES.NodeDetail, element: NodeDetails },
+      { path: ROUTES.NodeDetail, element: NodeDetails },
+      { path: ROUTES.NodeManager, element: NodeManager },
+      { path: ROUTES.NodeManager, element: NodeManager },
+      { path: ROUTES.Nodes, element: Nodes },
+      { path: ROUTES.Nodes, element: Nodes },
+      { path: ROUTES.Send, element: Send },
+      { path: ROUTES.SendAsset, element: Send },
+      { path: ROUTES.Stake, element: Staking },
+      { path: ROUTES.Swap, element: Swap },
+      { path: ROUTES.SwapPair, element: Swap },
+      { path: ROUTES.Thorname, element: Thorname },
+      { path: ROUTES.Transaction, element: Transaction },
+      { path: ROUTES.TxBuilder, element: TxBuilder },
+      { path: ROUTES.TxCreate, element: TxCreate },
+      { path: ROUTES.TxCreatePool, element: TxCreate },
+      { path: ROUTES.TxImport, element: TxImport },
+      { path: ROUTES.TxMultisig, element: TxMultisig },
+      { path: ROUTES.Vesting, element: Vesting },
+      { path: ROUTES.ToS, element: ToSView },
+      { path: ROUTES.Wallet, element: Wallet },
+      { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
+      { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
+    ];
 
 declare global {
   interface Window {
@@ -90,7 +105,31 @@ declare global {
   }
 }
 
+const iframeParamsSchema = z.object({
+  fee: z.number().int().positive(),
+  address: z.string().min(1),
+  basePair: z.string(),
+});
+
 export const PublicRoutes = memo(() => {
+  const appDispatch = useAppDispatch();
+  useEffect(() => {
+    if (isIframe()) {
+      if (!window.location.search) {
+        throw new Error('Invalid iframe');
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const iframeParams = iframeParamsSchema.parse({
+        fee: parseInt(params.get('fee') ?? '50', 10),
+        address: params.get('address') ?? 't',
+        basePair: params.get('basePair') ?? '',
+      });
+
+      appDispatch(actions.setIframeData(iframeParams));
+    }
+  }, [appDispatch]);
+
   return (
     <Router>
       <Routes>

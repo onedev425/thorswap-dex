@@ -129,6 +129,7 @@ export type GetTxnStatusResponse =
     };
 
 export type GetTokensQuoteParams = {
+  affiliateAddress?: string;
   affiliateBasisPoints?: string;
   buyAsset: string;
   recipientAddress?: string;

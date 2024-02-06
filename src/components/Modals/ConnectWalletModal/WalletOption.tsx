@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import type { IconName } from 'components/Atomic';
 import { Box, Icon } from 'components/Atomic';
+import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback } from 'react';
 
 import type { WalletType } from './types';
@@ -25,6 +26,7 @@ const WalletOption = ({
   selected,
   disabled,
 }: Props) => {
+  const { isMdActive } = useWindowSize();
   const handleClick = useCallback(() => {
     if (!disabled) handleTypeSelect(type);
   }, [disabled, handleTypeSelect, type]);
@@ -34,7 +36,7 @@ const WalletOption = ({
       alignCenter
       className={classNames(
         'cursor-pointer relative bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110',
-        'w-fit h-10 rounded-xl m-1 gap-x-2 px-2',
+        'w-fit p-1.5 rounded-xl m-1 gap-x-1 md:h-10 md:gap-x-2 md:px-2',
         {
           '!bg-cyan !bg-opacity-20': selected,
           'opacity-40 cursor-not-allowed': disabled,
@@ -65,11 +67,9 @@ const WalletOption = ({
         <Icon color="green" name="connect" size={14} />
       </Box>
 
-      <Icon name={icon} size={24} />
+      <Icon name={icon} size={isMdActive ? 24 : 18} />
 
-      <Text className="text-center" textStyle="caption">
-        {label}
-      </Text>
+      <Text className="text-center !text-caption-xs md:!text-caption">{label}</Text>
     </Box>
   );
 };

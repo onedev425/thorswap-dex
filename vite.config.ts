@@ -5,7 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';
 import svgr from 'vite-plugin-svgr';
-import basicSsl from '@vitejs/plugin-basic-ssl';
+import mkcert from 'vite-plugin-mkcert';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 const withSourcemap = process.env.SOURCEMAP === 'true';
@@ -35,7 +35,7 @@ const plugins: any[] = [
         ]
       : [],
   )
-  .concat(ssl ? [basicSsl()] : []);
+  .concat(ssl ? [mkcert()] : []);
 
 export default defineConfig({
   root: '',
@@ -93,6 +93,8 @@ export default defineConfig({
   esbuild: {
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
+  // @ts-expect-error
+  server: { https: ssl },
   optimizeDeps: {
     esbuildOptions: {
       target: 'es2020',

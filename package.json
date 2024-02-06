@@ -121,8 +121,10 @@
     "rollup-plugin-visualizer": "5.12.0",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3",
+    "vite-plugin-mkcert": "1.17.3",
     "vite-plugin-remove-console": "2.2.0",
-    "vite-plugin-svgr": "4.2.0"
+    "vite-plugin-svgr": "4.2.0",
+    "zod": "3.22.4"
   },
   "name": "thorswap-dex-app",
   "private": true,

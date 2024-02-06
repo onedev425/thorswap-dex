@@ -33,6 +33,8 @@ const initialState: State = {
   thousandSeparator: getFromStorage('thousandSeparator') as ThousandSeparator,
   transactionDeadline: Number(getFromStorage('transactionDeadline') as string),
   walletViewMode: getFromStorage('walletViewMode') as ViewMode,
+
+  iframeData: null,
 };
 
 const appSlice = createSlice({
@@ -158,6 +160,10 @@ const appSlice = createSlice({
     toggleAnalytics(state, action: PayloadAction<boolean>) {
       state.analyticsVisible = action.payload;
       saveInStorage({ key: 'analyticsVisible', value: action.payload });
+    },
+
+    setIframeData(state, action: PayloadAction<State['iframeData']>) {
+      state.iframeData = action.payload;
     },
   },
 });

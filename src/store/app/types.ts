@@ -31,4 +31,10 @@ export interface State {
   seenAnnList: string[];
   collapsedSidebarGroups: string[];
   analyticsVisible: boolean;
+
+  iframeData: null | {
+    address: string;
+    basePair: string;
+    fee: number;
+  };
 }

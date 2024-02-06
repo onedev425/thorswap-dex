@@ -1,9 +1,11 @@
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
+import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
+import { useAppSelector } from 'store/store';
 import { useGetTokensQuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
@@ -30,6 +32,7 @@ export const useSwapQuote = ({
   inputUSDPrice,
   manualSlippage,
 }: Params) => {
+  const iframeData = useAppSelector(({ app }) => app.iframeData);
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
   const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
@@ -40,6 +43,8 @@ export const useSwapQuote = ({
   const VTHORBalance = useVTHORBalance(ethAddress);
 
   const affiliateBasisPoints = useMemo(() => {
+    if (iframeData?.fee) return `${Math.floor(iframeData.fee)}`;
+
     let basisPoints = 30;
 
     if (VTHORBalance.gte(1_000)) basisPoints = 25;
@@ -53,11 +58,14 @@ export const useSwapQuote = ({
     if (inputUSDPrice >= 1_000_000) basisPoints /= 2;
 
     return `${Math.floor(basisPoints)}`;
-  }, [VTHORBalance, inputUSDPrice]);
+  }, [VTHORBalance, iframeData?.fee, inputUSDPrice]);
 
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
+      affiliateAddress:
+        iframeData?.address ||
+        (IS_LEDGER_LIVE ? THORSWAP_AFFILIATE_ADDRESS_LL : THORSWAP_AFFILIATE_ADDRESS),
       sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
       buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
       sellAmount: debouncedSellAmount,
@@ -69,6 +77,7 @@ export const useSwapQuote = ({
       affiliateBasisPoints,
       debouncedManualSlippage,
       debouncedSellAmount,
+      iframeData?.address,
       inputAsset,
       outputAsset,
       recipientAddress,

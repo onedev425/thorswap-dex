@@ -9,6 +9,7 @@ import { easeInOutTransition } from 'components/constants';
 import { StatusDropdown } from 'components/Header/StatusDropdown';
 import { TransactionManager } from 'components/TransactionManager';
 import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
+import { isIframe } from 'helpers/isIframe';
 import { useWalletDrawer } from 'hooks/useWalletDrawer';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback } from 'react';
@@ -20,6 +21,8 @@ import { ThemeType } from 'types/app';
 type Props = {
   openMenu: () => void;
 };
+
+const singlePageHeader = IS_LEDGER_LIVE || isIframe();
 
 export const Header = memo(({ openMenu }: Props) => {
   const { themeType } = useApp();
@@ -66,9 +69,9 @@ export const Header = memo(({ openMenu }: Props) => {
       )}
 
       <Flex flex={1} justify="between">
-        {IS_LEDGER_LIVE ? (
+        {singlePageHeader ? (
           <>
-            <Flex className={IS_LEDGER_LIVE && isMdActive ? 'flex' : 'hidden md:flex'} flex={1}>
+            <Flex className={singlePageHeader && isMdActive ? 'flex' : 'hidden md:flex'} flex={1}>
               <StatusDropdown />
             </Flex>
 
@@ -124,7 +127,8 @@ export const Header = memo(({ openMenu }: Props) => {
             )}
           </Button>
           <AnnouncementsPopover />
-          <AppPopoverMenu />
+
+          {!isIframe() && <AppPopoverMenu />}
 
           <TransactionManager />
         </Flex>

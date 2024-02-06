@@ -4,6 +4,7 @@ import { getETHDefaultWallet, isDetected } from '@swapkit/toolbox-evm';
 import type { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { useConnectWallet } from 'context/wallet/hooks';
+import { isIframe } from 'helpers/isIframe';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
@@ -67,7 +68,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             label: t('views.walletModal.rainbow'),
           },
           {
-            visible: isMdActive,
+            visible: isMdActive || isIframe(),
             type: WalletType.TrustWalletExtension,
             icon: 'trustWalletWhite',
             label: t('views.walletModal.trustWalletExtension'),
@@ -90,7 +91,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             disabled: !isDetected(WalletOption.COINBASE_WEB),
             icon: 'coinbaseWallet' as IconName,
             type: WalletType.CoinbaseExtension,
-            visible: isMdActive,
+            visible: isMdActive || isIframe(),
             label: t('views.walletModal.coinbaseWalletWeb'),
             tooltip: isDetected(WalletOption.BRAVE)
               ? t('views.walletModal.disableDefaultWallet', {
@@ -101,7 +102,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
           {
             icon: 'xdefi',
             type: WalletType.Xdefi,
-            visible: isMdActive,
+            visible: isMdActive || isIframe(),
             label: t('views.walletModal.xdefi'),
           },
           {
@@ -109,7 +110,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
             icon: 'brave' as IconName,
             type: WalletType.Brave,
-            visible: isMdActive,
+            visible: isMdActive || !isIframe(),
             label: t('views.walletModal.braveWallet'),
             // @ts-expect-error
             tooltip: !navigator?.brave?.isBrave?.()
@@ -120,6 +121,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
           },
           {
             disabled: !okxWalletDetected && !isMobile,
+            visible: !isIframe(),
             icon: 'okx' as IconName,
             type: isMobile ? WalletType.OkxMobile : WalletType.Okx,
             label: t('views.walletModal.okxWallet'),
@@ -129,13 +131,13 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             icon: 'keplr',
             label: t('views.walletModal.keplr'),
             type: WalletType.Keplr,
-            visible: isMdActive,
+            visible: isMdActive || isIframe(),
           },
         ],
       },
       {
         title: t('views.walletModal.hardwareWallets'),
-        visible: isMdActive,
+        visible: isMdActive || isIframe(),
         items: [
           { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
           { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },

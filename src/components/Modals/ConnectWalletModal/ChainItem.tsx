@@ -36,7 +36,7 @@ const ChainItem = ({
   return (
     <Box
       center
-      className={classNames('relative px-2 py-3 cursor-pointer', {
+      className={classNames('p-1.5 relative md:px-2 md:py-3 cursor-pointer', {
         'opacity-30': disabled || (selectedWalletType && !isChainAvailable),
       })}
       key={chain}
