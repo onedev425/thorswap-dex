@@ -211,7 +211,13 @@ export const ConfirmContent = memo(
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
                       {t('common.minReceived')}
                     </Text>
-                    <Text textStyle="caption">{minReceive}</Text>
+                    {slippagePercent === 0 ? (
+                      <Text color="brand.yellow" textStyle="caption">
+                        {t('views.swap.noProtection')}
+                      </Text>
+                    ) : (
+                      <Text textStyle="caption">{minReceive}</Text>
+                    )}
                   </Box>
                 </Box>
               </>

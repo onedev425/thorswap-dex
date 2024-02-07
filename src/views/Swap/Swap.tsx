@@ -373,9 +373,6 @@ const SwapView = () => {
     getMaxBalance(inputAsset).then((maxBalance) => setMaxInputBalance(maxBalance));
   }, [inputAsset, getMaxBalance]);
 
-  const minReceiveSlippage =
-    (inputUSDPrice - minReceive.getValue('number') * outputUnitPrice) / inputUSDPrice;
-
   const minReceiveInfo = useMemo(
     () =>
       minReceive.gte(0)
@@ -488,7 +485,7 @@ const SwapView = () => {
             inputUnitPrice={inputUnitPrice}
             isLoading={isPriceLoading}
             minReceive={minReceiveInfo}
-            minReceiveSlippage={minReceiveSlippage}
+            minReceiveSlippage={slippagePercent}
             networkFee={networkFee}
             outputUnitPrice={outputUnitPrice}
             setFeeModalOpened={setFeeModalOpened}

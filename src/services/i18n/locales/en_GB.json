@@ -141,6 +141,7 @@
     "settings": "Settings",
     "showActions": "Show Actions",
     "slippage": "Slippage",
+    "maxSlippage": "Max slippage",
     "slippageTooltip": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
     "staking": "Staking",
     "stats": "Stats",
@@ -948,7 +949,8 @@
       "totalFeeTooltip": "Total Fee for Swap.",
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
-      "txAssetsFee": "TX Fee Tokens"
+      "txAssetsFee": "TX Fee Tokens",
+      "noProtection": "No protection"
     },
     "thorname": {
       "available": "Available",

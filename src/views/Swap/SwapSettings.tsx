@@ -334,7 +334,7 @@ export const SwapSettings = ({
               textStyle="caption-xs"
             >
               {slippagePercent === 0
-                ? 'No protection'
+                ? t('views.swap.noProtection')
                 : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
             </Text>
           </Flex>

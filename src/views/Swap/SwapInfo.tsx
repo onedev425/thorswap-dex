@@ -5,7 +5,6 @@ import type { InfoRowConfig } from 'components/InfoRow/types';
 import { InfoTable } from 'components/InfoTable';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { useFormatPrice } from 'helpers/formatPrice';
-import { parseToPercent } from 'helpers/parseHelpers';
 import type { MouseEventHandler } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -100,12 +99,20 @@ export const SwapInfo = ({
         !streamSwap
           ? {
               label: t('views.swap.minReceivedAfterSlip', {
-                slippage: minReceiveSlippage > 0 ? parseToPercent(minReceiveSlippage) : '-',
+                slippage: minReceiveSlippage > 0 ? `${minReceiveSlippage}%` : '-',
               }),
               value: (
                 <InfoWithTooltip
                   tooltip={t('views.wallet.minReceivedTooltip')}
-                  value={minReceive}
+                  value={
+                    minReceiveSlippage === 0 ? (
+                      <Text color="brand.yellow" fontWeight="semibold" textStyle="caption">
+                        {t('views.swap.noProtection')}
+                      </Text>
+                    ) : (
+                      minReceive
+                    )
+                  }
                 />
               ),
             }
