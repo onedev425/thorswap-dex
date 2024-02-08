@@ -940,6 +940,7 @@
       "swapAssets": "Swap assets rates",
       "swapPath": "Swap Graph explanation which pools are used to route the trade.",
       "swapSettings": "Swap settings",
+      "streamingSettings": "Streaming settings",
       "tabsCommon": "Common",
       "tabsFeatured": "Featured",
       "tabsFrequent": "Frequent",

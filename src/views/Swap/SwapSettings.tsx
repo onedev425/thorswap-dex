@@ -10,7 +10,9 @@ import {
   Tooltip as ChakraTooltip,
 } from '@chakra-ui/react';
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
+import classNames from 'classnames';
+import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
+import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { formatDuration } from 'components/TransactionTracker/helpers';
 import { STREAMING_SWAPS_URL } from 'config/constants';
@@ -55,6 +57,8 @@ export const SwapSettings = ({
   streamingSwapParams,
   streamSwap,
 }: Props) => {
+  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+
   const maxQuantity = route?.streamingSwap?.maxQuantity || 0;
   const maxInterval = route?.streamingSwap?.maxIntervalForMaxQuantity || 10;
   const availableSwaps = useMemo(() => getAvailableOptionsArray({ maxQuantity }), [maxQuantity]);
@@ -80,6 +84,7 @@ export const SwapSettings = ({
     useMaxTime: value === 100,
   });
   const recommendedSlippage = route?.meta.recommendedSlippage || 0;
+  const hasOptimalSettings = slippagePercent === recommendedSlippage && value === 50;
 
   const sliderOptions = useMemo(() => {
     const swapsOptions: SwapOption[] = availableSwaps.map((v, i) => ({
@@ -164,214 +169,262 @@ export const SwapSettings = ({
   return (
     <Flex w="100%">
       <Card gap={1} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
-        {canStreamSwap && (
-          <>
-            <Flex pb={1}>
-              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                {t('views.swap.swapSettings')}
+        <Flex className="justify-between" ml={2} mt={1} onClick={toggle} sx={{ cursor: 'pointer' }}>
+          <Flex alignItems="center" direction="row" gap={2}>
+            <Icon color="secondary" name="settings" size={18} />
+            <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+              {t('views.swap.swapSettings')}
+            </Text>
+          </Flex>
+
+          <Flex alignItems="center" gap={1}>
+            {hasOptimalSettings ? (
+              <Text color="brand.green" fontWeight="semibold" ml={2} textStyle="caption">
+                Optimal
               </Text>
+            ) : (
+              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+                Custom
+              </Text>
+            )}
 
-              <Tooltip
-                content={t('views.swap.priceOptimizationInfo')}
-                onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
-                place="bottom"
-              >
-                <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
-              </Tooltip>
-            </Flex>
+            <Icon
+              className={classNames('transform duration-300 ease -mr-2', {
+                '-rotate-180': isActive,
+              })}
+              color="secondary"
+              name="chevronDown"
+            />
+          </Flex>
+        </Flex>
+        <div className={classNames('w-full', maxHeightTransitionClass)} style={maxHeightStyle}>
+          <Flex direction="column" ref={contentRef}>
+            <Flex direction="column" mt={2}>
+              {canStreamSwap && (
+                <>
+                  <Flex pb={1}>
+                    <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+                      {t('views.swap.streamingSettings')}
+                    </Text>
 
-            <Flex
-              flex={1}
-              gap={1}
-              mt={1}
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
-            >
-              <Flex direction="column" w="100%">
-                <Flex gap={2.5} mx={4}>
-                  {/* <Icon color="secondaryBtn" name="timer" size={22} /> */}
-                  <Slider
-                    onChange={(val) => onChange(val)}
-                    onChangeEnd={() => setIsChangingValue(false)}
-                    onChangeStart={() => setIsChangingValue(true)}
-                    size="lg"
-                    value={value}
-                  >
-                    <SliderTrack bg="textSecondary" boxSize={2}>
-                      <SliderFilledTrack
-                        bg={value > 50 ? 'brand.yellow' : 'brand.btnSecondary'}
-                        boxSize={2}
-                        width="50%"
-                      />
-                    </SliderTrack>
-                    <ChakraTooltip
-                      hasArrow
-                      bg="bgPrimary"
-                      isOpen={showTooltip || isChangingValue}
-                      label={
-                        <Stack p={1}>
-                          {selectedOption?.label ? (
-                            <Text textStyle="caption-xs">{selectedOption?.label}</Text>
-                          ) : (
-                            <>
-                              <Flex>
-                                <Text textStyle="caption-xs" variant="secondary">
-                                  Number of subswaps: &nbsp;
-                                </Text>
-                                <Text textStyle="caption-xs">{selectedOption?.subswaps}</Text>
-                              </Flex>
-
-                              <Flex>
-                                <Text textStyle="caption-xs" variant="secondary">
-                                  Interval: &nbsp;
-                                </Text>
-                                <Text textStyle="caption-xs">
-                                  {selectedOption?.interval} blocks
-                                </Text>
-                              </Flex>
-                            </>
-                          )}
-                        </Stack>
-                      }
-                      placement="top"
+                    <Tooltip
+                      content={t('views.swap.priceOptimizationInfo')}
+                      onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
+                      place="bottom"
                     >
-                      <SliderThumb boxSize={4} />
-                    </ChakraTooltip>
-                    <Flex
-                      sx={{
-                        w: 3,
-                        h: 3,
-                        borderRadius: '50%',
-                        bg: value > 50 ? 'brand.yellow' : 'brand.btnSecondary',
-                        position: 'absolute',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        left: '-8px',
-                      }}
-                    />
+                      <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
+                    </Tooltip>
+                  </Flex>
 
-                    <Flex
-                      sx={{
-                        w: 4,
-                        h: 4,
-                        borderRadius: '50%',
-                        bg: value > 50 ? 'brand.yellow' : 'textSecondary',
-                        position: 'absolute',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        left: 'calc(50% - 7px)',
-                      }}
-                    />
+                  <Flex
+                    flex={1}
+                    gap={1}
+                    mt={1}
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                  >
+                    <Flex direction="column" w="100%">
+                      <Flex gap={2.5} mx={4}>
+                        {/* <Icon color="secondaryBtn" name="timer" size={22} /> */}
+                        <Slider
+                          onChange={(val) => onChange(val)}
+                          onChangeEnd={() => setIsChangingValue(false)}
+                          onChangeStart={() => setIsChangingValue(true)}
+                          size="lg"
+                          value={value}
+                        >
+                          <SliderTrack bg="textSecondary" boxSize={2}>
+                            <SliderFilledTrack
+                              bg={value > 50 ? 'brand.yellow' : 'brand.btnSecondary'}
+                              boxSize={2}
+                              width="50%"
+                            />
+                          </SliderTrack>
+                          <ChakraTooltip
+                            hasArrow
+                            bg="bgPrimary"
+                            isOpen={showTooltip || isChangingValue}
+                            label={
+                              <Stack p={1}>
+                                {selectedOption?.label ? (
+                                  <Text textStyle="caption-xs">{selectedOption?.label}</Text>
+                                ) : (
+                                  <>
+                                    <Flex>
+                                      <Text textStyle="caption-xs" variant="secondary">
+                                        Number of subswaps: &nbsp;
+                                      </Text>
+                                      <Text textStyle="caption-xs">{selectedOption?.subswaps}</Text>
+                                    </Flex>
 
-                    <Flex
-                      sx={{
-                        w: 3,
-                        h: 3,
-                        borderRadius: '50%',
-                        backgroundColor: 'textSecondary',
-                        position: 'absolute',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        right: '-8px',
-                      }}
-                    />
-                  </Slider>
-                  {/* <Icon color="yellow" name="coin" size={20} /> */}
+                                    <Flex>
+                                      <Text textStyle="caption-xs" variant="secondary">
+                                        Interval: &nbsp;
+                                      </Text>
+                                      <Text textStyle="caption-xs">
+                                        {selectedOption?.interval} blocks
+                                      </Text>
+                                    </Flex>
+                                  </>
+                                )}
+                              </Stack>
+                            }
+                            placement="top"
+                          >
+                            <SliderThumb boxSize={4} />
+                          </ChakraTooltip>
+                          <Flex
+                            sx={{
+                              w: 3,
+                              h: 3,
+                              borderRadius: '50%',
+                              bg: value > 50 ? 'brand.yellow' : 'brand.btnSecondary',
+                              position: 'absolute',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              left: '-8px',
+                            }}
+                          />
+
+                          <Flex
+                            sx={{
+                              w: 4,
+                              h: 4,
+                              borderRadius: '50%',
+                              bg: value > 50 ? 'brand.yellow' : 'textSecondary',
+                              position: 'absolute',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              left: 'calc(50% - 7px)',
+                            }}
+                          />
+
+                          <Flex
+                            sx={{
+                              w: 3,
+                              h: 3,
+                              borderRadius: '50%',
+                              backgroundColor: 'textSecondary',
+                              position: 'absolute',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              right: '-8px',
+                            }}
+                          />
+                        </Slider>
+                        {/* <Icon color="yellow" name="coin" size={20} /> */}
+                      </Flex>
+
+                      <Flex flex={1} justify="space-between" mt={1}>
+                        <Flex>
+                          <Button
+                            onClick={() => onChange(0)}
+                            size="xs"
+                            sx={{ px: 2 }}
+                            variant="borderlessPrimary"
+                          >
+                            {t('views.swap.fastest')}
+                          </Button>
+                        </Flex>
+                        <Flex>
+                          <Button
+                            onClick={() => onChange(50)}
+                            size="xs"
+                            variant="borderlessPrimary"
+                          >
+                            {t('views.swap.optimal')}
+                          </Button>
+                        </Flex>
+                        <Flex>
+                          <Button
+                            onClick={() => onChange(100)}
+                            size="xs"
+                            sx={{ px: 2 }}
+                            variant="borderlessPrimary"
+                          >
+                            {t('views.swap.slowest')}
+                          </Button>
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </>
+              )}
+
+              <SwapSlippage
+                outputAmount={outputAmount}
+                outputAsset={outputAsset}
+                route={route}
+                setSlippagePercent={onChangeSlippage}
+                slippagePercent={slippagePercent}
+              />
+
+              <Flex flex={1} flexWrap="wrap" ml={2}>
+                <Flex direction="column" flex={1}>
+                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
+                    Minimum:
+                  </Text>
+                  <Text
+                    color={
+                      slippagePercent === 0 ||
+                      (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
+                        ? 'brand.yellow'
+                        : 'textPrimary'
+                    }
+                    textStyle="caption-xs"
+                  >
+                    {slippagePercent === 0
+                      ? t('views.swap.noProtection')
+                      : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
+                  </Text>
+                </Flex>
+                <Flex flex={1} flexDirection="column">
+                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
+                    Estimated:
+                  </Text>
+                  <Flex>
+                    <Text
+                      color={
+                        value < 50 ? 'brand.yellow' : value > 50 ? 'brand.green' : 'textPrimary'
+                      }
+                      textStyle="caption-xs"
+                    >
+                      {outputAmount.toCurrency('')} {outputAsset?.ticker || ''}
+                    </Text>
+                  </Flex>
                 </Flex>
 
-                <Flex flex={1} justify="space-between" mt={1}>
+                <Flex flex={1} flexDirection="column">
+                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
+                    Time:
+                  </Text>
                   <Flex>
-                    <Button
-                      onClick={() => onChange(0)}
-                      size="xs"
-                      sx={{ px: 2 }}
-                      variant="borderlessPrimary"
+                    <Text
+                      color={value > 50 ? 'brand.yellow' : 'textPrimary'}
+                      textStyle="caption-xs"
                     >
-                      {t('views.swap.fastest')}
-                    </Button>
-                  </Flex>
-                  <Flex>
-                    <Button onClick={() => onChange(50)} size="xs" variant="borderlessPrimary">
-                      {t('views.swap.optimal')}
-                    </Button>
-                  </Flex>
-                  <Flex>
-                    <Button
-                      onClick={() => onChange(100)}
-                      size="xs"
-                      sx={{ px: 2 }}
-                      variant="borderlessPrimary"
-                    >
-                      {t('views.swap.slowest')}
-                    </Button>
+                      {estimatedTime ? formatDuration(estimatedTime) : 'n/a'}
+                    </Text>
                   </Flex>
                 </Flex>
               </Flex>
-            </Flex>
-          </>
-        )}
 
-        <SwapSlippage
-          outputAmount={outputAmount}
-          outputAsset={outputAsset}
-          route={route}
-          setSlippagePercent={onChangeSlippage}
-          slippagePercent={slippagePercent}
-        />
-
-        <Flex flex={1} flexWrap="wrap" ml={2}>
-          <Flex direction="column" flex={1}>
-            <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
-              Minimum:
-            </Text>
-            <Text
-              color={
-                slippagePercent === 0 ||
-                (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
-                  ? 'brand.yellow'
-                  : 'textPrimary'
-              }
-              textStyle="caption-xs"
-            >
-              {slippagePercent === 0
-                ? t('views.swap.noProtection')
-                : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
-            </Text>
-          </Flex>
-          <Flex flex={1} flexDirection="column">
-            <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
-              Estimated:
-            </Text>
-            <Flex>
-              <Text
-                color={value < 50 ? 'brand.yellow' : value > 50 ? 'brand.green' : 'textPrimary'}
-                textStyle="caption-xs"
-              >
-                {outputAmount.toCurrency('')} {outputAsset?.ticker || ''}
-              </Text>
+              {value > 50 && slippagePercent > 0 && (
+                <Box row className="w-full my-3 px-2">
+                  <Icon color="yellow" name="infoCircle" size={26} />{' '}
+                  <Text
+                    className="ml-2"
+                    color="brand.yellow"
+                    fontWeight="medium"
+                    textStyle="caption"
+                  >
+                    {t('views.swap.slippageMarketRateWarning')}
+                  </Text>
+                </Box>
+              )}
             </Flex>
           </Flex>
-
-          <Flex flex={1} flexDirection="column">
-            <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
-              Time:
-            </Text>
-            <Flex>
-              <Text color={value > 50 ? 'brand.yellow' : 'textPrimary'} textStyle="caption-xs">
-                {estimatedTime ? formatDuration(estimatedTime) : 'n/a'}
-              </Text>
-            </Flex>
-          </Flex>
-        </Flex>
-
-        {value > 50 && slippagePercent > 0 && (
-          <Box row className="w-full my-3 px-2">
-            <Icon color="yellow" name="infoCircle" size={26} />{' '}
-            <Text className="ml-2" color="brand.yellow" fontWeight="medium" textStyle="caption">
-              {t('views.swap.slippageMarketRateWarning')}
-            </Text>
-          </Box>
-        )}
+        </div>
       </Card>
     </Flex>
   );
