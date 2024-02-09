@@ -405,7 +405,8 @@ const SwapView = () => {
   const tokenOutputContent = useMemo(() => {
     if (isAvaxTHOR) {
       return <THORInfoContent inputAsset={inputAsset} />;
-    } else if (isEthRUNE) {
+    }
+    if (isEthRUNE) {
       return <RUNEInfoContent inputAsset={inputAsset} />;
     }
 
@@ -454,7 +455,7 @@ const SwapView = () => {
             tokens={tokens}
           />
 
-          {!IS_LEDGER_LIVE && (
+          {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
               outputAssetchain={outputAsset.chain}
