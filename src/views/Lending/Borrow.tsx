@@ -492,7 +492,7 @@ const Borrow = () => {
                           <Flex alignContent="stretch" flex={1} mt={1}>
                             <CustomRecipientInput
                               isOutputWalletConnected={!!borrowAddress}
-                              outputAssetchain={borrowAsset.chain}
+                              outputAssetChain={borrowAsset.chain}
                               recipient={recipient}
                               setRecipient={setRecipient}
                             />

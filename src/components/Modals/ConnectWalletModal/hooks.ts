@@ -42,6 +42,7 @@ export const isMobile = /iphone|ipad|ipod|ios|android|XiaoMi|MiuiBrowser/i.test(
   navigator.userAgent,
 );
 
+// @ts-expect-error
 export const okxWalletDetected = window.okxwallet || /OKApp/i.test(navigator.userAgent);
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
@@ -125,6 +126,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             icon: 'okx' as IconName,
             type: isMobile ? WalletType.OkxMobile : WalletType.Okx,
             label: t('views.walletModal.okxWallet'),
+            // @ts-expect-error
             tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
           },
           {
@@ -328,6 +330,7 @@ export const useHandleWalletTypeSelect = ({
   }, []);
 
   const handleWindowWallet = useCallback(async (windowPath: 'keplr' | 'okxwallet') => {
+    // @ts-expect-error windowPath is a string
     if (window[windowPath]) return true;
 
     switch (windowPath) {

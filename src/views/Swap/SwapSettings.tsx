@@ -95,7 +95,7 @@ export const SwapSettings = ({
     }));
 
     swapsOptions.unshift({
-      label: `Streaming swap turned off`,
+      label: 'Streaming swap turned off',
       subswaps: 0,
       interval: 0,
       value: 0,

@@ -25,7 +25,7 @@ type Props = {
   setSlippagePercent: (value: number) => void;
 };
 
-const sliderScale = 4;
+const sliderScale = 6;
 const maxOutputScale = 5;
 const startSlipSliderValue = 15;
 const maxSlip = 10;
@@ -116,6 +116,7 @@ export const SwapSlippage = ({
               onChangeEnd={() => setIsChangingValue(false)}
               onChangeStart={() => setIsChangingValue(true)}
               size="lg"
+              step={3}
               value={[slipValue, outputAmountValue]}
             >
               <RangeSliderTrack bg="textSecondary" boxSize={2}>
