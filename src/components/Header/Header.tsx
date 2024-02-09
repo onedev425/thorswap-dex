@@ -48,7 +48,7 @@ export const Header = memo(({ openMenu }: Props) => {
   ]);
 
   return (
-    <header className="mb-5 min-h-[70px]">
+    <header className="min-h-[70px]">
       {IS_PROTECTED && (
         <Box
           _dark={{ borderColor: 'brand.cyan', bgColor: 'transparent' }}

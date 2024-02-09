@@ -14,12 +14,12 @@ import { useApp } from 'store/app/hooks';
 type Props = {
   recipient: string;
   setRecipient: (recipient: string) => void;
-  outputAssetchain: Chain;
+  outputAssetChain: Chain;
   isOutputWalletConnected: boolean;
 };
 
 export const CustomRecipientInput = memo(
-  ({ recipient, setRecipient, outputAssetchain, isOutputWalletConnected }: Props) => {
+  ({ recipient, setRecipient, outputAssetChain, isOutputWalletConnected }: Props) => {
     const { customRecipientMode } = useApp();
     const [thorname, setThorname] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -27,8 +27,8 @@ export const CustomRecipientInput = memo(
 
     const TNSAddress = useMemo(
       () =>
-        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetchain)?.address : '',
-      [TNS, outputAssetchain],
+        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetChain)?.address : '',
+      [TNS, outputAssetChain],
     );
 
     const toggleDisabled = useCallback(() => setDisabled((d) => !d), []);
@@ -57,9 +57,9 @@ export const CustomRecipientInput = memo(
     const recipientTitle = useMemo(
       () =>
         TNSAddress && thorname
-          ? `${t('common.recipientAddress')} - ${thorname}.${outputAssetchain}`
+          ? `${t('common.recipientAddress')} - ${thorname}.${outputAssetChain}`
           : t('common.recipientAddress'),
-      [TNSAddress, outputAssetchain, thorname],
+      [TNSAddress, outputAssetChain, thorname],
     );
 
     if (isOutputWalletConnected && !customRecipientMode) return null;

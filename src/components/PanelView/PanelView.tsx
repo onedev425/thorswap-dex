@@ -17,7 +17,7 @@ export const PanelView = memo(({ title, description, keywords, header, children 
   return (
     <Flex alignSelf="center" mt={2} w="full">
       <Flex flex={1} justify="center" transition={easeInOutTransition}>
-        <Box col className="self-stretch w-full max-w-[480px] mt-2">
+        <Box col className="self-stretch w-full max-w-[480px]">
           <Helmet content={description || title} keywords={keywords} title={title} />
 
           <Box col className="w-full mx-2">

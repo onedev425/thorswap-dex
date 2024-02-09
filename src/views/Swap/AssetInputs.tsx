@@ -19,7 +19,7 @@ import {
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
-const ConditionalWrapper = ({ children, condition }: { children: any; condition: boolean }) =>
+const ConditionalWrapper = ({ children, condition }: { children: ToDo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (
     <Tooltip className="mb-5" content={t('components.assetSelect.ledgerLiveSwitchNotSupported')}>
       {children}
@@ -155,8 +155,9 @@ const Inputs = ({
 
       <AssetInput
         {...assetInputProps}
+        hideZeroPrice
         assets={assets.filter((asset) => isLedgerLiveSupportedInputAsset(asset.asset))}
-        className="!mb-1 flex-1 h-[111px]"
+        className="!mb-1 flex-1 h-[100px]"
         onAssetChange={onInputAssetChange}
         onValueChange={onInputAmountChange}
         selectedAsset={inputAsset}
@@ -165,6 +166,7 @@ const Inputs = ({
       <AssetInput
         {...assetInputProps}
         hideMaxButton
+        hideZeroPrice
         assets={
           !IS_LEDGER_LIVE
             ? outputAssets
@@ -172,7 +174,7 @@ const Inputs = ({
                 isLedgerLiveSupportedOutputAsset(outputAsset.asset),
               )
         }
-        className="h-[111px]"
+        className="h-[100px]"
         onAssetChange={onOutputAssetChange}
         selectedAsset={outputAsset}
       />

@@ -98,13 +98,6 @@ const routes: RouteType = isIframe()
       { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
     ];
 
-declare global {
-  interface Window {
-    keplr: any;
-    okxwallet: any;
-  }
-}
-
 const iframeParamsSchema = z.object({
   fee: z.number().int().positive(),
   address: z.string().min(1),

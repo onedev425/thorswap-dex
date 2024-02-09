@@ -458,7 +458,7 @@ const SwapView = () => {
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
-              outputAssetchain={outputAsset.chain}
+              outputAssetChain={outputAsset.chain}
               recipient={recipient}
               setRecipient={setRecipient}
             />
@@ -478,23 +478,25 @@ const SwapView = () => {
             streamingSwapParams={streamingSwapParams}
           />
 
-          <SwapInfo
-            affiliateBasisPoints={Number(affiliateBasisPoints)}
-            affiliateFee={affiliateFee}
-            assets={assetTickers}
-            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
-            inputUnitPrice={inputUnitPrice}
-            isLoading={isPriceLoading}
-            minReceive={minReceiveInfo}
-            minReceiveSlippage={slippagePercent}
-            networkFee={networkFee}
-            outputUnitPrice={outputUnitPrice}
-            setFeeModalOpened={setFeeModalOpened}
-            showTransactionFeeSelect={showTransactionFeeSelect}
-            streamSwap={streamSwap}
-            vTHORDiscount={vTHORDiscount}
-            whaleDiscount={inputUSDPrice >= 1_000_000}
-          />
+          {quoteId && (
+            <SwapInfo
+              affiliateBasisPoints={Number(affiliateBasisPoints)}
+              affiliateFee={affiliateFee}
+              assets={assetTickers}
+              expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
+              inputUnitPrice={inputUnitPrice}
+              isLoading={isPriceLoading}
+              minReceive={minReceiveInfo}
+              minReceiveSlippage={slippagePercent}
+              networkFee={networkFee}
+              outputUnitPrice={outputUnitPrice}
+              setFeeModalOpened={setFeeModalOpened}
+              showTransactionFeeSelect={showTransactionFeeSelect}
+              streamSwap={streamSwap}
+              vTHORDiscount={vTHORDiscount}
+              whaleDiscount={inputUSDPrice >= 1_000_000}
+            />
+          )}
 
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />

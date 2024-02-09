@@ -20,7 +20,7 @@ const options: IFuseOptions<AssetSelectType> = {
 };
 
 const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
-  const cb = typeof predicate === 'function' ? predicate : (o: any) => o[predicate];
+  const cb = typeof predicate === 'function' ? predicate : (o: ToDo) => o[predicate];
 
   return [
     ...arr
@@ -63,13 +63,13 @@ export const useAssetListSearch = (
 
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
-      } else if (aAsset.isSynthetic || bAsset.isSynthetic) {
-        return query ? 0 : aAsset.isSynthetic ? (bAsset.isSynthetic ? 0 : 1) : -1;
-      } else {
-        return query
-          ? 0
-          : SORTED_CHAINS.indexOf(aAsset.chain) - SORTED_CHAINS.indexOf(bAsset.chain);
       }
+
+      if (aAsset.isSynthetic || bAsset.isSynthetic) {
+        return query ? 0 : aAsset.isSynthetic ? (bAsset.isSynthetic ? 0 : 1) : -1;
+      }
+
+      return query ? 0 : SORTED_CHAINS.indexOf(aAsset.chain) - SORTED_CHAINS.indexOf(bAsset.chain);
     });
 
     const uniqueAssets: AssetSelectType[] = uniqBy(sortedAssets, ({ asset }) => asset.toString());
