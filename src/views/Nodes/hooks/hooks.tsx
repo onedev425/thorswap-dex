@@ -34,8 +34,7 @@ export const useNodeStats = (nodeInfo: ProxiedNode) => {
           }}
           rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          variant="borderlessTint"
-        >
+          variant="borderlessTint">
           {isMdActive ? nodeInfo.node_address : shortenAddress(nodeInfo.node_address, 6, 4)}
         </Button>
       ),
@@ -53,8 +52,7 @@ export const useNodeStats = (nodeInfo: ProxiedNode) => {
           }}
           rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          variant="borderlessTint"
-        >
+          variant="borderlessTint">
           {isMdActive ? nodeInfo.bond_address : shortenAddress(nodeInfo.bond_address, 6, 4)}
         </Button>
       ),
@@ -169,14 +167,13 @@ export const useNodeManager = ({
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    const { validateAddress, nodeAction } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+    const { nodeAction } = await (await import('services/swapKit')).getSwapKitClient();
 
-    const isValidAddress = await validateAddress({
-      chain: Chain.THORChain,
-      address: address || '',
-    });
+    const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+
+    const thorchianToolbox = ThorchainToolbox();
+
+    const isValidAddress = await thorchianToolbox.validateAddress(address || '');
 
     if (!isValidAddress) {
       return showInfoToast(
