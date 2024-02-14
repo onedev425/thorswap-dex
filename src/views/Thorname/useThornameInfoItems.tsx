@@ -139,7 +139,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
       [
         ...commonColumns,
         ...ownerColumns,
-        ...(details
+        ...(details?.entries?.length
           ? details.entries.map(({ address, chain }) => ({
               key: chain,
               label: (

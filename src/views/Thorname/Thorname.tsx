@@ -75,7 +75,7 @@ const Thorname = () => {
   );
 
   const registeredChains = useMemo(
-    () => (details ? details?.entries.map((e) => e.chain) : []),
+    () => (details?.entries?.length ? details.entries.map((e) => e.chain) : []),
     [details],
   );
 
