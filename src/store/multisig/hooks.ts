@@ -4,6 +4,7 @@ import type { Signer } from '@swapkit/toolbox-cosmos';
 import { showErrorToast } from 'components/Toast';
 import { useKeystore } from 'context/wallet/hooks';
 import { useCallback, useMemo } from 'react';
+import { logException } from 'services/logger';
 import type { MultisigDepositTxParams, MultisigTransferTxParams } from 'services/multisig';
 import { getMultisigAddress, multisig } from 'services/multisig';
 import { loadMultisigBalances } from 'store/multisig/actions';
@@ -44,8 +45,8 @@ export const useMultisig = () => {
       try {
         return await multisig.buildTransferTx(txParams);
       } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(error.message);
+        logException(error as Error);
+        showErrorToast(error.message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet],
@@ -58,8 +59,8 @@ export const useMultisig = () => {
       try {
         return await multisig.buildDepositTx(txParams);
       } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(error.message);
+        logException(error as Error);
+        showErrorToast(error.message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet],
@@ -72,8 +73,8 @@ export const useMultisig = () => {
       try {
         return await multisig.signMultisigTx(phrase, tx);
       } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(error.message);
+        logException(error as Error);
+        showErrorToast(error.message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet, phrase],
@@ -92,8 +93,8 @@ export const useMultisig = () => {
           Uint8Array.from(bodyBytes),
         );
       } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(error.message);
+        logException(error as Error);
+        showErrorToast(error.message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet, members],

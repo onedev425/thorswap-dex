@@ -38,6 +38,7 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { AssetInputs } from './AssetInputs';
+import { logException } from 'services/logger';
 
 export const WithdrawPanel = ({
   poolAsset,
@@ -233,10 +234,10 @@ export const WithdrawPanel = ({
 
       appDispatch(updateTransaction({ id, txid }));
     } catch (error: NotWorth) {
-      console.error(error);
+      logException(error as Error);
       const message = error?.data?.originMessage || error;
       appDispatch(completeTransaction({ id, status: 'error' }));
-      showErrorToast(t('notification.submitFail'), message);
+      showErrorToast(t('notification.submitFail'), message, undefined, error as Error);
     }
   }, [
     hasWallet,
@@ -358,8 +359,7 @@ export const WithdrawPanel = ({
   return (
     <PanelView
       header={<ViewHeader withBack actionsComponent={<GlobalSettingsPopover />} title={title} />}
-      title={t('views.liquidity.withdrawLiquidity')}
-    >
+      title={t('views.liquidity.withdrawLiquidity')}>
       <LiquidityType
         onChange={setWithdrawType}
         options={withdrawOptions}
@@ -429,8 +429,7 @@ export const WithdrawPanel = ({
         ]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
-        onConfirm={handleConfirmWithdraw}
-      >
+        onConfirm={handleConfirmWithdraw}>
         <InfoTable items={modalInfoItems} />
       </ConfirmModal>
     </PanelView>

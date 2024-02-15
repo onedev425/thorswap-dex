@@ -5,6 +5,7 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
+import { logEvent, logException } from 'services/logger';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -127,12 +128,12 @@ export const useThornameLookup = (owner?: string) => {
 
         return true;
       } catch (error: NotWorth) {
-        console.error(error);
+        logEvent(error.toString());
         const notFound = error?.response?.status === 404;
         dispatch({ type: 'setAvailable', payload: notFound });
 
         if (!notFound) {
-          showErrorToast(t('common.defaultErrMsg'));
+          showErrorToast(t('common.defaultErrMsg'), undefined, undefined, error as Error);
         }
 
         return false;
@@ -190,9 +191,9 @@ export const useThornameLookup = (owner?: string) => {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.submitFail'));
+        showErrorToast(t('notification.submitFail'), undefined, undefined, error as Error);
       } finally {
         dispatch({ type: 'setLoading', payload: false });
         setTimeout(loadDetails, 5000);

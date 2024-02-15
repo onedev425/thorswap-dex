@@ -38,6 +38,7 @@ import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import { EarnButton } from './EarnButton';
 import { EarnTab, EarnViewTab } from './types';
 import { useSaverPositions } from './useEarnPositions';
+import { logException } from 'services/logger';
 
 const Earn = () => {
   const appDispatch = useAppDispatch();
@@ -208,7 +209,7 @@ const Earn = () => {
         setAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
         if (txid) appDispatch(updateTransaction({ id, txid }));
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
@@ -310,8 +311,7 @@ const Earn = () => {
 
                   <Tooltip
                     content={t('views.savings.aprTooltip', { asset: asset.ticker })}
-                    place="bottom"
-                  >
+                    place="bottom">
                     <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
                   </Tooltip>
                 </Box>
@@ -329,8 +329,7 @@ const Earn = () => {
 
                 <Tooltip
                   content={t('views.savings.tooltipDescription', { asset: asset.ticker })}
-                  place="bottom"
-                >
+                  place="bottom">
                   <Icon color="primaryBtn" name="infoCircle" size={24} />
                 </Tooltip>
               </Box>
@@ -350,8 +349,7 @@ const Earn = () => {
                   <Card
                     stretch
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto"
-                    size="lg"
-                  >
+                    size="lg">
                     <Box col className="self-stretch gap-2">
                       <TabsSelect
                         onChange={(value) => switchTab(value as EarnTab)}
@@ -395,8 +393,7 @@ const Earn = () => {
                                 ? t('views.liquidity.hardCapReachedTooltip')
                                 : undefined
                             }
-                            variant="fancy"
-                          >
+                            variant="fancy">
                             {t('common.approve')}
                           </Button>
                         </Box>

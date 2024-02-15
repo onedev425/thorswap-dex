@@ -12,6 +12,7 @@ import { TransactionType } from 'store/transactions/types';
 
 import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
+import { logException } from 'services/logger';
 
 export const CompletedTransaction = memo(
   ({ inChain, type, txid, label, status, result, details, outChain }: CompletedTransactionType) => {
@@ -33,7 +34,7 @@ export const CompletedTransaction = memo(
       try {
         return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(new Error(`Failed to get explorer tx url for chain: ${chain}`));
         return '';
       }
     }, []);

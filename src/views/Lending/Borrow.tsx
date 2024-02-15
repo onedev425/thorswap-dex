@@ -43,6 +43,7 @@ import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
+import { logException } from 'services/logger';
 
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 export const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
@@ -221,7 +222,7 @@ const Borrow = () => {
             }),
           );
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },
@@ -413,8 +414,7 @@ const Borrow = () => {
                         key={value}
                         onClick={() => setSlippage(value)}
                         size="sm"
-                        variant={slippage === value ? 'primary' : 'outlineTint'}
-                      >
+                        variant={slippage === value ? 'primary' : 'outlineTint'}>
                         <Text textStyle="caption-xs">{text}</Text>
                       </Button>
                     ))}
@@ -426,16 +426,14 @@ const Borrow = () => {
                 <Box col className={classNames('flex h-full')}>
                   <Card
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto max-w-[440px]"
-                    size="lg"
-                  >
+                    size="lg">
                     <Flex direction="column" gap={2}>
                       <Flex direction="column">
                         <Flex
                           alignItems="center"
                           direction="row"
                           justifyContent="space-between"
-                          mr={2}
-                        >
+                          mr={2}>
                           <Text mb={1} ml={5} textStyle="caption">
                             {t('views.lending.collateral')}
                           </Text>
@@ -452,8 +450,7 @@ const Borrow = () => {
                                 fontWeight="light"
                                 textStyle="caption"
                                 textTransform="uppercase"
-                                variant="secondary"
-                              >
+                                variant="secondary">
                                 LTV
                               </Text>
 

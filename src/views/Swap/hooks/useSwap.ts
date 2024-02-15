@@ -14,6 +14,7 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
+import { logException } from 'services/logger';
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -110,24 +111,27 @@ export const useSwap = ({
             showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
           }
         } catch (error: any) {
-          console.error(error);
+          logException(error as Error);
           appDispatch(completeTransaction({ id, status: 'error' }));
           const userCancelled = error?.code === 4001 || error?.toString().includes('4001');
-
           showErrorToast(
             t('notification.submitFail'),
             userCancelled ? t('notification.cancelledByUser') : error?.toString(),
+            undefined,
+            error as Error,
           );
         }
       }
     } catch (error: NotWorth) {
-      console.error(error);
+      logException(error as Error);
       const description = translateErrorMsg(error?.toString());
       appDispatch(completeTransaction({ id, status: 'error' }));
 
       showErrorToast(
         t('notification.submitFail'),
         description.includes('Object') ? '' : description,
+        undefined,
+        error as Error,
       );
     }
   }, [

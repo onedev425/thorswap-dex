@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import type { ImportedMultisigTx } from 'services/multisig';
 import { ROUTES } from 'settings/router';
 
@@ -60,7 +61,7 @@ export const useTxImportForm = () => {
 
         setImportedTx(data);
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         setFileError(t('views.multisig.jsonError'));
         setImportedTx(null);
       }

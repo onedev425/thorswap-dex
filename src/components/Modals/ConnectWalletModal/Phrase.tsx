@@ -6,6 +6,7 @@ import { downloadAsFile } from 'helpers/download';
 import type { ChangeEvent } from 'react';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 
 export const PhraseView = () => {
   const [invalidStatus, setInvalidStatus] = useState(false);
@@ -37,7 +38,7 @@ export const PhraseView = () => {
         setPassword('');
         setPhrase('');
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error.toString());
         setProcessing(false);
         setInvalidStatus(true);
       }
@@ -100,8 +101,7 @@ export const PhraseView = () => {
           loading={processing}
           onClick={handleBackupKeystore}
           rightIcon={<Icon className="transition group-hover:text-white" name="backup" size={18} />}
-          size="sm"
-        >
+          size="sm">
           {t('views.walletModal.backupKeystore')}
         </Button>
       </Box>

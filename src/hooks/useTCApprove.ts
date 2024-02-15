@@ -5,6 +5,7 @@ import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { t } from 'i18next';
 import { useCallback, useMemo } from 'react';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { v4 } from 'uuid';
@@ -44,9 +45,9 @@ export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'));
+        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
       }
     }
   }, [from, asset, appDispatch]);

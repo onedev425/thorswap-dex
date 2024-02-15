@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
+import { t } from 'i18next';
 import type { ReactNode } from 'react';
 import React from 'react';
 import type { ToastOptions } from 'react-hot-toast';
@@ -33,12 +34,14 @@ type ShowToastFunction = (params: {
   description?: string | ReactNode;
   type?: ToastType;
   options?: Partial<Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>>;
+  error?: Error;
 }) => void;
 
 type ToastFunction = (
   message: string,
   descriptionOrOptions?: string | ReactNode | Partial<ToastOptions>,
   options?: Partial<ToastOptions>,
+  error?: Error,
 ) => void;
 
 const showToast: ShowToastFunction = ({
@@ -46,16 +49,16 @@ const showToast: ShowToastFunction = ({
   description,
   type = ToastType.Info,
   options = {},
+  error,
 }) => {
   const icon = getToastIcon(type);
-  const duration = options.duration || type === ToastType.Error ? 10000 : 5000;
+  const duration = options.duration || type === ToastType.Error ? 20000 : 5000;
 
   toast.custom(
     ({ id }) => (
       <Box
         row
-        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
-      >
+        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary">
         <Box col className="w-fit" onClick={() => toast.remove(id)}>
           <Box col>
             <Box alignCenter justify="between">
@@ -75,12 +78,39 @@ const showToast: ShowToastFunction = ({
             <Box className="pl-8 pr-4">
               {typeof description === 'string' ? (
                 <Text fontWeight="light" textStyle="caption-xs">
-                  {description}
+                  {t(`skErrorMessages.${description.replace('Error: ', '')}`) || description}
                 </Text>
               ) : (
                 description
               )}
             </Box>
+            {type === ToastType.Error && error && (
+              <Box className="pt-4">
+                <Box width={'80%'}>
+                  <Text fontWeight="light" textStyle="caption-xs">
+                    {t(`skErrorMessages.core_error`)}
+                    {' ( '}
+                    <a href="https://discord.gg/mskWbRMH" target="_blank" className="underline">
+                      https://discord.gg/thorswap
+                    </a>
+                    {' ).'}
+                    <div className="pt-4">{t(`skErrorMessages.core_error_copy`)}</div>
+                  </Text>
+                </Box>
+                <Box width={'20%'} style={{ alignItems: 'flex-end' }}>
+                  <Icon
+                    color="primary"
+                    name="copy"
+                    size={18}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        JSON.stringify(error, Object.getOwnPropertyNames(error)),
+                      )
+                    }
+                  />
+                </Box>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
@@ -90,7 +120,7 @@ const showToast: ShowToastFunction = ({
 };
 
 const showToastWrapper: (type?: ToastType) => ToastFunction =
-  (type) => (message, descriptionOrOptions, options) => {
+  (type) => (message, descriptionOrOptions, options, error) => {
     const descriptionProvided =
       React.isValidElement(descriptionOrOptions) || typeof descriptionOrOptions === 'string';
 
@@ -103,6 +133,7 @@ const showToastWrapper: (type?: ToastType) => ToastFunction =
       type: type || ToastType.Info,
       message,
       description: descriptionProvided ? descriptionOrOptions : '',
+      error,
     });
   };
 

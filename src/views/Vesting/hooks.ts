@@ -7,6 +7,7 @@ import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { contractConfig, ContractType, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
+import { logEvent, logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -78,7 +79,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
 
       walletDispatch({ type: 'setHasVestingAlloc', payload: hasVestingAlloc });
     } catch (error) {
-      console.error(error);
+      logException(error as Error);
     } finally {
       contractCallInProgress = false;
     }
@@ -163,8 +164,8 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         [VestingType.THOR]: thorVestingInfo,
         [VestingType.VTHOR]: vthorVestingInfo,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (error: NotWorth) {
+      logEvent(error.toString());
     } finally {
       setIsLoading(false);
     }
@@ -199,9 +200,14 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
           appDispatch(updateTransaction({ id, txid: txHash }));
         }
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.submitFail'), t('common.defaultErrMsg'));
+        showErrorToast(
+          t('notification.submitFail'),
+          t('common.defaultErrMsg'),
+          undefined,
+          error as Error,
+        );
       } finally {
         setIsLoading(false);
       }

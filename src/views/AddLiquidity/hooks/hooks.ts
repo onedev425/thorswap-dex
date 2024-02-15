@@ -25,6 +25,7 @@ import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAs
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { useConfirmInfoItems } from './useConfirmInfoItems';
+import { logException } from 'services/logger';
 
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;
@@ -577,7 +578,7 @@ export const useAddLiquidity = ({
         const message = error?.data?.originalError || error.message;
         appDispatch(completeTransaction({ id: runeId, status: 'error' }));
         appDispatch(completeTransaction({ id: assetId, status: 'error' }));
-        showErrorToast(t('notification.submitFail'), message);
+        showErrorToast(t('notification.submitFail'), message, undefined, error as Error);
       }
     }
   }, [
@@ -661,10 +662,10 @@ export const useAddLiquidity = ({
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
 
-        showErrorToast(t('notification.approveFailed'));
+        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
       }
     }
   }, [appDispatch, poolAsset, isWalletAssetConnected]);

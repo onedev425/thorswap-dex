@@ -1,6 +1,7 @@
 import { showErrorToast } from 'components/Toast';
 import { useCallback, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { multisig } from 'services/multisig';
 import { useMultisig } from 'store/multisig/hooks';
 import type { MultisigMember } from 'store/multisig/types';
@@ -47,7 +48,7 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
         setFileError('');
         setWalletData(data);
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         setFileError(t('views.multisig.jsonError'));
         setWalletData(null);
       }
@@ -78,8 +79,8 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       addMultisigWallet({ members, threshold, address, name });
       onSuccess();
     } catch (error: NotWorth) {
-      console.error(error);
-      showErrorToast('');
+      logException(error as Error);
+      showErrorToast('Handle connect Wallet failed', undefined, undefined, error as Error);
     }
   }, [addMultisigWallet, name, onSuccess, walletData]);
 

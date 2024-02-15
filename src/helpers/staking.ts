@@ -1,5 +1,6 @@
 import { RequestClient } from '@swapkit/core';
 import { getBlockRewards } from 'services/contract';
+import { logException } from 'services/logger';
 
 type FlipSideData = {
   DATE: string;
@@ -46,7 +47,7 @@ const getThorBuyback = async () => {
 
     return getEstimatedYearlyThorBuyback(data);
   } catch (error: NotWorth) {
-    console.error(error);
+    logException(error as Error);
     return 0;
   }
 };

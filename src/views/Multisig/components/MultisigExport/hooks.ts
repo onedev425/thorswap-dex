@@ -2,6 +2,7 @@ import { showErrorToast } from 'components/Toast';
 import { downloadAsFile } from 'helpers/download';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useAppSelector } from 'store/store';
 
 const MULTISIG_FILE_NAME = 'thorsafe';
@@ -17,9 +18,9 @@ export const useMultisigExport = () => {
       const walletData = { members, threshold };
       await downloadAsFile(`${MULTISIG_FILE_NAME}-${fileSuffix}.json`, JSON.stringify(walletData));
     } catch (error: NotWorth) {
-      console.error(error);
+      logException(error as Error);
       const message = error.message || t('views.multisig.exportError');
-      showErrorToast(message);
+      showErrorToast(message, undefined, undefined, error as Error);
     }
   }, [fileSuffix, members, threshold]);
 

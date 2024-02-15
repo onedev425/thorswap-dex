@@ -18,6 +18,7 @@ import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { FarmActionType } from '../types';
+import { logException } from 'services/logger';
 
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
@@ -114,9 +115,9 @@ export const StakeConfirmModal = ({
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'));
+        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
       }
     }
   }, [hasWallet, onCancel, appDispatch, lpAsset, contractType]);

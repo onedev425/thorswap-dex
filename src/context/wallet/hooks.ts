@@ -8,7 +8,7 @@ import { chainName } from 'helpers/chainName';
 import { t } from 'i18next';
 import { useCallback, useMemo } from 'react';
 import { ledgerLive } from 'services/ledgerLive';
-import { logEvent } from 'services/logger';
+import { logEvent, logException } from 'services/logger';
 
 import type { LedgerLiveChain } from '../../../ledgerLive/wallet/LedgerLive';
 import { connectLedgerLive, mapLedgerChainToChain } from '../../../ledgerLive/wallet/LedgerLive';
@@ -202,8 +202,8 @@ export const useConnectWallet = () => {
         await getWalletByChain(chain as Chain);
         showInfoToast(t('notification.connectedTrezor', options));
       } catch (error: NotWorth) {
-        console.error(error);
-        showErrorToast(t('notification.trezorFailed', options));
+        logException(error as Error);
+        showErrorToast(t('notification.trezorFailed', options), undefined, undefined, error as Error);
       }
     },
     [getWalletByChain],

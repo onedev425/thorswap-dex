@@ -15,6 +15,7 @@ import { BondActionType } from 'views/Nodes/types';
 
 import { shortenAddress } from '../../../helpers/shortenAddress';
 import { t } from '../../../services/i18n';
+import { logException } from 'services/logger';
 
 export const useNodeStats = (nodeInfo: ProxiedNode) => {
   const { isMdActive } = useWindowSize();
@@ -261,8 +262,13 @@ export const useNodeManager = ({
         );
       }
     } catch (error: NotWorth) {
-      console.error(error);
-      showErrorToast(t('views.nodes.detail.TransactionFailed'), `${error}`);
+      logException(error as Error);
+      showErrorToast(
+        t('views.nodes.detail.TransactionFailed'),
+        `${error}`,
+        undefined,
+        error as Error,
+      );
     }
   }, [amount, handleBondAction, address, tab.value, thorWalletConnected]);
 

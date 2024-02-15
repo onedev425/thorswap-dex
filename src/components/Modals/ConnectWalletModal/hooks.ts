@@ -8,7 +8,7 @@ import { isIframe } from 'helpers/isIframe';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
-import { logEvent } from 'services/logger';
+import { logEvent, logException } from 'services/logger';
 
 import {
   availableChainsByWallet,
@@ -245,12 +245,12 @@ export const useHandleWalletConnect = ({
             return connectWalletconnect(selectedChains);
 
           default:
-            console.error(selectedWalletType);
+            logEvent(`${selectedWalletType} not supported`);
             return null;
         }
       } catch (error) {
-        console.error(error);
-        showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`);
+        logException(error as Error);
+        showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`, undefined, undefined, error as Error);
       }
     },
     [

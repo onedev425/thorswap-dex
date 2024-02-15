@@ -11,6 +11,7 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -146,9 +147,9 @@ export const useVthorUtil = () => {
         appDispatch(updateTransaction({ id, txid }));
       }
     } catch (error) {
-      console.error(error);
+      logException(error as Error);
       appDispatch(completeTransaction({ id, status: 'error' }));
-      showErrorToast(t('notification.approveFailed'));
+      showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
     }
   }, [ethAddr, appDispatch]);
 
@@ -219,7 +220,12 @@ export const useVthorUtil = () => {
           receiverAddr,
         ])) as string;
       } catch (error: any) {
-        showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
+        showErrorToast(
+          t('notification.stakeFailed'),
+          error?.message || error?.toString(),
+          undefined,
+          error as Error,
+        );
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 
@@ -256,7 +262,12 @@ export const useVthorUtil = () => {
           receiverAddr,
         ])) as string;
       } catch (error: any) {
-        showErrorToast(t('notification.stakeFailed'), error?.message || error?.toString());
+        showErrorToast(
+          t('notification.stakeFailed'),
+          error?.message || error?.toString(),
+          undefined,
+          error as Error,
+        );
         return appDispatch(completeTransaction({ id, status: 'error' }));
       }
 

@@ -1,5 +1,6 @@
 import type { AssetValue } from '@swapkit/core';
 import type { MultisigThresholdPubkey, Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
+import { logException } from 'services/logger';
 import type { MultisigMember } from 'store/multisig/types';
 
 export type MultisigTransferTxParams = {
@@ -62,7 +63,7 @@ export const createMultisigWallet = async (members: MultisigMember[], threshold:
     _multisigAddress = await toolbox.pubkeyToAddress(_multisigPubKey, 'thor');
     return _multisigAddress;
   } catch (error: NotWorth) {
-    console.error(error);
+    logException(error as Error);
     return '';
   }
 };
@@ -147,7 +148,7 @@ export const isMultisigInitialized = async () => {
 
     return !!(await (await getThorchainToolbox()).getAccount(_multisigAddress));
   } catch (error: any) {
-    console.error(error);
+    logException(error);
     return false;
   }
 };

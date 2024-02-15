@@ -1,6 +1,7 @@
 import type { Chain } from '@swapkit/core';
 import { cutTxPrefix } from 'components/TransactionManager/helpers';
 import { useCallback, useEffect, useState } from 'react';
+import { logEvent } from 'services/logger';
 
 type Props = {
   chain?: Chain;
@@ -17,7 +18,7 @@ export const useTxUrl = ({ chain, txHash }: Props) => {
     try {
       return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
     } catch (error: NotWorth) {
-      console.error(error);
+      logEvent(`Can't get explorer tx url for chain ${chain}`);
       return '';
     }
   }, []);

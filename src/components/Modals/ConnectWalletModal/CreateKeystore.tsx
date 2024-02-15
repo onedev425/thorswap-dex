@@ -8,6 +8,7 @@ import { downloadAsFile } from 'helpers/download';
 import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 
 type Props = {
   onConnect: (keystore: Keystore, phrase: string) => void;
@@ -54,7 +55,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
         setPhrase(newPhrase);
       } catch (error) {
         setInvalidStatus(true);
-        console.error(error);
+        logException(error as Error);
       }
       setProcessing(false);
     }

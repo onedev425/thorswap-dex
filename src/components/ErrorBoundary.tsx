@@ -1,3 +1,5 @@
+import { logException } from 'services/logger';
+
 type Props = {
   error: {
     error: Error;
@@ -23,7 +25,7 @@ function handleDynamicImportError(error: Error) {
     return true;
   }
 
-  console.error(error);
+  logException(error);
 
   // We let ErrorBoundary handle the error
   return false;

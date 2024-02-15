@@ -3,6 +3,7 @@ import { AssetValue } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import type { RepayQuoteResponse } from 'store/thorswap/types';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -77,7 +78,7 @@ export function useLoanRepay({
             }),
           );
       } catch (error) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },

@@ -35,6 +35,7 @@ import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
 import { useConfirmInfoItems } from './useConfirmInfoItems';
+import { logException } from 'services/logger';
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
@@ -334,11 +335,11 @@ export const CreateLiquidity = () => {
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         !runeTx && appDispatch(completeTransaction({ id: runeId, status: 'error' }));
         !assetTx && appDispatch(completeTransaction({ id: assetId, status: 'error' }));
 
-        showErrorToast(t('notification.submitFail'), error?.toString());
+        showErrorToast(t('notification.submitFail'), error?.toString(), undefined, error as Error);
       }
     }
   }, [wallet, runeAmount, poolAsset, assetAmount, appDispatch]);
@@ -371,9 +372,9 @@ export const CreateLiquidity = () => {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error: NotWorth) {
-        console.error(error);
+        logException(error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'));
+        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
       }
     }
   }, [isWalletAssetConnected, poolAsset, appDispatch]);
@@ -526,8 +527,7 @@ export const CreateLiquidity = () => {
       header={
         <ViewHeader actionsComponent={actionsComponent} title={t('common.createLiquidity')} />
       }
-      title={title}
-    >
+      title={title}>
       <AssetInputs
         isAssetPending={false}
         isRunePending={false}
@@ -557,8 +557,7 @@ export const CreateLiquidity = () => {
             onClick={handleApprove}
             size="lg"
             tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
-            variant="fancy"
-          >
+            variant="fancy">
             {t('common.approve')}
           </Button>
         </Box>
@@ -573,8 +572,7 @@ export const CreateLiquidity = () => {
             onClick={handleCreateLiquidity}
             size="lg"
             tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
-            variant="fancy"
-          >
+            variant="fancy">
             {btnLabel}
           </Button>
         </Box>
@@ -592,8 +590,7 @@ export const CreateLiquidity = () => {
         inputAssets={depositAssets}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
-        onConfirm={handleConfirmAdd}
-      >
+        onConfirm={handleConfirmAdd}>
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
@@ -601,8 +598,7 @@ export const CreateLiquidity = () => {
         inputAssets={[poolAsset]}
         isOpened={visibleApproveModal}
         onClose={() => setVisibleApproveModal(false)}
-        onConfirm={handleConfirmApprove}
-      >
+        onConfirm={handleConfirmApprove}>
         <InfoTable items={approveConfirmInfo} />
       </ConfirmModal>
     </PanelView>

@@ -6,6 +6,7 @@ import { showErrorToast } from 'components/Toast';
 import { downloadAsFile } from 'helpers/download';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import type { ImportedMultisigTx } from 'services/multisig';
 import { useAppSelector } from 'store/store';
 
@@ -46,9 +47,9 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
         JSON.stringify(exportTxData),
       );
     } catch (error: NotWorth) {
-      console.error(error);
+      logException(error as Error);
       const message = error.message || t('views.multisig.exportError');
-      showErrorToast(message);
+      showErrorToast(message, undefined, undefined, error as Error);
     }
   }, [exportTxData, fileNameSuffix]);
 
