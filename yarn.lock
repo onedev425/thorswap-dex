@@ -3270,10 +3270,10 @@
   resolved "https://registry.yarnpkg.com/@swapkit/tokens/-/tokens-0.0.0-nightly-20240208002302.tgz#68b95ed51fada6a94c38f70b851eb8946e3083a8"
   integrity sha512-B+4oSfS8jKTfR/0fbGyM1lp8mWF28/uil+yJbvdYcF7CdFzYQWH0sQKMXfaavgDneA9KXnXUJpHx9Q0e9L+b6w==
 
-"@swapkit/toolbox-cosmos@1.0.0-rc.77":
-  version "1.0.0-rc.77"
-  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.77.tgz#0d2860f6a79c31ddb781e9d0683e1f463a01a61f"
-  integrity sha512-0L/cGQFEgANIkaq+cytgpk1qvBUG9QGmmNTgR7Fr0prp7vGKfNOivilmPh1L6SKWb3Te4FaSYRwBztfXgw+uBg==
+"@swapkit/toolbox-cosmos@1.0.0-rc.78":
+  version "1.0.0-rc.78"
+  resolved "https://registry.yarnpkg.com/@swapkit/toolbox-cosmos/-/toolbox-cosmos-1.0.0-rc.78.tgz#8a1f991fb23c3fafd6341bf6512657633f0d82a5"
+  integrity sha512-coQKzPtit/SqwPEOY5A6Lm9PLKScYlHoPG7ZMes3AvIPxIVqsiQAMwpizYDxdrVkYv6LQXetGi/WWy8OOXiNQA==
   dependencies:
     "@cosmjs/amino" "0.32.2"
     "@cosmjs/crypto" "0.32.2"

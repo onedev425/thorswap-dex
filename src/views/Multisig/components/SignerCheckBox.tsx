@@ -7,6 +7,8 @@ import {
   genericBgClasses,
 } from 'components/constants';
 import type { MultisigMember } from 'store/multisig/types';
+import { pubkeyToAddress, encodeSecp256k1Pubkey } from '@cosmjs/amino';
+import { base64 } from '@swapkit/toolbox-cosmos';
 
 type Props = {
   signer: MultisigMember;
@@ -21,8 +23,7 @@ export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
       className={classNames('gap-2', { 'cursor-pointer': !!onClick })}
       flex={1}
       key={signer.pubKey}
-      onClick={() => onClick?.(signer)}
-    >
+      onClick={() => onClick?.(signer)}>
       <Box
         alignCenter
         className={classNames(
@@ -32,8 +33,7 @@ export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
             [borderHighlightClass]: isSelected,
             [borderHoverHighlightClass]: !!onClick || isSelected,
           },
-        )}
-      >
+        )}>
         <Icon
           color={isSelected ? 'primaryBtn' : 'secondary'}
           name={isSelected ? 'checkBoxChecked' : 'checkBoxBlank'}
@@ -43,6 +43,8 @@ export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
           <div className="flex justify-between">
             <Text textStyle="caption-xs" variant="secondary">
               {signer.name}
+              <br />
+              {pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), 'thor')}
             </Text>
           </div>
           <Text className="break-all whitespace-normal" textStyle="caption-xs">
