@@ -220,7 +220,10 @@ const Earn = () => {
     [asset, currentAsset?.filled, synthAvailability],
   );
 
-  const bnbDepositDisabled = useMemo(() => asset.chain === Chain.Binance, [asset.chain]);
+  const bnbDepositDisabled = useMemo(
+    () => isDeposit && asset.chain === Chain.Binance,
+    [asset.chain, isDeposit],
+  );
   const buttonDisabled = useMemo(
     () =>
       bnbDepositDisabled ||
