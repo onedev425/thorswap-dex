@@ -16,6 +16,7 @@ import { memo, useCallback } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
 import { useApp } from 'store/app/hooks';
+import { useAppSelector } from 'store/store';
 import { ThemeType } from 'types/app';
 
 type Props = {
@@ -25,6 +26,7 @@ type Props = {
 const singlePageHeader = IS_LEDGER_LIVE || isIframe();
 
 export const Header = memo(({ openMenu }: Props) => {
+  const customLogoUrl = useAppSelector(({ app }) => app.iframeData?.logoUrl);
   const { themeType } = useApp();
   const { isWalletLoading, hasWallet } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();
@@ -76,15 +78,23 @@ export const Header = memo(({ openMenu }: Props) => {
             </Flex>
 
             <Flex className="justify-center" flex={1}>
-              <div className="min-w-[48px] h-10 transition-colors cursor-pointer">
-                <div className="rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10" />
-                <img alt="Logo" className="dark:hidden h-10" src={isMdActive ? LogoTsDark : Logo} />
-                <img
-                  alt="Logo"
-                  className="hidden dark:block h-10"
-                  src={isMdActive ? LogoTsWhite : Logo}
-                />
-              </div>
+              {customLogoUrl ? (
+                <img alt="Logo" className="h-12 min-w-[48px]" src={customLogoUrl} />
+              ) : (
+                <div className="min-w-[48px] h-10 transition-colors cursor-pointer">
+                  <div className="rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10" />
+                  <img
+                    alt="Logo"
+                    className="dark:hidden h-10"
+                    src={isMdActive ? LogoTsDark : Logo}
+                  />
+                  <img
+                    alt="Logo"
+                    className="hidden dark:block h-10"
+                    src={isMdActive ? LogoTsWhite : Logo}
+                  />
+                </div>
+              )}
             </Flex>
           </>
         ) : (

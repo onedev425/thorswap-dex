@@ -102,6 +102,7 @@ const iframeParamsSchema = z.object({
   fee: z.number().int().positive(),
   address: z.string().min(1),
   basePair: z.string(),
+  logoUrl: z.string(),
 });
 
 export const PublicRoutes = memo(() => {
@@ -113,13 +114,19 @@ export const PublicRoutes = memo(() => {
       }
 
       const params = new URLSearchParams(window.location.search);
-      const iframeParams = iframeParamsSchema.parse({
+      const values = {
         fee: parseInt(params.get('fee') ?? '50', 10),
         address: params.get('address') ?? 't',
         basePair: params.get('basePair') ?? '',
-      });
+        logoUrl: params.get('logoUrl') ?? '',
+      };
+      try {
+        const iframeParams = iframeParamsSchema.parse(values);
 
-      appDispatch(actions.setIframeData(iframeParams));
+        appDispatch(actions.setIframeData(iframeParams));
+      } catch (error) {
+        throw new Error('Invalid iframe');
+      }
     }
   }, [appDispatch]);
 

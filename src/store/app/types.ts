@@ -36,5 +36,6 @@ export interface State {
     address: string;
     basePair: string;
     fee: number;
+    logoUrl: string;
   };
 }
