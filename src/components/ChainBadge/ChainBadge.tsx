@@ -23,6 +23,9 @@ const colorMapping: Record<Chain, string> = {
   OP: 'bg-',
   MAYA: 'bg-',
   KUJI: 'bg-',
+  DASH: 'bg-',
+  DOT: 'bg-',
+  FLIP: 'bg-',
 };
 
 export const ChainBadge = ({ asset }: Props) => {

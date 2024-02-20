@@ -17,6 +17,9 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Arbitrum]: 0,
   [Chain.Polygon]: 0,
   [Chain.BinanceSmartChain]: 0,
+  [Chain.Dash]: 0,
+  [Chain.Chainflip]: 0,
+  [Chain.Polkadot]: 0,
 };
 
 // time secs for 1 block confirmation
@@ -36,6 +39,9 @@ export const blockTime: Record<Chain, number> = {
   [Chain.Arbitrum]: 0,
   [Chain.Polygon]: 0,
   [Chain.BinanceSmartChain]: 0,
+  [Chain.Dash]: 0,
+  [Chain.Chainflip]: 0,
+  [Chain.Polkadot]: 0,
 };
 
 const getEstimatedTxSeconds = ({

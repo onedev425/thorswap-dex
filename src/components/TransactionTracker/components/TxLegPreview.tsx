@@ -118,6 +118,9 @@ const colorSchemeForChain = {
   [Chain.THORChain]: 'green',
   [Chain.Maya]: 'green',
   [Chain.Kujira]: 'green',
+  [Chain.Dash]: 'green',
+  [Chain.Polkadot]: 'green',
+  [Chain.Chainflip]: 'green',
 };
 
 export const TxLegPreview = ({
