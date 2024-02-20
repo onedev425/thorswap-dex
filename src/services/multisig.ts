@@ -77,12 +77,12 @@ const buildTransferTx = async ({ recipient, memo, assetValue }: MultisigTransfer
   if (!_multisigAddress || !_multisigPubKey) {
     throw new Error('Multisig wallet is not imported');
   }
-  const { buildTransferTx: buildThorchainTransferTx } = await import('@swapkit/toolbox-cosmos');
+  const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
 
-  const transferTx = await buildThorchainTransferTx({
+  const transferTx = await buildTransaction({
     memo,
-    fromAddress: _multisigAddress,
-    toAddress: recipient,
+    from: _multisigAddress,
+    recipient: recipient,
     assetValue,
   });
 
@@ -93,10 +93,10 @@ const buildDepositTx = async ({ memo, assetValue }: MultisigDepositTxParams) => 
   if (!_multisigAddress || !_multisigPubKey) {
     throw new Error('Multisig wallet is not imported');
   }
-  const { buildDepositTx: buildThorchainDepositTx } = await import('@swapkit/toolbox-cosmos');
+  const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
 
-  const depositTx = await buildThorchainDepositTx({
-    signer: _multisigAddress,
+  const depositTx = await buildTransaction({
+    from: _multisigAddress,
     memo,
     assetValue,
   });
