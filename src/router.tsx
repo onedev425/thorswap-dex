@@ -46,20 +46,24 @@ export type RouteType = {
   element: NotWorth;
 }[];
 
-const iframeRoutes = [
+const commonRoutes = [
   { path: ROUTES.Swap, element: Swap },
   { path: ROUTES.SwapPair, element: Swap },
+  { path: ROUTES.Okx, element: Swap },
+  { path: ROUTES.OkxPair, element: Swap },
   { path: ROUTES.Transaction, element: Transaction },
   { path: ROUTES.TxBuilder, element: TxBuilder },
   { path: ROUTES.TxCreate, element: TxCreate },
   { path: ROUTES.TxCreatePool, element: TxCreate },
   { path: ROUTES.TxImport, element: TxImport },
   { path: ROUTES.TxMultisig, element: TxMultisig },
+  { path: ROUTES.ToS, element: ToSView },
 ];
 
 const routes: RouteType = isIframe()
-  ? iframeRoutes
+  ? commonRoutes
   : [
+      ...commonRoutes,
       { path: ROUTES.AddLiquidity, element: AddLiquidity },
       { path: ROUTES.AddLiquidityPool, element: AddLiquidity },
       { path: ROUTES.CreateLiquidity, element: CreateLiquidity },
@@ -82,17 +86,8 @@ const routes: RouteType = isIframe()
       { path: ROUTES.Send, element: Send },
       { path: ROUTES.SendAsset, element: Send },
       { path: ROUTES.Stake, element: Staking },
-      { path: ROUTES.Swap, element: Swap },
-      { path: ROUTES.SwapPair, element: Swap },
       { path: ROUTES.Thorname, element: Thorname },
-      { path: ROUTES.Transaction, element: Transaction },
-      { path: ROUTES.TxBuilder, element: TxBuilder },
-      { path: ROUTES.TxCreate, element: TxCreate },
-      { path: ROUTES.TxCreatePool, element: TxCreate },
-      { path: ROUTES.TxImport, element: TxImport },
-      { path: ROUTES.TxMultisig, element: TxMultisig },
       { path: ROUTES.Vesting, element: Vesting },
-      { path: ROUTES.ToS, element: ToSView },
       { path: ROUTES.Wallet, element: Wallet },
       { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
       { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
