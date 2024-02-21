@@ -6,8 +6,8 @@ export enum ROUTES {
   AddLiquidityPool = '/add/:assetParam',
   CreateLiquidity = '/create',
   Home = '/dashboard',
-  Kyber = '/kyber',
-  KyberPair = '/kyber/:pair',
+  Okx = '/okx',
+  OkxPair = '/okx/:pair',
   Liquidity = '/liquidity',
   NodeDetail = '/nodes/:nodeAddress',
   NodeManager = '/node-manager',
@@ -87,13 +87,6 @@ export const getSwapRoute = (
   const assetUrl = `${inputString}_${outputString}`.replace(/\//g, '.');
 
   return `${route}/${assetUrl}`;
-};
-
-export const getKyberSwapRoute = (
-  input: AssetValue,
-  output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
-) => {
-  return getSwapRoute(input, output, ROUTES.Kyber);
 };
 
 export const navigateToPoolDetail = (asset: AssetValue) => {

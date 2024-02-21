@@ -18,11 +18,10 @@ import { useLocation, useNavigate, useParams, useSearchParams } from 'react-rout
 import { t } from 'services/i18n';
 import { logEvent } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
-import { getKyberSwapRoute, getSwapRoute } from 'settings/router';
+import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
-import { useKyberSwap } from 'views/Swap/hooks/useKyberSwap';
 import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
@@ -50,6 +49,11 @@ const SwapView = () => {
   const { getMaxBalance } = useBalance();
   const { keystore } = useKeystore();
   const { getWallet, getWalletAddress } = useWallet();
+
+  const isOKXPage = useMemo(
+    () => location.pathname.split('/').includes('okx'),
+    [location.pathname],
+  );
 
   const { analyticsVisible, toggleAnalytics } = useApp();
   const { pair } = useParams<{ pair: string }>();
@@ -226,8 +230,6 @@ const SwapView = () => {
     setManualSlippage,
   });
 
-  const { isKyberSwapPage, kyberRoutes } = useKyberSwap({ routes });
-
   const outputUSDPrice = useMemo(
     () => outputUnitPrice * outputAmount.getValue('number'),
     [outputUnitPrice, outputAmount],
@@ -318,21 +320,11 @@ const SwapView = () => {
         );
       }
 
-      const route = isKyberSwapPage
-        ? getKyberSwapRoute(input, output)
-        : getSwapRoute(input, output);
+      const route = getSwapRoute(input, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
 
       navigate(`${route}?sellAmount=${inputAmount.getValue('string')}`);
     },
-    [
-      getMaxBalance,
-      inputAmount,
-      inputAsset,
-      navigate,
-      outputAsset,
-      setInputAmount,
-      isKyberSwapPage,
-    ],
+    [getMaxBalance, inputAmount, inputAsset, isOKXPage, navigate, outputAsset, setInputAmount],
   );
 
   const handleSwitchPair = useCallback(
@@ -344,13 +336,11 @@ const SwapView = () => {
         ? AssetValue.fromChainOrSignature(!IS_LEDGER_LIVE ? 'ETH.THOR' : Chain.Bitcoin)
         : AssetValue.fromChainOrSignature(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
-      const route = isKyberSwapPage
-        ? getKyberSwapRoute(outputAsset, output)
-        : getSwapRoute(outputAsset, output);
+      const route = getSwapRoute(input, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
 
       navigate(`${route}?sellAmount=${outputAmount.getValue('string')}`);
     },
-    [outputAmount, maxNewInputBalance, outputAsset, inputAsset, isKyberSwapPage, navigate],
+    [outputAmount, maxNewInputBalance, outputAsset, inputAsset, input, isOKXPage, navigate],
   );
 
   const refetchData = useCallback(() => {
@@ -516,8 +506,8 @@ const SwapView = () => {
           <SwapRouter
             outputAsset={outputAsset}
             outputUnitPrice={outputUnitPrice}
-            routes={!isKyberSwapPage ? routes : kyberRoutes}
-            selectedRoute={!isKyberSwapPage ? selectedRoute : kyberRoutes[0]}
+            routes={routes}
+            selectedRoute={selectedRoute}
             setSwapRoute={setSwapRoute}
             streamSwap={streamSwap}
           />
