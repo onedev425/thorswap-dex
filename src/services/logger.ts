@@ -13,10 +13,8 @@ export function initialiseLogger() {
     posthog.init(posthogKey, {
       api_host: 'https://eu.posthog.com',
       autocapture: false,
-      capture_pageleave: true,
-      capture_pageview: true,
       capture_performance: true,
-      disable_cookie: true,
+      disable_persistence: true,
     });
 
     posthog.startSessionRecording();
