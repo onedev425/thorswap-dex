@@ -18,6 +18,7 @@ import {
   triggerContractCall,
 } from 'services/contract';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -26,7 +27,6 @@ import { v4 } from 'uuid';
 import { StakeConfirmModal } from './components/StakeConfirmModal';
 import { getLPContractAddress, getLpTokenBalance, useStakingModal } from './hooks';
 import { FarmActionType } from './types';
-import { logEvent, logException } from 'services/logger';
 
 type Props = {
   exchange: string;
@@ -98,7 +98,7 @@ export const StakingCard = ({
         setStakedAmount(SwapKitNumber.fromBigInt(BigInt(amount || 0), BaseDecimal.ETH));
         setPendingRewardDebt(SwapKitNumber.fromBigInt(BigInt(pendingReward || 0), BaseDecimal.ETH));
       } catch (error: NotWorth) {
-        logEvent(error.toString());
+        logException(error.toString());
       }
     }
 
@@ -166,7 +166,7 @@ export const StakingCard = ({
         setAPRRate(apr);
       }
     } catch (error: NotWorth) {
-      logEvent(error.toString());
+      logException(error.toString());
     }
   }, [getBlockReward, contractType, lpContractType, getAPR]);
 
@@ -276,7 +276,8 @@ export const StakingCard = ({
                 fontWeight="bold"
                 textStyle="caption-xs"
                 textTransform="uppercase"
-                variant="secondary">
+                variant="secondary"
+              >
                 {t('common.exchange')}
               </Text>
               <Text fontWeight="bold" textStyle="body" variant="primary">
@@ -288,7 +289,8 @@ export const StakingCard = ({
                 className="text-right"
                 fontWeight="bold"
                 textStyle="caption-xs"
-                variant="secondary">
+                variant="secondary"
+              >
                 {t('common.APR')}
               </Text>
 
@@ -307,7 +309,8 @@ export const StakingCard = ({
                     className="overflow-hidden text-ellipsis whitespace-nowrap"
                     fontWeight="bold"
                     textStyle="caption-xs"
-                    variant="primary">
+                    variant="primary"
+                  >
                     {shortenAddress(stakingToken)}
                   </Text>
                   <Link external to={stakingTokenUrl}>
@@ -325,7 +328,8 @@ export const StakingCard = ({
                     className="overflow-hidden text-ellipsis whitespace-nowrap"
                     fontWeight="bold"
                     textStyle="caption-xs"
-                    variant="primary">
+                    variant="primary"
+                  >
                     {shortenAddress(stakeAddr)}
                   </Text>
                   <Link external to={stakeAddrUrl}>
@@ -364,7 +368,8 @@ export const StakingCard = ({
                   <Button
                     className="flex-1"
                     onClick={() => openConfirm(FarmActionType.EXIT)}
-                    variant="fancy">
+                    variant="fancy"
+                  >
                     {withdrawOnly ? t('common.withdraw') : t('common.deposit')}
                   </Button>
                 ) : (
@@ -372,13 +377,15 @@ export const StakingCard = ({
                     <Button
                       className="flex-1"
                       onClick={() => openConfirm(FarmActionType.DEPOSIT)}
-                      variant="primary">
+                      variant="primary"
+                    >
                       {t('common.deposit')}
                     </Button>
                     <Button
                       className="flex-1"
                       onClick={() => openConfirm(FarmActionType.EXIT)}
-                      variant="primary">
+                      variant="primary"
+                    >
                       {t('common.withdraw')}
                     </Button>
                   </>
@@ -386,7 +393,8 @@ export const StakingCard = ({
                 <Button
                   className="flex-1"
                   onClick={() => openConfirm(FarmActionType.CLAIM)}
-                  variant={withdrawOnly ? 'fancy' : 'tertiary'}>
+                  variant={withdrawOnly ? 'fancy' : 'tertiary'}
+                >
                   {t('common.claim')}
                 </Button>
               </>

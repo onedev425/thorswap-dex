@@ -7,7 +7,7 @@ import { toOptionalFixed } from 'helpers/number';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { contractConfig, ContractType, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
-import { logEvent, logException } from 'services/logger';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { useTransactionsState } from 'store/transactions/hooks';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -165,7 +165,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         [VestingType.VTHOR]: vthorVestingInfo,
       });
     } catch (error: NotWorth) {
-      logEvent(error.toString());
+      logException(error.toString());
     } finally {
       setIsLoading(false);
     }

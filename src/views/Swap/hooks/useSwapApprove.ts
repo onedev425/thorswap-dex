@@ -3,7 +3,7 @@ import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
-import { logException } from 'services/logger';
+import { logEvent, logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -45,11 +45,13 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
 
         try {
           const txid = await approveAssetValue(inputAsset.set(approveAmount || 0), contract);
+          logEvent('swap_approve', { approveAmount, asset: inputAsset.toString() });
 
           if (typeof txid === 'string') {
             appDispatch(updateTransaction({ id, txid }));
           }
         } catch (error) {
+          logEvent('swap_approve_failed', { error, approveAmount, asset: inputAsset.toString() });
           logException(error as Error);
           appDispatch(completeTransaction({ id, status: 'error' }));
           showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);

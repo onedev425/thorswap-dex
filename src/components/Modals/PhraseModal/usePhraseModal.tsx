@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { t } from 'services/i18n';
-import { logEvent } from 'services/logger';
+import { logException } from 'services/logger';
 
 // TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
@@ -45,7 +45,7 @@ export const usePhraseModal = (isOpen: boolean) => {
           throw Error('Invalid password');
         }
       } catch (error: NotWorth) {
-        logEvent(error.tostring());
+        logException(error.tostring());
         setError('password', { type: 'value' });
       }
     },

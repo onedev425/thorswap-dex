@@ -6,6 +6,7 @@ import { useWallet } from 'context/wallet/hooks';
 import { translateErrorMsg } from 'helpers/error';
 import { useCallback } from 'react';
 import { t } from 'services/i18n';
+import { logEvent, logException } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { useApp } from 'store/app/hooks';
 import { useAppDispatch } from 'store/store';
@@ -14,7 +15,6 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
-import { logException } from 'services/logger';
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -100,6 +100,13 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({ feeOptionKey, recipient, route, streamSwap, wallet });
+          logEvent('swap', {
+            quoteId,
+            expectedVolume: route.expectedOutputUSD,
+            minVolume: route.expectedOutputMaxSlippageUSD,
+            input: inputAsset.toString(),
+            output: outputAsset.toString(),
+          });
 
           if (typeof txid === 'string') {
             const timestamp = new Date();
@@ -114,6 +121,15 @@ export const useSwap = ({
           logException(error as Error);
           appDispatch(completeTransaction({ id, status: 'error' }));
           const userCancelled = error?.code === 4001 || error?.toString().includes('4001');
+
+          if (!userCancelled) {
+            logEvent('swap_failed', {
+              error,
+              input: inputAsset.toString(),
+              output: outputAsset.toString(),
+            });
+          }
+
           showErrorToast(
             t('notification.submitFail'),
             userCancelled ? t('notification.cancelledByUser') : error?.toString(),
@@ -123,6 +139,11 @@ export const useSwap = ({
         }
       }
     } catch (error: NotWorth) {
+      logEvent('swap_failed', {
+        error,
+        input: inputAsset.toString(),
+        output: outputAsset.toString(),
+      });
       logException(error as Error);
       const description = translateErrorMsg(error?.toString());
       appDispatch(completeTransaction({ id, status: 'error' }));

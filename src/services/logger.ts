@@ -50,7 +50,7 @@ export const logEvent = async (event: string, properties?: Record<string, any>) 
   posthog.capture(event, properties);
 };
 
-export const logException = async (error: Error, properties?: Record<string, any>) => {
+export const logException = async (error: Error | string, properties?: Record<string, any>) => {
   if (!sentryEnabled) return;
 
   Sentry.captureException(error, properties);

@@ -85,7 +85,7 @@ const SwapView = () => {
   const outputAsset = useMemo(() => output, [output.toString()]);
 
   useEffect(() => {
-    logEvent('swapPair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
+    logEvent('swap_pair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
   }, [inputAsset, outputAsset]);
 
   const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);

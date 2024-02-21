@@ -1,6 +1,6 @@
 import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import { useCallback, useEffect, useState } from 'react';
-import { logEvent } from 'services/logger';
+import { logException } from 'services/logger';
 import { getVthorState } from 'views/Staking/hooks';
 
 export const useVTHORBalance = (address?: string) => {
@@ -14,7 +14,7 @@ export const useVTHORBalance = (address?: string) => {
       const vTHORBalance = await getVthorState('balanceOf', [address]);
       setVTHORBalance(vTHORBalance);
     } catch (error: NotWorth) {
-      logEvent(error.toString());
+      logException(error.toString());
     }
   }, [address]);
 

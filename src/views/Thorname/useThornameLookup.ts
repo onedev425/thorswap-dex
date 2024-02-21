@@ -5,7 +5,7 @@ import { shortenAddress } from 'helpers/shortenAddress';
 import usePrevious from 'hooks/usePrevious';
 import { useCallback, useEffect, useReducer } from 'react';
 import { t } from 'services/i18n';
-import { logEvent, logException } from 'services/logger';
+import { logException } from 'services/logger';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -128,7 +128,7 @@ export const useThornameLookup = (owner?: string) => {
 
         return true;
       } catch (error: NotWorth) {
-        logEvent(error.toString());
+        logException(error.toString());
         const notFound = error?.response?.status === 404;
         dispatch({ type: 'setAvailable', payload: notFound });
 

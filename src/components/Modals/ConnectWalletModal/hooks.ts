@@ -245,12 +245,17 @@ export const useHandleWalletConnect = ({
             return connectWalletconnect(selectedChains);
 
           default:
-            logEvent(`${selectedWalletType} not supported`);
+            logException(new Error(`${selectedWalletType} not supported`));
             return null;
         }
       } catch (error) {
         logException(error as Error);
-        showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`, undefined, undefined, error as Error);
+        showErrorToast(
+          `${t('txManager.failed')} ${selectedWalletType}`,
+          undefined,
+          undefined,
+          error as Error,
+        );
       }
     },
     [

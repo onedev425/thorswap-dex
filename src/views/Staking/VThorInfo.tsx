@@ -7,11 +7,11 @@ import { toOptionalFixed } from 'helpers/number';
 import { fetchVthorApy } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { ROUTES } from 'settings/router';
 
 import { AddVThorMM } from './AddVThorMM';
 import { useV1ThorStakeInfo, useVthorUtil } from './hooks';
-import { logEvent } from 'services/logger';
 
 type Props = {
   ethAddress?: string;
@@ -37,7 +37,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
         const apr = await fetchVthorApy(thorStaked.getValue('number'));
         setVthorApy(apr);
       } catch (error: NotWorth) {
-        logEvent(error.toString());
+        logException(error.toString());
         setVthorApy(0);
       }
     }
@@ -75,7 +75,8 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
             alignCenter
             row
             className="pb-2 border-0 border-b border-solid border-opacity-20 border-light-border-primary dark:border-dark-border-primary"
-            justify="between">
+            justify="between"
+          >
             <Text fontWeight="semibold" textStyle="subtitle2">
               {t('views.stakingVThor.statTitle')}
             </Text>
