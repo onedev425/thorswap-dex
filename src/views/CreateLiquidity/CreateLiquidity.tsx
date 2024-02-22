@@ -104,7 +104,6 @@ export const CreateLiquidity = () => {
     if (hasWallet) {
       const assetsToSet =
         createInputAssets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynthetic) || [];
-
       setInputAssets(assetsToSet);
     } else {
       setInputAssets([]);
@@ -473,7 +472,12 @@ export const CreateLiquidity = () => {
 
   const assetSelectList = useAssetsWithBalanceFromTokens(tokens);
   const filteredAssets = useMemo(
-    () => assetSelectList.filter((x) => inputAssets.some((asset) => asset.eq(x.asset))),
+    () =>
+      assetSelectList.filter((x) =>
+        inputAssets.some((asset) => {
+          return asset.toString().toUpperCase() === x.asset.toString().toUpperCase();
+        }),
+      ),
     [assetSelectList, inputAssets],
   );
 

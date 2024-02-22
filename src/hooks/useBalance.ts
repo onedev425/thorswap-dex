@@ -23,7 +23,8 @@ export const useBalance = (skipFees?: boolean) => {
 
   const getMaxBalance = useCallback(
     async (asset: AssetValue, withoutFees = skipFees): Promise<AssetValue> => {
-      if (withoutFees) return getAssetBalance(asset, wallet);
+      const balance = getAssetBalance(asset, wallet);
+      if (withoutFees) return balance;
 
       const { chain } = asset;
       const chainWallet = getWallet(chain);
@@ -41,7 +42,6 @@ export const useBalance = (skipFees?: boolean) => {
             multiplier: getMultiplierForAsset(asset),
           });
           const networkFee = parseFeeToAssetAmount({ gasRate, asset });
-          const balance = getAssetBalance(asset, wallet);
           const maxSpendableAmount = isGasAsset(balance) ? balance.sub(networkFee) : balance;
 
           return maxSpendableAmount.gt(0) ? maxSpendableAmount : (balance.set(0) as AssetValue);
@@ -52,7 +52,6 @@ export const useBalance = (skipFees?: boolean) => {
         feeOptionType,
         multiplier: getMultiplierForAsset(asset) || 1,
       });
-      const balance = getAssetBalance(asset, wallet);
 
       if (balance.eqValue(0)) return balance;
 

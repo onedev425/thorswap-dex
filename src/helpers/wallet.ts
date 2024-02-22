@@ -14,7 +14,9 @@ export const isTokenWhitelisted = (asset: AssetValue, whitelistedAddresses: stri
 export const getAssetBalance = (asset: AssetValue, wallet: typeof initialWallet) => {
   if (asset.chain in wallet) {
     const chainWallet = wallet?.[asset.chain as keyof typeof wallet];
-    const walletBalanceItem = chainWallet?.balance.find((assetData) => assetData?.eq?.(asset));
+    const walletBalanceItem = chainWallet?.balance.find(
+      (assetData) => assetData.toString().toLowerCase() === asset.toString().toLowerCase(),
+    );
 
     return walletBalanceItem || asset;
   }
