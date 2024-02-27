@@ -25,7 +25,6 @@ const periodInDays = 30;
  * daily $THOR affiliateEarned -> take last periodInDays days -> sum -> avg -> multiply by 52 weeks
  */
 const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
-  console.log({ data });
   const dataFromPeriod = data.slice(-periodInDays);
   const fees = dataFromPeriod.reduce(
     (prev, current) => ({
@@ -34,7 +33,6 @@ const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
     }),
     { AFF_FEE_EARNED_THOR: 0, AFF_FEE_EARNED_USD: 0 },
   );
-  console.log({ fees });
 
   return (fees.AFF_FEE_EARNED_THOR / periodInDays) * 365;
 };
