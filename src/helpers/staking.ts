@@ -4,12 +4,15 @@ import { logException } from 'services/logger';
 
 type FlipSideData = {
   DATE: string;
-  AFF_ADDRESS: string;
-  AFF_FEE_EARNED: number;
-  RUNE_PRICE_USD: number;
-  THOR_PRICE_USD: number;
-  AFF_FEE_EARNED_USD: number;
+  FROM_ASSET: string;
+  TOTAL_FROM_AMT: number;
+  AVG_RUNE_PRICE_USD: number;
+  TOTAL_FROM_AMT_USD: number;
   AFF_FEE_EARNED_THOR: number;
+  TO_ASSET: string;
+  TOTAL_TO_AMT: number;
+  AVG_THOR_PRICE_USD: number;
+  TOTAL_TO_AMT_USD: number;
 };
 
 /**
@@ -17,27 +20,23 @@ type FlipSideData = {
  */
 export const BLOCKS_PER_YEAR = 7200 * 365;
 const periodInDays = 30;
-const BUYBACK_PCT = 0.75;
 
 /**
  * daily $THOR affiliateEarned -> take last periodInDays days -> sum -> avg -> multiply by 52 weeks
  */
 const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
+  console.log({ data });
   const dataFromPeriod = data.slice(-periodInDays);
   const fees = dataFromPeriod.reduce(
     (prev, current) => ({
-      AFF_FEE_EARNED_THOR: prev.AFF_FEE_EARNED_THOR + current.AFF_FEE_EARNED_THOR,
-      AFF_FEE_EARNED_USD: prev.AFF_FEE_EARNED_USD + current.AFF_FEE_EARNED_USD,
+      AFF_FEE_EARNED_THOR: prev.AFF_FEE_EARNED_THOR + current.TOTAL_TO_AMT,
+      AFF_FEE_EARNED_USD: prev.AFF_FEE_EARNED_USD + current.TOTAL_TO_AMT_USD,
     }),
     { AFF_FEE_EARNED_THOR: 0, AFF_FEE_EARNED_USD: 0 },
   );
+  console.log({ fees });
 
-  const feesAfterBuyback = {
-    AFF_FEE_EARNED_THOR: fees.AFF_FEE_EARNED_THOR * BUYBACK_PCT,
-    AFF_FEE_EARNED_USD: fees.AFF_FEE_EARNED_USD * BUYBACK_PCT,
-  };
-
-  return (feesAfterBuyback.AFF_FEE_EARNED_THOR / periodInDays) * 365;
+  return (fees.AFF_FEE_EARNED_THOR / periodInDays) * 365;
 };
 
 const getThorBuybackYear = async () => {
@@ -47,7 +46,8 @@ const getThorBuybackYear = async () => {
 
   try {
     const data: FlipSideData[] = await RequestClient.get(
-      'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest',
+      // 'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest', // OLD QUERY
+      'https://api.flipsidecrypto.com/api/v2/queries/e9f162da-2217-4855-9258-7f2dc144996f/data/latest',
     );
 
     localStorage.setItem(
@@ -69,7 +69,7 @@ export const fetchVthorStats = async (tvl: number) => {
 
   return {
     apy: ((thorBlockRewardsYear + buybackThorYear) / tvl) * 100,
-    realYieldApy: (thorBlockRewardsYear / tvl) * 100,
-    emissionsApy: (buybackThorYear / tvl) * 100,
+    realYieldApy: (buybackThorYear / tvl) * 100,
+    emissionsApy: (thorBlockRewardsYear / tvl) * 100,
   };
 };
