@@ -139,7 +139,8 @@ export const SwapSubmitButton = ({
               : connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.chain] : undefined)
           }
           size="lg"
-          variant="fancy">
+          variant="fancy"
+        >
           {isInputWalletConnected && !IS_LEDGER_LIVE
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
@@ -150,7 +151,8 @@ export const SwapSubmitButton = ({
           loading={!!numberOfPendingApprovals || isLoading}
           onClick={handleApprove}
           size="lg"
-          variant="fancy">
+          variant="fancy"
+        >
           {t('txManager.approve')}
         </Button>
       ) : (
@@ -161,7 +163,8 @@ export const SwapSubmitButton = ({
           loading={isLoading}
           onClick={showSwapConfirmationModal}
           size="lg"
-          variant="fancy">
+          variant="fancy"
+        >
           {btnLabel}
         </Button>
       )}

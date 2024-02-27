@@ -6,13 +6,13 @@ import { baseHoverClass } from 'components/constants';
 import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
 import { useWalletBalance } from 'context/wallet/hooks';
 import { memo, useCallback, useEffect, useState } from 'react';
+import { logException } from 'services/logger';
 import type { TxnResult } from 'store/thorswap/types';
 import type { CompletedTransactionType } from 'store/transactions/types';
 import { TransactionType } from 'store/transactions/types';
 
 import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
-import { logException } from 'services/logger';
 
 export const CompletedTransaction = memo(
   ({ inChain, type, txid, label, status, result, details, outChain }: CompletedTransactionType) => {

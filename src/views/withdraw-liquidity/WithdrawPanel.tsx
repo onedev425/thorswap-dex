@@ -28,6 +28,7 @@ import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { getAddLiquidityRoute } from 'settings/router';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import type { FullMemberPool } from 'store/midgard/types';
@@ -38,7 +39,6 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { AssetInputs } from './AssetInputs';
-import { logException } from 'services/logger';
 
 export const WithdrawPanel = ({
   poolAsset,
@@ -359,7 +359,8 @@ export const WithdrawPanel = ({
   return (
     <PanelView
       header={<ViewHeader withBack actionsComponent={<GlobalSettingsPopover />} title={title} />}
-      title={t('views.liquidity.withdrawLiquidity')}>
+      title={t('views.liquidity.withdrawLiquidity')}
+    >
       <LiquidityType
         onChange={setWithdrawType}
         options={withdrawOptions}
@@ -429,7 +430,8 @@ export const WithdrawPanel = ({
         ]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
-        onConfirm={handleConfirmWithdraw}>
+        onConfirm={handleConfirmWithdraw}
+      >
         <InfoTable items={modalInfoItems} />
       </ConfirmModal>
     </PanelView>

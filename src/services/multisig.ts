@@ -99,7 +99,7 @@ const buildDepositTx = async ({ memo, assetValue }: MultisigDepositTxParams) => 
     from: _multisigAddress,
     memo,
     assetValue,
-    recipient: ''
+    recipient: '',
   });
 
   return depositTx;

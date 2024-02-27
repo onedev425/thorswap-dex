@@ -4,7 +4,7 @@ import { Box, Icon, Link, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoTip } from 'components/InfoTip';
 import { toOptionalFixed } from 'helpers/number';
-import { fetchVthorApy } from 'helpers/staking';
+import { fetchVthorStats } from 'helpers/staking';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { t } from 'services/i18n';
 import { logException } from 'services/logger';
@@ -18,10 +18,19 @@ type Props = {
   walletType?: WalletOption;
 };
 
+const DEFAULT_VTHOR_STATS = {
+  apy: 0,
+  realYieldApy: 0,
+  emissionsApy: 0,
+};
 export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isStakeInfoOpen, setStakeInfoOpen] = useState(true);
-  const [vthorApy, setVthorApy] = useState(0);
+  const [vthorApy, setVthorApy] = useState<{
+    apy: number;
+    realYieldApy: number;
+    emissionsApy: number;
+  }>(DEFAULT_VTHOR_STATS);
   const { getRate, stakePercentageRate, thorStaked, vthorBalance, handleRefresh } = useVthorUtil();
   const { hasStakedV1Thor } = useV1ThorStakeInfo(ethAddress);
   const handleStatsRefresh = useCallback(() => {
@@ -34,11 +43,11 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   const getVthorAPR = useCallback(async () => {
     if (thorStaked && thorStaked.gt(0)) {
       try {
-        const apr = await fetchVthorApy(thorStaked.getValue('number'));
-        setVthorApy(apr);
+        const stats = await fetchVthorStats(thorStaked.getValue('number'));
+        setVthorApy(stats);
       } catch (error: NotWorth) {
         logException(error.toString());
-        setVthorApy(0);
+        setVthorApy(DEFAULT_VTHOR_STATS);
       }
     }
   }, [thorStaked]);
@@ -97,9 +106,19 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
                 <Icon color="primaryBtn" name="infoCircle" size={16} />
               </Tooltip>
             </Box>
-            <Text fontWeight="medium" textStyle="subtitle2">
-              {vthorApy > 0 ? `${toOptionalFixed(vthorApy, 3)}%` : '-'}
-            </Text>
+            <Box alignCenter row className="gap-2">
+              <Text fontWeight="medium" textStyle="subtitle2">
+                {vthorApy.apy > 0 ? `${toOptionalFixed(vthorApy.apy, 3)}%` : '-'}
+              </Text>
+              <Tooltip
+                className="cursor-pointer"
+                content={`Real yield: ${toOptionalFixed(vthorApy.realYieldApy, 3)}%
+                Emissions: ${toOptionalFixed(vthorApy.emissionsApy, 3)}%
+              `}
+              >
+                <Icon color="primaryBtn" name="infoCircle" size={16} />
+              </Tooltip>
+            </Box>
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">

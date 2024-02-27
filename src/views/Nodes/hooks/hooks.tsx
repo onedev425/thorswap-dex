@@ -9,13 +9,13 @@ import { RUNEAsset } from 'helpers/assets';
 import { useBalance } from 'hooks/useBalance';
 import useWindowSize from 'hooks/useWindowSize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { logException } from 'services/logger';
 import type { ProxiedNode } from 'store/midgard/types';
 import type { NodeManagePanelProps } from 'views/Nodes/types';
 import { BondActionType } from 'views/Nodes/types';
 
 import { shortenAddress } from '../../../helpers/shortenAddress';
 import { t } from '../../../services/i18n';
-import { logException } from 'services/logger';
 
 export const useNodeStats = (nodeInfo: ProxiedNode) => {
   const { isMdActive } = useWindowSize();
@@ -35,7 +35,8 @@ export const useNodeStats = (nodeInfo: ProxiedNode) => {
           }}
           rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          variant="borderlessTint">
+          variant="borderlessTint"
+        >
           {isMdActive ? nodeInfo.node_address : shortenAddress(nodeInfo.node_address, 6, 4)}
         </Button>
       ),
@@ -53,7 +54,8 @@ export const useNodeStats = (nodeInfo: ProxiedNode) => {
           }}
           rightIcon={<Icon name="copy" size={14} />}
           tooltip={t('common.copy')}
-          variant="borderlessTint">
+          variant="borderlessTint"
+        >
           {isMdActive ? nodeInfo.bond_address : shortenAddress(nodeInfo.bond_address, 6, 4)}
         </Button>
       ),

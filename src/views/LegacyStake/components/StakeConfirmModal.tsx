@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { ContractType } from 'services/contract';
 import { getContractAddress } from 'services/contract';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
@@ -18,7 +19,6 @@ import { v4 } from 'uuid';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { FarmActionType } from '../types';
-import { logException } from 'services/logger';
 
 const actionNameKey: Record<FarmActionType, string> = {
   [FarmActionType.DEPOSIT]: 'views.staking.depositAction',

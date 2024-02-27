@@ -12,6 +12,7 @@ import { useNetworkFee } from 'hooks/useNetworkFee';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useApp } from 'store/app/hooks';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { getInboundData } from 'store/midgard/actions';
@@ -25,7 +26,6 @@ import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAs
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { useConfirmInfoItems } from './useConfirmInfoItems';
-import { logException } from 'services/logger';
 
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;

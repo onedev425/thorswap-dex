@@ -203,7 +203,12 @@ export const useConnectWallet = () => {
         showInfoToast(t('notification.connectedTrezor', options));
       } catch (error: NotWorth) {
         logException(error as Error);
-        showErrorToast(t('notification.trezorFailed', options), undefined, undefined, error as Error);
+        showErrorToast(
+          t('notification.trezorFailed', options),
+          undefined,
+          undefined,
+          error as Error,
+        );
       }
     },
     [getWalletByChain],

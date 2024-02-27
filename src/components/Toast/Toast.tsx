@@ -58,7 +58,8 @@ const showToast: ShowToastFunction = ({
     ({ id }) => (
       <Box
         row
-        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary">
+        className="max-w-[375px] z-50 items-center p-2 m-2 border border-solid drop-shadow-md rounded-xl border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-secondary"
+      >
         <Box col className="w-fit" onClick={() => toast.remove(id)}>
           <Box col>
             <Box alignCenter justify="between">
@@ -86,27 +87,32 @@ const showToast: ShowToastFunction = ({
             </Box>
             {type === ToastType.Error && error && (
               <Box className="pt-4">
-                <Box width={'80%'}>
+                <Box width="80%">
                   <Text fontWeight="light" textStyle="caption-xs">
                     {t(`skErrorMessages.core_error`)}
                     {' ( '}
-                    <a href="https://discord.gg/mskWbRMH" target="_blank" className="underline">
+                    <a
+                      className="underline"
+                      href="https://discord.gg/mskWbRMH"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
                       https://discord.gg/thorswap
                     </a>
                     {' ).'}
                     <div className="pt-4">{t(`skErrorMessages.core_error_copy`)}</div>
                   </Text>
                 </Box>
-                <Box width={'20%'} style={{ alignItems: 'flex-end' }}>
+                <Box style={{ alignItems: 'flex-end' }} width="20%">
                   <Icon
                     color="primary"
                     name="copy"
-                    size={18}
                     onClick={() =>
                       navigator.clipboard.writeText(
                         JSON.stringify(error, Object.getOwnPropertyNames(error)),
                       )
                     }
+                    size={18}
                   />
                 </Box>
               </Box>

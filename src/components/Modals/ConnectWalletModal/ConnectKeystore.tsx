@@ -84,7 +84,8 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
       <Box
         alignCenter
         className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
-        onClick={openFilePicker}>
+        onClick={openFilePicker}
+      >
         {!keystore && !keystoreError && <Icon name="upload" size={18} />}
         {keystore && !keystoreError && <Icon color="green" name="valid" size={18} />}
         {keystoreError && <Icon color="red" name="invalid" size={18} />}
@@ -93,7 +94,8 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
             'opacity-100': keystore && !keystoreError,
           })}
           fontWeight="semibold"
-          textStyle="caption-xs">
+          textStyle="caption-xs"
+        >
           {t('views.walletModal.chooseKeystore')}
         </Text>
       </Box>
@@ -136,7 +138,8 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           loading={processing || filesLoading || loading}
           onClick={unlockKeystore}
           rightIcon={<Icon className="transition group-hover:text-white" name="unlock" size={18} />}
-          size="sm">
+          size="sm"
+        >
           {t('views.walletModal.unlock')}
         </Button>
         <Button
@@ -144,7 +147,8 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           onClick={onCreate}
           rightIcon={<Icon name="wallet" size={18} />}
           size="sm"
-          variant="outlineTint">
+          variant="outlineTint"
+        >
           {t('views.walletModal.createWallet')}
         </Button>
       </Box>

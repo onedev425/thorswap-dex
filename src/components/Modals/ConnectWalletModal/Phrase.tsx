@@ -101,7 +101,8 @@ export const PhraseView = () => {
           loading={processing}
           onClick={handleBackupKeystore}
           rightIcon={<Icon className="transition group-hover:text-white" name="backup" size={18} />}
-          size="sm">
+          size="sm"
+        >
           {t('views.walletModal.backupKeystore')}
         </Button>
       </Box>

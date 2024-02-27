@@ -20,6 +20,7 @@ import { usePools } from 'hooks/usePools';
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { useExternalConfig } from 'store/externalConfig/hooks';
 import { getInboundData } from 'store/midgard/actions';
 import { LiquidityTypeOption } from 'store/midgard/types';
@@ -35,7 +36,6 @@ import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import { AssetInputs } from './AssetInputs';
 import { PoolInfo } from './PoolInfo';
 import { useConfirmInfoItems } from './useConfirmInfoItems';
-import { logException } from 'services/logger';
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
@@ -531,7 +531,8 @@ export const CreateLiquidity = () => {
       header={
         <ViewHeader actionsComponent={actionsComponent} title={t('common.createLiquidity')} />
       }
-      title={title}>
+      title={title}
+    >
       <AssetInputs
         isAssetPending={false}
         isRunePending={false}
@@ -561,7 +562,8 @@ export const CreateLiquidity = () => {
             onClick={handleApprove}
             size="lg"
             tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
-            variant="fancy">
+            variant="fancy"
+          >
             {t('common.approve')}
           </Button>
         </Box>
@@ -576,7 +578,8 @@ export const CreateLiquidity = () => {
             onClick={handleCreateLiquidity}
             size="lg"
             tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
-            variant="fancy">
+            variant="fancy"
+          >
             {btnLabel}
           </Button>
         </Box>
@@ -594,7 +597,8 @@ export const CreateLiquidity = () => {
         inputAssets={depositAssets}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
-        onConfirm={handleConfirmAdd}>
+        onConfirm={handleConfirmAdd}
+      >
         <InfoTable items={confirmInfo} />
       </ConfirmModal>
 
@@ -602,7 +606,8 @@ export const CreateLiquidity = () => {
         inputAssets={[poolAsset]}
         isOpened={visibleApproveModal}
         onClose={() => setVisibleApproveModal(false)}
-        onConfirm={handleConfirmApprove}>
+        onConfirm={handleConfirmApprove}
+      >
         <InfoTable items={approveConfirmInfo} />
       </ConfirmModal>
     </PanelView>

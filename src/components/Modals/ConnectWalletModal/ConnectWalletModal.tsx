@@ -14,6 +14,7 @@ import { getFromStorage, saveInStorage } from 'helpers/storage';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
 
@@ -25,7 +26,6 @@ import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } f
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
-import { logException } from 'services/logger';
 
 const ConnectWalletModal = () => {
   const { customDerivationVisible } = useApp();
@@ -181,7 +181,12 @@ const ConnectWalletModal = () => {
       addReconnectionOnAccountsChanged();
     } catch (error) {
       logException(error as Error);
-      showErrorToast(`${t('txManager.failed')} ${selectedWalletType}`, undefined, undefined, error as Error);
+      showErrorToast(
+        `${t('txManager.failed')} ${selectedWalletType}`,
+        undefined,
+        undefined,
+        error as Error,
+      );
     }
   }, [
     addReconnectionOnAccountsChanged,
@@ -301,14 +306,16 @@ const ConnectWalletModal = () => {
       onBack={customFlow ? () => setCustomFlow(false) : undefined}
       onClose={clearState}
       title={t('views.walletModal.connectWallets')}
-      withBody={false}>
+      withBody={false}
+    >
       <Box
         col
         className={classNames(
           'bg-light-layout-primary md:!max-w-[700px] dark:bg-dark-bg-secondary rounded-3xl',
           { '!px-2 !py-4': customFlow },
         )}
-        justify="between">
+        justify="between"
+      >
         {customFlow ? (
           <Box className="min-w-[360px] px-6 self-center">
             {selectedWalletType === WalletType.Keystore && (
@@ -335,11 +342,13 @@ const ConnectWalletModal = () => {
               className={classNames(
                 'bg-light-bg-primary dark:bg-dark-bg-primary z-10',
                 isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-8' : 'rounded-t-3xl pb-2',
-              )}>
+              )}
+            >
               <Box
                 alignCenter
                 className="p-2 w-[90%] md:p-4 md:w-[100%] md:gap-4 box-content"
-                col={isMdActive}>
+                col={isMdActive}
+              >
                 <Box flex={1}>
                   <Text textStyle={isMdActive ? 'h4' : 'subtitle2'}>
                     {t('views.walletModal.selectChains')}
@@ -358,7 +367,8 @@ const ConnectWalletModal = () => {
                   onClick={handleAllClick}
                   size="sm"
                   textTransform="uppercase"
-                  variant={selectedAll ? 'primary' : 'outlinePrimary'}>
+                  variant={selectedAll ? 'primary' : 'outlinePrimary'}
+                >
                   <Text textStyle="caption-xs">{t('views.walletModal.selectAll')}</Text>
                 </Button>
               </Box>
@@ -403,7 +413,8 @@ const ConnectWalletModal = () => {
                     className="!h-5 !px-1.5 justify-end"
                     onClick={() => clearState(false)}
                     textTransform="uppercase"
-                    variant="outlinePrimary">
+                    variant="outlinePrimary"
+                  >
                     <Text textStyle="caption">{t('common.reset')}</Text>
                   </Button>
                 </Box>
@@ -503,7 +514,8 @@ const ConnectWalletModal = () => {
                     onClick={connectWallet}
                     size="md"
                     variant="fancy"
-                    width="66.6%">
+                    width="66.6%"
+                  >
                     <Text>{t('common.connectWallet')}</Text>
                   </Button>
                 </Box>

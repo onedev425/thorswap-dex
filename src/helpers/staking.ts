@@ -13,24 +13,34 @@ type FlipSideData = {
 };
 
 /**
- * 1 block every 6 seconds
+ * 1 block every 12 seconds
  */
-export const BLOCKS_PER_YEAR = 14400 * 365;
+export const BLOCKS_PER_YEAR = 7200 * 365;
 const periodInDays = 30;
+const BUYBACK_PCT = 0.75;
 
 /**
  * daily $THOR affiliateEarned -> take last periodInDays days -> sum -> avg -> multiply by 52 weeks
  */
 const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
   const dataFromPeriod = data.slice(-periodInDays);
-  const fees = dataFromPeriod
-    .map(({ AFF_FEE_EARNED_THOR }) => AFF_FEE_EARNED_THOR)
-    .reduce((prev, current) => prev + current, 0);
+  const fees = dataFromPeriod.reduce(
+    (prev, current) => ({
+      AFF_FEE_EARNED_THOR: prev.AFF_FEE_EARNED_THOR + current.AFF_FEE_EARNED_THOR,
+      AFF_FEE_EARNED_USD: prev.AFF_FEE_EARNED_USD + current.AFF_FEE_EARNED_USD,
+    }),
+    { AFF_FEE_EARNED_THOR: 0, AFF_FEE_EARNED_USD: 0 },
+  );
 
-  return (fees / periodInDays) * 365;
+  const feesAfterBuyback = {
+    AFF_FEE_EARNED_THOR: fees.AFF_FEE_EARNED_THOR * BUYBACK_PCT,
+    AFF_FEE_EARNED_USD: fees.AFF_FEE_EARNED_USD * BUYBACK_PCT,
+  };
+
+  return (feesAfterBuyback.AFF_FEE_EARNED_THOR / periodInDays) * 365;
 };
 
-const getThorBuyback = async () => {
+const getThorBuybackYear = async () => {
   const { timestamp, cacheData } = JSON.parse(localStorage.getItem('thorBuybackData') || '{}');
 
   if (cacheData && Date.now() < timestamp) return getEstimatedYearlyThorBuyback(cacheData);
@@ -52,10 +62,14 @@ const getThorBuyback = async () => {
   }
 };
 
-export const fetchVthorApy = async (tvl: number) => {
+export const fetchVthorStats = async (tvl: number) => {
   const blockRewards = await getBlockRewards();
-  const thorBlockRewards = blockRewards * BLOCKS_PER_YEAR;
-  const buybackThor = await getThorBuyback().catch(() => 0);
+  const thorBlockRewardsYear = blockRewards * BLOCKS_PER_YEAR;
+  const buybackThorYear = await getThorBuybackYear().catch(() => 0);
 
-  return ((thorBlockRewards + buybackThor) / tvl) * 100;
+  return {
+    apy: ((thorBlockRewardsYear + buybackThorYear) / tvl) * 100,
+    realYieldApy: (thorBlockRewardsYear / tvl) * 100,
+    emissionsApy: (buybackThorYear / tvl) * 100,
+  };
 };
