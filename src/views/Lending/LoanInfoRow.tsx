@@ -87,7 +87,7 @@ export const LoanInfoRow = ({
     force: true,
   });
 
-  const handleApprove = useTCApprove({ asset });
+  const handleApprove = useTCApprove({ asset: repayAsset });
 
   const collateralUsd = useMemo(() => {
     const price = tokenPricesData[asset.toString()]?.price_usd || 0;
