@@ -91,8 +91,8 @@ const Earn = () => {
   const handleApprove = useTCApprove({ asset });
 
   const currentAsset = useMemo(
-    () => listAssets.find(({ asset: { ticker } }) => ticker === asset.ticker),
-    [asset.ticker, listAssets],
+    () => listAssets.find((list) => list.asset.toString() === asset.toString()),
+    [asset, listAssets],
   );
 
   const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
@@ -277,10 +277,7 @@ const Earn = () => {
           </Box>
         ),
       },
-      {
-        label: t('views.savings.timeToBrakeEven'),
-        value: timeToBreakEvenInfo,
-      },
+      { label: t('views.savings.timeToBrakeEven'), value: timeToBreakEvenInfo },
     ],
     [slippage, asset.ticker, timeToBreakEvenInfo],
   );

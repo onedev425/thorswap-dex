@@ -76,7 +76,7 @@ export const getCustomContract = async (contractAddr: string, abi?: InterfaceAbi
 export const getContractAddress = (contractType: ContractType) => contractConfig[contractType];
 
 export const getBlockRewards = async () => {
-  let blockReward = parseFloat(
+  const blockReward = parseFloat(
     formatEther(
       await (await getEtherscanContract(ContractType.REWARDS_PER_BLOCK)).rewardPerBlock(),
     ),
@@ -90,9 +90,12 @@ export const triggerContractCall = async (
   funcName: string,
   funcParams: ToDo[],
 ) => {
-  const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+  const { connectedChains, connectedWallets } = await (
+    await import('services/swapKit')
+  ).getSwapKitClient();
   const ethWalletMethods = connectedWallets[Chain.Ethereum];
-  if (!ethWalletMethods) throw new Error('No ETH wallet connected');
+  const from = connectedChains[Chain.Ethereum]?.address;
+  if (!ethWalletMethods || !from) throw new Error('No ETH wallet connected');
 
   const { address, abi } = contractConfig[contractType];
 
@@ -100,7 +103,7 @@ export const triggerContractCall = async (
     contractAddress: address,
     abi,
     funcName,
-    funcParams: [...funcParams, { from: ethWalletMethods.getAddress() }],
+    funcParams: [...funcParams, { from }],
   });
 
   return ethWalletMethods.sendTransaction(populatedTransaction, FeeOption.Fast);

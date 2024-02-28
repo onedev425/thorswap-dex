@@ -98,6 +98,7 @@ export const useWalletBalance = () => {
             type: 'setChainWallet',
             payload: {
               chain,
+              // @ts-expect-error
               data: {
                 address: data?.address || '',
                 balance: data?.balance || [],
@@ -183,6 +184,7 @@ export const useConnectWallet = () => {
       const chain = mapLedgerChainToChain(account.currency as LedgerLiveChain);
       const { wallet } = await connectLedgerLive(chain, account);
 
+      // @ts-expect-error
       walletDispatch({ type: 'setChainWallet', payload: { chain, data: wallet } });
     },
     [walletDispatch],

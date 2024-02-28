@@ -6,24 +6,24 @@ import { createContext, memo, useContext, useMemo, useReducer } from 'react';
 
 import type { LedgerAccount } from '../../../ledgerLive/wallet/LedgerLive';
 
-export type ChainWalletWithLedger =
-  | (ChainWallet & {
+export type ChainWalletWithLedger<T> =
+  | (T & {
       ledgerLiveAccount?: LedgerAccount;
       walletMethods?: any;
     })
   | null;
 
 export const initialWallet = {
-  [Chain.Avalanche]: null as ChainWalletWithLedger,
-  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger,
-  [Chain.Binance]: null as ChainWalletWithLedger,
-  [Chain.BitcoinCash]: null as ChainWalletWithLedger,
-  [Chain.Bitcoin]: null as ChainWalletWithLedger,
-  [Chain.Cosmos]: null as ChainWalletWithLedger,
-  [Chain.Dogecoin]: null as ChainWalletWithLedger,
-  [Chain.Ethereum]: null as ChainWalletWithLedger,
-  [Chain.Litecoin]: null as ChainWalletWithLedger,
-  [Chain.THORChain]: null as ChainWalletWithLedger,
+  [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet<Chain.Avalanche>>,
+  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet<Chain.BinanceSmartChain>>,
+  [Chain.Binance]: null as ChainWalletWithLedger<ChainWallet<Chain.Binance>>,
+  [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet<Chain.BitcoinCash>>,
+  [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Bitcoin>>,
+  [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet<Chain.Cosmos>>,
+  [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Dogecoin>>,
+  [Chain.Ethereum]: null as ChainWalletWithLedger<ChainWallet<Chain.Ethereum>>,
+  [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Litecoin>>,
+  [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet<Chain.THORChain>>,
 };
 
 const chainLoading = {
@@ -57,7 +57,10 @@ type Action =
   | { type: 'disconnectByChain'; payload: Chain }
   | { type: 'hideAsset'; payload: { address: string; chain: Chain } }
   | { type: 'restoreHiddenAssets'; payload: Chain }
-  | { type: 'setChainWallet'; payload: { chain: Chain; data: ChainWalletWithLedger } }
+  | {
+      type: 'setChainWallet';
+      payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet<Chain>> };
+    }
   | { type: 'setChainWalletLoading'; payload: { chain: Chain; loading: boolean } }
   | { type: 'setHasVestingAlloc'; payload: boolean }
   | { type: 'setIsConnectModalOpen'; payload: boolean }

@@ -25,7 +25,7 @@ export type LedgerAccount = Account & { multichainBalance?: AssetValue[] };
 export type LedgerLiveTransaction = Transaction;
 export const LEDGER_LIVE_FAMILIES = FAMILIES;
 
-export const enum LedgerLiveChain {
+export enum LedgerLiveChain {
   BTC = 'bitcoin',
   BCH = 'bitcoin_cash',
   LTC = 'litecoin',
@@ -176,9 +176,9 @@ export const connectLedgerLive = async (chain: Chain, ledgerLiveAccount: LedgerA
         walletMethods,
       },
     };
-  } else {
-    throw new Error(`Ledger connect is not supported for ${chain} chain`);
   }
+
+  throw new Error(`Ledger connect is not supported for ${chain} chain`);
 };
 
 export const ledgerLiveWallet = {
@@ -200,7 +200,6 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
 
       const toolbox = ETHToolbox({
         provider,
-        // @ts-expect-error
         signer: new VoidSigner(ledgerLiveAccount.address, provider),
         ethplorerApiKey: (import.meta.env.VITE_ETHPLORER_API_KEY ||
           process.env.VITE_ETHPLORER_API_KEY) as string,

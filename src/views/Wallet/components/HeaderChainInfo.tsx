@@ -11,7 +11,7 @@ import { useCallback, useState } from 'react';
 
 type Props = {
   chain: Chain;
-  chainWallet: Maybe<ChainWallet>;
+  chainWallet: Maybe<ChainWallet<Chain>>;
   balance: string;
 };
 
