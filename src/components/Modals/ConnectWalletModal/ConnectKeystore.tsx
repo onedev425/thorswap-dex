@@ -47,7 +47,6 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
       try {
         const phrase = await decryptFromKeystore(keystore, password);
 
-        // clean up
         await onConnect(keystore, phrase);
         setPassword('');
         setKeystore(undefined);
