@@ -336,11 +336,12 @@ const SwapView = () => {
         ? AssetValue.fromChainOrSignature(!IS_LEDGER_LIVE ? 'ETH.THOR' : Chain.Bitcoin)
         : AssetValue.fromChainOrSignature(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
-      const route = getSwapRoute(input, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
+
+      const route = getSwapRoute(outputAsset, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
 
       navigate(`${route}?sellAmount=${outputAmount.getValue('string')}`);
     },
-    [outputAmount, maxNewInputBalance, outputAsset, inputAsset, input, isOKXPage, navigate],
+    [outputAmount, maxNewInputBalance, outputAsset, inputAsset, isOKXPage, navigate],
   );
 
   const refetchData = useCallback(() => {

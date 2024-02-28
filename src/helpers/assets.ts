@@ -202,7 +202,7 @@ export const unitToValue = (
   }: { decimals?: BaseDecimal | number; toFixed?: number } = {},
 ) => {
   const value = typeof unit === 'string' ? parseFloat(unit) : unit;
-  const valueWithDecimalShift = decimals > 1 ? value / Math.pow(10, decimals) : value;
+  const valueWithDecimalShift = decimals > 1 ? value / 10 ** decimals : value;
 
   return toFixed ? parseFloat(valueWithDecimalShift.toFixed(toFixed)) : valueWithDecimalShift;
 };

@@ -124,9 +124,7 @@ const Inputs = ({
     <div className="relative self-stretch md:w-full">
       <Box
         center
-        className={classNames(
-          'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-        )}
+        className={classNames('absolute mt-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2')}
       >
         <ConditionalWrapper condition={!isAssetSwitchPossible}>
           <Box
@@ -174,7 +172,7 @@ const Inputs = ({
                 isLedgerLiveSupportedOutputAsset(outputAsset.asset),
               )
         }
-        className="h-[100px]"
+        className="h-[90px]"
         onAssetChange={onOutputAssetChange}
         selectedAsset={outputAsset}
       />
