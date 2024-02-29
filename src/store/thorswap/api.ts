@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { TrackerPayload, TxDetails } from 'components/TransactionTrackerV2/types';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
 import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from 'settings/config';
 import type { AnnouncementsData } from 'store/externalConfig/types';
@@ -95,6 +96,23 @@ export const thorswapApi = createApi({
             providers: ['CHAINFLIP'],
           }),
           url: `https://gateway-d32mo7lc.uc.gateway.dev/quote`,
+          headers: { 'Content-Type': 'application/json' },
+        };
+      },
+    }),
+
+    getTxStatusV2: build.query<TxDetails, TrackerPayload | null>({
+      query: (params) => {
+        return {
+          method: 'POST',
+          body: params
+            ? JSON.stringify({
+                chainId: params.chainId,
+                hash: params.hash,
+                block: params.block,
+              })
+            : null,
+          url: `https://gateway-d32mo7lc.uc.gateway.dev/track`,
           headers: { 'Content-Type': 'application/json' },
         };
       },
@@ -293,4 +311,5 @@ export const {
   useGetWithdrawLPMemoQuery,
   useGetLendingAssetsQuery,
   useGetLendingStatusQuery,
+  useGetTxStatusV2Query,
 } = thorswapApi;
