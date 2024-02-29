@@ -71,6 +71,8 @@ export const getSwapKitClient = async () => {
     },
     ConnectWalletType
   >({
+    apis: {},
+    rpcUrls: {},
     stagenet: IS_STAGENET,
     config: {
       stagenet: IS_STAGENET,
