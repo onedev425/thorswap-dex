@@ -50,7 +50,7 @@ export const useSwapParams = ({
     if (isDexAgg && slippagePercent !== selectedRoute?.meta.slippagePercentage) {
       setManualSlippage?.(slippagePercent);
     }
-  }, [isDexAgg, selectedRoute?.meta.slippagePercentage, setManualSlippage, slippagePercent]);
+  }, [isDexAgg, selectedRoute?.meta?.slippagePercentage, setManualSlippage, slippagePercent]);
 
   useEffect(() => {
     // reset stream swap state only when path changed
@@ -118,7 +118,7 @@ export const useSwapParams = ({
 
   useEffect(() => {
     if (isDexAgg) {
-      return setSlippagePercent(selectedRoute?.meta.slippagePercentage || 0);
+      return setSlippagePercent(selectedRoute?.meta?.slippagePercentage || 0);
     }
 
     // update default slippage when path changed
@@ -140,15 +140,16 @@ export const useSwapParams = ({
 
     const expectedOutputSlippage = streamSwap
       ? selectedRoute?.streamingSwap?.expectedOutputMaxSlippage
-      : selectedRoute?.expectedOutputMaxSlippage;
+      : selectedRoute?.expectedOutputMaxSlippage || selectedRoute?.expectedOutput;
 
     const defaultSlippage = new SwapKitNumber({
       value: expectedOutputSlippage || 0,
       decimal: outputAsset.decimal,
     })
       .div(maxOutputAmount)
-      .toFixed(2);
-    const slipPercent = 100 - Number(defaultSlippage) * 100;
+      .getValue('number');
+
+    const slipPercent = 100 - defaultSlippage * 100;
 
     setSlippagePercent(slipPercent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -215,19 +216,19 @@ export const useSwapParams = ({
           .toString()
       : '0';
 
-    const updatedStreamingSwapMemo = updateMemoLimit(selectedRoute.calldata.memoStreamingSwap, {
+    const updatedStreamingSwapMemo = updateMemoLimit(selectedRoute.calldata?.memoStreamingSwap, {
       minAmount: memoMinAmount,
       interval: streamingSwapParams?.interval,
       subswaps: streamingSwapParams?.subswaps,
     });
 
-    const updatedMemo = updateMemoLimit(selectedRoute.calldata.memo, {
+    const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo, {
       minAmount: memoMinAmount,
     });
 
     const calldata = streamSwap
-      ? { ...selectedRoute.calldata, memoStreamingSwap: updatedStreamingSwapMemo }
-      : { ...selectedRoute.calldata, memo: updatedMemo };
+      ? { ...selectedRoute?.calldata, memoStreamingSwap: updatedStreamingSwapMemo }
+      : { ...selectedRoute?.calldata, memo: updatedMemo };
 
     return {
       ...selectedRoute,

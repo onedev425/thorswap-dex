@@ -1,3 +1,4 @@
+import type { ChainWallet } from '@swapkit/core';
 import { BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
@@ -44,7 +45,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
   const checkAlloc = useCallback(async () => {
     if (!ethAddress || contractCallInProgress) return;
 
-    const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+    const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
     const { getProvider } = await import('@swapkit/toolbox-evm');
     try {
       contractCallInProgress = true;
@@ -59,23 +60,29 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
 
       let hasVestingAlloc = false;
 
-      await connectedWallets.ETH?.call({
-        ...callParams,
-        abi: thorVesting,
-        contractAddress: thorAddress,
-      }).then((amount) => {
-        const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        hasVesting && (hasVestingAlloc = true);
-      });
+      await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)
+        ?.call({
+          ...callParams,
+          abi: thorVesting,
+          contractAddress: thorAddress,
+        })
+        .then((amount) => {
+          const hasVesting =
+            (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
+          hasVesting && (hasVestingAlloc = true);
+        });
 
-      await connectedWallets.ETH?.call({
-        ...callParams,
-        abi: vthorVesting,
-        contractAddress: vthorAddress,
-      }).then((amount) => {
-        const hasVesting = (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
-        hasVesting && (hasVestingAlloc = true);
-      });
+      await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)
+        ?.call({
+          ...callParams,
+          abi: vthorVesting,
+          contractAddress: vthorAddress,
+        })
+        .then((amount) => {
+          const hasVesting =
+            (typeof amount === 'bigint' && amount > 0) || amount?.toString() !== '0';
+          hasVesting && (hasVestingAlloc = true);
+        });
 
       walletDispatch({ type: 'setHasVestingAlloc', payload: hasVestingAlloc });
     } catch (error) {
@@ -89,7 +96,7 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
     async (vestingType: VestingType) => {
       if (!ethAddress) return defaultVestingInfo;
 
-      const { connectedWallets } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
       const { getProvider } = await import('@swapkit/toolbox-evm');
       const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
       const { abi, address } = contractConfig[contractType];
@@ -107,14 +114,16 @@ export const useVesting = ({ onlyCheckAlloc }: { onlyCheckAlloc?: boolean } = {}
         cliff,
         initialRelease,
       ] =
-        (await connectedWallets.ETH?.call({
+        (await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
           ...callParams,
           abi,
           contractAddress: address,
           funcName: 'vestingSchedule',
         })) || ([] as any);
 
-      const claimableAmount = (await connectedWallets.ETH?.call({
+      const claimableAmount = (await (
+        getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>
+      )?.call({
         ...callParams,
         abi,
         contractAddress: address,

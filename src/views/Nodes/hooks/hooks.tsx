@@ -170,7 +170,8 @@ export const useNodeManager = ({
    * 2. check if node address matches to wallet address
    */
   const handleComplete = useCallback(async () => {
-    const { nodeAction } = await (await import('services/swapKit')).getSwapKitClient();
+    const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+    if (!thorchain) throw new Error('SwapKit client not found');
 
     const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
 
@@ -204,7 +205,7 @@ export const useNodeManager = ({
     try {
       if (tab.value === BondActionType.Bond) {
         // bond action
-        const txHash = await nodeAction({
+        const txHash = await thorchain.nodeAction({
           address: address || '',
           type: 'bond',
           assetValue: amount,
@@ -225,7 +226,7 @@ export const useNodeManager = ({
           </Box>,
         );
       } else if (tab.value === BondActionType.Unbond) {
-        const txHash = await nodeAction({
+        const txHash = await thorchain.nodeAction({
           address: address || '',
           type: 'unbond',
           assetValue: amount,
@@ -246,7 +247,7 @@ export const useNodeManager = ({
           </>,
         );
       } else {
-        const txHash = await nodeAction({ address: address || '', type: 'leave' });
+        const txHash = await thorchain.nodeAction({ address: address || '', type: 'leave' });
 
         const txURL = `https://runescan.io/tx/${txHash}}`;
         showSuccessToast(

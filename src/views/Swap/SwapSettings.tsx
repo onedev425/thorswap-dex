@@ -35,6 +35,7 @@ type Props = {
   canStreamSwap: boolean;
   streamingSwapParams: StreamSwapParams | null;
   streamSwap: boolean;
+  isChainflip: boolean;
 };
 
 type SwapOption = {
@@ -56,6 +57,7 @@ export const SwapSettings = ({
   canStreamSwap,
   streamingSwapParams,
   streamSwap,
+  isChainflip,
 }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
 
@@ -83,7 +85,7 @@ export const SwapSettings = ({
     streamSwap,
     useMaxTime: value === 100,
   });
-  const recommendedSlippage = route?.meta.recommendedSlippage || 0;
+  const recommendedSlippage = route?.meta?.recommendedSlippage || 0;
   const hasOptimalSettings = slippagePercent === recommendedSlippage && value === 50;
 
   const sliderOptions = useMemo(() => {
@@ -352,6 +354,7 @@ export const SwapSettings = ({
               )}
 
               <SwapSlippage
+                isChainflip={isChainflip}
                 outputAmount={outputAmount}
                 outputAsset={outputAsset}
                 route={route}
@@ -367,13 +370,14 @@ export const SwapSettings = ({
                   <Text
                     color={
                       slippagePercent === 0 ||
+                      isChainflip ||
                       (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
                         ? 'brand.yellow'
                         : 'textPrimary'
                     }
                     textStyle="caption-xs"
                   >
-                    {slippagePercent === 0
+                    {slippagePercent === 0 || isChainflip
                       ? t('views.swap.noProtection')
                       : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
                   </Text>

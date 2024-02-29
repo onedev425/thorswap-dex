@@ -92,7 +92,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.KeepKey]: [],
   [WalletType.Keplr]: [Chain.Cosmos],
-  [WalletType.Keystore]: AllChainsSupported,
+  [WalletType.Keystore]: [...AllChainsSupported, Chain.Polkadot],
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,

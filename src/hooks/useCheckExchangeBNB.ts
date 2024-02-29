@@ -2,11 +2,11 @@ import { Chain } from '@swapkit/core';
 import { useEffect, useState } from 'react';
 
 const checkIfExchangeBNBAddress = async (address: string) => {
-  const { connectedWallets, validateAddress } = await (
+  const { getWallet, validateAddress } = await (
     await import('services/swapKit')
   ).getSwapKitClient();
 
-  if (!connectedWallets.BNB || !validateAddress({ address, chain: Chain.Binance })) {
+  if (!getWallet(Chain.Binance) || !validateAddress({ address, chain: Chain.Binance })) {
     return false;
   }
 

@@ -10,6 +10,7 @@ export const SUPPORTED_CHAINS = [
   Chain.Dogecoin,
   Chain.BitcoinCash,
   Chain.Litecoin,
+  Chain.Polkadot,
 ];
 
 export const SORTED_CHAINS = [
@@ -20,6 +21,7 @@ export const SORTED_CHAINS = [
   Chain.Avalanche,
   Chain.Litecoin,
   Chain.Cosmos,
+  Chain.Polkadot,
   Chain.BitcoinCash,
   Chain.Dogecoin,
   Chain.Binance,

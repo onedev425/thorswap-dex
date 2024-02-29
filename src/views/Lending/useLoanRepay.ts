@@ -36,7 +36,8 @@ export function useLoanRepay({
 
   const handleRepay = useCallback(
     async (expectedAmount: string) => {
-      const { loan } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+      if (!thorchain) throw new Error('SwapKit client not found');
       setIsConfirmOpen(false);
 
       const id = v4();
@@ -54,7 +55,7 @@ export function useLoanRepay({
       );
 
       try {
-        const txid = await loan({
+        const txid = await thorchain.loan({
           type: 'close',
           memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
           assetValue: AssetValue.fromStringSync(

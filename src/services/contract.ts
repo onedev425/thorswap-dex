@@ -1,3 +1,4 @@
+import type { ChainWallet } from '@swapkit/core';
 import { Chain, FeeOption } from '@swapkit/core';
 import type { InterfaceAbi } from 'ethers';
 import { Contract, formatEther, getAddress } from 'ethers';
@@ -90,11 +91,9 @@ export const triggerContractCall = async (
   funcName: string,
   funcParams: ToDo[],
 ) => {
-  const { connectedChains, connectedWallets } = await (
-    await import('services/swapKit')
-  ).getSwapKitClient();
-  const ethWalletMethods = connectedWallets[Chain.Ethereum];
-  const from = connectedChains[Chain.Ethereum]?.address;
+  const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
+  const ethWalletMethods = getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>;
+  const from = ethWalletMethods.address;
   if (!ethWalletMethods || !from) throw new Error('No ETH wallet connected');
 
   const { address, abi } = contractConfig[contractType];

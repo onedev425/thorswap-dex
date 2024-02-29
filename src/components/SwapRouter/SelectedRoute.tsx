@@ -15,6 +15,7 @@ import { RouteGraphModal } from './RouteGraphModal';
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: number;
+  inputUnitPrice: number;
   assetTicker: string;
   streamSwap?: boolean;
 };
@@ -26,6 +27,7 @@ export const SelectedRoute = memo(
     swaps,
     outputAssetDecimal,
     unitPrice,
+    inputUnitPrice,
     optimal,
     path,
     providers,
@@ -65,6 +67,18 @@ export const SelectedRoute = memo(
         : pathParts.join(' → ');
     }, [path]);
 
+    const parsedFees = useMemo(() => {
+      return fees.FLIP
+        ? {
+            FLIP: fees.FLIP.map((fee) => ({
+              ...fee,
+              totalFeeUSD: fee.totalFee * inputUnitPrice,
+              networkFeeUSD: fee.networkFee * inputUnitPrice,
+            })),
+          }
+        : fees;
+    }, [fees, inputUnitPrice]);
+
     return (
       <Box col className="relative" flex={1}>
         <Box
@@ -76,7 +90,6 @@ export const SelectedRoute = memo(
         >
           <Text textStyle="caption-xs">{t('common.optimal')}</Text>
         </Box>
-
         <Box col className="pl-4 py-1">
           <Box justify="between">
             <Box className="pt-3">
@@ -92,7 +105,10 @@ export const SelectedRoute = memo(
               </Box>
 
               <Box alignCenter className="gap-x-1">
-                <GasPriceIndicator fees={fees} />
+                <GasPriceIndicator
+                  // @ts-expect-error
+                  fees={parsedFees}
+                />
                 <Text variant="secondary">{expectedPriceOutput}</Text>
               </Box>
             </Box>
@@ -111,8 +127,9 @@ export const SelectedRoute = memo(
             </Button>
           </Box>
         </Box>
-
-        <RouteGraphModal isOpened={isOpened} onClose={() => setIsOpened(false)} swaps={swaps} />
+        {swaps && (
+          <RouteGraphModal isOpened={isOpened} onClose={() => setIsOpened(false)} swaps={swaps} />
+        )}
       </Box>
     );
   },

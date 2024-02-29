@@ -179,10 +179,13 @@ export const useThornameLookup = (owner?: string) => {
           }
         : { address, owner: owner, name: searchedThorname, chain };
 
-      const { registerThorname } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        const txid = await registerThorname({
+        if (!thorchain) {
+          throw new Error('THORChain Provider not found');
+        }
+        const txid = await thorchain.registerThorname({
           assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, amount),
           ...registerParams,
         });

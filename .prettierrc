@@ -1,5 +1,5 @@
 {
-  "bracketSameLine": true,
+  "bracketSameLine": false,
   "bracketSpacing": true,
   "printWidth": 100,
   "semi": true,

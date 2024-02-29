@@ -160,13 +160,6 @@ const SwapView = () => {
     }
   }, [inputAsset, inputToken?.decimals, outputAsset, outputToken?.decimals, tokens]);
 
-  const noPriceProtection = useMemo(
-    () =>
-      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
-      getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER,
-    [getWallet, inputAsset.chain],
-  );
-
   const {
     refetch: refetchPrice,
     isLoading: isPriceLoading,
@@ -204,11 +197,26 @@ const SwapView = () => {
     inputAmount,
     inputAsset,
     inputUSDPrice,
+    inputUnitPrice,
+    outputUnitPrice,
     manualSlippage,
     outputAsset,
     recipientAddress: recipient,
     senderAddress: sender,
   });
+
+  const isChainflip = useMemo(
+    () => selectedRouteRaw?.providers?.includes('CHAINFLIP'),
+    [selectedRouteRaw?.providers],
+  );
+
+  const noPriceProtection = useMemo(
+    () =>
+      ([Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
+        getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER) ||
+      isChainflip,
+    [getWallet, inputAsset.chain, isChainflip],
+  );
 
   const {
     streamSwap,
@@ -290,17 +298,13 @@ const SwapView = () => {
     inputAsset,
   });
 
-  const feeAssets = useMemo(
-    () =>
-      [
-        ...new Set(
-          Object.values(fees || {})
-            .flat()
-            .map(({ asset }) => asset.split('.')[1]),
-        ),
-      ].join(', '),
-    [fees],
-  );
+  const feeAssets = useMemo(() => {
+    const assets = Object.values(fees || {})
+      .flat()
+      .map(({ asset }) => new AssetValue({ identifier: asset, decimal: 2, value: 0 }).ticker);
+
+    return Array.from(new Set(assets)).join(', ');
+  }, [fees]);
 
   const handleSelectAsset = useCallback(
     (type: 'input' | 'output') => async (asset: AssetValue) => {
@@ -458,6 +462,7 @@ const SwapView = () => {
           <SwapSettings
             canStreamSwap={canStreamSwap}
             defaultInterval={defaultInterval}
+            isChainflip={isChainflip}
             minReceive={minReceive}
             onSettingsChange={setStreamingSwapParams}
             outputAmount={outputAmount}
@@ -476,6 +481,7 @@ const SwapView = () => {
               assets={assetTickers}
               expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
               inputUnitPrice={inputUnitPrice}
+              isChainflip={isChainflip}
               isLoading={isPriceLoading}
               minReceive={minReceiveInfo}
               minReceiveSlippage={slippagePercent}
@@ -505,6 +511,7 @@ const SwapView = () => {
           )}
 
           <SwapRouter
+            inputUnitPrice={inputUnitPrice}
             outputAsset={outputAsset}
             outputUnitPrice={outputUnitPrice}
             routes={routes}

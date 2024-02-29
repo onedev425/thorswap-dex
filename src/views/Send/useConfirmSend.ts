@@ -44,17 +44,21 @@ export const useConfirmSend = ({
           label,
         }),
       );
-      const { transfer, deposit } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain, getWallet } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
+        if (!thorchain) {
+          throw new Error('THORChain Provider not found');
+        }
+
         const txid = customTxEnabled
-          ? await deposit({
+          ? await thorchain.deposit({
               assetValue: sendAsset,
               recipient,
               memo,
               from,
             })
-          : await transfer({
+          : await getWallet(sendAsset.chain)?.transfer({
               assetValue: sendAsset,
               recipient,
               memo,

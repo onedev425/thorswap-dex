@@ -177,7 +177,8 @@ const Earn = () => {
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { savings } = await (await import('services/swapKit')).getSwapKitClient();
+    const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+    if (!thorchain) throw new Error('SwapKit client not found');
     const percent = withdrawPercent.getValue('number');
     const params = isDeposit
       ? {
@@ -187,7 +188,7 @@ const Earn = () => {
         }
       : { assetValue: asset, type: 'withdraw' as const, percent };
 
-    return savings(params);
+    return thorchain.savings(params);
   }, [amount, asset, isDeposit, withdrawPercent]);
 
   const handleEarnSubmit = useCallback(

@@ -59,7 +59,6 @@ export const useSwap = ({
 
   const handleSwap = useCallback(async () => {
     const id = v4();
-
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
 
@@ -89,7 +88,10 @@ export const useSwap = ({
             label,
             from,
             inChain: inputAsset.chain,
-            type: quoteModeToTransactionType[route.meta.quoteMode as QuoteMode.ETH_TO_ETH],
+            type: quoteModeToTransactionType[
+              route.meta?.quoteMode ||
+                (QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED as QuoteMode.ETH_TO_ETH)
+            ],
             quoteId,
             sellAmount: inputAsset.toSignificant(),
             sellAmountNormalized: inputAsset.toSignificant(6),
@@ -99,7 +101,20 @@ export const useSwap = ({
         );
 
         try {
-          const txid = await swapMethod({ feeOptionKey, recipient, route, streamSwap, wallet });
+          const txid = await swapMethod({
+            provider: {
+              // @ts-expect-error
+              name: route.providers[0].toLowerCase(),
+              config: {
+                brokerEndpoint: 'https://quote-wcc3ja6h6q-uc.a.run.app/channel',
+              },
+            },
+            feeOptionKey,
+            recipient,
+            route,
+            streamSwap,
+            wallet,
+          });
           logEvent('swap', {
             quoteId,
             expectedVolume: route.expectedOutputUSD,
@@ -111,7 +126,14 @@ export const useSwap = ({
           if (typeof txid === 'string') {
             const timestamp = new Date();
             appDispatch(
-              updateTransaction({ id, txid, quoteId, route, timestamp, advancedTracker: true }),
+              updateTransaction({
+                id,
+                txid,
+                quoteId,
+                route,
+                timestamp,
+                advancedTracker: route?.providers?.includes('CHAINFLIP'),
+              }),
             );
           } else {
             appDispatch(completeTransaction({ id, status: 'error' }));

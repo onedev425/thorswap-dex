@@ -11,14 +11,14 @@ type Params = {
 };
 
 export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
-  const { isAssetValueApproved } = await (await import('services/swapKit')).getSwapKitClient();
-  const isApproved = await isAssetValueApproved(assetValue, contract);
+  const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+  const isApproved = await thorchain?.isAssetValueApproved(assetValue, contract);
 
   return isApproved;
 };
 
 let prevNumberOfPendingApprovals = 0;
-let cachedResults: Record<string, boolean> = {};
+const cachedResults: Record<string, boolean> = {};
 
 const useApproveResult = ({
   isWalletConnected,
@@ -83,7 +83,10 @@ const useApproveResult = ({
     }
   }, [value, checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
 
-  return { isApproved: assetValue.eqValue('0') ? false : isApproved, isLoading };
+  return {
+    isApproved: assetValue.eqValue('0') ? false : isApproved,
+    isLoading,
+  };
 };
 
 export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {

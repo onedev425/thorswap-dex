@@ -65,6 +65,41 @@ export const thorswapApi = createApi({
       },
     }),
 
+    getChainflipQuote: build.query<any, GetTokensQuoteParams>({
+      query: ({
+        senderAddress = '',
+        recipientAddress = '',
+        affiliateBasisPoints,
+        affiliateAddress,
+        ...rest
+      }) => {
+        const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
+
+        if (affiliateBasisPoints) {
+          queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
+        }
+        if (affiliateAddress) {
+          queryParams.append('affiliateAddress', affiliateAddress);
+        }
+
+        queryParams.append('isAffiliateFeeFlat', 'true');
+
+        return {
+          method: 'POST',
+          body: JSON.stringify({
+            sellAsset: rest.sellAsset,
+            buyAsset: rest.buyAsset,
+            sellAmount: Number(rest.sellAmount),
+            sourceAddress: senderAddress,
+            destinationAddress: recipientAddress,
+            providers: ['CHAINFLIP'],
+          }),
+          url: `https://gateway-d32mo7lc.uc.gateway.dev/quote`,
+          headers: { 'Content-Type': 'application/json' },
+        };
+      },
+    }),
+
     getProviders: build.query<GetProvidersResponse, void>({
       query: () => '/tokenlist/providers',
     }),
@@ -244,6 +279,7 @@ export const {
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
+  useGetChainflipQuoteQuery,
   useLazyGetLoansQuery,
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,

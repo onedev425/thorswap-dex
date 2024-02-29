@@ -36,10 +36,14 @@ export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
         }),
       );
 
-      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+
+      if (!thorchain) {
+        throw new Error('Thorchain client not found');
+      }
 
       try {
-        const txid = await approveAssetValue(asset);
+        const txid = await thorchain.approveAssetValue(asset);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

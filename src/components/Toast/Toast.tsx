@@ -11,6 +11,7 @@ export enum ToastType {
   Info = 'info',
   Success = 'success',
   Error = 'error',
+  Warning = 'warning',
 }
 
 const getToastIcon = (type: ToastType) => {
@@ -23,6 +24,9 @@ const getToastIcon = (type: ToastType) => {
 
     case ToastType.Info:
       return <Icon className="min-w-[24px]" color="cyan" name="infoCircle" />;
+
+    case ToastType.Warning:
+      return <Icon className="min-w-[24px]" color="yellow" name="warn" />;
 
     default:
       return null;
@@ -89,7 +93,7 @@ const showToast: ShowToastFunction = ({
               <Box className="pt-4">
                 <Box width="80%">
                   <Text fontWeight="light" textStyle="caption-xs">
-                    {t(`skErrorMessages.core_error`)}
+                    {t('skErrorMessages.core_error')}
                     {' ( '}
                     <a
                       className="underline"
@@ -100,7 +104,7 @@ const showToast: ShowToastFunction = ({
                       https://discord.gg/thorswap
                     </a>
                     {' ).'}
-                    <div className="pt-4">{t(`skErrorMessages.core_error_copy`)}</div>
+                    <div className="pt-4">{t('skErrorMessages.core_error_copy')}</div>
                   </Text>
                 </Box>
                 <Box style={{ alignItems: 'flex-end' }} width="20%">
@@ -146,11 +150,13 @@ const showToastWrapper: (type?: ToastType) => ToastFunction =
 export const showSuccessToast = showToastWrapper(ToastType.Success);
 export const showErrorToast = showToastWrapper(ToastType.Error);
 export const showInfoToast = showToastWrapper(ToastType.Info);
+export const showWarningToast = showToastWrapper(ToastType.Warning);
 
 export const ToastPortal = () => {
   return (
     <Toaster containerClassName="m-4" gutter={16} position="bottom-right">
       {(t) => (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div onClick={() => toast.dismiss(t.id)} style={{ cursor: 'pointer' }}>
           <ToastBar toast={t} />
         </div>

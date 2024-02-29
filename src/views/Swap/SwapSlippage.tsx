@@ -22,6 +22,7 @@ type Props = {
   outputAmount: SwapKitNumber;
   outputAsset: AssetValue;
   slippagePercent: number;
+  isChainflip: boolean;
   setSlippagePercent: (value: number) => void;
 };
 
@@ -37,11 +38,12 @@ export const SwapSlippage = ({
   outputAmount,
   slippagePercent,
   setSlippagePercent,
+  isChainflip,
 }: Props) => {
   const [slipValue, setSlipValue] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isChangingValue, setIsChangingValue] = useState(false);
-  const recommendedSlippage = route?.meta.recommendedSlippage;
+  const recommendedSlippage = route?.meta?.recommendedSlippage;
 
   const outputAmountValue = useMemo(() => {
     const maxOutputAmount = new SwapKitNumber({
@@ -59,15 +61,15 @@ export const SwapSlippage = ({
 
     const scaledValue = getScaledValue(maxSlipValue, slipPercent);
 
-    return outputValue < 100 ? scaledValue : 100;
-  }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput]);
+    return outputValue < 100 && !isChainflip ? scaledValue : 100;
+  }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput, isChainflip]);
 
   useEffect(() => {
     const sliderSlipValue = startSlipSliderValue + (maxSlip - slippagePercent) * sliderScale;
-    setSlipValue(slippagePercent > 0 ? sliderSlipValue : 0);
-  }, [slippagePercent]);
+    setSlipValue(slippagePercent > 0 && !isChainflip ? sliderSlipValue : 0);
+  }, [slippagePercent, isChainflip]);
 
-  const mainColor = slippagePercent > 0 ? 'brand.btnPrimary' : 'brand.orange';
+  const mainColor = slippagePercent > 0 && !isChainflip ? 'brand.btnPrimary' : 'brand.orange';
 
   const onChange = (values: number[]) => {
     if (values[0] < startSlipSliderValue / 2) {
@@ -112,6 +114,7 @@ export const SwapSlippage = ({
         <Flex direction="column" w="100%">
           <Flex gap={2.5}>
             <RangeSlider
+              isDisabled={isChainflip}
               onChange={(values) => onChange(values)}
               onChangeEnd={() => setIsChangingValue(false)}
               onChangeStart={() => setIsChangingValue(true)}
@@ -128,7 +131,7 @@ export const SwapSlippage = ({
                 isOpen={showTooltip || isChangingValue}
                 label={
                   <Stack p={1}>
-                    {slippagePercent === 0 ? (
+                    {slippagePercent === 0 || isChainflip ? (
                       <Text color="brand.orange" textStyle="caption-xs">
                         No price protection
                       </Text>
@@ -181,7 +184,7 @@ export const SwapSlippage = ({
                   w: 4,
                   h: 4,
                   borderRadius: '50%',
-                  bg: slippagePercent > 0 ? 'textSecondary' : mainColor,
+                  bg: slippagePercent > 0 && !isChainflip ? 'textSecondary' : mainColor,
                   position: 'absolute',
                   top: '50%',
                   transform: 'translateY(-50%)',

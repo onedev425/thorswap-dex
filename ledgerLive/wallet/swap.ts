@@ -1,8 +1,8 @@
-import type { Chain, SwapParams } from "@swapkit/core";
-import { AssetValue, QuoteMode, RequestClient } from "@swapkit/core";
+import type { Chain, SwapParams } from '@swapkit/core';
+import { AssetValue, QuoteMode, RequestClient } from '@swapkit/core';
 
 const getInboundData = () => {
-  return RequestClient.get<any>("https://thornode.thorswap.net/thorchain/inbound_addresses");
+  return RequestClient.get<any>('https://thornode.thorswap.net/thorchain/inbound_addresses');
 };
 
 export const getInboundFeeDataForChain = async (chain: Chain) => {
@@ -33,16 +33,16 @@ export const ledgerLiveSwap = async ({
         fromAsset as `${Chain}.${string}`,
         amountIn,
       );
-      if (!assetValue) throw new Error("Asset not recognised");
+      if (!assetValue) throw new Error('Asset not recognised');
 
-      const replacedMemo = memo.replace("{recipientAddress}", recipient);
+      const replacedMemo = memo.replace('{recipientAddress}', recipient);
 
       const inboundData = await getInboundData();
       const chainAddressData = inboundData.find((item: any) => item.chain === assetValue.chain);
 
-      if (!chainAddressData) throw new Error("pool address not found");
+      if (!chainAddressData) throw new Error('pool address not found');
       if (chainAddressData?.halted) {
-        throw new Error("Network temporarily halted, please try again later.");
+        throw new Error('Network temporarily halted, please try again later.');
       }
 
       const { address: inboundAddress } = chainAddressData;

@@ -55,7 +55,8 @@ export const AddLPProgressModal = ({
   const handleLPAdd = useCallback(async () => {
     if (Step.Completed === step) return onClose();
 
-    const { addLiquidityPart } = await (await import('services/swapKit')).getSwapKitClient();
+    const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+    if (!thorchain) throw new Error('SwapKit client not found');
     const symmetric = isSymmetric || !!(runeAssetValue && poolAssetValue);
     const runeId = v4();
     const assetId = v4();
@@ -75,7 +76,7 @@ export const AddLPProgressModal = ({
       );
 
       try {
-        const runeTx = await addLiquidityPart({
+        const runeTx = await thorchain.addLiquidityPart({
           address: assetAddress,
           assetValue: runeAssetValue,
           poolAddress,
@@ -118,7 +119,7 @@ export const AddLPProgressModal = ({
         }),
       );
       try {
-        const assetTx = await addLiquidityPart({
+        const assetTx = await thorchain.addLiquidityPart({
           address: runeAddress,
           assetValue: poolAssetValue,
           poolAddress,

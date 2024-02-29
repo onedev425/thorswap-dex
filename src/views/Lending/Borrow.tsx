@@ -168,7 +168,10 @@ const Borrow = () => {
   );
 
   const handleSwapkitAction = useCallback(async () => {
-    const { loan, validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
+    const { thorchain, validateAddress } = await (
+      await import('services/swapKit')
+    ).getSwapKitClient();
+    if (!thorchain) throw new Error('SwapKit client not found');
 
     const validAddress = validateAddress({ chain: borrowAsset.chain, address: recipient });
     if (typeof validAddress === 'boolean' && !validAddress) {
@@ -179,7 +182,7 @@ const Borrow = () => {
       throw new Error('Invalid lending quote');
     }
 
-    return loan({
+    return thorchain.loan({
       type: 'open',
       assetValue: collateralAsset.add(amount),
       minAmount: borrowAsset.add(expectedOutput),

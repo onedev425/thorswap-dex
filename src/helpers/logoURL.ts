@@ -34,6 +34,7 @@ const providersInfoMap = {
   uniswapv2: 'ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
   uniswapv3: 'ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
   zerox: 'ETH.ZRX-0xe41d2489571d322189246dafa5ebde1f4699f498',
+  chainflip: 'ETH.FLIP-0x826180541412d574cf1336d22c0c0a287822678a',
   defiswap: '',
   dxswap: '',
   mooniswap: '',

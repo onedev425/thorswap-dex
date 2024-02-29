@@ -558,10 +558,10 @@ export const useAddLiquidity = ({
         ...addresses,
       };
 
-      const { addLiquidity } = await (await import('services/swapKit')).getSwapKitClient();
-
+      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+      if (!thorchain) throw new Error('SwapKit client not found');
       try {
-        const { runeTx, assetTx } = await addLiquidity(params);
+        const { runeTx, assetTx } = await thorchain.addLiquidity(params);
 
         if (runeTx !== 'failed') {
           appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
@@ -653,10 +653,11 @@ export const useAddLiquidity = ({
         }),
       );
 
-      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+      if (!thorchain) throw new Error('SwapKit client not found');
 
       try {
-        const txid = await approveAssetValue(poolAsset);
+        const txid = await thorchain.approveAssetValue(poolAsset);
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));
