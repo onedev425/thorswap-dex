@@ -15,7 +15,8 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
   const { id, txid, type, label, route, details, completed } = tx || {};
 
-  const sellAssetString = (route as any).sellAsset;
+  // @ts-expect-error
+  const sellAssetString = route?.sellAsset || '';
   const canFetchDetails = !!txid && !!sellAssetString;
   const { onCompleteTransaction } = useCompleteTransaction(tx);
   const sellAsset = sellAssetString ? AssetValue.fromStringSync(sellAssetString) : null;
