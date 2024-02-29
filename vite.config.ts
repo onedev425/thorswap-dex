@@ -8,10 +8,10 @@ import svgr from 'vite-plugin-svgr';
 import mkcert from 'vite-plugin-mkcert';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 
-// const withSourcemap = process.env.SOURCEMAP === 'true';
+const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
 const ssl = process.env.SSL === 'true';
-const sourcemap = true // withSourcemap || analyze;
+const sourcemap = withSourcemap || analyze;
 
 const plugins: any[] = [
   react(),
