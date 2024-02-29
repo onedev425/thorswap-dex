@@ -106,7 +106,7 @@ export const useSwap = ({
               // @ts-expect-error
               name: route.providers[0].toLowerCase(),
               config: {
-                brokerEndpoint: 'https://quote-wcc3ja6h6q-uc.a.run.app/channel',
+                brokerEndpoint: 'https://gateway-d32mo7lc.uc.gateway.dev/channel',
               },
             },
             feeOptionKey,
