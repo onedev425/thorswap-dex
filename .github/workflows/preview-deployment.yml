@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Decrypt Secrets
+        shell: bash
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./.env ./.env.gpg
+
         # Feature envs
         # GIT_VITE_ETHPLORER_API_KEY: feature/foo
       - name: Get Branch Name

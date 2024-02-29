@@ -86,8 +86,6 @@ export const getSwapKitClient = async () => {
     wallets: supportedWallets,
     // @ts-expect-error
     providers: [ThorchainProvider, ChainflipProvider],
-    apis: {},
-    rpcUrls: {},
   });
 
   sdkClient = core;
