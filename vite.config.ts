@@ -80,7 +80,6 @@ export default defineConfig({
     rollupOptions: {
       plugins: [nodePolyfills({ sourceMap: sourcemap })],
       output: {
-        sourcemap,
         chunkFileNames: () => '[hash].js',
       },
     },
