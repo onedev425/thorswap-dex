@@ -95,7 +95,7 @@ export const thorswapApi = createApi({
             destinationAddress: recipientAddress,
             providers: ['CHAINFLIP'],
           }),
-          url: `https://gateway-d32mo7lc.uc.gateway.dev/quote`,
+          url: 'https://gateway-d32mo7lc.uc.gateway.dev/quote',
           headers: { 'Content-Type': 'application/json' },
         };
       },
@@ -112,7 +112,7 @@ export const thorswapApi = createApi({
                 block: params.block,
               })
             : null,
-          url: `https://gateway-d32mo7lc.uc.gateway.dev/track`,
+          url: 'https://gateway-d32mo7lc.uc.gateway.dev/track',
           headers: { 'Content-Type': 'application/json' },
         };
       },

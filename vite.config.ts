@@ -8,21 +8,16 @@ import svgr from 'vite-plugin-svgr';
 import mkcert from 'vite-plugin-mkcert';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 
-const withSourcemap = process.env.SOURCEMAP === 'true';
+// const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
 const ssl = process.env.SSL === 'true';
-const sourcemap = withSourcemap || analyze;
+const sourcemap = true // withSourcemap || analyze;
 
 const plugins: any[] = [
   react(),
   svgr({ svgrOptions: { icon: true } }),
   removeConsole(),
-  sentryVitePlugin({
-    telemetry: false,
-    authToken: '56d3ae89505b4735b3c3406a0af4adbb7772a89118204789934866b9965656ef',
-    org: 'thorswap-dex',
-    project: 'dex',
-  }),
+  sentryVitePlugin({ telemetry: false, org: 'thorswap-dex', project: 'dex' }),
 ]
   .concat(
     analyze

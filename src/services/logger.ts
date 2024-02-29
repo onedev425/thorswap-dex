@@ -25,7 +25,7 @@ export function initialiseLogger() {
       debug: process.env.NODE_ENV === 'development',
       dsn: 'https://1f5f80292ace104d2e844cba267a8abb@o4505861490868224.ingest.sentry.io/4505861499781120',
       enabled: sentryEnabled,
-      integrations: [new Sentry.Replay()],
+      integrations: [Sentry.replayIntegration()],
       replaysSessionSampleRate: IS_BETA ? 1.0 : 0.05,
       tracePropagationTargets: ['api.thorswap.net', 'mu.thorswap.net'],
       tracesSampleRate: IS_BETA ? 1.0 : 0.05,
