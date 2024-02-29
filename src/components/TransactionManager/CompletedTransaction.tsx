@@ -114,7 +114,9 @@ export const CompletedTransaction = memo(
         </Box>
 
         {details ? (
-          <TxDetailsButton txid={details.firstTransactionHash} />
+          details.legs?.length > 0 ? (
+            <TxDetailsButton txid={details.firstTransactionHash} />
+          ) : null
         ) : (
           <>
             {txUrl && (

@@ -67,7 +67,9 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
           </Link>
         )}
 
-        {details && <TxDetailsButton txid={details.firstTransactionHash} />}
+        {details && details.legs?.length > 0 && (
+          <TxDetailsButton txid={details.firstTransactionHash} />
+        )}
       </Box>
     </Box>
   );
