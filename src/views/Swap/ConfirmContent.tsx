@@ -123,7 +123,7 @@ export const ConfirmContent = memo(
                   {t('common.slippage')}
                 </Text>
                 <Text color={slipHigherThanTolerance ? 'red' : ''} textStyle="caption">
-                  {slippagePercent}%
+                  {(Math.round(slippagePercent * 100) / 100).toFixed(2)}%
                 </Text>
               </Box>
             </Box>

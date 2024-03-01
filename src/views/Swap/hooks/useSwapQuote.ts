@@ -286,6 +286,7 @@ export const useSwapQuote = ({
     const mappedChainFlipQuote = chainFlipRoute
       ? {
           ...chainFlipRoute,
+          timeEstimates: chainFlipRoute?.timeEstimate,
           path: `${chainFlipRoute.sellAsset} -> ${chainFlipRoute.buyAsset}`,
           providers: [chainFlipRoute.provider],
           expectedOutput: chainFlipRoute.buyAmount,
