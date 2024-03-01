@@ -502,9 +502,13 @@ const SwapView = () => {
           {noPriceProtection && (
             <InfoTip
               className="!mt-2"
-              content={t('views.swap.priceProtectionUnavailableDesc', {
-                chain: inputAsset.chain,
-              })}
+              content={
+                isChainflip
+                  ? t('views.swap.chainflipNoPriceProtection')
+                  : t('views.swap.priceProtectionUnavailableDesc', {
+                      chain: inputAsset.chain,
+                    })
+              }
               title={t('views.swap.priceProtectionUnavailable')}
               type="warn"
             />

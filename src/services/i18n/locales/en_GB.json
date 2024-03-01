@@ -977,6 +977,7 @@
       "priceOptimized": "Price Optimized",
       "priceProtectionUnavailable": "(!) Slip Protection Unavailable for this Transaction",
       "priceProtectionUnavailableDesc": "Due to limitations with the Ledger %{chain} app, price protection is not available for this trade. You may lose funds. If you choose to continue, THORSwap is not responsible for lost funds.",
+      "chainflipNoPriceProtection": "Chainflip swaps currently do not have price limits, we cannot guarantee a minimum swap amount.",
       "routeContractApproved": "Contract for this route swap has been approved.",
       "savings": "Savings",
       "slippage": "Slippage",
