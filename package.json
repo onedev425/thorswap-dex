@@ -138,8 +138,8 @@
   },
   "type": "module",
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
-    "build:ledger": "NODE_OPTIONS=--max_old_space_size=32768 vite build --config ./vite.config.ledger.ts",
+    "build": "NODE_OPTIONS=--max_old_space_size=65536 vite build",
+    "build:ledger": "NODE_OPTIONS=--max_old_space_size=65536 vite build --config ./vite.config.ledger.ts",
     "e2e": "yarn cypress run",
     "e2e:open": "yarn cypress open",
     "e2e:record": "npx @cypress/chrome-recorder",
