@@ -3,7 +3,12 @@ import { TxStatus } from '@swapkit/api';
 import { AssetValue } from '@swapkit/core';
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
-import type { TrackerPayload, TxDetails } from 'components/TransactionTrackerV2/types';
+import type {
+  TrackerPayload,
+  TxDetails,
+  TxnMeta,
+  TxnTransient,
+} from 'components/TransactionTrackerV2/types';
 import { TrackingStatus } from 'components/TransactionTrackerV2/types';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
@@ -52,7 +57,9 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
     }
   }, [appDispatch, data, id, isCompleted, onCompleteTransaction]);
 
-  return tx ? { type, label, details, txUrl: '' } : null;
+  return tx
+    ? { type, label, details, txUrl: data?.meta?.explorerUrl, transient: data?.transient }
+    : null;
 };
 
 export const useTransactionDetailsV2 = (payload: TrackerPayload | null, skip?: boolean) => {
@@ -89,18 +96,30 @@ export const useTransactionDetailsV2 = (payload: TrackerPayload | null, skip?: b
   return { data: apiError ? null : data, error: error || apiError, isLoading, isCompleted };
 };
 
-function mapToV1TrackerDetails(payload: TxDetails): TxTrackerDetails {
-  // TODO: handle proper data mapping with details
+function mapToV1TrackerDetails(
+  payload: TxDetails,
+): TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta } {
+  const estimatedFinalizedAt =
+    payload.legs[1]?.transient?.estimatedFinalizedAt || Date.now() / 1000;
+  const transient = payload.transient ? { ...payload.transient, estimatedFinalizedAt } : undefined;
 
   return {
     quoteId: '',
     firstTransactionHash: payload.hash,
     currentLegIndex: 0,
-    legs: [],
+    legs: payload.legs.map(
+      (leg) =>
+        ({
+          ...leg,
+          status: mapTxStatusToV1Status(leg.trackingStatus),
+        }) as any,
+    ),
     status: mapTxStatusToV1Status(payload.trackingStatus),
     startTimestamp: null,
     estimatedDuration: null,
     isStreamingSwap: false,
+    transient,
+    meta: payload.meta,
   };
 }
 

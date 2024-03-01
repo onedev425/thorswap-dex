@@ -1,6 +1,7 @@
 import type { TxTrackerDetails } from '@swapkit/api';
 import { TxStatus } from '@swapkit/api';
 import { AssetValue, BaseDecimal, Chain } from '@swapkit/core';
+import type { TxnTransient } from 'components/TransactionTrackerV2/types';
 import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -205,7 +206,9 @@ export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
   }
 };
 
-export function getEstimatedTxDuration(txDetails?: TxTrackerDetails) {
+export function getEstimatedTxDuration(
+  txDetails?: TxTrackerDetails & { transient?: TxnTransient },
+) {
   if (!txDetails) return null;
 
   const totalDurationFromLegs = txDetails.legs.reduce<number | null>((acc, leg) => {

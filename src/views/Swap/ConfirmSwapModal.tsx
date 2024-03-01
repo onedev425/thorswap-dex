@@ -2,7 +2,7 @@ import type { AssetInputType } from 'components/AssetInput/types';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useWallet } from 'context/wallet/hooks';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from 'store/store';
 import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
 
@@ -55,6 +55,11 @@ export const ConfirmSwapModal = memo(
 
     const { asset: inputAsset } = inputAssetProps;
     const { asset: outputAsset } = outputAssetProps;
+    const [confirmed, setConfirmed] = useState(false);
+
+    useEffect(() => {
+      if (!visible) setConfirmed(false);
+    }, [visible]);
 
     const from = useMemo(
       () => getWalletAddress(inputAsset.chain),
@@ -74,6 +79,8 @@ export const ConfirmSwapModal = memo(
     }, [selectedRoute, streamSwap]);
 
     const handleConfirm = useCallback(async () => {
+      setConfirmed(true);
+
       const { data } = await fetchAddressVerify({
         addresses,
         chains: [inputAsset.chain, outputAsset.chain],
@@ -104,7 +111,9 @@ export const ConfirmSwapModal = memo(
 
     return (
       <ConfirmModal
-        buttonDisabled={!addressesVerified || (slipHigherThanTolerance && !confirmedSlippage)}
+        buttonDisabled={
+          !addressesVerified || (slipHigherThanTolerance && !confirmedSlippage) || confirmed
+        }
         inputAssets={[inputAsset]}
         isOpened={visible}
         onClose={() => setVisible(false)}

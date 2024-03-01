@@ -61,6 +61,7 @@ export const useSwap = ({
     const id = v4();
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
+      const isChainflip = route?.providers?.includes('CHAINFLIP');
 
       if (route) {
         if (!from) throw new Error('No address found');
@@ -70,6 +71,8 @@ export const useSwap = ({
         } → ${outputAsset.toSignificant(6)} ${outputAsset.isSynthetic ? 'Synth ' : ''}${
           outputAsset.ticker
         }`;
+
+        const initLabel = isChainflip ? t('txManager.preparingTransaction') : label;
 
         const { swap, validateAddress } = await (
           await import('services/swapKit')
@@ -85,7 +88,7 @@ export const useSwap = ({
         appDispatch(
           addTransaction({
             id,
-            label,
+            label: initLabel,
             from,
             inChain: inputAsset.chain,
             type: quoteModeToTransactionType[
@@ -127,12 +130,13 @@ export const useSwap = ({
             const timestamp = new Date();
             appDispatch(
               updateTransaction({
+                label,
                 id,
                 txid,
                 quoteId,
                 route,
                 timestamp,
-                advancedTracker: route?.providers?.includes('CHAINFLIP'),
+                advancedTracker: isChainflip,
               }),
             );
           } else {

@@ -32,15 +32,23 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const txData = simpleTrackerData || advancedTrackerData || pendingTx || trackerV2Data;
 
   const { label, type, details } = txData;
+  const explicitExplorerUrl = details?.meta?.explorerUrl;
   const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
+
+  const timeLeft = details?.transient
+    ? details.transient.estimatedFinalizedAt * 1000 - Date.now()
+    : totalTimeLeft;
+  const estimatedDuration = details?.transient
+    ? details.transient.estimatedTimeToCompleteMs
+    : getEstimatedTxDuration(txDetails);
 
   return (
     <Box alignCenter flex={1} justify="between">
       <Box alignCenter className="w-full gap-2">
         <CircularCountdown
-          estimatedDuration={getEstimatedTxDuration(txDetails)}
+          estimatedDuration={estimatedDuration}
           hasDetails={!!txDetails}
-          timeLeft={totalTimeLeft}
+          timeLeft={timeLeft}
         />
 
         <Box col className="gap-1 w-full">
@@ -61,13 +69,13 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
       </Box>
 
       <Box className="w-[80px]" justify="end">
-        {transactionUrl && (
-          <Link external className="inline-flex" to={transactionUrl}>
+        {(!!explicitExplorerUrl || transactionUrl) && (
+          <Link external className="inline-flex" to={explicitExplorerUrl || transactionUrl}>
             <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
           </Link>
         )}
 
-        {details && details.legs?.length > 0 && (
+        {!explicitExplorerUrl && details && details.legs?.length > 0 && (
           <TxDetailsButton txid={details.firstTransactionHash} />
         )}
       </Box>

@@ -503,11 +503,18 @@ const SwapView = () => {
             <InfoTip
               className="!mt-2"
               content={
-                isChainflip
-                  ? t('views.swap.chainflipNoPriceProtection')
-                  : t('views.swap.priceProtectionUnavailableDesc', {
-                      chain: inputAsset.chain,
-                    })
+                isChainflip ? (
+                  <p>
+                    {t('views.swap.chainflipNoPriceProtection')}{' '}
+                    <a href="https://docs.chainflip.io/concepts/swaps-amm/just-in-time-amm-protocol">
+                      JIT AMM
+                    </a>
+                  </p>
+                ) : (
+                  t('views.swap.priceProtectionUnavailableDesc', {
+                    chain: inputAsset.chain,
+                  })
+                )
               }
               title={t('views.swap.priceProtectionUnavailable')}
               type="warn"
