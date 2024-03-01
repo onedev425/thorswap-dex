@@ -5,6 +5,7 @@ import { getEstimatedTxDuration, transactionTitle } from 'components/Transaction
 import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
 import { useAdvancedTracker } from 'components/TransactionManager/useAdvancedTracker';
 import { useSimpleTracker } from 'components/TransactionManager/useSimpleTracker';
+import { useTimeLeft } from 'components/TransactionManager/useTimeLeft';
 import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
 import { useTrackerV2 } from 'components/TransactionTrackerV2/useTrackerV2';
 import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
@@ -35,9 +36,12 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const explicitExplorerUrl = details?.meta?.explorerUrl;
   const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
 
-  const timeLeft = details?.transient
-    ? details.transient.estimatedFinalizedAt * 1000 - Date.now()
-    : totalTimeLeft;
+  const v2TimeLeft = useTimeLeft((details?.transient?.estimatedFinalizedAt || 0) * 1000);
+
+  console.log('🔥', v2TimeLeft, details?.transient?.estimatedFinalizedAt);
+
+  const timeLeft = v2TimeLeft !== null ? v2TimeLeft : totalTimeLeft;
+
   const estimatedDuration = details?.transient
     ? details.transient.estimatedTimeToCompleteMs
     : getEstimatedTxDuration(txDetails);
