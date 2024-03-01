@@ -85,7 +85,10 @@ const SwapView = () => {
   const outputAsset = useMemo(() => output, [output.toString()]);
 
   useEffect(() => {
-    logEvent('swap_pair', { sell: inputAsset.toString(), buy: outputAsset.toString() });
+    logEvent('swap_pair', {
+      sell: inputAsset.toString(),
+      buy: outputAsset.toString(),
+    });
   }, [inputAsset, outputAsset]);
 
   const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);
@@ -479,7 +482,9 @@ const SwapView = () => {
               affiliateBasisPoints={Number(affiliateBasisPoints)}
               affiliateFee={affiliateFee}
               assets={assetTickers}
-              expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
+              expectedOutput={`${outputAmount?.toSignificant(
+                6,
+              )} ${outputAsset.ticker.toUpperCase()}`}
               inputUnitPrice={inputUnitPrice}
               isChainflip={isChainflip}
               isLoading={isPriceLoading}
@@ -506,7 +511,11 @@ const SwapView = () => {
                 isChainflip ? (
                   <p>
                     {t('views.swap.chainflipNoPriceProtection')}{' '}
-                    <a href="https://docs.chainflip.io/concepts/swaps-amm/just-in-time-amm-protocol">
+                    <a
+                      href="https://docs.chainflip.io/concepts/swaps-amm/just-in-time-amm-protocol"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       JIT AMM
                     </a>
                   </p>
