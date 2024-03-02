@@ -177,7 +177,9 @@ export const SwapInfo = ({
                   ? t('views.swap.affiliateFee', {
                       percent: `${(affiliateBasisPoints / 100).toFixed(2)}%`,
                     })
-                  : ''
+                  : isChainflip
+                    ? t('views.swap.chainflipFee')
+                    : ''
               }
               value={
                 <Box center row className="gap-1">

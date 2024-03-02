@@ -939,6 +939,7 @@
     },
     "swap": {
       "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "chainflipFee": "0.3% broker fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
       "amountToApprove": "Amount to Approve",
       "amountToApproveExplanation": "This is the amount you will approve to be spent by you via contract.\nYou can decide to approve more than you will swap to save on gas fees later.\nIt is not the amount of asset you will swap out.",
       "approveDefaultExplanation": "Approve available balance of asset in your wallet",

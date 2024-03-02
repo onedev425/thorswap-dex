@@ -38,8 +38,6 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
 
   const v2TimeLeft = useTimeLeft((details?.transient?.estimatedFinalizedAt || 0) * 1000);
 
-  console.log('🔥', v2TimeLeft, details?.transient?.estimatedFinalizedAt);
-
   const timeLeft = v2TimeLeft !== null ? v2TimeLeft : totalTimeLeft;
 
   const estimatedDuration = details?.transient

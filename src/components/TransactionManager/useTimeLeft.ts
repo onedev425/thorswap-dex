@@ -7,12 +7,10 @@ export function useTimeLeft(endTimestamp?: number) {
 
   useEffect(() => {
     if (!endTimestamp) {
-      console.log('🔥', 'qq');
       return;
     }
 
     if (endTimestamp < Date.now()) {
-      console.log('🔥', 'qqq', endTimestamp);
       setTimeLeft(0);
       return;
     }
@@ -20,7 +18,6 @@ export function useTimeLeft(endTimestamp?: number) {
     const interval = setInterval(() => {
       const now = Date.now();
       const timeLeft = endTimestamp - now;
-      console.log('🔥ss', timeLeft);
       setTimeLeft(Math.max(timeLeft, 0));
     }, 1000);
 

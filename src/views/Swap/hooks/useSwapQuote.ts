@@ -276,8 +276,8 @@ export const useSwapQuote = ({
         return acc;
       },
       {
-        inbound: { networkFee: 0, networkFeeUSD: 0 },
-        outbound: { networkFee: 0, networkFeeUSD: 0 },
+        inbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
+        outbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
         slippage: { slipFee: 0, slipFeeUSD: 0 },
         total: { totalFeeUSD: 0 },
       },
@@ -309,8 +309,19 @@ export const useSwapQuote = ({
                 asset: chainFlipRoute.buyAsset,
                 networkFee: chainFlipFees.outbound.networkFee,
                 networkFeeUSD: chainFlipFees.outbound.networkFeeUSD,
-                affiliateFee: 0,
-                affiliateFeeUSD: 0,
+                affiliateFee: AssetValue.fromIdentifierSync(
+                  chainFlipRoute.sellAsset,
+                  chainFlipRoute.sellAmount,
+                )
+                  .mul('0.003')
+                  .getValue('number'),
+                affiliateFeeUSD: AssetValue.fromIdentifierSync(
+                  chainFlipRoute.sellAsset,
+                  chainFlipRoute.sellAmount,
+                )
+                  .mul('0.003')
+                  .mul(inputUnitPrice)
+                  .getValue('number'),
                 slipFee: chainFlipFees.slippage.slipFee,
                 slipFeeUSD: chainFlipFees.slippage.slipFeeUSD,
                 totalFee: 0,
