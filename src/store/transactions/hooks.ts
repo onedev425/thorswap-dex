@@ -5,17 +5,22 @@ import type { CompletedTransactionType, PendingTransactionType } from 'store/tra
 import { TransactionType } from 'store/transactions/types';
 import { isTxCompleted, isTxPending } from 'store/transactions/utils';
 
-export const useTransactionsState = () => {
+export const useTransactionsState = (skipV2Tracker = false) => {
   const transactions = useAppSelector(({ transactions }) => transactions);
   const appDispatch = useAppDispatch();
 
-  const sortedTransactions = useMemo(
-    () =>
-      transactions
-        .concat()
-        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
-    [transactions],
-  );
+  const sortedTransactions = useMemo(() => {
+    const txs = transactions
+      .concat()
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    if (skipV2Tracker) {
+      // temp hack for v2 tracker
+      return txs.filter((tx) => !!tx.details?.transient);
+    }
+
+    return txs;
+  }, [skipV2Tracker, transactions]);
 
   const [pending, completed] = useMemo(
     () =>
