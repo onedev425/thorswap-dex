@@ -25,6 +25,14 @@ type Params = {
   manualSlippage?: number;
 };
 
+const chainflipSupportedAssets = [
+  'ETH.ETH',
+  'BTC.BTC',
+  'DOT.DOT',
+  'ETH.USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  'ETH.FLIP-0x826180541412d574cf1336d22c0c0a287822678a',
+];
+
 export const useSwapQuote = ({
   ethAddress,
   inputAsset,
@@ -102,14 +110,6 @@ export const useSwapQuote = ({
   } = useGetTokensQuoteQuery(params, {
     skip: params.sellAmount === '0' || inputAmount.lte(0),
   });
-
-  const chainflipSupportedAssets = [
-    'ETH.ETH',
-    'BTC.BTC',
-    'DOT.DOT',
-    'ETH.USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-    'ETH.FLIP-0x826180541412d574cf1336d22c0c0a287822678a',
-  ];
 
   const {
     refetch: refetchChainflip,
@@ -374,7 +374,7 @@ export const useSwapQuote = ({
 
   useEffect(() => {
     // @ts-expect-error
-    const errorMessage = quoteError?.data?.message || errorChainflip?.data?.message;
+    const errorMessage = quoteError?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;

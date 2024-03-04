@@ -512,11 +512,12 @@ const SwapView = () => {
                   <p>
                     {t('views.swap.chainflipNoPriceProtection')}{' '}
                     <a
+                      className="text-blue-light underline"
                       href="https://docs.chainflip.io/concepts/swaps-amm/just-in-time-amm-protocol"
-                      target="_blank"
                       rel="noreferrer"
+                      target="_blank"
                     >
-                      JIT AMM
+                      Learn more
                     </a>
                   </p>
                 ) : (
