@@ -163,16 +163,14 @@ export const useSwapQuote = ({
         const sortedRoutes = routesWithApprove
           .filter(Boolean)
           .concat()
-          .sort(
-            (a, b) =>
-              Number(a.streamingSwap?.expectedOutput || a.expectedOutput) -
-              Number(b.streamingSwap?.expectedOutput || b.expectedOutput),
-          )
           .sort((a, b) => {
             // @ts-expect-error
             const approveDiff = Number(b.isApproved) - Number(a.isApproved);
             if (approveDiff !== 0) return approveDiff;
-            return Number(b.expectedOutput) - Number(a.expectedOutput);
+            return (
+              Number(b.streamingSwap?.expectedOutput || b.expectedOutput) -
+              Number(a.streamingSwap?.expectedOutput || a.expectedOutput)
+            );
           }) as RouteWithApproveType[];
 
         setRoutes(sortedRoutes);
