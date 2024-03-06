@@ -107,6 +107,7 @@ export const useSwapQuote = ({
     isLoading,
     currentData: data,
     isFetching,
+    isUninitialized,
   } = useGetTokensQuoteQuery(params, {
     skip: params.sellAmount === '0' || inputAmount.lte(0),
   });
@@ -117,6 +118,7 @@ export const useSwapQuote = ({
     isLoading: isLoadingChainflip,
     currentData: chainflipData,
     isFetching: isFetchingChainflip,
+    isUninitialized: isChainflipUninitialized,
   } = useGetChainflipQuoteQuery(params, {
     skip:
       params.sellAmount === '0' ||
@@ -134,10 +136,14 @@ export const useSwapQuote = ({
 
   const refetchAllQuotes = useMemo(
     () => () => {
-      refetch();
-      refetchChainflip();
+      if (!isUninitialized) {
+        refetch();
+      }
+      if (!isChainflipUninitialized) {
+        refetchChainflip();
+      }
     },
-    [refetch, refetchChainflip],
+    [isChainflipUninitialized, isUninitialized, refetch, refetchChainflip],
   );
 
   const setSortedRoutes = useCallback(
