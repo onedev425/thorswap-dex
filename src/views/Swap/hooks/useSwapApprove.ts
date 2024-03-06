@@ -19,7 +19,7 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
   const { getWalletAddress } = useWallet();
 
   const handleApprove = useCallback(
-    async (approveAmount?: number) => {
+    async (approveAmount?: string) => {
       const from = getWalletAddress(inputAsset.chain);
       if (from) {
         const id = v4();
