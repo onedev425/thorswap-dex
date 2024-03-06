@@ -14,7 +14,7 @@ import { SwapKitNumber } from '@swapkit/core';
 import { Icon } from 'components/Atomic';
 import { Tooltip } from 'components/Atomic/Tooltip';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -71,25 +71,28 @@ export const SwapSlippage = ({
 
   const mainColor = slippagePercent > 0 && !isChainflip ? 'brand.btnPrimary' : 'brand.orange';
 
-  const onChange = (values: number[]) => {
-    if (values[0] < startSlipSliderValue / 2) {
-      setSlippagePercent(0);
-      return;
-    }
+  const onChange = useCallback(
+    (values: number[]) => {
+      if (values[0] < startSlipSliderValue / 2) {
+        setSlippagePercent(0);
+        return;
+      }
 
-    const updatedSlip = maxSlip - (values[0] - startSlipSliderValue) / sliderScale;
-    if (updatedSlip <= minSlip) {
-      setSlippagePercent(minSlip);
-      return;
-    }
+      const updatedSlip = maxSlip - (values[0] - startSlipSliderValue) / sliderScale;
+      if (updatedSlip <= minSlip) {
+        setSlippagePercent(minSlip);
+        return;
+      }
 
-    if (updatedSlip >= maxSlip) {
-      setSlippagePercent(maxSlip);
-      return;
-    }
+      if (updatedSlip >= maxSlip) {
+        setSlippagePercent(maxSlip);
+        return;
+      }
 
-    setSlippagePercent(Math.min(updatedSlip, maxSlip));
-  };
+      setSlippagePercent(Math.min(updatedSlip, maxSlip));
+    },
+    [setSlippagePercent],
+  );
 
   return (
     <Flex animateOpacity in as={Collapse} w="100%">
