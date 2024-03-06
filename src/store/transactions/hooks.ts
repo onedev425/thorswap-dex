@@ -16,7 +16,11 @@ export const useTransactionsState = (skipV2Tracker = false) => {
 
     if (skipV2Tracker) {
       // temp hack for v2 tracker
-      return txs.filter((tx) => !!tx.details?.transient);
+      // skip for chainflip
+      return txs.filter((tx) => {
+        const isChainflip = tx?.details?.meta || tx?.route?.providers.includes('CHAINFLIP');
+        return !isChainflip;
+      });
     }
 
     return txs;
