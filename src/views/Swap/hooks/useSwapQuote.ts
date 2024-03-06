@@ -154,7 +154,7 @@ export const useSwapQuote = ({
           if (!route.providers.includes('CHAINFLIP')) {
             const isApproved = senderAddress
               ? await checkAssetApprove({
-                  assetValue: inputAsset.mul(0).add(inputAmount),
+                  assetValue: inputAsset.set(inputAmount),
                   contract: route.approvalTarget || route.allowanceTarget || route.targetAddress,
                 })
               : true;

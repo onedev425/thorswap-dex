@@ -15,26 +15,26 @@ import { useEffect, useState } from 'react';
 
 type Props = {
   balance: AssetValue;
-  setApproveAmount: (amount?: number) => void;
+  setApproveAmount: (amount?: string) => void;
 };
 
 export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
   const [isChangingValue, setIsChangingValue] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const maxBalance = balance?.getValue('number') || 0;
-  const threeTimesBalance = maxBalance * 3;
   // treat 3 times balance as maximum manual value, if higher, treat as infinite
-  const infiniteBalance = threeTimesBalance + 1;
-  const step = 10 ** Math.round(Math.log10(maxBalance / 100));
+  const infiniteBalance = balance?.mul(3).add(1);
+  const step = 10 ** Math.round(Math.log10(balance?.div(100).getValue('number')));
 
-  const [sliderValue, setSliderValue] = useState(maxBalance);
-  const moreThanBalance = sliderValue >= maxBalance;
+  const [sliderValue, setSliderValue] = useState(balance);
+  const moreThanBalance = balance.lte(sliderValue);
 
   const mainColor =
-    moreThanBalance && sliderValue < infiniteBalance ? 'brand.btnPrimary' : 'brand.orange';
+    moreThanBalance && sliderValue.lt(infiniteBalance) ? 'brand.btnPrimary' : 'brand.orange';
 
   useEffect(() => {
-    setApproveAmount(infiniteBalance === sliderValue ? undefined : sliderValue);
+    setApproveAmount(
+      infiniteBalance?.eqValue(sliderValue) ? undefined : sliderValue.getValue('string'),
+    );
   }, [infiniteBalance, setApproveAmount, sliderValue]);
 
   return (
@@ -59,13 +59,13 @@ export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
         onMouseLeave={() => setShowTooltip(false)}
       >
         <Slider
-          max={infiniteBalance}
-          onChange={setSliderValue}
+          max={infiniteBalance.getValue('number')}
+          onChange={(value) => setSliderValue(balance.set(value))}
           onChangeEnd={() => setIsChangingValue(false)}
           onChangeStart={() => setIsChangingValue(true)}
           size="lg"
           step={step}
-          value={sliderValue}
+          value={sliderValue.getValue('number')}
         >
           <SliderTrack bg="textSecondary" boxSize={2}>
             <SliderFilledTrack bg={mainColor} boxSize={2} width="50%" />
@@ -82,7 +82,10 @@ export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
                     Amount to approve: &nbsp;
                   </Text>
                   <Text color="textPrimary" textStyle="caption-xs">
-                    {sliderValue === infiniteBalance ? 'Infinite' : sliderValue} {balance.ticker}
+                    {sliderValue.eqValue(infiniteBalance)
+                      ? 'Infinite'
+                      : sliderValue.getValue('string')}{' '}
+                    {balance.ticker}
                   </Text>
                 </Flex>
                 {!moreThanBalance && (
@@ -98,7 +101,7 @@ export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
           </ChakraTooltip>
 
           <Flex
-            onClick={() => setSliderValue(0)}
+            onClick={() => {}}
             sx={{
               w: 4,
               h: 4,
@@ -112,7 +115,7 @@ export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
           />
 
           <Flex
-            onClick={() => setSliderValue(4)}
+            onClick={() => {}}
             sx={{
               w: 4,
               h: 4,
@@ -129,7 +132,7 @@ export const ApproveAmountSlider = ({ balance, setApproveAmount }: Props) => {
 
       <Flex flex={1} justify="end" mt={2} mx={-2}>
         <Tooltip content={t('views.swap.approveDefaultExplanation')}>
-          <Button mr={2} onClick={() => setSliderValue(maxBalance)} size="xs" variant="tint">
+          <Button mr={2} onClick={() => setSliderValue(balance)} size="xs" variant="tint">
             {t('common.default')}
           </Button>
         </Tooltip>

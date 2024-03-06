@@ -7,7 +7,7 @@ import { ApproveAmountSlider } from 'views/Swap/ApproveAmountSlider';
 
 type Props = {
   balance?: AssetValue;
-  handleApprove: (approveAmount?: number) => Promise<void>;
+  handleApprove: (approveAmount?: string) => Promise<void>;
   inputAsset: AssetValue;
   setVisible: (visible: boolean) => void;
   totalFee?: string;
@@ -16,7 +16,7 @@ type Props = {
 
 export const ApproveModal = memo(
   ({ balance, inputAsset, handleApprove, setVisible, totalFee, visible }: Props) => {
-    const [approveAmount, setApproveAmount] = useState<number | undefined>();
+    const [approveAmount, setApproveAmount] = useState<string | undefined>();
     const handleConfirmApprove = useCallback(() => {
       setVisible(false);
       handleApprove(approveAmount);
