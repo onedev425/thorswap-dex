@@ -58,7 +58,7 @@ export const createMultisigWallet = async (members: MultisigMember[], threshold:
     const toolbox = await getThorchainToolbox();
     _multisigPubKey = await toolbox.createMultisig(
       members.map((member) => member.pubKey),
-      threshold,
+      Number(threshold),
     );
     _multisigAddress = await toolbox.pubkeyToAddress(_multisigPubKey, 'thor');
     return _multisigAddress;
