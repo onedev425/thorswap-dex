@@ -190,6 +190,7 @@
     "slippage": "Slippage",
     "maxSlippage": "Max slippage",
     "slippageTooltip": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
+    "slippageTooltipChainflip": "Your swap is secured by Chainflip with a 5% slippage protection. Transactions exceeding this limit will automatically be reverted to ensure accurate execution.",
     "staking": "Staking",
     "stats": "Stats",
     "support": "Support",
@@ -221,6 +222,7 @@
     "withdrawPercent": "Withdraw Percent",
     "yourTransactions": "Your Transactions",
     "slippageSettings": "Slippage options",
+    "slippageSettingsChainflip": "Slippage protection locked at 5%",
     "recommended": "recommended"
   },
   "components": {

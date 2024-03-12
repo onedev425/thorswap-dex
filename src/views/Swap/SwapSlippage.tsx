@@ -22,7 +22,6 @@ type Props = {
   outputAmount: SwapKitNumber;
   outputAsset: AssetValue;
   slippagePercent: number;
-  isChainflip: boolean;
   setSlippagePercent: (value: number) => void;
 };
 
@@ -38,7 +37,6 @@ export const SwapSlippage = ({
   outputAmount,
   slippagePercent,
   setSlippagePercent,
-  isChainflip,
 }: Props) => {
   const [slipValue, setSlipValue] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -117,7 +115,6 @@ export const SwapSlippage = ({
         <Flex direction="column" w="100%">
           <Flex gap={2.5}>
             <RangeSlider
-              isDisabled={isChainflip}
               onChange={(values) => onChange(values)}
               onChangeEnd={() => setIsChangingValue(false)}
               onChangeStart={() => setIsChangingValue(true)}
