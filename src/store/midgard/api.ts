@@ -59,7 +59,7 @@ export const midgardApi = createApi({
     }),
     getMonthlyTradeVolume: build.query<MidgardTradeHistory, void>({
       keepUnusedDataFor: 300,
-      query: () => '/ts-swaps?interval=month&count=1&unique=true',
+      query: () => '/ts-swaps?interval=month&count=1&unique=false',
     }),
     getPools: build.query<PoolDetail[], (typeof POOLS_TIME_PERIODS_OPTIONS)[number] | void>({
       keepUnusedDataFor: 60,
@@ -107,7 +107,6 @@ export const {
   useGetStatsQuery,
   useGetTNSByOwnerAddressQuery,
   useLazyGetTNSDetailQuery,
-
   useGetLastblockQuery,
   useGetMimirQuery,
   useGetNodesQuery,

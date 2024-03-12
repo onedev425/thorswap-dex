@@ -19,7 +19,7 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = new SwapKitNumber({ value: 14000000, decimal: 8 });
+const TARGET_AMOUNT = new SwapKitNumber({ value: 80_000_000, decimal: 8 });
 const currentMonth = dayjs().format('MMMM');
 const INFO_ARTICLE_URL = 'https://twitter.com/THORSwap/status/1653655296336879618';
 
@@ -30,7 +30,7 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
 
   useEffect(() => {
     if (data?.intervals?.[0]) {
-      const volume = SwapKitNumber.fromBigInt(BigInt(data.intervals[0].totalVolume));
+      const volume = SwapKitNumber.fromBigInt(BigInt(data.intervals[0].totalVolumeUsd));
       setTotalVolume(volume);
     }
   }, [data]);
@@ -49,7 +49,7 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
 
   const tooltipContent = `${currentMonth} burn trade volume:\n${totalVolume.toAbbreviation(
     2,
-  )} RUNE out of ${TARGET_AMOUNT.toAbbreviation(0)} RUNE`;
+  )} USD out of ${TARGET_AMOUNT.toAbbreviation(0)} USD`;
 
   useEffect(() => {
     if (triggerReached) {
