@@ -93,6 +93,7 @@ export const thorswapApi = createApi({
             sellAmount: Number(rest.sellAmount),
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
+            affiliateFee: affiliateBasisPoints,
             providers: ['CHAINFLIP'],
           }),
           url: 'https://gateway-d32mo7lc.uc.gateway.dev/quote',

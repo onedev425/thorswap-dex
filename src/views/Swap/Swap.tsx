@@ -215,10 +215,9 @@ const SwapView = () => {
 
   const noPriceProtection = useMemo(
     () =>
-      ([Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
-        getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER) ||
-      isChainflip,
-    [getWallet, inputAsset.chain, isChainflip],
+      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
+      getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER,
+    [getWallet, inputAsset.chain],
   );
 
   const {
@@ -486,7 +485,6 @@ const SwapView = () => {
                 6,
               )} ${outputAsset.ticker.toUpperCase()}`}
               inputUnitPrice={inputUnitPrice}
-              isChainflip={isChainflip}
               isLoading={isPriceLoading}
               minReceive={minReceiveInfo}
               minReceiveSlippage={slippagePercent}
@@ -507,25 +505,9 @@ const SwapView = () => {
           {noPriceProtection && (
             <InfoTip
               className="!mt-2"
-              content={
-                isChainflip ? (
-                  <p>
-                    {t('views.swap.chainflipNoPriceProtection')}{' '}
-                    <a
-                      className="text-blue-light underline"
-                      href="https://docs.chainflip.io/concepts/swaps-amm/just-in-time-amm-protocol"
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      Learn more
-                    </a>
-                  </p>
-                ) : (
-                  t('views.swap.priceProtectionUnavailableDesc', {
-                    chain: inputAsset.chain,
-                  })
-                )
-              }
+              content={t('views.swap.priceProtectionUnavailableDesc', {
+                chain: inputAsset.chain,
+              })}
               title={t('views.swap.priceProtectionUnavailable')}
               type="warn"
             />

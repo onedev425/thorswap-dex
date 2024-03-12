@@ -22,7 +22,6 @@ type Props = {
   minReceiveSlippage: number;
   outputUnitPrice: number;
   streamSwap: boolean;
-  isChainflip: boolean;
   setFeeModalOpened: (isOpened: boolean) => void;
   showTransactionFeeSelect?: boolean;
   whaleDiscount: boolean;
@@ -41,7 +40,6 @@ export const SwapInfo = ({
   networkFee,
   isLoading,
   streamSwap,
-  isChainflip,
   minReceive,
   minReceiveSlippage,
   setFeeModalOpened,
@@ -101,13 +99,13 @@ export const SwapInfo = ({
         !streamSwap
           ? {
               label: t('views.swap.minReceivedAfterSlip', {
-                slippage: minReceiveSlippage > 0 && !isChainflip ? `${minReceiveSlippage}%` : '-',
+                slippage: minReceiveSlippage > 0 ? `${minReceiveSlippage}%` : '-',
               }),
               value: (
                 <InfoWithTooltip
                   tooltip={t('views.wallet.minReceivedTooltip')}
                   value={
-                    minReceiveSlippage === 0 || isChainflip ? (
+                    minReceiveSlippage === 0 ? (
                       <Text color="brand.yellow" fontWeight="semibold" textStyle="caption">
                         {t('views.swap.noProtection')}
                       </Text>
@@ -177,9 +175,7 @@ export const SwapInfo = ({
                   ? t('views.swap.affiliateFee', {
                       percent: `${(affiliateBasisPoints / 100).toFixed(2)}%`,
                     })
-                  : isChainflip
-                    ? t('views.swap.chainflipFee')
-                    : ''
+                  : ''
               }
               value={
                 <Box center row className="gap-1">
@@ -221,7 +217,6 @@ export const SwapInfo = ({
       setFeeOptionType,
       showTransactionFeeSelect,
       streamSwap,
-      isChainflip,
     ],
   );
 

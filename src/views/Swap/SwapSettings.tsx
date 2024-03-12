@@ -61,6 +61,15 @@ export const SwapSettings = ({
 }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
 
+  const [initialChainflipOpen, setInitialChainflipOpen] = useState(false);
+
+  useEffect(() => {
+    if (isChainflip && !initialChainflipOpen && !isActive) {
+      setInitialChainflipOpen(true);
+      toggle();
+    }
+  }, [isChainflip, initialChainflipOpen, toggle, isActive]);
+
   const maxQuantity = route?.streamingSwap?.maxQuantity || 0;
   const maxInterval = route?.streamingSwap?.maxIntervalForMaxQuantity || 10;
   const availableSwaps = useMemo(() => getAvailableOptionsArray({ maxQuantity }), [maxQuantity]);
@@ -370,14 +379,13 @@ export const SwapSettings = ({
                   <Text
                     color={
                       slippagePercent === 0 ||
-                      isChainflip ||
                       (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
                         ? 'brand.yellow'
                         : 'textPrimary'
                     }
                     textStyle="caption-xs"
                   >
-                    {slippagePercent === 0 || isChainflip
+                    {slippagePercent === 0
                       ? t('views.swap.noProtection')
                       : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
                   </Text>

@@ -52,7 +52,7 @@ export const SwapRouter = memo(
                 onClick={() => setSwapRoute(route)}
                 outputAsset={outputAsset}
                 selected={route === selectedRoute}
-                streamSwap={!!route.streamingSwap ?? false}
+                streamSwap={!!route.streamingSwap}
                 unitPrice={outputUnitPrice}
               />
             ))}

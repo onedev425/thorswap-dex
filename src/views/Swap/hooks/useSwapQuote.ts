@@ -367,7 +367,7 @@ export const useSwapQuote = ({
 
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      quoteError || (isLoading && isLoadingChainflip) || inputAmount.getValue('number') === 0
+      quoteError || isLoading || isLoadingChainflip || inputAmount.getValue('number') === 0
         ? undefined
         : swapQuote || routes[0],
     [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, swapQuote],

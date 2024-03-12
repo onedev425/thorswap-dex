@@ -61,15 +61,15 @@ export const SwapSlippage = ({
 
     const scaledValue = getScaledValue(maxSlipValue, slipPercent);
 
-    return outputValue < 100 && !isChainflip ? scaledValue : 100;
-  }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput, isChainflip]);
+    return outputValue < 100 ? scaledValue : 100;
+  }, [outputAmount, outputAsset.decimal, route?.streamingSwap?.expectedOutput]);
 
   useEffect(() => {
     const sliderSlipValue = startSlipSliderValue + (maxSlip - slippagePercent) * sliderScale;
-    setSlipValue(slippagePercent > 0 && !isChainflip ? sliderSlipValue : 0);
-  }, [slippagePercent, isChainflip]);
+    setSlipValue(slippagePercent > 0 ? sliderSlipValue : 0);
+  }, [slippagePercent]);
 
-  const mainColor = slippagePercent > 0 && !isChainflip ? 'brand.btnPrimary' : 'brand.orange';
+  const mainColor = slippagePercent > 0 ? 'brand.btnPrimary' : 'brand.orange';
 
   const onChange = useCallback(
     (values: number[]) => {
@@ -134,7 +134,7 @@ export const SwapSlippage = ({
                 isOpen={showTooltip || isChangingValue}
                 label={
                   <Stack p={1}>
-                    {slippagePercent === 0 || isChainflip ? (
+                    {slippagePercent === 0 ? (
                       <Text color="brand.orange" textStyle="caption-xs">
                         No price protection
                       </Text>
@@ -187,7 +187,7 @@ export const SwapSlippage = ({
                   w: 4,
                   h: 4,
                   borderRadius: '50%',
-                  bg: slippagePercent > 0 && !isChainflip ? 'textSecondary' : mainColor,
+                  bg: slippagePercent > 0 ? 'textSecondary' : mainColor,
                   position: 'absolute',
                   top: '50%',
                   transform: 'translateY(-50%)',

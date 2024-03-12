@@ -36,6 +36,11 @@ export const useSwapParams = ({
 
   const [slippagePercent, setSlippagePercent] = useState(0);
 
+  const isChainflip = useMemo(
+    () => selectedRoute?.providers.includes('CHAINFLIP'),
+    [selectedRoute],
+  );
+
   const canStreamSwap = useMemo(
     () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
     [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
@@ -117,8 +122,14 @@ export const useSwapParams = ({
   }, [selectedRoute, outputAsset.decimal, inputAmount, streamSwap, streamingValue]);
 
   useEffect(() => {
+    if (isChainflip) {
+      setSlippagePercent(5);
+      return;
+    }
+
     if (isDexAgg) {
-      return setSlippagePercent(selectedRoute?.meta?.slippagePercentage || 0);
+      setSlippagePercent(selectedRoute?.meta?.slippagePercentage || 0);
+      return;
     }
 
     // update default slippage when path changed
@@ -153,8 +164,7 @@ export const useSwapParams = ({
 
     setSlippagePercent(slipPercent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outputAsset.decimal, selectedRoute?.path, streamSwap]);
-
+  }, [outputAsset.decimal, selectedRoute?.path, selectedRoute?.providers, streamSwap, isChainflip]);
   const savingsInUSD = useMemo(() => {
     const savingsValue = Number(selectedRoute?.streamingSwap?.savingsInUSD || 0);
     if (!streamingSwapParams) {
