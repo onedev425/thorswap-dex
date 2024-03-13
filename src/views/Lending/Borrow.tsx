@@ -48,6 +48,7 @@ import { useBorrow } from './useBorrow';
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 export const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
 export const MATURITY_BLOCKS = 432000;
+const MANUAL_PAUSE = true;
 
 export const slippageOptions = [
   { value: 1, text: '1%' },
@@ -245,6 +246,7 @@ const Borrow = () => {
     () =>
       !recipient ||
       isLendingPaused ||
+      MANUAL_PAUSE ||
       amount.lte(0) ||
       (collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.chain],
@@ -349,7 +351,7 @@ const Borrow = () => {
         title={t('views.lending.borrow')}
       />
 
-      {isLendingPaused && (
+      {(isLendingPaused || MANUAL_PAUSE) && (
         <Announcement
           announcement={{ type: AnnouncementType.Error, message: t('views.lending.lendingPaused') }}
           showClose={false}
