@@ -16,6 +16,7 @@ type DropdownMenuProps = {
   openComponent?: ReactNode;
   openLabel?: string;
   stretch?: boolean;
+  shadow?: boolean;
   hideIcon?: boolean;
   placement?: PlacementWithLogical;
   tooltipContent?: string;
@@ -34,6 +35,7 @@ export const DropdownMenu = ({
   stretch,
   hideIcon,
   placement = 'bottom-start',
+  shadow = true,
   tooltipContent,
 }: DropdownMenuProps) => {
   const defaultOpenLabel = menuItems.find((i) => i.value === value)?.label || '-';
@@ -50,8 +52,8 @@ export const DropdownMenu = ({
                 genericBgClasses.secondary,
                 baseHoverClass,
                 disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-                'shadow-md h-10 flex dir justify-between rounded-2xl items-center px-3 !py-0 transition-all',
-                { 'flex flex-1 self-stretch': stretch },
+                'h-10  flex dir justify-between rounded-2xl items-center px-3 !py-0 transition-all',
+                { 'shadow-xl': shadow, 'flex flex-1 self-stretch': stretch },
                 buttonClassName,
               )}
               disabled={disabled}

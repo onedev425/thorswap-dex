@@ -290,7 +290,7 @@ const Thorname = () => {
             autoFocus
             stretch
             border="rounded"
-            className="!text-md !p-1.5 border"
+            className="!text-xs !p-1.5 border"
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
             onChange={({ target }) => setAddress(target.value)}
             placeholder={`${chain} ${t('common.address')}`}

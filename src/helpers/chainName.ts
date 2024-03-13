@@ -5,7 +5,7 @@ export const chainName = (chain: string, full?: boolean) => {
     case Chain.Cosmos:
       return 'Cosmos';
     case Chain.THORChain:
-      return full ? 'THORChain' : 'Rune';
+      return full ? 'THORChain' : Chain.THORChain;
     case Chain.Avalanche:
       return full ? 'Avalanche' : Chain.Avalanche;
     case Chain.Binance:

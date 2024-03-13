@@ -7,18 +7,14 @@ const getNumberOfDecimals = (amount: Value) => {
   if (!amount) return 2;
   const price =
     typeof amount === 'object'
-      ? parseFloat(amount.toSignificant(2))
+      ? Number.parseFloat(amount.toSignificant(2))
       : typeof amount === 'string'
-        ? parseFloat(amount)
+        ? Number.parseFloat(amount)
         : amount;
 
-  if (price > 9) {
-    return 2;
-  } else if (price > 0.9) {
-    return 3;
-  } else {
-    return 4;
-  }
+  if (price > 9) return 2;
+  if (price > 0.9) return 3;
+  return 4;
 };
 
 const formatter = ({
@@ -37,10 +33,10 @@ const formatter = ({
 
   if (parsedAmount && typeof parsedAmount === 'string') {
     return parsedAmount;
-  } else {
-    const skNumber = new SwapKitNumber(parsedAmount);
-    return skNumber.toCurrency(prefix || '$', { decimal: numOfDecimals });
   }
+
+  const skNumber = new SwapKitNumber(parsedAmount);
+  return skNumber.toCurrency(prefix || '$', { decimal: numOfDecimals });
 };
 
 export const useFormatPrice = (decimals?: number, prefix?: string) =>

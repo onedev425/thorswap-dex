@@ -1,7 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { SwapKitNumber } from '@swapkit/core';
 import { Icon, Tooltip } from 'components/Atomic';
-import { useFormatPrice } from 'helpers/formatPrice';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -11,13 +10,12 @@ type Props = {
 
 export const VirtualDepthSlippageInfo = ({ depth, totalFeeUsd }: Props) => {
   const slippageState = getSlippageState(Number(depth));
-  const formatPrice = useFormatPrice();
 
   return (
     <Tooltip content={slippageState.tooltip}>
       <Flex alignItems="center" gap={2}>
         <Text color={slippageState.color} textStyle="caption">
-          {formatPrice(totalFeeUsd || 0)}
+          {totalFeeUsd?.toCurrency() || '0'}
         </Text>
 
         <Icon color="secondary" name="infoCircle" size={20} />

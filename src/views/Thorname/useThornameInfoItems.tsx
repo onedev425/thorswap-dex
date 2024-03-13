@@ -6,7 +6,6 @@ import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Button, Icon, Tooltip } from 'components/Atomic';
 import type { InfoRowConfig } from 'components/InfoRow/types';
 import { RUNEAsset } from 'helpers/assets';
-import { shortenAddress } from 'helpers/shortenAddress';
 import { useMemo } from 'react';
 import { t } from 'services/i18n';
 import { getThornameExpireDate } from 'store/midgard/actions';
@@ -127,7 +126,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
             },
             {
               label: t('views.thorname.owner'),
-              value: shortenAddress(details.owner, 15),
+              value: <Text className="!text-xs">{details.owner}</Text>,
             },
           ]
         : [],
@@ -143,11 +142,11 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
           ? details.entries.map(({ address, chain }) => ({
               key: chain,
               label: (
-                <Tooltip content={`${thorname}.${chain}`}>
+                <Tooltip content={`${thorname}.${chain.toLowerCase()}`}>
                   <ChainIcon withoutBackground chain={chain as Chain} size={24} />
                 </Tooltip>
               ),
-              value: shortenAddress(address, 15),
+              value: <Text className="!text-xs">{address}</Text>,
             }))
           : []),
       ].filter(Boolean),
