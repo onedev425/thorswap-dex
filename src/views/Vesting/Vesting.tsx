@@ -1,5 +1,11 @@
 import { Text } from '@chakra-ui/react';
-import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
+import {
+  BaseDecimal,
+  Chain,
+  type ChainWallet,
+  SwapKitNumber,
+  TransactionType,
+} from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
@@ -7,19 +13,162 @@ import { InputAmount } from 'components/InputAmount';
 import { PanelView } from 'components/PanelView';
 import { PercentSelect } from 'components/PercentSelect/PercentSelect';
 import { TabsSelect } from 'components/TabsSelect';
+import { showErrorToast } from 'components/Toast';
 import { ViewHeader } from 'components/ViewHeader';
-import { useWalletConnectModal } from 'context/wallet/hooks';
-import { useCallback, useState } from 'react';
+import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
+import { defaultVestingInfo, useWalletContext } from 'context/wallet/WalletProvider';
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { contractConfig, ContractType, triggerContractCall } from 'services/contract';
 import { t } from 'services/i18n';
-import { useVesting } from 'views/Vesting/hooks';
+import { logException } from 'services/logger';
+import { useAppDispatch } from 'store/store';
+import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
+import { v4 } from 'uuid';
 
 import { VestingType } from './types';
 
 const Vesting = () => {
-  const { setIsConnectModalOpen } = useWalletConnectModal();
-  const [vestingTab, setVestingTab] = useState(VestingType.THOR);
   const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
-  const { ethAddress, vestingInfo, isLoading, loadVestingInfo, handleClaim } = useVesting();
+  const [isLoading, setIsLoading] = useState(false);
+  const [vestingTab, setVestingTab] = useState(VestingType.THOR);
+  const appDispatch = useAppDispatch();
+  const [{ vthorVesting, thorVesting }, walletDispatch] = useWalletContext();
+  const { getWalletAddress } = useWallet();
+  const { setIsConnectModalOpen } = useWalletConnectModal();
+
+  const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
+
+  const getContractVestingInfo = useCallback(
+    async (vestingType: VestingType) => {
+      if (!ethAddress) return defaultVestingInfo;
+
+      const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getProvider } = await import('@swapkit/toolbox-evm');
+      const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
+      const { abi, address } = contractConfig[contractType];
+      const callParams = {
+        callProvider: getProvider(Chain.Ethereum),
+        from: ethAddress,
+        funcParams: [ethAddress, {}],
+      };
+
+      const [
+        totalVestedAmount,
+        totalClaimedAmount,
+        startTime,
+        vestingPeriod,
+        cliff,
+        initialRelease,
+      ] =
+        (await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+          ...callParams,
+          abi,
+          contractAddress: address,
+          funcName: 'vestingSchedule',
+        })) || ([] as any);
+
+      const claimableAmount = (await (
+        getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>
+      )?.call({
+        ...callParams,
+        abi,
+        contractAddress: address,
+        funcName: 'claimableAmount',
+      })) as bigint;
+
+      const totalVested = new SwapKitNumber({
+        value: totalVestedAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      }).div(10 ** BaseDecimal.ETH);
+      const totalClaimed = new SwapKitNumber({
+        value: totalClaimedAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      }).div(10 ** BaseDecimal.ETH);
+      const claimable = new SwapKitNumber({
+        value: claimableAmount?.toString() || '0',
+        decimal: BaseDecimal.ETH,
+      }).div(10 ** BaseDecimal.ETH);
+      const hasAlloc = totalVested.gt(0) || totalClaimed.gt(0) || claimable.gt(0);
+
+      return {
+        totalVestedAmount: totalVested.getValue('string'),
+        totalClaimedAmount: totalClaimed,
+        startTime: dayjs.unix(startTime.toString()).format('YYYY-MM-DD HH:MM:ss'),
+        vestingPeriod: dayjs.duration(vestingPeriod.toString() * 1000).asDays() / 365,
+        cliff: dayjs.duration(cliff.toString() * 1000).asDays() / 30,
+        initialRelease: (initialRelease || '0').toString(),
+        claimableAmount: claimable,
+        hasAlloc,
+      };
+    },
+    [ethAddress],
+  );
+
+  const handleClaim = useCallback(
+    async ({ vestingAction, amount }: { vestingAction: VestingType; amount: SwapKitNumber }) => {
+      if (amount.lte(0)) return;
+
+      setIsLoading(true);
+      const id = v4();
+
+      try {
+        appDispatch(
+          addTransaction({
+            id,
+            inChain: Chain.Ethereum,
+            type: TransactionType.ETH_STATUS,
+            label: `${t('txManager.claim')} ${amount.toSignificant(8)} ${vestingAction}`,
+          }),
+        );
+
+        const txHash = (await triggerContractCall(
+          vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
+          'claim',
+          [amount.getBaseValue('bigint')],
+        )) as string;
+
+        if (txHash) {
+          appDispatch(updateTransaction({ id, txid: txHash }));
+        }
+      } catch (error) {
+        logException(error as Error);
+        appDispatch(completeTransaction({ id, status: 'error' }));
+
+        showErrorToast(
+          t('notification.submitFail'),
+          t('common.defaultErrMsg'),
+          undefined,
+          error as Error,
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [appDispatch],
+  );
+
+  const loadVestingInfo = useCallback(async () => {
+    if (!ethAddress || isLoading) return;
+    setIsLoading(true);
+
+    try {
+      const thorVestingInfo = await getContractVestingInfo(VestingType.THOR);
+      const vthorVestingInfo = await getContractVestingInfo(VestingType.VTHOR);
+      walletDispatch({ type: 'setTHORVesting', payload: thorVestingInfo });
+      walletDispatch({ type: 'setVTHORVesting', payload: vthorVestingInfo });
+    } catch (error: NotWorth) {
+      logException(error.toString());
+    } finally {
+      setIsLoading(false);
+    }
+  }, [ethAddress, getContractVestingInfo, isLoading, walletDispatch]);
+
+  useEffect(() => {
+    loadVestingInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {
     vestingPeriod,
     totalClaimedAmount,
@@ -27,7 +176,10 @@ const Vesting = () => {
     startTime,
     claimableAmount,
     cliff,
-  } = vestingInfo[vestingTab];
+  } = useMemo(
+    () => (vestingTab === VestingType.THOR ? thorVesting : vthorVesting),
+    [thorVesting, vthorVesting, vestingTab],
+  );
 
   const handleChangeTokenAmount = useCallback(
     (amount: SwapKitNumber) => {
@@ -67,7 +219,10 @@ const Vesting = () => {
           onChange={(v) => setVestingTab(v as VestingType)}
           tabs={[
             { label: t('views.vesting.vestingThor'), value: VestingType.THOR },
-            { label: t('views.vesting.vestingVthor'), value: VestingType.VTHOR },
+            {
+              label: t('views.vesting.vestingVthor'),
+              value: VestingType.VTHOR,
+            },
           ]}
           value={vestingTab}
         />

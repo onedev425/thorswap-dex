@@ -14,7 +14,7 @@ import type { LedgerLiveChain } from '../../../ledgerLive/wallet/LedgerLive';
 import { connectLedgerLive, mapLedgerChainToChain } from '../../../ledgerLive/wallet/LedgerLive';
 
 export const useWallet = () => {
-  const { wallet, hasVestingAlloc, chainLoading } = useWalletState();
+  const { wallet, chainLoading } = useWalletState();
 
   const getWallet = useCallback((chain: Chain) => wallet[chain as keyof typeof wallet], [wallet]);
   const getWalletAddress = useCallback(
@@ -44,7 +44,6 @@ export const useWallet = () => {
 
   return {
     wallet: walletState,
-    hasVestingAlloc,
     chainLoading,
     walletAddresses,
     isWalletLoading,

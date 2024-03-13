@@ -1,16 +1,65 @@
+import type { ChainWallet } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
 import type { SidebarItemProps } from 'components/Sidebar/types';
 import { SidebarWidgetOption } from 'components/Sidebar/types';
 import { useWallet } from 'context/wallet/hooks';
-import { useEffect, useMemo } from 'react';
+import { useWalletContext } from 'context/wallet/WalletProvider';
+import { useCallback, useEffect, useMemo } from 'react';
+import { contractConfig } from 'services/contract';
 import { t } from 'services/i18n';
+import { logException } from 'services/logger';
 import { ROUTES, THORYIELD_STATS_ROUTE } from 'settings/router';
 import { useApp } from 'store/app/hooks';
-import { useVesting } from 'views/Vesting/hooks';
 
 export const useSidebarOptions = () => {
-  const { checkAlloc } = useVesting({ onlyCheckAlloc: true });
-  const { hasWallet, hasVestingAlloc } = useWallet();
+  const { hasWallet, getWalletAddress } = useWallet();
   const { multisigVisible } = useApp();
+  const [{ vthorVesting, thorVesting }, walletDispatch] = useWalletContext();
+  const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
+
+  const hasVestingAlloc = useMemo(
+    () => vthorVesting.hasAlloc || thorVesting.hasAlloc,
+    [vthorVesting.hasAlloc, thorVesting.hasAlloc],
+  );
+
+  const checkAlloc = useCallback(async () => {
+    if (!ethAddress) return;
+
+    const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
+    const { getProvider } = await import('@swapkit/toolbox-evm');
+    const callParams = {
+      callProvider: getProvider(Chain.Ethereum),
+      funcParams: [ethAddress, {}],
+      from: ethAddress,
+      funcName: 'claimableAmount',
+    };
+
+    try {
+      const thorAmount = await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+        ...callParams,
+        abi: contractConfig.vesting.abi,
+        contractAddress: contractConfig.vesting.address,
+      });
+
+      const vthorAmount = await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+        ...callParams,
+        abi: contractConfig.vthor_vesting.abi,
+        contractAddress: contractConfig.vthor_vesting.address,
+      });
+
+      walletDispatch({
+        type: 'setVestingAlloc',
+        payload: {
+          hasVthorAlloc:
+            (typeof vthorAmount === 'bigint' && vthorAmount > 0) || vthorAmount?.toString() !== '0',
+          hasThorAlloc:
+            (typeof thorAmount === 'bigint' && thorAmount > 0) || thorAmount?.toString() !== '0',
+        },
+      });
+    } catch (error) {
+      logException(error as Error);
+    }
+  }, [ethAddress, walletDispatch]);
 
   useEffect(() => {
     checkAlloc();
@@ -86,11 +135,7 @@ export const useSidebarOptions = () => {
           { iconName: 'sputnik', href: ROUTES.Liquidity, label: t('components.sidebar.liquidity') },
         ],
       },
-      {
-        iconName: 'wallet',
-        label: t('components.sidebar.wallet'),
-        children: walletItems,
-      },
+      { iconName: 'wallet', label: t('components.sidebar.wallet'), children: walletItems },
       {
         iconName: 'settings',
         label: t('components.sidebar.stats'),

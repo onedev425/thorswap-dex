@@ -1,5 +1,5 @@
 import type { AssetValue, ChainWallet } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
+import { BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
 import type { Keystore } from '@swapkit/wallet-keystore';
 import { getFromStorage, saveInStorage } from 'helpers/storage';
 import { createContext, memo, useContext, useMemo, useReducer } from 'react';
@@ -39,9 +39,21 @@ const chainLoading = {
   [Chain.THORChain]: false,
 };
 
+export const defaultVestingInfo = {
+  totalVestedAmount: 'N/A',
+  totalClaimedAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  startTime: '-',
+  vestingPeriod: 0,
+  cliff: 0,
+  initialRelease: '-',
+  claimableAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
+  hasAlloc: false,
+};
+
 export const walletInitialState = {
   chainLoading,
-  hasVestingAlloc: false,
+  thorVesting: defaultVestingInfo,
+  vthorVesting: defaultVestingInfo,
   hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
@@ -62,7 +74,9 @@ type Action =
       payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet<Chain>> };
     }
   | { type: 'setChainWalletLoading'; payload: { chain: Chain; loading: boolean } }
-  | { type: 'setHasVestingAlloc'; payload: boolean }
+  | { type: 'setTHORVesting'; payload: typeof defaultVestingInfo }
+  | { type: 'setVTHORVesting'; payload: typeof defaultVestingInfo }
+  | { type: 'setVestingAlloc'; payload: { hasThorAlloc: boolean; hasVthorAlloc: boolean } }
   | { type: 'setIsConnectModalOpen'; payload: boolean }
   | { type: 'setWallet'; payload: typeof initialWallet };
 
@@ -79,8 +93,17 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
       saveInStorage({ key: 'restorePreviousWallet', value: false });
       return { ...state, keystore: null, hasVestingAlloc: false, wallet: initialWallet };
     }
-    case 'setHasVestingAlloc':
-      return { ...state, hasVestingAlloc: payload };
+    case 'setTHORVesting':
+      return { ...state, thorVesting: payload };
+    case 'setVTHORVesting':
+      return { ...state, vthorVesting: payload };
+    case 'setVestingAlloc':
+      return {
+        ...state,
+        thorVesting: { ...state.thorVesting, hasAlloc: payload.hasThorAlloc },
+        vthorVesting: { ...state.vthorVesting, hasAlloc: payload.hasVthorAlloc },
+      };
+
     case 'setIsConnectModalOpen':
       return { ...state, isConnectModalOpen: payload };
     case 'setWallet':

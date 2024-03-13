@@ -34,7 +34,9 @@ export const useWalletDrawerActions = () => {
   }, []);
 
   const handleRefresh = useCallback(() => {
-    SUPPORTED_CHAINS.forEach((chain) => getWalletByChain(chain));
+    for (const chain of SUPPORTED_CHAINS) {
+      getWalletByChain(chain);
+    }
   }, [getWalletByChain]);
 
   return {
