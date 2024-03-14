@@ -1,5 +1,3 @@
-import { logException } from 'services/logger';
-
 type Props = {
   error: {
     error: Error;
@@ -25,16 +23,12 @@ function handleDynamicImportError(error: Error) {
     return true;
   }
 
-  logException(error);
-
   // We let ErrorBoundary handle the error
   return false;
 }
 
 export const ErrorBoundary = ({ error: { error } }: Props) => {
   const handled = handleDynamicImportError(error);
-
-  console.warn('ERROR BOUNDARY', error, handled);
 
   return handled ? null : (
     <div

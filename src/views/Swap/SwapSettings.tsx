@@ -362,7 +362,7 @@ export const SwapSettings = ({
                   slippagePercent={slippagePercent}
                 />
               ) : (
-                <Flex flex={1} flexWrap="wrap" ml={2} mb={2}>
+                <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
                   <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
                     {t('common.slippageSettingsChainflip')}
                   </Text>

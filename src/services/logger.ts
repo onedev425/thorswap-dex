@@ -58,13 +58,14 @@ const skippedPatterns = [
   'ledger device',
   'provider is not defined',
   'user rejected',
+  'failed to fetch',
   'core_',
 ];
 export const logException = async (error: Error | string, properties?: Record<string, any>) => {
   if (!sentryEnabled) return;
-  const errorMessage = typeof error === 'string' ? error : error.toString();
+  const errorMessage = (typeof error === 'string' ? error : error.toString()).toLowerCase();
 
-  if (skippedPatterns.some((pattern) => errorMessage.toLowerCase().includes(pattern))) {
+  if (skippedPatterns.some((pattern) => errorMessage.includes(pattern.toLowerCase()))) {
     return;
   }
 

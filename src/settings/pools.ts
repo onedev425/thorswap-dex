@@ -13,7 +13,6 @@ export const POOLS_TIME_PERIODS_OPTIONS_LABELS = [
   '1 Hour',
   '24 Hours',
   '7 Days',
-  '14 Days',
   '30 Days',
   '90 Days',
   '100 Days',
