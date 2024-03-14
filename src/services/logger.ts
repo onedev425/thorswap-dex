@@ -48,8 +48,25 @@ export const logEvent = async (event: string, properties?: Record<string, any>) 
   posthog.capture(event, properties);
 };
 
+/**
+ * some of them are todo for now, some we should skip as they are user related
+ */
+const skippedPatterns = [
+  '_wallet_',
+  'failed to execute',
+  'invalid password',
+  'ledger device',
+  'provider is not defined',
+  'user rejected',
+  'core_',
+];
 export const logException = async (error: Error | string, properties?: Record<string, any>) => {
   if (!sentryEnabled) return;
+  const errorMessage = typeof error === 'string' ? error : error.toString();
+
+  if (skippedPatterns.some((pattern) => errorMessage.toLowerCase().includes(pattern))) {
+    return;
+  }
 
   Sentry.captureException(error, properties);
 };
