@@ -13,7 +13,6 @@ import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import dayjs from 'dayjs';
 import { ETHAsset } from 'helpers/assets';
-import { useFormatPrice } from 'helpers/formatPrice';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { useBalance } from 'hooks/useBalance';
 import { useMimir } from 'hooks/useMimir';
@@ -105,8 +104,6 @@ const Borrow = () => {
     return price * Number(amount.toFixed(2));
   }, [amount, collateralAsset, tokenPricesData]);
 
-  const formatPrice = useFormatPrice();
-
   const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
 
   const { estimateTimeFromBlocks } = useTCBlockTimer();
@@ -164,8 +161,8 @@ const Borrow = () => {
   }, [borrowAddress, borrowAsset, getMaxBalance]);
 
   const expectedDebtInfo = useMemo(
-    () => formatPrice(expectedDebt.gt(0) ? expectedDebt : 0),
-    [expectedDebt, formatPrice],
+    () => (expectedDebt?.gt(0) ? expectedDebt?.toCurrency() : '-'),
+    [expectedDebt],
   );
 
   const handleSwapkitAction = useCallback(async () => {

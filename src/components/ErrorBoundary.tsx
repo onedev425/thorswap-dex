@@ -7,7 +7,7 @@ type Props = {
   };
 };
 
-function handleDynamicImportError(error: Error) {
+function handleDynamicImportError(_: Error) {
   // Get the last reload time from local storage and the current time
   const timeStr = sessionStorage.getItem('last-reload');
   const time = timeStr ? Number(timeStr) : null;
