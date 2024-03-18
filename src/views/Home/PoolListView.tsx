@@ -12,7 +12,7 @@ import { PoolTable } from './PoolTable';
 
 export const PoolListView = memo(() => {
   const [keyword, setKeyword] = useState('');
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState(4);
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState(3);
   const { isMdActive } = useWindowSize();
 
   const { pools, poolsLoading } = usePools(POOLS_TIME_PERIODS_OPTIONS[selectedTimePeriod]);
