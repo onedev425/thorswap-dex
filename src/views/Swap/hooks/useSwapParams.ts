@@ -160,7 +160,7 @@ export const useSwapParams = ({
       .div(maxOutputAmount)
       .getValue('number');
 
-    const slipPercent = 100 - Math.round(defaultSlippage * 10000) / 100;
+    const slipPercent = Math.round(100 - (defaultSlippage * 10000) / 100);
 
     setSlippagePercent(slipPercent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
