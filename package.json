@@ -33,6 +33,7 @@
     "@swapkit/toolbox-substrate": "1.0.0-rc.16",
     "@swapkit/toolbox-utxo": "1.0.0-rc.89",
     "@swapkit/wallet-evm-extensions": "1.0.0-rc.89",
+    "@swapkit/wallet-keepkey": "1.0.0-rc.32",
     "@swapkit/wallet-keplr": "1.0.0-rc.99",
     "@swapkit/wallet-keystore": "1.0.0-rc.111",
     "@swapkit/wallet-ledger": "1.0.0-rc.116",

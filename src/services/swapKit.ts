@@ -96,6 +96,7 @@ export const getSwapKitClient = async () => {
         },
       },
     },
+    // @ts-expect-error
     wallets: supportedWallets,
     // @ts-expect-error
     plugins: [ThorchainProvider, ChainflipProvider],

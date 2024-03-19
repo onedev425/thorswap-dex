@@ -231,7 +231,7 @@ const ConnectWalletModal = () => {
   }, []);
 
   useEffect(() => {
-    setCustomDerivationPath(DerivationPath[selectedChains[0]] + '/0');
+    setCustomDerivationPath(`${DerivationPath[selectedChains[0]]}/0`);
   }, [selectedChains]);
 
   const handleCustomPathSet = useCallback(async () => {
@@ -241,9 +241,9 @@ const ConnectWalletModal = () => {
       chain: selectedChains[0] || Chain.Ethereum,
       index: ledgerIndex || 0,
       type: derivationPathType,
-    });
+    }) as DerivationPathArray;
 
-    setCustomDerivationPath('m/' + derivationPathToString(derivationPath));
+    setCustomDerivationPath(`m/${derivationPathToString(derivationPath)}`);
   }, [derivationPathType, ledgerIndex, selectedChains]);
 
   useEffect(() => {
@@ -459,7 +459,7 @@ const ConnectWalletModal = () => {
                       <Input
                         stretch
                         border="rounded"
-                        onChange={(e) => setLedgerIndex(parseInt(e.target.value))}
+                        onChange={(e) => setLedgerIndex(Number.parseInt(e.target.value))}
                         type="number"
                         value={ledgerIndex}
                       />
