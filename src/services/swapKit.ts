@@ -1,5 +1,5 @@
 import type { ChainflipProvider } from '@swapkit/chainflip';
-import type { ConnectWalletParams, SwapKit } from '@swapkit/core';
+import type { SwapKit } from '@swapkit/core';
 import type { ThorchainProvider } from '@swapkit/thorchain';
 import type { evmWallet } from '@swapkit/wallet-evm-extensions';
 import type { keepkeyWallet } from '@swapkit/wallet-keepkey';
@@ -12,7 +12,7 @@ import type { walletconnectWallet } from '@swapkit/wallet-wc';
 import type { xdefiWallet } from '@swapkit/wallet-xdefi';
 import { IS_LOCAL, IS_STAGENET } from 'settings/config';
 
-type supportedWallet =
+type SupportedWallet =
   | typeof evmWallet
   | typeof keplrWallet
   | typeof keystoreWallet
@@ -23,11 +23,10 @@ type supportedWallet =
   | typeof walletconnectWallet
   | typeof xdefiWallet;
 
-type ConnectWalletType = {
-  [P in supportedWallet['connectMethodName']]: ReturnType<
-    (params: ConnectWalletParams) => (connectParams: any) => string | undefined
-  >;
-};
+type ConnectWalletType = Record<
+  SupportedWallet['connectMethodName'][number],
+  (connectParams: any) => string | undefined
+>;
 
 export type SwapKitReturnType = ReturnType<
   typeof SwapKit<
@@ -91,14 +90,12 @@ export const getSwapKitClient = async () => {
         apiKey: localStorage.getItem('keepkeyApiKey') || '',
         pairingInfo: {
           name: 'THORSwap',
-          imageUrl:
-            'https://www.thorswap.finance/logo.png',
+          imageUrl: 'https://www.thorswap.finance/logo.png',
           basePath: 'swap',
           url: 'https://app.thorswap.finance',
         },
       },
     },
-    // @ts-expect-error
     wallets: supportedWallets,
     // @ts-expect-error
     plugins: [ThorchainProvider, ChainflipProvider],

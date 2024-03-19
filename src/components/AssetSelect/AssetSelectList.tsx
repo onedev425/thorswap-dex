@@ -39,7 +39,7 @@ const SelectList = ({
   });
 
   const synthsEnabled = useMemo(
-    () => assets && assets.some((asset) => asset.asset.type === 'Synth'),
+    () => assets?.some((asset) => asset.asset.type === 'Synth'),
     [assets],
   );
 
@@ -127,7 +127,6 @@ const SelectList = ({
         flex={1}
       >
         {filteredAssets.length ? (
-          // @ts-expect-error ?
           <List
             className="!overflow-x-clip overflow-y-auto"
             height={!IS_LEDGER_LIVE ? (isLgActive ? 410 : 1000) : 721}
@@ -151,6 +150,7 @@ const SelectList = ({
 
       <Box justifyCenter className="z-10 pt-4 pb-6">
         {!noFilters && (
+          // biome-ignore lint/a11y/useKeyWithClickEvents: nope
           <div className="group flex-row flex justify-center" onClick={openManageTokenList}>
             <Icon
               className="cursor-pointer dark:group-hover:text-dark-typo-primary group-hover:text-light-typo-primary"

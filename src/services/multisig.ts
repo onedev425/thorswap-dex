@@ -150,7 +150,7 @@ export const isMultisigInitialized = async () => {
     if (!_multisigAddress) return false;
 
     return !!(await (await getThorchainToolbox()).getAccount(_multisigAddress));
-  } catch (error: any) {
+  } catch (error: NotWorth) {
     logException(error);
     return false;
   }
