@@ -353,6 +353,22 @@ export const useConnectWallet = () => {
     [reloadAllWallets, walletDispatch],
   );
 
+  const connectKeepkey = useCallback(
+    async (chains: Chain[]) => {
+      const { connectKeepkey: swapKitConnectKeepkey } = await (
+        await import('services/swapKit')
+      ).getSwapKitClient();
+
+      showInfoToast(t('notification.connectingKeepkey'));
+      const keepkeyApiKey = await swapKitConnectKeepkey(chains);
+      localStorage.setItem('keepkeyApiKey', keepkeyApiKey || '');
+      await reloadAllWallets(chains);
+
+      showInfoToast(t('notification.connectedKeepkey'));
+    },
+    [reloadAllWallets],
+  );
+
   return {
     unlockKeystore,
     connectLedger,
@@ -367,5 +383,6 @@ export const useConnectWallet = () => {
     connectKeplr,
     connectWalletconnect,
     connectOkx,
+    connectKeepkey,
   };
 };

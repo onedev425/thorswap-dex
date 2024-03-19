@@ -143,6 +143,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
         items: [
           { type: WalletType.Ledger, icon: 'ledger', label: t('views.walletModal.ledger') },
           { type: WalletType.Trezor, icon: 'trezor', label: t('views.walletModal.trezor') },
+          { type: WalletType.Keepkey, icon: 'keepkey', label: t('views.walletModal.keepkey') },
         ],
       },
       {
@@ -179,6 +180,7 @@ export const useHandleWalletConnect = ({
 }: HandleWalletConnectParams) => {
   const {
     connectKeplr,
+    connectKeepkey,
     connectLedger,
     connectTrezor,
     connectWalletconnect,
@@ -228,6 +230,8 @@ export const useHandleWalletConnect = ({
             return connectKeplr();
           case WalletType.Okx:
             return connectOkx(selectedChains);
+          case WalletType.Keepkey:
+            return connectKeepkey(selectedChains);
 
           case WalletType.Brave:
           case WalletType.MetaMask:
@@ -262,6 +266,7 @@ export const useHandleWalletConnect = ({
       chains,
       connectEVMWalletExtension,
       connectKeplr,
+      connectKeepkey,
       connectLedger,
       connectOkx,
       connectTrezor,
@@ -294,7 +299,7 @@ const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
   [WalletType.Keplr]: WalletOption.KEPLR,
-  [WalletType.KeepKey]: WalletOption.KEEPKEY,
+  [WalletType.Keepkey]: WalletOption.KEEPKEY,
   [WalletType.Keystore]: WalletOption.KEYSTORE,
   [WalletType.Ledger]: WalletOption.LEDGER,
   [WalletType.MetaMask]: WalletOption.METAMASK,

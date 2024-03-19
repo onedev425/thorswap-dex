@@ -1,4 +1,4 @@
-import type { AssetValue } from '@swapkit/core';
+import type { AssetValue, Chain } from '@swapkit/core';
 import type { MultisigThresholdPubkey, Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import { logException } from 'services/logger';
 import type { MultisigMember } from 'store/multisig/types';
@@ -80,6 +80,7 @@ const buildTransferTx = async ({ recipient, memo, assetValue }: MultisigTransfer
   const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
 
   const transferTx = await buildTransaction({
+    chain: assetValue.chain as Chain.Maya | Chain.THORChain,
     memo,
     from: _multisigAddress,
     recipient: recipient,
@@ -96,6 +97,7 @@ const buildDepositTx = async ({ memo, assetValue }: MultisigDepositTxParams) => 
   const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
 
   const depositTx = await buildTransaction({
+    chain: assetValue.chain as Chain.Maya | Chain.THORChain,
     from: _multisigAddress,
     memo,
     assetValue,

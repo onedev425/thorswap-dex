@@ -45,6 +45,7 @@ import Spain from './flags/spain.png';
 import USA from './flags/usa.svg?react';
 import Gwei from './gwei.svg?react';
 import InIcon from './inIcon.svg?react';
+import Keepkey from './keepkey.svg?react';
 import Keplr from './keplr.svg?react';
 import Keystore from './keystore.svg?react';
 import Ledger from './ledger.svg?react';
@@ -108,6 +109,7 @@ export const Svgs = {
   ethereum: Ethereum3d,
   gwei: Gwei,
   inIcon: InIcon,
+  keepkey: Keepkey,
   keplr: Keplr,
   keystore: Keystore,
   ledger: Ledger,
