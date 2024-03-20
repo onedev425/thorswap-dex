@@ -41,7 +41,7 @@ type Props = {
 
 export const TransactionsModalProvider = ({ children }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
-  const { advancedTracking: transactions } = useTransactionsState(true);
+  const { advancedTracking: transactions } = useTransactionsState();
   const [selectedTxId, setSelectedTxId] = useState('');
   const [selectedTx, setSelectedTx] = useState<
     PendingTransactionType | CompletedTransactionType | null

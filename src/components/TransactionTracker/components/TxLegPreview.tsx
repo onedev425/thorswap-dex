@@ -342,7 +342,7 @@ export const TxLegPreview = ({
                 </Text>
               </Flex>
               <AssetIcon
-                logoURI={leg.fromAssetImage || '??'}
+                logoURI={leg.fromAssetImage || ''}
                 size={horizontalView ? 30 : 22}
                 ticker={fromAssetTicker}
               />
@@ -363,7 +363,7 @@ export const TxLegPreview = ({
                   justifyContent="start"
                 >
                   <AssetIcon
-                    logoURI={leg.toAssetImage || '??'}
+                    logoURI={leg.toAssetImage || ''}
                     size={horizontalView ? 30 : 22}
                     ticker={toAssetTicker}
                   />
@@ -394,25 +394,20 @@ export const TxLegPreview = ({
             mb={1}
             mt={2}
           >
-            <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-              {leg.chain || 'unknown'}
-            </Text>
-
             {leg && (
-              <Flex>
+              <Flex align="center" direction="row" justify="center">
                 {leg.chain ? (
-                  <AssetIcon
-                    logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
-                    size={22}
-                    ticker={leg.chain}
-                  />
-                ) : (
-                  <FallbackIcon
-                    icon={<Icon name="hourglass" size={18} />}
-                    size={22}
-                    ticker={leg.hash || 'unknown'}
-                  />
-                )}
+                  <>
+                    <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
+                      {leg.chain || 'unknown'}
+                    </Text>
+                    <AssetIcon
+                      logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
+                      size={22}
+                      ticker={leg.chain}
+                    />
+                  </>
+                ) : null}
               </Flex>
             )}
           </Flex>

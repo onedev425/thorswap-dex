@@ -70,7 +70,7 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
   const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
 
   return (
-    <Flex direction="column" mt={{ base: 2, lg: 6 }} w="full">
+    <Flex direction="column" w="full">
       {streamingSwapDetails && (
         <TxStreamingSwapDetails streamingSwapDetails={streamingSwapDetails} />
       )}
@@ -87,24 +87,26 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
 
       {swapLabelValue && <InfoRow label={swapLabel} size="md" value={swapLabelValue} />}
 
-      {legs.length > 0 && (
+      {legs.length > 0 && (!!firstLeg?.startTimestamp || !!lastLeg.endTimestamp) && (
         <InfoRow
           label={null}
           size="md"
           value={
             <Flex flexWrap="wrap" gap={2} justifyContent="space-between" py={1} w="full">
-              <Flex align="center" gap={1}>
-                <Text color="textSecondary" fontWeight="medium" textStyle="caption">
-                  {t('txManager.started')}:
-                </Text>
-                <Text fontWeight="semibold" textStyle="caption">
-                  {new Date(firstLeg?.startTimestamp || '').toLocaleString('default', {
-                    dateStyle: 'short',
-                    timeStyle: 'medium',
-                  })}
-                </Text>
-              </Flex>
-              {isCompleted && !error && (
+              {!!firstLeg?.startTimestamp && (
+                <Flex align="center" gap={1}>
+                  <Text color="textSecondary" fontWeight="medium" textStyle="caption">
+                    {t('txManager.started')}:
+                  </Text>
+                  <Text fontWeight="semibold" textStyle="caption">
+                    {new Date(firstLeg?.startTimestamp || '').toLocaleString('default', {
+                      dateStyle: 'short',
+                      timeStyle: 'medium',
+                    })}
+                  </Text>
+                </Flex>
+              )}
+              {isCompleted && !error && !!lastLeg?.endTimestamp && (
                 <Flex align="center" gap={1}>
                   <Text color="textSecondary" fontWeight="medium" textStyle="caption">
                     {t('txManager.completed')}:

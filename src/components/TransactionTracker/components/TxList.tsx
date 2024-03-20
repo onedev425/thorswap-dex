@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const TxList = ({ selectedId, onSelect }: Props) => {
-  const { pending, completed, transactions } = useTransactionsState(true);
+  const { pending, completed, transactions } = useTransactionsState();
 
   if (!transactions.length)
     return (

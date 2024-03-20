@@ -163,6 +163,8 @@ export const AssetIcon = memo(
       [chain, isSynthetic, symbol],
     );
 
+    const canShowIcon = asset || logoURI;
+
     return (
       <AssetIconMemo
         badge={badge}
@@ -170,7 +172,7 @@ export const AssetIcon = memo(
         chain={assetChain}
         className={className}
         hasShadow={hasShadow}
-        iconUrl={iconUrl}
+        iconUrl={canShowIcon ? iconUrl : ''}
         isSynth={isSynthetic}
         secondaryIconPlacement={secondaryIconPlacement}
         showChainIcon={hasChainIcon && type !== 'Native'}

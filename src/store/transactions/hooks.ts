@@ -5,7 +5,7 @@ import type { CompletedTransactionType, PendingTransactionType } from 'store/tra
 import { TransactionType } from 'store/transactions/types';
 import { isTxCompleted, isTxPending } from 'store/transactions/utils';
 
-export const useTransactionsState = (skipV2Tracker = false) => {
+export const useTransactionsState = () => {
   const transactions = useAppSelector(({ transactions }) => transactions);
   const appDispatch = useAppDispatch();
 
@@ -14,17 +14,8 @@ export const useTransactionsState = (skipV2Tracker = false) => {
       .concat()
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-    if (skipV2Tracker) {
-      // temp hack for v2 tracker
-      // skip for chainflip
-      return txs.filter((tx) => {
-        const isChainflip = tx?.details?.meta || tx?.route?.providers.includes('CHAINFLIP');
-        return !isChainflip;
-      });
-    }
-
     return txs;
-  }, [skipV2Tracker, transactions]);
+  }, [transactions]);
 
   const [pending, completed] = useMemo(
     () =>

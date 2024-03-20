@@ -98,7 +98,7 @@ export const useTransactionDetailsV2 = (payload: TrackerPayload | null, skip?: b
 
 function mapToV1TrackerDetails(
   payload: TxDetails,
-): TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta } {
+): TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta; isV2?: boolean } {
   const estimatedFinalizedAt =
     payload.legs[1]?.transient?.estimatedFinalizedAt || Date.now() / 1000;
   const transient = payload.transient ? { ...payload.transient, estimatedFinalizedAt } : undefined;
@@ -119,7 +119,8 @@ function mapToV1TrackerDetails(
     estimatedDuration: null,
     isStreamingSwap: false,
     transient,
-    meta: payload.meta,
+    meta: payload.meta || {},
+    isV2: true,
   };
 }
 

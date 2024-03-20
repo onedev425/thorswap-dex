@@ -22,7 +22,6 @@ export const CompletedTransaction = memo(
     const { reloadAllWallets } = useWalletBalance();
 
     const { handleLabelUpdate, isLoading } = useTxLabelUpdate({ result, setTransactionLabel });
-    const explicitExplorerUrl = details?.meta?.explorerUrl;
 
     useEffect(() => {
       handleLabelUpdate();
@@ -114,18 +113,18 @@ export const CompletedTransaction = memo(
           </Box>
         </Box>
 
-        {!explicitExplorerUrl && details ? (
+        {details ? (
           details.legs?.length > 0 ? (
             <TxDetailsButton txid={details.firstTransactionHash} />
           ) : null
         ) : (
           <>
-            {(!!explicitExplorerUrl || !!txUrl) && (
+            {!!txUrl && (
               <Link
                 external
                 className="inline-flex"
                 onClick={(e) => e.stopPropagation()}
-                to={explicitExplorerUrl || txUrl}
+                to={txUrl}
               >
                 <Icon className={baseHoverClass} color="secondary" name="external" size={18} />
               </Link>

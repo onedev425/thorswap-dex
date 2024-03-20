@@ -84,6 +84,8 @@ export enum TransactionType {
   TC_LENDING = 'TC:LENDING',
 }
 
+export type TrackerV2Details = { transient?: TxnTransient; meta?: TxnMeta; isV2?: boolean };
+
 export type PendingTransactionType = {
   from?: string;
   id: string;
@@ -97,7 +99,7 @@ export type PendingTransactionType = {
   hash?: string;
   quoteId?: string;
   route?: QuoteRoute;
-  details?: TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta };
+  details?: TxTrackerDetails & TrackerV2Details;
   sellAmount?: string;
   sellAmountNormalized?: string;
   status?: TransactionStatus;
