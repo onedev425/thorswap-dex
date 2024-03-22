@@ -1,5 +1,5 @@
-import type { Chain, SwapParams } from '@swapkit/core';
-import { AssetValue, QuoteMode, RequestClient } from '@swapkit/core';
+import type { Chain, QuoteRouteV2, SwapParams } from '@swapkit/core';
+import { AssetValue, QuoteMode, RequestClient, SwapKitNumber } from '@swapkit/core';
 
 const getInboundData = () => {
   return RequestClient.get<any>('https://thornode.thorswap.net/thorchain/inbound_addresses');
@@ -20,6 +20,33 @@ export const ledgerLiveSwap = async ({
   feeOptionKey,
   wallet,
 }: SwapParams & { wallet: any }) => {
+  if (route.provider === 'CHAINFLIP') {
+    const { confirmSwap } = await import('@swapkit/chainflip');
+
+    const { buyAsset: buyAssetString, sellAsset: sellAssetString, sellAmount } = route;
+    const sellAsset = await AssetValue.fromString(sellAssetString);
+    const buyAsset = await AssetValue.fromString(buyAssetString);
+    const assetValue = sellAsset.set(sellAmount);
+
+    const walletInstance = wallet[assetValue.chain].walletMethods;
+
+    if (!walletInstance) throw new Error(`Chain ${assetValue.chain} is not connected`);
+
+    const channelInfo = await confirmSwap({
+      buyAsset,
+      sellAsset,
+      recipient,
+      brokerEndpoint: 'https://gateway-d32mo7lc.uc.gateway.dev/channel',
+    });
+
+    return walletInstance.transfer({
+      recipient: channelInfo.depositAddress,
+      memo: '',
+      from: walletInstance.getAddress(),
+      assetValue,
+    });
+  }
+
   const quoteMode = route.meta.quoteMode as QuoteMode;
 
   switch (quoteMode) {
@@ -29,10 +56,7 @@ export const ledgerLiveSwap = async ({
     case QuoteMode.ETH_TO_TC_SUPPORTED:
     case QuoteMode.TC_SUPPORTED_TO_ETH: {
       const { fromAsset, amountIn, memo } = route.calldata;
-      const assetValue = await AssetValue.fromIdentifier(
-        fromAsset as `${Chain}.${string}`,
-        amountIn,
-      );
+      const assetValue = await AssetValue.fromIdentifier(fromAsset as `${Chain}.${string}`);
       if (!assetValue) throw new Error('Asset not recognised');
 
       const replacedMemo = memo.replace('{recipientAddress}', recipient);
@@ -66,7 +90,7 @@ export const ledgerLiveSwap = async ({
         feeOptionKey,
         from: walletInstance.getAddress(),
         //TODO - fix this typing
-        assetValue,
+        assetValue: assetValue.set(SwapKitNumber.fromBigInt(BigInt(amountIn), assetValue.decimal)),
         feeRate: parseInt(chainAddressData.gas_rate),
       };
 

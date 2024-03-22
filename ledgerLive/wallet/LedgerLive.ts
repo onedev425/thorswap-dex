@@ -230,7 +230,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           data: Buffer.from(memo || ''),
-          amount: new BigNumberJS(assetValue.getValue('string')),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           family: LEDGER_LIVE_FAMILIES[1],
         });
 
@@ -295,7 +295,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient,
-          amount: new BigNumberJS(assetValue.getValue('string')),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           memo,
           mode: 'send',
         });
@@ -365,7 +365,7 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient,
           opReturnData: Buffer.from(memo || ''),
-          amount: new BigNumberJS(assetValue.getValue('string')),
+          amount: new BigNumberJS(assetValue.getBaseValue('string')),
           feePerByte: feeRate ? new BigNumberJS(Math.max(feeRate, gasPrice)) : undefined,
           family: LEDGER_LIVE_FAMILIES[0],
         });
