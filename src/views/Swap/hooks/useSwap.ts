@@ -1,5 +1,5 @@
 import type { QuoteRoute } from '@swapkit/api';
-import type { AssetValue } from '@swapkit/core';
+import { type AssetValue } from '@swapkit/core';
 import { QuoteMode } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';

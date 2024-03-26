@@ -1,5 +1,5 @@
-import type { Chain, QuoteRouteV2, SwapParams } from '@swapkit/core';
-import { AssetValue, QuoteMode, RequestClient, SwapKitNumber } from '@swapkit/core';
+import type { SwapParams } from '@swapkit/core';
+import { AssetValue, Chain, QuoteMode, RequestClient, SwapKitNumber } from '@swapkit/core';
 
 const getInboundData = () => {
   return RequestClient.get<any>('https://thornode.thorswap.net/thorchain/inbound_addresses');
@@ -76,6 +76,24 @@ export const ledgerLiveSwap = async ({
       const walletInstance = wallet[assetValue.chain].walletMethods;
 
       if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
+
+      // TODO remove after ledger live was moved to swapkit
+      const validateAddressType = ({ chain, address }: { chain: Chain; address?: string }) => {
+        if (!address) return false;
+
+        switch (chain) {
+          case Chain.Bitcoin:
+            // filter out taproot addresses
+            return !address.startsWith('bc1p');
+          default:
+            return true;
+        }
+      };
+
+      const validAddress = validateAddressType({ chain, address: walletInstance.getAddress() });
+      if (!validAddress) {
+        throw new Error('Sender address not supported by THORChain');
+      }
 
       const params:
         | {
