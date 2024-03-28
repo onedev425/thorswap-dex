@@ -9,7 +9,7 @@ import { t } from 'services/i18n';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import { DISABLED_TOKENLIST_PROVIDERS } from 'views/Swap/hooks/useTokenList';
 
-const PROD_DISABLED_PROVIDERS = ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth'];
+const PROD_DISABLED_PROVIDERS = ['Stargatearb'];
 
 export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSelectProps) => {
   const { data, isLoading } = useGetProvidersQuery();
@@ -22,7 +22,11 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
 
   const sortedProviders = useMemo(() => {
     const providers =
-      data?.filter(({ provider }) => !PROD_DISABLED_PROVIDERS.includes(provider)) || [];
+      data?.filter(
+        ({ provider }) =>
+          !provider.toLowerCase().includes('whitelist') &&
+          !PROD_DISABLED_PROVIDERS.includes(provider),
+      ) || [];
 
     return providers
       .concat()

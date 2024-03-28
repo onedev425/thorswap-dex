@@ -51,7 +51,6 @@ const loadI18n = async () => {
   const resource = await loadResources(lng);
 
   initializeI18n(initReactI18next).init({
-    debug: false,
     resources: { [lng]: { translation: resource } },
     lng,
     fallbackLng: 'en',
