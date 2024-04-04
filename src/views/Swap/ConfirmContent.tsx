@@ -120,7 +120,7 @@ export const ConfirmContent = memo(
               </Box>
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('common.slippage')}
+                  {t('common.maxSlippage')}
                 </Text>
                 <Text color={slipHigherThanTolerance ? 'red' : ''} textStyle="caption">
                   {(Math.round(slippagePercent * 100) / 100).toFixed(2)}%
