@@ -95,7 +95,7 @@ export const thorswapApi = createApi({
             sellAmount: Number(rest.sellAmount),
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
-            affiliateFee: affiliateBasisPoints,
+            affiliateFee: parseInt(affiliateBasisPoints || '0'),
             providers: ['CHAINFLIP'],
           }),
           url: `${apiV2BaseUrl}/quote`,
