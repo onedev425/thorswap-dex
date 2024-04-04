@@ -200,18 +200,13 @@ export const useSwapQuote = ({
     const chainFlipFees = chainFlipRoute?.fees?.reduce(
       // @ts-expect-error
       (acc, fee) => {
-        if (fee.type === 'INGRESS') {
-          const inboundFee = inputAsset
-            .set(
-              SwapKitNumber.fromBigInt(
-                //@ts-expect-error
-                BigInt(fee.amount) || 0,
-                inputAsset.decimal,
-              ),
-            )
-            .add(acc.inbound.networkFee);
+        if (fee.type === 'INBOUND') {
+          const inboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+            acc.inbound.networkFee,
+          );
           const inboundFeeUSD = inboundFee.mul(inputUnitPrice);
           acc.inbound = {
+            ...acc.inbound,
             networkFee: inboundFee.getValue('number'),
             networkFeeUSD: inboundFeeUSD.getValue('number'),
           };
@@ -220,18 +215,28 @@ export const useSwapQuote = ({
           };
           return acc;
         }
-        if (fee.type === 'EGRESS') {
-          const outboundFee = AssetValue.fromIdentifierSync(chainFlipRoute.buyAsset)
-            .set(
-              SwapKitNumber.fromBigInt(
-                //@ts-expect-error
-                BigInt(fee.amount) || 0,
-                outputAsset.decimal,
-              ),
-            )
-            .add(acc.outbound.networkFee);
+        if (fee.type === 'AFFILIATE') {
+          const affiliateFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+            acc.inbound.affiliateFee,
+          );
+          const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
+          acc.inbound = {
+            ...acc.inbound,
+            affiliateFee: affiliateFee.getValue('number'),
+            affiliateFeeUSD: affiliateFeeUSD.getValue('number'),
+          };
+          acc.total = {
+            totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+          };
+          return acc;
+        }
+        if (fee.type === 'OUTBOUND') {
+          const outboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+            acc.outbound.networkFee,
+          );
           const outboundFeeUSD = outboundFee.mul(outputUnitPrice);
           acc.outbound = {
+            ...acc.outbound,
             networkFee: outboundFee.getValue('number'),
             networkFeeUSD: outboundFeeUSD.getValue('number'),
           };
@@ -240,19 +245,12 @@ export const useSwapQuote = ({
           };
           return acc;
         }
-        if (fee.type === 'NETWORK' || (fee.type === 'LIQUIDITY' && fee.asset === 'USDC')) {
-          const networkFee = AssetValue.fromIdentifierSync(
-            'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48',
-          )
-            .set(
-              SwapKitNumber.fromBigInt(
-                //@ts-expect-error
-                BigInt(fee.amount) || 0,
-                6,
-              ),
-            )
-            .add(acc.slippage.slipFee);
+        if (fee.type === 'NETWORK') {
+          const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+            acc.slippage.slipFee,
+          );
           acc.slippage = {
+            ...acc.slippage,
             slipFee: networkFee.getValue('number'),
             slipFeeUSD: networkFee.getValue('number'),
           };
@@ -262,17 +260,12 @@ export const useSwapQuote = ({
           return acc;
         }
         if (fee.type === 'LIQUIDITY') {
-          const networkFee = inputAsset
-            .set(
-              SwapKitNumber.fromBigInt(
-                //@ts-expect-error
-                BigInt(fee.amount) || 0,
-                inputAsset.decimal,
-              ),
-            )
-            .add(acc.slippage.slipFee);
+          const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+            acc.slippage.slipFee,
+          );
           const networkFeeUSD = networkFee.mul(inputUnitPrice);
           acc.slippage = {
+            ...acc.slippage,
             slipFee: networkFee.getValue('number'),
             slipFeeUSD: networkFeeUSD.getValue('number'),
           };
@@ -306,8 +299,8 @@ export const useSwapQuote = ({
                 asset: chainFlipRoute.sellAsset,
                 networkFee: chainFlipFees.inbound.networkFee,
                 networkFeeUSD: chainFlipFees.inbound.networkFeeUSD,
-                affiliateFee: 0,
-                affiliateFeeUSD: 0,
+                affiliateFee: chainFlipFees.inbound.affiliateFee,
+                affiliateFeeUSD: chainFlipFees.inbound.affiliateFeeUSD,
                 totalFee: chainFlipFees.inbound.networkFee,
                 totalFeeUSD: chainFlipFees.inbound.networkFeeUSD,
                 isOutOfPocket: true,
@@ -317,19 +310,8 @@ export const useSwapQuote = ({
                 asset: chainFlipRoute.buyAsset,
                 networkFee: chainFlipFees.outbound.networkFee,
                 networkFeeUSD: chainFlipFees.outbound.networkFeeUSD,
-                affiliateFee: AssetValue.fromIdentifierSync(
-                  chainFlipRoute.sellAsset,
-                  chainFlipRoute.sellAmount,
-                )
-                  .mul('0.003')
-                  .getValue('number'),
-                affiliateFeeUSD: AssetValue.fromIdentifierSync(
-                  chainFlipRoute.sellAsset,
-                  chainFlipRoute.sellAmount,
-                )
-                  .mul('0.003')
-                  .mul(inputUnitPrice)
-                  .getValue('number'),
+                affiliateFee: 0,
+                affiliateFeeUSD: 0,
                 slipFee: chainFlipFees.slippage.slipFee,
                 slipFeeUSD: chainFlipFees.slippage.slipFeeUSD,
                 totalFee: 0,
