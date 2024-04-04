@@ -1,5 +1,6 @@
 import type { SwapParams } from '@swapkit/core';
 import { AssetValue, Chain, QuoteMode, RequestClient, SwapKitNumber } from '@swapkit/core';
+import { apiV2BaseUrl } from 'store/thorswap/api';
 
 const getInboundData = () => {
   return RequestClient.get<any>('https://thornode.thorswap.net/thorchain/inbound_addresses');
@@ -36,7 +37,7 @@ export const ledgerLiveSwap = async ({
       buyAsset,
       sellAsset,
       recipient,
-      brokerEndpoint: 'https://gateway-d32mo7lc.uc.gateway.dev/channel',
+      brokerEndpoint: `${apiV2BaseUrl}/channel`,
     });
 
     return walletInstance.transfer({

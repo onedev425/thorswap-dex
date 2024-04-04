@@ -15,6 +15,7 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
+import { apiV2BaseUrl } from 'store/thorswap/api';
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -109,7 +110,7 @@ export const useSwap = ({
               // @ts-expect-error
               name: route.providers[0].toLowerCase(),
               config: {
-                brokerEndpoint: 'https://gateway-d32mo7lc.uc.gateway.dev/channel',
+                brokerEndpoint: `${apiV2BaseUrl}/channel`,
               },
             },
             feeOptionKey,

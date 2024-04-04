@@ -32,6 +32,8 @@ const baseUrl = IS_STAGENET
     ? 'https://dev-api.thorswap.net'
     : 'https://api.thorswap.net';
 
+export const apiV2BaseUrl = IS_DEV_API ? 'https://dev-api.swapkit.dev' : 'https://api.swapkit.dev';
+
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
   baseQuery: fetchBaseQuery({
@@ -96,7 +98,7 @@ export const thorswapApi = createApi({
             affiliateFee: affiliateBasisPoints,
             providers: ['CHAINFLIP'],
           }),
-          url: 'https://gateway-d32mo7lc.uc.gateway.dev/quote',
+          url: `${apiV2BaseUrl}/quote`,
           headers: { 'Content-Type': 'application/json' },
         };
       },
@@ -113,7 +115,7 @@ export const thorswapApi = createApi({
                 block: params.block,
               })
             : null,
-          url: 'https://gateway-d32mo7lc.uc.gateway.dev/track',
+          url: `${apiV2BaseUrl}/track`,
           headers: { 'Content-Type': 'application/json' },
         };
       },
