@@ -1,13 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { Box, Icon, Link, Modal } from 'components/Atomic';
-import {
-  COMMUNITY_FEEDBACK_URL,
-  DISCORD_URL,
-  THORSWAP_DOCUMENTATION_URL,
-  THORSWAP_FEEDBACK_URL,
-  THORSWAP_YOUTUBE_URL,
-} from 'config/constants';
+import { DISCORD_URL, THORSWAP_DOCUMENTATION_URL, THORSWAP_YOUTUBE_URL } from 'config/constants';
 import { t } from 'services/i18n';
 
 type Props = {
@@ -27,6 +21,7 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
           <Box
             alignCenter
             className={classNames(commonClasses, 'bg-discord-purple')}
+            flex={1}
             justify="between"
           >
             <Text className="!text-white">{t('components.sidebar.joinDiscord')}</Text>
@@ -35,7 +30,12 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
         </Link>
 
         <Link to={THORSWAP_YOUTUBE_URL}>
-          <Box alignCenter className={classNames(commonClasses, 'bg-red')} justify="between">
+          <Box
+            alignCenter
+            className={classNames(commonClasses, 'bg-red')}
+            flex={1}
+            justify="between"
+          >
             <Text className="!text-white">{t('components.sidebar.thorswapCommunityYoutube')}</Text>
             <Icon className="fill-white" name="youtube" />
           </Box>
@@ -45,6 +45,7 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
           <Box
             alignCenter
             className={classNames(commonClasses, 'bg-btn-primary')}
+            flex={1}
             justify="between"
           >
             <Text className="!text-white">{t('components.sidebar.thorswapDocumentation')}</Text>
@@ -52,25 +53,13 @@ export const SupportModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Elemen
           </Box>
         </Link>
 
-        <Link to={THORSWAP_FEEDBACK_URL}>
+        <Link external to="/tos">
           <Box
             alignCenter
-            className={classNames(commonClasses, 'bg-btn-secondary')}
+            className={classNames(commonClasses, 'bg-chain-thor')}
+            flex={1}
             justify="between"
           >
-            <Text className="!text-white">{t('components.sidebar.submitFeatureRequest')}</Text>
-            <Icon className="fill-white" name="feedback" />
-          </Box>
-        </Link>
-        <Link to={COMMUNITY_FEEDBACK_URL}>
-          <Box alignCenter className={classNames(commonClasses, 'bg-orange')} justify="between">
-            <Text className="!text-white">{t('components.sidebar.communitySurvey')}</Text>
-            <Icon className="fill-white" name="survey" />
-          </Box>
-        </Link>
-
-        <Link external to="/tos">
-          <Box alignCenter className={classNames(commonClasses, 'bg-chain-thor')} justify="between">
             <Text className="!text-white">Terms Of Service</Text>
             <Icon className="fill-white" name="rules" />
           </Box>
