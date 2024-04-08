@@ -8,6 +8,7 @@ import { hexlify, toUtf8Bytes } from 'ethers';
 import { shortenAddress } from 'helpers/shortenAddress';
 import { memo, useMemo } from 'react';
 import { t } from 'services/i18n';
+import { ChainflipSlippageConfirm } from 'views/Swap/ChainflipSlippageConfirm';
 
 type Props = {
   inputAsset: AssetInputType;
@@ -24,6 +25,7 @@ type Props = {
   slipHigherThanTolerance: boolean;
   setConfirmedSlippage: (value: boolean) => void;
   confirmedSlippage: boolean;
+  isChainflip?: boolean;
 };
 
 export const ConfirmContent = memo(
@@ -42,6 +44,7 @@ export const ConfirmContent = memo(
     affiliateFee,
     feeAssets,
     swapMemo,
+    isChainflip,
   }: Props) => {
     const memoHex = useMemo(() => hexlify(toUtf8Bytes(swapMemo)), [swapMemo]);
 
@@ -224,7 +227,7 @@ export const ConfirmContent = memo(
             )}
           </Box>
 
-          {slipHigherThanTolerance && (
+          {slipHigherThanTolerance && !isChainflip && (
             <Checkbox
               className="pt-4 pb-2"
               label={
@@ -236,6 +239,8 @@ export const ConfirmContent = memo(
               value={confirmedSlippage}
             />
           )}
+
+          {isChainflip && <ChainflipSlippageConfirm onConfirmChange={setConfirmedSlippage} />}
         </Box>
       </>
     );

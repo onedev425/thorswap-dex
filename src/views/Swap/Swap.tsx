@@ -554,6 +554,7 @@ const SwapView = () => {
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
+            isChainflip={isChainflip}
           />
 
           <ApproveModal

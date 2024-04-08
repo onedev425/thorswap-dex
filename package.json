@@ -83,6 +83,7 @@
     "swiper": "8.4.5",
     "url": "0.11.3",
     "use-file-picker": "2.1.1",
+    "usehooks-ts": "3.1.0",
     "uuid": "9.0.1",
     "vite": "5.1.7"
   },
