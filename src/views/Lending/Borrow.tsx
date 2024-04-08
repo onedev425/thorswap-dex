@@ -3,7 +3,7 @@ import { AssetValue, SwapKitNumber } from '@swapkit/core';
 import classNames from 'classnames';
 import { Announcement } from 'components/Announcements/Announcement/Announcement';
 import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Card, Link } from 'components/Atomic';
+import { Box, Button, Card, Icon, Link, Switch, Tooltip } from 'components/Atomic';
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
@@ -23,6 +23,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { logException } from 'services/logger';
 import { ROUTES } from 'settings/router';
+import { useApp } from 'store/app/hooks';
 import { AnnouncementType } from 'store/externalConfig/types';
 import { useAppDispatch } from 'store/store';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
@@ -63,6 +64,8 @@ const Borrow = () => {
   const { isChainHalted } = useMimir();
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { getWalletAddress } = useWallet();
+
+  const { customRecipientMode, setCustomRecipientMode } = useApp();
 
   const { isLendingPaused } = useMimir();
 
@@ -422,13 +425,37 @@ const Borrow = () => {
                       </Button>
                     ))}
                   </Box>
+
+                  <>
+                    <Box>
+                      <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
+                    </Box>
+
+                    <Box alignCenter justify="between">
+                      <Box alignCenter className="space-x-2">
+                        <Text textStyle="caption-xs" variant="secondary">
+                          {t('views.setting.customRecipientMode')}
+                        </Text>
+                        <Tooltip content={t('common.customRecipientTooltip')} place="top">
+                          <Icon color="secondary" name="questionCircle" size={16} />
+                        </Tooltip>
+                      </Box>
+
+                      <Switch
+                        checked={customRecipientMode}
+                        onChange={() => setCustomRecipientMode(!customRecipientMode)}
+                        selectedText="ON"
+                        unselectedText="OFF"
+                      />
+                    </Box>
+                  </>
                 </GlobalSettingsPopover>
               </Flex>
 
               <Box row className="justify-center gap-5">
                 <Box col className={classNames('flex h-full')}>
                   <Card
-                    className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto max-w-[440px]"
+                    className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto max-w-[480px]"
                     size="lg"
                   >
                     <Flex direction="column" gap={2}>
