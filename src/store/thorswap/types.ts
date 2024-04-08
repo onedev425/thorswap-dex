@@ -223,6 +223,10 @@ export type GetTokensQuoteResponse = {
         swapMs: number;
         outboundMs: number;
         streamingMs: number;
+        inbound?: number;
+        swap?: number;
+        outbound?: number;
+        streaming?: number;
       };
     },
   ];

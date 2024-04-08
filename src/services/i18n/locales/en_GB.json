@@ -455,6 +455,7 @@
     },
     "txDetails": "Transaction Details",
     "txDuration": "Transaction duration",
+    "estimatedTxDuration": "Estimated transaction duration",
     "txEstimatedTimeLeft": "Estimated time left",
     "txEstimating": "Estimating...",
     "txFinishing": "Finishing...",

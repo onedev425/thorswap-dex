@@ -5,6 +5,7 @@ import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
+import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { tokenLogoURL } from 'helpers/logoURL';
@@ -36,6 +37,7 @@ export const SwapRoute = memo(
     selected,
     fees,
     streamSwap,
+    timeEstimates,
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
@@ -117,10 +119,15 @@ export const SwapRoute = memo(
           </Box>
         </Box>
 
-        <Box className="px-1 pt-0.5">
+        <Box className="pl-1 pt-0.5" justify="between">
           <Text className="!text-[9px]" textStyle="caption-xs" variant="secondary">
             {shortPath}
           </Text>
+
+          <RouteTimeEstimate
+            streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+            timeEstimates={timeEstimates}
+          />
         </Box>
       </HighlightCard>
     );

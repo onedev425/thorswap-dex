@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
+import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import React, { memo, useCallback, useMemo, useState } from 'react';
@@ -35,6 +36,7 @@ export const SelectedRoute = memo(
     assetTicker,
     fees,
     streamSwap,
+    timeEstimates,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const formatPrice = useFormatPrice();
@@ -114,7 +116,7 @@ export const SelectedRoute = memo(
             </Box>
           </Box>
 
-          <Box>
+          <Box justify="between">
             <Button
               className="h-6 px-3 w-fit"
               onClick={openSwapGraph}
@@ -125,6 +127,13 @@ export const SelectedRoute = memo(
                 {t('common.path')}: {shortPath}
               </Text>
             </Button>
+
+            <Box className="mr-2">
+              <RouteTimeEstimate
+                streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+                timeEstimates={timeEstimates}
+              />
+            </Box>
           </Box>
         </Box>
         {swaps && (

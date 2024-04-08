@@ -6,35 +6,43 @@ import type { StreamSwapParams } from 'views/Swap/hooks/useSwapParams';
 const MAX_TIME = 24 * 60 * 60 * 1000;
 
 type Props = {
-  streamingSwapParams: null | StreamSwapParams;
-  route: RouteWithApproveType | undefined;
+  timeEstimates: RouteWithApproveType['timeEstimates'] | undefined;
   streamSwap: boolean;
-  useMaxTime: boolean;
+  streamingSwapParams?: null | StreamSwapParams;
+  useMaxTime?: boolean;
 };
 
 export const useSwapTimeEstimate = ({
   streamingSwapParams,
-  route,
+  timeEstimates,
   streamSwap,
   useMaxTime,
 }: Props) => {
   const time = useMemo(() => {
-    if (!route) return null;
-
-    const { timeEstimates } = route;
     if (!timeEstimates) return null;
 
-    const { inboundMs, swapMs, outboundMs, streamingMs: stremingFromRoute } = timeEstimates;
+    // propMs - v1 quote (in miliseconds)
+    // prop - v2 quote (in seconds)
+    const inboundMs = timeEstimates.inbound
+      ? timeEstimates.inbound * 1000
+      : timeEstimates.inboundMs;
+    const swapMs = timeEstimates.swap ? timeEstimates.swap * 1000 : timeEstimates.swapMs;
+    const outboundMs = timeEstimates.outbound
+      ? timeEstimates.outbound * 1000
+      : timeEstimates.outboundMs;
+    const streamingFromRoute = timeEstimates.streaming
+      ? timeEstimates.streaming * 1000
+      : timeEstimates.streamingMs;
 
     const streaming = streamingSwapParams
       ? streamingSwapParams.interval * streamingSwapParams.subswaps * 6000
-      : stremingFromRoute;
+      : streamingFromRoute;
 
     const timeNotStreaming = inboundMs + swapMs + outboundMs;
-    const timeStreaming = swapMs + inboundMs + Math.max(streaming, outboundMs);
+    const timeStreaming = inboundMs + swapMs + Math.max(streaming, outboundMs);
 
     return streamSwap ? timeStreaming : timeNotStreaming;
-  }, [streamingSwapParams, route, streamSwap]);
+  }, [streamingSwapParams, timeEstimates, streamSwap]);
 
   return useMaxTime ? MAX_TIME : time;
 };

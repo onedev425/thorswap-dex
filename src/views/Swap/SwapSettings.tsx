@@ -81,7 +81,7 @@ export const SwapSettings = ({
   const [manualSlippagePercent, setManualSlippagePercent] = useState<number | null>(null);
   const estimatedTime = useSwapTimeEstimate({
     streamingSwapParams,
-    route,
+    timeEstimates: route?.timeEstimates,
     streamSwap,
     useMaxTime: value === 100,
   });
