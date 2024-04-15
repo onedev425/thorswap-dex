@@ -235,7 +235,7 @@ const ConnectWalletModal = () => {
   }, [selectedChains]);
 
   const handleCustomPathSet = useCallback(async () => {
-    const { getDerivationPathFor } = await import('@swapkit/wallet-ledger');
+    const { getDerivationPathFor } = await import('@swapkit/core');
 
     const derivationPath = getDerivationPathFor({
       chain: selectedChains[0] || Chain.Ethereum,
@@ -243,7 +243,7 @@ const ConnectWalletModal = () => {
       type: derivationPathType,
     }) as DerivationPathArray;
 
-    setCustomDerivationPath(`m/${derivationPathToString(derivationPath)}`);
+    setCustomDerivationPath(derivationPathToString(derivationPath));
   }, [derivationPathType, ledgerIndex, selectedChains]);
 
   useEffect(() => {

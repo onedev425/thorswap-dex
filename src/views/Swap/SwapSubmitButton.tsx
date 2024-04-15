@@ -3,7 +3,6 @@ import { Chain } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { logException } from 'services/logger';
@@ -60,10 +59,6 @@ export const SwapSubmitButton = ({
     [getWallet, inputAsset.chain],
   );
 
-  const { isExchangeBNBAddress } = useCheckExchangeBNB(
-    outputAsset.chain === Chain.Binance ? recipient : null,
-  );
-
   const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
@@ -83,8 +78,6 @@ export const SwapSubmitButton = ({
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     } else if (!hasQuote) {
       showInfoToast(t('notification.noValidQuote'));
-    } else if (isExchangeBNBAddress) {
-      showErrorToast(t('notification.exchangeBNBAddy'), t('notification.exchangeBNBAddyDesc'));
     } else if (!(await isValidAddress())) {
       showErrorToast(
         t('notification.invalidRecipientAddy'),
@@ -93,7 +86,7 @@ export const SwapSubmitButton = ({
     } else {
       setVisibleConfirmModal(true);
     }
-  }, [walletConnected, hasQuote, isExchangeBNBAddress, isValidAddress, setVisibleConfirmModal]);
+  }, [walletConnected, hasQuote, isValidAddress, setVisibleConfirmModal]);
 
   const handleApprove = useCallback(() => {
     if (isInputWalletConnected) {

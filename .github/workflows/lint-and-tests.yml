@@ -15,13 +15,13 @@ jobs:
   tests_and_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
 
       - name: Lint
         run: |
-          yarn lint
-          yarn typescript
+          bun lint
+          bun typescript
 
       # - name: Tests
-      #   run: yarn test:ci
+      #   run: bun test:ci

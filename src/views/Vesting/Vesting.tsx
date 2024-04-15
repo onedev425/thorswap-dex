@@ -1,11 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import {
-  BaseDecimal,
-  Chain,
-  type ChainWallet,
-  SwapKitNumber,
-  TransactionType,
-} from '@swapkit/core';
+import { BaseDecimal, Chain, SwapKitNumber, TransactionType } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { InfoRow } from 'components/InfoRow';
@@ -61,16 +55,14 @@ const Vesting = () => {
         cliff,
         initialRelease,
       ] =
-        (await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+        (await getWallet(Chain.Ethereum)?.call({
           ...callParams,
           abi,
           contractAddress: address,
           funcName: 'vestingSchedule',
-        })) || ([] as any);
+        })) || ([] as Todo);
 
-      const claimableAmount = (await (
-        getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>
-      )?.call({
+      const claimableAmount = (await getWallet(Chain.Ethereum)?.call({
         ...callParams,
         abi,
         contractAddress: address,

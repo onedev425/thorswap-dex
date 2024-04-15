@@ -1,6 +1,5 @@
-import type { DerivationPathArray, EVMWalletOptions } from '@swapkit/core';
-import { Chain, WalletOption } from '@swapkit/core';
-import { getETHDefaultWallet, isDetected } from '@swapkit/toolbox-evm';
+import type { DerivationPathArray, EVMChain } from '@swapkit/core';
+import { Chain, getETHDefaultWallet, isDetected, WalletOption } from '@swapkit/core';
 import type { IconName } from 'components/Atomic';
 import { showErrorToast } from 'components/Toast';
 import { useConnectWallet } from 'context/wallet/hooks';
@@ -42,7 +41,6 @@ export const isMobile = /iphone|ipad|ipod|ios|android|XiaoMi|MiuiBrowser/i.test(
   navigator.userAgent,
 );
 
-// @ts-expect-error
 export const okxWalletDetected = window.okxwallet || /OKApp/i.test(navigator.userAgent);
 
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
@@ -88,17 +86,23 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                   })
                 : '',
           },
+          //   {
+          //     disabled: !isDetected(WalletOption.COINBASE_WEB),
+          //     icon: 'coinbaseWallet' as IconName,
+          //     type: WalletType.CoinbaseExtension,
+          //     visible: isMdActive || isIframe(),
+          //     label: t('views.walletModal.coinbaseWalletWeb'),
+          //     tooltip: isDetected(WalletOption.BRAVE)
+          //       ? t('views.walletModal.disableDefaultWallet', {
+          //           wallet: WalletNameByWalletOption[getETHDefaultWallet()],
+          //         })
+          //       : '',
+          //   },
           {
-            disabled: !isDetected(WalletOption.COINBASE_WEB),
             icon: 'coinbaseWallet' as IconName,
-            type: WalletType.CoinbaseExtension,
+            type: WalletType.CoinbaseMobile,
             visible: isMdActive || isIframe(),
-            label: t('views.walletModal.coinbaseWalletWeb'),
-            tooltip: isDetected(WalletOption.BRAVE)
-              ? t('views.walletModal.disableDefaultWallet', {
-                  wallet: WalletNameByWalletOption[getETHDefaultWallet()],
-                })
-              : '',
+            label: t('views.walletModal.coinbaseWalletApp'),
           },
           {
             icon: 'xdefi',
@@ -126,7 +130,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             icon: 'okx' as IconName,
             type: isMobile ? WalletType.OkxMobile : WalletType.Okx,
             label: t('views.walletModal.okxWallet'),
-            // @ts-expect-error
             tooltip: window.okxwallet ? '' : t('views.walletModal.installOkxWallet'),
           },
           {
@@ -187,11 +190,12 @@ export const useHandleWalletConnect = ({
     connectEVMWalletExtension,
     connectXdefiWallet,
     connectOkx,
+    connectCoinbaseMobile,
   } = useConnectWallet();
 
   const handleConnectWallet = useCallback(
     async (params?: HandleWalletConnectParams) => {
-      const { getDerivationPathFor } = await import('@swapkit/wallet-ledger');
+      const { getDerivationPathFor } = await import('@swapkit/core');
 
       const selectedChains = params?.chains || chains;
       const selectedWalletType = params?.walletType || walletType;
@@ -233,14 +237,17 @@ export const useHandleWalletConnect = ({
           case WalletType.Keepkey:
             return connectKeepkey(selectedChains);
 
+          case WalletType.CoinbaseMobile:
+            return connectCoinbaseMobile(selectedChains as EVMChain[]);
+
           case WalletType.Brave:
           case WalletType.MetaMask:
           case WalletType.TrustWalletExtension:
           case WalletType.OkxMobile:
           case WalletType.CoinbaseExtension:
             return connectEVMWalletExtension(
-              selectedChains,
-              WalletOptionByWalletType[selectedWalletType] as EVMWalletOptions,
+              selectedChains as EVMChain[],
+              WalletOptionByWalletType[selectedWalletType],
             );
 
           case WalletType.Rainbow:
@@ -265,6 +272,7 @@ export const useHandleWalletConnect = ({
     [
       chains,
       connectEVMWalletExtension,
+      connectCoinbaseMobile,
       connectKeplr,
       connectKeepkey,
       connectLedger,
@@ -279,7 +287,7 @@ export const useHandleWalletConnect = ({
   );
 
   const addReconnectionOnAccountsChanged = useCallback(async () => {
-    const { addAccountsChangedCallback } = await import('@swapkit/toolbox-evm');
+    const { addAccountsChangedCallback } = await import('@swapkit/core');
     addAccountsChangedCallback(() => {
       handleConnectWallet();
     });
@@ -297,6 +305,7 @@ type HandleWalletTypeSelectParams = {
 const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.Brave]: WalletOption.BRAVE,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
+  [WalletType.CoinbaseMobile]: WalletOption.COINBASE_MOBILE,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
   [WalletType.Keplr]: WalletOption.KEPLR,
   [WalletType.Keepkey]: WalletOption.KEEPKEY,
@@ -320,7 +329,7 @@ export const useHandleWalletTypeSelect = ({
   selectedChains,
 }: HandleWalletTypeSelectParams) => {
   const handleEVMWallet = useCallback(async (walletType: WalletType) => {
-    const { isDetected } = await import('@swapkit/toolbox-evm');
+    const { isDetected } = await import('@swapkit/core');
     if (isDetected(WalletTypeToOption[walletType])) return true;
 
     switch (walletType) {
@@ -340,7 +349,6 @@ export const useHandleWalletTypeSelect = ({
   }, []);
 
   const handleWindowWallet = useCallback(async (windowPath: 'keplr' | 'okxwallet') => {
-    // @ts-expect-error windowPath is a string
     if (window[windowPath]) return true;
 
     switch (windowPath) {
@@ -383,6 +391,7 @@ export const useHandleWalletTypeSelect = ({
         case WalletType.Trezor:
         case WalletType.TrustWalletExtension:
         case WalletType.CoinbaseExtension:
+        case WalletType.CoinbaseMobile:
         case WalletType.MetaMask: {
           return [selectedChains[0] || Chain.Ethereum];
         }

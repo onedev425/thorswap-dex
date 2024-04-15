@@ -5,9 +5,10 @@ import type { GetProviderTokensParams } from 'store/thorswap/types';
 /**
  * This is not proper way of having 2 urls but API can't make it one endpoint under different base urls
  */
+// TODO change this once, api v2 prod is ready to serve maya lists
 const baseUrl = IS_DEV_API
   ? 'https://static-tokenlist-dev.thorswap.net'
-  : 'https://static.thorswap.net/token-list';
+  : 'https://dev-api.swapkit.dev/tokens';
 
 export const staticApi = createApi({
   reducerPath: 'static',
@@ -19,7 +20,7 @@ export const staticApi = createApi({
   }),
   endpoints: (build) => ({
     getTokenList: build.query<GetProviderTokensParams, string>({
-      query: (name) => `${baseUrl}/${name}.json`,
+      query: (name) => `${baseUrl}?provider=${name}`,
     }),
   }),
 });

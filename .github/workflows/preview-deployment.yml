@@ -22,13 +22,12 @@ jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
       - name: Decrypt Secrets
         shell: bash
         run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./.env ./.env.gpg
 
-        # Feature envs
-        # GIT_VITE_ETHPLORER_API_KEY: feature/foo
       - name: Get Branch Name
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
@@ -70,14 +69,14 @@ jobs:
           npm install --global vercel@latest
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
 
           if [[ ${{ steps.extract_branch.outputs.branch }} == "develop" ]]; then
             echo "color=0x4DBAD6" >> "$GITHUB_OUTPUT"
             echo "vercel_url=https://beta.thorswap.finance" >> "$GITHUB_OUTPUT"
           else
             echo "color=0xFFB359" >> "$GITHUB_OUTPUT"
-            echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
+            echo "vercel_url=$(cat deployment-url.txt)" >> "$GITHUB_OUTPUT"
           fi
 
 

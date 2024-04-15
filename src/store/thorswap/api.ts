@@ -32,7 +32,9 @@ const baseUrl = IS_STAGENET
     ? 'https://dev-api.thorswap.net'
     : 'https://api.thorswap.net';
 
-export const apiV2BaseUrl = IS_DEV_API ? 'https://dev-api.swapkit.dev' : 'https://api.swapkit.dev';
+export const apiV2BaseUrl = IS_DEV_API
+  ? 'https://dev-api.swapkit.dev'
+  : 'https://dev-api.swapkit.dev';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',
@@ -96,7 +98,7 @@ export const thorswapApi = createApi({
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
             affiliateFee: parseInt(affiliateBasisPoints || '0'),
-            providers: ['CHAINFLIP'],
+            providers: ['CHAINFLIP', 'MAYACHAIN'],
           }),
           url: `${apiV2BaseUrl}/quote`,
           headers: { 'Content-Type': 'application/json' },
@@ -122,7 +124,11 @@ export const thorswapApi = createApi({
     }),
 
     getProviders: build.query<GetProvidersResponse, void>({
-      query: () => '/tokenlist/providers',
+      query: () => {
+        return {
+          url: `${apiV2BaseUrl}/providers`,
+        };
+      },
     }),
 
     getAirdropVerify: build.query<any, any>({

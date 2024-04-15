@@ -151,10 +151,10 @@ export const StakingCard = ({
           }),
         }).then((res) => res.json());
 
-        const reserveUSD = parseFloat(pair.reserveUSD);
-        const totalSupply = parseFloat(pair.totalSupply);
+        const reserveUSD = Number.parseFloat(pair.reserveUSD);
+        const totalSupply = Number.parseFloat(pair.totalSupply);
         const lpUnitPrice = reserveUSD / totalSupply;
-        const thorReserve = parseFloat(pair.reserve0);
+        const thorReserve = Number.parseFloat(pair.reserve0);
         const thorPrice = reserveUSD / 2 / thorReserve;
 
         const stakedLpSupply = await getLpTokenBalance(lpContractType);
@@ -192,7 +192,13 @@ export const StakingCard = ({
       const label = `${t(`common.${txType}`)} ${tokenAmount.toSignificant(6)} ${lpAsset.ticker}`;
 
       appDispatch(
-        addTransaction({ id, from: ethAddr, inChain: Chain.Ethereum, type: txType, label }),
+        addTransaction({
+          id,
+          from: ethAddr,
+          inChain: Chain.Ethereum,
+          type: txType,
+          label,
+        }),
       );
 
       const params =
@@ -229,8 +235,9 @@ export const StakingCard = ({
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) => {
         setUrls({
-          stakeAddrUrl: getExplorerAddressUrl(Chain.Ethereum, stakeAddr) || '',
-          stakingTokenUrl: getExplorerAddressUrl(Chain.Ethereum, stakingToken) || '',
+          stakeAddrUrl: getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakeAddr }) || '',
+          stakingTokenUrl:
+            getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakingToken }) || '',
         });
       });
   }, [getAPRRate, stakeAddr, stakingToken]);

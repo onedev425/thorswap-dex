@@ -253,7 +253,7 @@ const Borrow = () => {
     [recipient, isLendingPaused, amount, collateralAsset.chain, collateralBalance, isChainHalted],
   );
 
-  const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('pcommon.repay');
+  const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('common.repay');
   const selectedCollateralAsset = useMemo(
     () => ({
       asset: collateralAsset,

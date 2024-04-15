@@ -19,7 +19,7 @@ import {
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
-const ConditionalWrapper = ({ children, condition }: { children: ToDo; condition: boolean }) =>
+const ConditionalWrapper = ({ children, condition }: { children: Todo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (
     <Tooltip className="mb-5" content={t('components.assetSelect.ledgerLiveSwitchNotSupported')}>
       {children}

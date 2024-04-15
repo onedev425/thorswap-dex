@@ -107,12 +107,14 @@ const SwapView = () => {
   const [inputToken, outputToken] = useMemo(
     () => [
       tokens.find(
-        ({ identifier }) =>
-          identifier.toUpperCase() === `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
+        ({ chain, ticker, address }) =>
+          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
       ),
       tokens.find(
-        ({ identifier }) =>
-          identifier.toUpperCase() === `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
+        ({ chain, ticker, address }) =>
+          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
     [inputAsset.chain, inputAsset.symbol, outputAsset.chain, outputAsset.symbol, tokens],
@@ -545,6 +547,7 @@ const SwapView = () => {
             feeAssets={feeAssets}
             handleSwap={handleSwap}
             inputAssetProps={inputAssetProps}
+            isChainflip={isChainflip}
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}
@@ -554,7 +557,6 @@ const SwapView = () => {
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
-            isChainflip={isChainflip}
           />
 
           <ApproveModal

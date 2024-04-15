@@ -1101,6 +1101,7 @@
       "braveWallet": "Brave Wallet",
       "chooseKeystore": "Choose file to upload",
       "coinbaseWalletWeb": "Coinbase Wallet",
+      "coinbaseWalletApp": "Coinbase Wallet",
       "confirmPassword": "Confirm Password",
       "bscTooltip": "Binance Smart Chain temporarily disabled",
       "connectOnboard": "Ethereum Wallets",

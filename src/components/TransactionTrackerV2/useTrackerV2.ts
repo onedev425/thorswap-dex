@@ -26,8 +26,7 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
   const { onCompleteTransaction } = useCompleteTransaction(tx);
   const sellAsset = sellAssetString ? AssetValue.fromStringSync(sellAssetString) : null;
 
-  const chainId = sellAsset?.chainId();
-
+  const chainId = sellAsset?.chainId;
   const skipFetchingDetails = completed || !canFetchDetails || !chainId;
 
   const txnPayload: TrackerPayload | null =
@@ -108,11 +107,7 @@ function mapToV1TrackerDetails(
     firstTransactionHash: payload.hash,
     currentLegIndex: 0,
     legs: payload.legs.map(
-      (leg) =>
-        ({
-          ...leg,
-          status: mapTxStatusToV1Status(leg.trackingStatus),
-        }) as any,
+      (leg) => ({ ...leg, status: mapTxStatusToV1Status(leg.trackingStatus) }) as Todo,
     ),
     status: mapTxStatusToV1Status(payload.trackingStatus),
     startTimestamp: null,

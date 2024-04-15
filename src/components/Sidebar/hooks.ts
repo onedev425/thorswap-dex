@@ -1,4 +1,3 @@
-import type { ChainWallet } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import type { SidebarItemProps } from 'components/Sidebar/types';
 import { SidebarWidgetOption } from 'components/Sidebar/types';
@@ -35,13 +34,13 @@ export const useSidebarOptions = () => {
     };
 
     try {
-      const thorAmount = await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+      const thorAmount = await getWallet(Chain.Ethereum)?.call({
         ...callParams,
         abi: contractConfig.vesting.abi,
         contractAddress: contractConfig.vesting.address,
       });
 
-      const vthorAmount = await (getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>)?.call({
+      const vthorAmount = await getWallet(Chain.Ethereum)?.call({
         ...callParams,
         abi: contractConfig.vthor_vesting.abi,
         contractAddress: contractConfig.vthor_vesting.address,
@@ -70,8 +69,18 @@ export const useSidebarOptions = () => {
       iconName: 'wallet',
       label: t('appMenu.thorSafe'),
       children: [
-        { beta: true, iconName: 'wallet', href: ROUTES.Multisig, label: t('appMenu.multisig') },
-        { beta: true, iconName: 'send', href: ROUTES.TxBuilder, label: t('appMenu.transaction') },
+        {
+          beta: true,
+          iconName: 'wallet',
+          href: ROUTES.Multisig,
+          label: t('appMenu.multisig'),
+        },
+        {
+          beta: true,
+          iconName: 'send',
+          href: ROUTES.TxBuilder,
+          label: t('appMenu.transaction'),
+        },
       ],
     };
   }, []);
@@ -92,7 +101,11 @@ export const useSidebarOptions = () => {
       iconName: 'tradeLightning',
       label: t('components.sidebar.thor'),
       children: [
-        { iconName: 'vthor', href: ROUTES.Stake, label: t('components.sidebar.staking') },
+        {
+          iconName: 'vthor',
+          href: ROUTES.Stake,
+          label: t('components.sidebar.staking'),
+        },
         ...vestingItems,
       ],
       widgets: [SidebarWidgetOption.ThorBurn],
@@ -104,8 +117,16 @@ export const useSidebarOptions = () => {
     label: ' ',
     hasBackground: true,
     children: [
-      { iconName: 'swap', href: ROUTES.Swap, label: t('components.sidebar.swap') },
-      { iconName: 'piggyBank', href: ROUTES.Earn, label: t('components.sidebar.earn') },
+      {
+        iconName: 'swap',
+        href: ROUTES.Swap,
+        label: t('components.sidebar.swap'),
+      },
+      {
+        iconName: 'piggyBank',
+        href: ROUTES.Earn,
+        label: t('components.sidebar.earn'),
+      },
       {
         iconName: 'lending',
         href: ROUTES.Lending,
@@ -117,9 +138,22 @@ export const useSidebarOptions = () => {
 
   const sidebarOptions = useMemo(() => {
     const walletItems: SidebarItemProps[] = [
-      { iconName: 'wallet', href: ROUTES.Wallet, label: t('components.sidebar.wallet') },
-      { iconName: 'send', href: ROUTES.Send, label: t('components.sidebar.send') },
-      { transform: 'none', iconName: 'thor', href: ROUTES.Thorname, label: 'THORName' },
+      {
+        iconName: 'wallet',
+        href: ROUTES.Wallet,
+        label: t('components.sidebar.wallet'),
+      },
+      {
+        iconName: 'send',
+        href: ROUTES.Send,
+        label: t('components.sidebar.send'),
+      },
+      {
+        transform: 'none',
+        iconName: 'thor',
+        href: ROUTES.Thorname,
+        label: 'THORName',
+      },
     ];
 
     const menu: SidebarItemProps[] = [
@@ -132,15 +166,27 @@ export const useSidebarOptions = () => {
             href: ROUTES.AddLiquidity,
             label: t('components.sidebar.addLiquidity'),
           },
-          { iconName: 'sputnik', href: ROUTES.Liquidity, label: t('components.sidebar.liquidity') },
+          {
+            iconName: 'sputnik',
+            href: ROUTES.Liquidity,
+            label: t('components.sidebar.liquidity'),
+          },
         ],
       },
-      { iconName: 'wallet', label: t('components.sidebar.wallet'), children: walletItems },
+      {
+        iconName: 'wallet',
+        label: t('components.sidebar.wallet'),
+        children: walletItems,
+      },
       {
         iconName: 'settings',
         label: t('components.sidebar.stats'),
         children: [
-          { iconName: 'app', href: ROUTES.Home, label: t('components.sidebar.dashboard') },
+          {
+            iconName: 'app',
+            href: ROUTES.Home,
+            label: t('components.sidebar.dashboard'),
+          },
           {
             transform: 'none',
             label: t('components.sidebar.stats'),
@@ -149,7 +195,12 @@ export const useSidebarOptions = () => {
             rightIconName: 'external',
             href: THORYIELD_STATS_ROUTE,
           },
-          { iconName: 'cloud', href: ROUTES.Nodes, transform: 'none', label: 'THORNode' },
+          {
+            iconName: 'cloud',
+            href: ROUTES.Nodes,
+            transform: 'none',
+            label: 'THORNode',
+          },
         ],
       },
     ];

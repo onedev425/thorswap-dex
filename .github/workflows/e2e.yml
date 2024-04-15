@@ -16,4 +16,4 @@ jobs:
       - uses: ./.github/actions/setup-repo
 
       - name: E2E Tests
-        run: yarn e2e
+        run: bun e2e

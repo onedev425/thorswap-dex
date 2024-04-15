@@ -11,9 +11,7 @@ type Props = {
 
 export const AddVThorMM = memo(({ walletType }: Props) => {
   const addVTHOR = useCallback(async () => {
-    const provider =
-      // @ts-expect-error window types
-      walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
+    const provider = walletType === WalletOption.XDEFI ? window.xfi?.ethereum : window.ethereum;
 
     await provider?.request({
       method: 'wallet_watchAsset',

@@ -14,7 +14,6 @@ import {
 import { useTokenPrices } from 'hooks/useTokenPrices';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import type { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
 import type { SaverPosition } from 'views/Earn/types';
 import { ShareChartIndex } from 'views/Home/types';
 
@@ -48,7 +47,7 @@ export const DoughnutChart = ({
   selectedIndex,
   title,
 }: Props) => {
-  const chartRef = useRef<ChartJSOrUndefined<'doughnut', any, any>>(null);
+  const chartRef = useRef<Todo>(null);
   const [chartHovered, setChartHovered] = useState<number | null>(null);
   const assets = useMemo(() => data.map(({ asset }) => asset), [data]);
   const { data: tokenPricesData } = useTokenPrices(assets);

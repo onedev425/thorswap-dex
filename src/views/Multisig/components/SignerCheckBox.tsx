@@ -1,6 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { encodeSecp256k1Pubkey, pubkeyToAddress } from '@cosmjs/amino';
-import { base64 } from '@swapkit/toolbox-cosmos';
 import classNames from 'classnames';
 import { Box, Icon } from 'components/Atomic';
 import {
@@ -8,6 +6,8 @@ import {
   borderHoverHighlightClass,
   genericBgClasses,
 } from 'components/constants';
+import { useEffect, useState } from 'react';
+import { getThorchainToolbox } from 'services/multisig';
 import type { MultisigMember } from 'store/multisig/types';
 
 type Props = {
@@ -17,6 +17,19 @@ type Props = {
 };
 
 export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
+  const [pubKey, setPubKey] = useState('');
+
+  useEffect(() => {
+    const getPubKey = async () => {
+      const { encodeSecp256k1Pubkey } = await import('@cosmjs/amino');
+      const { base64 } = await import('@scure/base');
+      const toolbox = await getThorchainToolbox();
+      return toolbox.pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), 'thor');
+    };
+
+    getPubKey().then(setPubKey);
+  }, [signer.pubKey]);
+
   return (
     <Box
       center
@@ -46,7 +59,7 @@ export const SignerCheckBox = ({ signer, onClick, isSelected }: Props) => {
             <Text textStyle="caption-xs" variant="secondary">
               {signer.name}
               <br />
-              {pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), 'thor')}
+              {pubKey}
             </Text>
           </div>
           <Text className="break-all whitespace-normal" textStyle="caption-xs">

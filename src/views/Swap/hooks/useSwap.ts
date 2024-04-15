@@ -1,5 +1,5 @@
 import type { QuoteRoute } from '@swapkit/api';
-import { type AssetValue } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
 import { QuoteMode } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
@@ -15,7 +15,6 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
-import { apiV2BaseUrl } from 'store/thorswap/api';
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -67,11 +66,11 @@ export const useSwap = ({
       if (route) {
         if (!from) throw new Error('No address found');
 
-        const label = `${inputAsset.toSignificant(6)} ${inputAsset.isSynthetic ? 'Synth ' : ''}${
-          inputAsset.ticker
-        } → ${outputAsset.toSignificant(6)} ${outputAsset.isSynthetic ? 'Synth ' : ''}${
-          outputAsset.ticker
-        }`;
+        const label = `${inputAsset.toSignificant(6)} ${
+          inputAsset.isSynthetic ? 'Synth ' : ''
+        }${inputAsset.ticker} → ${outputAsset.toSignificant(6)} ${
+          outputAsset.isSynthetic ? 'Synth ' : ''
+        }${outputAsset.ticker}`;
 
         const initLabel = isChainflip ? t('txManager.preparingTransaction') : label;
 
@@ -79,7 +78,10 @@ export const useSwap = ({
           await import('services/swapKit')
         ).getSwapKitClient();
 
-        const validAddress = validateAddress({ chain: outputAsset.chain, address: recipient });
+        const validAddress = validateAddress({
+          chain: outputAsset.chain,
+          address: recipient,
+        });
         if (typeof validAddress === 'boolean' && !validAddress) {
           throw new Error('Invalid recipient address');
         }
@@ -105,17 +107,13 @@ export const useSwap = ({
         );
 
         try {
+          debugger;
           const txid = await swapMethod({
-            provider: {
-              // @ts-expect-error
-              name: route.providers[0].toLowerCase(),
-              config: {
-                brokerEndpoint: `${apiV2BaseUrl}/channel`,
-              },
-            },
+            pluginName: route.providers[0].toLowerCase() as 'thorchain' | 'chainflip',
             feeOptionKey,
             recipient,
             route,
+            // @ts-expect-error TODO support stream swap with apiv2
             streamSwap,
             wallet,
           });

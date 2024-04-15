@@ -3,6 +3,7 @@ import { Chain, WalletOption } from '@swapkit/core';
 export enum WalletType {
   Brave = 'Brave',
   CoinbaseExtension = 'CoinbaseExtension',
+  CoinbaseMobile = 'CoinbaseMobile',
   CreateKeystore = 'CreateKeystore',
   Keplr = 'Keplr',
   Keystore = 'Keystore',
@@ -23,6 +24,7 @@ export enum WalletType {
 export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.Brave]: 'Brave',
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
+  [WalletType.CoinbaseMobile]: 'Coinbase Wallet',
   [WalletType.CreateKeystore]: 'Create Keystore',
   [WalletType.Keepkey]: 'Keepkey',
   [WalletType.Keplr]: 'Keplr',
@@ -43,6 +45,7 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
 export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.Brave]: WalletOption.BRAVE,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
+  [WalletType.CoinbaseMobile]: WalletOption.COINBASE_MOBILE,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
   [WalletType.Keepkey]: WalletOption.KEEPKEY,
   [WalletType.Keplr]: WalletOption.KEPLR,
@@ -63,6 +66,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
 export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.BRAVE]: WalletType.Brave,
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
+  [WalletOption.COINBASE_MOBILE]: 'Coinbase Wallet App',
   [WalletOption.KEEPKEY]: WalletType.Keepkey,
   [WalletOption.KEPLR]: WalletType.Keplr,
   [WalletOption.KEYSTORE]: WalletType.Keystore,
@@ -89,10 +93,18 @@ const AllChainsSupported = [
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
+  [WalletType.CoinbaseMobile]: EVMChainsSupported,
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keepkey]: AllChainsSupported,
   [WalletType.Keplr]: [Chain.Cosmos],
-  [WalletType.Keystore]: [...AllChainsSupported, Chain.Polkadot],
+  [WalletType.Keystore]: [
+    ...AllChainsSupported,
+    Chain.Polkadot,
+    Chain.Maya,
+    Chain.Dash,
+    Chain.Kujira,
+    Chain.Arbitrum,
+  ],
   [WalletType.Ledger]: AllChainsSupported,
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,

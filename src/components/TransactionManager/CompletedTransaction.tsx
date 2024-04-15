@@ -32,7 +32,7 @@ export const CompletedTransaction = memo(
       const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
+        return tx && getExplorerTxUrl({ chain, txHash: cutTxPrefix(tx) });
       } catch (error: NotWorth) {
         logException(new Error(`Failed to get explorer tx url for chain: ${chain}`));
         return '';

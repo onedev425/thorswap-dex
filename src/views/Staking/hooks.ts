@@ -212,7 +212,7 @@ export const useVthorUtil = () => {
 
       if (!ethAddr) throw new Error('No ETH address');
 
-      let hash;
+      let hash: string;
       try {
         // TODO(@Chillios): rewrite to call from swapkit
         hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
@@ -254,7 +254,7 @@ export const useVthorUtil = () => {
         }),
       );
 
-      let hash;
+      let hash: string;
       try {
         hash = (await triggerContractCall(ContractType.VTHOR, 'redeem', [
           unstakeAmount.getBaseValue('bigint'),

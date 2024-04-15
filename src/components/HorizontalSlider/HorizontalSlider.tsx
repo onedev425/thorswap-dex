@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Box, Button, Icon } from 'components/Atomic';
 import type { PropsWithChildren } from 'react';
 import { Children, useCallback, useEffect, useState } from 'react';
+// @ts-expect-error
 import SwiperCore, { Mousewheel, Navigation } from 'swiper';
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058

@@ -140,12 +140,14 @@ const Send = () => {
 
     if (!wallet) return assets;
 
-    Object.keys(wallet).forEach((chain) => {
+    for (const chain of Object.keys(wallet)) {
       const chainWallet = wallet[chain as keyof typeof wallet];
-      chainWallet?.balance.forEach((data) => {
-        assets.push(data);
-      });
-    });
+      if (chainWallet?.balance) {
+        for (const data of chainWallet.balance) {
+          assets.push(data);
+        }
+      }
+    }
 
     return assets;
   }, [wallet]);
@@ -224,9 +226,12 @@ const Send = () => {
   const assetInput = useMemo(
     () => ({
       asset: sendAsset,
-      value: new SwapKitNumber({ value: sendAmount, decimal: sendAsset.decimal }),
+      value: new SwapKitNumber({
+        value: sendAmount,
+        decimal: sendAsset.decimal,
+      }),
       balance: isWalletConnected ? maxSpendableBalance : undefined,
-      usdPrice: parseFloat(sendAmount) * inputAssetUSDPrice,
+      usdPrice: Number.parseFloat(sendAmount) * inputAssetUSDPrice,
     }),
     [inputAssetUSDPrice, isWalletConnected, maxSpendableBalance, sendAmount, sendAsset],
   );

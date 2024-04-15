@@ -1,4 +1,4 @@
-import { AssetValue, Chain, FeeOption, gasFeeMultiplier, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, Chain, FeeOption, SwapKitNumber } from '@swapkit/core';
 import { isAVAXAsset, isBTCAsset, isETHAsset } from 'helpers/assets';
 import { parseAssetToToken } from 'helpers/parseHelpers';
 import { useTokenPrices } from 'hooks/useTokenPrices';
@@ -57,6 +57,12 @@ export const parseFeeToAssetAmount = ({
   asset
     ? asset.set(gasRate * getTxSizeByAsset(asset))
     : AssetValue.fromChainOrSignature(Chain.THORChain, 0.02);
+
+const gasFeeMultiplier: Record<FeeOption, number> = {
+  [FeeOption.Average]: 1.2,
+  [FeeOption.Fast]: 1.5,
+  [FeeOption.Fastest]: 2,
+};
 
 export const getNetworkFee = ({
   gasPrice,

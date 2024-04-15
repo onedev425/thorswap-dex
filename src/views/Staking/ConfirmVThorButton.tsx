@@ -1,4 +1,4 @@
-import type { AssetValue, ChainWallet } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { MaxInt256 } from 'ethers';
@@ -32,7 +32,7 @@ export const ConfirmVThorButton = memo(
 
     const checkOnApprove = useCallback(async () => {
       const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
-      const ethWalletMethods = getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>;
+      const ethWalletMethods = getWallet(Chain.Ethereum);
       if (!ethWalletMethods || !ethAddress) return;
 
       const isApproved = await ethWalletMethods?.isApproved?.({

@@ -51,7 +51,8 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
         setPassword('');
         setKeystore(undefined);
         setProcessing(false);
-      } catch (error: NotWorth) {
+      } catch (error: Todo) {
+        console.error(error);
         setProcessing(false);
 
         setInvalidStatus(true);

@@ -6,7 +6,7 @@ export type AssetFilterOptionType =
   | 'synth'
   | 'native'
   | 'erc20'
-  | 'bep2'
+  | 'arbitrum'
   | 'bep20';
 
 export type AssetFilterType = {
@@ -33,10 +33,10 @@ export const assetFilterTypes: AssetFilterType[] = [
     chainAsset: AssetValue.fromChainOrSignature(Chain.Avalanche),
   },
   {
-    value: 'bep2',
-    label: 'BEP2',
-    tooltip: 'BNB Beacon Chain (BEP2)',
-    chainAsset: AssetValue.fromChainOrSignature(Chain.Binance),
+    value: 'arbitrum',
+    label: 'ARB',
+    tooltip: 'Arbitrum (ARB)',
+    chainAsset: AssetValue.fromChainOrSignature(Chain.Arbitrum),
   },
   {
     value: 'bep20',

@@ -51,6 +51,7 @@ const loadI18n = async () => {
   const resource = await loadResources(lng);
 
   initializeI18n(initReactI18next).init({
+    debug: false,
     resources: { [lng]: { translation: resource } },
     lng,
     fallbackLng: 'en',
@@ -78,7 +79,7 @@ type Path<T> = PathImpl<T, keyof T> | keyof T;
 type DefaultDictionary = typeof en;
 
 export const t = <T>(key: Path<DefaultDictionary> | T, params?: TOptions, options?: TOptions) =>
-  translate(key as string, params as ToDo, options); /* i18next-extract-disable-line */
+  translate(key as string, params as Todo, options); /* i18next-extract-disable-line */
 
 export const currentLocale = () => i18n.languages[0];
 export const changeAppLanguage = async (language: SupportedLanguages) => {

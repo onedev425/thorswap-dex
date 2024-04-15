@@ -1,4 +1,4 @@
-import { validateTHORName } from '@swapkit/core';
+import { validateTNS } from '@swapkit/core';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useCallback, useEffect, useState } from 'react';
 import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
@@ -37,7 +37,7 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
   useEffect(() => {
     const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
 
-    if (validateTHORName(possibleThorname)) {
+    if (validateTNS(possibleThorname)) {
       getTNSDetail(possibleThorname)
         .then((details) => {
           const payload =
@@ -54,7 +54,7 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
   }, [debouncedAddress, getTNSDetail, lookupForTNS]);
 
   useEffect(() => {
-    if (validateTHORName(thornameOrAddress)) {
+    if (validateTNS(thornameOrAddress)) {
       setLoading(true);
       setValidThorname(thornameOrAddress);
     }

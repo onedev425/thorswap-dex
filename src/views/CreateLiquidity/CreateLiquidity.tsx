@@ -329,8 +329,8 @@ export const CreateLiquidity = () => {
           assetValue: poolAssetAmount,
         });
 
-        runeTx = response.runeTx;
-        assetTx = response.assetTx;
+        runeTx = await response.runeTx;
+        assetTx = await response.assetTx;
 
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
@@ -367,7 +367,7 @@ export const CreateLiquidity = () => {
       if (!thorchain) throw new Error('SwapKit client not found');
 
       try {
-        const txid = await thorchain.approveAssetValue(poolAsset);
+        const txid = await thorchain.approveAssetValue({ assetValue: poolAsset });
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

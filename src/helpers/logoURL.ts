@@ -7,6 +7,8 @@ export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg
 const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains';
 
 const providersInfoMap = {
+  // MAYA
+  mayachain: 'MAYA.CACAO',
   // AVAX
   pangolin: 'AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982',
   platypus: 'AVAX.AVAX',

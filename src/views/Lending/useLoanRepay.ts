@@ -58,11 +58,8 @@ export function useLoanRepay({
         const txid = await thorchain.loan({
           type: 'close',
           memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
-          assetValue: AssetValue.fromStringSync(
-            repayAsset.toString(),
-            repayAsset.getValue('string'),
-          )!.add(amount),
-          minAmount: AssetValue.fromStringSync(repayAsset.toString(), expectedAmount)!,
+          assetValue: repayAsset.add(amount),
+          minAmount: repayAsset.set(expectedAmount),
         });
         onSuccess?.();
         if (txid)

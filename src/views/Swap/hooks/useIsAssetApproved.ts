@@ -12,9 +12,13 @@ type Params = {
 
 export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
   const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-  const isApproved = await thorchain?.isAssetValueApproved(assetValue, contract);
+  const isApproved = await thorchain?.isAssetValueApproved({
+    assetValue,
+    contractAddress: contract,
+  });
 
-  return isApproved;
+  // TODO sk might need update
+  return !!isApproved;
 };
 
 let prevNumberOfPendingApprovals = 0;

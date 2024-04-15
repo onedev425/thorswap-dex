@@ -1,4 +1,4 @@
-import { AssetValue, Chain, getTHORNameCost, validateTHORName } from '@swapkit/core';
+import { AssetValue, Chain, getTHORNameCost, validateTNS } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { RUNEAsset } from 'helpers/assets';
 import { shortenAddress } from 'helpers/shortenAddress';
@@ -49,7 +49,7 @@ const reducer = (state: typeof initialState, { type, payload }: Actions) => {
       return {
         ...(hasPayload ? state : initialState),
         searchedThorname: hasPayload
-          ? validateTHORName(payload)
+          ? validateTNS(payload)
             ? payload.toLowerCase()
             : state.searchedThorname
           : '',
@@ -144,7 +144,7 @@ export const useThornameLookup = (owner?: string) => {
 
   const registerThornameAddress = useCallback(
     async (address: string, newOwner?: string) => {
-      if (!validateTHORName(searchedThorname)) {
+      if (!validateTNS(searchedThorname)) {
         return showErrorToast(t('notification.invalidTHORName'));
       }
 
@@ -186,8 +186,8 @@ export const useThornameLookup = (owner?: string) => {
           throw new Error('THORChain Provider not found');
         }
         const txid = await thorchain.registerThorname({
-          assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, amount),
           ...registerParams,
+          assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, amount),
         });
 
         if (txid) {

@@ -111,7 +111,7 @@ export const PublicRoutes = memo(() => {
 
       const params = new URLSearchParams(window.location.search);
       const values = {
-        fee: parseInt(params.get('fee') ?? '50', 10),
+        fee: Number.parseInt(params.get('fee') ?? '50', 10),
         address: params.get('address') ?? 't',
         basePair: params.get('basePair') ?? '',
         logoUrl: params.get('logoUrl') ?? '',

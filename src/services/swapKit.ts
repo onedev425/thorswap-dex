@@ -1,79 +1,61 @@
-import type { ChainflipProvider } from '@swapkit/chainflip';
-import type { SwapKit } from '@swapkit/core';
-import type { ThorchainProvider } from '@swapkit/thorchain';
-import type { evmWallet } from '@swapkit/wallet-evm-extensions';
-import type { keepkeyWallet } from '@swapkit/wallet-keepkey';
-import type { keplrWallet } from '@swapkit/wallet-keplr';
-import type { keystoreWallet } from '@swapkit/wallet-keystore';
-import type { ledgerWallet } from '@swapkit/wallet-ledger';
-import type { okxWallet } from '@swapkit/wallet-okx';
-import type { trezorWallet } from '@swapkit/wallet-trezor';
-import type { walletconnectWallet } from '@swapkit/wallet-wc';
-import type { xdefiWallet } from '@swapkit/wallet-xdefi';
+import { ChainflipPlugin } from '@swapkit/chainflip';
+import type { ConnectWalletParams } from '@swapkit/core';
+import { SwapKit } from '@swapkit/core';
+import { ThorchainPlugin, MayachainPlugin } from '@swapkit/thorchain';
+import { coinbaseWallet } from '@swapkit/wallet-coinbase';
+import { evmWallet } from '@swapkit/wallet-evm-extensions';
+import { keepkeyWallet } from '@swapkit/wallet-keepkey';
+import { keplrWallet } from '@swapkit/wallet-keplr';
+import { keystoreWallet } from '@swapkit/wallet-keystore';
+import { ledgerWallet } from '@swapkit/wallet-ledger';
+import { okxWallet } from '@swapkit/wallet-okx';
+import { trezorWallet } from '@swapkit/wallet-trezor';
+import { walletconnectWallet } from '@swapkit/wallet-wc';
+import { xdefiWallet } from '@swapkit/wallet-xdefi';
 import { IS_LOCAL, IS_STAGENET } from 'settings/config';
+import { apiV2BaseUrl } from 'store/thorswap/api';
 
-type SupportedWallet =
-  | typeof evmWallet
-  | typeof keplrWallet
-  | typeof keystoreWallet
-  | typeof keepkeyWallet
-  | typeof ledgerWallet
-  | typeof okxWallet
-  | typeof trezorWallet
-  | typeof walletconnectWallet
-  | typeof xdefiWallet;
+const wallets = {
+  connectCoinbaseWallet: ({ addChain, config, rpcUrls, apis }: ConnectWalletParams) =>
+    coinbaseWallet.connectCoinbaseWallet({
+      addChain,
+      config,
+      rpcUrls,
+      apis,
+      coinbaseWalletSettings: {
+        appName: 'THORSwap',
+        appLogoUrl: 'https://www.thorswap.finance/logo.png',
+        overrideIsMetaMask: false,
+      },
+    }),
+  ...evmWallet,
+  ...keepkeyWallet,
+  ...keplrWallet,
+  ...keystoreWallet,
+  ...ledgerWallet,
+  ...okxWallet,
+  ...trezorWallet,
+  ...walletconnectWallet,
+  ...xdefiWallet,
+} as const;
 
-type ConnectWalletType = Record<
-  SupportedWallet['connectMethodName'][number],
-  (connectParams: any) => string | undefined
->;
+const plugins = {
+  ...ThorchainPlugin,
+  ...MayachainPlugin,
+  chainflip: {
+    ...ChainflipPlugin.chainflip,
+    config: { brokerEndpoint: `${apiV2BaseUrl}/channel` },
+  },
+} as const;
 
-export type SwapKitReturnType = ReturnType<
-  typeof SwapKit<
-    {
-      thorchain: ReturnType<typeof ThorchainProvider>['methods'];
-      chainflip: ReturnType<typeof ChainflipProvider>['methods'];
-    },
-    ConnectWalletType
-  >
->;
+type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
 
-let sdkClient: SwapKitReturnType;
+let sdkClient: Client;
 
 export const getSwapKitClient = async () => {
   if (sdkClient) return sdkClient;
-  const { SwapKit } = await import('@swapkit/core');
-  const { evmWallet } = await import('@swapkit/wallet-evm-extensions');
-  const { keplrWallet } = await import('@swapkit/wallet-keplr');
-  const { keystoreWallet } = await import('@swapkit/wallet-keystore');
-  const { keepkeyWallet } = await import('@swapkit/wallet-keepkey');
-  const { ledgerWallet } = await import('@swapkit/wallet-ledger');
-  const { okxWallet } = await import('@swapkit/wallet-okx');
-  const { trezorWallet } = await import('@swapkit/wallet-trezor');
-  const { walletconnectWallet } = await import('@swapkit/wallet-wc');
-  const { xdefiWallet } = await import('@swapkit/wallet-xdefi');
-  const { ThorchainProvider } = await import('@swapkit/thorchain');
-  const { ChainflipProvider } = await import('@swapkit/chainflip');
 
-  const supportedWallets = [
-    evmWallet,
-    keplrWallet,
-    keystoreWallet,
-    keepkeyWallet,
-    ledgerWallet,
-    okxWallet,
-    trezorWallet,
-    walletconnectWallet,
-    xdefiWallet,
-  ];
-
-  const core = SwapKit<
-    {
-      thorchain: ReturnType<typeof ThorchainProvider>['methods'];
-      chainflip: ReturnType<typeof ChainflipProvider>['methods'];
-    },
-    ConnectWalletType
-  >({
+  const core = SwapKit({
     apis: {},
     rpcUrls: {},
     stagenet: IS_STAGENET,
@@ -96,10 +78,8 @@ export const getSwapKitClient = async () => {
         },
       },
     },
-    // @ts-expect-error
-    wallets: supportedWallets,
-    // @ts-expect-error
-    plugins: [ThorchainProvider, ChainflipProvider],
+    wallets,
+    plugins,
   });
 
   sdkClient = core;

@@ -46,10 +46,10 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
         if (!thorchain) throw new Error('Thorchain client not found');
 
         try {
-          const txid = await thorchain.approveAssetValue(
-            inputAsset.set(approveAmount || 0),
-            contract,
-          );
+          const txid = await thorchain.approveAssetValue({
+            assetValue: inputAsset.set(approveAmount || 0),
+            contractAddress: contract,
+          });
           logEvent('swap_approve', { approveAmount, asset: inputAsset.toString() });
 
           if (typeof txid === 'string') {
