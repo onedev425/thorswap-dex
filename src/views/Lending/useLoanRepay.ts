@@ -1,5 +1,4 @@
-import type { SwapKitNumber } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';

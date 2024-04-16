@@ -1,5 +1,4 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
+import type { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';

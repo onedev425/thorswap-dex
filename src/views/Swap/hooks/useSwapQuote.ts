@@ -8,7 +8,7 @@ import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
 import { useAppSelector } from 'store/store';
-import { useGetChainflipQuoteQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
+import { useGetV2QuoteQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
 
@@ -112,13 +112,8 @@ export const useSwapQuote = ({
     currentData: chainflipData,
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
-  } = useGetChainflipQuoteQuery(params, {
+  } = useGetV2QuoteQuery(params, {
     skip: params.sellAmount === '0' || inputAmount.lte(0),
-    //   ||
-    //   !(
-    //     chainflipSupportedAssets.includes(inputAsset.toString()) &&
-    //     chainflipSupportedAssets.includes(outputAsset.toString())
-    //   ),
   });
 
   const quoteError = useMemo(

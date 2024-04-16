@@ -1,7 +1,7 @@
 import { ChainflipPlugin } from '@swapkit/chainflip';
 import type { ConnectWalletParams } from '@swapkit/core';
 import { SwapKit } from '@swapkit/core';
-import { ThorchainPlugin, MayachainPlugin } from '@swapkit/thorchain';
+import { MayachainPlugin, ThorchainPlugin } from '@swapkit/thorchain';
 import { coinbaseWallet } from '@swapkit/wallet-coinbase';
 import { evmWallet } from '@swapkit/wallet-evm-extensions';
 import { keepkeyWallet } from '@swapkit/wallet-keepkey';

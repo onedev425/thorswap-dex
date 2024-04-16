@@ -70,7 +70,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getChainflipQuote: build.query<any, GetTokensQuoteParams>({
+    getV2Quote: build.query<any, GetTokensQuoteParams>({
       query: ({
         senderAddress = '',
         recipientAddress = '',
@@ -78,17 +78,6 @@ export const thorswapApi = createApi({
         affiliateAddress,
         ...rest
       }) => {
-        const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
-
-        if (affiliateBasisPoints) {
-          queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
-        }
-        if (affiliateAddress) {
-          queryParams.append('affiliateAddress', affiliateAddress);
-        }
-
-        queryParams.append('isAffiliateFeeFlat', 'true');
-
         return {
           method: 'POST',
           body: JSON.stringify({
@@ -98,6 +87,7 @@ export const thorswapApi = createApi({
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
             affiliateFee: parseInt(affiliateBasisPoints || '0'),
+            ...(affiliateAddress ? { affiliate: 'ts' } : { affiliate: 'ts' }),
             providers: ['CHAINFLIP', 'MAYACHAIN'],
           }),
           url: `${apiV2BaseUrl}/quote`,
@@ -306,7 +296,7 @@ export const {
   useGetProvidersQuery,
   useGetTokenCachedPricesQuery,
   useGetTokensQuoteQuery,
-  useGetChainflipQuoteQuery,
+  useGetV2QuoteQuery,
   useLazyGetLoansQuery,
   useGetAirdropVerifyQuery,
   useGetIsWhitelistedQuery,
