@@ -33,7 +33,7 @@
     "@swapkit/toolbox-evm": "1.0.0-rc.99",
     "@swapkit/toolbox-substrate": "1.0.0-rc.28",
     "@swapkit/toolbox-utxo": "1.0.0-rc.102",
-    "@swapkit/wallet-evm-extensions": "1.0.0-rc.101",
+    "@swapkit/wallet-evm-extensions": "1.0.0-rc.102",
     "@swapkit/wallet-coinbase": "1.0.0-rc.7",
     "@swapkit/wallet-keepkey": "1.0.0-rc.47",
     "@swapkit/wallet-keplr": "1.0.0-rc.113",
