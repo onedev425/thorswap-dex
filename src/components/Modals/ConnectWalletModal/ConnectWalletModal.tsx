@@ -341,7 +341,7 @@ const ConnectWalletModal = () => {
               col
               className={classNames(
                 'bg-light-bg-primary dark:bg-dark-bg-primary z-10',
-                isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-8' : 'rounded-t-3xl pb-2',
+                isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-4' : 'rounded-t-3xl pb-2',
               )}
             >
               <Box
@@ -373,7 +373,7 @@ const ConnectWalletModal = () => {
                 </Button>
               </Box>
 
-              <Box className="flex-wrap justify-center w-[80%] md:w-36">
+              <Box className="flex-wrap justify-center w-[80%] md:w-48">
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}

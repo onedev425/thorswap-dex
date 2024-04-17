@@ -106,7 +106,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Arbitrum,
   ],
   [WalletType.Ledger]: AllChainsSupported,
-  [WalletType.MetaMask]: EVMChainsSupported,
+  [WalletType.MetaMask]: [...EVMChainsSupported, Chain.Arbitrum],
   [WalletType.OkxMobile]: EVMChainsSupported,
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
   [WalletType.Phrase]: AllChainsSupported,
