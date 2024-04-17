@@ -50,11 +50,11 @@ export const useAssetFilterTypes = () => {
           />
         );
       }
-      case 'bep2': {
+      case 'arbitrum': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Binance)} size={20} />}
-            label="BNB"
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Arbitrum)} size={20} />}
+            label="ARB"
           />
         );
       }

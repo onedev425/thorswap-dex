@@ -8,7 +8,7 @@ import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
 import { useAppSelector } from 'store/store';
-import { useGetV2QuoteQuery, useGetTokensQuoteQuery } from 'store/thorswap/api';
+import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
 
@@ -186,7 +186,6 @@ export const useSwapQuote = ({
       const route = fullRoute?.legs[0];
 
       const chainFlipFees = route?.fees?.reduce(
-        // @ts-expect-error
         (acc, fee) => {
           if (fee.type === 'INBOUND') {
             const inboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
