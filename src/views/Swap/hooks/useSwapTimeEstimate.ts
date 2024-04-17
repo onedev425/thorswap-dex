@@ -23,20 +23,18 @@ export const useSwapTimeEstimate = ({
 
     // propMs - v1 quote (in miliseconds)
     // prop - v2 quote (in seconds)
-    const inboundMs = timeEstimates.inbound
-      ? timeEstimates.inbound * 1000
-      : timeEstimates.inboundMs;
-    const swapMs = timeEstimates.swap ? timeEstimates.swap * 1000 : timeEstimates.swapMs;
-    const outboundMs = timeEstimates.outbound
-      ? timeEstimates.outbound * 1000
-      : timeEstimates.outboundMs;
-    const streamingFromRoute = timeEstimates.streaming
-      ? timeEstimates.streaming * 1000
-      : timeEstimates.streamingMs;
+    const inboundMs =
+      (timeEstimates.inbound ? timeEstimates.inbound * 1000 : timeEstimates.inboundMs) || 0;
+    const swapMs = (timeEstimates.swap ? timeEstimates.swap * 1000 : timeEstimates.swapMs) || 0;
+    const outboundMs =
+      (timeEstimates.outbound ? timeEstimates.outbound * 1000 : timeEstimates.outboundMs) || 0;
+    const streamingFromRoute =
+      (timeEstimates.streaming ? timeEstimates.streaming * 1000 : timeEstimates.streamingMs) || 0;
 
-    const streaming = streamingSwapParams
-      ? streamingSwapParams.interval * streamingSwapParams.subswaps * 6000
-      : streamingFromRoute;
+    const streaming =
+      (streamingSwapParams
+        ? streamingSwapParams.interval * streamingSwapParams.subswaps * 6000
+        : streamingFromRoute) || 0;
 
     const timeNotStreaming = inboundMs + swapMs + outboundMs;
     const timeStreaming = inboundMs + swapMs + Math.max(streaming, outboundMs);

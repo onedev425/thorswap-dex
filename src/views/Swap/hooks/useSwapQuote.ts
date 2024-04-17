@@ -275,7 +275,8 @@ export const useSwapQuote = ({
       return {
         ...fullRoute,
         ...route,
-        // timeEstimates: route.estimatedTime,
+        //@ts-expect-error TODO remove after type update in SK
+        timeEstimates: fullRoute.estimatedTime,
         path: `${route.sellAsset} -> ${route.buyAsset}`,
         providers: [route.provider],
         expectedOutput: route.buyAmount,
