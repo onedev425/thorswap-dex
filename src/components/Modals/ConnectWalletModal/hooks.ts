@@ -231,7 +231,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
           case WalletType.Keplr:
-            return connectKeplr();
+            return connectKeplr(selectedChains as (Chain.Cosmos | Chain.Kujira)[]);
           case WalletType.Okx:
             return connectOkx(selectedChains);
           case WalletType.Keepkey:

@@ -81,7 +81,12 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
 };
 
 const UTXOChainsSupported = [Chain.Bitcoin, Chain.Dogecoin, Chain.Litecoin, Chain.BitcoinCash];
-const EVMChainsSupported = [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Avalanche];
+const EVMChainsSupported = [
+  Chain.Ethereum,
+  Chain.BinanceSmartChain,
+  Chain.Avalanche,
+  Chain.Arbitrum,
+];
 const AllChainsSupported = [
   ...EVMChainsSupported,
   ...UTXOChainsSupported,
@@ -96,7 +101,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.CoinbaseMobile]: EVMChainsSupported,
   [WalletType.CreateKeystore]: AllChainsSupported,
   [WalletType.Keepkey]: AllChainsSupported,
-  [WalletType.Keplr]: [Chain.Cosmos],
+  [WalletType.Keplr]: [Chain.Cosmos, Chain.Kujira],
   [WalletType.Keystore]: [
     ...AllChainsSupported,
     Chain.Polkadot,
@@ -106,7 +111,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
     Chain.Arbitrum,
   ],
   [WalletType.Ledger]: AllChainsSupported,
-  [WalletType.MetaMask]: [...EVMChainsSupported, Chain.Arbitrum],
+  [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
   [WalletType.Phrase]: AllChainsSupported,
@@ -115,5 +120,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
   [WalletType.Walletconnect]: EVMChainsSupported,
-  [WalletType.Xdefi]: AllChainsSupported,
+  [WalletType.Xdefi]: [...AllChainsSupported, Chain.Maya],
 };

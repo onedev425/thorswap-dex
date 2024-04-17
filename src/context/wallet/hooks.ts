@@ -338,15 +338,18 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
-  const connectKeplr = useCallback(async () => {
-    const { connectKeplr: swapKitConnectKeplr } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+  const connectKeplr = useCallback(
+    async (chains: (Chain.Cosmos | Chain.Kujira)[]) => {
+      const { connectKeplr: swapKitConnectKeplr } = await (
+        await import('services/swapKit')
+      ).getSwapKitClient();
 
-    await swapKitConnectKeplr([Chain.Cosmos]);
+      await swapKitConnectKeplr(chains);
 
-    reloadAllWallets([Chain.Cosmos]);
-  }, [reloadAllWallets]);
+      reloadAllWallets(chains);
+    },
+    [reloadAllWallets],
+  );
 
   const unlockKeystore = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
