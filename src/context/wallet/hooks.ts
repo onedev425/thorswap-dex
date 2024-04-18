@@ -201,7 +201,7 @@ export const useConnectWallet = () => {
       try {
         showInfoToast(t('notification.connectingTrezor', options));
         // @ts-expect-error
-        await swapKitConnectTrezor(chain, derivationPath);
+        await swapKitConnectTrezor([chain], derivationPath);
         await getWalletByChain(chain as Chain);
         showInfoToast(t('notification.connectedTrezor', options));
       } catch (error: NotWorth) {
