@@ -102,7 +102,7 @@ export const SwapSubmitButton = ({
 
   const btnLabel = useMemo(() => {
     if (isTradingHalted) return t('notification.swapNotAvailable');
-    if (quoteError) return t('views.swap.noValidQuote');
+    if (quoteError || !hasQuote) return t('views.swap.noValidQuote');
     if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t('common.swap');
     if (inputAsset.isSynthetic) return t('txManager.redeem');
     if (outputAsset.isSynthetic) return t('txManager.mint');
@@ -122,7 +122,7 @@ export const SwapSubmitButton = ({
 
   return (
     <Box className="w-full pt-5 gap-x-2">
-      {isWalletRequired ? (
+      {isWalletRequired && (hasQuote || inputAmount.eqValue(0)) ? (
         <Button
           stretch
           onClick={() =>
@@ -137,7 +137,7 @@ export const SwapSubmitButton = ({
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
         </Button>
-      ) : isApproveRequired && !quoteError ? (
+      ) : isApproveRequired && !quoteError && hasQuote ? (
         <Button
           stretch
           loading={!!numberOfPendingApprovals || isLoading}
