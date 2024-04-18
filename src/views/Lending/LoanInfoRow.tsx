@@ -99,7 +99,7 @@ export const LoanInfoRow = ({
   const repayUsd = useMemo(() => {
     const price = tokenPricesData[repayAssetString]?.price_usd || 0;
 
-    return price * Number(repayAssetAmount.toFixed(2));
+    return repayAssetAmount.mul(price).getValue('number');
   }, [repayAssetAmount, repayAssetString, tokenPricesData]);
 
   useEffect(() => {
