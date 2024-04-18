@@ -108,7 +108,14 @@ export const SwapSubmitButton = ({
     if (outputAsset.isSynthetic) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, quoteError, inputAsset.isSynthetic, outputAsset.isSynthetic, isSwapValid]);
+  }, [
+    isTradingHalted,
+    quoteError,
+    inputAsset.isSynthetic,
+    outputAsset.isSynthetic,
+    isSwapValid,
+    hasQuote,
+  ]);
 
   const isApproveRequired = useMemo(
     () => hasQuote && isInputWalletConnected && isApproved === false,
