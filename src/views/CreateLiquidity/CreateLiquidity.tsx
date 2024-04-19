@@ -374,8 +374,8 @@ export const CreateLiquidity = () => {
         }
       } catch (error: NotWorth) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
         showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: 'error' }));
       }
     }
   }, [isWalletAssetConnected, poolAsset, appDispatch]);

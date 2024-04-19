@@ -44,6 +44,7 @@ import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
+import { showErrorToast } from 'components/Toast';
 
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 export const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
@@ -227,6 +228,7 @@ const Borrow = () => {
           );
       } catch (error) {
         logException(error as Error);
+        showErrorToast(t('txManager.failed'), undefined, undefined, error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },

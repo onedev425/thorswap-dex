@@ -1,4 +1,5 @@
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -76,6 +77,7 @@ export function useLoanRepay({
           );
       } catch (error) {
         logException(error as Error);
+        showErrorToast(t('txManager.failed'), undefined, undefined, error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },

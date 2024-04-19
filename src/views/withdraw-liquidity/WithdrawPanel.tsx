@@ -239,8 +239,8 @@ export const WithdrawPanel = ({
     } catch (error: NotWorth) {
       logException(error as Error);
       const message = error?.data?.originMessage || error;
-      appDispatch(completeTransaction({ id, status: 'error' }));
       showErrorToast(t('notification.submitFail'), message, undefined, error as Error);
+      appDispatch(completeTransaction({ id, status: 'error' }));
     }
   }, [
     hasWallet,
