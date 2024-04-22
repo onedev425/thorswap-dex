@@ -5,7 +5,7 @@ import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
 import { useEffect, useMemo, useState } from 'react';
 import { useGetRepayValueQuery } from 'store/thorswap/api';
 
-export const useRepay = ({
+export const useRepayQuote = ({
   asset,
   collateralAsset,
   percentage,
@@ -92,6 +92,23 @@ export const useRepay = ({
     ],
   );
 
+  const repayDebtAmount = useMemo(() => {
+    return new SwapKitNumber({ value: repayData?.expectedDebtRepaid || 0, decimal: 8 });
+  }, [repayData]);
+
+  const repaySlippage = useMemo(() => {
+    if (!repayData) return 0;
+
+    // expectedDebtRepaid - debt is always in USD
+    const { expectedDebtRepaid, repayAssetAmountUSD } = repayData;
+    const expectedRepaid = Number(expectedDebtRepaid);
+    const repayAmount = Number(repayAssetAmountUSD);
+
+    const slippagePercent = ((repayAmount - expectedRepaid) / expectedRepaid) * 100;
+
+    return slippagePercent;
+  }, [repayData]);
+
   return {
     isLoading,
     repayAssetAmount,
@@ -100,5 +117,7 @@ export const useRepay = ({
     stream,
     toggleStream,
     repayOptimizeQuoteDetails,
+    repaySlippage,
+    repayDebtAmount,
   };
 };

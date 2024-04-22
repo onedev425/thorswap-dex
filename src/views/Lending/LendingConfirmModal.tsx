@@ -1,12 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Link } from 'components/Atomic';
+import { Box, Checkbox, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoTip } from 'components/InfoTip';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
 
 type Props = {
   asset: AssetValue;
@@ -22,6 +23,8 @@ type Props = {
   collateralAmount?: SwapKitNumber;
   collateralAsset?: AssetValue;
   networkFee?: SwapKitNumber;
+  inputAmount?: SwapKitNumber;
+  slippagePercent: number;
 };
 
 const LENDING_DOCS = 'https://twitter.com/THORChain/status/1693423215580958884';
@@ -40,7 +43,12 @@ export const LendingConfirmModal = ({
   collateralAsset,
   networkFee,
   expectedDebtInfo,
+  slippagePercent,
+  inputAmount,
 }: Props) => {
+  const [slippageAck, setSlippageAck] = useState(false);
+  const needSlippageAck = slippagePercent > HIGH_LENDING_SLIPPAGE;
+
   const timeLabel = useMemo(() => {
     if (!estimatedTime) return undefined;
     const minutes = Math.floor(estimatedTime / 60);
@@ -65,7 +73,7 @@ export const LendingConfirmModal = ({
     () => [
       { label: t('views.wallet.estimatedTime'), value: timeLabel || 'N/A' },
       {
-        label: tabLabel,
+        label: t('views.lending.sendAmount'),
         value: expectedOutputAmount ? (
           `${expectedOutputAmount.toSignificant(6)} ${asset.ticker}`
         ) : networkFee?.gte(amount) ? (
@@ -74,8 +82,31 @@ export const LendingConfirmModal = ({
           <Icon spin color="primary" name="loader" size={24} />
         ),
       },
+      {
+        label: t('views.lending.repayDebt'),
+        value: `${inputAmount?.toSignificant(6)} ${asset.ticker}` || 'N/A',
+      },
+      {
+        label: t('common.slippage'),
+        value: (
+          <Text
+            color={slippagePercent > HIGH_LENDING_SLIPPAGE ? 'brand.red' : 'textPrimary'}
+            textStyle="caption"
+          >
+            {slippagePercent.toFixed(1)}%
+          </Text>
+        ),
+      },
     ],
-    [amount, asset, expectedOutputAmount, networkFee, tabLabel, timeLabel],
+    [
+      amount,
+      asset.ticker,
+      expectedOutputAmount,
+      inputAmount,
+      networkFee,
+      slippagePercent,
+      timeLabel,
+    ],
   );
 
   const borrowInfo = useMemo(
@@ -143,6 +174,7 @@ export const LendingConfirmModal = ({
 
   return (
     <ConfirmModal
+      buttonDisabled={needSlippageAck && !slippageAck}
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
@@ -178,6 +210,19 @@ export const LendingConfirmModal = ({
           }
           type="warn"
         />
+
+        {needSlippageAck && (
+          <Checkbox
+            className="pt-4 pb-2"
+            label={
+              <Box alignCenter>
+                <Text>{t('views.swap.slippageConfirmationWarning')}</Text>
+              </Box>
+            }
+            onValueChange={setSlippageAck}
+            value={slippageAck}
+          />
+        )}
       </Box>
     </ConfirmModal>
   );

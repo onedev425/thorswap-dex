@@ -7,6 +7,7 @@ import { Box, Button, Card, Icon, Link, Switch, Tooltip } from 'components/Atomi
 import { GlobalSettingsPopover } from 'components/GlobalSettings';
 import { Helmet } from 'components/Helmet';
 import { InfoTable } from 'components/InfoTable';
+import { InfoTip } from 'components/InfoTip';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { Input } from 'components/Input';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
@@ -31,6 +32,7 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
 import { BorrowConfirmModal } from 'views/Lending/BorrowConfirmModal';
+import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
 import { useLendingAssets } from 'views/Lending/useLendingAssets';
 import { useLoans } from 'views/Lending/useLoans';
 import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
@@ -137,6 +139,7 @@ const Borrow = () => {
     canStream,
     toggleStream,
     expectedOutputAssetValue,
+    borrowSlippage,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
@@ -299,10 +302,11 @@ const Borrow = () => {
         value: `${expectedDebtInfo}`,
       },
       {
-        label: t('views.lending.borrowFee'),
+        label: t('views.lending.borrowSlippage'),
         value: (
           <VirtualDepthSlippageInfo
             depth={collateralLendingAsset?.derivedDepthPercentage || 0}
+            slippagePercent={borrowSlippage}
             totalFeeUsd={totalFeeUsd}
           />
         ),
@@ -331,7 +335,13 @@ const Borrow = () => {
         ),
       },
     ],
-    [collateralLendingAsset?.derivedDepthPercentage, expectedDebtInfo, maturityDays, totalFeeUsd],
+    [
+      borrowSlippage,
+      collateralLendingAsset?.derivedDepthPercentage,
+      expectedDebtInfo,
+      maturityDays,
+      totalFeeUsd,
+    ],
   );
 
   const handleAmountChange = useCallback(
@@ -543,6 +553,19 @@ const Borrow = () => {
 
                       <InfoTable horizontalInset items={summary} size="sm" />
 
+                      {borrowSlippage > HIGH_LENDING_SLIPPAGE && (
+                        <Flex mt={3}>
+                          <InfoTip
+                            title={
+                              <Text color="brand.yellow" mx={2} textStyle="caption">
+                                {t('views.lending.slippageBorrowWarning')}
+                              </Text>
+                            }
+                            type="warn"
+                          />
+                        </Flex>
+                      )}
+
                       <ActionButton
                         address={collateralAddress}
                         disabled={buttonDisabled}
@@ -566,6 +589,7 @@ const Borrow = () => {
                     isOpened={isConfirmOpen}
                     onClose={() => setIsConfirmOpen(false)}
                     onConfirm={handleBorrowSubmit}
+                    slippagePercent={borrowSlippage}
                   />
                 </Box>
               </Box>

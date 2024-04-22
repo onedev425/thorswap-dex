@@ -24,12 +24,17 @@ export function useLendingAssets() {
           derivedDepthPercentage: Number(assetRes.derivedDepthPercentage),
           balance: isWalletConnected(asset.chain as Chain) ? await getMaxBalance(asset) : undefined,
           extraInfo:
-            assetRes.ltvPercentage && assetRes.ltvPercentage !== 'NaN'
+            assetRes.ltvPercentage &&
+            assetRes.ltvPercentage !== 'NaN' &&
+            assetRes.ltvPercentage !== 'Infinity'
               ? assetRes.ltvPercentage
               : undefined,
           filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
           lendingAvailable: assetRes.lendingAvailable,
-          ltvPercentage: assetRes.ltvPercentage,
+          ltvPercentage:
+            isNaN(Number(assetRes.ltvPercentage)) || assetRes.ltvPercentage === 'Infinity'
+              ? ''
+              : assetRes.ltvPercentage,
         };
       }),
     ).then((assets) => setLendingAssets(assets.filter((asset) => asset.lendingAvailable)));

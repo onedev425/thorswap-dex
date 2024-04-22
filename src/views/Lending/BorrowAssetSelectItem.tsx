@@ -17,7 +17,7 @@ type Props = AssetSelectType & {
 export const BorrowAssetSelectItem = memo(
   ({ asset, logoURI, select, extraInfo, isSelected, balance, filled }: Props) => {
     const isLimitReached = Number(filled) >= 100;
-    const cr = ((100 / Number(extraInfo)) * 100).toFixed(2);
+    const cr = extraInfo ? ((100 / Number(extraInfo)) * 100).toFixed(2) : '-';
 
     return (
       <Box
