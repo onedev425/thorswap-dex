@@ -10,6 +10,7 @@ type Props = {
   place?: TooltipPlacement;
   content?: string;
   className?: string;
+  wrapperClassName?: string;
   disabled?: boolean;
   isOpen?: boolean;
   stretch?: boolean;
@@ -21,6 +22,7 @@ const TOOLTIP_ICON = 14;
 export const Tooltip = ({
   children,
   className,
+  wrapperClassName,
   place = 'top',
   iconName,
   content,
@@ -70,7 +72,7 @@ export const Tooltip = ({
       placement={place}
     >
       <div
-        className={classNames({ 'cursor-pointer': onClick, 'w-full': stretch })}
+        className={classNames({ 'cursor-pointer': onClick, 'w-full': stretch }, wrapperClassName)}
         onClick={() => onClick?.()}
       >
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}

@@ -38,11 +38,6 @@ const SelectList = ({
     onClose,
   });
 
-  const synthsEnabled = useMemo(
-    () => assets?.some((asset) => asset.asset.type === 'Synth'),
-    [assets],
-  );
-
   const handleSelect = useCallback(
     (asset: AssetValue) => {
       select(asset);

@@ -24,6 +24,7 @@ type Props = {
   error?: boolean;
   stretch?: boolean;
   tooltipClasses?: string;
+  tooltipWrapperClasses?: string;
 } & ButtonProps;
 
 export const Button = ({
@@ -44,6 +45,7 @@ export const Button = ({
   stretch = false,
   tooltipClasses = '',
   as: _as,
+  tooltipWrapperClasses,
   ...props
 }: Props) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -72,11 +74,12 @@ export const Button = ({
   const leftIconItem = loading ? undefined : leftIcon;
   const rightIconItem = loading ? undefined : rightIcon;
   const buttonVariant = error && isFancy ? 'fancyError' : variant;
-  const width = stretch ? 'full' : 'auto';
+  const calcedWidth = stretch ? 'full' : 'auto';
 
   return (
     <Tooltip
       className={tooltipClasses}
+      wrapperClassName={tooltipWrapperClasses}
       content={tooltip}
       place={tooltipPlacement}
       stretch={stretch}
@@ -93,7 +96,7 @@ export const Button = ({
         rightIcon={rightIconItem}
         size={size}
         variant={buttonVariant}
-        width={width}
+        width={calcedWidth}
       >
         {loading ? (
           <Icon spin color="primary" name="loader" size={24} />
