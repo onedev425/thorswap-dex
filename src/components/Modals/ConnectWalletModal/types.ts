@@ -87,37 +87,31 @@ const EVMChainsSupported = [
   Chain.Avalanche,
   Chain.Arbitrum,
 ];
-const AllChainsSupported = [
+const AllChainsSupportedExceptNewProvider = [
   ...EVMChainsSupported,
   ...UTXOChainsSupported,
   Chain.Binance,
   Chain.Cosmos,
   Chain.THORChain,
 ] as Chain[];
+const AllChainsSupported = [
+  ...AllChainsSupportedExceptNewProvider,
+  Chain.Polkadot,
+  Chain.Maya,
+  Chain.Dash,
+  Chain.Kujira,
+  Chain.Arbitrum,
+] as Chain[];
 
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
   [WalletType.CoinbaseMobile]: EVMChainsSupported,
-  [WalletType.CreateKeystore]: [
-    ...AllChainsSupported,
-    Chain.Polkadot,
-    Chain.Maya,
-    Chain.Dash,
-    Chain.Kujira,
-    Chain.Arbitrum,
-  ],
-  [WalletType.Keepkey]: [...AllChainsSupported, Chain.Dash],
+  [WalletType.CreateKeystore]: AllChainsSupported,
+  [WalletType.Keepkey]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
   [WalletType.Keplr]: [Chain.Cosmos, Chain.Kujira],
-  [WalletType.Keystore]: [
-    ...AllChainsSupported,
-    Chain.Polkadot,
-    Chain.Maya,
-    Chain.Dash,
-    Chain.Kujira,
-    Chain.Arbitrum,
-  ],
-  [WalletType.Ledger]: [...AllChainsSupported, Chain.Dash],
+  [WalletType.Keystore]: AllChainsSupported,
+  [WalletType.Ledger]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
@@ -127,5 +121,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
   [WalletType.Walletconnect]: EVMChainsSupported,
-  [WalletType.Xdefi]: [...AllChainsSupported, Chain.Maya],
+  [WalletType.Xdefi]: [...AllChainsSupportedExceptNewProvider, Chain.Maya],
 };

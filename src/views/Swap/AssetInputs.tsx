@@ -57,23 +57,7 @@ const Inputs = ({
   }, [outputAsset]);
 
   const handleAssetSwap = useCallback(() => {
-    const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
-    const unsupportedEthOutput =
-      inputAsset.asset.chain === Chain.Ethereum &&
-      !isETHAsset(inputAsset.asset) &&
-      !thorchainERC20SupportedAddresses.includes(inputAddress);
-
-    const unsupportedAvaxOutput =
-      inputAsset.asset.chain === Chain.Avalanche &&
-      !isAVAXAsset(inputAsset.asset) &&
-      !thorchainAvaxSupportedAddresses.includes(inputAddress);
-
-    const unsupportedBscOutput =
-      inputAsset.asset.chain === Chain.BinanceSmartChain &&
-      !isBSCAsset(inputAsset.asset) &&
-      !thorchainBscSupportedAddresses.includes(inputAddress);
-
-    onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput || unsupportedBscOutput);
+    onSwitchPair();
     setIconRotate((rotate) => !rotate);
   }, [
     inputAsset.asset,

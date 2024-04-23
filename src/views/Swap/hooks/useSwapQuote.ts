@@ -370,7 +370,8 @@ export const useSwapQuote = ({
     vTHORDiscount: !IS_LEDGER_LIVE && VTHORBalance.gte(1_000),
     error: quoteError,
     estimatedTime: (selectedRoute || routes[0])?.estimatedTime,
-    isFetching: approvalsLoading || (isLoading && isFetching && isFetchingChainflip),
+    isFetching:
+      approvalsLoading || ((isLoading || isFetching || isFetchingChainflip) && routes.length === 0),
     routes,
     selectedRoute: selectedRoute || routes[0],
     setSwapRoute,

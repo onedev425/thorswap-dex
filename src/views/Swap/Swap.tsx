@@ -38,6 +38,7 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
@@ -242,6 +243,11 @@ const SwapView = () => {
     setManualSlippage,
   });
 
+  const { isApproved, isLoading } = useIsAssetApproved({
+    assetValue: inputAsset.set(inputAmount.getValue('string')),
+    contract: selectedRoute?.targetAddress || selectedRoute?.approvalTarget,
+  });
+
   const outputUSDPrice = useMemo(
     () => outputUnitPrice * outputAmount.getValue('number'),
     [outputUnitPrice, outputAmount],
@@ -298,7 +304,7 @@ const SwapView = () => {
   const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
 
   const handleApprove = useSwapApprove({
-    contract: approvalTarget || allowanceTarget || targetAddress,
+    contract: approvalTarget || allowanceTarget || targetAddress || selectedRoute?.providers?.[0],
     inputAsset,
   });
 
@@ -530,9 +536,9 @@ const SwapView = () => {
             inputAmount={inputAmount}
             inputAsset={inputAsset}
             invalidSwap={invalidSwap}
-            isApproved={!!selectedRoute?.isApproved}
+            isApproved={!!selectedRoute?.isApproved || isApproved}
             isInputWalletConnected={isInputWalletConnected}
-            isLoading={isFetching || isPriceLoading}
+            isLoading={isFetching || isPriceLoading || isLoading}
             isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}

@@ -11,11 +11,8 @@ type Params = {
 };
 
 export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
-  const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-  const isApproved = await thorchain?.isAssetValueApproved({
-    assetValue,
-    contractAddress: contract,
-  });
+  const { isAssetValueApproved } = await (await import('services/swapKit')).getSwapKitClient();
+  const isApproved = await isAssetValueApproved(assetValue, contract || 'thorchain');
 
   // TODO sk might need update
   return !!isApproved;
@@ -37,32 +34,24 @@ const useApproveResult = ({
   contract?: string;
   skip: boolean;
 }) => {
-  const [isApproved, setApproved] = useState(assetValue.isGasAsset || !isWalletConnected);
+  const [isApproved, setApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(!isApproved);
-  const cacheKey = useRef(`${assetValue.toString()}-${contract || 'all'}`);
+  //   const cacheKey = useRef(assetContractKey);
   const currentParams = useRef<Params>({ assetValue, contract });
   currentParams.current = { assetValue, contract };
-  const debouncedCheckAssetApprove = useRef(
-    debounce(
-      async () => {
-        return await checkAssetApprove(currentParams.current);
-      },
-      500,
-      { leading: true, trailing: false },
-    ),
+  const debouncedCheckAssetApprove = debounce(
+    async () => {
+      return await checkAssetApprove(currentParams.current);
+    },
+    500,
+    { leading: true, trailing: false },
   );
 
   const value = useMemo(() => assetValue.getValue('string'), [assetValue]);
 
   const checkApproved = useCallback(async () => {
-    const cacheValue = cachedResults[cacheKey.current];
-    if (cacheValue) {
-      setIsLoading(false);
-      return setApproved(cacheValue);
-    }
-
     try {
-      setApproved(await debouncedCheckAssetApprove.current());
+      setApproved(await debouncedCheckAssetApprove());
     } finally {
       prevNumberOfPendingApprovals = numberOfPendingApprovals;
       setIsLoading(false);
@@ -88,7 +77,7 @@ const useApproveResult = ({
   }, [value, checkApproved, isWalletConnected, numberOfPendingApprovals, skip]);
 
   return {
-    isApproved: assetValue.eqValue('0') ? false : isApproved,
+    isApproved,
     isLoading,
   };
 };
