@@ -50,7 +50,6 @@ const Inputs = ({
 
   const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-erc20');
   const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-arc20');
-  const thorchainBscSupportedAddresses = useTokenAddresses('Thorchain-supported-bsc20');
 
   const isAssetSwitchPossible = useMemo(() => {
     return isLedgerLiveSupportedInputAsset(outputAsset.asset);

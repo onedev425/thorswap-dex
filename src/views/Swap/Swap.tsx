@@ -22,6 +22,7 @@ import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
@@ -38,7 +39,6 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);

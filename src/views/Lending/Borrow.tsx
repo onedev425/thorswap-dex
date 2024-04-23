@@ -10,6 +10,7 @@ import { InfoTable } from 'components/InfoTable';
 import { InfoTip } from 'components/InfoTip';
 import { InfoWithTooltip } from 'components/InfoWithTooltip';
 import { Input } from 'components/Input';
+import { showErrorToast } from 'components/Toast';
 import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
 import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
 import dayjs from 'dayjs';
@@ -46,7 +47,6 @@ import { ActionButton } from './ActionButton';
 import { BorrowPositionsTab } from './BorrowPositionsTab';
 import { LendingTab, LendingViewTab } from './types';
 import { useBorrow } from './useBorrow';
-import { showErrorToast } from 'components/Toast';
 
 export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
 export const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
