@@ -19,7 +19,6 @@ export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
 };
 
 let prevNumberOfPendingApprovals = 0;
-const cachedResults: Record<string, boolean> = {};
 
 const useApproveResult = ({
   isWalletConnected,

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
-import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
+import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -59,13 +59,7 @@ const Inputs = ({
   const handleAssetSwap = useCallback(() => {
     onSwitchPair();
     setIconRotate((rotate) => !rotate);
-  }, [
-    inputAsset.asset,
-    onSwitchPair,
-    thorchainAvaxSupportedAddresses,
-    thorchainERC20SupportedAddresses,
-    thorchainBscSupportedAddresses,
-  ]);
+  }, [onSwitchPair]);
 
   const assetList = useAssetsWithBalanceFromTokens(tokens);
 
