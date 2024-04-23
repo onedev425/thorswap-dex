@@ -46,6 +46,7 @@ export const Button = ({
   tooltipClasses = '',
   as: _as,
   tooltipWrapperClasses,
+  width,
   ...props
 }: Props) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -74,7 +75,7 @@ export const Button = ({
   const leftIconItem = loading ? undefined : leftIcon;
   const rightIconItem = loading ? undefined : rightIcon;
   const buttonVariant = error && isFancy ? 'fancyError' : variant;
-  const calcedWidth = stretch ? 'full' : 'auto';
+  const calcedWidth = stretch ? 'full' : width || 'auto';
 
   return (
     <Tooltip

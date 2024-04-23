@@ -60,7 +60,7 @@ export const TabsSelect = memo(
                 tooltip={tooltip}
                 variant={value === selectedValue ? 'primary' : 'borderlessTint'}
                 tooltipWrapperClasses={classNames('w-[17%]')}
-                stretch={true}
+                width={'100%'}
               >
                 {label}
               </Button>
