@@ -31,8 +31,72 @@ export const useAssetFilterTypes = () => {
       case 'all': {
         return <FilterTypeLabel className="mx-2" label={filterType.label.toUpperCase()} />;
       }
-      case 'synth': {
-        return <FilterTypeLabel icon={<Icon name="thor" size={18} />} label={filterType.label} />;
+      case 'thor': {
+        return <FilterTypeLabel icon={<Icon name="thor" size={20} />} label={filterType.label} />;
+      }
+      case 'btc': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Bitcoin)} size={20} />}
+            label="BTC"
+          />
+        );
+      }
+      case 'doge': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Dogecoin)} size={20} />}
+            label="DOGE"
+          />
+        );
+      }
+      case 'dot': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Polkadot)} size={20} />}
+            label="DOT"
+          />
+        );
+      }
+      case 'bch': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.BitcoinCash)} size={20} />}
+            label="BCH"
+          />
+        );
+      }
+      case 'ltc': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Litecoin)} size={20} />}
+            label="LTC"
+          />
+        );
+      }
+      case 'dash': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Dash)} size={20} />}
+            label="DASH"
+          />
+        );
+      }
+      case 'gaia': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Cosmos)} size={20} />}
+            label="COSMOS"
+          />
+        );
+      }
+      case 'maya': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Maya)} size={20} />}
+            label="MAYA"
+          />
+        );
       }
       case 'avax': {
         return (
@@ -53,7 +117,15 @@ export const useAssetFilterTypes = () => {
       case 'arbitrum': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Arbitrum)} size={20} />}
+            icon={
+              <AssetIcon
+                asset={AssetValue.fromStringSync(
+                  'ARB.ARB-0x912ce59144191c1204e64559fe8253a0e49e6548',
+                )}
+                size={20}
+                hasChainIcon={false}
+              />
+            }
             label="ARB"
           />
         );
@@ -69,6 +141,14 @@ export const useAssetFilterTypes = () => {
               />
             }
             label="BSC"
+          />
+        );
+      }
+      case 'kuji': {
+        return (
+          <FilterTypeLabel
+            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Kujira)} size={20} />}
+            label="KUJI"
           />
         );
       }

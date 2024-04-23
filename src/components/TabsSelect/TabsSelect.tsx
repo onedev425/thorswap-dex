@@ -45,21 +45,26 @@ export const TabsSelect = memo(
             justify="between"
           >
             {tabs.map(({ value, label, tooltip }) => (
-              <Button
-                _dark={{ bgColor: value === selectedValue && theme.colors.brand.btnPrimary + '80' }}
-                _light={{ color: theme.colors.brand.light.textPrimary }}
-                alignSelf="stretch"
-                flex={!tabWidth ? 1 : 'initial'}
-                key={value}
-                onClick={() => onChange(value)}
-                style={tabWidth ? { width: tabWidth } : {}}
-                sx={buttonStyle}
-                textTransform="none"
-                tooltip={tooltip}
-                variant={value === selectedValue ? 'primary' : 'borderlessTint'}
-              >
-                {label}
-              </Button>
+              <Box className="flex-[1_0_17%]">
+                <Button
+                  _dark={{
+                    bgColor: value === selectedValue && theme.colors.brand.btnPrimary + '80',
+                  }}
+                  _light={{ color: theme.colors.brand.light.textPrimary }}
+                  alignSelf="stretch"
+                  flex={!tabWidth ? 1 : 'initial'}
+                  key={value}
+                  onClick={() => onChange(value)}
+                  style={tabWidth ? { width: tabWidth } : {}}
+                  sx={buttonStyle}
+                  textTransform="none"
+                  tooltip={tooltip}
+                  variant={value === selectedValue ? 'primary' : 'borderlessTint'}
+                  stretch={true}
+                >
+                  {label}
+                </Button>
+              </Box>
             ))}
           </Box>
         </Box>

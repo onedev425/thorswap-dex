@@ -109,9 +109,7 @@ const SelectList = ({
             <TabsSelect
               buttonStyle={{ px: 2 }}
               onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
-              tabs={assetFilterTypes.filter(
-                (assetFilterType) => synthsEnabled || assetFilterType.value !== 'synth',
-              )}
+              tabs={assetFilterTypes}
               value={typeFilter}
             />
           )}
