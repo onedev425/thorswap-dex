@@ -27,7 +27,7 @@ export const chainName = (chain: string, full?: boolean) => {
     case Chain.Kujira:
       return full ? 'Kujira' : chain;
     case Chain.Maya:
-      return full ? 'Mayachain' : chain;
+      return full ? 'MAYAChain' : chain;
     case Chain.Dash:
       return 'Dash';
     case Chain.Polkadot:

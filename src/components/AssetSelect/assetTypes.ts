@@ -55,7 +55,7 @@ export const assetFilterTypes: AssetFilterType[] = [
   {
     value: 'maya',
     label: 'MAYA',
-    tooltip: 'Mayachain',
+    tooltip: 'MAYAChain',
     chainAsset: AssetValue.fromChainOrSignature(Chain.Maya),
   },
   {
