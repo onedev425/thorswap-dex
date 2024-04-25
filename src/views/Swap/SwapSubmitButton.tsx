@@ -102,7 +102,7 @@ export const SwapSubmitButton = ({
 
   const btnLabel = useMemo(() => {
     if (isTradingHalted) return t('notification.swapNotAvailable');
-    if (quoteError || !hasQuote) return t('views.swap.noValidQuote');
+    if (quoteError || (!hasQuote && inputAmount.gt(0))) return t('views.swap.noValidQuote');
     if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t('common.swap');
     if (inputAsset.isSynthetic) return t('txManager.redeem');
     if (outputAsset.isSynthetic) return t('txManager.mint');
