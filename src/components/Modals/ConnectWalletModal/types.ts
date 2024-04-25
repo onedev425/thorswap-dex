@@ -108,7 +108,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
   [WalletType.CoinbaseMobile]: EVMChainsSupported,
   [WalletType.CreateKeystore]: AllChainsSupported,
-  [WalletType.Keepkey]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
+  [WalletType.Keepkey]: [...AllChainsSupportedExceptNewProvider, Chain.Dash, Chain.Maya],
   [WalletType.Keplr]: [Chain.Cosmos, Chain.Kujira],
   [WalletType.Keystore]: AllChainsSupported,
   [WalletType.Ledger]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
