@@ -13,6 +13,7 @@ import { memo } from 'react';
 import type { PendingTransactionType } from 'store/transactions/types';
 
 const trackerV2Providers = ['CHAINFLIP'];
+const trackerUnsupportedProviders = ['MAYACHAIN'];
 
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
@@ -20,17 +21,29 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const hasDetailsParams = (txid && route && quoteId) || txDetails;
   const provider = route?.providers[0] || '';
   const isV2Tracker = trackerV2Providers.includes(provider);
+  const isTrackerWorkaround = trackerUnsupportedProviders.includes(provider);
 
   const simpleTrackerData = useSimpleTracker(
-    hasDetailsParams || advancedTracker ? null : pendingTx,
+    hasDetailsParams || advancedTracker || isV2Tracker ? null : pendingTx,
   );
   const advancedTrackerData = useAdvancedTracker(
     (!hasDetailsParams && !advancedTracker) || isV2Tracker ? null : pendingTx,
   );
   const trackerV2Data = useTrackerV2(!isV2Tracker ? null : pendingTx);
 
+  // TODO remove after v2 tracker support for maya
+  const workaroundTrackerData =
+    isTrackerWorkaround && txid
+      ? {
+          ...simpleTrackerData,
+          type: 'SWAP-MAYA',
+          txUrl: `https://www.mayascan.org/tx/${txid.replace('0x', '')}`,
+        }
+      : null;
+
   const { totalTimeLeft } = useTransactionTimers(txDetails?.legs || [], { isTxFinished: false });
-  const txData = simpleTrackerData || advancedTrackerData || pendingTx || trackerV2Data;
+  const txData =
+    workaroundTrackerData || simpleTrackerData || advancedTrackerData || pendingTx || trackerV2Data;
 
   const { label, type, details } = txData;
   const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
@@ -54,6 +67,7 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
 
         <Box col className="gap-1 w-full">
           {type ? (
+            // @ts-expect-error
             <Text fontWeight="semibold">{transactionTitle(type)}</Text>
           ) : (
             <Skeleton height="15px" width="50%" />

@@ -371,7 +371,9 @@ export const useSwapQuote = ({
     error: quoteError,
     estimatedTime: (selectedRoute || routes[0])?.estimatedTime,
     isFetching:
-      approvalsLoading || ((isLoading || isFetching || isFetchingChainflip) && routes.length === 0),
+      (approvalsLoading ||
+        ((isLoading || isFetching || isFetchingChainflip) && routes.length === 0)) &&
+      !quoteError,
     routes,
     selectedRoute: selectedRoute || routes[0],
     setSwapRoute,

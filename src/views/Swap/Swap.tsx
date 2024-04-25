@@ -538,7 +538,7 @@ const SwapView = () => {
             invalidSwap={invalidSwap}
             isApproved={!!selectedRoute?.isApproved || isApproved}
             isInputWalletConnected={isInputWalletConnected}
-            isLoading={isFetching || isPriceLoading || isLoading}
+            isLoading={(isFetching || isPriceLoading || isLoading) && !error}
             isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
