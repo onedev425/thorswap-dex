@@ -42,15 +42,34 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
 
   const txUrl = useTxUrl({ txHash: tx?.txid || '', chain: inChain });
 
+  // TODO remove after tracker supports providers
+  const trackerUnsupportedProviders = ['MAYACHAIN'];
+  const isTrackerWorkaround = useMemo(
+    () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ''),
+    [tx],
+  );
+  const txUrlOverwrite =
+    isTrackerWorkaround && txid
+      ? `https://www.mayascan.org/tx/${txid.replace('0x', '')}`
+      : undefined;
+
   useEffect(() => {
     const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
-    const instantComplete = type && [TransactionType.TC_SEND].includes(type);
+    const instantComplete =
+      type && ([TransactionType.TC_SEND].includes(type) || isTrackerWorkaround);
     const status = data?.status || 'mined';
 
     if (transactionCompleted || (instantComplete && txUrl)) {
-      onCompleteTransaction({ status, result: data?.result });
+      onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });
     }
   }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type]);
 
-  return tx ? { type, label, txUrl, details: null } : null;
+  return tx
+    ? {
+        type,
+        label,
+        txUrl: txUrlOverwrite || txUrl,
+        details: null,
+      }
+    : null;
 };

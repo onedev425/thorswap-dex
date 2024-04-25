@@ -40,6 +40,7 @@ const transactionsSlice = createSlice({
         id: string;
         status: TransactionStatus;
         details?: TxTrackerDetails;
+        txUrl?: string;
       }>,
     ) {
       const index = findTxIndexById(state, payload.id);

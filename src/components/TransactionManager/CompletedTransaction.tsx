@@ -15,7 +15,17 @@ import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
 
 export const CompletedTransaction = memo(
-  ({ inChain, type, txid, label, status, result, details, outChain }: CompletedTransactionType) => {
+  ({
+    inChain,
+    type,
+    txid,
+    label,
+    status,
+    result,
+    details,
+    outChain,
+    txUrl: txUrlOverwrite,
+  }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
     const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
 
@@ -65,7 +75,7 @@ export const CompletedTransaction = memo(
 
     useEffect(() => {
       const getTxUrl = async () => {
-        const txUrl = await transactionUrl(txid, inChain);
+        const txUrl = txUrlOverwrite || (await transactionUrl(txid, inChain));
         const secondTxUrl = await transactionUrl(
           getTxIDFromResult({ result, txid }),
           [
