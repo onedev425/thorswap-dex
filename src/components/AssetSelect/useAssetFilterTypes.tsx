@@ -61,7 +61,9 @@ export const useAssetFilterTypes = () => {
       case 'bch': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.BitcoinCash)} size={20} />}
+            icon={
+              <AssetIcon asset={AssetValue.fromChainOrSignature(Chain.BitcoinCash)} size={20} />
+            }
             label="BCH"
           />
         );

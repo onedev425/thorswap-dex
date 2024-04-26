@@ -13,6 +13,7 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   buttonStyle?: SystemStyleObject;
+  enabledTabs?: string[];
 };
 
 export const TabsSelect = memo(
@@ -24,6 +25,7 @@ export const TabsSelect = memo(
     value: selectedValue,
     onChange,
     buttonStyle,
+    enabledTabs,
   }: Props) => {
     const theme = useTheme();
     return (
@@ -52,7 +54,7 @@ export const TabsSelect = memo(
             flex={1}
             justify="between"
           >
-            {tabs.map(({ value, label, tooltip, disabled }) => (
+            {tabs.map(({ value, label, tooltip }) => (
               <Button
                 _dark={{
                   bgColor: value === selectedValue && theme.colors.brand.btnPrimary + '80',
@@ -69,7 +71,7 @@ export const TabsSelect = memo(
                 variant={value === selectedValue ? 'primary' : 'borderlessTint'}
                 tooltipWrapperClasses={classNames('w-[17%]')}
                 width={'100%'}
-                disabled={disabled}
+                disabled={!enabledTabs?.includes(value)}
               >
                 {label}
               </Button>

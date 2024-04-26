@@ -8,6 +8,7 @@ import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
 import useWindowSize from 'hooks/useWindowSize';
+import { assetFilterTypes as assetFilterTypesWithChain } from 'components/AssetSelect/assetTypes';
 import { Fragment, memo, useCallback, useMemo, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
@@ -72,6 +73,16 @@ const SelectList = ({
     },
     [setQuery],
   );
+  const enabledTabs = useMemo(
+    () =>
+      assetFilterTypesWithChain
+        .filter((assetFilter) =>
+          assets?.find((asset) => assetFilter.chainAsset && asset.asset.eq(assetFilter.chainAsset)),
+        )
+        .map((assetFilter) => assetFilter.value)
+        .concat(['all']),
+    [assetFilterTypesWithChain, assets],
+  );
 
   return (
     <Box col className={classNames('rounded-box-lg', genericBgClasses.secondary)} flex={1}>
@@ -106,6 +117,7 @@ const SelectList = ({
               onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
               tabs={assetFilterTypes}
               value={typeFilter}
+              enabledTabs={enabledTabs}
             />
           )}
         </>
