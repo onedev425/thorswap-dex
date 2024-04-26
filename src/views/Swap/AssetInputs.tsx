@@ -35,6 +35,7 @@ type Props = {
   inputAsset: AssetInputType;
   outputAsset: AssetInputType;
   tokens: Token[];
+  tradingPairs?: Token[];
 };
 
 const Inputs = ({
@@ -45,6 +46,7 @@ const Inputs = ({
   onInputAmountChange,
   onSwitchPair,
   tokens,
+  tradingPairs,
 }: Props) => {
   const [iconRotate, setIconRotate] = useState(false);
 
@@ -60,9 +62,13 @@ const Inputs = ({
     setIconRotate((rotate) => !rotate);
   }, [onSwitchPair]);
 
-  const assetList = useAssetsWithBalanceFromTokens(tokens);
+  const inputAssetList = useAssetsWithBalanceFromTokens(tokens);
+  const outputAssetList = useAssetsWithBalanceFromTokens(tradingPairs || tokens);
 
-  const { assetInputProps, assets } = useAssetListSearch(assetList);
+  const { assetInputProps, assets } = useAssetListSearch(inputAssetList);
+
+  const { assetInputProps: outputAssetInputProps, assets: outputAssetsSearched } =
+    useAssetListSearch(outputAssetList);
 
   const outputAssets = useMemo(() => {
     if (
@@ -73,10 +79,10 @@ const Inputs = ({
         outputAsset.asset.chain === Chain.BinanceSmartChain) ||
       inputAsset.asset.isGasAsset
     ) {
-      return assets;
+      return outputAssetsSearched;
     }
 
-    const thorchainSupported = assets.filter(
+    const thorchainSupported = outputAssetsSearched.filter(
       ({ asset }) =>
         isETHAsset(asset) ||
         isAVAXAsset(asset) ||
@@ -89,7 +95,7 @@ const Inputs = ({
 
     return thorchainSupported;
   }, [
-    assets,
+    outputAssetsSearched,
     inputAsset.asset?.chain,
     inputAsset.asset?.isGasAsset,
     outputAsset.asset?.chain,
@@ -139,7 +145,7 @@ const Inputs = ({
       />
 
       <AssetInput
-        {...assetInputProps}
+        {...outputAssetInputProps}
         hideMaxButton
         hideZeroPrice
         assets={

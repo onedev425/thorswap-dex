@@ -91,7 +91,12 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
   }, [handleAssetSets]);
 
   const assets = useMemo(
-    () => assetsWithBalance.concat(synthAssetsWithBalance),
+    () =>
+      assetsWithBalance.find(
+        (asset) => asset.identifier === 'DOT.DOT' || asset.identifier === 'DASH.DASH',
+      )
+        ? assetsWithBalance
+        : assetsWithBalance.concat(synthAssetsWithBalance),
     [assetsWithBalance, synthAssetsWithBalance],
   );
 

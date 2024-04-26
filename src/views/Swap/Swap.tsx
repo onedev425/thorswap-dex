@@ -103,7 +103,7 @@ const SwapView = () => {
   const formatPrice = useFormatPrice();
   const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
-  const { tokens } = useTokenList();
+  const { tokens, tradingPairs } = useTokenList(true);
 
   const [inputToken, outputToken] = useMemo(
     () => [
@@ -458,6 +458,7 @@ const SwapView = () => {
             onSwitchPair={handleSwitchPair}
             outputAsset={outputAssetProps}
             tokens={tokens}
+            tradingPairs={tradingPairs.get(inputAsset.toString()) || tokens}
           />
 
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
