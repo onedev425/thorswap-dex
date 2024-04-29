@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
 import { SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
@@ -17,7 +16,6 @@ import { RouteGraphModal } from './RouteGraphModal';
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: number;
-  inputUnitPrice: number;
   assetTicker: string;
   streamSwap?: boolean;
 };

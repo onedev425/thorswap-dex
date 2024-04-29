@@ -19,7 +19,6 @@ type Props = RouteWithApproveType & {
   onClick: () => void;
   outputAsset: AssetValue;
   unitPrice: number;
-  inputUnitPrice: number;
   streamSwap?: boolean;
 };
 

@@ -3,14 +3,12 @@ import { trackerUnsupportedProviders } from 'components/TransactionManager/Pendi
 import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useEffect, useMemo } from 'react';
-import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
 import type { PendingTransactionType } from 'store/transactions/types';
 import { TransactionType } from 'store/transactions/types';
 
 export const useSimpleTracker = (tx: PendingTransactionType | null) => {
-  const appDispatch = useAppDispatch();
-  const { id, inChain, txid, type, label, from } = tx || {};
+  const { inChain, txid, type, label, from } = tx || {};
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const params = useMemo(() => {
