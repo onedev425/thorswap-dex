@@ -7,6 +7,7 @@ import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
+import { useApp } from 'store/app/hooks';
 import { useAppSelector } from 'store/store';
 import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
@@ -23,7 +24,6 @@ type Params = {
   inputUSDPrice: number;
   inputUnitPrice: number;
   outputUnitPrice: number;
-  manualSlippage?: number;
 };
 
 export const useSwapQuote = ({
@@ -36,20 +36,27 @@ export const useSwapQuote = ({
   inputUSDPrice,
   inputUnitPrice,
   outputUnitPrice,
-  manualSlippage,
 }: Params) => {
   const showingQuoteError = useRef(false);
+  const { slippageTolerance } = useApp();
   const iframeData = useAppSelector(({ app }) => app.iframeData);
   const [approvalsLoading, setApprovalsLoading] = useState<boolean>(false);
-  const [swapQuote, setSwapRoute] = useState<RouteWithApproveType>();
+  const [selectedProvider, setSelectedProvider] = useState<string[]>([]);
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
 
-  const debouncedManualSlippage = useDebouncedValue(manualSlippage, 200);
+  const debouncedManualSlippage = useDebouncedValue(slippageTolerance, 1000);
   const debouncedSellAmount = useDebouncedValue(inputAmount.getValue('string'), 400);
 
   const VTHORBalance = useVTHORBalance(ethAddress);
 
-  useEffect(() => setSwapRoute(undefined), [inputAmount]);
+  useEffect(() => {
+    setSelectedProvider([]);
+  }, [inputAmount]);
+
+  const setSwapRoute = (route: RouteWithApproveType) => {
+    // @ts-expect-error
+    setSelectedProvider(route.providers || route.provider);
+  };
 
   const affiliateBasisPoints = useMemo(() => {
     if (iframeData?.fee) return `${Math.floor(iframeData.fee)}`;
@@ -123,6 +130,7 @@ export const useSwapQuote = ({
 
   const refetchAllQuotes = useMemo(
     () => () => {
+      setRoutes([]);
       if (!isUninitialized) {
         refetch();
       }
@@ -333,13 +341,12 @@ export const useSwapQuote = ({
     routes?.length,
     setSortedRoutes,
   ]);
-
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
       quoteError || isLoading || isLoadingChainflip || inputAmount.getValue('number') === 0
         ? undefined
-        : swapQuote || routes[0],
-    [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, swapQuote],
+        : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
+    [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, selectedProvider],
   );
 
   useEffect(() => {

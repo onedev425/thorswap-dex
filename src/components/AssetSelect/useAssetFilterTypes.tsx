@@ -95,7 +95,7 @@ export const useAssetFilterTypes = () => {
       case 'maya': {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Maya)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.fromStringSync('MAYA.MAYA')} size={20} />}
             label="MAYA"
           />
         );
@@ -124,8 +124,8 @@ export const useAssetFilterTypes = () => {
                 asset={AssetValue.fromStringSync(
                   'ARB.ARB-0x912ce59144191c1204e64559fe8253a0e49e6548',
                 )}
-                size={20}
                 hasChainIcon={false}
+                size={20}
               />
             }
             label="ARB"

@@ -115,6 +115,7 @@ export const SwapSubmitButton = ({
     outputAsset.isSynthetic,
     isSwapValid,
     hasQuote,
+    inputAmount,
   ]);
 
   const isApproveRequired = useMemo(

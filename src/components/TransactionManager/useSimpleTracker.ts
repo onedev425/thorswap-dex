@@ -1,4 +1,5 @@
 import { cutTxPrefix } from 'components/TransactionManager/helpers';
+import { trackerUnsupportedProviders } from 'components/TransactionManager/PendingTransaction';
 import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useEffect, useMemo } from 'react';
@@ -43,7 +44,6 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
   const txUrl = useTxUrl({ txHash: tx?.txid || '', chain: inChain });
 
   // TODO remove after tracker supports providers
-  const trackerUnsupportedProviders = ['MAYACHAIN'];
   const isTrackerWorkaround = useMemo(
     () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ''),
     [tx],
@@ -62,7 +62,7 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
     if (transactionCompleted || (instantComplete && txUrl)) {
       onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });
     }
-  }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type]);
+  }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type, isTrackerWorkaround]);
 
   return tx
     ? {

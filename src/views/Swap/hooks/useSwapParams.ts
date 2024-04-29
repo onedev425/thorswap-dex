@@ -2,13 +2,13 @@ import type { AssetValue } from '@swapkit/core';
 import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useApp } from 'store/app/hooks';
 
 type Props = {
   selectedRoute?: RouteWithApproveType;
   noPriceProtection: boolean;
   inputAmount: SwapKitNumber;
   outputAsset: AssetValue;
-  setManualSlippage?: (slippage: number) => void;
 };
 
 export type StreamSwapParams = {
@@ -21,7 +21,6 @@ export const useSwapParams = ({
   noPriceProtection,
   inputAmount,
   outputAsset,
-  setManualSlippage,
 }: Props) => {
   const isDexAgg = useMemo(
     () =>
@@ -34,12 +33,7 @@ export const useSwapParams = ({
     selectedRoute?.streamingSwap?.maxQuantity &&
     selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity;
 
-  const [slippagePercent, setSlippagePercent] = useState(0);
-
-  const isChainflip = useMemo(
-    () => selectedRoute?.providers.includes('CHAINFLIP'),
-    [selectedRoute],
-  );
+  const { setSlippage, slippageTolerance } = useApp();
 
   const canStreamSwap = useMemo(
     () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
@@ -52,16 +46,10 @@ export const useSwapParams = ({
   );
 
   useEffect(() => {
-    if (isDexAgg && slippagePercent !== selectedRoute?.meta.slippagePercentage) {
-      setManualSlippage?.(slippagePercent);
-    }
-  }, [isDexAgg, selectedRoute?.meta?.slippagePercentage, setManualSlippage, slippagePercent]);
-
-  useEffect(() => {
     // reset stream swap state only when path changed
     toggleStreamSwap(!!selectedRoute?.path);
     setStreamingSwapParams(null);
-  }, [hasStreamingSettings, canStreamSwap, selectedRoute?.path, toggleStreamSwap]);
+  }, [selectedRoute?.path, toggleStreamSwap]);
 
   const defaultInterval = useMemo(() => {
     const limit = getMemoPart(selectedRoute?.calldata?.memoStreamingSwap, 3);
@@ -121,50 +109,54 @@ export const useSwapParams = ({
     return streamSwap && streamingValue.gt(0) ? streamingValue : regularValue;
   }, [selectedRoute, outputAsset.decimal, inputAmount, streamSwap, streamingValue]);
 
-  useEffect(() => {
-    if (isChainflip) {
-      setSlippagePercent(5);
-      return;
-    }
+  //   useEffect(() => {
+  //     if (isDexAgg) {
+  //       //   setSlippage(selectedRoute?.meta?.slippagePercentage || 0);
+  //       return;
+  //     }
 
-    if (isDexAgg) {
-      setSlippagePercent(selectedRoute?.meta?.slippagePercentage || 0);
-      return;
-    }
+  //     // update default slippage when path changed
+  //     if (!selectedRoute) {
+  //       return;
+  //     }
 
-    // update default slippage when path changed
-    if (!selectedRoute) {
-      setSlippagePercent(0);
-      return;
-    }
+  //     const maxOutputAmount = new SwapKitNumber({
+  //       value: streamSwap
+  //         ? selectedRoute.streamingSwap?.expectedOutput || 0
+  //         : selectedRoute.expectedOutput,
+  //       decimal: outputAsset.decimal,
+  //     });
 
-    const maxOutputAmount = new SwapKitNumber({
-      value: streamSwap
-        ? selectedRoute.streamingSwap?.expectedOutput || 0
-        : selectedRoute.expectedOutput,
-      decimal: outputAsset.decimal,
-    });
+  //     if (maxOutputAmount.lte(0)) {
+  //       return;
+  //     }
 
-    if (maxOutputAmount.lte(0)) {
-      return;
-    }
+  //     const expectedOutputSlippage = streamSwap
+  //       ? selectedRoute?.streamingSwap?.expectedOutputMaxSlippage
+  //       : selectedRoute?.expectedOutputMaxSlippage ||
+  //         // @ts-expect-error wrong typing on expectedBuyAmountMaxSlippage
+  //         selectedRoute?.expectedBuyAmountMaxSlippage ||
+  //         selectedRoute?.expectedOutput;
 
-    const expectedOutputSlippage = streamSwap
-      ? selectedRoute?.streamingSwap?.expectedOutputMaxSlippage
-      : selectedRoute?.expectedOutputMaxSlippage || selectedRoute?.expectedOutput;
+  //     const defaultSlippage = new SwapKitNumber({
+  //       value: expectedOutputSlippage || 0,
+  //       decimal: outputAsset.decimal,
+  //     })
+  //       .div(maxOutputAmount)
+  //       .getValue('number');
 
-    const defaultSlippage = new SwapKitNumber({
-      value: expectedOutputSlippage || 0,
-      decimal: outputAsset.decimal,
-    })
-      .div(maxOutputAmount)
-      .getValue('number');
+  //     // const slipPercent = Math.round(100 - (defaultSlippage * 10000) / 100);
 
-    const slipPercent = Math.round(100 - (defaultSlippage * 10000) / 100);
-
-    setSlippagePercent(slipPercent);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outputAsset.decimal, selectedRoute?.path, selectedRoute?.providers, streamSwap, isChainflip]);
+  //     // setSlippage(slipPercent === 100 ? 0 : slipPercent);
+  //   }, [
+  //     outputAsset.decimal,
+  //     selectedRoute?.path,
+  //     selectedRoute?.providers,
+  //     streamSwap,
+  //     isDexAgg,
+  //     selectedRoute,
+  //     setSlippage,
+  //   ]);
   const savingsInUSD = useMemo(() => {
     const savingsValue = Number(selectedRoute?.streamingSwap?.savingsInUSD || 0);
     if (!streamingSwapParams) {
@@ -188,8 +180,8 @@ export const useSwapParams = ({
   ]);
 
   const minReceive = useMemo(() => {
-    return outputAmount.mul(1 - slippagePercent / 100);
-  }, [outputAmount, slippagePercent]);
+    return outputAmount.mul(1 - slippageTolerance / 100);
+  }, [outputAmount, slippageTolerance]);
 
   const fees = useMemo(() => {
     if (streamSwap && selectedRoute?.streamingSwap?.fees) {
@@ -207,7 +199,7 @@ export const useSwapParams = ({
     }
 
     toggleStreamSwap(!!streamingSwapParams.subswaps);
-  }, [streamSwap, streamingSwapParams, toggleStreamSwap]);
+  }, [streamingSwapParams, toggleStreamSwap]);
 
   const route = useMemo(() => {
     // do not update slippage for dex agg
@@ -215,7 +207,7 @@ export const useSwapParams = ({
       return selectedRoute;
     }
 
-    const memoMinAmount = slippagePercent
+    const memoMinAmount = slippageTolerance
       ? // convert to 8 decimals TC value
         SwapKitNumber.shiftDecimals({
           value: minReceive,
@@ -247,7 +239,7 @@ export const useSwapParams = ({
   }, [
     selectedRoute,
     isDexAgg,
-    slippagePercent,
+    slippageTolerance,
     minReceive,
     outputAsset.decimal,
     streamingSwapParams?.interval,
@@ -267,8 +259,8 @@ export const useSwapParams = ({
     route,
     hasStreamingSettings,
     savingsInUSD,
-    slippagePercent,
-    setSlippagePercent,
+    slippagePercent: slippageTolerance,
+    setSlippagePercent: setSlippage,
     defaultInterval,
   };
 };

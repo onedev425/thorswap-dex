@@ -178,14 +178,12 @@ const SwapView = () => {
     [inputAmount, inputUnitPrice],
   );
 
-  const [manualSlippage, setManualSlippage] = useState<number>(0);
-
-  useEffect(() => {
-    // reset slippage if assets change
-    if (inputAsset || outputAsset) {
-      setManualSlippage(0);
-    }
-  }, [inputAsset, outputAsset]);
+  //   useEffect(() => {
+  //     // reset slippage if assets change
+  //     if (inputAsset || outputAsset) {
+  //       setSlippagePercent(0);
+  //     }
+  //   }, [inputAsset, outputAsset]);
 
   const {
     affiliateBasisPoints,
@@ -205,7 +203,6 @@ const SwapView = () => {
     inputUSDPrice,
     inputUnitPrice,
     outputUnitPrice,
-    manualSlippage,
     outputAsset,
     recipientAddress: recipient,
     senderAddress: sender,
@@ -240,7 +237,6 @@ const SwapView = () => {
     inputAmount,
     noPriceProtection,
     outputAsset,
-    setManualSlippage,
   });
 
   const { isApproved, isLoading } = useIsAssetApproved({
@@ -460,7 +456,6 @@ const SwapView = () => {
             tokens={tokens}
             tradingPairs={tradingPairs.get(inputAsset.toString()) || tokens}
           />
-
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
@@ -469,7 +464,6 @@ const SwapView = () => {
               setRecipient={setRecipient}
             />
           )}
-
           <SwapSettings
             canStreamSwap={canStreamSwap}
             defaultInterval={defaultInterval}
@@ -484,7 +478,6 @@ const SwapView = () => {
             streamSwap={streamSwap}
             streamingSwapParams={streamingSwapParams}
           />
-
           {quoteId && (
             <SwapInfo
               affiliateBasisPoints={Number(affiliateBasisPoints)}
@@ -506,11 +499,9 @@ const SwapView = () => {
               whaleDiscount={inputUSDPrice >= 1_000_000}
             />
           )}
-
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
           )}
-
           {noPriceProtection && (
             <InfoTip
               className="!mt-2"
@@ -521,7 +512,6 @@ const SwapView = () => {
               type="warn"
             />
           )}
-
           <SwapRouter
             inputUnitPrice={inputUnitPrice}
             outputAsset={outputAsset}
@@ -532,6 +522,16 @@ const SwapView = () => {
             streamSwap={streamSwap}
           />
 
+          {// @ts-ignore TODO add typings for new v2 response
+          selectedRoute?.warnings?.map((warning: { code: string; display: string }) => (
+            <InfoTip
+              className="!mt-2"
+              content={warning.display}
+              key={warning.code}
+              title={t(`views.swap.warning.${warning.code}`)}
+              type="warn"
+            />
+          ))}
           <SwapSubmitButton
             hasQuote={!!selectedRoute}
             inputAmount={inputAmount}
@@ -547,7 +547,6 @@ const SwapView = () => {
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}
           />
-
           <ConfirmSwapModal
             affiliateFee={formatPrice(affiliateFee)}
             estimatedTime={estimatedTime}
@@ -565,7 +564,6 @@ const SwapView = () => {
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
           />
-
           <ApproveModal
             balance={maxInputBalance}
             handleApprove={handleApprove}
@@ -574,7 +572,6 @@ const SwapView = () => {
             totalFee={formatPrice(firstNetworkFee)}
             visible={visibleApproveModal}
           />
-
           <FeeModal
             fees={fees}
             isOpened={feeModalOpened}

@@ -147,7 +147,7 @@ export const ConfirmContent = memo(
                   })}
                   textStyle="caption"
                 >
-                  {affiliateFee === '$0.00' ? 'FREE' : affiliateFee}
+                  {affiliateFee === '$0.00' || affiliateFee === '0' ? 'FREE' : affiliateFee}
                 </Text>
               </Box>
 

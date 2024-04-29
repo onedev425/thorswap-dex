@@ -61,6 +61,7 @@ export const TabsSelect = memo(
                 }}
                 _light={{ color: theme.colors.brand.light.textPrimary }}
                 alignSelf="stretch"
+                disabled={!enabledTabs?.includes(value)}
                 flex={!tabWidth ? 1 : 'initial'}
                 key={value}
                 onClick={() => onChange(value)}
@@ -68,10 +69,9 @@ export const TabsSelect = memo(
                 sx={buttonStyle}
                 textTransform="none"
                 tooltip={tooltip}
-                variant={value === selectedValue ? 'primary' : 'borderlessTint'}
                 tooltipWrapperClasses={classNames('w-[17%]')}
-                width={'100%'}
-                disabled={!enabledTabs?.includes(value)}
+                variant={value === selectedValue ? 'primary' : 'borderlessTint'}
+                width="100%"
               >
                 {label}
               </Button>

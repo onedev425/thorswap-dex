@@ -221,8 +221,8 @@
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
     "yourTransactions": "Your Transactions",
-    "slippageSettings": "Slippage options",
-    "slippageSettingsChainflip": "Slippage protection locked at 5%",
+    "slippageSettings": "Price protection",
+    "slippageSettingsChainflip": "Price protection locked at 5%",
     "recommended": "recommended"
   },
   "components": {
@@ -1008,7 +1008,11 @@
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
       "txAssetsFee": "TX Fee Tokens",
-      "noProtection": "No protection"
+      "noProtection": "No protection",
+      "warning": {
+        "highSlippage": "High Slippage",
+        "highPriceImpact": "High Price Impact"
+      }
     },
     "thorname": {
       "available": "Available",

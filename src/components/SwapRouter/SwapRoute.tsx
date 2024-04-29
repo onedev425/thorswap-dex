@@ -43,7 +43,7 @@ export const SwapRoute = memo(
     const [, address] = outputAsset.symbol.split('-');
 
     const outputValue = useMemo(
-      () => parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
+      () => Number.parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
       [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 

@@ -19,6 +19,7 @@ import { STREAMING_SWAPS_URL } from 'config/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { navigateToExternalLink } from 'settings/router';
+import { useApp } from 'store/app/hooks';
 import type { StreamSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useSwapTimeEstimate } from 'views/Swap/hooks/useSwapTimeEstimate';
 import { SwapSlippage } from 'views/Swap/SwapSlippage';
@@ -28,8 +29,6 @@ type Props = {
   onSettingsChange?: (value: StreamSwapParams) => void;
   outputAmount: SwapKitNumber;
   outputAsset: AssetValue;
-  slippagePercent: number;
-  setSlippagePercent: (value: number) => void;
   minReceive: SwapKitNumber;
   defaultInterval: number;
   canStreamSwap: boolean;
@@ -50,8 +49,8 @@ export const SwapSettings = ({
   onSettingsChange,
   outputAmount,
   outputAsset,
-  slippagePercent,
-  setSlippagePercent,
+  //   slippagePercent,
+  //   setSlippagePercent,
   minReceive,
   defaultInterval,
   canStreamSwap,
@@ -60,6 +59,7 @@ export const SwapSettings = ({
   isChainflip,
 }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const { slippageTolerance, setSlippage } = useApp();
 
   const maxQuantity = route?.streamingSwap?.maxQuantity || 0;
   const maxInterval = route?.streamingSwap?.maxIntervalForMaxQuantity || 10;
@@ -78,7 +78,7 @@ export const SwapSettings = ({
 
   const [showTooltip, setShowTooltip] = useState(false);
   const [isChangingValue, setIsChangingValue] = useState(false);
-  const [manualSlippagePercent, setManualSlippagePercent] = useState<number | null>(null);
+  //   const [manualSlippagePercent, setManualSlippagePercent] = useState<number | null>(null);
   const estimatedTime = useSwapTimeEstimate({
     streamingSwapParams,
     timeEstimates: route?.timeEstimates,
@@ -86,7 +86,7 @@ export const SwapSettings = ({
     useMaxTime: value === 100,
   });
   const recommendedSlippage = route?.meta?.recommendedSlippage || 0;
-  const hasOptimalSettings = slippagePercent === recommendedSlippage && value === 50;
+  //   const hasOptimalSettings = slippageTolerance === recommendedSlippage && value === 50;
 
   const sliderOptions = useMemo(() => {
     const swapsOptions: SwapOption[] = availableSwaps.map((v, i) => ({
@@ -122,10 +122,10 @@ export const SwapSettings = ({
 
   const onChangeSlippage = useCallback(
     (val: number) => {
-      setManualSlippagePercent(val);
-      setSlippagePercent(val);
+      //   setManualSlippagePercent(val);
+      setSlippage(val);
     },
-    [setSlippagePercent],
+    [setSlippage],
   );
 
   const onChange = (val: number) => {
@@ -136,22 +136,13 @@ export const SwapSettings = ({
     }, 0);
 
     setValue(closest);
-    if (
-      closest > 50 &&
-      (manualSlippagePercent === null || slippagePercent === manualSlippagePercent)
-    ) {
-      setSlippagePercent(0);
-      setManualSlippagePercent(slippagePercent);
-    }
+    //   if (closest > 50) {
+    //     setSlippage(0);
+    //   }
 
-    if (
-      closest <= 50 &&
-      slippagePercent === 0 &&
-      manualSlippagePercent &&
-      manualSlippagePercent > 0
-    ) {
-      setSlippagePercent(manualSlippagePercent);
-    }
+    //   if (closest <= 50 && slippageTolerance === 0) {
+    //     setSlippage(manualSlippagePercent);
+    //   }
   };
 
   useEffect(() => {
@@ -164,9 +155,9 @@ export const SwapSettings = ({
     }
   }, [onSettingsChange, selectedOption]);
 
-  if (!route) {
-    return null;
-  }
+  //   if (!route) {
+  //     return null;
+  //   }
 
   return (
     <Flex w="100%">
@@ -180,15 +171,15 @@ export const SwapSettings = ({
           </Flex>
 
           <Flex alignItems="center" gap={1}>
-            {hasOptimalSettings || isChainflip ? (
-              <Text color="brand.green" fontWeight="semibold" ml={2} textStyle="caption">
-                Optimal
-              </Text>
-            ) : (
-              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                Custom
-              </Text>
-            )}
+            {/* {hasOptimalSettings || isChainflip ? ( */}
+            <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+              {`${isChainflip ? 5 : slippageTolerance}% Price Protection`}
+            </Text>
+            {/* // ) : (
+            //   <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+            //     Custom
+            //   </Text>
+            // )} */}
 
             <Icon
               className={classNames('transform duration-300 ease -mr-2', {
@@ -359,7 +350,7 @@ export const SwapSettings = ({
                   outputAsset={outputAsset}
                   route={route}
                   setSlippagePercent={onChangeSlippage}
-                  slippagePercent={slippagePercent}
+                  slippagePercent={slippageTolerance}
                 />
               ) : (
                 <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
@@ -376,18 +367,18 @@ export const SwapSettings = ({
               <Flex flex={1} flexWrap="wrap" ml={2}>
                 <Flex direction="column" flex={1}>
                   <Text color="textSecondary" fontWeight="semibold" textStyle="caption-xs">
-                    Minimum:
+                    Receive at least:
                   </Text>
                   <Text
                     color={
-                      slippagePercent === 0 ||
-                      (recommendedSlippage > 0 && recommendedSlippage < slippagePercent)
+                      slippageTolerance === 0 ||
+                      (recommendedSlippage > 0 && recommendedSlippage < slippageTolerance)
                         ? 'brand.yellow'
                         : 'textPrimary'
                     }
                     textStyle="caption-xs"
                   >
-                    {slippagePercent === 0
+                    {slippageTolerance === 0
                       ? t('views.swap.noProtection')
                       : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
                   </Text>
@@ -423,7 +414,7 @@ export const SwapSettings = ({
                 </Flex>
               </Flex>
 
-              {value > 50 && slippagePercent > 0 && (
+              {value > 50 && slippageTolerance > 0 && (
                 <Box row className="w-full my-3 px-2">
                   <Icon color="yellow" name="infoCircle" size={26} />{' '}
                   <Text

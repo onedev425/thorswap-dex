@@ -26,6 +26,8 @@ import type {
   RepayQuoteResponse,
 } from './types';
 
+export const V2Providers = ['CHAINFLIP', 'MAYACHAIN'];
+
 const baseUrl = IS_STAGENET
   ? 'https://api-stagenet.thorswap.net'
   : IS_DEV_API
@@ -55,7 +57,11 @@ export const thorswapApi = createApi({
         affiliateAddress,
         ...rest
       }) => {
-        const queryParams = new URLSearchParams({ ...rest, senderAddress, recipientAddress });
+        const queryParams = new URLSearchParams({
+          ...rest,
+          senderAddress,
+          recipientAddress,
+        });
 
         if (affiliateBasisPoints) {
           queryParams.append('affiliateBasisPoints', affiliateBasisPoints);
@@ -86,9 +92,10 @@ export const thorswapApi = createApi({
             sellAmount: Number(rest.sellAmount),
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
-            affiliateFee: parseInt(affiliateBasisPoints || '0'),
+            affiliateFee: Number.parseInt(affiliateBasisPoints || '0'),
             ...(affiliateAddress ? { affiliate: 'ts' } : { affiliate: 'ts' }),
-            providers: ['CHAINFLIP', 'MAYACHAIN'],
+            providers: V2Providers,
+            slippage: Number(rest.slippage) || 5,
           }),
           url: `${apiV2BaseUrl}/quote`,
           headers: { 'Content-Type': 'application/json' },
@@ -205,23 +212,17 @@ export const thorswapApi = createApi({
     }),
 
     getTokenCachedPrices: build.query<GetTokenPriceResponse, GetTokenPriceParams>({
-      query: ({ tokens, options = {} }) => {
-        const body = new URLSearchParams();
-        tokens
-          .filter(
-            (token, index, sourceArr) =>
-              sourceArr.findIndex((t) => t?.identifier === token.identifier) === index,
-          )
-          .forEach((token) => body.append('tokens', JSON.stringify(token)));
-
-        if (options.metadata) body.append('metadata', 'true');
-        if (options.lookup) body.append('lookup', 'true');
-        if (options.sparkline) body.append('sparkline', 'true');
+      query: ({ tokens }) => {
         return {
           method: 'POST',
-          url: `/tokenlist/cached-price`,
-          body,
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          url: `${apiV2BaseUrl}/price`,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tokens: tokens.map((token) => ({
+              identifier: token.identifier,
+            })),
+            metadata: true,
+          }),
         };
       },
       keepUnusedDataFor: 60,

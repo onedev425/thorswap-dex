@@ -2,13 +2,13 @@ import { Text } from '@chakra-ui/react';
 import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
+import { assetFilterTypes as assetFilterTypesWithChain } from 'components/AssetSelect/assetTypes';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
 import { Input } from 'components/Input';
 import { TabsSelect } from 'components/TabsSelect';
 import useWindowSize from 'hooks/useWindowSize';
-import { assetFilterTypes as assetFilterTypesWithChain } from 'components/AssetSelect/assetTypes';
 import { Fragment, memo, useCallback, useMemo, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { t } from 'services/i18n';
@@ -81,7 +81,7 @@ const SelectList = ({
         )
         .map((assetFilter) => assetFilter.value)
         .concat(['all']),
-    [assetFilterTypesWithChain, assets],
+    [assets],
   );
 
   return (
@@ -114,10 +114,10 @@ const SelectList = ({
           {!noFilters && !IS_LEDGER_LIVE && (
             <TabsSelect
               buttonStyle={{ px: 2 }}
+              enabledTabs={enabledTabs}
               onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
               tabs={assetFilterTypes}
               value={typeFilter}
-              enabledTabs={enabledTabs}
             />
           )}
         </>

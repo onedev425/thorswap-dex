@@ -80,10 +80,10 @@ export const Button = ({
   return (
     <Tooltip
       className={tooltipClasses}
-      wrapperClassName={tooltipWrapperClasses}
       content={tooltip}
       place={tooltipPlacement}
       stretch={stretch}
+      wrapperClassName={tooltipWrapperClasses}
     >
       <ChakraButton
         {...props}

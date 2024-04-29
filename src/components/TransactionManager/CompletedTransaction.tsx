@@ -91,7 +91,7 @@ export const CompletedTransaction = memo(
       };
 
       getTxUrl();
-    }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type]);
+    }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type, txUrlOverwrite]);
 
     useCallback(() => {
       const finished = ['mined', 'error', 'refund'].includes(status);
