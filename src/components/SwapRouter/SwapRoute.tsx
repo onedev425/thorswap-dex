@@ -31,7 +31,6 @@ export const SwapRoute = memo(
     isApproved,
     outputAsset,
     unitPrice,
-    inputUnitPrice,
     path,
     providers,
     selected,

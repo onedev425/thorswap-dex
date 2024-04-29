@@ -29,8 +29,6 @@ export const SelectedRoute = memo(
     swaps,
     outputAssetDecimal,
     unitPrice,
-    inputUnitPrice,
-    optimal,
     path,
     providers,
     isApproved,

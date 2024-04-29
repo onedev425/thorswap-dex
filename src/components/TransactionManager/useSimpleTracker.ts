@@ -62,7 +62,7 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
     if (transactionCompleted || (instantComplete && txUrl)) {
       onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });
     }
-  }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type, isTrackerWorkaround]);
+  }, [data, onCompleteTransaction, txUrl, type, isTrackerWorkaround, txUrlOverwrite]);
 
   return tx
     ? {
