@@ -58,7 +58,7 @@ export const SwapSettings = ({
   streamSwap,
   isChainflip,
 }: Props) => {
-  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
+  const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse({});
   const { slippageTolerance, setSlippage } = useApp();
 
   const maxQuantity = route?.streamingSwap?.maxQuantity || 0;

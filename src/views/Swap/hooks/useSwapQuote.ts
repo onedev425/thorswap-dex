@@ -289,7 +289,7 @@ export const useSwapQuote = ({
         expectedOutput: route.buyAmount,
         isApproved: true,
         fees: {
-          FLIP: [
+          [fullRoute?.providers?.includes('CHAINFLIP') ? 'FLIP' : 'MAYA']: [
             {
               type: 'inbound',
               asset: route.sellAsset,

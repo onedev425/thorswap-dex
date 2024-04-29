@@ -1,4 +1,5 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
+import { Box } from 'components/Atomic';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
 import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
@@ -230,13 +231,13 @@ const SwapView = () => {
     streamingSwapParams,
     setStreamingSwapParams,
     slippagePercent,
-    setSlippagePercent,
     defaultInterval,
   } = useSwapParams({
     selectedRoute: selectedRouteRaw,
     inputAmount,
     noPriceProtection,
     outputAsset,
+    isChainflip,
   });
 
   const { isApproved, isLoading } = useIsAssetApproved({
@@ -464,21 +465,8 @@ const SwapView = () => {
               setRecipient={setRecipient}
             />
           )}
-          <SwapSettings
-            canStreamSwap={canStreamSwap}
-            defaultInterval={defaultInterval}
-            isChainflip={isChainflip}
-            minReceive={minReceive}
-            onSettingsChange={setStreamingSwapParams}
-            outputAmount={outputAmount}
-            outputAsset={outputAsset}
-            route={selectedRoute}
-            setSlippagePercent={setSlippagePercent}
-            slippagePercent={slippagePercent}
-            streamSwap={streamSwap}
-            streamingSwapParams={streamingSwapParams}
-          />
-          {quoteId && (
+
+          {
             <SwapInfo
               affiliateBasisPoints={Number(affiliateBasisPoints)}
               affiliateFee={affiliateFee}
@@ -498,7 +486,7 @@ const SwapView = () => {
               vTHORDiscount={vTHORDiscount}
               whaleDiscount={inputUSDPrice >= 1_000_000}
             />
-          )}
+          }
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
           )}
@@ -512,6 +500,7 @@ const SwapView = () => {
               type="warn"
             />
           )}
+
           <SwapRouter
             inputUnitPrice={inputUnitPrice}
             outputAsset={outputAsset}
@@ -522,16 +511,41 @@ const SwapView = () => {
             streamSwap={streamSwap}
           />
 
+          <SwapSettings
+            canStreamSwap={canStreamSwap}
+            defaultInterval={defaultInterval}
+            isChainflip={isChainflip}
+            minReceive={minReceive}
+            onSettingsChange={setStreamingSwapParams}
+            outputAmount={outputAmount}
+            outputAsset={outputAsset}
+            route={selectedRoute}
+            streamSwap={streamSwap}
+            streamingSwapParams={streamingSwapParams}
+          />
+
           {// @ts-ignore TODO add typings for new v2 response
-          selectedRoute?.warnings?.map((warning: { code: string; display: string }) => (
-            <InfoTip
-              className="!mt-2"
-              content={warning.display}
-              key={warning.code}
-              title={t(`views.swap.warning.${warning.code}`)}
-              type="warn"
-            />
-          ))}
+          selectedRoute?.warnings?.map(
+            (warning: { code: string; display: string; tooltip: string }) => (
+              <InfoTip
+                tooltip={warning.tooltip}
+                className="!mt-2"
+                key={warning.code}
+                title={
+                  warning.code === 'highPriceImpact' ? (
+                    <Box row justify="between" className="pl-4 self-stretch w-[100%]">
+                      <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{' '}
+                      <Text color={'red'}>{warning.display}</Text>
+                    </Box>
+                  ) : (
+                    t(`views.swap.warning.${warning.code}`)
+                  )
+                }
+                type="warn"
+              />
+            ),
+          )}
+
           <SwapSubmitButton
             hasQuote={!!selectedRoute}
             inputAmount={inputAmount}

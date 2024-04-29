@@ -60,10 +60,12 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
       async ({ identifier, address, chain, ...rest }: Token) => {
         const assetChain = (chain || identifier.split('.')[0]) as EVMChain;
         const [id] = identifier.split('-');
-        if (id.includes('/') && !id.startsWith(Chain.THORChain)) return null;
+        // if (id.includes('/') && !id.startsWith(Chain.THORChain)) return null;
 
         const asset = AssetValue.fromStringSync(
-          [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(assetChain)
+          [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain, Chain.Arbitrum].includes(
+            assetChain,
+          )
             ? `${id}${address ? `-${address}` : ''}`
             : identifier,
         );

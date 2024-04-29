@@ -61,7 +61,7 @@ export const TabsSelect = memo(
                 }}
                 _light={{ color: theme.colors.brand.light.textPrimary }}
                 alignSelf="stretch"
-                disabled={!enabledTabs?.includes(value)}
+                disabled={enabledTabs && !enabledTabs?.includes(value)}
                 flex={!tabWidth ? 1 : 'initial'}
                 key={value}
                 onClick={() => onChange(value)}

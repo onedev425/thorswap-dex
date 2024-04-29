@@ -67,18 +67,6 @@ export const SwapRoute = memo(
       [outputValue, formatPrice, unitPrice],
     );
 
-    const parsedFees = useMemo(() => {
-      return fees.FLIP
-        ? {
-            FLIP: fees.FLIP.map((fee) => ({
-              ...fee,
-              totalFeeUSD: fee.totalFee * inputUnitPrice,
-              networkFeeUSD: fee.networkFee * inputUnitPrice,
-            })),
-          }
-        : fees;
-    }, [fees, inputUnitPrice]);
-
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>
         <Box justify="between">
@@ -104,11 +92,7 @@ export const SwapRoute = memo(
                 </Box>
 
                 <Box alignCenter className="gap-x-1" justify="end">
-                  <GasPriceIndicator
-                    // @ts-expect-error
-                    fees={parsedFees}
-                    size="sm"
-                  />
+                  <GasPriceIndicator fees={fees} size="sm" />
 
                   <Text className="text-right" variant="secondary">
                     {expectedOutputPrice}

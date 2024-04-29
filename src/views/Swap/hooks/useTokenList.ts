@@ -17,7 +17,7 @@ export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
 
 const UNCHAINABLE_PROVIDERS = ['CHAINFLIP', 'MAYACHAIN'];
 
-export const useTokenList = (withTradingPairs: boolean = false) => {
+export const useTokenList = (withTradingPairs = false) => {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [tradingPairs, setTraidingPairs] = useState<Map<string, Token[]>>(new Map());
   const { data: providersData } = useGetProvidersQuery();
@@ -54,11 +54,11 @@ export const useTokenList = (withTradingPairs: boolean = false) => {
               : ([...acc, ...data.tokens] as Token[]),
           [] as Token[],
         );
-      providersData.forEach(({ data, status }) => {
+      for (const { data, status } of providersData) {
         if (!data?.tokens || status === QueryStatus.rejected) return;
         const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider);
 
-        data.tokens.forEach((token) => {
+        for (const token of data.tokens) {
           const isUnique = providersData
             .filter((provider) => provider.data?.provider !== data.provider)
             .every(
@@ -72,14 +72,29 @@ export const useTokenList = (withTradingPairs: boolean = false) => {
             } else {
               tokensByProvider.set(token.identifier, data.tokens);
             }
-            // if (tokensByProvider.has(token.identifier)) {
-            //   tokensByProvider.get(token.identifier)!.push(token);
-            // } else {
-            //   tokensByProvider.set(token.identifier, [token]);
-            // }
           }
-        });
-      });
+          //  data.tokens.forEach((token) => {
+          //   const isUnique = providersData
+          //     .filter((provider) => provider.data?.provider !== data.provider)
+          //     .every(
+          //       (pd) =>
+          //         pd.data?.tokens && !pd.data.tokens.find((t) => t.identifier === token.identifier),
+          //     );
+
+          //   if (isUnique) {
+          //     if (isProviderChainable) {
+          //       tokensByProvider.set(token.identifier, chainableTokens);
+          //     } else {
+          //       tokensByProvider.set(token.identifier, data.tokens);
+          //     }
+          //     // if (tokensByProvider.has(token.identifier)) {
+          //     //   tokensByProvider.get(token.identifier)!.push(token);
+          //     // } else {
+          //     //   tokensByProvider.set(token.identifier, [token]);
+          //     // }
+          //   }
+        }
+      }
     }
 
     setTraidingPairs(tokensByProvider);

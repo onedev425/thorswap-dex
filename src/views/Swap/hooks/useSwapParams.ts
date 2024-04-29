@@ -9,6 +9,7 @@ type Props = {
   noPriceProtection: boolean;
   inputAmount: SwapKitNumber;
   outputAsset: AssetValue;
+  isChainflip?: boolean;
 };
 
 export type StreamSwapParams = {
@@ -21,6 +22,7 @@ export const useSwapParams = ({
   noPriceProtection,
   inputAmount,
   outputAsset,
+  isChainflip,
 }: Props) => {
   const isDexAgg = useMemo(
     () =>
@@ -180,8 +182,8 @@ export const useSwapParams = ({
   ]);
 
   const minReceive = useMemo(() => {
-    return outputAmount.mul(1 - slippageTolerance / 100);
-  }, [outputAmount, slippageTolerance]);
+    return outputAmount.mul(1 - (isChainflip ? 5 : slippageTolerance) / 100);
+  }, [outputAmount, slippageTolerance, isChainflip]);
 
   const fees = useMemo(() => {
     if (streamSwap && selectedRoute?.streamingSwap?.fees) {

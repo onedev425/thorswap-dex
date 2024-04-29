@@ -1010,8 +1010,8 @@
       "txAssetsFee": "TX Fee Tokens",
       "noProtection": "No protection",
       "warning": {
-        "highSlippage": "High Slippage",
-        "highPriceImpact": "High Price Impact"
+        "highSlippage": "High Max Slippage",
+        "highPriceImpact": "High Value Impact"
       }
     },
     "thorname": {

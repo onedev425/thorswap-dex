@@ -11,20 +11,24 @@ type Props = {
 };
 
 export const GasPriceIndicator = memo(({ fees, size = 'md' }: Props) => {
-  const { outOfPocketFee } = useRouteFees(fees);
+  const { networkFee } = useRouteFees(fees);
 
   const iconSize = useMemo(() => (size === 'md' ? 14 : 10), [size]);
 
-  if (!outOfPocketFee) return null;
+  if (!networkFee) return null;
 
   return (
     <Tooltip>
       <Box center>
-        <Text textStyle="caption-xs" variant="secondaryBtn">{`$${new SwapKitNumber({
-          value: outOfPocketFee,
+        <Text
+          color={'brand.yellow'}
+          textStyle="caption-xs"
+          variant="secondaryBtn"
+        >{`$${new SwapKitNumber({
+          value: networkFee,
           decimal: 2,
         }).toFixed(2)}`}</Text>
-        <Icon className="pl-0.5" color="secondaryBtn" name="gas" size={iconSize} />
+        <Icon className="pl-0.5" color={'yellow'} name="gas" size={iconSize} />
       </Box>
     </Tooltip>
   );
