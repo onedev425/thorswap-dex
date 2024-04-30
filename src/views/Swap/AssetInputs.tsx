@@ -50,8 +50,7 @@ const Inputs = ({
 }: Props) => {
   const [iconRotate, setIconRotate] = useState(false);
 
-  const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-erc20');
-  const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-arc20');
+  const thorchainEVNSupportedAddresses = useTokenAddresses('tokens');
 
   const isAssetSwitchPossible = useMemo(() => {
     return isLedgerLiveSupportedInputAsset(outputAsset.asset);
@@ -72,7 +71,7 @@ const Inputs = ({
 
   const outputAssets = useMemo(() => {
     if (
-      (!thorchainERC20SupportedAddresses?.length && !thorchainAvaxSupportedAddresses?.length) ||
+      !thorchainEVNSupportedAddresses?.length ||
       (inputAsset.asset.chain === Chain.Ethereum && outputAsset.asset.chain === Chain.Ethereum) ||
       (inputAsset.asset.chain === Chain.Avalanche && outputAsset.asset.chain === Chain.Avalanche) ||
       (inputAsset.asset.chain === Chain.BinanceSmartChain &&
@@ -86,11 +85,9 @@ const Inputs = ({
       ({ asset }) =>
         isETHAsset(asset) ||
         isAVAXAsset(asset) ||
-        ![Chain.Ethereum, Chain.Avalanche].includes(asset?.chain) ||
-        (asset?.chain === Chain.Ethereum &&
-          thorchainERC20SupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())) ||
-        (asset?.chain === Chain.Avalanche &&
-          thorchainAvaxSupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase())),
+        isBSCAsset(asset) ||
+        ![Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(asset?.chain) ||
+        thorchainEVNSupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase()),
     );
 
     return thorchainSupported;
@@ -99,8 +96,7 @@ const Inputs = ({
     inputAsset.asset?.chain,
     inputAsset.asset?.isGasAsset,
     outputAsset.asset?.chain,
-    thorchainAvaxSupportedAddresses,
-    thorchainERC20SupportedAddresses,
+    thorchainEVNSupportedAddresses,
   ]);
 
   return (

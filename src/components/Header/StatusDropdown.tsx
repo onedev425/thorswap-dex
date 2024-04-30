@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { Chain } from '@swapkit/core';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';
 import { useHardCapPercentage } from 'hooks/useCheckHardCap';

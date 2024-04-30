@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useGetTokenListQuery } from 'store/static/api';
+import { useGetWhiteListPoolsQuery, useGetWhiteListTokensQuery } from 'store/static/api';
 
-type TokenLists =
-  | 'Thorchain-supported-erc20'
-  | 'Thorchain-supported-arc20'
-  | 'Thorchain-supported-bsc20'
-  | 'Thorchain-pools-whitelist-avax'
-  | 'Thorchain-pools-whitelist-bsc'
-  | 'Thorchain-pools-whitelist-eth';
+type WhitelistType = 'pools' | 'tokens';
 
-export const useTokenAddresses = (tokenListPath: TokenLists) => {
+export const useTokenAddresses = (type: WhitelistType) => {
   const [addresses, setAddresses] = useState<string[]>([]);
 
-  const { data } = useGetTokenListQuery(tokenListPath);
+  const { data: poolsData } = useGetWhiteListPoolsQuery();
+
+  const { data: tokensData } = useGetWhiteListTokensQuery();
 
   useEffect(() => {
-    if (data?.tokens?.length) {
-      setAddresses(data.tokens.map(({ address }) => address.toLowerCase()));
-    }
-  }, [data?.tokens]);
+    const tokensList =
+      (type === 'pools' ? poolsData : tokensData)?.flatMap((provider) => provider.tokens) || [];
+    setAddresses(tokensList.map(({ address }) => address?.toLowerCase()));
+  }, [poolsData, tokensData, type]);
 
   return addresses;
 };

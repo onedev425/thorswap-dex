@@ -28,6 +28,7 @@ import { logEvent } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
+import { V2Providers } from 'store/thorswap/api';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
@@ -578,16 +579,14 @@ const SwapView = () => {
             !selectedRoute?.providers.some((provider) => V2Providers.includes(provider)) && (
               <InfoTip
                 className="!mt-2"
-                key={'highValueImpact-v1'}
+                key="highValueImpact-v1"
                 title={
                   <Box row className="pl-4 self-stretch w-[100%]" justify="between">
                     <Text>{t('views.swap.warning.highPriceImpact')}</Text>{' '}
                     <Text color="red">{`${priceImpact}%`}</Text>
                   </Box>
                 }
-                tooltip={
-                  'This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token.'
-                }
+                tooltip="This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token."
                 type="warn"
               />
             )}
