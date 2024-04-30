@@ -530,7 +530,6 @@ const SwapView = () => {
           )}
 
           <SwapRouter
-            inputUnitPrice={inputUnitPrice}
             outputAsset={outputAsset}
             outputUnitPrice={outputUnitPrice}
             routes={routes}
