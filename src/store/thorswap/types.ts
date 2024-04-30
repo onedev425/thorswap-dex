@@ -119,6 +119,16 @@ export type GetProviderTokensParams = {
   provider: string;
 };
 
+export type GetWhitelistTokensResponse = {
+  name: string;
+  timestamp: string;
+  // TODO update typing
+  version: Todo;
+  keywords: string[];
+  tokens: Token[];
+  url: string;
+};
+
 export type TxnResult = SuccessTxnResult | WithdrawTxResult | AddLiquidityTxResult;
 
 export type GetTxnStatusResponse =

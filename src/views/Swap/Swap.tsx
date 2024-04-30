@@ -1,14 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
-import {
-  AssetValue,
-  BaseDecimal,
-  Chain,
-  formatBigIntToSafeValue,
-  SwapKitNumber,
-  WalletOption,
-} from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
 import { Box } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
@@ -28,6 +21,7 @@ import { logEvent } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
+import { V2Providers } from 'store/thorswap/api';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
@@ -47,7 +41,6 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
-import { V2Providers } from 'store/thorswap/api';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
@@ -578,16 +571,14 @@ const SwapView = () => {
             !selectedRoute?.providers.some((provider) => V2Providers.includes(provider)) && (
               <InfoTip
                 className="!mt-2"
-                key={'highValueImpact-v1'}
+                key="highValueImpact-v1"
                 title={
                   <Box row className="pl-4 self-stretch w-[100%]" justify="between">
                     <Text>{t('views.swap.warning.highPriceImpact')}</Text>{' '}
                     <Text color="red">{`${priceImpact}%`}</Text>
                   </Box>
                 }
-                tooltip={
-                  'This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token.'
-                }
+                tooltip="This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token."
                 type="warn"
               />
             )}

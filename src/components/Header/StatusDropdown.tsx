@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { Chain } from '@swapkit/core';
 import { Box, DropdownMenu } from 'components/Atomic';
 import { chainName } from 'helpers/chainName';
 import { useHardCapPercentage } from 'hooks/useCheckHardCap';
@@ -11,7 +12,6 @@ import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
-import { Chain } from '@swapkit/core';
 
 type StatusItem = {
   label: string;

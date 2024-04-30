@@ -2,7 +2,18 @@ import type { AssetValue } from '@swapkit/core';
 import { Chain } from '@swapkit/core';
 import type { initialWallet } from 'context/wallet/WalletProvider';
 
+export const THORCHAIN_UNSUPPORTED_ASSETS = [
+  Chain.Arbitrum,
+  Chain.Binance,
+  Chain.Chainflip,
+  Chain.Dash,
+  Chain.Maya,
+  Chain.Kujira,
+  Chain.Polkadot,
+];
+
 export const isTokenWhitelisted = (asset: AssetValue, whitelistedAddresses: string[]) => {
+  if (THORCHAIN_UNSUPPORTED_ASSETS.includes(asset.chain)) return false;
   if (![Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(asset.chain))
     return true;
 

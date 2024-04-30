@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IS_DEV_API } from 'settings/config';
-import type { GetProviderTokensParams } from 'store/thorswap/types';
+import type { GetProviderTokensParams, GetWhitelistTokensResponse } from 'store/thorswap/types';
 
 /**
  * This is not proper way of having 2 urls but API can't make it one endpoint under different base urls
@@ -22,7 +22,20 @@ export const staticApi = createApi({
     getTokenList: build.query<GetProviderTokensParams, string>({
       query: (name) => `${baseUrl}?provider=${name}`,
     }),
+    getWhiteListPools: build.query<GetWhitelistTokensResponse[], void>({
+      query: () => `${baseUrl}/whitelist/pools`,
+    }),
+    getWhiteListTokens: build.query<GetWhitelistTokensResponse[], void>({
+      query: () => `${baseUrl}/whitelist/tokens`,
+    }),
   }),
 });
 
-export const { useLazyGetTokenListQuery, useGetTokenListQuery } = staticApi;
+export const {
+  useLazyGetTokenListQuery,
+  useGetTokenListQuery,
+  useGetWhiteListPoolsQuery,
+  useGetWhiteListTokensQuery,
+  useLazyGetWhiteListPoolsQuery,
+  useLazyGetWhiteListTokensQuery,
+} = staticApi;

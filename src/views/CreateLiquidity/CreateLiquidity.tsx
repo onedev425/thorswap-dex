@@ -44,9 +44,7 @@ export const CreateLiquidity = () => {
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { hasWallet, wallet, getWallet } = useWallet();
   const { poolAssets } = usePools();
-  const ethWhitelist = useTokenAddresses('Thorchain-pools-whitelist-eth');
-  const avaxWhitelist = useTokenAddresses('Thorchain-pools-whitelist-avax');
-  const bscWhitelist = useTokenAddresses('Thorchain-pools-whitelist-bsc');
+  const poolWhitelist = useTokenAddresses('pools');
   const { tokens } = useTokenList();
   const hardCapReached = useCheckHardCap();
   const formatPrice = useFormatPrice();
@@ -69,16 +67,8 @@ export const CreateLiquidity = () => {
             balance.chain !== Chain.THORChain
           ) {
             // if erc20 token is whitelisted for THORChain
-            const whitelist =
-              balance.chain === Chain.Ethereum
-                ? ethWhitelist
-                : balance.chain === Chain.Avalanche
-                  ? avaxWhitelist
-                  : balance.chain === Chain.BinanceSmartChain
-                    ? bscWhitelist
-                    : [];
 
-            if (isTokenWhitelisted(balance, whitelist)) {
+            if (isTokenWhitelisted(balance, poolWhitelist)) {
               assets.push(balance);
             }
           }
@@ -87,7 +77,7 @@ export const CreateLiquidity = () => {
     }
 
     return assets;
-  }, [avaxWhitelist, bscWhitelist, ethWhitelist, getWallet, hasWallet, poolAssets, wallet]);
+  }, [poolWhitelist, getWallet, hasWallet, poolAssets, wallet]);
 
   const getContractAddress = useCallback(async (chain: Chain) => {
     const inboundData = (await getInboundData()) || [];
