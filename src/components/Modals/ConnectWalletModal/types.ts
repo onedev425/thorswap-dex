@@ -3,6 +3,7 @@ import { Chain, WalletOption } from '@swapkit/core';
 export enum WalletType {
   Brave = 'Brave',
   CoinbaseExtension = 'CoinbaseExtension',
+  CoinbaseMobile = 'CoinbaseMobile',
   CreateKeystore = 'CreateKeystore',
   Keplr = 'Keplr',
   Keystore = 'Keystore',
@@ -23,6 +24,7 @@ export enum WalletType {
 export const WalletNameByWalletType: Record<WalletType, string> = {
   [WalletType.Brave]: 'Brave',
   [WalletType.CoinbaseExtension]: 'Coinbase Extension',
+  [WalletType.CoinbaseMobile]: 'Coinbase Wallet',
   [WalletType.CreateKeystore]: 'Create Keystore',
   [WalletType.Keepkey]: 'Keepkey',
   [WalletType.Keplr]: 'Keplr',
@@ -43,6 +45,7 @@ export const WalletNameByWalletType: Record<WalletType, string> = {
 export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.Brave]: WalletOption.BRAVE,
   [WalletType.CoinbaseExtension]: WalletOption.COINBASE_WEB,
+  [WalletType.CoinbaseMobile]: WalletOption.COINBASE_MOBILE,
   [WalletType.CreateKeystore]: WalletOption.KEYSTORE,
   [WalletType.Keepkey]: WalletOption.KEEPKEY,
   [WalletType.Keplr]: WalletOption.KEPLR,
@@ -63,6 +66,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
 export const WalletNameByWalletOption: Record<WalletOption, string> = {
   [WalletOption.BRAVE]: WalletType.Brave,
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
+  [WalletOption.COINBASE_MOBILE]: 'Coinbase Wallet App',
   [WalletOption.KEEPKEY]: WalletType.Keepkey,
   [WalletOption.KEPLR]: WalletType.Keplr,
   [WalletOption.KEYSTORE]: WalletType.Keystore,
@@ -77,31 +81,45 @@ export const WalletNameByWalletOption: Record<WalletOption, string> = {
 };
 
 const UTXOChainsSupported = [Chain.Bitcoin, Chain.Dogecoin, Chain.Litecoin, Chain.BitcoinCash];
-const EVMChainsSupported = [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Avalanche];
-const AllChainsSupported = [
+const EVMChainsSupported = [
+  Chain.Ethereum,
+  Chain.BinanceSmartChain,
+  Chain.Avalanche,
+  Chain.Arbitrum,
+];
+const AllChainsSupportedExceptNewProvider = [
   ...EVMChainsSupported,
   ...UTXOChainsSupported,
   Chain.Binance,
   Chain.Cosmos,
   Chain.THORChain,
 ] as Chain[];
+const AllChainsSupported = [
+  ...AllChainsSupportedExceptNewProvider,
+  Chain.Polkadot,
+  Chain.Maya,
+  Chain.Dash,
+  Chain.Kujira,
+  Chain.Arbitrum,
+] as Chain[];
 
 export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Brave]: EVMChainsSupported,
   [WalletType.CoinbaseExtension]: EVMChainsSupported,
+  [WalletType.CoinbaseMobile]: EVMChainsSupported,
   [WalletType.CreateKeystore]: AllChainsSupported,
-  [WalletType.Keepkey]: AllChainsSupported,
-  [WalletType.Keplr]: [Chain.Cosmos],
-  [WalletType.Keystore]: [...AllChainsSupported, Chain.Polkadot],
-  [WalletType.Ledger]: AllChainsSupported,
+  [WalletType.Keepkey]: [...AllChainsSupportedExceptNewProvider, Chain.Dash, Chain.Maya],
+  [WalletType.Keplr]: [Chain.Cosmos, Chain.Kujira],
+  [WalletType.Keystore]: AllChainsSupported,
+  [WalletType.Ledger]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.Rainbow]: [Chain.Ethereum],
-  [WalletType.Trezor]: [...EVMChainsSupported, ...UTXOChainsSupported],
+  [WalletType.Trezor]: [...EVMChainsSupported, ...UTXOChainsSupported, Chain.Dash],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
   [WalletType.Walletconnect]: EVMChainsSupported,
-  [WalletType.Xdefi]: AllChainsSupported,
+  [WalletType.Xdefi]: [...AllChainsSupportedExceptNewProvider, Chain.Maya],
 };

@@ -19,6 +19,7 @@ const walletIcons: Record<WalletOption, IconName> = {
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.TRUSTWALLET_WEB]: 'trustWallet',
   [WalletOption.COINBASE_WEB]: 'coinbaseWallet',
+  [WalletOption.COINBASE_MOBILE]: 'coinbaseWallet',
   [WalletOption.LEDGER]: 'ledger',
   // [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEEPKEY]: 'keepkey',

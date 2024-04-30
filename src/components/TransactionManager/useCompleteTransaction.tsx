@@ -20,13 +20,15 @@ export const useCompleteTransaction = (tx: PendingTransactionType | null) => {
       result,
       status,
       details,
+      txUrl,
     }: {
       status: TransactionStatus;
       result?: string | TxnResult;
       details?: TxTrackerDetails;
+      txUrl?: string;
     }) => {
       if (tx?.id) {
-        appDispatch(completeTransaction({ id: tx.id, status, result, details }));
+        appDispatch(completeTransaction({ id: tx.id, status, result, details, txUrl }));
       }
 
       refreshTxWallets();

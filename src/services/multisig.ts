@@ -1,5 +1,6 @@
+import type { MultisigThresholdPubkey } from '@cosmjs/amino';
 import type { AssetValue, Chain } from '@swapkit/core';
-import type { MultisigThresholdPubkey, Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
+import type { Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import { logException } from 'services/logger';
 import type { MultisigMember } from 'store/multisig/types';
 

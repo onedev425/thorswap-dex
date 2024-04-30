@@ -3,24 +3,22 @@ import { AssetValue, Chain, QuoteMode, RequestClient, SwapKitNumber } from '@swa
 import { apiV2BaseUrl } from 'store/thorswap/api';
 
 const getInboundData = () => {
-  return RequestClient.get<any>('https://thornode.thorswap.net/thorchain/inbound_addresses');
+  return RequestClient.get<Todo>('https://thornode.thorswap.net/thorchain/inbound_addresses');
 };
 
 export const getInboundFeeDataForChain = async (chain: Chain) => {
   const inboundData = await getInboundData();
-  const chainAddressData = inboundData.find((item: any) => item.chain === chain);
+  const chainAddressData = inboundData.find((item: Todo) => item.chain === chain);
 
-  return parseInt(chainAddressData.gas_rate);
+  return Number.parseInt(chainAddressData.gas_rate);
 };
 
 export const ledgerLiveSwap = async ({
   recipient,
-  // @ts-expect-error
   route,
-  // @ts-expect-error
   feeOptionKey,
   wallet,
-}: SwapParams & { wallet: any }) => {
+}: SwapParams & { wallet: Todo; route: Todo; feeOptionKey: string }) => {
   if (route.provider === 'CHAINFLIP') {
     const { confirmSwap } = await import('@swapkit/chainflip');
 
@@ -63,7 +61,7 @@ export const ledgerLiveSwap = async ({
       const replacedMemo = memo.replace('{recipientAddress}', recipient);
 
       const inboundData = await getInboundData();
-      const chainAddressData = inboundData.find((item: any) => item.chain === assetValue.chain);
+      const chainAddressData = inboundData.find(({ chain }: Todo) => chain === assetValue.chain);
 
       if (!chainAddressData) throw new Error('pool address not found');
       if (chainAddressData?.halted) {
@@ -91,7 +89,10 @@ export const ledgerLiveSwap = async ({
         }
       };
 
-      const validAddress = validateAddressType({ chain, address: walletInstance.getAddress() });
+      const validAddress = validateAddressType({
+        chain,
+        address: walletInstance.getAddress(),
+      });
       if (!validAddress) {
         throw new Error('Sender address not supported by THORChain');
       }
@@ -102,7 +103,7 @@ export const ledgerLiveSwap = async ({
             memo: string;
             recipient: string;
           }
-        | any = {
+        | Todo = {
         recipient: inboundAddress,
         // router: route.contract,
         memo: replacedMemo,
@@ -110,7 +111,7 @@ export const ledgerLiveSwap = async ({
         from: walletInstance.getAddress(),
         //TODO - fix this typing
         assetValue: assetValue.set(SwapKitNumber.fromBigInt(BigInt(amountIn), assetValue.decimal)),
-        feeRate: parseInt(chainAddressData.gas_rate),
+        feeRate: Number.parseInt(chainAddressData.gas_rate),
       };
 
       return walletInstance.transfer(params);

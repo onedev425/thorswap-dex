@@ -563,13 +563,13 @@ export const useAddLiquidity = ({
       try {
         const { runeTx, assetTx } = await thorchain.addLiquidity(params);
 
-        if (runeTx !== 'failed') {
+        if (runeTx !== 'failed' && typeof runeTx === 'string') {
           appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         } else {
           appDispatch(completeTransaction({ id: runeId, status: 'error' }));
         }
 
-        if (assetTx !== 'failed') {
+        if (assetTx !== 'failed' && typeof assetTx === 'string') {
           appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
         } else {
           appDispatch(completeTransaction({ id: assetId, status: 'error' }));
@@ -657,7 +657,7 @@ export const useAddLiquidity = ({
       if (!thorchain) throw new Error('SwapKit client not found');
 
       try {
-        const txid = await thorchain.approveAssetValue(poolAsset);
+        const txid = await thorchain.approveAssetValue({ assetValue: poolAsset });
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

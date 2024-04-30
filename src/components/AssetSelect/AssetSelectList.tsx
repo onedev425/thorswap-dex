@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import type { AssetValue } from '@swapkit/core';
 import classNames from 'classnames';
 import type { AssetFilterOptionType } from 'components/AssetSelect/assetTypes';
+import { assetFilterTypes as assetFilterTypesWithChain } from 'components/AssetSelect/assetTypes';
 import { useAssetFilterTypes } from 'components/AssetSelect/useAssetFilterTypes';
 import { Box, Icon } from 'components/Atomic';
 import { genericBgClasses } from 'components/constants';
@@ -38,11 +39,6 @@ const SelectList = ({
     onClose,
   });
 
-  const synthsEnabled = useMemo(
-    () => assets?.some((asset) => asset.asset.type === 'Synth'),
-    [assets],
-  );
-
   const handleSelect = useCallback(
     (asset: AssetValue) => {
       select(asset);
@@ -77,6 +73,16 @@ const SelectList = ({
     },
     [setQuery],
   );
+  const enabledTabs = useMemo(
+    () =>
+      assetFilterTypesWithChain
+        .filter((assetFilter) =>
+          assets?.find((asset) => assetFilter.chainAsset && asset.asset.eq(assetFilter.chainAsset)),
+        )
+        .map((assetFilter) => assetFilter.value)
+        .concat(['all']),
+    [assets],
+  );
 
   return (
     <Box col className={classNames('rounded-box-lg', genericBgClasses.secondary)} flex={1}>
@@ -108,10 +114,9 @@ const SelectList = ({
           {!noFilters && !IS_LEDGER_LIVE && (
             <TabsSelect
               buttonStyle={{ px: 2 }}
+              enabledTabs={enabledTabs}
               onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
-              tabs={assetFilterTypes.filter(
-                (assetFilterType) => synthsEnabled || assetFilterType.value !== 'synth',
-              )}
+              tabs={assetFilterTypes}
               value={typeFilter}
             />
           )}

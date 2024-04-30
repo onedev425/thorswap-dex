@@ -20,7 +20,7 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerTxUrl }) =>
-        setTxUrl(txHash ? getExplorerTxUrl(Chain.THORChain as Chain, txHash) : ''),
+        setTxUrl(txHash ? getExplorerTxUrl({ chain: Chain.THORChain, txHash }) : ''),
       );
   }, [setTxUrl, txHash]);
 

@@ -31,7 +31,7 @@ export const useMimir = () => {
   const isTHORChainHalted = isEntryPaused('HALTTHORCHAIN');
   const isBTCChainHalted = isEntryPaused('HALTBTCCHAIN');
   const isETHChainHalted = isEntryPaused('HALTETHCHAIN') || isEntryPaused('SOLVENCYHALTETHCHAIN');
-  const isBNBChainHalted = isEntryPaused('HALTBNBCHAIN');
+  const isBNBChainHalted = true;
   const isLTCChainHalted = isEntryPaused('HALTLTCCHAIN');
   const isBCHChainHalted = isEntryPaused('HALTBCHCHAIN') || isEntryPaused('SOLVENCYHALTBCHCHAIN');
   const isDOGEChainHalted = isEntryPaused('HALTDOGECHAIN');

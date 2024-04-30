@@ -12,20 +12,11 @@ type Props = {
   setSwapRoute: (route: RouteWithApproveType) => void;
   selectedRoute?: RouteWithApproveType;
   outputUnitPrice: number;
-  inputUnitPrice: number;
   streamSwap?: boolean;
 };
 
 export const SwapRouter = memo(
-  ({
-    setSwapRoute,
-    selectedRoute,
-    inputUnitPrice,
-    outputUnitPrice,
-    outputAsset,
-    routes,
-    streamSwap,
-  }: Props) => (
+  ({ setSwapRoute, selectedRoute, outputUnitPrice, outputAsset, routes, streamSwap }: Props) => (
     <Box className="self-stretch transition-max-height duration-300">
       {selectedRoute && (
         <Collapse
@@ -35,7 +26,6 @@ export const SwapRouter = memo(
             <SelectedRoute
               {...selectedRoute}
               assetTicker={outputAsset.ticker}
-              inputUnitPrice={inputUnitPrice}
               outputAssetDecimal={outputAsset.decimal || 8}
               streamSwap={streamSwap}
               unitPrice={outputUnitPrice}
@@ -47,7 +37,6 @@ export const SwapRouter = memo(
             {routes.map((route) => (
               <SwapRoute
                 {...route}
-                inputUnitPrice={inputUnitPrice}
                 key={`${route.path}-${route.providers.join(',')}`}
                 onClick={() => setSwapRoute(route)}
                 outputAsset={outputAsset}

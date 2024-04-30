@@ -1,4 +1,3 @@
-import type { ChainWallet } from '@swapkit/core';
 import { Chain, FeeOption } from '@swapkit/core';
 import type { InterfaceAbi } from 'ethers';
 import { Contract, formatEther, getAddress } from 'ethers';
@@ -26,7 +25,7 @@ export enum LPContractType {
   THOR_ETH = 'THOR_ETH',
 }
 
-export const contractConfig: Record<ContractType, { address: string; abi: any }> = {
+export const contractConfig: Record<ContractType, { address: string; abi: Todo }> = {
   [ContractType.VESTING]: {
     address: '0x0c3c9e5D9b08131DBD82a8648a23592b4ddA2223',
     abi: VestingABI,
@@ -77,7 +76,7 @@ export const getCustomContract = async (contractAddr: string, abi?: InterfaceAbi
 export const getContractAddress = (contractType: ContractType) => contractConfig[contractType];
 
 export const getBlockRewards = async () => {
-  const blockReward = parseFloat(
+  const blockReward = Number.parseFloat(
     formatEther(
       await (await getEtherscanContract(ContractType.REWARDS_PER_BLOCK)).rewardPerBlock(),
     ),
@@ -89,10 +88,10 @@ export const getBlockRewards = async () => {
 export const triggerContractCall = async (
   contractType: ContractType,
   funcName: string,
-  funcParams: ToDo[],
+  funcParams: Todo[],
 ) => {
   const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
-  const ethWalletMethods = getWallet(Chain.Ethereum) as ChainWallet<Chain.Ethereum>;
+  const ethWalletMethods = getWallet(Chain.Ethereum);
   const from = ethWalletMethods.address;
   if (!ethWalletMethods || !from) throw new Error('No ETH wallet connected');
 

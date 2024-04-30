@@ -2,12 +2,12 @@ pre-commit:
   parallel: true
   commands:
     lint-commit:
-      run: npx commitlint --from=HEAD~1 --color
+      run: bunx commitlint --from=HEAD~1 --color
 
     lint:
       glob: "*.{js,ts,tsx,json}"
-      run: yarn lint
+      run: bun lint
 
     typescript:
       glob: "*.{ts,tsx}"
-      run: yarn typescript
+      run: bun typescript

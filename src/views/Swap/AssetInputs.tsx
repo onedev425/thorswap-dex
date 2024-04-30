@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { AssetInput } from 'components/AssetInput';
 import type { AssetInputType } from 'components/AssetInput/types';
 import { Box, Icon, Tooltip } from 'components/Atomic';
-import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
+import { isAVAXAsset, isETHAsset } from 'helpers/assets';
 import { useAssetListSearch } from 'hooks/useAssetListSearch';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -19,7 +19,7 @@ import {
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
 
-const ConditionalWrapper = ({ children, condition }: { children: ToDo; condition: boolean }) =>
+const ConditionalWrapper = ({ children, condition }: { children: Todo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (
     <Tooltip className="mb-5" content={t('components.assetSelect.ledgerLiveSwitchNotSupported')}>
       {children}
@@ -35,6 +35,7 @@ type Props = {
   inputAsset: AssetInputType;
   outputAsset: AssetInputType;
   tokens: Token[];
+  tradingPairs?: Token[];
 };
 
 const Inputs = ({
@@ -45,47 +46,29 @@ const Inputs = ({
   onInputAmountChange,
   onSwitchPair,
   tokens,
+  tradingPairs,
 }: Props) => {
   const [iconRotate, setIconRotate] = useState(false);
 
   const thorchainERC20SupportedAddresses = useTokenAddresses('Thorchain-supported-erc20');
   const thorchainAvaxSupportedAddresses = useTokenAddresses('Thorchain-supported-arc20');
-  const thorchainBscSupportedAddresses = useTokenAddresses('Thorchain-supported-bsc20');
 
   const isAssetSwitchPossible = useMemo(() => {
     return isLedgerLiveSupportedInputAsset(outputAsset.asset);
   }, [outputAsset]);
 
   const handleAssetSwap = useCallback(() => {
-    const inputAddress = inputAsset.asset.symbol.split('-')[1]?.toLowerCase();
-    const unsupportedEthOutput =
-      inputAsset.asset.chain === Chain.Ethereum &&
-      !isETHAsset(inputAsset.asset) &&
-      !thorchainERC20SupportedAddresses.includes(inputAddress);
-
-    const unsupportedAvaxOutput =
-      inputAsset.asset.chain === Chain.Avalanche &&
-      !isAVAXAsset(inputAsset.asset) &&
-      !thorchainAvaxSupportedAddresses.includes(inputAddress);
-
-    const unsupportedBscOutput =
-      inputAsset.asset.chain === Chain.BinanceSmartChain &&
-      !isBSCAsset(inputAsset.asset) &&
-      !thorchainBscSupportedAddresses.includes(inputAddress);
-
-    onSwitchPair(unsupportedEthOutput || unsupportedAvaxOutput || unsupportedBscOutput);
+    onSwitchPair();
     setIconRotate((rotate) => !rotate);
-  }, [
-    inputAsset.asset,
-    onSwitchPair,
-    thorchainAvaxSupportedAddresses,
-    thorchainERC20SupportedAddresses,
-    thorchainBscSupportedAddresses,
-  ]);
+  }, [onSwitchPair]);
 
-  const assetList = useAssetsWithBalanceFromTokens(tokens);
+  const inputAssetList = useAssetsWithBalanceFromTokens(tokens);
+  const outputAssetList = useAssetsWithBalanceFromTokens(tradingPairs || tokens);
 
-  const { assetInputProps, assets } = useAssetListSearch(assetList);
+  const { assetInputProps, assets } = useAssetListSearch(inputAssetList);
+
+  const { assetInputProps: outputAssetInputProps, assets: outputAssetsSearched } =
+    useAssetListSearch(outputAssetList);
 
   const outputAssets = useMemo(() => {
     if (
@@ -96,10 +79,10 @@ const Inputs = ({
         outputAsset.asset.chain === Chain.BinanceSmartChain) ||
       inputAsset.asset.isGasAsset
     ) {
-      return assets;
+      return outputAssetsSearched;
     }
 
-    const thorchainSupported = assets.filter(
+    const thorchainSupported = outputAssetsSearched.filter(
       ({ asset }) =>
         isETHAsset(asset) ||
         isAVAXAsset(asset) ||
@@ -112,7 +95,7 @@ const Inputs = ({
 
     return thorchainSupported;
   }, [
-    assets,
+    outputAssetsSearched,
     inputAsset.asset?.chain,
     inputAsset.asset?.isGasAsset,
     outputAsset.asset?.chain,
@@ -162,7 +145,7 @@ const Inputs = ({
       />
 
       <AssetInput
-        {...assetInputProps}
+        {...outputAssetInputProps}
         hideMaxButton
         hideZeroPrice
         assets={

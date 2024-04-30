@@ -41,7 +41,6 @@ export const SwapSlippage = ({
   const [slipValue, setSlipValue] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isChangingValue, setIsChangingValue] = useState(false);
-  const recommendedSlippage = route?.meta?.recommendedSlippage;
 
   const outputAmountValue = useMemo(() => {
     const maxOutputAmount = new SwapKitNumber({
@@ -133,7 +132,7 @@ export const SwapSlippage = ({
                   <Stack p={1}>
                     {slippagePercent === 0 ? (
                       <Text color="brand.orange" textStyle="caption-xs">
-                        No price protection
+                        {t('views.swap.noPriceProtection')}
                       </Text>
                     ) : (
                       <Flex>
@@ -145,8 +144,6 @@ export const SwapSlippage = ({
                           textStyle="caption-xs"
                         >
                           {slippagePercent}%
-                          {slippagePercent === recommendedSlippage &&
-                            ` (${t('common.recommended')})`}
                         </Text>
                       </Flex>
                     )}

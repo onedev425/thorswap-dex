@@ -221,8 +221,8 @@
     "withdraw": "Withdraw",
     "withdrawPercent": "Withdraw Percent",
     "yourTransactions": "Your Transactions",
-    "slippageSettings": "Slippage options",
-    "slippageSettingsChainflip": "Slippage protection locked at 5%",
+    "slippageSettings": "Price protection",
+    "slippageSettingsChainflip": "Price protection locked at 5%",
     "recommended": "recommended"
   },
   "components": {
@@ -255,7 +255,6 @@
       "airdrop": "Airdrop",
       "borrow": "Borrow",
       "collapse": "Collapse",
-      "communitySurvey": "Community Survey",
       "dashboard": "Dashboard",
       "earn": "Earn",
       "expand": "Expand",
@@ -265,7 +264,6 @@
       "send": "Send",
       "staking": "Staking",
       "stats": "Stats",
-      "submitFeatureRequest": "Submit Feature Request",
       "supportInfo": "For technical support, please contact us via our official Discord Server (beware of anyone claiming to be THORSwap support - we will never DM you outside of our Support Desk on Discord).",
       "swap": "Swap",
       "thor": "$Thor",
@@ -457,6 +455,7 @@
     },
     "txDetails": "Transaction Details",
     "txDuration": "Transaction duration",
+    "estimatedTxDuration": "Estimated transaction duration",
     "txEstimatedTimeLeft": "Estimated time left",
     "txEstimating": "Estimating...",
     "txFinishing": "Finishing...",
@@ -530,10 +529,10 @@
       "actions": "Actions",
       "borrow": "Borrow",
       "borrowAmount": "Borrow Amount",
-      "borrowFee": "Borrow fee",
+      "borrowSlippage": "Borrow Slippage",
       "borrowed": "Borrowed",
       "capReached": "Cap reached",
-      "colalteralAfterSlippage": "Collateral after slippage",
+      "collateralAfterSlippage": "Collateral after slippage",
       "collateral": "Collateral",
       "collateralToDeposit": "Deposit Collateral",
       "collateralValue": "Collateral Value",
@@ -558,6 +557,7 @@
       "poolDepth": "Pool Depth",
       "repay": "Repay",
       "repayAmount": "Repay Amount",
+      "repayDebt": "Debt Repaid",
       "repayAsset": "Repay asset",
       "repayAvailable": "Repay Available",
       "repayError": "Lending for selected asset is not currently available",
@@ -565,11 +565,14 @@
       "repayPercent": "Repay Percent",
       "riskDisclaimer": " Understand the risks",
       "selectCollateralAsset": "Select collateral asset to deposit",
+      "sendAmount": "Send Amount",
       "slippage": {
         "high": "Slippage is very high. It might be lower later.",
         "low": "Slippage is currently low.",
         "medium": "Slippage is high. It might be lower later."
       },
+      "slippageBorrowWarning": "This deposit has high slippage. Proceed with caution.",
+      "slippageRepayWarning": "This repay has high slippage. Proceed with caution.",
       "tooltipDescription": "Deposit native assets as collateral and borrow other assets with THORSwap LENDING",
       "totalCollateralValue": "Total Collateral Value",
       "totalDebtValue": "Total Debt Value",
@@ -944,6 +947,7 @@
     "swap": {
       "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
       "chainflipFee": "0.3% broker fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "chainflipSlippageWarning": "Chainflip typically expects to meet the expected quote amount, however the protocol uses 5% fixed price protection as a backstop.",
       "amountToApprove": "Amount to Approve",
       "amountToApproveExplanation": "This is the amount you will approve to be spent by you via contract.\nYou can decide to approve more than you will swap to save on gas fees later.\nIt is not the amount of asset you will swap out.",
       "approveDefaultExplanation": "Approve available balance of asset in your wallet",
@@ -1004,7 +1008,13 @@
       "transactionDeadline": "Transaction Deadline",
       "transactionSettings": "Transaction Settings",
       "txAssetsFee": "TX Fee Tokens",
-      "noProtection": "No protection"
+      "noProtection": "No protection",
+      "noPriceProtection": "No Price Protection",
+      "noPriceProtectionTooltip": "Swap Values below 500 USD don't offer price protection due to high likelihood of refunds.",
+      "warning": {
+        "highSlippage": "High Max Slippage",
+        "highPriceImpact": "High Value Impact"
+      }
     },
     "thorname": {
       "available": "Available",
@@ -1101,6 +1111,7 @@
       "braveWallet": "Brave Wallet",
       "chooseKeystore": "Choose file to upload",
       "coinbaseWalletWeb": "Coinbase Wallet",
+      "coinbaseWalletApp": "Coinbase Wallet",
       "confirmPassword": "Confirm Password",
       "bscTooltip": "Binance Smart Chain temporarily disabled",
       "connectOnboard": "Ethereum Wallets",

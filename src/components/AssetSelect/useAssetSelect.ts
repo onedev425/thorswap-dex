@@ -25,7 +25,9 @@ export function useAssetSelect({
     if (typeFilter === 'all') return assets;
 
     const filtered = assets.filter(
-      ({ asset: { type } }) => type.toLowerCase() === typeFilter.toLowerCase(),
+      ({ asset: { type } }) =>
+        type.toLowerCase() === typeFilter.toLowerCase() ||
+        (type.toLowerCase() === 'synth' && typeFilter.toLowerCase() === 'thor'),
     );
 
     if (assetFilterType.chainAsset) {

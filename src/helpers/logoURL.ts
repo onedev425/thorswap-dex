@@ -7,6 +7,8 @@ export const getCustomIconImageUrl = (name: 'rune' | 'vthor', type: 'png' | 'svg
 const twBaseUri = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains';
 
 const providersInfoMap = {
+  // MAYA
+  mayachain: 'MAYA.MAYA',
   // AVAX
   pangolin: 'AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982',
   platypus: 'AVAX.AVAX',
@@ -77,7 +79,8 @@ export const tokenLogoURL = ({
 
   const gasAsset = isGasAsset({ chain: chain as Chain, symbol: ticker });
 
-  if (gasAsset) {
+  // TODO rework asset image logic in v3
+  if (gasAsset || identifier === 'MAYA.MAYA') {
     const gasTokenPath = `${chain}.${ticker}`.toLowerCase();
     return `https://static.thorswap.net/token-list/images/${gasTokenPath}.png`;
   }

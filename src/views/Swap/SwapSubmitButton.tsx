@@ -1,9 +1,7 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
+import type { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
 import { Box, Button } from 'components/Atomic';
 import { showErrorToast, showInfoToast } from 'components/Toast';
 import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useCheckExchangeBNB } from 'hooks/useCheckExchangeBNB';
 import { useCallback, useMemo } from 'react';
 import { t } from 'services/i18n';
 import { logException } from 'services/logger';
@@ -60,10 +58,6 @@ export const SwapSubmitButton = ({
     [getWallet, inputAsset.chain],
   );
 
-  const { isExchangeBNBAddress } = useCheckExchangeBNB(
-    outputAsset.chain === Chain.Binance ? recipient : null,
-  );
-
   const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
@@ -83,8 +77,6 @@ export const SwapSubmitButton = ({
       showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
     } else if (!hasQuote) {
       showInfoToast(t('notification.noValidQuote'));
-    } else if (isExchangeBNBAddress) {
-      showErrorToast(t('notification.exchangeBNBAddy'), t('notification.exchangeBNBAddyDesc'));
     } else if (!(await isValidAddress())) {
       showErrorToast(
         t('notification.invalidRecipientAddy'),
@@ -93,7 +85,7 @@ export const SwapSubmitButton = ({
     } else {
       setVisibleConfirmModal(true);
     }
-  }, [walletConnected, hasQuote, isExchangeBNBAddress, isValidAddress, setVisibleConfirmModal]);
+  }, [walletConnected, hasQuote, isValidAddress, setVisibleConfirmModal]);
 
   const handleApprove = useCallback(() => {
     if (isInputWalletConnected) {
@@ -110,13 +102,21 @@ export const SwapSubmitButton = ({
 
   const btnLabel = useMemo(() => {
     if (isTradingHalted) return t('notification.swapNotAvailable');
-    if (quoteError) return t('views.swap.noValidQuote');
+    if (quoteError || (!hasQuote && inputAmount.gt(0))) return t('views.swap.noValidQuote');
     if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t('common.swap');
     if (inputAsset.isSynthetic) return t('txManager.redeem');
     if (outputAsset.isSynthetic) return t('txManager.mint');
 
     return t('common.swap');
-  }, [isTradingHalted, quoteError, inputAsset.isSynthetic, outputAsset.isSynthetic, isSwapValid]);
+  }, [
+    isTradingHalted,
+    quoteError,
+    inputAsset.isSynthetic,
+    outputAsset.isSynthetic,
+    isSwapValid,
+    hasQuote,
+    inputAmount,
+  ]);
 
   const isApproveRequired = useMemo(
     () => hasQuote && isInputWalletConnected && isApproved === false,
@@ -130,7 +130,7 @@ export const SwapSubmitButton = ({
 
   return (
     <Box className="w-full pt-5 gap-x-2">
-      {isWalletRequired ? (
+      {isWalletRequired && (hasQuote || inputAmount.eqValue(0)) ? (
         <Button
           stretch
           onClick={() =>
@@ -145,7 +145,7 @@ export const SwapSubmitButton = ({
             ? t('views.swap.connectOrFillRecipient')
             : t('common.connectWallet')}
         </Button>
-      ) : isApproveRequired && !quoteError ? (
+      ) : isApproveRequired && !quoteError && hasQuote ? (
         <Button
           stretch
           loading={!!numberOfPendingApprovals || isLoading}

@@ -116,6 +116,7 @@ export type CompletedTransactionType = PendingTransactionType & {
   txid?: string;
   completed: true;
   hideDetails?: boolean;
+  txUrl?: string;
 };
 
 export type TransactionsState = (PendingTransactionType | CompletedTransactionType)[];

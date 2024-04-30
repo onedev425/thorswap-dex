@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { Box, Icon } from 'components/Atomic';
+import { Box, Icon, Tooltip } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import type { CardStyleType } from 'components/HighlightCard/types';
 import { cardFontColors } from 'components/HighlightCard/types';
@@ -15,6 +15,7 @@ type Props = {
   onClick?: () => void;
   type?: CardStyleType;
   contentClassName?: string;
+  tooltip?: string;
 };
 
 const icons: Record<CardStyleType, ReactNode> = {
@@ -33,6 +34,7 @@ export const InfoTip = ({
   onClose,
   onClick,
   contentClassName,
+  tooltip,
 }: Props) => {
   return (
     <HighlightCard
@@ -49,8 +51,8 @@ export const InfoTip = ({
       {(!!title || !!onClose) && (
         <Box alignCenter className="self-stretch px-2" justify="between">
           {!!title && (
-            <Box>
-              {icons[type]}
+            <Box className="w-[100%]">
+              {tooltip ? <Tooltip content={tooltip}>{icons[type]}</Tooltip> : icons[type]}
 
               {typeof title === 'string' ? <Text className="mx-2">{title}</Text> : title}
             </Box>

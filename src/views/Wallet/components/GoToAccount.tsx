@@ -15,7 +15,7 @@ export const GoToAccount = ({ chain, address }: Props) => {
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) =>
-        setAccountUrl(getExplorerAddressUrl(chain, address) || ''),
+        setAccountUrl(getExplorerAddressUrl({ chain, address }) || ''),
       );
   }, [address, chain]);
 

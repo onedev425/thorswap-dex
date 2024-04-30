@@ -63,7 +63,7 @@ const Transaction = () => {
                 color="brand.btnPrimary"
                 size="38px"
                 thickness="5px"
-                trackColor="transaprent"
+                trackColor="transparent"
               />
             </Flex>
           )}

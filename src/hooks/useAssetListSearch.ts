@@ -20,7 +20,7 @@ const options: IFuseOptions<AssetSelectType> = {
 };
 
 const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
-  const cb = typeof predicate === 'function' ? predicate : (o: ToDo) => o[predicate];
+  const cb = typeof predicate === 'function' ? predicate : (o: Todo) => o[predicate];
 
   return [
     ...arr

@@ -7,7 +7,7 @@ export default function useOnClickOutside(
 ) {
   useEffect(
     () => {
-      const listener = (event: ToDo) => {
+      const listener = (event: Todo) => {
         if (!ref?.current || ref?.current.contains(event.target)) return;
 
         handler(event);

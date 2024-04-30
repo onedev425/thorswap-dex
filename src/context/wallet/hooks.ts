@@ -1,4 +1,4 @@
-import type { AssetValue, DerivationPathArray, EVMWalletOptions } from '@swapkit/core';
+import type { AssetValue, DerivationPathArray, EVMChain } from '@swapkit/core';
 import { Chain, WalletOption } from '@swapkit/core';
 import type { Keystore } from '@swapkit/wallet-keystore';
 import { isMobile, okxWalletDetected } from 'components/Modals/ConnectWalletModal/hooks';
@@ -89,18 +89,18 @@ export const useWalletBalance = () => {
     async (chain: Chain) => {
       walletDispatch({ type: 'setChainWalletLoading', payload: { chain, loading: true } });
       try {
-        const { getWalletWithBalance, getWallet } = await (
-          await import('services/swapKit')
-        ).getSwapKitClient();
-        const data = getWallet(chain) ? await getWalletWithBalance(chain, true) : undefined;
+        const client = await (await import('services/swapKit')).getSwapKitClient();
+        const data = client.getWallet(chain)
+          ? await client.getWalletWithBalance(chain, true)
+          : undefined;
 
         if (data) {
           walletDispatch({
             type: 'setChainWallet',
             payload: {
               chain,
-              // @ts-expect-error
               data: {
+                chain,
                 address: data?.address || '',
                 balance: data?.balance || [],
                 walletType: data?.walletType || WalletOption.KEYSTORE,
@@ -171,8 +171,8 @@ export const useConnectWallet = () => {
       ).getSwapKitClient();
 
       showInfoToast(t('notification.connectingLedger', options));
-      //@ts-expect-error
-      await swapKitConnectLedger(chain, derivationPath);
+      // @ts-expect-error
+      await swapKitConnectLedger([chain], derivationPath);
       await getWalletByChain(chain);
 
       showInfoToast(t('notification.connectedLedger', options));
@@ -186,8 +186,7 @@ export const useConnectWallet = () => {
       const chain = mapLedgerChainToChain(account.currency as LedgerLiveChain);
       const { wallet } = await connectLedgerLive(chain, account);
 
-      // @ts-expect-error
-      walletDispatch({ type: 'setChainWallet', payload: { chain, data: wallet } });
+      walletDispatch({ type: 'setChainWallet', payload: { chain, data: { ...wallet, chain } } });
     },
     [walletDispatch],
   );
@@ -201,8 +200,8 @@ export const useConnectWallet = () => {
 
       try {
         showInfoToast(t('notification.connectingTrezor', options));
-        //@ts-expect-error
-        await swapKitConnectTrezor(chain, derivationPath);
+        // @ts-expect-error
+        await swapKitConnectTrezor([chain], derivationPath);
         await getWalletByChain(chain as Chain);
         showInfoToast(t('notification.connectedTrezor', options));
       } catch (error: NotWorth) {
@@ -224,6 +223,7 @@ export const useConnectWallet = () => {
         await import('services/swapKit')
       ).getSwapKitClient();
 
+      // @ts-expect-error
       await swapKitConnectXDEFI(chains);
 
       reloadAllWallets(chains);
@@ -231,8 +231,19 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
+  const connectCoinbaseMobile = useCallback(
+    async (chains: EVMChain[]) => {
+      const skclient = await (await import('services/swapKit')).getSwapKitClient();
+
+      await skclient.connectCoinbaseWallet(chains);
+
+      reloadAllWallets(chains);
+    },
+    [reloadAllWallets],
+  );
+
   const connectEVMWalletExtension = useCallback(
-    async (chains: Chain[], wallet: EVMWalletOptions) => {
+    async (chains: EVMChain[], wallet: WalletOption) => {
       if (wallet === WalletOption.OKX_MOBILE && isMobile && !okxWalletDetected) {
         window.open('okx://wallet/dapp/details?dappUrl=https://app.thorswap.finance/swap');
         return;
@@ -240,7 +251,8 @@ export const useConnectWallet = () => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
-      //@ts-expect-error
+
+      // @ts-expect-error
       await swapKitConnectEVMWallet(chains, wallet);
 
       reloadAllWallets(chains);
@@ -249,11 +261,11 @@ export const useConnectWallet = () => {
   );
 
   const connectBraveWallet = useCallback(
-    async (chains: Chain[]) => {
+    async (chains: EVMChain[]) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
-      //@ts-expect-error
+
       await swapKitConnectEVMWallet(chains, WalletOption.BRAVE);
 
       reloadAllWallets(chains);
@@ -264,7 +276,8 @@ export const useConnectWallet = () => {
   const connectWalletconnect = useCallback(
     async (chains: Chain[]) => {
       const { connectWalletconnect } = await (await import('services/swapKit')).getSwapKitClient();
-      // @ts-expect-error
+
+      //@ts-expect-error
       await connectWalletconnect(chains, {
         listeners: {
           disconnect: () => walletDispatch({ type: 'disconnect', payload: undefined }),
@@ -279,6 +292,7 @@ export const useConnectWallet = () => {
   const connectOkx = useCallback(
     async (chains: Chain[]) => {
       const { connectOkx } = await (await import('services/swapKit')).getSwapKitClient();
+      // @ts-expect-error
       await connectOkx(chains);
       reloadAllWallets(chains);
     },
@@ -290,8 +304,7 @@ export const useConnectWallet = () => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
-
-      //@ts-expect-error
+      // @ts-expect-error
       await swapKitConnectEVMWallet([chain], WalletOption.TRUSTWALLET_WEB);
 
       reloadAllWallets([chain]);
@@ -300,12 +313,11 @@ export const useConnectWallet = () => {
   );
 
   const connectCoinbaseWalletExtension = useCallback(
-    async (chain: Chain) => {
+    async (chain: EVMChain) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
 
-      //@ts-expect-error
       await swapKitConnectEVMWallet([chain], WalletOption.COINBASE_WEB);
 
       reloadAllWallets([chain]);
@@ -314,12 +326,11 @@ export const useConnectWallet = () => {
   );
 
   const connectMetamask = useCallback(
-    async (chain: Chain) => {
+    async (chain: EVMChain) => {
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
 
-      //@ts-expect-error
       await swapKitConnectEVMWallet([chain], WalletOption.METAMASK);
 
       reloadAllWallets([chain]);
@@ -327,15 +338,18 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
-  const connectKeplr = useCallback(async () => {
-    const { connectKeplr: swapKitConnectKeplr } = await (
-      await import('services/swapKit')
-    ).getSwapKitClient();
+  const connectKeplr = useCallback(
+    async (chains: (Chain.Cosmos | Chain.Kujira)[]) => {
+      const { connectKeplr: swapKitConnectKeplr } = await (
+        await import('services/swapKit')
+      ).getSwapKitClient();
 
-    await swapKitConnectKeplr(Chain.Cosmos);
+      await swapKitConnectKeplr(chains);
 
-    reloadAllWallets([Chain.Cosmos]);
-  }, [reloadAllWallets]);
+      reloadAllWallets(chains);
+    },
+    [reloadAllWallets],
+  );
 
   const unlockKeystore = useCallback(
     async (keystore: Keystore, phrase: string, chains: Chain[]) => {
@@ -344,7 +358,6 @@ export const useConnectWallet = () => {
       const { getPubKeyFromMnemonic } = ThorchainToolbox({});
       const pubKey = await getPubKeyFromMnemonic(phrase);
 
-      //@ts-expect-error
       await connectKeystore(chains, phrase);
       walletDispatch({ type: 'connectKeystore', payload: { keystore, phrase, pubKey } });
       logEvent('connect_wallet', { type: WalletOption.KEYSTORE, chains });
@@ -360,8 +373,11 @@ export const useConnectWallet = () => {
       ).getSwapKitClient();
 
       showInfoToast(t('notification.connectingKeepkey'));
+
+      // @ts-expect-error
       const keepkeyApiKey = await swapKitConnectKeepkey(chains);
-      localStorage.setItem('keepkeyApiKey', keepkeyApiKey || '');
+      // @ts-expect-error
+      localStorage.setItem('keepkeyApiKey', (keepkeyApiKey as string) || '');
       await reloadAllWallets(chains);
 
       showInfoToast(t('notification.connectedKeepkey'));
@@ -378,6 +394,7 @@ export const useConnectWallet = () => {
     connectEVMWalletExtension,
     connectBraveWallet,
     connectTrustWalletExtension,
+    connectCoinbaseMobile,
     connectCoinbaseWalletExtension,
     connectMetamask,
     connectKeplr,

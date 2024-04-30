@@ -5,6 +5,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { Button, Icon } from 'components/Atomic';
+import { InfoTip } from 'components/InfoTip';
 import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
 import { showErrorToast } from 'components/Toast';
@@ -21,11 +22,12 @@ import type { MouseEventHandler } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 import { ETH_USDC_IDENTIFIER, MATURITY_BLOCKS } from 'views/Lending/Borrow';
+import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
 import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
 import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
 import type { LoanPosition } from 'views/Lending/types';
 import { useLoanRepay } from 'views/Lending/useLoanRepay';
-import { useRepay } from 'views/Lending/useRepay';
+import { useRepayQuote } from 'views/Lending/useRepayQuote';
 import { ApproveModal } from 'views/Swap/ApproveModal';
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
@@ -74,7 +76,9 @@ export const LoanInfoRow = ({
     canStream,
     toggleStream,
     repayOptimizeQuoteDetails,
-  } = useRepay({
+    repaySlippage,
+    repayDebtAmount,
+  } = useRepayQuote({
     asset: repayAsset,
     collateralAsset: asset,
     percentage: debouncedPercentage,
@@ -99,7 +103,7 @@ export const LoanInfoRow = ({
   const repayUsd = useMemo(() => {
     const price = tokenPricesData[repayAssetString]?.price_usd || 0;
 
-    return price * Number(repayAssetAmount.toFixed(2));
+    return repayAssetAmount.mul(price).getValue('number');
   }, [repayAssetAmount, repayAssetString, tokenPricesData]);
 
   useEffect(() => {
@@ -322,6 +326,19 @@ export const LoanInfoRow = ({
                         </Flex>
                       </Flex>
                     </Flex>
+
+                    {repaySlippage > HIGH_LENDING_SLIPPAGE && (
+                      <Flex mt={3}>
+                        <InfoTip
+                          title={
+                            <Text color="brand.yellow" mx={2} textStyle="caption">
+                              {t('views.lending.slippageRepayWarning')}
+                            </Text>
+                          }
+                          type="warn"
+                        />
+                      </Flex>
+                    )}
                   </Flex>
                 </Flex>
 
@@ -375,9 +392,11 @@ export const LoanInfoRow = ({
         amount={repayAssetAmount}
         asset={repayAsset}
         expectedOutputAmount={repayAssetAmount}
+        inputAmount={repayDebtAmount}
         isOpened={isConfirmOpen}
         onClose={closeRepayConfirm}
         onConfirm={handleRepay}
+        slippagePercent={repaySlippage}
         tabLabel={t('views.lending.repay')}
       />
     </Flex>

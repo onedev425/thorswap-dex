@@ -58,12 +58,12 @@ export const useConfirmSend = ({
               memo,
               from,
             })
-          : await getWallet(sendAsset.chain)?.transfer({
+          : ((await getWallet(sendAsset.chain)?.transfer({
               assetValue: sendAsset,
               recipient,
               memo,
               from,
-            });
+            })) as string);
 
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));

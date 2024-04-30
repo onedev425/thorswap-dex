@@ -15,7 +15,17 @@ import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
 import { TransactionStatusIcon } from './TransactionStatusIcon';
 
 export const CompletedTransaction = memo(
-  ({ inChain, type, txid, label, status, result, details, outChain }: CompletedTransactionType) => {
+  ({
+    inChain,
+    type,
+    txid,
+    label,
+    status,
+    result,
+    details,
+    outChain,
+    txUrl: txUrlOverwrite,
+  }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
     const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
 
@@ -32,7 +42,7 @@ export const CompletedTransaction = memo(
       const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
 
       try {
-        return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
+        return tx && getExplorerTxUrl({ chain, txHash: cutTxPrefix(tx) });
       } catch (error: NotWorth) {
         logException(new Error(`Failed to get explorer tx url for chain: ${chain}`));
         return '';
@@ -65,7 +75,7 @@ export const CompletedTransaction = memo(
 
     useEffect(() => {
       const getTxUrl = async () => {
-        const txUrl = await transactionUrl(txid, inChain);
+        const txUrl = txUrlOverwrite || (await transactionUrl(txid, inChain));
         const secondTxUrl = await transactionUrl(
           getTxIDFromResult({ result, txid }),
           [
@@ -81,7 +91,7 @@ export const CompletedTransaction = memo(
       };
 
       getTxUrl();
-    }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type]);
+    }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type, txUrlOverwrite]);
 
     useCallback(() => {
       const finished = ['mined', 'error', 'refund'].includes(status);

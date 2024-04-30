@@ -41,14 +41,12 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
           }),
         );
 
-        const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-
-        if (!thorchain) throw new Error('Thorchain client not found');
+        const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
 
         try {
-          const txid = await thorchain.approveAssetValue(
+          const txid = await approveAssetValue(
             inputAsset.set(approveAmount || 0),
-            contract,
+            contract || 'thorchain',
           );
           logEvent('swap_approve', { approveAmount, asset: inputAsset.toString() });
 

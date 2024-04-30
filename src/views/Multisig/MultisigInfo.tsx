@@ -30,7 +30,7 @@ export const MultisigInfo = () => {
     import('services/swapKit')
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) =>
-        setAccountUrl(getExplorerAddressUrl(Chain.THORChain, address) || ''),
+        setAccountUrl(getExplorerAddressUrl({ chain: Chain.THORChain, address }) || ''),
       );
   }, [address]);
 

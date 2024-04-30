@@ -1,12 +1,13 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { AssetValue, SwapKitNumber } from '@swapkit/core';
 import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon, Link } from 'components/Atomic';
+import { Box, Checkbox, Icon, Link } from 'components/Atomic';
 import { InfoRow } from 'components/InfoRow';
 import { InfoTip } from 'components/InfoTip';
 import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
 
 type Props = {
   asset: AssetValue;
@@ -20,6 +21,7 @@ type Props = {
   collateralAmount: SwapKitNumber;
   collateralAsset: AssetValue;
   networkFee?: SwapKitNumber;
+  slippagePercent: number;
 };
 
 const LENDING_DOCS = 'https://twitter.com/THORChain/status/1693423215580958884';
@@ -36,7 +38,11 @@ export const BorrowConfirmModal = ({
   collateralAsset,
   networkFee,
   expectedDebtInfo,
+  slippagePercent,
 }: Props) => {
+  const [slippageAck, setSlippageAck] = useState(false);
+  const needSlippageAck = slippagePercent > HIGH_LENDING_SLIPPAGE;
+
   const timeLabel = useMemo(() => {
     if (!estimatedTime) return undefined;
     const minutes = Math.floor(estimatedTime / 60);
@@ -50,6 +56,7 @@ export const BorrowConfirmModal = ({
 
   return (
     <ConfirmModal
+      buttonDisabled={needSlippageAck && !slippageAck}
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
@@ -93,7 +100,7 @@ export const BorrowConfirmModal = ({
           }
         />
 
-        <InfoRow
+        {/* <InfoRow
           className="min-h-[32px]"
           label={t('views.swap.slippage')}
           showBorder={false}
@@ -102,11 +109,11 @@ export const BorrowConfirmModal = ({
               {amount.sub(collateralAmount).toSignificant(6)} {collateralAsset.ticker}
             </Text>
           }
-        />
+        /> */}
 
         <InfoRow
           className="min-h-[38px]"
-          label={t('views.lending.colalteralAfterSlippage')}
+          label={t('views.lending.collateralAfterSlippage')}
           value={
             <Text textStyle="caption">
               {collateralAmount.toSignificant(6)} {collateralAsset.ticker}
@@ -137,6 +144,7 @@ export const BorrowConfirmModal = ({
         <InfoRow
           className="min-h-[36px]"
           label={t('views.lending.expectedDebt')}
+          showBorder={false}
           value={
             <Flex align="center" gap={1}>
               <Text textStyle="caption">
@@ -147,6 +155,19 @@ export const BorrowConfirmModal = ({
                 )}
               </Text>
             </Flex>
+          }
+        />
+
+        <InfoRow
+          className="min-h-[36px]"
+          label={t('common.slippage')}
+          value={
+            <Text
+              color={slippagePercent > HIGH_LENDING_SLIPPAGE ? 'brand.red' : 'textPrimary'}
+              textStyle="caption"
+            >
+              {slippagePercent.toFixed(1)}%
+            </Text>
           }
         />
 
@@ -174,6 +195,19 @@ export const BorrowConfirmModal = ({
           type="warn"
         />
       </Box>
+
+      {needSlippageAck && (
+        <Checkbox
+          className="pt-4 pb-2"
+          label={
+            <Box alignCenter>
+              <Text>{t('views.swap.slippageConfirmationWarning')}</Text>
+            </Box>
+          }
+          onValueChange={setSlippageAck}
+          value={slippageAck}
+        />
+      )}
     </ConfirmModal>
   );
 };

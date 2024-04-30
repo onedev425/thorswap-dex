@@ -3,7 +3,7 @@ import posthog from 'posthog-js';
 import { IS_BETA, IS_DEV_API, IS_LOCAL, IS_PROD, IS_STAGENET } from 'settings/config';
 
 const posthogKey = import.meta.env.VITE_POSTHOG_API_KEY || process.env.VITE_POSTHOG_API_KEY;
-const posthogEnabled = posthogKey && (IS_PROD || IS_BETA);
+const posthogEnabled = false; // posthogKey && (IS_PROD || IS_BETA);
 const sentryEnabled = !IS_LOCAL;
 
 export function initialiseLogger() {
@@ -17,7 +17,7 @@ export function initialiseLogger() {
       disable_persistence: true,
     });
 
-    posthog.startSessionRecording();
+    posthog.startSessionRecording({});
   }
 
   if (sentryEnabled) {
@@ -42,8 +42,10 @@ export function initialiseLogger() {
   }
 }
 
-export const logEvent = async (event: string, properties?: Record<string, any>) => {
-  if (!posthogEnabled) return;
+export const logEvent = async (event: string, properties?: Record<string, Todo>) => {
+  if (!posthogEnabled) {
+    !IS_PROD && console.info('Event:', event, properties);
+  }
 
   posthog.capture(event, properties);
 };
@@ -61,18 +63,19 @@ const skippedPatterns = [
   'failed to fetch',
   'core_',
 ];
-export const logException = async (error: Error | string, properties?: Record<string, any>) => {
-  if (!sentryEnabled) return;
+export const logException = async (error: Error | string, properties?: Record<string, Todo>) => {
   const errorMessage = (typeof error === 'string' ? error : error.toString()).toLowerCase();
 
   if (skippedPatterns.some((pattern) => errorMessage.includes(pattern.toLowerCase()))) {
     return;
   }
 
+  if (!sentryEnabled) return console.error(error);
+
   Sentry.captureException(error, properties);
 };
 
-export const identifyUser = async (id: string, properties?: Record<string, any>) => {
+export const identifyUser = async (id: string, properties?: Record<string, Todo>) => {
   if (posthogEnabled) {
     posthog.identify(id, properties);
   }

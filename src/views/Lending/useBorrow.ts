@@ -100,6 +100,18 @@ export const useBorrow = ({
     toggleStream(!!assetIn.toString() && !!data?.streamingSwap);
   }, [assetIn, data?.streamingSwap, toggleStream]);
 
+  const borrowSlippage = useMemo(() => {
+    if (!data) return 0;
+
+    const { expectedDebtIssued, expectedOutput } = data;
+    const expectedDebt = Number(expectedDebtIssued);
+    const expectedOutputUSD = Number(expectedOutput);
+
+    const slippagePercent = ((expectedDebt - expectedOutputUSD) / expectedOutputUSD) * 100;
+
+    return slippagePercent;
+  }, [data]);
+
   return {
     collateralAmount,
     expectedDebt,
@@ -115,5 +127,6 @@ export const useBorrow = ({
     stream,
     canStream,
     expectedOutputAssetValue,
+    borrowSlippage,
   };
 };

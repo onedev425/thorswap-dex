@@ -9,21 +9,21 @@ import type { LedgerAccount } from '../../../ledgerLive/wallet/LedgerLive';
 export type ChainWalletWithLedger<T> =
   | (T & {
       ledgerLiveAccount?: LedgerAccount;
-      walletMethods?: any;
+      walletMethods?: Todo;
     })
   | null;
 
 export const initialWallet = {
-  [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet<Chain.Avalanche>>,
-  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet<Chain.BinanceSmartChain>>,
-  [Chain.Binance]: null as ChainWalletWithLedger<ChainWallet<Chain.Binance>>,
-  [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet<Chain.BitcoinCash>>,
-  [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Bitcoin>>,
-  [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet<Chain.Cosmos>>,
-  [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Dogecoin>>,
-  [Chain.Ethereum]: null as ChainWalletWithLedger<ChainWallet<Chain.Ethereum>>,
-  [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Litecoin>>,
-  [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet<Chain.THORChain>>,
+  [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Binance]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Ethereum]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet>,
 };
 
 const chainLoading = {
@@ -71,7 +71,7 @@ type Action =
   | { type: 'restoreHiddenAssets'; payload: Chain }
   | {
       type: 'setChainWallet';
-      payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet<Chain>> };
+      payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet> };
     }
   | { type: 'setChainWalletLoading'; payload: { chain: Chain; loading: boolean } }
   | { type: 'setTHORVesting'; payload: typeof defaultVestingInfo }

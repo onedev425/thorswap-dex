@@ -23,6 +23,7 @@ type Props = {
   totalFee: string;
   visible: boolean;
   selectedRoute?: RouteWithApproveType;
+  isChainflip?: boolean;
 };
 
 export const ConfirmSwapModal = memo(
@@ -41,6 +42,7 @@ export const ConfirmSwapModal = memo(
     visible,
     streamSwap,
     selectedRoute,
+    isChainflip,
   }: Props) => {
     const [fetchAddressVerify] = useLazyGetAddressVerifyQuery();
     const { getWalletAddress } = useWallet();
@@ -104,9 +106,16 @@ export const ConfirmSwapModal = memo(
     ]);
 
     const estimatedInfo = useMemo(() => {
-      if (!estimatedTime) return '<5s';
-      if (estimatedTime < 60) return `<${estimatedTime}s`;
-      return `<${Math.ceil(estimatedTime / 60)}m`;
+      const estimatedTotal: number = (
+        estimatedTime && typeof estimatedTime === 'object' && 'total' in estimatedTime
+          ? // @ts-expect-error wrong typing on estimatedTime
+            estimatedTime.total
+          : estimatedTime
+      ) as number;
+
+      if (!estimatedTotal) return '<5s';
+      if (estimatedTotal < 60) return `<${estimatedTotal}s`;
+      return `<${Math.ceil(estimatedTotal / 60)}m`;
     }, [estimatedTime]);
 
     return (
@@ -125,6 +134,7 @@ export const ConfirmSwapModal = memo(
           estimatedTime={estimatedInfo}
           feeAssets={feeAssets}
           inputAsset={inputAssetProps}
+          isChainflip={isChainflip}
           minReceive={minReceive}
           outputAsset={outputAssetProps}
           recipient={recipient}

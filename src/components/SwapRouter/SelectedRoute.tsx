@@ -1,12 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import { SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
 import { Box, Button } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
+import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import type React from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
 
 import { ProviderLogos } from './ProviderLogos';
@@ -15,7 +16,6 @@ import { RouteGraphModal } from './RouteGraphModal';
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
   unitPrice: number;
-  inputUnitPrice: number;
   assetTicker: string;
   streamSwap?: boolean;
 };
@@ -27,24 +27,29 @@ export const SelectedRoute = memo(
     swaps,
     outputAssetDecimal,
     unitPrice,
-    inputUnitPrice,
-    optimal,
     path,
     providers,
     isApproved,
     assetTicker,
     fees,
     streamSwap,
+    timeEstimates,
   }: Props) => {
     const [isOpened, setIsOpened] = useState(false);
     const formatPrice = useFormatPrice();
     const outputValue = useMemo(
-      () => parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
+      () => Number.parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
       [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 
     const expectedAssetOutput = useMemo(
-      () => formatPrice(new SwapKitNumber({ value: outputValue, decimal: outputAssetDecimal })),
+      () =>
+        formatPrice(
+          new SwapKitNumber({
+            value: outputValue,
+            decimal: outputAssetDecimal,
+          }),
+        ),
       [formatPrice, outputAssetDecimal, outputValue],
     );
 
@@ -67,21 +72,9 @@ export const SelectedRoute = memo(
         : pathParts.join(' → ');
     }, [path]);
 
-    const parsedFees = useMemo(() => {
-      return fees.FLIP
-        ? {
-            FLIP: fees.FLIP.map((fee) => ({
-              ...fee,
-              totalFeeUSD: fee.totalFee * inputUnitPrice,
-              networkFeeUSD: fee.networkFee * inputUnitPrice,
-            })),
-          }
-        : fees;
-    }, [fees, inputUnitPrice]);
-
     return (
       <Box col className="relative" flex={1}>
-        <Box
+        {/* <Box
           center
           className={classNames(
             'opacity-0 absolute rounded-sm px-4 transition-all bg-btn-secondary-translucent group-hover:bg-transparent w-fit -right-7',
@@ -89,7 +82,7 @@ export const SelectedRoute = memo(
           )}
         >
           <Text textStyle="caption-xs">{t('common.optimal')}</Text>
-        </Box>
+        </Box> */}
         <Box col className="pl-4 py-1">
           <Box justify="between">
             <Box className="pt-3">
@@ -105,16 +98,13 @@ export const SelectedRoute = memo(
               </Box>
 
               <Box alignCenter className="gap-x-1">
-                <GasPriceIndicator
-                  // @ts-expect-error
-                  fees={parsedFees}
-                />
+                <GasPriceIndicator fees={fees} />
                 <Text variant="secondary">{expectedPriceOutput}</Text>
               </Box>
             </Box>
           </Box>
 
-          <Box>
+          <Box justify="between">
             <Button
               className="h-6 px-3 w-fit"
               onClick={openSwapGraph}
@@ -125,6 +115,13 @@ export const SelectedRoute = memo(
                 {t('common.path')}: {shortPath}
               </Text>
             </Button>
+
+            <Box className="mr-2">
+              <RouteTimeEstimate
+                streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+                timeEstimates={timeEstimates}
+              />
+            </Box>
           </Box>
         </Box>
         {swaps && (

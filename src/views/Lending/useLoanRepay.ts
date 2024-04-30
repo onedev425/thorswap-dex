@@ -1,5 +1,5 @@
-import type { SwapKitNumber } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
+import type { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
@@ -58,11 +58,8 @@ export function useLoanRepay({
         const txid = await thorchain.loan({
           type: 'close',
           memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
-          assetValue: AssetValue.fromStringSync(
-            repayAsset.toString(),
-            repayAsset.getValue('string'),
-          )!.add(amount),
-          minAmount: AssetValue.fromStringSync(repayAsset.toString(), expectedAmount)!,
+          assetValue: repayAsset.add(amount),
+          minAmount: repayAsset.set(expectedAmount),
         });
         onSuccess?.();
         if (txid)
@@ -80,6 +77,7 @@ export function useLoanRepay({
           );
       } catch (error) {
         logException(error as Error);
+        showErrorToast(t('txManager.failed'), undefined, undefined, error as Error);
         appDispatch(completeTransaction({ id, status: 'error' }));
       }
     },

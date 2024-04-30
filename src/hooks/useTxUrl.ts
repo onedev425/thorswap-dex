@@ -16,7 +16,7 @@ export const useTxUrl = ({ chain, txHash }: Props) => {
     const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
 
     try {
-      return tx && getExplorerTxUrl(chain, cutTxPrefix(tx));
+      return tx && getExplorerTxUrl({ chain, txHash: cutTxPrefix(tx) });
     } catch (error: NotWorth) {
       logException(`Can't get explorer tx url for chain ${chain}`);
       return '';

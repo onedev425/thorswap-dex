@@ -1,15 +1,14 @@
 import { cutTxPrefix } from 'components/TransactionManager/helpers';
+import { trackerUnsupportedProviders } from 'components/TransactionManager/PendingTransaction';
 import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useTxUrl } from 'hooks/useTxUrl';
 import { useEffect, useMemo } from 'react';
-import { useAppDispatch } from 'store/store';
 import { useGetTxnStatusQuery } from 'store/thorswap/api';
 import type { PendingTransactionType } from 'store/transactions/types';
 import { TransactionType } from 'store/transactions/types';
 
 export const useSimpleTracker = (tx: PendingTransactionType | null) => {
-  const appDispatch = useAppDispatch();
-  const { id, inChain, txid, type, label, from } = tx || {};
+  const { inChain, txid, type, label, from } = tx || {};
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const params = useMemo(() => {
@@ -42,15 +41,33 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
 
   const txUrl = useTxUrl({ txHash: tx?.txid || '', chain: inChain });
 
+  // TODO remove after tracker supports providers
+  const isTrackerWorkaround = useMemo(
+    () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ''),
+    [tx],
+  );
+  const txUrlOverwrite =
+    isTrackerWorkaround && txid
+      ? `https://www.mayascan.org/tx/${txid.replace('0x', '')}`
+      : undefined;
+
   useEffect(() => {
     const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
-    const instantComplete = type && [TransactionType.TC_SEND].includes(type);
+    const instantComplete =
+      type && ([TransactionType.TC_SEND].includes(type) || isTrackerWorkaround);
     const status = data?.status || 'mined';
 
     if (transactionCompleted || (instantComplete && txUrl)) {
-      onCompleteTransaction({ status, result: data?.result });
+      onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });
     }
-  }, [appDispatch, data, id, onCompleteTransaction, txUrl, txid, type]);
+  }, [data, onCompleteTransaction, txUrl, type, isTrackerWorkaround, txUrlOverwrite]);
 
-  return tx ? { type, label, txUrl, details: null } : null;
+  return tx
+    ? {
+        type,
+        label,
+        txUrl: txUrlOverwrite || txUrl,
+        details: null,
+      }
+    : null;
 };

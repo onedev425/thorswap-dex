@@ -1,9 +1,13 @@
 # Thorswap
 
+## Pre-requisites
+
+- [Bun](https://bun.sh) (`curl -fsSL https://bun.sh/install | bash`)
+
 ## Installation
 
 ```sh
-yarn install
+bun install;
 ```
 
 ## Development
@@ -13,13 +17,13 @@ Create `.env` and `.env.stagenet` file from `.env.copy` - adjust at our own vari
 - Start dev server:
 
 ```sh
-yarn start
+bun start
 ```
 
 - Start server with environment variables from .env.stagenet
 
 ```sh
-yarn start:stagenet
+bun start:stagenet
 ```
 
 - Start server with for ledger live development
@@ -28,7 +32,7 @@ Enable developer mode in ledger live
 <https://developers.ledger.com/docs/live-app/developer-mode/>
 
 ```sh
-yarn start:ledger
+bun start:ledger
 ```
 
 Go to settings -> Developer -> Add local app -> select the manifest json of this project
@@ -36,7 +40,7 @@ Go to settings -> Developer -> Add local app -> select the manifest json of this
 - Test production build locally
 
 ```sh
-yarn build; yarn preview
+bun run build; bun preview
 ```
 
 - Test ledger production build locally
@@ -44,12 +48,12 @@ yarn build; yarn preview
 Change manifest json to use port 4173 instead of 5173
 
 ```sh
-yarn build:ledger; yarn preview:ledger
+bun build:ledger; bun preview:ledger
 ```
 
 - Linting
 
 ```sh
-yarn lint && yarn typescript
+bun lint && bun typescript
 ```
 

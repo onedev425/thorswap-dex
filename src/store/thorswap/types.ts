@@ -116,6 +116,7 @@ export type GetProviderTokensParams = {
   timestamp: string;
   tokens: Token[];
   version: Version;
+  provider: string;
 };
 
 export type TxnResult = SuccessTxnResult | WithdrawTxResult | AddLiquidityTxResult;
@@ -223,6 +224,10 @@ export type GetTokensQuoteResponse = {
         swapMs: number;
         outboundMs: number;
         streamingMs: number;
+        inbound?: number;
+        swap?: number;
+        outbound?: number;
+        streaming?: number;
       };
     },
   ];

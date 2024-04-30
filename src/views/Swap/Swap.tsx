@@ -1,8 +1,16 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
-import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
+import {
+  AssetValue,
+  BaseDecimal,
+  Chain,
+  formatBigIntToSafeValue,
+  SwapKitNumber,
+  WalletOption,
+} from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
+import { Box } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
@@ -22,6 +30,7 @@ import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
+import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
@@ -38,6 +47,7 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
+import { V2Providers } from 'store/thorswap/api';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
@@ -99,20 +109,23 @@ const SwapView = () => {
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
+  const [priceImpact, setPriceImpact] = useState('0');
   const formatPrice = useFormatPrice();
   const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
-  const { tokens } = useTokenList();
+  const { tokens, tradingPairs } = useTokenList(true);
 
   const [inputToken, outputToken] = useMemo(
     () => [
       tokens.find(
-        ({ identifier }) =>
-          identifier.toUpperCase() === `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
+        ({ chain, ticker, address }) =>
+          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
       ),
       tokens.find(
-        ({ identifier }) =>
-          identifier.toUpperCase() === `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
+        ({ chain, ticker, address }) =>
+          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
     [inputAsset.chain, inputAsset.symbol, outputAsset.chain, outputAsset.symbol, tokens],
@@ -175,14 +188,12 @@ const SwapView = () => {
     [inputAmount, inputUnitPrice],
   );
 
-  const [manualSlippage, setManualSlippage] = useState<number>(0);
-
-  useEffect(() => {
-    // reset slippage if assets change
-    if (inputAsset || outputAsset) {
-      setManualSlippage(0);
-    }
-  }, [inputAsset, outputAsset]);
+  //   useEffect(() => {
+  //     // reset slippage if assets change
+  //     if (inputAsset || outputAsset) {
+  //       setSlippagePercent(0);
+  //     }
+  //   }, [inputAsset, outputAsset]);
 
   const {
     affiliateBasisPoints,
@@ -202,7 +213,6 @@ const SwapView = () => {
     inputUSDPrice,
     inputUnitPrice,
     outputUnitPrice,
-    manualSlippage,
     outputAsset,
     recipientAddress: recipient,
     senderAddress: sender,
@@ -220,6 +230,28 @@ const SwapView = () => {
     [getWallet, inputAsset.chain],
   );
 
+  const amountTooLowForLimit = useMemo(
+    () =>
+      selectedRouteRaw &&
+      new SwapKitNumber({
+        value:
+          inputUSDPrice ||
+          selectedRouteRaw.expectedOutputUSD ||
+          // @ts-expect-error TODO fix typing v2 quotes
+          selectedRouteRaw.expectedBuyAmountUSD,
+      }).lte(500),
+    [selectedRouteRaw, inputUSDPrice],
+  );
+
+  // TODO remove after full v2 migration
+  const highValueImpact = useMemo(() => {
+    if (!selectedRouteRaw || !selectedRouteRaw.calldata || !inputUSDPrice) return false;
+    const buyAmountUSD = new SwapKitNumber(selectedRouteRaw.expectedOutputUSD);
+    const priceImpact = buyAmountUSD.div(inputUSDPrice).sub(1).mul(100);
+    setPriceImpact(priceImpact.toFixed(2));
+    return buyAmountUSD && priceImpact.lt(-5);
+  }, [selectedRouteRaw, inputUSDPrice]);
+
   const {
     streamSwap,
     canStreamSwap,
@@ -230,14 +262,19 @@ const SwapView = () => {
     streamingSwapParams,
     setStreamingSwapParams,
     slippagePercent,
-    setSlippagePercent,
     defaultInterval,
   } = useSwapParams({
     selectedRoute: selectedRouteRaw,
     inputAmount,
     noPriceProtection,
     outputAsset,
-    setManualSlippage,
+    isChainflip,
+    noSlipProtection: amountTooLowForLimit,
+  });
+
+  const { isApproved, isLoading } = useIsAssetApproved({
+    assetValue: inputAsset.set(inputAmount.getValue('string')),
+    contract: selectedRoute?.targetAddress || selectedRoute?.approvalTarget,
   });
 
   const outputUSDPrice = useMemo(
@@ -296,7 +333,7 @@ const SwapView = () => {
   const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
 
   const handleApprove = useSwapApprove({
-    contract: approvalTarget || allowanceTarget || targetAddress,
+    contract: approvalTarget || allowanceTarget || targetAddress || selectedRoute?.providers?.[0],
     inputAsset,
   });
 
@@ -450,8 +487,8 @@ const SwapView = () => {
             onSwitchPair={handleSwitchPair}
             outputAsset={outputAssetProps}
             tokens={tokens}
+            tradingPairs={tradingPairs.get(inputAsset.toString()) || tokens}
           />
-
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
@@ -461,47 +498,26 @@ const SwapView = () => {
             />
           )}
 
-          <SwapSettings
-            canStreamSwap={canStreamSwap}
-            defaultInterval={defaultInterval}
-            isChainflip={isChainflip}
-            minReceive={minReceive}
-            onSettingsChange={setStreamingSwapParams}
-            outputAmount={outputAmount}
-            outputAsset={outputAsset}
-            route={selectedRoute}
-            setSlippagePercent={setSlippagePercent}
-            slippagePercent={slippagePercent}
+          <SwapInfo
+            affiliateBasisPoints={Number(affiliateBasisPoints)}
+            affiliateFee={affiliateFee}
+            assets={assetTickers}
+            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
+            inputUnitPrice={inputUnitPrice}
+            isLoading={isPriceLoading}
+            minReceive={minReceiveInfo}
+            minReceiveSlippage={slippagePercent}
+            networkFee={networkFee}
+            outputUnitPrice={outputUnitPrice}
+            setFeeModalOpened={setFeeModalOpened}
+            showTransactionFeeSelect={showTransactionFeeSelect}
             streamSwap={streamSwap}
-            streamingSwapParams={streamingSwapParams}
+            vTHORDiscount={vTHORDiscount}
+            whaleDiscount={inputUSDPrice >= 1_000_000}
           />
-
-          {quoteId && (
-            <SwapInfo
-              affiliateBasisPoints={Number(affiliateBasisPoints)}
-              affiliateFee={affiliateFee}
-              assets={assetTickers}
-              expectedOutput={`${outputAmount?.toSignificant(
-                6,
-              )} ${outputAsset.ticker.toUpperCase()}`}
-              inputUnitPrice={inputUnitPrice}
-              isLoading={isPriceLoading}
-              minReceive={minReceiveInfo}
-              minReceiveSlippage={slippagePercent}
-              networkFee={networkFee}
-              outputUnitPrice={outputUnitPrice}
-              setFeeModalOpened={setFeeModalOpened}
-              showTransactionFeeSelect={showTransactionFeeSelect}
-              streamSwap={streamSwap}
-              vTHORDiscount={vTHORDiscount}
-              whaleDiscount={inputUSDPrice >= 1_000_000}
-            />
-          )}
-
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
           )}
-
           {noPriceProtection && (
             <InfoTip
               className="!mt-2"
@@ -514,7 +530,6 @@ const SwapView = () => {
           )}
 
           <SwapRouter
-            inputUnitPrice={inputUnitPrice}
             outputAsset={outputAsset}
             outputUnitPrice={outputUnitPrice}
             routes={routes}
@@ -523,14 +538,77 @@ const SwapView = () => {
             streamSwap={streamSwap}
           />
 
+          <SwapSettings
+            canStreamSwap={canStreamSwap}
+            defaultInterval={defaultInterval}
+            isChainflip={isChainflip}
+            minReceive={minReceive}
+            noSlipProtection={amountTooLowForLimit}
+            onSettingsChange={setStreamingSwapParams}
+            outputAmount={outputAmount}
+            outputAsset={outputAsset}
+            route={selectedRoute}
+            streamSwap={streamSwap}
+            streamingSwapParams={streamingSwapParams}
+          />
+
+          {// @ts-ignore TODO add typings for new v2 response
+          selectedRoute?.warnings?.map(
+            (warning: { code: string; display: string; tooltip: string }) => (
+              <InfoTip
+                className="!mt-2"
+                key={warning.code}
+                title={
+                  warning.code === 'highPriceImpact' ? (
+                    <Box row className="pl-4 self-stretch w-[100%]" justify="between">
+                      <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{' '}
+                      <Text color="red">{warning.display}</Text>
+                    </Box>
+                  ) : (
+                    t(`views.swap.warning.${warning.code}`)
+                  )
+                }
+                tooltip={warning.tooltip}
+                type="warn"
+              />
+            ),
+          )}
+
+          {highValueImpact &&
+            !selectedRoute?.providers.some((provider) => V2Providers.includes(provider)) && (
+              <InfoTip
+                className="!mt-2"
+                key={'highValueImpact-v1'}
+                title={
+                  <Box row className="pl-4 self-stretch w-[100%]" justify="between">
+                    <Text>{t('views.swap.warning.highPriceImpact')}</Text>{' '}
+                    <Text color="red">{`${priceImpact}%`}</Text>
+                  </Box>
+                }
+                tooltip={
+                  'This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token.'
+                }
+                type="warn"
+              />
+            )}
+
+          {amountTooLowForLimit && !isChainflip && (
+            <InfoTip
+              className="!mt-2"
+              key="amountTooLowForLimit"
+              title={t('views.swap.priceProtectionUnavailable')}
+              type="warn"
+            />
+          )}
+
           <SwapSubmitButton
             hasQuote={!!selectedRoute}
             inputAmount={inputAmount}
             inputAsset={inputAsset}
             invalidSwap={invalidSwap}
-            isApproved={!!selectedRoute?.isApproved}
+            isApproved={!!selectedRoute?.isApproved || isApproved}
             isInputWalletConnected={isInputWalletConnected}
-            isLoading={isFetching || isPriceLoading}
+            isLoading={(isFetching || isPriceLoading || isLoading) && !error}
             isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
@@ -538,24 +616,23 @@ const SwapView = () => {
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}
           />
-
           <ConfirmSwapModal
             affiliateFee={formatPrice(affiliateFee)}
             estimatedTime={estimatedTime}
             feeAssets={feeAssets}
             handleSwap={handleSwap}
             inputAssetProps={inputAssetProps}
+            isChainflip={isChainflip}
             minReceive={minReceiveInfo}
             outputAssetProps={outputAssetProps}
             recipient={recipient}
             selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
-            slippagePercent={slippagePercent}
+            slippagePercent={isChainflip ? 5 : amountTooLowForLimit ? 0 : slippagePercent}
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
           />
-
           <ApproveModal
             balance={maxInputBalance}
             handleApprove={handleApprove}
@@ -564,7 +641,6 @@ const SwapView = () => {
             totalFee={formatPrice(firstNetworkFee)}
             visible={visibleApproveModal}
           />
-
           <FeeModal
             fees={fees}
             isOpened={feeModalOpened}

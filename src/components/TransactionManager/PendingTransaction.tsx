@@ -14,6 +14,8 @@ import type { PendingTransactionType } from 'store/transactions/types';
 
 const trackerV2Providers = ['CHAINFLIP'];
 
+export const trackerUnsupportedProviders = ['MAYACHAIN'];
+
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
   // keep it backward compatible with old cached txs
@@ -21,15 +23,20 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const provider = route?.providers[0] || '';
   const isV2Tracker = trackerV2Providers.includes(provider);
 
+  const isTrackerWorkaround = trackerUnsupportedProviders.includes(route?.providers[0] || '');
+
   const simpleTrackerData = useSimpleTracker(
-    hasDetailsParams || advancedTracker ? null : pendingTx,
+    hasDetailsParams || advancedTracker || isV2Tracker ? null : pendingTx,
   );
   const advancedTrackerData = useAdvancedTracker(
-    (!hasDetailsParams && !advancedTracker) || isV2Tracker ? null : pendingTx,
+    (!hasDetailsParams && !advancedTracker) || isV2Tracker || isTrackerWorkaround
+      ? null
+      : pendingTx,
   );
   const trackerV2Data = useTrackerV2(!isV2Tracker ? null : pendingTx);
 
   const { totalTimeLeft } = useTransactionTimers(txDetails?.legs || [], { isTxFinished: false });
+
   const txData = simpleTrackerData || advancedTrackerData || pendingTx || trackerV2Data;
 
   const { label, type, details } = txData;

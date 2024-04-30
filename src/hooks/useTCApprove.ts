@@ -43,7 +43,9 @@ export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
       }
 
       try {
-        const txid = await thorchain.approveAssetValue(asset);
+        const txid = await thorchain.approveAssetValue({
+          assetValue: asset,
+        });
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

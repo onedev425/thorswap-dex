@@ -1,6 +1,7 @@
 import 'chart.js/auto';
 
 import { Box, Icon } from 'components/Atomic';
+import { EggHunt } from 'components/easter/EggHunt';
 import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
 import { isIframe } from 'helpers/isIframe';
@@ -110,7 +111,7 @@ export const PublicRoutes = memo(() => {
 
       const params = new URLSearchParams(window.location.search);
       const values = {
-        fee: parseInt(params.get('fee') ?? '50', 10),
+        fee: Number.parseInt(params.get('fee') ?? '50', 10),
         address: params.get('address') ?? 't',
         basePair: params.get('basePair') ?? '',
         logoUrl: params.get('logoUrl') ?? '',
@@ -146,6 +147,7 @@ export const PublicRoutes = memo(() => {
                       }
                     >
                       <Component />
+                      <EggHunt />
                     </Suspense>
                   </Layout>
                 </>

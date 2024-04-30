@@ -5,6 +5,7 @@ import { Box } from 'components/Atomic';
 import { HighlightCard } from 'components/HighlightCard';
 import { HoverIcon } from 'components/HoverIcon';
 import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
+import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { tokenLogoURL } from 'helpers/logoURL';
@@ -18,7 +19,6 @@ type Props = RouteWithApproveType & {
   onClick: () => void;
   outputAsset: AssetValue;
   unitPrice: number;
-  inputUnitPrice: number;
   streamSwap?: boolean;
 };
 
@@ -30,18 +30,18 @@ export const SwapRoute = memo(
     isApproved,
     outputAsset,
     unitPrice,
-    inputUnitPrice,
     path,
     providers,
     selected,
     fees,
     streamSwap,
+    timeEstimates,
   }: Props) => {
     const formatPrice = useFormatPrice();
     const [, address] = outputAsset.symbol.split('-');
 
     const outputValue = useMemo(
-      () => parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
+      () => Number.parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
       [expectedOutput, streamSwap, streamingSwap?.expectedOutput],
     );
 
@@ -64,18 +64,6 @@ export const SwapRoute = memo(
       () => formatPrice(unitPrice * outputValue),
       [outputValue, formatPrice, unitPrice],
     );
-
-    const parsedFees = useMemo(() => {
-      return fees.FLIP
-        ? {
-            FLIP: fees.FLIP.map((fee) => ({
-              ...fee,
-              totalFeeUSD: fee.totalFee * inputUnitPrice,
-              networkFeeUSD: fee.networkFee * inputUnitPrice,
-            })),
-          }
-        : fees;
-    }, [fees, inputUnitPrice]);
 
     return (
       <HighlightCard className="!px-3 !py-1.5 !gap-0" isFocused={selected} onClick={onClick}>
@@ -102,11 +90,7 @@ export const SwapRoute = memo(
                 </Box>
 
                 <Box alignCenter className="gap-x-1" justify="end">
-                  <GasPriceIndicator
-                    // @ts-expect-error
-                    fees={parsedFees}
-                    size="sm"
-                  />
+                  <GasPriceIndicator fees={fees} size="sm" />
 
                   <Text className="text-right" variant="secondary">
                     {expectedOutputPrice}
@@ -117,10 +101,15 @@ export const SwapRoute = memo(
           </Box>
         </Box>
 
-        <Box className="px-1 pt-0.5">
+        <Box className="pl-1 pt-0.5" justify="between">
           <Text className="!text-[9px]" textStyle="caption-xs" variant="secondary">
             {shortPath}
           </Text>
+
+          <RouteTimeEstimate
+            streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+            timeEstimates={timeEstimates}
+          />
         </Box>
       </HighlightCard>
     );

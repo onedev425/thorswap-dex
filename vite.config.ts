@@ -1,20 +1,34 @@
+import mkcert from 'vite-plugin-mkcert';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
-import nodePolyfills from 'rollup-plugin-polyfill-node';
-import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';
 import svgr from 'vite-plugin-svgr';
-import mkcert from 'vite-plugin-mkcert';
+import topLevelAwait from 'vite-plugin-top-level-await';
+import wasm from 'vite-plugin-wasm';
+import { defineConfig } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { resolve } from 'node:path';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const withSourcemap = process.env.SOURCEMAP === 'true';
 const analyze = process.env.ANALYZE_BUNDLE === 'true';
 const ssl = process.env.SSL === 'true';
 const sourcemap = withSourcemap || analyze;
 
-const plugins: any[] = [
+const plugins: Todo[] = [
+  nodePolyfills({
+    // Whether to polyfill specific globals.
+    globals: {
+      Buffer: true, // can also be 'build', 'dev', or false
+      global: true,
+      process: true,
+    },
+    // Whether to polyfill `node:` protocol imports.
+    protocolImports: true,
+  }),
   react(),
+  topLevelAwait(),
+  wasm(),
   svgr({ svgrOptions: { icon: true } }),
   removeConsole(),
   sentryVitePlugin({ telemetry: false, org: 'thorswap-dex', project: 'dex' }),
@@ -54,46 +68,23 @@ export default defineConfig({
       views: resolve(__dirname, 'src/views'),
       context: resolve(__dirname, 'src/context'),
 
+      buffer: 'buffer',
       crypto: 'crypto-browserify',
+      'node:crypto': 'crypto-browserify',
+      stream: 'stream-browserify',
       http: 'stream-http',
       https: 'https-browserify',
       os: 'os-browserify/browser',
-      stream: 'readable-stream',
-      util: 'util',
-      url: 'url',
-
-      /**
-       * To operate locally on external libraries you can copy paste their `/src`
-       * file and use like below and run yarn start --force
-       */
-      // '@swapkit/core': resolve(__dirname, 'src/c'),
-      // '@swapkit/toolbox-evm': resolve(__dirname, 'src/e'),
-      // '@swapkit/wallet-xdefi': resolve(__dirname, 'src/x'),
-      // '@swapkit/wallet-keystore': resolve(__dirname, 'src/k'),
-      // '@swapkit/toolbox-cosmos': resolve(__dirname, 'src/cos'),
+      path: 'path-browserify',
     },
-  },
-  build: {
-    target: 'es2020',
-    reportCompressedSize: true,
-    sourcemap,
-    rollupOptions: {
-      plugins: [nodePolyfills({ sourceMap: sourcemap })],
-      output: {
-        chunkFileNames: () => '[hash].js',
-      },
-    },
-  },
-  esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   // @ts-expect-error
   server: { https: ssl },
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020',
-      define: { global: 'globalThis' },
-      reserveProps: /(BigInteger|ECPair|Point)/,
-    },
+  build: {
+    reportCompressedSize: true,
+    sourcemap,
+    rollupOptions: { output: { chunkFileNames: () => '[hash].js' } },
   },
+  esbuild: { sourcemap, logOverride: { 'this-is-undefined-in-esm': 'silent' } },
+  optimizeDeps: { esbuildOptions: { sourcemap } },
 });
