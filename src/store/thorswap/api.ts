@@ -34,9 +34,7 @@ const baseUrl = IS_STAGENET
     ? 'https://dev-api.thorswap.net'
     : 'https://api.thorswap.net';
 
-export const apiV2BaseUrl = IS_DEV_API
-  ? 'https://dev-api.swapkit.dev'
-  : 'https://dev-api.swapkit.dev';
+export const apiV2BaseUrl = IS_DEV_API ? 'https://dev-api.swapkit.dev' : 'https://api.swapkit.dev';
 
 export const thorswapApi = createApi({
   reducerPath: 'thorswap',

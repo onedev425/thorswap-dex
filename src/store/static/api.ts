@@ -7,8 +7,8 @@ import type { GetProviderTokensParams } from 'store/thorswap/types';
  */
 // TODO change this once, api v2 prod is ready to serve maya lists
 const baseUrl = IS_DEV_API
-  ? 'https://static-tokenlist-dev.thorswap.net'
-  : 'https://dev-api.swapkit.dev/tokens';
+  ? 'https://dev-api.swapkit.dev/tokens'
+  : 'https://api.swapkit.dev/tokens';
 
 export const staticApi = createApi({
   reducerPath: 'static',
