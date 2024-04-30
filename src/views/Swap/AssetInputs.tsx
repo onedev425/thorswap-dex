@@ -84,7 +84,7 @@ const Inputs = ({
       ({ asset }) =>
         isETHAsset(asset) ||
         isAVAXAsset(asset) ||
-        isBSCAsset(asset) ||
+        (asset.ticker === 'BNB' && asset.chain === Chain.BinanceSmartChain) ||
         ![Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(asset?.chain) ||
         thorchainEVNSupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase()),
     );
