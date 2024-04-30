@@ -234,8 +234,11 @@ const SwapView = () => {
     () =>
       selectedRouteRaw &&
       new SwapKitNumber({
-        // @ts-expect-error TODO fix typing v2 quotes
-        value: selectedRouteRaw.expectedOutputUSD || selectedRouteRaw.expectedBuyAmountUSD,
+        value:
+          inputUSDPrice ||
+          selectedRouteRaw.expectedOutputUSD ||
+          // @ts-expect-error TODO fix typing v2 quotes
+          selectedRouteRaw.expectedBuyAmountUSD,
       }).lte(500),
     [selectedRouteRaw],
   );
