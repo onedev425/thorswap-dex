@@ -1,7 +1,14 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
-import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
+import {
+  AssetValue,
+  BaseDecimal,
+  Chain,
+  formatBigIntToSafeValue,
+  SwapKitNumber,
+  WalletOption,
+} from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
 import { Box } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
@@ -40,6 +47,7 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
+import { V2Providers } from 'store/thorswap/api';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
@@ -101,6 +109,7 @@ const SwapView = () => {
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
+  const [priceImpact, setPriceImpact] = useState('0');
   const formatPrice = useFormatPrice();
   const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
@@ -230,6 +239,15 @@ const SwapView = () => {
       }).lte(500),
     [selectedRouteRaw],
   );
+
+  // TODO remove after full v2 migration
+  const highValueImpact = useMemo(() => {
+    if (!selectedRouteRaw || !selectedRouteRaw.calldata || !inputUSDPrice) return false;
+    const buyAmountUSD = new SwapKitNumber(selectedRouteRaw.expectedOutputUSD);
+    const priceImpact = buyAmountUSD.div(inputUSDPrice).sub(1).mul(100);
+    setPriceImpact(priceImpact.toFixed(2));
+    return buyAmountUSD && priceImpact.lt(-5);
+  }, [selectedRouteRaw, inputUSDPrice]);
 
   const {
     streamSwap,
@@ -553,6 +571,24 @@ const SwapView = () => {
               />
             ),
           )}
+
+          {highValueImpact &&
+            !selectedRoute?.providers.some((provider) => V2Providers.includes(provider)) && (
+              <InfoTip
+                className="!mt-2"
+                key={'highValueImpact-v1'}
+                title={
+                  <Box row className="pl-4 self-stretch w-[100%]" justify="between">
+                    <Text>{t('views.swap.warning.highPriceImpact')}</Text>{' '}
+                    <Text color="red">{`${priceImpact}%`}</Text>
+                  </Box>
+                }
+                tooltip={
+                  'This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token.'
+                }
+                type="warn"
+              />
+            )}
 
           {amountTooLowForLimit && !isChainflip && (
             <InfoTip
