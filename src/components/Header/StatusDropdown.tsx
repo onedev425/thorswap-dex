@@ -11,6 +11,7 @@ import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
+import { Chain } from '@swapkit/core';
 
 type StatusItem = {
   label: string;
@@ -43,7 +44,7 @@ export const StatusDropdown = memo(() => {
 
   const chainsData = useMemo(
     () =>
-      SUPPORTED_CHAINS.map((chain) => ({
+      SUPPORTED_CHAINS.filter((chain) => chain !== Chain.Binance).map((chain) => ({
         label: chainName(chain, true),
         status: isChainHalted[chain]
           ? StatusType.Offline
@@ -64,7 +65,6 @@ export const StatusDropdown = memo(() => {
 
     const chainStatuses = chainsData.map(({ status }) => status);
     if (chainStatuses.includes(StatusType.Offline)) return StatusType.Offline;
-
     if (outboundQueueLevel !== StatusType.Good) return outboundQueueLevel;
     if (hardCapStatus !== StatusType.Good) return hardCapStatus;
 

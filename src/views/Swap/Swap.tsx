@@ -628,7 +628,7 @@ const SwapView = () => {
             recipient={recipient}
             selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
-            slippagePercent={slippagePercent}
+            slippagePercent={isChainflip ? 5 : amountTooLowForLimit ? 0 : slippagePercent}
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}
