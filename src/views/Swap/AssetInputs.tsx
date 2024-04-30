@@ -65,7 +65,6 @@ const Inputs = ({
   const outputAssetList = useAssetsWithBalanceFromTokens(tradingPairs || tokens);
 
   const { assetInputProps, assets } = useAssetListSearch(inputAssetList);
-
   const { assetInputProps: outputAssetInputProps, assets: outputAssetsSearched } =
     useAssetListSearch(outputAssetList);
 
