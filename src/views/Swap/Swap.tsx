@@ -1,9 +1,9 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Box } from 'components/Atomic';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
 import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
+import { Box } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
 import { InfoTip } from 'components/InfoTip';
 import { PanelView } from 'components/PanelView';
@@ -221,6 +221,16 @@ const SwapView = () => {
     [getWallet, inputAsset.chain],
   );
 
+  const amountTooLowForLimit = useMemo(
+    () =>
+      selectedRouteRaw &&
+      new SwapKitNumber({
+        // @ts-expect-error TODO fix typing v2 quotes
+        value: selectedRouteRaw.expectedOutputUSD || selectedRouteRaw.expectedBuyAmountUSD,
+      }).lte(500),
+    [selectedRouteRaw],
+  );
+
   const {
     streamSwap,
     canStreamSwap,
@@ -238,6 +248,7 @@ const SwapView = () => {
     noPriceProtection,
     outputAsset,
     isChainflip,
+    noSlipProtection: amountTooLowForLimit,
   });
 
   const { isApproved, isLoading } = useIsAssetApproved({
@@ -466,27 +477,23 @@ const SwapView = () => {
             />
           )}
 
-          {
-            <SwapInfo
-              affiliateBasisPoints={Number(affiliateBasisPoints)}
-              affiliateFee={affiliateFee}
-              assets={assetTickers}
-              expectedOutput={`${outputAmount?.toSignificant(
-                6,
-              )} ${outputAsset.ticker.toUpperCase()}`}
-              inputUnitPrice={inputUnitPrice}
-              isLoading={isPriceLoading}
-              minReceive={minReceiveInfo}
-              minReceiveSlippage={slippagePercent}
-              networkFee={networkFee}
-              outputUnitPrice={outputUnitPrice}
-              setFeeModalOpened={setFeeModalOpened}
-              showTransactionFeeSelect={showTransactionFeeSelect}
-              streamSwap={streamSwap}
-              vTHORDiscount={vTHORDiscount}
-              whaleDiscount={inputUSDPrice >= 1_000_000}
-            />
-          }
+          <SwapInfo
+            affiliateBasisPoints={Number(affiliateBasisPoints)}
+            affiliateFee={affiliateFee}
+            assets={assetTickers}
+            expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
+            inputUnitPrice={inputUnitPrice}
+            isLoading={isPriceLoading}
+            minReceive={minReceiveInfo}
+            minReceiveSlippage={slippagePercent}
+            networkFee={networkFee}
+            outputUnitPrice={outputUnitPrice}
+            setFeeModalOpened={setFeeModalOpened}
+            showTransactionFeeSelect={showTransactionFeeSelect}
+            streamSwap={streamSwap}
+            vTHORDiscount={vTHORDiscount}
+            whaleDiscount={inputUSDPrice >= 1_000_000}
+          />
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
           )}
@@ -516,6 +523,7 @@ const SwapView = () => {
             defaultInterval={defaultInterval}
             isChainflip={isChainflip}
             minReceive={minReceive}
+            noSlipProtection={amountTooLowForLimit}
             onSettingsChange={setStreamingSwapParams}
             outputAmount={outputAmount}
             outputAsset={outputAsset}
@@ -528,22 +536,31 @@ const SwapView = () => {
           selectedRoute?.warnings?.map(
             (warning: { code: string; display: string; tooltip: string }) => (
               <InfoTip
-                tooltip={warning.tooltip}
                 className="!mt-2"
                 key={warning.code}
                 title={
                   warning.code === 'highPriceImpact' ? (
-                    <Box row justify="between" className="pl-4 self-stretch w-[100%]">
+                    <Box row className="pl-4 self-stretch w-[100%]" justify="between">
                       <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{' '}
-                      <Text color={'red'}>{warning.display}</Text>
+                      <Text color="red">{warning.display}</Text>
                     </Box>
                   ) : (
                     t(`views.swap.warning.${warning.code}`)
                   )
                 }
+                tooltip={warning.tooltip}
                 type="warn"
               />
             ),
+          )}
+
+          {amountTooLowForLimit && !isChainflip && (
+            <InfoTip
+              className="!mt-2"
+              key="amountTooLowForLimit"
+              title={t('views.swap.priceProtectionUnavailable')}
+              type="warn"
+            />
           )}
 
           <SwapSubmitButton

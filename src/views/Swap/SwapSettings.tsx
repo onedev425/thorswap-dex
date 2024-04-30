@@ -35,6 +35,7 @@ type Props = {
   streamingSwapParams: StreamSwapParams | null;
   streamSwap: boolean;
   isChainflip: boolean;
+  noSlipProtection?: boolean;
 };
 
 type SwapOption = {
@@ -57,6 +58,7 @@ export const SwapSettings = ({
   streamingSwapParams,
   streamSwap,
   isChainflip,
+  noSlipProtection,
 }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse({});
   const { slippageTolerance, setSlippage } = useApp();
@@ -171,15 +173,15 @@ export const SwapSettings = ({
           </Flex>
 
           <Flex alignItems="center" gap={1}>
-            {/* {hasOptimalSettings || isChainflip ? ( */}
-            <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-              {`${isChainflip ? 5 : slippageTolerance}% Price Protection`}
-            </Text>
-            {/* // ) : (
-            //   <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            //     Custom
-            //   </Text>
-            // )} */}
+            {noSlipProtection && !isChainflip ? (
+              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+                {t('views.swap.noPriceProtection')}
+              </Text>
+            ) : (
+              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+                {`${isChainflip ? 5 : slippageTolerance}% Price Protection`}
+              </Text>
+            )}
 
             <Icon
               className={classNames('transform duration-300 ease -mr-2', {
@@ -344,7 +346,26 @@ export const SwapSettings = ({
                 </>
               )}
 
-              {!isChainflip ? (
+              {isChainflip || noSlipProtection ? (
+                <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
+                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+                    {isChainflip
+                      ? t('common.slippageSettingsChainflip')
+                      : t('views.swap.noPriceProtection')}
+                  </Text>
+
+                  <Tooltip
+                    content={
+                      isChainflip
+                        ? t('common.slippageTooltipChainflip')
+                        : t('views.swap.noPriceProtectionTooltip')
+                    }
+                    place="bottom"
+                  >
+                    <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
+                  </Tooltip>
+                </Flex>
+              ) : (
                 <SwapSlippage
                   outputAmount={outputAmount}
                   outputAsset={outputAsset}
@@ -352,16 +373,6 @@ export const SwapSettings = ({
                   setSlippagePercent={onChangeSlippage}
                   slippagePercent={slippageTolerance}
                 />
-              ) : (
-                <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
-                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
-                    {t('common.slippageSettingsChainflip')}
-                  </Text>
-
-                  <Tooltip content={t('common.slippageTooltipChainflip')} place="bottom">
-                    <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
-                  </Tooltip>
-                </Flex>
               )}
 
               <Flex flex={1} flexWrap="wrap" ml={2}>
@@ -372,13 +383,14 @@ export const SwapSettings = ({
                   <Text
                     color={
                       slippageTolerance === 0 ||
+                      (noSlipProtection && !isChainflip) ||
                       (recommendedSlippage > 0 && recommendedSlippage < slippageTolerance)
                         ? 'brand.yellow'
                         : 'textPrimary'
                     }
                     textStyle="caption-xs"
                   >
-                    {slippageTolerance === 0
+                    {slippageTolerance === 0 || (noSlipProtection && !isChainflip)
                       ? t('views.swap.noProtection')
                       : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
                   </Text>

@@ -21,14 +21,14 @@ export const GasPriceIndicator = memo(({ fees, size = 'md' }: Props) => {
     <Tooltip>
       <Box center>
         <Text
-          color={'brand.yellow'}
+          color="brand.yellow"
           textStyle="caption-xs"
           variant="secondaryBtn"
         >{`$${new SwapKitNumber({
           value: networkFee,
           decimal: 2,
         }).toFixed(2)}`}</Text>
-        <Icon className="pl-0.5" color={'yellow'} name="gas" size={iconSize} />
+        <Icon className="pl-0.5" color="yellow" name="gas" size={iconSize} />
       </Box>
     </Tooltip>
   );

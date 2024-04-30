@@ -132,7 +132,7 @@ export const SwapSlippage = ({
                   <Stack p={1}>
                     {slippagePercent === 0 ? (
                       <Text color="brand.orange" textStyle="caption-xs">
-                        No price protection
+                        {t('views.swap.noPriceProtection')}
                       </Text>
                     ) : (
                       <Flex>

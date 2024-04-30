@@ -10,6 +10,7 @@ type Props = {
   inputAmount: SwapKitNumber;
   outputAsset: AssetValue;
   isChainflip?: boolean;
+  noSlipProtection?: boolean;
 };
 
 export type StreamSwapParams = {
@@ -23,6 +24,7 @@ export const useSwapParams = ({
   inputAmount,
   outputAsset,
   isChainflip,
+  noSlipProtection,
 }: Props) => {
   const isDexAgg = useMemo(
     () =>
@@ -226,8 +228,9 @@ export const useSwapParams = ({
       subswaps: streamingSwapParams?.subswaps,
     });
 
-    const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo, {
-      minAmount: memoMinAmount,
+    // @ts-expect-error TODO fix typing v2 quotes
+    const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo || selectedRoute.memo, {
+      minAmount: noSlipProtection ? '' : memoMinAmount,
     });
 
     const calldata = streamSwap
@@ -236,6 +239,7 @@ export const useSwapParams = ({
 
     return {
       ...selectedRoute,
+      memo: updatedMemo,
       calldata,
     };
   }, [
@@ -247,6 +251,7 @@ export const useSwapParams = ({
     streamingSwapParams?.interval,
     streamingSwapParams?.subswaps,
     streamSwap,
+    noSlipProtection,
   ]);
 
   return {

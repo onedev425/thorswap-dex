@@ -1009,6 +1009,8 @@
       "transactionSettings": "Transaction Settings",
       "txAssetsFee": "TX Fee Tokens",
       "noProtection": "No protection",
+      "noPriceProtection": "No Price Protection",
+      "noPriceProtectionTooltip": "Swap Values below 500 USD don't offer price protection due to high likelihood of refunds.",
       "warning": {
         "highSlippage": "High Max Slippage",
         "highPriceImpact": "High Value Impact"

@@ -1,7 +1,6 @@
 import type { QuoteRouteV2, SwapKitNumber } from '@swapkit/core';
 import { AssetValue } from '@swapkit/core';
 import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { showWarningToast } from 'components/Toast/Toast';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import { useVTHORBalance } from 'hooks/useHasVTHOR';
