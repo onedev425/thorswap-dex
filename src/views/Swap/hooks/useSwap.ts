@@ -15,6 +15,7 @@ import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
 
 import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
+import { apiV2BaseUrl } from 'store/thorswap/api';
 
 type SwapParams = {
   route?: QuoteRoute;
