@@ -176,10 +176,13 @@ export const poolByAsset = (asset: AssetValue, pools: Pool[]) =>
 
 export const isETHAsset = ({ ticker, chain }: AssetValue) =>
   ticker === 'ETH' && chain === Chain.Ethereum;
+
 export const isAVAXAsset = ({ ticker, chain }: AssetValue) =>
   ticker === 'AVAX' && chain === Chain.Avalanche;
+
 export const isBSCAsset = ({ ticker, chain }: AssetValue) =>
   ticker === 'BNB' && chain === Chain.BinanceSmartChain;
+
 export const isBTCAsset = ({ ticker, chain }: AssetValue) =>
   ticker === 'BTC' && chain === Chain.Bitcoin;
 
@@ -201,8 +204,10 @@ export const unitToValue = (
     toFixed,
   }: { decimals?: BaseDecimal | number; toFixed?: number } = {},
 ) => {
-  const value = typeof unit === 'string' ? parseFloat(unit) : unit;
+  const value = typeof unit === 'string' ? Number.parseFloat(unit) : unit;
   const valueWithDecimalShift = decimals > 1 ? value / 10 ** decimals : value;
 
-  return toFixed ? parseFloat(valueWithDecimalShift.toFixed(toFixed)) : valueWithDecimalShift;
+  return toFixed
+    ? Number.parseFloat(valueWithDecimalShift.toFixed(toFixed))
+    : valueWithDecimalShift;
 };
