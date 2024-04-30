@@ -240,7 +240,7 @@ const SwapView = () => {
           // @ts-expect-error TODO fix typing v2 quotes
           selectedRouteRaw.expectedBuyAmountUSD,
       }).lte(500),
-    [selectedRouteRaw],
+    [selectedRouteRaw, inputUSDPrice],
   );
 
   // TODO remove after full v2 migration
