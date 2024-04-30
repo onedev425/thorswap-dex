@@ -107,7 +107,7 @@ export const ConfirmSwapModal = memo(
 
     const estimatedInfo = useMemo(() => {
       const estimatedTotal: number = (
-        typeof estimatedTime === 'object' && 'total' in estimatedTime
+        estimatedTime && typeof estimatedTime === 'object' && 'total' in estimatedTime
           ? // @ts-expect-error wrong typing on estimatedTime
             estimatedTime.total
           : estimatedTime
