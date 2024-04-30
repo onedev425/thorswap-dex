@@ -1,14 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import type { QuoteRoute } from '@swapkit/api';
 import type { QuoteMode } from '@swapkit/core';
-import {
-  AssetValue,
-  BaseDecimal,
-  Chain,
-  formatBigIntToSafeValue,
-  SwapKitNumber,
-  WalletOption,
-} from '@swapkit/core';
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
 import { Analysis } from 'components/Analysis/Analysis';
 import { Box } from 'components/Atomic';
 import { easeInOutTransition } from 'components/constants';
@@ -47,7 +40,6 @@ import { useSwapQuote } from './hooks/useSwapQuote';
 import { SwapHeader } from './SwapHeader';
 import { SwapInfo } from './SwapInfo';
 import { SwapSubmitButton } from './SwapSubmitButton';
-import { V2Providers } from 'store/thorswap/api';
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
