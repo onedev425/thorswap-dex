@@ -169,5 +169,5 @@
     "start:ledger": "bun start --config ./vite.config.ledger.ts",
     "typescript": "tsc --noEmit --skipLibCheck"
   },
-  "version": "3.0.1"
+  "version": "3.0.2"
 }
