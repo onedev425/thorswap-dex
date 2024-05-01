@@ -12,7 +12,6 @@ import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
 import { parse } from 'url';
 
 import { StatusBadge } from './StatusBadge';
-import { Chain } from '@swapkit/core';
 
 type StatusItem = {
   label: string;
