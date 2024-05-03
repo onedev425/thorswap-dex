@@ -97,7 +97,7 @@ const showToast: ShowToastFunction = ({
                     {' ( '}
                     <a
                       className="underline"
-                      href="discord.gg/thorswap"
+                      href="https://discord.gg/thorswap"
                       rel="noreferrer"
                       target="_blank"
                     >
