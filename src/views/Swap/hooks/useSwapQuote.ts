@@ -210,9 +210,8 @@ export const useSwapQuote = ({
             return acc;
           }
           if (fee.type === 'AFFILIATE') {
-            const affiliateFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
-              acc.inbound.affiliateFee,
-            );
+            // TODO change as soon as API will return affiliate fee in USD
+            const affiliateFee = inputAsset.set(inputAmount).mul(affiliateBasisPoints).div(10_000);
             const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
             acc.inbound = {
               ...acc.inbound,
@@ -333,12 +332,14 @@ export const useSwapQuote = ({
     isFetching,
     isFetchingChainflip,
     isInputZero,
-    isLoading,
-    isLoadingChainflip,
-    outputAsset?.decimal,
+    // isLoading,
+    // isLoadingChainflip,
+    // outputAsset?.decimal,
     outputUnitPrice,
     routes?.length,
     setSortedRoutes,
+    inputAmount,
+    affiliateBasisPoints,
   ]);
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
@@ -357,7 +358,7 @@ export const useSwapQuote = ({
 
   useEffect(() => {
     // @ts-expect-error
-    const errorMessage = quoteError?.data?.message;
+    const errorMessage = quoteError?.data?.message || errorChainflip?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;
