@@ -1,6 +1,7 @@
 import { Chain } from '@swapkit/core';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { chainName } from 'helpers/chainName';
+import { THORCHAIN_UNSUPPORTED_CHAINS } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -160,7 +161,8 @@ const getAnnouncementId = (ann: AnnouncementItem) => {
 };
 
 const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>
-  SUPPORTED_CHAINS.map((chain) => getChainAnnouncement({ chain, ...props }))
+  SUPPORTED_CHAINS.filter((chain) => chain !== Chain.Binance)
+    .map((chain) => getChainAnnouncement({ chain, ...props }))
     .map((ann) => ann && { ...ann, key: getAnnouncementId(ann) })
     .filter(Boolean) as AnnouncementItem[];
 
