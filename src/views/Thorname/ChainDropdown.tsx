@@ -1,13 +1,14 @@
 import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
+import type { Chain } from '@swapkit/core';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, DropdownMenu } from 'components/Atomic';
 import type { DropdownMenuItem } from 'components/Atomic/Dropdown/types';
 import { chainName } from 'helpers/chainName';
+import { THORCHAIN_UNSUPPORTED_CHAINS } from 'helpers/wallet';
 import { SORTED_CHAINS } from 'settings/chain';
 
 const CHAIN_ITEMS: DropdownMenuItem[] = SORTED_CHAINS.filter(
-  (c) => ![Chain.Polkadot].includes(c),
+  (c) => !THORCHAIN_UNSUPPORTED_CHAINS.includes(c),
 ).map((chain) => ({
   value: chain,
   Component: (

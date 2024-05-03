@@ -19,10 +19,9 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = new SwapKitNumber({ value: 84_000_000, decimal: 8 });
+const TARGET_AMOUNT = new SwapKitNumber({ value: 88_200_000 });
 const currentMonth = dayjs().format('MMMM');
-const INFO_ARTICLE_URL =
-  'https://forum.thorswap.finance/thread/snapshot-0x0180eb3bbcace663bf6a4ca09cae5437b61f9f5eb74b7105315f1286501be236?snapshot_id=0x0180eb3bbcace663bf6a4ca09cae5437b61f9f5eb74b7105315f1286501be236';
+const INFO_ARTICLE_URL = 'https://docs.thorswap.finance/thorswap/thor/about/thor-burn';
 
 export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
   const [totalVolume, setTotalVolume] = useState(SwapKitNumber.fromBigInt(0n));
@@ -50,7 +49,7 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
 
   const tooltipContent = `${currentMonth} burn trade volume:\n${totalVolume.toAbbreviation(
     2,
-  )} USD out of ${TARGET_AMOUNT.toAbbreviation(0)} USD`;
+  )} USD out of ${TARGET_AMOUNT.toAbbreviation(0)} USD.\nClick for more info.`;
 
   useEffect(() => {
     if (triggerReached) {

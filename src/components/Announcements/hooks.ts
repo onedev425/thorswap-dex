@@ -116,7 +116,7 @@ const getChainAnnouncement = ({
         chainStatus[chain]?.message ||
         (chain === Chain.THORChain
           ? t('components.announcements.thorChainHalted')
-          : t('components.announcements.chainHalted', { chain })),
+          : t('components.announcements.chainHalted', { chain: chainName(chain, true) })),
       type: chain === Chain.THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
