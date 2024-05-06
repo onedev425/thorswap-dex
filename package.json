@@ -36,7 +36,7 @@
     "@swapkit/wallet-evm-extensions": "1.0.0-rc.108",
     "@swapkit/wallet-coinbase": "1.0.0-rc.9",
     "@swapkit/wallet-keepkey": "1.0.0-rc.58",
-    "@swapkit/wallet-keplr": "1.0.0-rc.124",
+    "@swapkit/wallet-keplr": "1.0.0-rc.125",
     "@swapkit/wallet-keystore": "1.0.0-rc.135",
     "@swapkit/wallet-ledger": "1.0.0-rc.143",
     "@swapkit/wallet-okx": "1.0.0-rc.136",
