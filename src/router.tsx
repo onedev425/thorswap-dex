@@ -1,7 +1,7 @@
 import 'chart.js/auto';
 
+import { GiftHunt } from 'components/anniversary/GiftHunt';
 import { Box, Icon } from 'components/Atomic';
-import { EggHunt } from 'components/easter/EggHunt';
 import { Layout } from 'components/Layout';
 import { ToastPortal } from 'components/Toast';
 import { isIframe } from 'helpers/isIframe';
@@ -147,7 +147,8 @@ export const PublicRoutes = memo(() => {
                       }
                     >
                       <Component />
-                      <EggHunt />
+                      {/* <EggHunt /> */}
+                      <GiftHunt />
                     </Suspense>
                   </Layout>
                 </>
