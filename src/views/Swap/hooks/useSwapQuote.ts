@@ -245,7 +245,7 @@ export const useSwapQuote = ({
               // TODO change as soon as API will return affiliate fee in USD
               const affiliateFee = inputAsset
                 .set(inputAmount)
-                .mul(affiliateBasisPoints)
+                .mul(fullRoute.providers.includes('MAYACHAIN') ? 0 : affiliateBasisPoints)
                 .div(10_000);
               const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
               acc.inbound = {
