@@ -216,11 +216,6 @@ const SwapView = () => {
     [selectedRouteRaw?.providers],
   );
 
-  const isMayaSpecial = useMemo(
-    () => selectedRouteRaw?.providers?.includes('MAYACHAIN'),
-    [selectedRouteRaw?.providers],
-  );
-
   const noPriceProtection = useMemo(
     () =>
       [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
@@ -497,7 +492,7 @@ const SwapView = () => {
           )}
 
           <SwapInfo
-            affiliateBasisPoints={Number(isMayaSpecial ? 0 : affiliateBasisPoints)}
+            affiliateBasisPoints={Number(affiliateBasisPoints)}
             affiliateFee={affiliateFee}
             assets={assetTickers}
             expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
