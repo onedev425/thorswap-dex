@@ -3,8 +3,7 @@ import { Tooltip } from 'components/Atomic/Tooltip';
 import { isValidMotionProp, motion } from 'framer-motion';
 import { useCallback, useState } from 'react';
 
-import PrizeImg from './gift.png';
-// import PrizeImg from './gift2.png';
+import PrizeImg from './gift2.png';
 
 const Box = chakra(motion.div, {
   /**
