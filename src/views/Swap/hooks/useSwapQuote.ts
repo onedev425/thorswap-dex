@@ -118,9 +118,26 @@ export const useSwapQuote = ({
     currentData: chainflipData,
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
-  } = useGetV2QuoteQuery(params, {
-    skip: params.sellAmount === '0' || inputAmount.lte(0),
-  });
+  } = useGetV2QuoteQuery(
+    { ...params, providers: ['CHAINFLIP'] },
+    {
+      skip: params.sellAmount === '0' || inputAmount.lte(0),
+    },
+  );
+
+  const {
+    refetch: refetchMayaSpecial,
+    error: errorMayaSpecial,
+    isLoading: isLoadingMayaSpecial,
+    currentData: mayaSpecialData,
+    isFetching: isFetchingMayaSpecial,
+    isUninitialized: isMayaSpecialUninitialized,
+  } = useGetV2QuoteQuery(
+    { ...params, affiliateBasisPoints: '0', providers: ['MAYACHAIN'] },
+    {
+      skip: params.sellAmount === '0' || inputAmount.lte(0),
+    },
+  );
 
   const quoteError = useMemo(
     () => (error && errorChainflip ? error : undefined),
@@ -136,8 +153,18 @@ export const useSwapQuote = ({
       if (!isChainflipUninitialized) {
         refetchChainflip();
       }
+      if (!isMayaSpecialUninitialized) {
+        refetchMayaSpecial();
+      }
     },
-    [isChainflipUninitialized, isUninitialized, refetch, refetchChainflip],
+    [
+      isChainflipUninitialized,
+      isUninitialized,
+      refetch,
+      refetchChainflip,
+      refetchMayaSpecial,
+      isMayaSpecialUninitialized,
+    ],
   );
 
   const setSortedRoutes = useCallback(
@@ -185,137 +212,145 @@ export const useSwapQuote = ({
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
-    if (isFetching && isFetchingChainflip && !!routes.length) {
+    if (isFetching && isFetchingChainflip && isFetchingMayaSpecial && !!routes.length) {
       return;
     }
 
-    const chainFlipRoutes: Todo[] = chainflipData?.routes.map((fullRoute: QuoteRouteV2) => {
-      const route = fullRoute?.legs[0];
+    const chainFlipRoutesRaw: Todo[] = chainflipData?.routes || [];
+    const mayaSpecialRoutes: Todo[] = mayaSpecialData?.routes || [];
 
-      const chainFlipFees = route?.fees?.reduce(
-        (acc, fee) => {
-          if (fee.type === 'INBOUND') {
-            const inboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
-              acc.inbound.networkFee,
-            );
-            const inboundFeeUSD = inboundFee.mul(inputUnitPrice);
-            acc.inbound = {
-              ...acc.inbound,
-              networkFee: inboundFee.getValue('number'),
-              networkFeeUSD: inboundFeeUSD.getValue('number'),
-            };
-            acc.total = {
-              totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
-            };
-            return acc;
-          }
-          if (fee.type === 'AFFILIATE') {
-            // TODO change as soon as API will return affiliate fee in USD
-            const affiliateFee = inputAsset.set(inputAmount).mul(affiliateBasisPoints).div(10_000);
-            const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
-            acc.inbound = {
-              ...acc.inbound,
-              affiliateFee: affiliateFee.getValue('number'),
-              affiliateFeeUSD: affiliateFeeUSD.getValue('number'),
-            };
-            acc.total = {
-              totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
-            };
-            return acc;
-          }
-          if (fee.type === 'OUTBOUND') {
-            const outboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
-              acc.outbound.networkFee,
-            );
-            const outboundFeeUSD = outboundFee.mul(outputUnitPrice);
-            acc.outbound = {
-              ...acc.outbound,
-              networkFee: outboundFee.getValue('number'),
-              networkFeeUSD: outboundFeeUSD.getValue('number'),
-            };
-            acc.total = {
-              totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
-            };
-            return acc;
-          }
-          if (fee.type === 'NETWORK') {
-            const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
-              acc.slippage.slipFee,
-            );
-            acc.slippage = {
-              ...acc.slippage,
-              slipFee: networkFee.getValue('number'),
-              slipFeeUSD: networkFee.getValue('number'),
-            };
-            acc.total = {
-              totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue('number'),
-            };
-            return acc;
-          }
-          if (fee.type === 'LIQUIDITY') {
-            const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
-              acc.slippage.slipFee,
-            );
-            const networkFeeUSD = networkFee.mul(inputUnitPrice);
-            acc.slippage = {
-              ...acc.slippage,
-              slipFee: networkFee.getValue('number'),
-              slipFeeUSD: networkFeeUSD.getValue('number'),
-            };
-            acc.total = {
-              totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
-            };
-            return acc;
-          }
-          return acc;
-        },
-        {
-          inbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
-          outbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
-          slippage: { slipFee: 0, slipFeeUSD: 0 },
-          total: { totalFeeUSD: 0 },
-        },
-      );
+    const chainFlipRoutes: Todo[] = chainFlipRoutesRaw
+      .concat(mayaSpecialRoutes)
+      .map((fullRoute: QuoteRouteV2) => {
+        const route = fullRoute?.legs[0];
 
-      return {
-        ...fullRoute,
-        ...route,
-        //@ts-expect-error TODO remove after type update in SK
-        timeEstimates: fullRoute.estimatedTime,
-        path: `${route.sellAsset} -> ${route.buyAsset}`,
-        providers: [route.provider],
-        expectedOutput: route.buyAmount,
-        isApproved: true,
-        fees: {
-          [fullRoute?.providers?.includes('CHAINFLIP') ? 'FLIP' : 'MAYA']: [
-            {
-              type: 'inbound',
-              asset: route.sellAsset,
-              networkFee: chainFlipFees.inbound.networkFee,
-              networkFeeUSD: chainFlipFees.inbound.networkFeeUSD,
-              affiliateFee: chainFlipFees.inbound.affiliateFee,
-              affiliateFeeUSD: chainFlipFees.inbound.affiliateFeeUSD,
-              totalFee: chainFlipFees.inbound.networkFee,
-              totalFeeUSD: chainFlipFees.inbound.networkFeeUSD,
-              isOutOfPocket: true,
-            },
-            {
-              type: 'outbound',
-              asset: route.buyAsset,
-              networkFee: chainFlipFees.outbound.networkFee,
-              networkFeeUSD: chainFlipFees.outbound.networkFeeUSD,
-              affiliateFee: 0,
-              affiliateFeeUSD: 0,
-              slipFee: chainFlipFees.slippage.slipFee,
-              slipFeeUSD: chainFlipFees.slippage.slipFeeUSD,
-              totalFee: 0,
-              totalFeeUSD: chainFlipFees.total.totalFeeUSD,
-              isOutOfPocket: false,
-            },
-          ],
-        },
-      };
-    });
+        const chainFlipFees = route?.fees?.reduce(
+          (acc, fee) => {
+            if (fee.type === 'INBOUND') {
+              const inboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+                acc.inbound.networkFee,
+              );
+              const inboundFeeUSD = inboundFee.mul(inputUnitPrice);
+              acc.inbound = {
+                ...acc.inbound,
+                networkFee: inboundFee.getValue('number'),
+                networkFeeUSD: inboundFeeUSD.getValue('number'),
+              };
+              acc.total = {
+                totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+              };
+              return acc;
+            }
+            if (fee.type === 'AFFILIATE') {
+              // TODO change as soon as API will return affiliate fee in USD
+              const affiliateFee = inputAsset
+                .set(inputAmount)
+                .mul(affiliateBasisPoints)
+                .div(10_000);
+              const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
+              acc.inbound = {
+                ...acc.inbound,
+                affiliateFee: affiliateFee.getValue('number'),
+                affiliateFeeUSD: affiliateFeeUSD.getValue('number'),
+              };
+              acc.total = {
+                totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+              };
+              return acc;
+            }
+            if (fee.type === 'OUTBOUND') {
+              const outboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+                acc.outbound.networkFee,
+              );
+              const outboundFeeUSD = outboundFee.mul(outputUnitPrice);
+              acc.outbound = {
+                ...acc.outbound,
+                networkFee: outboundFee.getValue('number'),
+                networkFeeUSD: outboundFeeUSD.getValue('number'),
+              };
+              acc.total = {
+                totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+              };
+              return acc;
+            }
+            if (fee.type === 'NETWORK') {
+              const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+                acc.slippage.slipFee,
+              );
+              acc.slippage = {
+                ...acc.slippage,
+                slipFee: networkFee.getValue('number'),
+                slipFeeUSD: networkFee.getValue('number'),
+              };
+              acc.total = {
+                totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue('number'),
+              };
+              return acc;
+            }
+            if (fee.type === 'LIQUIDITY') {
+              const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
+                acc.slippage.slipFee,
+              );
+              const networkFeeUSD = networkFee.mul(inputUnitPrice);
+              acc.slippage = {
+                ...acc.slippage,
+                slipFee: networkFee.getValue('number'),
+                slipFeeUSD: networkFeeUSD.getValue('number'),
+              };
+              acc.total = {
+                totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+              };
+              return acc;
+            }
+            return acc;
+          },
+          {
+            inbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
+            outbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
+            slippage: { slipFee: 0, slipFeeUSD: 0 },
+            total: { totalFeeUSD: 0 },
+          },
+        );
+
+        return {
+          ...fullRoute,
+          ...route,
+          //@ts-expect-error TODO remove after type update in SK
+          timeEstimates: fullRoute.estimatedTime,
+          path: `${route.sellAsset} -> ${route.buyAsset}`,
+          providers: [route.provider],
+          expectedOutput: route.buyAmount,
+          isApproved: true,
+          fees: {
+            [fullRoute?.providers?.includes('CHAINFLIP') ? 'FLIP' : 'MAYA']: [
+              {
+                type: 'inbound',
+                asset: route.sellAsset,
+                networkFee: chainFlipFees.inbound.networkFee,
+                networkFeeUSD: chainFlipFees.inbound.networkFeeUSD,
+                affiliateFee: chainFlipFees.inbound.affiliateFee,
+                affiliateFeeUSD: chainFlipFees.inbound.affiliateFeeUSD,
+                totalFee: chainFlipFees.inbound.networkFee,
+                totalFeeUSD: chainFlipFees.inbound.networkFeeUSD,
+                isOutOfPocket: true,
+              },
+              {
+                type: 'outbound',
+                asset: route.buyAsset,
+                networkFee: chainFlipFees.outbound.networkFee,
+                networkFeeUSD: chainFlipFees.outbound.networkFeeUSD,
+                affiliateFee: 0,
+                affiliateFeeUSD: 0,
+                slipFee: chainFlipFees.slippage.slipFee,
+                slipFeeUSD: chainFlipFees.slippage.slipFeeUSD,
+                totalFee: 0,
+                totalFeeUSD: chainFlipFees.total.totalFeeUSD,
+                isOutOfPocket: false,
+              },
+            ],
+          },
+        };
+      });
     if ((!data?.routes && !chainFlipRoutes) || isInputZero) return setRoutes([]);
 
     setSortedRoutes(
@@ -326,11 +361,13 @@ export const useSwapQuote = ({
     setApprovalsLoading(true);
   }, [
     chainflipData,
+    mayaSpecialData,
     data,
     inputAsset,
     inputUnitPrice,
     isFetching,
     isFetchingChainflip,
+    isFetchingMayaSpecial,
     isInputZero,
     // isLoading,
     // isLoadingChainflip,
@@ -343,10 +380,22 @@ export const useSwapQuote = ({
   ]);
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      quoteError || isLoading || isLoadingChainflip || inputAmount.getValue('number') === 0
+      quoteError ||
+      isLoading ||
+      isLoadingChainflip ||
+      isLoadingMayaSpecial ||
+      inputAmount.getValue('number') === 0
         ? undefined
         : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
-    [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, selectedProvider],
+    [
+      quoteError,
+      inputAmount,
+      isLoading,
+      isLoadingChainflip,
+      isLoadingMayaSpecial,
+      routes,
+      selectedProvider,
+    ],
   );
 
   useEffect(() => {
@@ -357,8 +406,9 @@ export const useSwapQuote = ({
   }, [inputAmount, inputAsset, outputAsset]);
 
   useEffect(() => {
-    // @ts-expect-error
-    const errorMessage = quoteError?.data?.message || errorChainflip?.data?.message;
+    const errorMessage =
+      // @ts-expect-error
+      quoteError?.data?.message || errorChainflip?.data?.message || errorMayaSpecial?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;
@@ -369,7 +419,7 @@ export const useSwapQuote = ({
       }, 3000);
     }
     // @ts-expect-error
-  }, [errorChainflip?.data?.message, quoteError?.data?.message]);
+  }, [errorChainflip?.data?.message, errorMayaSpecial?.data?.message, quoteError?.data?.message]);
 
   return {
     refetch: refetchAllQuotes,
