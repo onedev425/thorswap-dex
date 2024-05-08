@@ -78,7 +78,6 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
     );
 
     const assets = await Promise.all(tokenPromises);
-
     setAssetsWithBalance(
       assets.filter(Boolean) as {
         asset: AssetValue;

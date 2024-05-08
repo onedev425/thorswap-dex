@@ -22,8 +22,9 @@ export const CustomRecipientInput = memo(
   ({ recipient, setRecipient, outputAssetChain, isOutputWalletConnected }: Props) => {
     const { customRecipientMode } = useApp();
     const [thorname, setThorname] = useState('');
+    const [recipientString, setRecipientString] = useState('');
     const [disabled, setDisabled] = useState(false);
-    const { loading, TNS, setTNS } = useAddressForTNS(recipient);
+    const { loading, TNS, setTNS } = useAddressForTNS(recipientString);
 
     const TNSAddress = useMemo(
       () =>
@@ -40,19 +41,23 @@ export const CustomRecipientInput = memo(
 
     const handleChangeRecipient = useCallback(
       ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        setRecipient(value);
+        setRecipientString(value);
         setThorname('');
         setTNS(null);
       },
-      [setRecipient, setTNS],
+      [setTNS],
     );
 
     useEffect(() => {
       if (TNS && TNSAddress) {
         setThorname(TNS.thorname);
         setRecipient(TNSAddress);
+        setRecipientString(TNSAddress);
       }
-    }, [TNS, TNSAddress, setRecipient]);
+      if (!loading && !TNSAddress) {
+        setRecipient(recipientString);
+      }
+    }, [TNS, TNSAddress, setRecipient, recipientString, loading]);
 
     const recipientTitle = useMemo(
       () =>
@@ -84,7 +89,7 @@ export const CustomRecipientInput = memo(
             </Box>
           </Box>
         }
-        value={TNSAddress || recipient}
+        value={TNSAddress || recipientString}
       />
     );
   },

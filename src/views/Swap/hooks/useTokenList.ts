@@ -59,40 +59,14 @@ export const useTokenList = (withTradingPairs = false) => {
         const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider);
 
         for (const token of data.tokens) {
-          const isUnique = providersData
-            .filter((provider) => provider.data?.provider !== data.provider)
-            .every(
-              (pd) =>
-                pd.data?.tokens && !pd.data.tokens.find((t) => t.identifier === token.identifier),
-            );
+          const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || [];
 
-          if (isUnique) {
-            if (isProviderChainable) {
-              tokensByProvider.set(token.identifier, chainableTokens);
-            } else {
-              tokensByProvider.set(token.identifier, data.tokens);
-            }
-          }
-          //  data.tokens.forEach((token) => {
-          //   const isUnique = providersData
-          //     .filter((provider) => provider.data?.provider !== data.provider)
-          //     .every(
-          //       (pd) =>
-          //         pd.data?.tokens && !pd.data.tokens.find((t) => t.identifier === token.identifier),
-          //     );
+          const tradingPairs = isProviderChainable ? chainableTokens : data.tokens;
 
-          //   if (isUnique) {
-          //     if (isProviderChainable) {
-          //       tokensByProvider.set(token.identifier, chainableTokens);
-          //     } else {
-          //       tokensByProvider.set(token.identifier, data.tokens);
-          //     }
-          //     // if (tokensByProvider.has(token.identifier)) {
-          //     //   tokensByProvider.get(token.identifier)!.push(token);
-          //     // } else {
-          //     //   tokensByProvider.set(token.identifier, [token]);
-          //     // }
-          //   }
+          tokensByProvider.set(
+            token.identifier.toLowerCase(),
+            existingTradingPairs.concat(tradingPairs),
+          );
         }
       }
     }

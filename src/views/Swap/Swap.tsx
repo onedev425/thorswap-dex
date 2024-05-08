@@ -24,7 +24,6 @@ import { useApp } from 'store/app/hooks';
 import { V2Providers } from 'store/thorswap/api';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
 import { useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
@@ -82,10 +81,8 @@ const SwapView = () => {
     return AssetValue.fromStringSync(assetString) || baseOutput;
   }, [outputString, pair]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const inputAsset = useMemo(() => input, [input.toString()]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const outputAsset = useMemo(() => output, [output.toString()]);
+  const inputAsset = useMemo(() => input, [input]);
+  const outputAsset = useMemo(() => output, [output]);
 
   useEffect(() => {
     logEvent('swap_pair', {
@@ -98,6 +95,7 @@ const SwapView = () => {
   const [maxInputBalance, setMaxInputBalance] = useState<AssetValue | undefined>(input.set(0));
 
   const [recipient, setRecipient] = useState('');
+  const [walletRecipient, setWalletRecipient] = useState('');
   const [sender, setSender] = useState('');
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
@@ -149,12 +147,15 @@ const SwapView = () => {
       setSender(getWalletAddress(inputAsset.chain));
       return;
     }
-    import('services/swapKit')
-      .then(({ getSwapKitClient }) => getSwapKitClient())
-      .then(({ getAddress }) => {
-        setRecipient(getAddress(outputAsset.chain) || '');
-        setSender(getAddress(inputAsset.chain) || '');
-      });
+    const walletkRecipientAddress = getWalletAddress(outputAsset.chain);
+    setRecipient(walletkRecipientAddress || '');
+    setWalletRecipient(walletkRecipientAddress || '');
+    setSender(getWalletAddress(inputAsset.chain) || '');
+
+    // import('services/swapKit')
+    //   .then(({ getSwapKitClient }) => getSwapKitClient())
+    //   .then(({ getAddress }) => {
+    //   });
   }, [getWalletAddress, inputAsset.chain, outputAsset]);
 
   useEffect(() => {
@@ -207,12 +208,17 @@ const SwapView = () => {
     inputUnitPrice,
     outputUnitPrice,
     outputAsset,
-    recipientAddress: recipient,
+    recipientAddress: recipient || walletRecipient,
     senderAddress: sender,
   });
 
   const isChainflip = useMemo(
     () => selectedRouteRaw?.providers?.includes('CHAINFLIP'),
+    [selectedRouteRaw?.providers],
+  );
+
+  const isMayaSpecial = useMemo(
+    () => selectedRouteRaw?.providers?.includes('MAYACHAIN'),
     [selectedRouteRaw?.providers],
   );
 
@@ -242,7 +248,7 @@ const SwapView = () => {
     const buyAmountUSD = new SwapKitNumber(selectedRouteRaw.expectedOutputUSD);
     const priceImpact = buyAmountUSD.div(inputUSDPrice).sub(1).mul(100);
     setPriceImpact(priceImpact.toFixed(2));
-    return buyAmountUSD && priceImpact.lt(-5);
+    return buyAmountUSD && priceImpact.lt('-5');
   }, [selectedRouteRaw, inputUSDPrice]);
 
   const {
@@ -265,10 +271,14 @@ const SwapView = () => {
     noSlipProtection: amountTooLowForLimit,
   });
 
-  const { isApproved, isLoading } = useIsAssetApproved({
-    assetValue: inputAsset.set(inputAmount.getValue('string')),
-    contract: selectedRoute?.targetAddress || selectedRoute?.approvalTarget,
-  });
+  //   const { isApproved, isLoading } = useIsAssetApproved({
+  //     assetValue: inputAsset.set(inputAmount.getValue('string')),
+  //     contract:
+  //       selectedRoute?.approvalTarget ||
+  //       selectedRoute?.allowanceTarget ||
+  //       selectedRoute?.targetAddress ||
+  //       selectedRoute?.providers[0].toLowerCase(),
+  //   });
 
   const outputUSDPrice = useMemo(
     () => outputUnitPrice * outputAmount.getValue('number'),
@@ -480,7 +490,7 @@ const SwapView = () => {
             onSwitchPair={handleSwitchPair}
             outputAsset={outputAssetProps}
             tokens={tokens}
-            tradingPairs={tradingPairs.get(inputAsset.toString()) || tokens}
+            tradingPairs={tradingPairs.get(inputAsset.toString().toLowerCase()) || tokens}
           />
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput
@@ -492,7 +502,7 @@ const SwapView = () => {
           )}
 
           <SwapInfo
-            affiliateBasisPoints={Number(affiliateBasisPoints)}
+            affiliateBasisPoints={Number(isMayaSpecial ? 0 : affiliateBasisPoints)}
             affiliateFee={affiliateFee}
             assets={assetTickers}
             expectedOutput={`${outputAmount?.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`}
@@ -597,13 +607,13 @@ const SwapView = () => {
             inputAmount={inputAmount}
             inputAsset={inputAsset}
             invalidSwap={invalidSwap}
-            isApproved={!!selectedRoute?.isApproved || isApproved}
+            isApproved={!!selectedRoute?.isApproved}
             isInputWalletConnected={isInputWalletConnected}
-            isLoading={(isFetching || isPriceLoading || isLoading) && !error}
+            isLoading={(isFetching || isPriceLoading) && !error}
             isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
-            recipient={recipient}
+            recipient={recipient || walletRecipient}
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}
           />

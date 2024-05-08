@@ -53,10 +53,16 @@ export const thorswapApi = createApi({
         recipientAddress = '',
         affiliateBasisPoints,
         affiliateAddress,
-        ...rest
+        buyAsset,
+        sellAsset,
+        sellAmount,
+        slippage,
       }) => {
         const queryParams = new URLSearchParams({
-          ...rest,
+          ...(slippage && { slippage }),
+          buyAsset,
+          sellAsset,
+          sellAmount,
           senderAddress,
           recipientAddress,
         });
@@ -80,6 +86,7 @@ export const thorswapApi = createApi({
         recipientAddress = '',
         affiliateBasisPoints,
         affiliateAddress,
+        providers,
         ...rest
       }) => {
         return {
@@ -92,7 +99,7 @@ export const thorswapApi = createApi({
             destinationAddress: recipientAddress,
             affiliateFee: Number.parseInt(affiliateBasisPoints || '0'),
             ...(affiliateAddress ? { affiliate: 'ts' } : { affiliate: 'ts' }),
-            providers: V2Providers,
+            providers: providers || V2Providers,
             slippage: Number(rest.slippage) || 5,
           }),
           url: `${apiV2BaseUrl}/quote`,
