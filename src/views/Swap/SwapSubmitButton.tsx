@@ -130,7 +130,7 @@ export const SwapSubmitButton = ({
 
   return (
     <Box className="w-full pt-5 gap-x-2">
-      {isWalletRequired && (hasQuote || inputAmount.eqValue(0)) ? (
+      {isWalletRequired && (hasQuote || !recipient || inputAmount.eqValue(0)) ? (
         <Button
           stretch
           onClick={() =>
