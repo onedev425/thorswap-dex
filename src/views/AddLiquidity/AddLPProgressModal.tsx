@@ -100,7 +100,12 @@ export const AddLPProgressModal = ({
         }
       } catch (error) {
         setStep(Step.AddRune);
-        showErrorToast(t('txManager.addLiquidity'), t('txManager.failed'));
+        showErrorToast(
+          t('txManager.addLiquidity'),
+          t('txManager.failed'),
+          undefined,
+          error as Error,
+        );
         appDispatch(completeTransaction({ id: runeId, status: 'error' }));
       }
     }
@@ -143,7 +148,12 @@ export const AddLPProgressModal = ({
         }
       } catch (error) {
         setStep(Step.AddAsset);
-        showErrorToast(t('txManager.addLiquidity'), t('txManager.failed'));
+        showErrorToast(
+          t('txManager.addLiquidity'),
+          t('txManager.failed'),
+          undefined,
+          error as Error,
+        );
         appDispatch(completeTransaction({ id: assetId, status: 'error' }));
       }
     }
