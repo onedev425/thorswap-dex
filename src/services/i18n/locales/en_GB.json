@@ -545,7 +545,7 @@
       "expectedDebt": "Expected debt",
       "experimentalDisclaimer": "Lending feature is experimental.",
       "header": "Open Loan",
-      "lendingFee": "Lending fee",
+      "exchangeFee": "Exchange fee",
       "lendingPaused": "Lending is currently paused",
       "liquidationDisclaimer": "0% interest, no liquidations or expiration.",
       "loanMax": "Loan max",

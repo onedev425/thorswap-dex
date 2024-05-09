@@ -114,6 +114,10 @@ const Borrow = () => {
 
   const { estimateTimeFromBlocks } = useTCBlockTimer();
 
+  const estimatedLoanSizeUsd = useMemo(() => {
+    return (Number(collateralLendingAsset?.ltvPercentage) * collateralUsdPrice) / 100;
+  }, [collateralLendingAsset?.ltvPercentage, collateralUsdPrice]);
+
   const collateralAddress = useMemo(
     () => getWalletAddress(collateralAsset.chain),
     [getWalletAddress, collateralAsset.chain],
@@ -140,6 +144,7 @@ const Borrow = () => {
     toggleStream,
     expectedOutputAssetValue,
     borrowSlippage,
+    exchangeFeeUsd,
   } = useBorrow({
     slippage,
     senderAddress: collateralAddress,
@@ -147,6 +152,7 @@ const Borrow = () => {
     amount,
     assetIn: collateralAsset,
     assetOut: borrowAsset,
+    estimatedLoanSizeUsd,
   });
 
   const borrowUsdPrice = useMemo(() => {
@@ -327,8 +333,10 @@ const Borrow = () => {
         ),
       },
       {
-        label: t('views.lending.lendingFee'),
-        value: (
+        label: t('views.lending.exchangeFee'),
+        value: exchangeFeeUsd.gt(0) ? (
+          <Text textStyle="caption">{exchangeFeeUsd.toCurrency()}</Text>
+        ) : (
           <Text textStyle="caption" variant="green">
             FREE
           </Text>
@@ -339,6 +347,7 @@ const Borrow = () => {
       borrowSlippage,
       collateralLendingAsset?.derivedDepthPercentage,
       expectedDebtInfo,
+      exchangeFeeUsd,
       maturityDays,
       totalFeeUsd,
     ],
