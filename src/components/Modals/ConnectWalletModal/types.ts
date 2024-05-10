@@ -121,5 +121,5 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
   [WalletType.Walletconnect]: EVMChainsSupported,
-  [WalletType.Xdefi]: [...AllChainsSupportedExceptNewProvider, Chain.Maya],
+  [WalletType.Xdefi]: [...AllChainsSupportedExceptNewProvider, Chain.Maya, Chain.Kujira],
 };

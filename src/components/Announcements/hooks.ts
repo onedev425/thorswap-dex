@@ -1,6 +1,7 @@
 import { Chain } from '@swapkit/core';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { chainName } from 'helpers/chainName';
+import { THORCHAIN_UNSUPPORTED_CHAINS } from 'helpers/wallet';
 import { useMimir } from 'hooks/useMimir';
 import { StatusType, useNetwork } from 'hooks/useNetwork';
 import { useCallback, useEffect, useMemo } from 'react';
