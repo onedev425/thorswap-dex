@@ -109,7 +109,7 @@ export const GiftHunt = () => {
               <Flex gap={4}>
                 {isTaken ? (
                   <Text textStyle="h4" variant="green">
-                    Congratulations! 🎉
+                    Thank you for your support!
                   </Text>
                 ) : (
                   <Flex className="gap-2" direction="column">
