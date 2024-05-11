@@ -173,7 +173,18 @@ export const thorswapApi = createApi({
     }),
 
     getBorrowQuote: build.query<BorrowQuoteResponse, BorrowQuoteParams>({
-      query: ({ assetIn, assetOut, slippage, amount, senderAddress, recipientAddress }) => {
+      query: ({
+        assetIn,
+        assetOut,
+        slippage,
+        amount,
+        senderAddress,
+        recipientAddress,
+        affiliateBasisPoints = '0',
+        affiliateAddress = IS_LEDGER_LIVE
+          ? THORSWAP_AFFILIATE_ADDRESS_LL
+          : THORSWAP_AFFILIATE_ADDRESS,
+      }) => {
         const queryParams = new URLSearchParams({
           assetIn,
           assetOut,
@@ -181,10 +192,8 @@ export const thorswapApi = createApi({
           senderAddress,
           recipientAddress,
           slippage,
-          affiliateBasisPoints: '0',
-          affiliateAddress: IS_LEDGER_LIVE
-            ? THORSWAP_AFFILIATE_ADDRESS_LL
-            : THORSWAP_AFFILIATE_ADDRESS,
+          affiliateBasisPoints,
+          affiliateAddress,
         });
 
         return `/aggregator/lending/borrow?${queryParams.toString()}`;

@@ -363,6 +363,8 @@ type BorrowStreamingSwap = {
 };
 
 export type BorrowQuoteParams = {
+  affiliateAddress?: string;
+  affiliateBasisPoints?: string;
   assetIn: string;
   assetOut: string;
   slippage: string;

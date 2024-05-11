@@ -1,5 +1,7 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
+import { useWallet } from 'context/wallet/hooks';
 import { useDebouncedValue } from 'hooks/useDebouncedValue';
+import { useVTHORBalance } from 'hooks/useHasVTHOR';
 import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
 import { useEffect, useMemo } from 'react';
 import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
@@ -11,6 +13,7 @@ interface UseBorrowProps {
   assetOut: AssetValue;
   amount: SwapKitNumber;
   slippage: number;
+  estimatedLoanSizeUsd: number;
 }
 
 export const useBorrow = ({
@@ -20,10 +23,20 @@ export const useBorrow = ({
   assetOut,
   amount,
   slippage,
+  estimatedLoanSizeUsd,
 }: UseBorrowProps) => {
   const amountString = amount.gte(0) ? amount.toSignificant(8) : '0';
   const debouncedAmount = useDebouncedValue(amountString);
   const debouncedSlippage = useDebouncedValue(slippage);
+
+  const { getWalletAddress } = useWallet();
+  const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
+  const VTHORBalance = useVTHORBalance(ethAddress);
+
+  const affiliateBasisPoints = useMemo(
+    () => getBasisPoints({ VTHORBalance, loanSizeUsd: estimatedLoanSizeUsd }),
+    [VTHORBalance, estimatedLoanSizeUsd],
+  );
 
   const {
     currentData: data,
@@ -31,6 +44,7 @@ export const useBorrow = ({
     isFetching,
   } = useGetBorrowQuoteQuery(
     {
+      affiliateBasisPoints,
       assetIn: assetIn.toString(),
       assetOut: assetOut.toString(),
       amount: debouncedAmount,
@@ -93,7 +107,17 @@ export const useBorrow = ({
     const fees = borrowData?.fees.THOR;
     const outboundFees = fees?.find((fee) => fee.type === 'outbound');
 
-    return new SwapKitNumber({ value: outboundFees?.totalFeeUSD || 0, decimal: 8 });
+    // extracting affiliate fee from total fee - it has its own section in the UI
+    const totalFeeNum = (outboundFees?.totalFeeUSD || 0) - (outboundFees?.affiliateFeeUSD || 0);
+
+    return new SwapKitNumber({ value: totalFeeNum, decimal: 8 });
+  }, [borrowData?.fees.THOR]);
+
+  const exchangeFeeUsd = useMemo(() => {
+    const fees = borrowData?.fees.THOR;
+    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+
+    return new SwapKitNumber({ value: outboundFees?.affiliateFeeUSD || 0, decimal: 8 });
   }, [borrowData?.fees.THOR]);
 
   useEffect(() => {
@@ -103,14 +127,17 @@ export const useBorrow = ({
   const borrowSlippage = useMemo(() => {
     if (!data) return 0;
 
-    const { expectedDebtIssued, expectedOutput } = data;
-    const expectedDebt = Number(expectedDebtIssued);
-    const expectedOutputUSD = Number(expectedOutput);
+    const expectedDebtNum = expectedDebt.getValue('number');
+    const expectedOutputUSD = expectedOutput.getValue('number');
 
-    const slippagePercent = ((expectedDebt - expectedOutputUSD) / expectedOutputUSD) * 100;
+    const slippagePercent =
+      // does not account for exchange fee
+      ((expectedDebtNum - expectedOutputUSD - exchangeFeeUsd.getValue('number')) /
+        expectedOutputUSD) *
+      100;
 
     return slippagePercent;
-  }, [data]);
+  }, [data, exchangeFeeUsd, expectedDebt, expectedOutput]);
 
   return {
     collateralAmount,
@@ -128,5 +155,33 @@ export const useBorrow = ({
     canStream,
     expectedOutputAssetValue,
     borrowSlippage,
+    exchangeFeeUsd,
   };
+};
+
+const getBasisPoints = ({
+  VTHORBalance,
+  loanSizeUsd,
+}: {
+  VTHORBalance: SwapKitNumber;
+  loanSizeUsd: number;
+}) => {
+  // edge cases - no need to calculate
+  if (loanSizeUsd < 100 || VTHORBalance.gte(500_000)) return '0';
+
+  // default basis points
+  let basisPoints = 100;
+
+  // lower loan size basis points
+  if (loanSizeUsd > 25_000) basisPoints -= 20;
+  if (loanSizeUsd > 100_000) basisPoints -= 30;
+  if (loanSizeUsd > 250_000) basisPoints -= 40;
+  if (loanSizeUsd > 500_000) basisPoints -= 50;
+
+  // lower affiliate basis points based on VTHOR balance
+  if (VTHORBalance.gte(1_000)) basisPoints -= 20;
+  if (VTHORBalance.gte(10_000)) basisPoints -= 30;
+  if (VTHORBalance.gte(100_000)) basisPoints -= 40;
+
+  return `${Math.floor(basisPoints)}`;
 };
