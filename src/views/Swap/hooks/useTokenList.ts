@@ -6,6 +6,12 @@ import { useAppSelector } from 'store/store';
 import { useGetProvidersQuery } from 'store/thorswap/api';
 import type { Token } from 'store/thorswap/types';
 
+export enum Provider {
+  V1_PROVIDERS = 'V1_PROVIDERS',
+  CHAINFLIP = 'CHAINFLIP',
+  MAYACHAIN = 'MAYACHAIN',
+}
+
 /**
  * Leave this as easy to navigate and clear as possible.
  */
@@ -19,7 +25,15 @@ const UNCHAINABLE_PROVIDERS = ['CHAINFLIP', 'MAYACHAIN'];
 
 export const useTokenList = (withTradingPairs = false) => {
   const [tokens, setTokens] = useState<Token[]>([]);
-  const [tradingPairs, setTraidingPairs] = useState<Map<string, Token[]>>(new Map());
+  const [tradingPairs, setTraidingPairs] = useState<
+    Map<
+      string,
+      {
+        tokens: Token[];
+        providers: Provider[];
+      }
+    >
+  >(new Map());
   const { data: providersData } = useGetProvidersQuery();
   const [fetchTokenList, { isFetching }] = useLazyGetTokenListQuery();
   const disabledProviders = useAppSelector(
@@ -40,7 +54,13 @@ export const useTokenList = (withTradingPairs = false) => {
 
     const providersData = await Promise.all(providerRequests);
 
-    const tokensByProvider = new Map<string, Token[]>();
+    const tokensByProvider = new Map<
+      string,
+      {
+        tokens: Token[];
+        providers: Provider[];
+      }
+    >();
 
     if (withTradingPairs) {
       const chainableTokens = providersData
@@ -51,7 +71,7 @@ export const useTokenList = (withTradingPairs = false) => {
           (acc, { data, status }) =>
             !data?.tokens || status === QueryStatus.rejected
               ? acc
-              : ([...acc, ...data.tokens] as Token[]),
+              : (acc.concat(data.tokens) as Token[]),
           [] as Token[],
         );
       for (const { data, status } of providersData) {
@@ -59,14 +79,19 @@ export const useTokenList = (withTradingPairs = false) => {
         const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider);
 
         for (const token of data.tokens) {
-          const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || [];
+          const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || {
+            tokens: [],
+            providers: [],
+          };
 
-          const tradingPairs = isProviderChainable ? chainableTokens : data.tokens;
+          const tradingPairs = isProviderChainable
+            ? { tokens: chainableTokens, providers: [Provider.V1_PROVIDERS] }
+            : { tokens: data.tokens, providers: [data.provider as Provider] };
 
-          tokensByProvider.set(
-            token.identifier.toLowerCase(),
-            existingTradingPairs.concat(tradingPairs),
-          );
+          tokensByProvider.set(token.identifier.toLowerCase(), {
+            tokens: existingTradingPairs.tokens.concat(tradingPairs.tokens),
+            providers: existingTradingPairs.providers.concat(tradingPairs.providers),
+          });
         }
       }
     }
@@ -77,7 +102,7 @@ export const useTokenList = (withTradingPairs = false) => {
       (acc, { data, status }) =>
         !data?.tokens || status === QueryStatus.rejected
           ? acc
-          : ([...acc, ...data.tokens] as Token[]),
+          : (acc.concat(data.tokens) as Token[]),
       [] as Token[],
     );
 

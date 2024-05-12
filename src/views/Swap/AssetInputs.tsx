@@ -18,6 +18,7 @@ import {
 } from '../../../ledgerLive/wallet/LedgerLive';
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
+import type { Provider } from 'views/Swap/hooks/useTokenList';
 
 const ConditionalWrapper = ({ children, condition }: { children: Todo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (
@@ -35,7 +36,7 @@ type Props = {
   inputAsset: AssetInputType;
   outputAsset: AssetInputType;
   tokens: Token[];
-  tradingPairs?: Token[];
+  tradingPairs?: { tokens: Token[]; providers: Provider[] };
 };
 
 const Inputs = ({
@@ -62,7 +63,7 @@ const Inputs = ({
   }, [onSwitchPair]);
 
   const inputAssetList = useAssetsWithBalanceFromTokens(tokens);
-  const outputAssetList = useAssetsWithBalanceFromTokens(tradingPairs || tokens);
+  const outputAssetList = useAssetsWithBalanceFromTokens(tradingPairs?.tokens || tokens);
 
   const { assetInputProps, assets } = useAssetListSearch(inputAssetList);
   const { assetInputProps: outputAssetInputProps, assets: outputAssetsSearched } =
