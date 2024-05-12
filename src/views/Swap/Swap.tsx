@@ -25,7 +25,7 @@ import { V2Providers } from 'store/thorswap/api';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
 import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
-import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import { Provider, useTokenList } from 'views/Swap/hooks/useTokenList';
 import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
 import { SwapSettings } from 'views/Swap/SwapSettings';
 import THORInfoContent from 'views/Swap/THORInfoContent';
@@ -189,6 +189,16 @@ const SwapView = () => {
   //     }
   //   }, [inputAsset, outputAsset]);
 
+  const providers = useMemo(() => {
+    const outputProviders = tradingPairs.get(outputAsset.toString().toLowerCase())?.providers;
+    const inputProviders = tradingPairs.get(inputAsset.toString().toLowerCase())?.providers;
+    const commonProviders = outputProviders?.filter((provider) =>
+      inputProviders?.includes(provider),
+    );
+
+    return commonProviders || [];
+  }, [tradingPairs, outputAsset, inputAsset]);
+
   const {
     affiliateBasisPoints,
     estimatedTime,
@@ -204,6 +214,7 @@ const SwapView = () => {
     ethAddress,
     inputAmount,
     inputAsset,
+    providers,
     inputUSDPrice,
     inputUnitPrice,
     outputUnitPrice,
@@ -490,7 +501,12 @@ const SwapView = () => {
             onSwitchPair={handleSwitchPair}
             outputAsset={outputAssetProps}
             tokens={tokens}
-            tradingPairs={tradingPairs.get(inputAsset.toString().toLowerCase()) || tokens}
+            tradingPairs={
+              tradingPairs.get(inputAsset.toString().toLowerCase()) || {
+                tokens: tokens,
+                providers: [Provider.V1_PROVIDERS, Provider.CHAINFLIP, Provider.MAYACHAIN],
+              }
+            }
           />
           {!IS_LEDGER_LIVE && isInputWalletConnected && (
             <CustomRecipientInput

@@ -11,6 +11,7 @@ import { useAppSelector } from 'store/store';
 import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from 'store/thorswap/api';
 import type { GetTokensQuoteResponse } from 'store/thorswap/types';
 import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
+import { Provider } from 'views/Swap/hooks/useTokenList';
 
 type Params = {
   inputAsset: AssetValue;
@@ -23,6 +24,7 @@ type Params = {
   inputUSDPrice: number;
   inputUnitPrice: number;
   outputUnitPrice: number;
+  providers: Provider[];
 };
 
 export const useSwapQuote = ({
@@ -35,6 +37,7 @@ export const useSwapQuote = ({
   inputUSDPrice,
   inputUnitPrice,
   outputUnitPrice,
+  providers,
 }: Params) => {
   const showingQuoteError = useRef(false);
   const { slippageTolerance } = useApp();
@@ -87,7 +90,9 @@ export const useSwapQuote = ({
       sellAmount: debouncedSellAmount,
       senderAddress,
       recipientAddress,
-      ...(debouncedManualSlippage && { slippage: debouncedManualSlippage.toString() }),
+      ...(debouncedManualSlippage && {
+        slippage: debouncedManualSlippage.toString(),
+      }),
     }),
     [
       affiliateBasisPoints,
@@ -109,7 +114,8 @@ export const useSwapQuote = ({
     isFetching,
     isUninitialized,
   } = useGetTokensQuoteQuery(params, {
-    skip: params.sellAmount === '0' || inputAmount.lte(0),
+    skip:
+      params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.V1_PROVIDERS),
   });
 
   const {
@@ -122,7 +128,8 @@ export const useSwapQuote = ({
   } = useGetV2QuoteQuery(
     { ...params, providers: ['CHAINFLIP'] },
     {
-      skip: params.sellAmount === '0' || inputAmount.lte(0),
+      skip:
+        params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.CHAINFLIP),
     },
   );
 
@@ -136,7 +143,8 @@ export const useSwapQuote = ({
   } = useGetV2QuoteQuery(
     { ...params, affiliateBasisPoints: '0', providers: ['MAYACHAIN'] },
     {
-      skip: params.sellAmount === '0' || inputAmount.lte(0),
+      skip:
+        params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.MAYACHAIN),
     },
   );
 
@@ -306,8 +314,18 @@ export const useSwapQuote = ({
             return acc;
           },
           {
-            inbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
-            outbound: { networkFee: 0, networkFeeUSD: 0, affiliateFee: 0, affiliateFeeUSD: 0 },
+            inbound: {
+              networkFee: 0,
+              networkFeeUSD: 0,
+              affiliateFee: 0,
+              affiliateFeeUSD: 0,
+            },
+            outbound: {
+              networkFee: 0,
+              networkFeeUSD: 0,
+              affiliateFee: 0,
+              affiliateFeeUSD: 0,
+            },
             slippage: { slipFee: 0, slipFeeUSD: 0 },
             total: { totalFeeUSD: 0 },
           },
