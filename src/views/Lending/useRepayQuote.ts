@@ -109,6 +109,17 @@ export const useRepayQuote = ({
     return slippagePercent;
   }, [repayData]);
 
+  const totalFeeUsd = useMemo(() => {
+    const fees = repayData?.fees.THOR;
+    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+
+    // extracting affiliate fee from total fee - it has its own section in the UI
+    // affiliate fee should be 0 for repay, keeping for consistency
+    const totalFeeNum = (outboundFees?.totalFeeUSD || 0) - (outboundFees?.affiliateFeeUSD || 0);
+
+    return new SwapKitNumber({ value: totalFeeNum, decimal: 8 });
+  }, [repayData?.fees.THOR]);
+
   return {
     isLoading,
     repayAssetAmount,
@@ -119,5 +130,6 @@ export const useRepayQuote = ({
     repayOptimizeQuoteDetails,
     repaySlippage,
     repayDebtAmount,
+    totalFeeUsd,
   };
 };
