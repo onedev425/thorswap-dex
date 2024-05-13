@@ -51,7 +51,9 @@ const ConnectWalletModal = () => {
     [selectedWalletType],
   );
 
-  const selectedAll = selectedChains?.length === supportedByWallet.length;
+  const selectedAll =
+    selectedChains?.filter((chain) => chain !== Chain.Binance).length ===
+    supportedByWallet.filter((chain) => chain !== Chain.Binance).length;
 
   const handleSaveStorageChange = useCallback((value: boolean) => {
     setSaveWallet(value);
@@ -119,7 +121,7 @@ const ConnectWalletModal = () => {
         )) ||
       selectedAll
         ? []
-        : supportedByWallet;
+        : supportedByWallet.filter((chain) => chain !== Chain.Binance);
 
     setSelectedChains(nextWallets);
   }, [selectedAll, selectedWalletType, supportedByWallet]);
