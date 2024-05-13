@@ -17,7 +17,7 @@ const borderClasses =
 export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rate }: Props) => {
   const fields = [
     {
-      label: `${runeTicker} ${t('common.per')} ${poolTicker}`,
+      label: `${poolTicker} ${t('common.per')} ${runeTicker}`,
       value: rate || 'N/A',
     },
     { label: t('views.wallet.slip'), value: slippage || 'N/A' },
