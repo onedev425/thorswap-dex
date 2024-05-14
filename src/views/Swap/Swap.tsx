@@ -242,7 +242,7 @@ const SwapView = () => {
 
   const amountTooLowForLimit = useMemo(
     () =>
-      (selectedRouteRaw || inputUSDPrice) &&
+      selectedRouteRaw &&
       new SwapKitNumber({
         value:
           inputUSDPrice ||
