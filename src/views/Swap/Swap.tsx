@@ -235,20 +235,21 @@ const SwapView = () => {
 
   const noPriceProtection = useMemo(
     () =>
-      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash].includes(inputAsset.chain) &&
+      [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash, Chain.Dash].includes(inputAsset.chain) &&
       getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER,
     [getWallet, inputAsset.chain],
   );
 
   const amountTooLowForLimit = useMemo(
     () =>
-      selectedRouteRaw &&
+      (selectedRouteRaw || inputUSDPrice) &&
       new SwapKitNumber({
         value:
           inputUSDPrice ||
           selectedRouteRaw.expectedOutputUSD ||
           // @ts-expect-error TODO fix typing v2 quotes
-          selectedRouteRaw.expectedBuyAmountUSD,
+          selectedRouteRaw.expectedBuyAmountUSD ||
+          0,
       }).lte(500),
     [selectedRouteRaw, inputUSDPrice],
   );
@@ -562,7 +563,7 @@ const SwapView = () => {
             defaultInterval={defaultInterval}
             isChainflip={isChainflip}
             minReceive={minReceive}
-            noSlipProtection={amountTooLowForLimit}
+            noSlipProtection={amountTooLowForLimit || noPriceProtection}
             onSettingsChange={setStreamingSwapParams}
             outputAmount={outputAmount}
             outputAsset={outputAsset}
@@ -594,6 +595,7 @@ const SwapView = () => {
           )}
 
           {highValueImpact &&
+            !streamSwap &&
             !selectedRoute?.providers.some((provider) => V2Providers.includes(provider)) && (
               <InfoTip
                 className="!mt-2"
@@ -604,7 +606,7 @@ const SwapView = () => {
                     <Text color="red">{`${priceImpact}%`}</Text>
                   </Box>
                 }
-                tooltip="This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token."
+                tooltip={t('views.swap.warning.highPriceImpactTooltip')}
                 type="warn"
               />
             )}
@@ -645,7 +647,9 @@ const SwapView = () => {
             recipient={recipient}
             selectedRoute={selectedRoute}
             setVisible={setVisibleConfirmModal}
-            slippagePercent={isChainflip ? 5 : amountTooLowForLimit ? 0 : slippagePercent}
+            slippagePercent={
+              isChainflip ? 5 : amountTooLowForLimit || noPriceProtection ? 0 : slippagePercent
+            }
             streamSwap={streamSwap}
             totalFee={formatPrice(totalFee)}
             visible={visibleConfirmModal}

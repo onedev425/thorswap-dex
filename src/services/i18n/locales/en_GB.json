@@ -986,7 +986,7 @@
       "priceOptimizationInfo": "THORChain Streaming Swap automatically splits the quote into smaller sub-swaps executed over a longer period of time, delivering better rates. Completes as a single transaction. Click to learn more.",
       "priceOptimized": "Price Optimized",
       "priceProtectionUnavailable": "Slip Protection Unavailable for this Transaction",
-      "priceProtectionUnavailableDesc": "Due to limitations with the Ledger %{chain} app, price protection is not available for this trade. You may lose funds. If you choose to continue, THORSwap is not responsible for lost funds.",
+      "priceProtectionUnavailableDesc": "Due to limitations with the Ledger %{chain} app, price protection and streaming swaps are not available for this trade. You may lose funds. If you choose to continue, THORSwap is not responsible for lost funds.",
       "routeContractApproved": "Contract for this route swap has been approved.",
       "savings": "Savings",
       "slippage": "Slippage",
@@ -1013,7 +1013,8 @@
       "noPriceProtectionTooltip": "Swap Values below 500 USD don't offer price protection due to high likelihood of refunds.",
       "warning": {
         "highSlippage": "High Max Slippage",
-        "highPriceImpact": "High Value Impact"
+        "highPriceImpact": "High Value Impact",
+        "highPriceImpactTooltip": "This swap has a high value impact given the current liquidity and network fees. There may be a large difference between the amount of your input token and what you will receive in the output token."
       }
     },
     "thorname": {
