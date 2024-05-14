@@ -91,13 +91,6 @@ const getLiquiditySlippage = ({
   const assetAddAmount = new SwapKitNumber(assetAmount);
   const runeAddAmount = new SwapKitNumber(runeAmount);
 
-  console.log(
-    'assetAddAmount',
-    assetAddAmount.getValue('number'),
-    'runeAddAmount',
-    runeAddAmount.getValue('number'),
-  );
-
   const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
   // set absolute value of percent, no negative allowed

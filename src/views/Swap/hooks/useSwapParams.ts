@@ -49,11 +49,11 @@ export const useSwapParams = ({
     [canStreamSwap],
   );
 
-  useEffect(() => {
-    // reset stream swap state only when path changed
-    toggleStreamSwap(!!selectedRoute?.path);
-    setStreamingSwapParams(null);
-  }, [selectedRoute?.path, toggleStreamSwap]);
+//   useEffect(() => {
+//     // reset stream swap state only when path changed
+//     toggleStreamSwap(!!selectedRoute?.path);
+//     setStreamingSwapParams(null);
+//   }, [selectedRoute?.path, toggleStreamSwap]);
 
   const defaultInterval = useMemo(() => {
     const limit = getMemoPart(selectedRoute?.calldata?.memoStreamingSwap, 3);
