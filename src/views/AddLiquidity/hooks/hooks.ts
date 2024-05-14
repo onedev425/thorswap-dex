@@ -62,18 +62,39 @@ const getLiquiditySlippage = ({
   runeDepth: string;
   assetDepth: string;
 }) => {
-  if (runeAmount === '0' || assetAmount === '0' || runeDepth === '0' || assetDepth === '0')
+  if ((runeAmount === '0' && assetAmount === '0') || runeDepth === '0' || assetDepth === '0')
     return 0;
+
+  if (runeAmount === '0' || assetAmount === '0') {
+    // Get current pool balance
+    const poolBalanceRune = SwapKitNumber.fromBigInt(BigInt(runeDepth));
+    const poolBalanceAsset = SwapKitNumber.fromBigInt(BigInt(assetDepth));
+    const poolBalanceRatioRune = poolBalanceAsset.div(poolBalanceRune);
+    //   const poolValueInRune = poolBalanceRune.mul(2);
+
+    const runeInputValue = new SwapKitNumber(runeAmount);
+    const assetInputValueRune = new SwapKitNumber(assetAmount).div(poolBalanceRatioRune);
+
+    if (runeInputValue.eqValue(assetInputValueRune)) return 0;
+
+    const slippageAsset = assetInputValueRune.gt(runeInputValue)
+      ? assetInputValueRune
+      : runeInputValue;
+
+    const slippage = slippageAsset.div(2).div(slippageAsset.add(poolBalanceRune)).mul(100);
+    return slippage.getValue('number');
+  }
+
   // formula: (t * R - T * r)/ (T*r + R*T)
   const R = toTCSwapKitNumber(runeDepth);
   const T = toTCSwapKitNumber(assetDepth);
-  const assetAddAmount = new SwapKitNumber({ value: assetAmount, decimal: 8 }).mul(10 ** 8);
-  const runeAddAmount = new SwapKitNumber(runeAmount).mul(10 ** 8);
+  const assetAddAmount = new SwapKitNumber(assetAmount);
+  const runeAddAmount = new SwapKitNumber(runeAmount);
 
   const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
   // set absolute value of percent, no negative allowed
-  return Math.abs(numerator.div(denominator).getBaseValue('number'));
+  return Math.abs(numerator.div(denominator).mul(100).getValue('number'));
 };
 
 const getEstimatedPoolShareAfterAdd = ({
@@ -280,12 +301,12 @@ export const useAddLiquidity = ({
   );
 
   const runePriceInAsset =
-    parseInt(poolData?.assetDepth || '0') / parseInt(poolData?.runeDepth || '0');
+    Number.parseInt(poolData?.assetDepth || '0') / Number.parseInt(poolData?.runeDepth || '0');
   const assetPriceInRune =
-    parseInt(poolData?.runeDepth || '0') / parseInt(poolData?.assetDepth || '0');
+    Number.parseInt(poolData?.runeDepth || '0') / Number.parseInt(poolData?.assetDepth || '0');
 
   const addLiquiditySlip = useMemo(
-    () => getLiquiditySlippage(liquidityParams).toFixed(2),
+    () => `${getLiquiditySlippage(liquidityParams).toFixed(2)}%`,
     [liquidityParams],
   );
 
@@ -420,7 +441,12 @@ export const useAddLiquidity = ({
       const maxAmount = isSymDeposit ? maxSymAssetAmount : maxPoolAssetBalance;
 
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
-        setAssetAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
+        setAssetAmount(
+          new SwapKitNumber({
+            value: maxAmount.getValue('string'),
+            decimal: 8,
+          }),
+        );
 
         if (isSymDeposit) {
           setRuneAmount(
@@ -462,7 +488,12 @@ export const useAddLiquidity = ({
       const maxAmount = isSymDeposit ? maxSymRuneAmount : maxRuneBalance;
 
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
-        setRuneAmount(new SwapKitNumber({ value: maxAmount.getValue('string'), decimal: 8 }));
+        setRuneAmount(
+          new SwapKitNumber({
+            value: maxAmount.getValue('string'),
+            decimal: 8,
+          }),
+        );
 
         if (isSymDeposit) {
           setAssetAmount(
@@ -485,7 +516,10 @@ export const useAddLiquidity = ({
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (onAddLiquidity && poolAsset && liquidityType !== LiquidityTypeOption.ASSET) {
-      onAddLiquidity({ poolAsset, runeAmount: RUNEAsset.set(runeAmount.getValue('string')) });
+      onAddLiquidity({
+        poolAsset,
+        runeAmount: RUNEAsset.set(runeAmount.getValue('string')),
+      });
 
       return;
     }
@@ -657,7 +691,9 @@ export const useAddLiquidity = ({
       if (!thorchain) throw new Error('SwapKit client not found');
 
       try {
-        const txid = await thorchain.approveAssetValue({ assetValue: poolAsset });
+        const txid = await thorchain.approveAssetValue({
+          assetValue: poolAsset,
+        });
 
         if (typeof txid === 'string') {
           appDispatch(updateTransaction({ id, txid }));

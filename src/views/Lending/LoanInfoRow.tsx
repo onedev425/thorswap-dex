@@ -5,6 +5,7 @@ import { AssetIcon } from 'components/AssetIcon';
 import { AssetSelect } from 'components/AssetSelect';
 import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
 import { Button, Icon } from 'components/Atomic';
+import { InfoRow } from 'components/InfoRow';
 import { InfoTip } from 'components/InfoTip';
 import { InputAmount } from 'components/InputAmount';
 import { PercentageSlider } from 'components/PercentageSlider';
@@ -78,6 +79,7 @@ export const LoanInfoRow = ({
     repayOptimizeQuoteDetails,
     repaySlippage,
     repayDebtAmount,
+    totalFeeUsd,
   } = useRepayQuote({
     asset: repayAsset,
     collateralAsset: asset,
@@ -326,6 +328,18 @@ export const LoanInfoRow = ({
                         </Flex>
                       </Flex>
                     </Flex>
+
+                    {!!repayQuote && (
+                      <Flex direction="column">
+                        <Flex className="border-0 border-t border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20 mt-3 mb-1" />
+                        <InfoRow
+                          label="Repay Slippage"
+                          showBorder={false}
+                          size="sm"
+                          value={totalFeeUsd.toCurrency()}
+                        />
+                      </Flex>
+                    )}
 
                     {repaySlippage > HIGH_LENDING_SLIPPAGE && (
                       <Flex mt={3}>

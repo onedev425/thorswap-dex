@@ -408,8 +408,10 @@ export const useHandleWalletTypeSelect = ({
       setSelectedWalletType((type) => {
         const nextWalletType = type === walletType ? undefined : walletType;
 
-        setSelectedChains(
-          (chains) => getChainsToSelect(chains, walletType, nextWalletType) as Chain[],
+        setSelectedChains((chains) =>
+          (getChainsToSelect(chains, walletType, nextWalletType) as Chain[]).filter(
+            (chain) => chain !== Chain.Binance,
+          ),
         );
 
         return nextWalletType;

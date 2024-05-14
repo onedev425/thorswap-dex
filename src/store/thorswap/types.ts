@@ -436,11 +436,7 @@ export type RepayQuoteResponse = {
   inboundConfirmationSeconds: number;
   outboundDelayBlocks: number;
   outboundDelaySeconds: number;
-  fees: {
-    asset: string;
-    liquidity: string;
-    totalBps: number;
-  };
+  fees: QuoteRoute['fees'];
   expiry: number;
   warning?: string;
   notes?: string;

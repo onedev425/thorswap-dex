@@ -51,7 +51,7 @@ export const Gift = ({ onOpen }: Props) => {
             transition: {
               duration: open ? 1.5 : 3,
               ease: 'easeInOut',
-              repeat: open ? 0 : Infinity,
+              repeat: open ? 0 : Number.POSITIVE_INFINITY,
               repeatType: 'loop',
             },
           }}
@@ -85,7 +85,10 @@ export const Gift = ({ onOpen }: Props) => {
           <Box
             animate={
               open
-                ? { scale: [1.8, 2.5], transition: { duration: 0.3, ease: 'easeInOut', delay: 1 } }
+                ? {
+                    scale: [1.8, 2.5],
+                    transition: { duration: 0.3, ease: 'easeInOut', delay: 1 },
+                  }
                 : { scale: 1.8 }
             }
             animation={open ? 'open' : 'stop'}
