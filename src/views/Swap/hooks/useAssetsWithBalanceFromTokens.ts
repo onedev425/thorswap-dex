@@ -53,7 +53,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
 
   const handleAssetSets = useCallback(async () => {
     const filteredTokens = thorchainOnly
-      ? tokens.filter((t) => t?.tokenlist?.toLowerCase() === 'thorchain')
+      ? tokens.filter((t) => t?.provider?.toLowerCase() === 'thorchain')
       : tokens;
 
     const tokenPromises = filteredTokens.map(

@@ -5,7 +5,6 @@ import { AssetIcon } from 'components/AssetIcon';
 import type { IconName } from 'components/Atomic';
 import { Box, Tooltip } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
-import { getAmountFromString } from 'components/InputAmount/utils';
 import { useTheme } from 'context/theme/ThemeContext';
 import { useFormatPrice } from 'helpers/formatPrice';
 import type { MouseEventHandler } from 'react';
@@ -26,7 +25,7 @@ type Props = AssetSelectType & {
 };
 
 export const AssetSelectItem = memo(
-  ({ asset, logoURI, style, provider, balance, select, value, cg, price }: Props) => {
+  ({ asset, logoURI, style, provider, balance, select, value, price }: Props) => {
     const { isLight } = useTheme();
     const formatPrice = useFormatPrice();
     const address = asset.symbol.split('-')[1];
@@ -65,14 +64,8 @@ export const AssetSelectItem = memo(
     const description = useMemo(() => {
       if (asset.isSynthetic) return `${asset.type}`;
 
-      const marketCap =
-        cg?.market_cap &&
-        getAmountFromString(`${cg.market_cap}`, asset.decimal || 8)?.toAbbreviation(2);
-
-      return `${asset.type}${marketCap ? ` - MC: ${marketCap}` : ''}${
-        price ? `, ${formatPrice(price)}` : ''
-      }`;
-    }, [asset.decimal, asset.isSynthetic, asset.type, cg?.market_cap, formatPrice, price]);
+      return `${asset.type}${price ? `, ${formatPrice(price)}` : ''}`;
+    }, [asset.isSynthetic, asset.type, formatPrice, price]);
 
     const tokenInfoIcon: IconName = useMemo(() => {
       switch (assetChain) {
@@ -90,10 +83,8 @@ export const AssetSelectItem = memo(
     const checkType = assetChain === Chain.THORChain ? 'pool' : 'address';
 
     const assetName = useMemo(() => {
-      if (!cg?.name) return '';
-      const assetLength = cg.name.length;
-      return assetLength > 26 ? `${cg.name.slice(0, 26)}...` : cg.name;
-    }, [cg?.name]);
+      return '';
+    }, []);
 
     return (
       <Box

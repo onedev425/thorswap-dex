@@ -98,13 +98,15 @@ export const useTokenList = (withTradingPairs = false) => {
 
     setTraidingPairs(tokensByProvider);
 
-    const tokens = providersData.reduce(
-      (acc, { data, status }) =>
-        !data?.tokens || status === QueryStatus.rejected
-          ? acc
-          : (acc.concat(data.tokens) as Token[]),
-      [] as Token[],
-    );
+    const tokens = providersData.reduce((acc, { data, status }) => {
+      if (!data?.tokens || status === QueryStatus.rejected) {
+        return acc;
+      }
+
+      // add tokenlist param missing from api
+      const dataTokens = data.tokens.map((token) => ({ ...token, provider: data.provider }));
+      return acc.concat(dataTokens);
+    }, [] as Token[]);
 
     setTokens(tokens);
   }, [fetchTokenList, providers, withTradingPairs]);

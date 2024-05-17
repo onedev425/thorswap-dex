@@ -13,7 +13,10 @@ export const useTokenAddresses = (type: WhitelistType) => {
   useEffect(() => {
     const tokensList =
       (type === 'pools' ? poolsData : tokensData)?.flatMap((provider) => provider.tokens) || [];
-    setAddresses(tokensList.map(({ address }) => address?.toLowerCase()));
+    const addresses = tokensList
+      .map(({ address }) => address?.toLowerCase())
+      .filter(Boolean) as string[];
+    setAddresses(addresses);
   }, [poolsData, tokensData, type]);
 
   return addresses;

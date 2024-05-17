@@ -11,6 +11,7 @@ import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import type { Token } from 'store/thorswap/types';
 import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
+import type { Provider } from 'views/Swap/hooks/useTokenList';
 
 import {
   isLedgerLiveSupportedInputAsset,
@@ -18,7 +19,6 @@ import {
 } from '../../../ledgerLive/wallet/LedgerLive';
 
 import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
-import type { Provider } from 'views/Swap/hooks/useTokenList';
 
 const ConditionalWrapper = ({ children, condition }: { children: Todo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (

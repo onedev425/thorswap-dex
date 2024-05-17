@@ -1,4 +1,5 @@
 import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@swapkit/api';
+import type { Chain, ChainId } from '@swapkit/core';
 import type {
   InitialTrackerPayload,
   TransactionStatus,
@@ -53,24 +54,16 @@ type Version = {
 };
 
 export type Token = {
-  cg?: {
-    id: string;
-    market_cap: number;
-    name: string;
-    price_change_24h_usd: number;
-    price_change_percentage_24h_usd: number;
-    sparkline_in_7d_usd: string;
-    total_volume: number;
-  };
-  address: string;
-  chain?: string;
+  address?: string;
+  chain: Chain;
+  chainId?: ChainId;
   decimals: number;
   identifier: string;
   logoURI?: string;
-  price_usd?: number;
-  provider: string;
   ticker: string;
-  tokenlist?: string;
+  symbol?: string;
+  name?: string;
+  provider?: string;
 };
 
 export type GetTokenPriceIdentifiers = {

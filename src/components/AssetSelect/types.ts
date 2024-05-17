@@ -13,7 +13,7 @@ export type AssetSelectProps = {
   assetTypeComponent?: React.ReactNode;
 };
 
-export type AssetSelectType = Pick<Token, 'logoURI' | 'cg'> & {
+export type AssetSelectType = Pick<Token, 'logoURI'> & {
   asset: AssetValue;
   apr?: string;
   filled?: number;
