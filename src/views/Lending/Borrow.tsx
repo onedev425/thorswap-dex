@@ -107,7 +107,7 @@ const Borrow = () => {
   const collateralUsdPrice = useMemo(() => {
     const price = tokenPricesData[collateralAsset.toString()]?.price_usd || 0;
 
-    return price * Number(amount.toFixed(2));
+    return price * amount.getValue('number');
   }, [amount, collateralAsset, tokenPricesData]);
 
   const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
