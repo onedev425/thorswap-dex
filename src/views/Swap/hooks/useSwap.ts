@@ -108,7 +108,6 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({
-            pluginName: route.providers[0].toLowerCase() as 'thorchain' | 'chainflip',
             feeOptionKey,
             recipient,
             route,
