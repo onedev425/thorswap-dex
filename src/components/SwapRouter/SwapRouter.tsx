@@ -16,9 +16,9 @@ type Props = {
 };
 
 export const SwapRouter = memo(
-  ({ setSwapRoute, selectedRoute, outputUnitPrice, outputAsset, routes, streamSwap }: Props) => (
-    <Box className="self-stretch transition-max-height duration-300">
-      {selectedRoute && (
+  ({ setSwapRoute, selectedRoute, outputUnitPrice, outputAsset, routes, streamSwap }: Props) =>
+    selectedRoute ? (
+      <Box className="self-stretch transition-max-height duration-300">
         <Collapse
           className="flex-1 self-stretch !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl flex-col overflow-hidden"
           shadow={false}
@@ -47,7 +47,6 @@ export const SwapRouter = memo(
             ))}
           </Box>
         </Collapse>
-      )}
-    </Box>
-  ),
+      </Box>
+    ) : null,
 );

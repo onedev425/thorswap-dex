@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import LogoTsDark from 'assets/images/header_logo_black.png';
 import LogoTsWhite from 'assets/images/header_logo_white.png';
 import Logo from 'assets/images/logo.png';
+import classNames from 'classnames';
 import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
 import { AppPopoverMenu } from 'components/AppPopoverMenu';
 import { Button, Icon } from 'components/Atomic';
@@ -27,6 +28,7 @@ const singlePageHeader = IS_LEDGER_LIVE || isIframe();
 
 export const Header = memo(({ openMenu }: Props) => {
   const customLogoUrl = useAppSelector(({ app }) => app.iframeData?.logoUrl);
+  const isWidget = useAppSelector(({ app }) => app.iframeData?.isWidget);
   const { themeType } = useApp();
   const { isWalletLoading, hasWallet } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();
@@ -50,7 +52,7 @@ export const Header = memo(({ openMenu }: Props) => {
   ]);
 
   return (
-    <header className="min-h-[70px]">
+    <header className={classNames({ 'min-h-[70px]': !isWidget })}>
       {IS_PROTECTED && (
         <Box
           _dark={{ borderColor: 'brand.cyan', bgColor: 'transparent' }}
@@ -73,13 +75,9 @@ export const Header = memo(({ openMenu }: Props) => {
       <Flex flex={1} justify="between">
         {singlePageHeader ? (
           <>
-            <Flex className={singlePageHeader && isMdActive ? 'flex' : 'hidden md:flex'} flex={1}>
-              <StatusDropdown />
-            </Flex>
-
-            <Flex className="justify-center" flex={1}>
+            <Flex flex={1}>
               {customLogoUrl ? (
-                <img alt="Logo" className="h-12 min-w-[48px]" src={customLogoUrl} />
+                <img alt="Logo" className="h-8 min-w-[48px] object-contain" src={customLogoUrl} />
               ) : (
                 <div className="min-w-[48px] h-10 transition-colors cursor-pointer">
                   <div className="rounded-full bg-cyan bg-opacity-30 absolute w-16 h-16 transition-all -translate-x-2 -translate-y-2 blur-[30px] dark:blur-md -z-10" />
@@ -107,15 +105,17 @@ export const Header = memo(({ openMenu }: Props) => {
               variant="borderlessPrimary"
             />
 
-            <Box
-              bottom={4}
-              display={{ base: 'none', md: 'flex' }}
-              position="fixed"
-              right={4}
-              zIndex={50}
-            >
-              <StatusDropdown />
-            </Box>
+            {!isWidget && (
+              <Box
+                bottom={4}
+                display={{ base: 'none', md: 'flex' }}
+                position="fixed"
+                right={4}
+                zIndex={50}
+              >
+                <StatusDropdown />
+              </Box>
+            )}
           </Flex>
         )}
 
@@ -136,9 +136,8 @@ export const Header = memo(({ openMenu }: Props) => {
               t('common.connect')
             )}
           </Button>
-          <AnnouncementsPopover />
-
-          {!isIframe() && <AppPopoverMenu />}
+          {!isWidget && <AnnouncementsPopover />}
+          {!isIframe() && !isWidget && <AppPopoverMenu />}
 
           <TransactionManager />
         </Flex>

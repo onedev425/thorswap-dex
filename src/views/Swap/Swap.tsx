@@ -21,6 +21,7 @@ import { logEvent } from 'services/logger';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSwapRoute, ROUTES } from 'settings/router';
 import { useApp } from 'store/app/hooks';
+import { useAppSelector } from 'store/store';
 import { V2Providers } from 'store/thorswap/api';
 import { zeroAmount } from 'types/app';
 import { FeeModal } from 'views/Swap/FeeModal';
@@ -475,6 +476,8 @@ const SwapView = () => {
   const onInputAmountChange = useCallback(() => handleSelectAsset('input'), [handleSelectAsset]);
   const onOutputAmountChange = useCallback(() => handleSelectAsset('output'), [handleSelectAsset]);
 
+  const isWidget = useAppSelector(({ app }) => app.iframeData?.isWidget);
+
   return (
     <Flex alignSelf="center" gap={3} w="full">
       <Flex flex={1} justify="center" transition={easeInOutTransition}>
@@ -484,12 +487,16 @@ const SwapView = () => {
             outputAsset: outputAsset.ticker.toUpperCase(),
           })}
           header={
-            <SwapHeader
-              inputAssetChain={inputAsset.chain}
-              isSidebarVisible={analyticsVisible}
-              refetchData={!selectedRoute || isFetching || isPriceLoading ? undefined : refetchData}
-              toggleSidebar={() => toggleAnalytics(!analyticsVisible)}
-            />
+            isWidget ? null : (
+              <SwapHeader
+                inputAssetChain={inputAsset.chain}
+                isSidebarVisible={analyticsVisible}
+                refetchData={
+                  !selectedRoute || isFetching || isPriceLoading ? undefined : refetchData
+                }
+                toggleSidebar={() => toggleAnalytics(!analyticsVisible)}
+              />
+            )
           }
           keywords={`${inputAsset.ticker}, ${outputAsset.ticker}, SWAP, THORSwap, THORChain, DEX, DeFi`}
           title={`${t('common.swap')} ${inputAsset.ticker} to ${outputAsset.ticker}`}
@@ -535,6 +542,7 @@ const SwapView = () => {
             vTHORDiscount={vTHORDiscount}
             whaleDiscount={inputUSDPrice >= 1_000_000}
           />
+
           {tokenOutputWarning && (
             <InfoTip className="!mt-2" content={tokenOutputContent} type="warn" />
           )}
@@ -558,19 +566,21 @@ const SwapView = () => {
             streamSwap={streamSwap}
           />
 
-          <SwapSettings
-            canStreamSwap={canStreamSwap}
-            defaultInterval={defaultInterval}
-            isChainflip={isChainflip}
-            minReceive={minReceive}
-            noSlipProtection={amountTooLowForLimit || noPriceProtection}
-            onSettingsChange={setStreamingSwapParams}
-            outputAmount={outputAmount}
-            outputAsset={outputAsset}
-            route={selectedRoute}
-            streamSwap={streamSwap}
-            streamingSwapParams={streamingSwapParams}
-          />
+          {(!isWidget || !!selectedRoute) && (
+            <SwapSettings
+              canStreamSwap={canStreamSwap}
+              defaultInterval={defaultInterval}
+              isChainflip={isChainflip}
+              minReceive={minReceive}
+              noSlipProtection={amountTooLowForLimit || noPriceProtection}
+              onSettingsChange={setStreamingSwapParams}
+              outputAmount={outputAmount}
+              outputAsset={outputAsset}
+              route={selectedRoute}
+              streamSwap={streamSwap}
+              streamingSwapParams={streamingSwapParams}
+            />
+          )}
 
           {// @ts-ignore TODO add typings for new v2 response
           selectedRoute?.warnings?.map(

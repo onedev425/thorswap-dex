@@ -99,6 +99,7 @@ const iframeParamsSchema = z.object({
   address: z.string().min(1),
   basePair: z.string(),
   logoUrl: z.string(),
+  isWidget: z.boolean(),
 });
 
 export const PublicRoutes = memo(() => {
@@ -115,6 +116,7 @@ export const PublicRoutes = memo(() => {
         address: params.get('address') ?? 't',
         basePair: params.get('basePair') ?? '',
         logoUrl: params.get('logoUrl') ?? '',
+        isWidget: params.has('widget'),
       };
       try {
         const iframeParams = iframeParamsSchema.parse(values);

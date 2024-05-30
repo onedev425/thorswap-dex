@@ -37,5 +37,6 @@ export interface State {
     basePair: string;
     fee: number;
     logoUrl: string;
+    isWidget: boolean;
   };
 }
