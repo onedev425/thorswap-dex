@@ -34,7 +34,7 @@ export const ledgerLiveSwap = async ({
     const channelInfo = await confirmSwap({
       buyAsset,
       sellAsset,
-      recipient,
+      recipient: recipient || route.destinationAddress,
       brokerEndpoint: `${apiV2BaseUrl}/channel`,
     });
 
