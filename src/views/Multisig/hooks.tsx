@@ -1,5 +1,5 @@
-import type { Wallet } from '@swapkit/core';
-import { AssetValue, Chain } from '@swapkit/core';
+import { AssetValue, type BaseWallet, Chain } from '@swapkit/core';
+import type { ThorchainWallets } from '@swapkit/toolbox-cosmos';
 import { Button, Icon } from 'components/Atomic';
 import { useFormatPrice } from 'helpers/formatPrice';
 import { useAddressUtils } from 'hooks/useAddressUtils';
@@ -79,7 +79,10 @@ export const useMultissigAssets = () => {
     setRuneBalance(balance);
   }, [balances]);
 
-  const assetsWithBalance = balances.map((balance) => ({ balance, asset: balance }));
+  const assetsWithBalance = balances.map((balance) => ({
+    balance,
+    asset: balance,
+  }));
 
   const getMaxBalance = useCallback(
     (asset: AssetValue) => {
@@ -149,7 +152,7 @@ export const useMultisigWallet = () => {
         address,
         balance: balances,
       },
-    } as Wallet;
+    } as BaseWallet<ThorchainWallets>;
   }, [address, balances]);
 
   return { wallet };

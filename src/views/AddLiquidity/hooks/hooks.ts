@@ -1,4 +1,4 @@
-import type { AssetValue, Wallet } from '@swapkit/core';
+import type { AssetValue } from '@swapkit/core';
 import { BaseDecimal, Chain, getMinAmountByChain, isGasAsset, SwapKitNumber } from '@swapkit/core';
 import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
 import { showErrorToast, showInfoToast } from 'components/Toast';
@@ -26,6 +26,7 @@ import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAs
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { useConfirmInfoItems } from './useConfirmInfoItems';
+import type { Wallet } from 'store/thorswap/types';
 
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;

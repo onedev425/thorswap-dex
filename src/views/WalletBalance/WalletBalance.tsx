@@ -22,12 +22,13 @@ import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/Ledg
 import { ChainHeader } from './ChainHeader';
 import { WalletDrawer } from './WalletDrawer';
 import { WalletHeader } from './WalletHeader';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type ChainBalanceProps = {
   chain: Chain;
   address: string;
   loading: boolean;
-  walletType: WalletOption;
+  walletType: SupportedWalletOptions;
   balance: AssetValue[];
 };
 
@@ -55,7 +56,10 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
     (chain: Chain, assetValue: AssetValue): MouseEventHandler<HTMLDivElement | HTMLButtonElement> =>
       (event) => {
         event.stopPropagation();
-        walletDispatch({ type: 'hideAsset', payload: { chain, address: assetValue.toString() } });
+        walletDispatch({
+          type: 'hideAsset',
+          payload: { chain, address: assetValue.toString() },
+        });
       },
     [walletDispatch],
   );
@@ -151,7 +155,9 @@ export const WalletBalance = () => {
                 chain={chain}
                 key={chain}
                 loading={!!chainLoading[chain as keyof typeof chainLoading]}
-                walletType={chainWallet?.walletType ?? WalletOption.KEYSTORE}
+                walletType={
+                  (chainWallet?.walletType ?? WalletOption.KEYSTORE) as SupportedWalletOptions
+                }
               />
             ) : null;
           })}

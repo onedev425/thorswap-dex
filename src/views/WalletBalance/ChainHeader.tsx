@@ -9,6 +9,7 @@ import { chainName } from 'helpers/chainName';
 import { memo, useCallback, useState } from 'react';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
 import { useWalletChainActions } from 'views/Wallet/hooks';
 
@@ -16,7 +17,7 @@ export type ChainHeaderProps = {
   chain: Chain;
   address: string;
   walletLoading: boolean;
-  walletType: WalletOption;
+  walletType: SupportedWalletOptions;
 };
 
 export const ChainHeader = memo(

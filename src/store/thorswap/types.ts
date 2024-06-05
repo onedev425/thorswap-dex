@@ -1,10 +1,25 @@
 import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@swapkit/api';
 import type { Chain, ChainId } from '@swapkit/core';
+import type { WalletOption } from '@swapkit/core';
+import type { BaseWallet } from '@swapkit/helpers';
+import type { CosmosWallets, ThorchainWallets } from '@swapkit/toolbox-cosmos';
+import type { EVMWallets } from '@swapkit/toolbox-evm';
+import type { SubstrateWallets } from '@swapkit/toolbox-substrate';
+import type { UTXOWallets } from '@swapkit/toolbox-utxo';
 import type {
   InitialTrackerPayload,
   TransactionStatus,
   TransactionType,
 } from 'store/transactions/types';
+
+export type Wallet = BaseWallet<
+  ThorchainWallets | EVMWallets | UTXOWallets | CosmosWallets | SubstrateWallets
+>;
+
+export type SupportedWalletOptions = Exclude<
+  WalletOption,
+  WalletOption.EXODUS | WalletOption.EIP6963
+>;
 
 type LiquidityTxResult<T extends TransactionType> = {
   type: T;

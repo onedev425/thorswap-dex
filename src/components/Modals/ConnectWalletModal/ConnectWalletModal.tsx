@@ -26,6 +26,7 @@ import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } f
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 const ConnectWalletModal = () => {
   const { customDerivationVisible } = useApp();
@@ -386,7 +387,7 @@ const ConnectWalletModal = () => {
                     onClick={selectChain}
                     selected={selectedChains.includes(chain)}
                     selectedWalletType={selectedWalletType}
-                    walletType={getWallet(chain)?.walletType}
+                    walletType={getWallet(chain)?.walletType as SupportedWalletOptions}
                   />
                 ))}
               </Box>

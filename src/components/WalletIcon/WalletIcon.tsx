@@ -5,16 +5,17 @@ import { baseHoverClass } from 'components/constants';
 import { WalletNameByWalletOption } from 'components/Modals/ConnectWalletModal/types';
 import { t } from 'services/i18n';
 import { IS_LEDGER_LIVE } from 'settings/config';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type Props = {
   className?: string;
-  walletType?: WalletOption;
+  walletType?: SupportedWalletOptions;
   size?: number;
   onClick?: () => void;
   tooltipDisabled?: boolean;
 };
 
-const walletIcons: Record<WalletOption, IconName> = {
+const walletIcons: Record<SupportedWalletOptions, IconName> = {
   [WalletOption.BRAVE]: 'brave',
   [WalletOption.METAMASK]: 'metamask',
   [WalletOption.TRUSTWALLET_WEB]: 'trustWallet',

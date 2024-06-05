@@ -8,6 +8,7 @@ import { WalletIcon } from 'components/WalletIcon/WalletIcon';
 import { chainName } from 'helpers/chainName';
 import { t } from 'i18next';
 import { useCallback, useState } from 'react';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type Props = {
   chain: Chain;
@@ -40,7 +41,7 @@ export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
         <WalletIcon
           onClick={handleClickWalletIcon}
           size={16}
-          walletType={chainWallet?.walletType}
+          walletType={chainWallet?.walletType as SupportedWalletOptions}
         />
       )}
       <Text>{chainName(chain, true)}</Text>

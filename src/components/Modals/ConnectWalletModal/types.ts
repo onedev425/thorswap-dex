@@ -1,4 +1,5 @@
 import { Chain, WalletOption } from '@swapkit/core';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 export enum WalletType {
   Brave = 'Brave',
@@ -63,7 +64,7 @@ export const WalletOptionByWalletType: Record<WalletType, WalletOption> = {
   [WalletType.Xdefi]: WalletOption.XDEFI,
 };
 
-export const WalletNameByWalletOption: Record<WalletOption, string> = {
+export const WalletNameByWalletOption: Record<SupportedWalletOptions, string> = {
   [WalletOption.BRAVE]: WalletType.Brave,
   [WalletOption.COINBASE_WEB]: 'Coinbase Extension',
   [WalletOption.COINBASE_MOBILE]: 'Coinbase Wallet App',

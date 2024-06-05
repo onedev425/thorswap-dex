@@ -1,4 +1,4 @@
-import type { Chain, WalletOption } from '@swapkit/core';
+import type { Chain } from '@swapkit/core';
 import classNames from 'classnames';
 import { ChainIcon } from 'components/AssetIcon/ChainIcon';
 import { Box, Icon, Tooltip } from 'components/Atomic';
@@ -9,11 +9,12 @@ import { memo } from 'react';
 import { t } from 'services/i18n';
 
 import type { WalletType } from './types';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type Props = {
   disabled?: boolean;
   chain: Chain;
-  walletType?: WalletOption;
+  walletType?: SupportedWalletOptions;
   selected: boolean;
   isChainAvailable: boolean;
   selectedWalletType?: WalletType;
