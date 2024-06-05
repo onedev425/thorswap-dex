@@ -85,7 +85,6 @@ export const thorswapApi = createApi({
         senderAddress = '',
         recipientAddress = '',
         affiliateBasisPoints,
-        affiliateAddress,
         providers,
         ...rest
       }) => {
