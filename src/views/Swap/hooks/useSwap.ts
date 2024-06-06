@@ -1,6 +1,6 @@
 import type { QuoteRoute } from '@swapkit/api';
 import type { AssetValue } from '@swapkit/core';
-import { QuoteMode } from '@swapkit/core';
+import { ProviderName, QuoteMode } from '@swapkit/core';
 import { showErrorToast } from 'components/Toast';
 import { useWallet } from 'context/wallet/hooks';
 import { translateErrorMsg } from 'helpers/error';
@@ -87,6 +87,12 @@ export const useSwap = ({
         }
 
         const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
+        const isV1Aggregator = ![
+          ProviderName.THORCHAIN_STREAMING,
+          ProviderName.THORCHAIN,
+          ProviderName.MAYACHAIN,
+          ProviderName.CHAINFLIP,
+        ].includes(route.providers[0] as ProviderName);
 
         appDispatch(
           addTransaction({
@@ -108,6 +114,7 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({
+            pluginName: isV1Aggregator ? 'thorchain' : undefined,
             feeOptionKey,
             recipient,
             route,
