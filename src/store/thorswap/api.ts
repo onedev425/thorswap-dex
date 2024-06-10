@@ -149,16 +149,15 @@ export const thorswapApi = createApi({
 
     getAddressVerify: build.query<{ confirm: boolean }, GetAddressVerifyQuoteParams>({
       query: ({ addresses = [], chains = [] }) => {
-        const queryParams = new URLSearchParams();
-        addresses
-          .filter((address) => address !== '')
-          .forEach((address) => queryParams.append('addresses', address));
-
-        chains
-          .filter((chain) => chain !== '')
-          .forEach((chain) => queryParams.append('chains', chain));
-
-        return `/aggregator/utils/confirm?${queryParams.toString()}`;
+        return {
+          method: 'POST',
+          body: JSON.stringify({
+            addresses: addresses.filter((address) => address !== ''),
+            chains: chains.filter((chain) => chain !== ''),
+          }),
+          url: `${apiV2BaseUrl}/screen`,
+          headers: { 'Content-Type': 'application/json' },
+        };
       },
     }),
 
