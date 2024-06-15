@@ -17,6 +17,7 @@ import { t } from 'services/i18n';
 import { logException } from 'services/logger';
 import { SUPPORTED_CHAINS } from 'settings/chain';
 import { useApp } from 'store/app/hooks';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 import ChainItem from './ChainItem';
 import { ConnectKeystoreView } from './ConnectKeystore';
@@ -26,7 +27,6 @@ import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } f
 import { PhraseView } from './Phrase';
 import { availableChainsByWallet, WalletType } from './types';
 import WalletOption from './WalletOption';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 const ConnectWalletModal = () => {
   const { customDerivationVisible } = useApp();

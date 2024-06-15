@@ -7,9 +7,9 @@ import { chainName } from 'helpers/chainName';
 import useWindowSize from 'hooks/useWindowSize';
 import { memo } from 'react';
 import { t } from 'services/i18n';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 import type { WalletType } from './types';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type Props = {
   disabled?: boolean;
