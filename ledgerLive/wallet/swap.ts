@@ -18,7 +18,11 @@ export const ledgerLiveSwap = async ({
   route,
   feeOptionKey,
   wallet,
-}: SwapParams & { wallet: Todo; route: Todo; feeOptionKey: string }) => {
+  streamSwap,
+}: SwapParams & { wallet: Todo; route: Todo; feeOptionKey: string; streamSwap: boolean }) => {
+  if (streamSwap && !route.calldata.memoStreamingSwap)
+    throw new Error('Streaming swap not supported');
+
   if (route.provider === 'CHAINFLIP') {
     const { confirmSwap } = await import('@swapkit/chainflip');
 
@@ -54,11 +58,14 @@ export const ledgerLiveSwap = async ({
     case QuoteMode.ETH_TO_AVAX:
     case QuoteMode.ETH_TO_TC_SUPPORTED:
     case QuoteMode.TC_SUPPORTED_TO_ETH: {
-      const { fromAsset, amountIn, memo } = route.calldata;
+      const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
       const assetValue = await AssetValue.fromIdentifier(fromAsset as `${Chain}.${string}`);
       if (!assetValue) throw new Error('Asset not recognised');
 
-      const replacedMemo = memo.replace('{recipientAddress}', recipient);
+      const replacedMemo = (streamSwap ? memoStreamingSwap : memo).replace(
+        '{recipientAddress}',
+        recipient,
+      );
 
       const inboundData = await getInboundData();
       const chainAddressData = inboundData.find(({ chain }: Todo) => chain === assetValue.chain);

@@ -144,7 +144,11 @@ export const useSwapQuote = ({
     { ...params, affiliateBasisPoints: '0', providers: ['MAYACHAIN'] },
     {
       skip:
-        params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.MAYACHAIN),
+        // TODO move ledger live integration to SK
+        IS_LEDGER_LIVE ||
+        params.sellAmount === '0' ||
+        inputAmount.lte(0) ||
+        !providers.includes(Provider.MAYACHAIN),
     },
   );
 
@@ -232,7 +236,6 @@ export const useSwapQuote = ({
       .concat(mayaSpecialRoutes)
       .map((fullRoute: QuoteResponseRoute) => {
         const route = fullRoute?.legs[0];
-        console.log('route', route);
 
         const chainFlipFees = route?.fees?.reduce(
           (acc, fee) => {
