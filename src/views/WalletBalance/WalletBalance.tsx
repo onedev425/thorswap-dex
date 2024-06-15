@@ -16,13 +16,13 @@ import { t } from 'services/i18n';
 import { SORTED_CHAINS } from 'settings/chain';
 import { IS_LEDGER_LIVE } from 'settings/config';
 import { getSendRoute, getSwapRoute } from 'settings/router';
+import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
 
 import { ChainHeader } from './ChainHeader';
 import { WalletDrawer } from './WalletDrawer';
 import { WalletHeader } from './WalletHeader';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
 
 type ChainBalanceProps = {
   chain: Chain;

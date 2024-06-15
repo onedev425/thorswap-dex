@@ -19,6 +19,7 @@ import { getInboundData } from 'store/midgard/actions';
 import type { PoolDetail } from 'store/midgard/types';
 import { LiquidityTypeOption } from 'store/midgard/types';
 import { useAppDispatch } from 'store/store';
+import type { Wallet } from 'store/thorswap/types';
 import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
 import { TransactionType } from 'store/transactions/types';
 import { v4 } from 'uuid';
@@ -26,7 +27,6 @@ import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAs
 import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
 
 import { useConfirmInfoItems } from './useConfirmInfoItems';
-import type { Wallet } from 'store/thorswap/types';
 
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;

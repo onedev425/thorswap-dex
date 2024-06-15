@@ -34,7 +34,7 @@ export const ChainLiquidityPanel = ({ chain, data, hardCapReached }: Props) => {
 
   const lpLink = useMemo(
     () =>
-      `${getThorYieldLPInfoBaseRoute()}}?${
+      `${getThorYieldLPInfoBaseRoute()}?${
         runeAddress ? `${Chain.THORChain.toLowerCase()}=${runeAddress}` : ''
       }${assetAddress ? `${chain.toLowerCase()}=${assetAddress}` : ''}`,
     [assetAddress, chain, runeAddress],
