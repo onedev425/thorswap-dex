@@ -69,7 +69,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://static.thorswap.finance/logo.png
           color: 0x238636
-          description: "Prod Deployment"
+          description: 'Prod Deployment'
           status: success
           url: 'https://app.thorswap.finance'
           username: Production Deployment

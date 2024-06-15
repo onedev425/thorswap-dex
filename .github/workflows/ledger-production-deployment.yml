@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - name: Decrypt Secrets
+        shell: bash
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./.env ./.env.gpg
 
       - name: Set Env Vars on Vercel Project
         uses: dkershner6/vercel-set-env-action@49249df836477f28dda1ee275d3c04c136b722a3
@@ -50,25 +54,13 @@ jobs:
           TARGET_VITE_API_KEY: production
           TYPE_VITE_API_KEY: encrypted
 
-          # Feature envs
-          # GIT_VITE_ETHPLORER_API_KEY: feature/foo
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
       - name: Deploy to Vercel
         id: vercel
         run: |
           npm install --global vercel@latest
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
           echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
 
       - name: Discord Notification
@@ -77,7 +69,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://static.thorswap.finance/logo.png
           color: 0x238636
-          description: "Ledger Prod Deployment"
+          description: 'Ledger Prod Deployment'
           status: success
           url: 'https://ledgerlive.thorswap.finance'
           username: Ledger Production Deployment

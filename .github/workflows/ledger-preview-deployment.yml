@@ -10,9 +10,13 @@ concurrency:
 
 on:
   workflow_dispatch:
-  push:
-    branches-ignore:
-      - main
+    push:
+      branches:
+        - develop
+        - stagenet
+    pull_request:
+      branches-ignore:
+        - main
 
 jobs:
   Deploy-Preview:
@@ -21,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - name: Decrypt Secrets
+        shell: bash
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./.env ./.env.gpg
 
       - name: Set Env Vars on Vercel Project
         uses: dkershner6/vercel-set-env-action@49249df836477f28dda1ee275d3c04c136b722a3
@@ -82,7 +90,7 @@ jobs:
           color: ${{ steps.vercel.outputs.color }}
           description: "Ledger Preview Deployment\nPassword: #cexisworse"
           status: ${{ job.status }}
-          title: "Link - ${{ steps.vercel.outputs.vercel_url }}"
+          title: 'Link - ${{ steps.vercel.outputs.vercel_url }}'
           url: ${{ steps.vercel.outputs.vercel_url }}
           username: Ledger Preview Deployment
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
