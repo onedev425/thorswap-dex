@@ -58,9 +58,9 @@ jobs:
         id: vercel
         run: |
           npm install --global vercel@latest
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tee vercel-deploy.log
           echo "vercel_url=$(cat vercel-deploy.log)" >> "$GITHUB_OUTPUT"
 
       - name: Discord Notification
