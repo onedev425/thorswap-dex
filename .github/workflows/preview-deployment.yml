@@ -20,7 +20,7 @@ on:
 
 jobs:
   Deploy-Preview:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
@@ -79,7 +79,6 @@ jobs:
             echo "vercel_url=$(cat deployment-url.txt)" >> "$GITHUB_OUTPUT"
           fi
 
-
       - name: Discord Notification
         if: always()
         uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
@@ -89,7 +88,7 @@ jobs:
           color: ${{ steps.vercel.outputs.color }}
           description: "Preview Deployment\nPassword: #cexisworse"
           status: ${{ job.status }}
-          title: "Link - ${{ steps.vercel.outputs.vercel_url }}"
+          title: 'Link - ${{ steps.vercel.outputs.vercel_url }}'
           url: ${{ steps.vercel.outputs.vercel_url }}
           username: Preview Deployment
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
