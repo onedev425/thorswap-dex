@@ -96,6 +96,7 @@ const SwapView = () => {
   const [maxInputBalance, setMaxInputBalance] = useState<AssetValue | undefined>(input.set(0));
 
   const [recipient, setRecipient] = useState('');
+  const [isValidRecipient, setIsValidRecipient] = useState(true);
   const [walletRecipient, setWalletRecipient] = useState('');
   const [sender, setSender] = useState('');
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
@@ -111,12 +112,12 @@ const SwapView = () => {
     () => [
       tokens.find(
         ({ chain, ticker, address }) =>
-          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${chain}.${ticker}${address ? `-${address}` : ''}`.toUpperCase() ===
           `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
       ),
       tokens.find(
         ({ chain, ticker, address }) =>
-          `${chain}.${ticker}${address ? '-' + address : ''}`.toUpperCase() ===
+          `${chain}.${ticker}${address ? `-${address}` : ''}`.toUpperCase() ===
           `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
@@ -148,9 +149,9 @@ const SwapView = () => {
       setSender(getWalletAddress(inputAsset.chain));
       return;
     }
-    const walletkRecipientAddress = getWalletAddress(outputAsset.chain);
-    setRecipient(walletkRecipientAddress || '');
-    setWalletRecipient(walletkRecipientAddress || '');
+    const walletRecipientAddress = getWalletAddress(outputAsset.chain);
+    setRecipient(walletRecipientAddress || '');
+    setWalletRecipient(walletRecipientAddress || '');
     setSender(getWalletAddress(inputAsset.chain) || '');
 
     // import('services/swapKit')
@@ -520,7 +521,8 @@ const SwapView = () => {
             <CustomRecipientInput
               isOutputWalletConnected={isOutputWalletConnected}
               outputAssetChain={outputAsset.chain}
-              recipient={recipient}
+              recipient={recipient || walletRecipient}
+              setIsValidRecipient={setIsValidRecipient}
               setRecipient={setRecipient}
             />
           )}
@@ -641,7 +643,7 @@ const SwapView = () => {
             isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
-            recipient={recipient || walletRecipient}
+            recipient={!isValidRecipient ? null : recipient || walletRecipient}
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}
           />

@@ -453,8 +453,11 @@ const ConnectWalletModal = () => {
                 )}
               </Box>
 
-              {(selectedWalletType === WalletType.Ledger ||
-                selectedWalletType === WalletType.Trezor) &&
+              {selectedWalletType &&
+                [WalletType.Ledger, WalletType.Trezor, WalletType.Keepkey].includes(
+                  selectedWalletType,
+                ) &&
+                selectedChains.length === 1 &&
                 !customDerivationVisible && (
                   <Box center>
                     <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
@@ -477,8 +480,11 @@ const ConnectWalletModal = () => {
                   </Box>
                 )}
 
-              {(selectedWalletType === WalletType.Ledger ||
-                selectedWalletType === WalletType.Trezor) &&
+              {selectedWalletType &&
+                [WalletType.Ledger, WalletType.Trezor, WalletType.Keepkey].includes(
+                  selectedWalletType,
+                ) &&
+                selectedChains.length === 1 &&
                 customDerivationVisible && (
                   <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
                     <Text>{t('common.derivationPath')}:</Text>

@@ -57,7 +57,9 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
     if (validateTNS(thornameOrAddress)) {
       setLoading(true);
       setValidThorname(thornameOrAddress);
+      return;
     }
+    setLoading(false);
   }, [thornameOrAddress]);
 
   return { loading, TNS, setTNS, validThorname };

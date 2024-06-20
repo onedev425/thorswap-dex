@@ -477,7 +477,8 @@
     "withdrawnAmountAsset": "Withdrew %{amount} %{asset}"
   },
   "validation": {
-    "invalidPassword": "Invalid Password"
+    "invalidPassword": "Invalid Password",
+    "invalidAddress": "Invalid Address for %{chain} Chain"
   },
   "views": {
     "addLiquidity": {

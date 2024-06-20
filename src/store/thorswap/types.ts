@@ -17,7 +17,7 @@ export type Wallet = BaseWallet<
 
 export type SupportedWalletOptions = Exclude<
   WalletOption,
-  WalletOption.EXODUS | WalletOption.EIP6963
+  WalletOption.EXODUS | WalletOption.EIP6963 | WalletOption.RADIX_WALLET
 >;
 
 type LiquidityTxResult<T extends TransactionType> = {
