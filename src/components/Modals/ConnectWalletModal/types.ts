@@ -112,7 +112,10 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Keepkey]: [...AllChainsSupportedExceptNewProvider, Chain.Dash, Chain.Maya],
   [WalletType.Keplr]: [Chain.Cosmos, Chain.Kujira],
   [WalletType.Keystore]: AllChainsSupported,
-  [WalletType.Ledger]: [...AllChainsSupportedExceptNewProvider, Chain.Dash],
+  [WalletType.Ledger]: [
+    ...AllChainsSupportedExceptNewProvider.filter((chain) => chain !== Chain.BinanceSmartChain),
+    Chain.Dash,
+  ],
   [WalletType.MetaMask]: EVMChainsSupported,
   [WalletType.OkxMobile]: EVMChainsSupported,
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],

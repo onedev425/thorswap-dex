@@ -52,7 +52,7 @@ type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
 
 let sdkClient: Client;
 
-export const getSwapKitClient = async () => {
+export const getSwapKitClient = () => {
   if (sdkClient) return sdkClient;
 
   const core = SwapKit({

@@ -235,7 +235,7 @@ export const useHandleWalletConnect = ({
           case WalletType.Okx:
             return connectOkx(selectedChains);
           case WalletType.Keepkey:
-            return connectKeepkey(selectedChains);
+            return connectKeepkey(selectedChains, derivationPath);
 
           case WalletType.CoinbaseMobile:
             return connectCoinbaseMobile(selectedChains as EVMChain[]);

@@ -1,4 +1,4 @@
-import type { AssetValue, DerivationPathArray, EVMChain } from '@swapkit/core';
+import type { AssetValue, DerivationPathArray, EVMChain, WalletChain } from '@swapkit/core';
 import { Chain, WalletOption } from '@swapkit/core';
 import type { Keystore } from '@swapkit/wallet-keystore';
 import { isMobile, okxWalletDetected } from 'components/Modals/ConnectWalletModal/hooks';
@@ -352,7 +352,7 @@ export const useConnectWallet = () => {
   );
 
   const unlockKeystore = useCallback(
-    async (keystore: Keystore, phrase: string, chains: Chain[]) => {
+    async (keystore: Keystore, phrase: string, chains: WalletChain[]) => {
       const { connectKeystore } = await (await import('services/swapKit')).getSwapKitClient();
       const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const { getPubKeyFromMnemonic } = ThorchainToolbox({});
@@ -367,15 +367,36 @@ export const useConnectWallet = () => {
   );
 
   const connectKeepkey = useCallback(
-    async (chains: Chain[]) => {
+    async (
+      chains: (
+        | Chain.Arbitrum
+        | Chain.Avalanche
+        | Chain.Binance
+        | Chain.BinanceSmartChain
+        | Chain.Bitcoin
+        | Chain.BitcoinCash
+        | Chain.Cosmos
+        | Chain.Dash
+        | Chain.Dogecoin
+        | Chain.Ethereum
+        | Chain.Litecoin
+        | Chain.Maya
+        | Chain.Optimism
+        | Chain.Polygon
+        | Chain.THORChain
+      )[],
+      derivationPath?: DerivationPathArray,
+    ) => {
       const { connectKeepkey: swapKitConnectKeepkey } = await (
         await import('services/swapKit')
       ).getSwapKitClient();
 
       showInfoToast(t('notification.connectingKeepkey'));
 
-      // @ts-expect-error
-      const keepkeyApiKey = await swapKitConnectKeepkey(chains);
+      const keepkeyApiKey = await swapKitConnectKeepkey(
+        chains,
+        chains.length === 1 && derivationPath ? [derivationPath] : undefined,
+      );
       // @ts-expect-error
       localStorage.setItem('keepkeyApiKey', (keepkeyApiKey as string) || '');
       await reloadAllWallets(chains);

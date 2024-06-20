@@ -1,30 +1,46 @@
 import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
+import { Chain } from '@swapkit/core';
+import { stripPrefix } from '@swapkit/toolbox-utxo';
 import { Box } from 'components/Atomic';
 import { HoverIcon } from 'components/HoverIcon';
 import { PanelInput } from 'components/PanelInput';
 import { showInfoToast } from 'components/Toast';
 import copy from 'copy-to-clipboard';
 import { useAddressForTNS } from 'hooks/useAddressForTNS';
+import { useDebouncedValue } from 'hooks/useDebouncedValue';
 import type { ChangeEvent } from 'react';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from 'services/i18n';
+import { getSwapKitClient } from 'services/swapKit';
 import { useApp } from 'store/app/hooks';
 
 type Props = {
   recipient: string;
   setRecipient: (recipient: string) => void;
+  setIsValidRecipient: (isValid: boolean) => void;
   outputAssetChain: Chain;
   isOutputWalletConnected: boolean;
 };
 
 export const CustomRecipientInput = memo(
-  ({ recipient, setRecipient, outputAssetChain, isOutputWalletConnected }: Props) => {
+  ({
+    recipient,
+    setRecipient,
+    outputAssetChain,
+    isOutputWalletConnected,
+    setIsValidRecipient,
+  }: Props) => {
     const { customRecipientMode } = useApp();
     const [thorname, setThorname] = useState('');
-    const [recipientString, setRecipientString] = useState('');
+    const [recipientString, setRecipientString] = useState(recipient || '');
     const [disabled, setDisabled] = useState(false);
+    const debouncedRecipientString = useDebouncedValue(recipientString, 1000);
     const { loading, TNS, setTNS } = useAddressForTNS(recipientString);
+
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
+      if (recipient !== recipientString) setRecipientString(recipient || '');
+    }, [outputAssetChain, recipient, recipientString]);
 
     const TNSAddress = useMemo(
       () =>
@@ -53,11 +69,45 @@ export const CustomRecipientInput = memo(
         setThorname(TNS.thorname);
         setRecipient(TNSAddress);
         setRecipientString(TNSAddress);
+        setIsValidRecipient(true);
+        return;
       }
+
       if (!loading && !TNSAddress) {
-        setRecipient(recipientString);
+        if (!debouncedRecipientString) {
+          setRecipient('');
+          setIsValidRecipient(false);
+          return;
+        }
+
+        const { validateAddress } = getSwapKitClient();
+
+        const address =
+          outputAssetChain === Chain.BitcoinCash
+            ? stripPrefix(debouncedRecipientString)
+            : debouncedRecipientString;
+
+        const isValid = validateAddress({ address: address, chain: outputAssetChain });
+
+        setIsValidRecipient(isValid);
+
+        if (!isValid) {
+          setRecipient('');
+          showInfoToast(t('validation.invalidAddress', { chain: outputAssetChain }));
+          return;
+        }
+
+        setRecipient(address || '');
       }
-    }, [TNS, TNSAddress, setRecipient, recipientString, loading]);
+    }, [
+      TNS,
+      TNSAddress,
+      setRecipient,
+      loading,
+      outputAssetChain,
+      debouncedRecipientString,
+      setIsValidRecipient,
+    ]);
 
     const recipientTitle = useMemo(
       () =>

@@ -33,7 +33,6 @@ export const SwapSubmitButton = ({
   inputAsset,
   isApproved,
   isInputWalletConnected,
-  isOutputWalletConnected,
   isLoading,
   outputAsset,
   recipient,
@@ -124,8 +123,8 @@ export const SwapSubmitButton = ({
   );
 
   const isWalletRequired = useMemo(
-    () => !isInputWalletConnected || !(isOutputWalletConnected || recipient),
-    [isInputWalletConnected, isOutputWalletConnected, recipient],
+    () => !isInputWalletConnected || !recipient,
+    [isInputWalletConnected, recipient],
   );
 
   return (
