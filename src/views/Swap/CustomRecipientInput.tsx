@@ -40,7 +40,7 @@ export const CustomRecipientInput = memo(
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
       if (recipient !== recipientString) setRecipientString(recipient || '');
-    }, [outputAssetChain, recipient, recipientString]);
+    }, [outputAssetChain, recipient]);
 
     const TNSAddress = useMemo(
       () =>
