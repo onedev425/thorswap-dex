@@ -178,7 +178,6 @@ export const useSidebarOptions = () => {
         label: t('components.sidebar.wallet'),
         children: walletItems,
       },
-/*
       {
         iconName: 'settings',
         label: t('components.sidebar.stats'),
@@ -204,7 +203,6 @@ export const useSidebarOptions = () => {
           },
         ],
       },
-*/
     ];
 
     if (multisigVisible) {
