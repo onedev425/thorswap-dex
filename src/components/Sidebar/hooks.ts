@@ -182,11 +182,11 @@ export const useSidebarOptions = () => {
         iconName: 'settings',
         label: t('components.sidebar.stats'),
         children: [
-          {
-            iconName: 'app',
-            href: ROUTES.Home,
-            label: t('components.sidebar.dashboard'),
-          },
+          // {
+          //  iconName: 'app',
+          //  href: ROUTES.Home,
+          //  label: t('components.sidebar.dashboard'),
+          // },
           {
             transform: 'none',
             label: t('components.sidebar.stats'),
