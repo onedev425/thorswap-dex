@@ -1,13 +1,13 @@
-import type { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { showErrorToast, showInfoToast } from 'components/Toast';
-import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useExternalConfig } from 'store/externalConfig/hooks';
-import { useTransactionsState } from 'store/transactions/hooks';
+import type { AssetValue, Chain, SwapKitNumber } from "@swapkit/core";
+import { Box, Button } from "components/Atomic";
+import { showErrorToast, showInfoToast } from "components/Toast";
+import { useConnectWallet, useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useExternalConfig } from "store/externalConfig/hooks";
+import { useTransactionsState } from "store/transactions/hooks";
 
 type Props = {
   hasQuote: boolean;
@@ -16,7 +16,6 @@ type Props = {
   inputAsset: AssetValue;
   isApproved: boolean | null;
   isInputWalletConnected: boolean;
-  isOutputWalletConnected: boolean;
   isLoading: boolean;
   quoteError: boolean;
   outputAsset: AssetValue;
@@ -60,11 +59,11 @@ export const SwapSubmitButton = ({
   const isValidAddress = useCallback(async () => {
     try {
       if (!recipient) return true;
-      const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
+      const { validateAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
       const validated = validateAddress({ chain: outputAsset.chain, address: recipient });
 
-      return typeof validated === 'undefined' ? true : validated;
+      return typeof validated === "undefined" ? true : validated;
     } catch (error: NotWorth) {
       logException(error as Error);
       return false;
@@ -73,16 +72,16 @@ export const SwapSubmitButton = ({
 
   const showSwapConfirmationModal = useCallback(async () => {
     if (!walletConnected) {
-      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     } else if (!hasQuote) {
-      showInfoToast(t('notification.noValidQuote'));
-    } else if (!(await isValidAddress())) {
-      showErrorToast(
-        t('notification.invalidRecipientAddy'),
-        t('notification.invalidRecipientAddyDesc'),
-      );
-    } else {
+      showInfoToast(t("notification.noValidQuote"));
+    } else if (await isValidAddress()) {
       setVisibleConfirmModal(true);
+    } else {
+      showErrorToast(
+        t("notification.invalidRecipientAddy"),
+        t("notification.invalidRecipientAddyDesc"),
+      );
     }
   }, [walletConnected, hasQuote, isValidAddress, setVisibleConfirmModal]);
 
@@ -90,23 +89,23 @@ export const SwapSubmitButton = ({
     if (isInputWalletConnected) {
       setVisibleApproveModal(true);
     } else {
-      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
   }, [isInputWalletConnected, setVisibleApproveModal]);
 
   const isSwapValid = useMemo(
-    () => !invalidSwap && !isTradingHalted && hasQuote && inputAmount.gt(0),
+    () => !(invalidSwap || isTradingHalted) && hasQuote && inputAmount.gt(0),
     [hasQuote, inputAmount, invalidSwap, isTradingHalted],
   );
 
   const btnLabel = useMemo(() => {
-    if (isTradingHalted) return t('notification.swapNotAvailable');
-    if (quoteError || (!hasQuote && inputAmount.gt(0))) return t('views.swap.noValidQuote');
-    if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t('common.swap');
-    if (inputAsset.isSynthetic) return t('txManager.redeem');
-    if (outputAsset.isSynthetic) return t('txManager.mint');
+    if (isTradingHalted) return t("notification.swapNotAvailable");
+    if (quoteError || (!hasQuote && inputAmount.gt(0))) return t("views.swap.noValidQuote");
+    if ((inputAsset.isSynthetic && outputAsset.isSynthetic) || isSwapValid) return t("common.swap");
+    if (inputAsset.isSynthetic) return t("txManager.redeem");
+    if (outputAsset.isSynthetic) return t("txManager.mint");
 
-    return t('common.swap');
+    return t("common.swap");
   }, [
     isTradingHalted,
     quoteError,
@@ -123,7 +122,7 @@ export const SwapSubmitButton = ({
   );
 
   const isWalletRequired = useMemo(
-    () => !isInputWalletConnected || !recipient,
+    () => !(isInputWalletConnected && recipient),
     [isInputWalletConnected, recipient],
   );
 
@@ -133,16 +132,16 @@ export const SwapSubmitButton = ({
         <Button
           stretch
           onClick={() =>
-            !IS_LEDGER_LIVE
-              ? setIsConnectModalOpen(true)
-              : connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.chain] : undefined)
+            IS_LEDGER_LIVE
+              ? connectLedgerLiveWallet(isInputWalletConnected ? [outputAsset.chain] : undefined)
+              : setIsConnectModalOpen(true)
           }
           size="lg"
           variant="fancy"
         >
           {isInputWalletConnected && !IS_LEDGER_LIVE
-            ? t('views.swap.connectOrFillRecipient')
-            : t('common.connectWallet')}
+            ? t("views.swap.connectOrFillRecipient")
+            : t("common.connectWallet")}
         </Button>
       ) : isApproveRequired && !quoteError && hasQuote ? (
         <Button
@@ -152,7 +151,7 @@ export const SwapSubmitButton = ({
           size="lg"
           variant="fancy"
         >
-          {t('txManager.approve')}
+          {t("txManager.approve")}
         </Button>
       ) : (
         <Button
