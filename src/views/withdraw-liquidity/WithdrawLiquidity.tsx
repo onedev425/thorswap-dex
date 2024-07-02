@@ -16,7 +16,7 @@ import { WithdrawPanel } from "./WithdrawPanel";
 export const WithdrawLiquidity = () => {
   const { walletAddresses, isWalletLoading } = useWallet();
 
-  const { assetParam = AssetValue.fromChainOrSignature(Chain.Bitcoin).toString() } = useParams<{
+  const { assetParam = AssetValue.from({ chain: Chain.Bitcoin }).toString() } = useParams<{
     assetParam: string;
   }>();
 

@@ -37,7 +37,7 @@ export const useAssetFilterTypes = () => {
       case "btc": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Bitcoin)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Bitcoin })} size={20} />}
             label="BTC"
           />
         );
@@ -45,7 +45,7 @@ export const useAssetFilterTypes = () => {
       case "doge": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Dogecoin)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Dogecoin })} size={20} />}
             label="DOGE"
           />
         );
@@ -53,7 +53,7 @@ export const useAssetFilterTypes = () => {
       case "dot": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Polkadot)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Polkadot })} size={20} />}
             label="DOT"
           />
         );
@@ -61,9 +61,7 @@ export const useAssetFilterTypes = () => {
       case "bch": {
         return (
           <FilterTypeLabel
-            icon={
-              <AssetIcon asset={AssetValue.fromChainOrSignature(Chain.BitcoinCash)} size={20} />
-            }
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.BitcoinCash })} size={20} />}
             label="BCH"
           />
         );
@@ -71,7 +69,7 @@ export const useAssetFilterTypes = () => {
       case "ltc": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Litecoin)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Litecoin })} size={20} />}
             label="LTC"
           />
         );
@@ -79,7 +77,7 @@ export const useAssetFilterTypes = () => {
       case "dash": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Dash)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Dash })} size={20} />}
             label="DASH"
           />
         );
@@ -87,7 +85,7 @@ export const useAssetFilterTypes = () => {
       case "gaia": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Cosmos)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Cosmos })} size={20} />}
             label="COSMOS"
           />
         );
@@ -103,7 +101,7 @@ export const useAssetFilterTypes = () => {
       case "avax": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Avalanche)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Avalanche })} size={20} />}
             label="AVAX"
           />
         );
@@ -111,7 +109,7 @@ export const useAssetFilterTypes = () => {
       case "erc20": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Ethereum)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Ethereum })} size={20} />}
             label="ETH"
           />
         );
@@ -137,7 +135,7 @@ export const useAssetFilterTypes = () => {
           <FilterTypeLabel
             icon={
               <AssetIcon
-                asset={AssetValue.fromChainOrSignature(Chain.BinanceSmartChain)}
+                asset={AssetValue.from({ chain: Chain.BinanceSmartChain })}
                 logoURI={tokenLogoURL({ identifier: getChainIdentifier(Chain.BinanceSmartChain) })}
                 size={20}
               />
@@ -149,7 +147,7 @@ export const useAssetFilterTypes = () => {
       case "kuji": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromChainOrSignature(Chain.Kujira)} size={20} />}
+            icon={<AssetIcon asset={AssetValue.from({ chain: Chain.Kujira })} size={20} />}
             label="KUJI"
           />
         );

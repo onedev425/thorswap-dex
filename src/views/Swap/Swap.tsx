@@ -42,8 +42,8 @@ import { useSwap } from "./hooks/useSwap";
 import { useSwapApprove } from "./hooks/useSwapApprove";
 import { useSwapQuote } from "./hooks/useSwapQuote";
 
-const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
-const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
+const baseInput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum });
+const baseOutput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin });
 
 const SwapView = () => {
   const [searchParams] = useSearchParams();
@@ -69,7 +69,7 @@ const SwapView = () => {
     const isSynth = chain === Chain.THORChain && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : inputString;
 
-    return AssetValue.fromStringSync(assetString) || baseInput;
+    return AssetValue.from({ asset: assetString }) || baseInput;
   }, [inputString, pair]);
 
   const output = useMemo(() => {
@@ -79,7 +79,7 @@ const SwapView = () => {
     const isSynth = chain === Chain.THORChain && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : outputString;
 
-    return AssetValue.fromStringSync(assetString) || baseOutput;
+    return AssetValue.from({ asset: assetString }) || baseOutput;
   }, [outputString, pair]);
 
   const inputAsset = useMemo(() => input, [input]);
@@ -394,7 +394,7 @@ const SwapView = () => {
       );
       const defaultAsset = isETHAsset(outputAsset)
         ? AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : "ETH.THOR")
-        : AssetValue.fromChainOrSignature(Chain.Ethereum);
+        : AssetValue.from({ chain: Chain.Ethereum });
       const output = unsupportedOutput ? defaultAsset : inputAsset;
 
       const route = getSwapRoute(outputAsset, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);

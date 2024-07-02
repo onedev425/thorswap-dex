@@ -20,7 +20,7 @@ export const useMultisigWalletInfo = () => {
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance || 0)} ${
-    AssetValue.fromChainOrSignature(Chain.THORChain).ticker
+    AssetValue.from({ chain: Chain.THORChain }).ticker
   }`;
 
   const runeValue = useMemo(() => {
@@ -72,10 +72,7 @@ export const useMultissigAssets = () => {
   }, [loadBalances]);
 
   useEffect(() => {
-    const balance = multisig.getAssetBalance(
-      AssetValue.fromChainOrSignature(Chain.THORChain),
-      balances,
-    );
+    const balance = multisig.getAssetBalance(AssetValue.from({ chain: Chain.THORChain }), balances);
     setRuneBalance(balance);
   }, [balances]);
 

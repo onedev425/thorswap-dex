@@ -23,7 +23,7 @@ export const farmData = [
   {
     farmName: "ETH-THOR LP",
     assets: [
-      AssetValue.fromChainOrSignature(Chain.Ethereum),
+      AssetValue.from({ chain: Chain.Ethereum }),
       AssetValue.fromChainOrSignature("ETH.THOR"),
     ],
     lpAsset: AssetValue.fromStringSync(`ETH.SLP-${tokenAddress.ETH_THOR}`),

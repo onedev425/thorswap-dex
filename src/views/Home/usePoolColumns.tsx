@@ -138,7 +138,7 @@ export const usePoolColumns = ({ poolsLoading }: IProps) => {
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(getSwapRoute(AssetValue.fromChainOrSignature(Chain.Ethereum), value));
+                navigate(getSwapRoute(AssetValue.from({ chain: Chain.Ethereum }), value));
               }}
               variant="outlineSecondary"
             >

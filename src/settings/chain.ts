@@ -34,12 +34,12 @@ export const SORTED_CHAINS = [
 ] as Chain[];
 
 export const SORTED_LENDING_COLLATERAL_ASSETS = [
-  AssetValue.fromChainOrSignature(Chain.Bitcoin),
-  AssetValue.fromChainOrSignature(Chain.Ethereum),
-  AssetValue.fromChainOrSignature(Chain.BinanceSmartChain),
-  AssetValue.fromChainOrSignature(Chain.Avalanche),
-  AssetValue.fromChainOrSignature(Chain.Cosmos),
-  AssetValue.fromChainOrSignature(Chain.Dogecoin),
-  AssetValue.fromChainOrSignature(Chain.BitcoinCash),
-  AssetValue.fromChainOrSignature(Chain.Litecoin),
+  AssetValue.from({ chain: Chain.Bitcoin }),
+  AssetValue.from({ chain: Chain.Ethereum }),
+  AssetValue.from({ chain: Chain.BinanceSmartChain }),
+  AssetValue.from({ chain: Chain.Avalanche }),
+  AssetValue.from({ chain: Chain.Cosmos }),
+  AssetValue.from({ chain: Chain.Dogecoin }),
+  AssetValue.from({ chain: Chain.BitcoinCash }),
+  AssetValue.from({ chain: Chain.Litecoin }),
 ];

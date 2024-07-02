@@ -75,11 +75,10 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
 
   const currencyAsset = useMemo(() => {
     if (baseCurrency.includes("USD")) return USDAsset;
-    if (baseCurrency.includes(Chain.Bitcoin)) return AssetValue.fromChainOrSignature(Chain.Bitcoin);
-    if (baseCurrency.includes(Chain.Ethereum))
-      return AssetValue.fromChainOrSignature(Chain.Ethereum);
+    if (baseCurrency.includes(Chain.Bitcoin)) return AssetValue.from({ chain: Chain.Bitcoin });
+    if (baseCurrency.includes(Chain.Ethereum)) return AssetValue.from({ chain: Chain.Ethereum });
 
-    return AssetValue.fromChainOrSignature(Chain.THORChain);
+    return AssetValue.from({ chain: Chain.THORChain });
   }, [baseCurrency]);
 
   const mainMenu: MenuItemType[] = [
@@ -181,20 +180,20 @@ const useCurrencyMenu = (onBack: () => void) => {
     {
       label: "RUNE",
       icon: "thor",
-      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.THORChain)),
-      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.THORChain)),
+      onClick: () => onCurrencyClick(AssetValue.from({ chain: Chain.THORChain })),
+      isSelected: isCurrencySelected(AssetValue.from({ chain: Chain.THORChain })),
     },
     {
       label: "BTC",
       icon: "btc",
-      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
-      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
+      onClick: () => onCurrencyClick(AssetValue.from({ chain: Chain.Bitcoin })),
+      isSelected: isCurrencySelected(AssetValue.from({ chain: Chain.Bitcoin })),
     },
     {
       label: "ETH",
       icon: "eth",
-      onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Ethereum)),
-      isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Ethereum)),
+      onClick: () => onCurrencyClick(AssetValue.from({ chain: Chain.Ethereum })),
+      isSelected: isCurrencySelected(AssetValue.from({ chain: Chain.Ethereum })),
     },
   ];
 

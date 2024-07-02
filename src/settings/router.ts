@@ -71,7 +71,7 @@ export const getMultisigTxCreateRoute = (asset?: AssetValue) => {
 
 export const getSwapRoute = (
   input: AssetValue,
-  output: AssetValue = AssetValue.fromChainOrSignature(Chain.Ethereum),
+  output: AssetValue = AssetValue.from({ chain: Chain.Ethereum }),
   route = ROUTES.Swap,
 ) => {
   const outputAsset =

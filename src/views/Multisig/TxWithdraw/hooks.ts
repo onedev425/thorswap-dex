@@ -23,9 +23,7 @@ export const useTxWithdraw = () => {
   const navigate = useNavigate();
 
   const poolAssetList = useAssetsWithBalance();
-  const [poolAsset, setPoolAsset] = useState<AssetValue>(
-    AssetValue.fromChainOrSignature(Chain.Bitcoin),
-  );
+  const [poolAsset, setPoolAsset] = useState<AssetValue>(AssetValue.from({ chain: Chain.Bitcoin }));
   const [lpType, setLPType] = useState(SHARE_TYPES[0]);
   const defaultWithdrawType = useMemo(() => {
     switch (lpType) {
@@ -39,7 +37,7 @@ export const useTxWithdraw = () => {
   const [withdrawType, setWithdrawType] = useState(defaultWithdrawType);
   const [percent, setPercent] = useState(0);
 
-  const { assetParam = AssetValue.fromChainOrSignature(Chain.Bitcoin).toString() } = useParams<{
+  const { assetParam = AssetValue.from({ chain: Chain.Bitcoin }).toString() } = useParams<{
     assetParam: string;
   }>();
 
@@ -54,7 +52,7 @@ export const useTxWithdraw = () => {
       return poolAsset;
     }
 
-    return AssetValue.fromChainOrSignature(Chain.THORChain);
+    return AssetValue.from({ chain: Chain.THORChain });
   }, [withdrawType, poolAsset]);
 
   const isValid = percent > 0;
@@ -104,7 +102,7 @@ export const useTxWithdraw = () => {
     const { chain, symbol, ticker } =
       lpType === PoolShareType.RUNE_ASYM || withdrawType === LiquidityTypeOption.RUNE
         ? poolAsset
-        : AssetValue.fromChainOrSignature(Chain.THORChain);
+        : AssetValue.from({ chain: Chain.THORChain });
 
     const memo = getMemoFor(MemoType.WITHDRAW, {
       chain,

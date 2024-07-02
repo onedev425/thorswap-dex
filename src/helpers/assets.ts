@@ -186,9 +186,9 @@ export const isBSCAsset = ({ ticker, chain }: AssetValue) =>
 export const isBTCAsset = ({ ticker, chain }: AssetValue) =>
   ticker === "BTC" && chain === Chain.Bitcoin;
 
-export const RUNEAsset = AssetValue.fromChainOrSignature(Chain.THORChain);
-export const BTCAsset = AssetValue.fromChainOrSignature(Chain.Bitcoin);
-export const ETHAsset = AssetValue.fromChainOrSignature(Chain.Ethereum);
+export const RUNEAsset = AssetValue.from({ chain: Chain.THORChain });
+export const BTCAsset = AssetValue.from({ chain: Chain.Bitcoin });
+export const ETHAsset = AssetValue.from({ chain: Chain.Ethereum });
 export const THORAsset = AssetValue.fromChainOrSignature("ETH.THOR");
 export const USDAsset = new AssetValue({
   chain: Chain.THORChain,

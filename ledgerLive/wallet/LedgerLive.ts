@@ -86,17 +86,17 @@ export const mapLedgerChainToChain = (chain: LedgerLiveChain) => {
 export const mapLedgerCurrencyToAsset = (currency: string) => {
   switch (currency) {
     case "ethereum":
-      return AssetValue.fromChainOrSignature(Chain.Ethereum);
+      return AssetValue.from({ chain: Chain.Ethereum });
     case "cosmos":
-      return AssetValue.fromChainOrSignature(Chain.Cosmos);
+      return AssetValue.from({ chain: Chain.Cosmos });
     case "bitcoin":
-      return AssetValue.fromChainOrSignature(Chain.Bitcoin);
+      return AssetValue.from({ chain: Chain.Bitcoin });
     case "litecoin":
-      return AssetValue.fromChainOrSignature(Chain.Litecoin);
+      return AssetValue.from({ chain: Chain.Litecoin });
     case "dogecoin":
-      return AssetValue.fromChainOrSignature(Chain.Dogecoin);
+      return AssetValue.from({ chain: Chain.Dogecoin });
     case "bitcoin_cash":
-      return AssetValue.fromChainOrSignature(Chain.BitcoinCash);
+      return AssetValue.from({ chain: Chain.BitcoinCash });
     default:
       throw new Error("Unsupported currency");
   }

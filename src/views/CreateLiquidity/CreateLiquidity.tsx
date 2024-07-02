@@ -105,7 +105,7 @@ export const CreateLiquidity = () => {
   }, [handleInputAssetUpdate]);
 
   const [poolAsset, setPoolAsset] = useState(
-    inputAssets?.[0] ?? AssetValue.fromChainOrSignature(Chain.Bitcoin),
+    inputAssets?.[0] ?? AssetValue.from({ chain: Chain.Bitcoin }),
   );
 
   const { getMaxBalance, isWalletAssetConnected } = useBalance();

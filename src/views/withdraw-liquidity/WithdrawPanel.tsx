@@ -90,9 +90,7 @@ export const WithdrawPanel = ({
 
   const isWalletConnected = useMemo(() => {
     const inputAsset =
-      lpType === PoolShareType.ASSET_ASYM
-        ? poolAsset
-        : AssetValue.fromChainOrSignature(Chain.THORChain);
+      lpType === PoolShareType.ASSET_ASYM ? poolAsset : AssetValue.from({ chain: Chain.THORChain });
 
     return !!getWalletAddress(inputAsset.chain);
   }, [getWalletAddress, lpType, poolAsset]);
@@ -288,7 +286,7 @@ export const WithdrawPanel = ({
       withdrawType === LiquidityTypeOption.RUNE
     ) {
       withdrawArray.push({
-        asset: AssetValue.fromChainOrSignature(Chain.THORChain),
+        asset: AssetValue.from({ chain: Chain.THORChain }),
         value: `${runeAmount.toSignificant(6)} RUNE ($${((runePrice || 0) * runeAmount.getValue("number"))?.toFixed(2)})`,
       });
     }
@@ -425,7 +423,7 @@ export const WithdrawPanel = ({
         inputAssets={[
           withdrawType === LiquidityTypeOption.ASSET
             ? poolAsset
-            : AssetValue.fromChainOrSignature(Chain.THORChain),
+            : AssetValue.from({ chain: Chain.THORChain }),
         ]}
         isOpened={visibleConfirmModal}
         onClose={() => setVisibleConfirmModal(false)}
