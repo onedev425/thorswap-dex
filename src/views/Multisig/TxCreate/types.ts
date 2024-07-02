@@ -1,7 +1,7 @@
 export enum MultisigTxType {
-  'send' = 'send',
-  'bond' = 'bond',
-  'deposit' = 'deposit',
-  'withdraw' = 'withdraw',
-  'msgDeposit' = 'msgDeposit',
+  send = "send",
+  bond = "bond",
+  deposit = "deposit",
+  withdraw = "withdraw",
+  msgDeposit = "msgDeposit",
 }

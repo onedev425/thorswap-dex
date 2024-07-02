@@ -1,11 +1,11 @@
-import type { ButtonProps, ResponsiveValue } from '@chakra-ui/react';
-import { Box, Button as ChakraButton, Text } from '@chakra-ui/react';
-import type { TextTransform } from 'components/Atomic';
-import { Icon, Tooltip } from 'components/Atomic';
-import type { ButtonSizes } from 'components/Atomic/Button/types';
-import type { TooltipPlacement } from 'components/Atomic/Tooltip/types';
-import type { MouseEvent, MouseEventHandler, ReactElement, ReactNode } from 'react';
-import { useLayoutEffect, useRef } from 'react';
+import type { ButtonProps, ResponsiveValue } from "@chakra-ui/react";
+import { Box, Button as ChakraButton, Text } from "@chakra-ui/react";
+import type { TextTransform } from "components/Atomic";
+import { Icon, Tooltip } from "components/Atomic";
+import type { ButtonSizes } from "components/Atomic/Button/types";
+import type { TooltipPlacement } from "components/Atomic/Tooltip/types";
+import type { MouseEvent, MouseEventHandler, ReactElement, ReactNode } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 type Props = {
   children?: ReactNode;
@@ -30,20 +30,20 @@ type Props = {
 export const Button = ({
   children,
   disabled,
-  variant = 'primary',
-  transform = 'capitalize',
+  variant = "primary",
+  transform = "capitalize",
   loading,
   onClick,
   leftIcon,
   rightIcon,
   textColor,
   typographyVariant,
-  size = 'sm',
-  tooltipPlacement = 'top',
+  size = "sm",
+  tooltipPlacement = "top",
   tooltip,
   error = false,
   stretch = false,
-  tooltipClasses = '',
+  tooltipClasses = "",
   as: _as,
   tooltipWrapperClasses,
   width,
@@ -69,13 +69,13 @@ export const Button = ({
     timeoutBlur();
   };
 
-  const isFancy = variant === 'fancy';
-  const ContentWrapper = ['string', 'number'].includes(typeof children) ? Text : Box;
-  const iconSpacing = leftIcon && !children ? '0px' : '8px';
+  const isFancy = variant === "fancy";
+  const ContentWrapper = ["string", "number"].includes(typeof children) ? Text : Box;
+  const iconSpacing = leftIcon && !children ? "0px" : "8px";
   const leftIconItem = loading ? undefined : leftIcon;
   const rightIconItem = loading ? undefined : rightIcon;
-  const buttonVariant = error && isFancy ? 'fancyError' : variant;
-  const calcedWidth = stretch ? 'full' : width || 'auto';
+  const buttonVariant = error && isFancy ? "fancyError" : variant;
+  const calcedWidth = stretch ? "full" : width || "auto";
 
   return (
     <Tooltip
@@ -107,7 +107,7 @@ export const Button = ({
             fontWeight={isFancy ? 600 : 700}
             textDecorationLine="none"
             textStyle={
-              ['sm', 'xs'].includes(size) ? 'caption-xs' : size === 'md' ? 'caption' : 'subtitle2'
+              ["sm", "xs"].includes(size) ? "caption-xs" : size === "md" ? "caption" : "subtitle2"
             }
             textTransform={transform}
             variant={typographyVariant}

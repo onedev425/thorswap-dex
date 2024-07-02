@@ -1,9 +1,9 @@
-import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
-import { useEffect, useMemo, useState } from 'react';
-import { useGetRepayValueQuery } from 'store/thorswap/api';
+import type { AssetValue } from "@swapkit/sdk";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useStreamTxToggle } from "hooks/useStreamTxToggle";
+import { useEffect, useMemo, useState } from "react";
+import { useGetRepayValueQuery } from "store/thorswap/api";
 
 export const useRepayQuote = ({
   asset,
@@ -56,7 +56,7 @@ export const useRepayQuote = ({
   }, [data, stream]);
 
   useEffect(() => {
-    const getRepayAssetAmount = async () => {
+    const getRepayAssetAmount = () => {
       if (!repayData || error) {
         return setRepayAssetAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       }
@@ -75,12 +75,12 @@ export const useRepayQuote = ({
   const repayOptimizeQuoteDetails = useMemo(
     () => ({
       estimatedTime: data?.estimatedTime,
-      expectedOutput: data?.repayAssetAmount || '',
-      expectedOutputUSD: data?.repayAssetAmount || '',
+      expectedOutput: data?.repayAssetAmount || "",
+      expectedOutputUSD: data?.repayAssetAmount || "",
       streamingSwap: {
         estimatedTime: data?.streamingSwap?.estimatedTime,
-        expectedOutput: data?.streamingSwap?.repayAssetAmount || '',
-        expectedOutputUSD: data?.streamingSwap?.repayAssetAmountUSD || '',
+        expectedOutput: data?.streamingSwap?.repayAssetAmount || "",
+        expectedOutputUSD: data?.streamingSwap?.repayAssetAmountUSD || "",
       },
     }),
     [
@@ -111,7 +111,7 @@ export const useRepayQuote = ({
 
   const totalFeeUsd = useMemo(() => {
     const fees = repayData?.fees.THOR;
-    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+    const outboundFees = fees?.find((fee) => fee.type === "outbound");
 
     // extracting affiliate fee from total fee - it has its own section in the UI
     // affiliate fee should be 0 for repay, keeping for consistency

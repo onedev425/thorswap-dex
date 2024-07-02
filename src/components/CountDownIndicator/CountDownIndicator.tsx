@@ -1,12 +1,12 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Tooltip } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
-import { useGetGasHistoryQuery } from 'store/thorswap/api';
-import { ThemeType } from 'types/app';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Tooltip } from "components/Atomic";
+import { baseHoverClass } from "components/constants";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
+import { useGetGasHistoryQuery } from "store/thorswap/api";
+import { ThemeType } from "types/app";
 
 type Props = {
   className?: string;
@@ -20,10 +20,10 @@ export const CountDownIndicator = memo(
     const { themeType } = useApp();
     const { refetch: refetchGasHistory } = useGetGasHistoryQuery();
     const playing = useRef(false);
-    const interval = useRef<NodeJS.Timeout>(setTimeout(() => {}, 0));
+    const interval = useRef<NodeJS.Timeout>(setTimeout(() => undefined, 0));
     const lightTheme = themeType === ThemeType.Light;
-    const trailColor = lightTheme ? '#E6E9F5' : '#273855';
-    const strokeColor = lightTheme ? '#7C859F' : '#75849D';
+    const trailColor = lightTheme ? "#E6E9F5" : "#273855";
+    const strokeColor = lightTheme ? "#7C859F" : "#75849D";
 
     const radius = size / 2;
     const circumference = size * Math.PI;
@@ -68,14 +68,14 @@ export const CountDownIndicator = memo(
 
     const countdownStyles = useMemo(() => ({ height: size, width: size }), [size]);
 
-    const svgClass = 'left-1.5 top-1.5 absolute w-full h-full overflow-visible';
+    const svgClass = "left-1.5 top-1.5 absolute w-full h-full overflow-visible";
 
     return (
-      <Tooltip content={t('common.refresh')} place="top">
+      <Tooltip content={t("common.refresh")} place="top">
         <Box
           center
           className={classNames(
-            'm-auto relative -rotate-90 box-content',
+            "m-auto relative -rotate-90 box-content",
             baseHoverClass,
             className,
           )}
@@ -86,6 +86,7 @@ export const CountDownIndicator = memo(
             {countdown.toFixed()}
           </Text>
 
+          {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
           <svg className={svgClass}>
             <circle
               cx={radius}
@@ -97,6 +98,7 @@ export const CountDownIndicator = memo(
             />
           </svg>
 
+          {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
           <svg className={svgClass}>
             <circle
               cx={radius}

@@ -1,11 +1,11 @@
-import { showSuccessToast } from 'components/Toast';
-import { useKeystore } from 'context/wallet/hooks';
-import copy from 'copy-to-clipboard';
-import { useCallback, useEffect, useState } from 'react';
-import type { FieldValues } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
+import { showSuccessToast } from "components/Toast";
+import { useKeystore } from "context/wallet/hooks";
+import copy from "copy-to-clipboard";
+import { useCallback, useEffect, useState } from "react";
+import type { FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
 
 // TODO(@Chillios)
 export const usePhraseModal = (isOpen: boolean) => {
@@ -19,13 +19,13 @@ export const usePhraseModal = (isOpen: boolean) => {
   } = useForm();
 
   const [showPhrase, setShowPhrase] = useState(false);
-  const passwordField = register('password', { required: true });
+  const passwordField = register("password", { required: true });
 
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
         setShowPhrase(false);
-        reset({ password: '' });
+        reset({ password: "" });
       }, 300);
     }
   }, [isOpen, reset]);
@@ -34,7 +34,7 @@ export const usePhraseModal = (isOpen: boolean) => {
     async ({ password }: FieldValues) => {
       if (!keystore) return;
 
-      const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
+      const { decryptFromKeystore } = await import("@swapkit/wallet-keystore");
 
       try {
         const decodedPhrase = await decryptFromKeystore(keystore, password);
@@ -42,11 +42,11 @@ export const usePhraseModal = (isOpen: boolean) => {
         if (phrase === decodedPhrase) {
           setShowPhrase(true);
         } else {
-          throw Error('Invalid password');
+          throw Error("Invalid password");
         }
-      } catch (error: NotWorth) {
-        logException(error.tostring());
-        setError('password', { type: 'value' });
+      } catch (error) {
+        logException((error as Todo).tostring());
+        setError("password", { type: "value" });
       }
     },
     [keystore, phrase, setError],
@@ -56,7 +56,7 @@ export const usePhraseModal = (isOpen: boolean) => {
 
   const handleCopyPhrase = useCallback(() => {
     copy(phrase);
-    showSuccessToast(t('views.walletModal.phraseCopied'));
+    showSuccessToast(t("views.walletModal.phraseCopied"));
   }, [phrase]);
 
   return {

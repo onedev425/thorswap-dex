@@ -1,6 +1,6 @@
-import type { StepType } from 'components/Stepper/types';
-import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import type { StepType } from "components/Stepper/types";
+import type { ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 type Props = {
   children: ReactNode;
@@ -26,8 +26,8 @@ const StepperContext = createContext<StepperContextType>({} as StepperContextTyp
 export const useStepper = () => {
   const context = useContext(StepperContext);
 
-  if (!context?.steps || !context.steps.length) {
-    throw Error('Incorrect stepper config or missing stepper context provider');
+  if (!context?.steps?.length) {
+    throw Error("Incorrect stepper config or missing stepper context provider");
   }
 
   return context;

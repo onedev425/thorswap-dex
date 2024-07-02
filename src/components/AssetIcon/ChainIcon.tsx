@@ -1,10 +1,10 @@
-import type { Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon/AssetIcon';
-import { Box } from 'components/Atomic';
-import { getChainIdentifier } from 'helpers/chains';
-import { tokenLogoURL } from 'helpers/logoURL';
-import { memo, useMemo } from 'react';
+import type { Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon/AssetIcon";
+import { Box } from "components/Atomic";
+import { getChainIdentifier } from "helpers/chains";
+import { tokenLogoURL } from "helpers/logoURL";
+import { memo, useMemo } from "react";
 
 type ChainIconProps = {
   chain: Chain;
@@ -25,7 +25,7 @@ const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconP
     <Box
       center
       className={classNames({
-        'rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10':
+        "rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10":
           !withoutBackground,
       })}
       style={style}

@@ -1,4 +1,4 @@
-import type { AssetValue, Chain, SwapKitNumber } from "@swapkit/core";
+import type { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
 import { Box, Button } from "components/Atomic";
 import { showErrorToast, showInfoToast } from "components/Toast";
 import { useConnectWallet, useWallet, useWalletConnectModal } from "context/wallet/hooks";
@@ -44,7 +44,7 @@ export const SwapSubmitButton = ({
   const { getChainTradingPaused } = useExternalConfig();
   const { numberOfPendingApprovals } = useTransactionsState();
 
-  const isTradingHalted: boolean = useMemo(
+  const isTradingHalted = useMemo(
     () =>
       getChainTradingPaused(inputAsset.chain as Chain) ||
       getChainTradingPaused(outputAsset.chain as Chain),
@@ -64,7 +64,7 @@ export const SwapSubmitButton = ({
       const validated = validateAddress({ chain: outputAsset.chain, address: recipient });
 
       return typeof validated === "undefined" ? true : validated;
-    } catch (error: NotWorth) {
+    } catch (error) {
       logException(error as Error);
       return false;
     }

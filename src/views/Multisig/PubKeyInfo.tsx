@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import { genericBgClasses } from 'components/constants';
-import { FieldLabel } from 'components/Form';
-import { HighlightCard } from 'components/HighlightCard';
-import { InfoTip } from 'components/InfoTip';
-import { showSuccessToast } from 'components/Toast';
-import { useWalletConnectModal } from 'context/wallet/hooks';
-import copy from 'copy-to-clipboard';
-import { useState } from 'react';
-import { t } from 'services/i18n';
-import { useMultisig } from 'store/multisig/hooks';
-import { MultisigModal } from 'views/Multisig/MultisigModal/MultisigModal';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Button, Icon, Tooltip } from "components/Atomic";
+import { FieldLabel } from "components/Form";
+import { HighlightCard } from "components/HighlightCard";
+import { InfoTip } from "components/InfoTip";
+import { showSuccessToast } from "components/Toast";
+import { genericBgClasses } from "components/constants";
+import { useWalletConnectModal } from "context/wallet/hooks";
+import copy from "copy-to-clipboard";
+import { useState } from "react";
+import { t } from "services/i18n";
+import { useMultisig } from "store/multisig/hooks";
+import { MultisigModal } from "views/Multisig/MultisigModal/MultisigModal";
 
 export const PubKeyInfo = () => {
   const [isMultisigModalOpened, setMultisigModalOpened] = useState(false);
@@ -20,7 +20,7 @@ export const PubKeyInfo = () => {
 
   const handleCopyPubKey = () => {
     copy(pubKey);
-    showSuccessToast(t('views.multisig.pubKeyCopied'));
+    showSuccessToast(t("views.multisig.pubKeyCopied"));
   };
 
   return (
@@ -28,26 +28,21 @@ export const PubKeyInfo = () => {
       <Box col className="self-stretch mx-2" flex={1}>
         <Box col className="gap-1" flex={1}>
           <Text className="my-3" fontWeight="light">
-            {t('views.multisig.publicKeyInfo')}
+            {t("views.multisig.publicKeyInfo")}
           </Text>
           <Text className="my-3" fontWeight="light">
-            {t('views.multisig.connectThorchainWallet')}
+            {t("views.multisig.connectThorchainWallet")}
           </Text>
           <Box align="end" flex={1}>
-            {!pubKey ? (
-              <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
-                {/* {t('views.multisig.multisigModalTitle')} */}
-                {t('common.connectWallet')}
-              </Button>
-            ) : (
+            {pubKey ? (
               <Box col flex={1}>
                 <FieldLabel label="Your wallet's public key:" />
-                <Tooltip className="flex flex-1" content={t('common.copy')}>
+                <Tooltip className="flex flex-1" content={t("common.copy")}>
                   <Box center className="gap-2 cursor-pointer" flex={1} onClick={handleCopyPubKey}>
                     <HighlightCard
                       className={classNames(
                         genericBgClasses.primary,
-                        'truncate overflow-hidden flex-1',
+                        "truncate overflow-hidden flex-1",
                       )}
                     >
                       <Box justify="between">
@@ -66,6 +61,11 @@ export const PubKeyInfo = () => {
                   </Box>
                 </Tooltip>
               </Box>
+            ) : (
+              <Button stretch onClick={() => setIsConnectModalOpen(true)} variant="primary">
+                {/* {t('views.multisig.multisigModalTitle')} */}
+                {t("common.connectWallet")}
+              </Button>
             )}
           </Box>
         </Box>

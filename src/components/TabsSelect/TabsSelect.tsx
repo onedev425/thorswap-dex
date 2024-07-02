@@ -1,9 +1,9 @@
-import type { SystemStyleObject } from '@chakra-ui/react';
-import { Text, useTheme } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Button } from 'components/Atomic';
-import type { TabSelectType } from 'components/TabsSelect/types';
-import { memo } from 'react';
+import type { SystemStyleObject } from "@chakra-ui/react";
+import { Text, useTheme } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Button } from "components/Atomic";
+import type { TabSelectType } from "components/TabsSelect/types";
+import { memo } from "react";
 
 type Props = {
   title?: string;
@@ -42,14 +42,14 @@ export const TabsSelect = memo(
           alignCenter
           row
           className={classNames(
-            'border-light-gray-light dark:border-dark-gray-light hover:border-light-border-primary dark:hover:border-dark-gray-primary',
-            'px-1 py-1 rounded-2xl border border-solid transition',
+            "border-light-gray-light dark:border-dark-gray-light hover:border-light-border-primary dark:hover:border-dark-gray-primary",
+            "px-1 py-1 rounded-2xl border border-solid transition",
           )}
           flex={1}
         >
           <Box
-            className={classNames('flex-wrap self-stretch', {
-              'gap-0': !tabWidth,
+            className={classNames("flex-wrap self-stretch", {
+              "gap-0": !tabWidth,
             })}
             flex={1}
             justify="between"
@@ -57,20 +57,20 @@ export const TabsSelect = memo(
             {tabs.map(({ value, label, tooltip }) => (
               <Button
                 _dark={{
-                  bgColor: value === selectedValue && theme.colors.brand.btnPrimary + '80',
+                  bgColor: value === selectedValue && `${theme.colors.brand.btnPrimary}80`,
                 }}
                 _light={{ color: theme.colors.brand.light.textPrimary }}
                 alignSelf="stretch"
                 disabled={enabledTabs && !enabledTabs?.includes(value)}
-                flex={!tabWidth ? 1 : 'initial'}
+                flex={tabWidth ? "initial" : 1}
                 key={value}
                 onClick={() => onChange(value)}
                 style={tabWidth ? { width: tabWidth } : {}}
                 sx={buttonStyle}
                 textTransform="none"
                 tooltip={tooltip}
-                tooltipWrapperClasses={classNames('w-[17%]')}
-                variant={value === selectedValue ? 'primary' : 'borderlessTint'}
+                tooltipWrapperClasses={classNames("w-[17%]")}
+                variant={value === selectedValue ? "primary" : "borderlessTint"}
                 width="100%"
               >
                 {label}

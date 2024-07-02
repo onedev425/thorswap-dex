@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import { stripPrefix } from '@swapkit/toolbox-utxo';
-import { Box } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { PanelInput } from 'components/PanelInput';
-import { showInfoToast } from 'components/Toast';
-import copy from 'copy-to-clipboard';
-import { useAddressForTNS } from 'hooks/useAddressForTNS';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import type { ChangeEvent } from 'react';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { getSwapKitClient } from 'services/swapKit';
-import { useApp } from 'store/app/hooks';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import { stripPrefix } from "@swapkit/toolbox-utxo";
+import { Box } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { PanelInput } from "components/PanelInput";
+import { showInfoToast } from "components/Toast";
+import copy from "copy-to-clipboard";
+import { useAddressForTNS } from "hooks/useAddressForTNS";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import type { ChangeEvent } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { getSwapKitClient } from "services/swapKit";
+import { useApp } from "store/app/hooks";
 
 type Props = {
   recipient: string;
@@ -31,20 +31,19 @@ export const CustomRecipientInput = memo(
     setIsValidRecipient,
   }: Props) => {
     const { customRecipientMode } = useApp();
-    const [thorname, setThorname] = useState('');
-    const [recipientString, setRecipientString] = useState(recipient || '');
+    const [thorname, setThorname] = useState("");
+    const [recipientString, setRecipientString] = useState(recipient || "");
     const [disabled, setDisabled] = useState(false);
     const debouncedRecipientString = useDebouncedValue(recipientString, 1000);
     const { loading, TNS, setTNS } = useAddressForTNS(recipientString);
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      if (recipient !== recipientString) setRecipientString(recipient || '');
+      if (recipient !== recipientString) setRecipientString(recipient || "");
     }, [outputAssetChain, recipient]);
 
     const TNSAddress = useMemo(
       () =>
-        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetChain)?.address : '',
+        TNS?.entries ? TNS.entries.find(({ chain }) => chain === outputAssetChain)?.address : "",
       [TNS, outputAssetChain],
     );
 
@@ -52,13 +51,13 @@ export const CustomRecipientInput = memo(
 
     const handleCopyAddress = useCallback(() => {
       copy(recipient);
-      showInfoToast(t('notification.addressCopied'));
+      showInfoToast(t("notification.addressCopied"));
     }, [recipient]);
 
     const handleChangeRecipient = useCallback(
       ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setRecipientString(value);
-        setThorname('');
+        setThorname("");
         setTNS(null);
       },
       [setTNS],
@@ -73,9 +72,9 @@ export const CustomRecipientInput = memo(
         return;
       }
 
-      if (!loading && !TNSAddress) {
+      if (!(loading || TNSAddress)) {
         if (!debouncedRecipientString) {
-          setRecipient('');
+          setRecipient("");
           setIsValidRecipient(false);
           return;
         }
@@ -92,12 +91,12 @@ export const CustomRecipientInput = memo(
         setIsValidRecipient(isValid);
 
         if (!isValid) {
-          setRecipient('');
-          showInfoToast(t('validation.invalidAddress', { chain: outputAssetChain }));
+          setRecipient("");
+          showInfoToast(t("validation.invalidAddress", { chain: outputAssetChain }));
           return;
         }
 
-        setRecipient(address || '');
+        setRecipient(address || "");
       }
     }, [
       TNS,
@@ -112,8 +111,8 @@ export const CustomRecipientInput = memo(
     const recipientTitle = useMemo(
       () =>
         TNSAddress && thorname
-          ? `${t('common.recipientAddress')} - ${thorname}.${outputAssetChain}`
-          : t('common.recipientAddress'),
+          ? `${t("common.recipientAddress")} - ${thorname}.${outputAssetChain}`
+          : t("common.recipientAddress"),
       [TNSAddress, outputAssetChain, thorname],
     );
 
@@ -126,7 +125,7 @@ export const CustomRecipientInput = memo(
         disabled={disabled}
         loading={loading}
         onChange={handleChangeRecipient}
-        placeholder={t('common.thornameOrRecipient')}
+        placeholder={t("common.thornameOrRecipient")}
         title={
           <Box alignCenter flex={1} justify="between">
             <Text fontWeight="normal" textStyle="caption">
@@ -134,7 +133,7 @@ export const CustomRecipientInput = memo(
             </Text>
 
             <Box>
-              <HoverIcon iconName={disabled ? 'edit' : 'lock'} onClick={toggleDisabled} size={16} />
+              <HoverIcon iconName={disabled ? "edit" : "lock"} onClick={toggleDisabled} size={16} />
               <HoverIcon iconName="copy" onClick={handleCopyAddress} size={16} />
             </Box>
           </Box>

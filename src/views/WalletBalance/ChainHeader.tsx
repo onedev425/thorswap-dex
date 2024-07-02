@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import { type Chain, WalletOption } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { PhraseModal } from 'components/Modals/PhraseModal';
-import { showInfoToast } from 'components/Toast';
-import { WalletIcon } from 'components/WalletIcon/WalletIcon';
-import { chainName } from 'helpers/chainName';
-import { memo, useCallback, useState } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
-import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
-import { useWalletChainActions } from 'views/Wallet/hooks';
+import { Text } from "@chakra-ui/react";
+import { type Chain, WalletOption } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { PhraseModal } from "components/Modals/PhraseModal";
+import { showInfoToast } from "components/Toast";
+import { WalletIcon } from "components/WalletIcon/WalletIcon";
+import { chainName } from "helpers/chainName";
+import { memo, useCallback, useState } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import type { SupportedWalletOptions } from "store/thorswap/types";
+import { WalletHeaderActions } from "views/Wallet/components/WalletHeaderActions";
+import { useWalletChainActions } from "views/Wallet/hooks";
 
 export type ChainHeaderProps = {
   chain: Chain;
@@ -33,10 +33,10 @@ export const ChainHeader = memo(
       if (walletType === WalletOption.KEYSTORE) {
         setIsPhraseModalVisible(true);
       }
-      const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
       if (walletType === WalletOption.LEDGER && !IS_LEDGER_LIVE) {
-        showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), {
+        showInfoToast(t("notification.verifyLedgerAddy"), getAddress(chain), {
           duration: 20 * 1000,
         });
       }
@@ -50,7 +50,7 @@ export const ChainHeader = memo(
             onClick={handleRefreshChain}
             size={16}
             spin={walletLoading}
-            tooltip={t('common.refresh')}
+            tooltip={t("common.refresh")}
           />
 
           <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
@@ -67,7 +67,7 @@ export const ChainHeader = memo(
             iconName="disconnect"
             onClick={handleWalletDisconnect}
             size={16}
-            tooltip={t('common.disconnect')}
+            tooltip={t("common.disconnect")}
           />
         </Box>
 

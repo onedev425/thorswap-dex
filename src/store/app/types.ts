@@ -1,5 +1,5 @@
-import type { FeeOption } from '@swapkit/core';
-import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { FeeOption } from "@swapkit/sdk";
+import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from "types/app";
 
 export interface State {
   isAnnOpen: boolean;

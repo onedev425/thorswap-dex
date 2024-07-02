@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon } from 'components/Atomic';
-import { useFormatPrice } from 'helpers/formatPrice';
-import useWindowSize, { BreakPoint } from 'hooks/useWindowSize';
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getSendRoute, getSwapRoute } from 'settings/router';
-import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
-import { ViewMode } from 'types/app';
-import { AssetChart } from 'views/Wallet/AssetChart';
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button, Icon } from "components/Atomic";
+import { useFormatPrice } from "helpers/formatPrice";
+import useWindowSize, { BreakPoint } from "hooks/useWindowSize";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { getSendRoute, getSwapRoute } from "settings/router";
+import type { GetTokenPriceResponseItem } from "store/thorswap/types";
+import { ViewMode } from "types/app";
+import { AssetChart } from "views/Wallet/AssetChart";
+import { ShowQrCode } from "views/Wallet/components/ShowQrCode";
 
 export const useColumns = (
   chainAddress: string,
@@ -25,8 +25,8 @@ export const useColumns = (
   const columns = useMemo(
     () => [
       {
-        id: 'asset',
-        Header: () => t('common.asset'),
+        id: "asset",
+        Header: () => t("common.asset"),
         disableSortBy: true,
         accessor: (row: AssetValue) => row,
         Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
@@ -34,8 +34,8 @@ export const useColumns = (
         ),
       },
       {
-        id: 'name',
-        Header: () => '',
+        id: "name",
+        Header: () => "",
         disableSortBy: true,
         minScreenSize: BreakPoint.md,
         accessor: (row: AssetValue) => row,
@@ -47,44 +47,44 @@ export const useColumns = (
         ),
       },
       {
-        id: 'amount',
-        Header: () => t('common.amount'),
-        align: 'right',
+        id: "amount",
+        Header: () => t("common.amount"),
+        align: "right",
         accessor: (row: SwapKitNumber) => row.toFixed(2),
         Cell: ({ cell: { value } }: { cell: { value: String } }) => (
-          <Text fontWeight="bold">{chainAddress ? value : '-'}</Text>
+          <Text fontWeight="bold">{chainAddress ? value : "-"}</Text>
         ),
       },
       {
-        id: 'price',
-        Header: () => t('common.usdPrice'),
-        align: 'right',
+        id: "price",
+        Header: () => t("common.usdPrice"),
+        align: "right",
         minScreenSize: BreakPoint.md,
         accessor: (asset: AssetValue) => priceData[asset.toString()]?.price_usd || 0,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <Text fontWeight="bold">{formatPrice(value)}</Text>
         ),
-        sortType: 'basic',
+        sortType: "basic",
       },
       {
-        id: 'price24h',
-        Header: () => '24h%',
-        align: 'right',
+        id: "price24h",
+        Header: () => "24h%",
+        align: "right",
         accessor: (row: AssetValue) =>
           priceData[row.toString()]?.cg?.price_change_percentage_24h_usd || 0,
         minScreenSize: BreakPoint.md,
         Cell: ({ cell: { value } }: { cell: { value: number } }) => (
-          <Text fontWeight="bold" variant={value >= 0 ? 'green' : 'red'}>
+          <Text fontWeight="bold" variant={value >= 0 ? "green" : "red"}>
             {value.toFixed(2)}%
           </Text>
         ),
-        sortType: 'basic',
+        sortType: "basic",
       },
       {
-        id: 'chart',
-        Header: () => t('views.wallet.chart7d'),
+        id: "chart",
+        Header: () => t("views.wallet.chart7d"),
         minScreenSize: BreakPoint.lg,
-        align: 'center',
+        align: "center",
         disableSortBy: true,
         accessor: (asset: AssetValue) => asset,
         Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
@@ -97,9 +97,9 @@ export const useColumns = (
       },
       {
         accessor: (row: AssetValue) => row,
-        id: 'actions',
-        Header: () => '',
-        align: 'right',
+        id: "actions",
+        Header: () => "",
+        align: "right",
         disableSortBy: true,
         Cell: ({ cell: { value } }: { cell: { value: AssetValue } }) => (
           <Box row className="gap-2" justify="end">
@@ -115,7 +115,7 @@ export const useColumns = (
               onClick={() => navigate(getSendRoute(value))}
               variant="tint"
             >
-              {isLgActive ? t('common.send') : null}
+              {isLgActive ? t("common.send") : null}
             </Button>
 
             <ShowQrCode
@@ -134,12 +134,12 @@ export const useColumns = (
                   }
                   tooltip={
                     chainAddress
-                      ? t('views.wallet.showQRCode')
-                      : t('views.walletModal.notConnected')
+                      ? t("views.wallet.showQRCode")
+                      : t("views.walletModal.notConnected")
                   }
                   variant="tint"
                 >
-                  {isLgActive ? t('common.receive') : null}
+                  {isLgActive ? t("common.receive") : null}
                 </Button>
               }
             />
@@ -156,7 +156,7 @@ export const useColumns = (
               onClick={() => navigate(getSwapRoute(value))}
               variant="tint"
             >
-              {isLgActive ? t('common.swap') : null}
+              {isLgActive ? t("common.swap") : null}
             </Button>
           </Box>
         ),

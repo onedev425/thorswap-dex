@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import { AssetValue, Chain } from '@swapkit/core';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { PanelView } from 'components/PanelView';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet } from 'context/wallet/hooks';
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { useGetFullMemberQuery } from 'store/midgard/api';
-import type { FullMemberPool } from 'store/midgard/types';
-import { PoolShareType } from 'store/midgard/types';
+import { Text } from "@chakra-ui/react";
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { PanelView } from "components/PanelView";
+import { ViewHeader } from "components/ViewHeader";
+import { useWallet } from "context/wallet/hooks";
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { t } from "services/i18n";
+import { useGetFullMemberQuery } from "store/midgard/api";
+import type { FullMemberPool } from "store/midgard/types";
+import { PoolShareType } from "store/midgard/types";
 
-import { WithdrawPanel } from './WithdrawPanel';
+import { WithdrawPanel } from "./WithdrawPanel";
 
 export const WithdrawLiquidity = () => {
   const { walletAddresses, isWalletLoading } = useWallet();
@@ -68,12 +68,12 @@ export const WithdrawLiquidity = () => {
         <ViewHeader
           withBack
           actionsComponent={<GlobalSettingsPopover />}
-          title={t('views.liquidity.withdrawLiquidity')}
+          title={t("views.liquidity.withdrawLiquidity")}
         />
       }
-      title={t('views.liquidity.withdrawLiquidity')}
+      title={t("views.liquidity.withdrawLiquidity")}
     >
-      <Text>{t('views.liquidity.noLiquidityToWithdraw')}</Text>
+      <Text>{t("views.liquidity.noLiquidityToWithdraw")}</Text>
     </PanelView>
   );
 };

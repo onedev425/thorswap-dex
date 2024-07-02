@@ -1,12 +1,12 @@
-import { Chain } from '@swapkit/core';
-import { SORTED_CHAINS } from 'settings/chain';
+import { Chain } from "@swapkit/sdk";
+import { SORTED_CHAINS } from "settings/chain";
 
 export const sortChains = (chains: string[]) => {
   const sorted: Chain[] = [];
 
-  SORTED_CHAINS.forEach((chain) => {
+  for (const chain of SORTED_CHAINS) {
     if (chains.includes(chain)) sorted.push(chain);
-  });
+  }
 
   return sorted;
 };

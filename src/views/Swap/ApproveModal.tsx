@@ -1,9 +1,9 @@
-import type { AssetValue } from '@swapkit/core';
-import { InfoTable } from 'components/InfoTable';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
-import { memo, useCallback, useState } from 'react';
-import { ApproveAmountSlider } from 'views/Swap/ApproveAmountSlider';
+import type { AssetValue } from "@swapkit/sdk";
+import { InfoTable } from "components/InfoTable";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { useApproveInfoItems } from "components/Modals/ConfirmModal/useApproveInfoItems";
+import { memo, useCallback, useState } from "react";
+import { ApproveAmountSlider } from "views/Swap/ApproveAmountSlider";
 
 type Props = {
   balance?: AssetValue;
@@ -37,7 +37,7 @@ export const ApproveModal = memo(
       >
         <InfoTable items={approveConfirmInfo} />
 
-        {balance?.getValue('number') ? (
+        {balance?.getValue("number") ? (
           <ApproveAmountSlider balance={balance} setApproveAmount={setApproveAmount} />
         ) : null}
       </ConfirmModal>

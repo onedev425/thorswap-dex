@@ -1,6 +1,6 @@
-import type { AssetValue } from '@swapkit/core';
-import type { TableData } from 'components/Atomic';
-import type { Row } from 'react-table';
+import type { AssetValue } from "@swapkit/sdk";
+import type { TableData } from "components/Atomic";
+import type { Row } from "react-table";
 
 export const getAmountColumnSorter = (fieldName: string) => {
   return (rowA: Row<TableData>, rowB: Row<TableData>) =>
@@ -26,13 +26,12 @@ export const sortStrings = (a: string, b: string) => {
 };
 
 export const sortAmounts = (a: AssetValue | string, b: AssetValue | string) => {
-  if (typeof a === 'string' || typeof b === 'string') {
-    const aValue = parseFloat((a as string).replaceAll(' ', '').replace('%', ''));
-    const bValue = parseFloat((b as string).replaceAll(' ', '').replace('%', ''));
+  if (typeof a === "string" || typeof b === "string") {
+    const aValue = Number.parseFloat((a as string).replaceAll(" ", "").replace("%", ""));
+    const bValue = Number.parseFloat((b as string).replaceAll(" ", "").replace("%", ""));
     return bValue - aValue;
-  } else {
-    return a.gt(b) ? 1 : -1;
   }
+  return a.gt(b) ? 1 : -1;
 };
 
 export const sortPoolColumn = (rowA: Row<TableData>, rowB: Row<TableData>) => {

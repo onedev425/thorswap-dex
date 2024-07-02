@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, useCollapse } from 'components/Atomic';
-import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
-import { genericBgClasses } from 'components/constants';
-import { HighlightCard } from 'components/HighlightCard';
-import { HoverIcon } from 'components/HoverIcon';
-import type { StepType } from 'components/Stepper/types';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, useCollapse } from "components/Atomic";
+import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
+import { HighlightCard } from "components/HighlightCard";
+import { HoverIcon } from "components/HoverIcon";
+import type { StepType } from "components/Stepper/types";
+import { genericBgClasses } from "components/constants";
 
 type Props = {
   step: StepType;
@@ -30,17 +30,17 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
       <Box col>
         <Box
           alignCenter
-          className={classNames('sm:p-2 gap-3', {
-            'cursor-pointer': !isDisabled,
-            'opacity-30': !isOpened,
+          className={classNames("sm:p-2 gap-3", {
+            "cursor-pointer": !isDisabled,
+            "opacity-30": !isOpened,
           })}
           onClick={activateStep}
         >
           <Box
             center
             className={classNames(
-              'rounded-full w-5 h-5 p-0.5',
-              isDisabled ? genericBgClasses.primary : 'bg-btn-primary',
+              "rounded-full w-5 h-5 p-0.5",
+              isDisabled ? genericBgClasses.primary : "bg-btn-primary",
             )}
           >
             <Text textStyle="caption-xs" variant="primary">
@@ -54,7 +54,7 @@ export const Step = ({ step, isOpened, isDisabled, open }: Props) => {
             )}
           </Box>
         </Box>
-        <div className={classNames('w-full', maxHeightTransitionClass)} style={maxHeightStyle}>
+        <div className={classNames("w-full", maxHeightTransitionClass)} style={maxHeightStyle}>
           <Box ref={contentRef}>
             <Box col className="my-3" flex={1}>
               {step.content}

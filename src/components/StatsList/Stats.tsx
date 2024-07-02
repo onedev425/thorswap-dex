@@ -1,28 +1,28 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Card, Icon, Tooltip } from 'components/Atomic';
-import { genericBgClasses } from 'components/constants';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Card, Icon, Tooltip } from "components/Atomic";
+import { genericBgClasses } from "components/constants";
+import { memo } from "react";
 
-import type { StatsType } from './types';
-import { statsBgClasses } from './types';
+import type { StatsType } from "./types";
+import { statsBgClasses } from "./types";
 
 export const Stats = memo(({ tooltip, color, iconName, label, value }: StatsType) => {
   return (
     <Card
       stretch
       className={classNames(
-        'h-[120px] flex-initial gap-4 group transition flex-grow',
+        "h-[120px] flex-initial gap-4 group transition flex-grow",
         statsBgClasses[color],
       )}
     >
       <div
         className={classNames(
-          'w-10 h-[72px] flex self-center items-center justify-center',
-          'rounded-box group-hover:bg-light-bg-secondary',
-          'dark:group-hover:bg-dark-bg-secondary transition',
+          "w-10 h-[72px] flex self-center items-center justify-center",
+          "rounded-box group-hover:bg-light-bg-secondary",
+          "dark:group-hover:bg-dark-bg-secondary transition",
           genericBgClasses[color],
-          'bg-opacity-10 group-hover:bg-opacity-10 dark:group-hover:bg-opacity-10',
+          "bg-opacity-10 group-hover:bg-opacity-10 dark:group-hover:bg-opacity-10",
         )}
       >
         <Icon

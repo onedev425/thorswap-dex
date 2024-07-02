@@ -1,10 +1,10 @@
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { useWallet, useWalletBalance, useWalletConnectModal } from 'context/wallet/hooks';
-import { useWalletDispatch } from 'context/wallet/WalletProvider';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useMemo } from 'react';
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import { useWalletDispatch } from "context/wallet/WalletProvider";
+import { useWallet, useWalletBalance, useWalletConnectModal } from "context/wallet/hooks";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useMemo } from "react";
 
 export const useAccountData = (chain: Chain) => {
   const sigAsset = AssetValue.fromChainOrSignature(chain);
@@ -43,9 +43,9 @@ export const useAccountData = (chain: Chain) => {
 
     return chainInfo.reduce((acc, item) => {
       const itemPrice = priceData[item.toString()]?.price_usd || 0;
-      const itemValue = itemPrice * item.getValue('number');
+      const itemValue = itemPrice * item.getValue("number");
       const addition = Number.isNaN(itemValue) ? 0 : itemValue;
-      return (acc += addition);
+      return acc + addition;
     }, 0);
   }, [chainInfo, priceData]);
 
@@ -81,7 +81,7 @@ export const useAccountData = (chain: Chain) => {
 export const useChartData = (asset: AssetValue, sparkline?: string) => {
   const prices = useMemo(
     () =>
-      typeof sparkline === 'string'
+      typeof sparkline === "string"
         ? (JSON.parse(sparkline) as number[])
         : (sparkline as unknown as number[]) || [],
     [sparkline],
@@ -89,7 +89,6 @@ export const useChartData = (asset: AssetValue, sparkline?: string) => {
 
   const chartData = useMemo(
     () => ({ label: `${asset.ticker} Price`, values: prices.slice(-64) }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [prices.length],
   );
 
@@ -105,7 +104,7 @@ export const useWalletChainActions = (chain: Chain) => {
   }, [chain, getWalletByChain]);
 
   const handleWalletDisconnect = useCallback(() => {
-    walletDispatch({ type: 'disconnectByChain', payload: chain });
+    walletDispatch({ type: "disconnectByChain", payload: chain });
   }, [chain, walletDispatch]);
 
   return { handleRefreshChain, handleWalletDisconnect };

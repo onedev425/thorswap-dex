@@ -1,12 +1,12 @@
-import type { ThemeConfig } from '@chakra-ui/react';
-import { extendTheme } from '@chakra-ui/react';
-import type { StyleFunctionProps } from '@chakra-ui/styled-system';
-import { mode } from '@chakra-ui/theme-tools';
+import type { ThemeConfig } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
+import type { StyleFunctionProps } from "@chakra-ui/styled-system";
+import { mode } from "@chakra-ui/theme-tools";
 
-import { colors } from './colors';
+import { colors } from "./colors";
 
 const config: ThemeConfig = {
-  initialColorMode: 'light',
+  initialColorMode: "light",
   useSystemColorMode: false,
 };
 
@@ -24,68 +24,68 @@ export const theme = extendTheme({
   },
   textStyles: {
     h1: {
-      fontSize: '48px',
-      lineHeight: '42px',
-      letterSpacing: '-0.04em',
+      fontSize: "48px",
+      lineHeight: "42px",
+      letterSpacing: "-0.04em",
       fontWeight: 500,
     },
     h2: {
-      fontSize: '28px',
-      lineHeight: '42px',
-      letterSpacing: '0.02em',
+      fontSize: "28px",
+      lineHeight: "42px",
+      letterSpacing: "0.02em",
       fontWeight: 600,
     },
     h3: {
-      fontSize: '24px',
-      lineHeight: '36px',
-      letterSpacing: '0.025em',
+      fontSize: "24px",
+      lineHeight: "36px",
+      letterSpacing: "0.025em",
       fontWeight: 800,
     },
     h4: {
-      fontSize: '21px',
-      lineHeight: '31px',
-      letterSpacing: '-0.01em',
+      fontSize: "21px",
+      lineHeight: "31px",
+      letterSpacing: "-0.01em",
       fontWeight: 800,
     },
     h5: {
-      fontSize: '21px',
-      lineHeight: '17px',
-      letterSpacing: '-0.01em',
+      fontSize: "21px",
+      lineHeight: "17px",
+      letterSpacing: "-0.01em",
       fontWeight: 800,
     },
     subtitle1: {
-      fontSize: '17px',
-      lineHeight: '25px',
-      letterSpacing: '-0.02em',
+      fontSize: "17px",
+      lineHeight: "25px",
+      letterSpacing: "-0.02em",
       fontWeight: 800,
     },
     subtitle2: {
-      fontSize: '17px',
-      lineHeight: '25px',
-      letterSpacing: '-0.01em',
+      fontSize: "17px",
+      lineHeight: "25px",
+      letterSpacing: "-0.01em",
       fontWeight: 600,
     },
     body: {
-      fontSize: '14px',
-      lineHeight: '21px',
-      letterSpacing: '0.03em',
+      fontSize: "14px",
+      lineHeight: "21px",
+      letterSpacing: "0.03em",
       fontWeight: 500,
     },
     caption: {
-      fontSize: '12px',
-      lineHeight: '18px',
-      letterSpacing: '0.03em',
-      fontWeight: '700',
+      fontSize: "12px",
+      lineHeight: "18px",
+      letterSpacing: "0.03em",
+      fontWeight: "700",
     },
-    'caption-xs': {
-      fontSize: '11px',
-      lineHeight: '18px',
-      letterSpacing: '0.03em',
+    "caption-xs": {
+      fontSize: "11px",
+      lineHeight: "18px",
+      letterSpacing: "0.03em",
       fontWeight: 700,
     },
   },
   shadows: {
-    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
   },
   semanticTokens: {
     colors: {
@@ -126,15 +126,15 @@ export const theme = extendTheme({
   components: {
     Drawer: {
       sizes: {
-        sm: { dialog: { maxW: '92.5%' } },
-        md: { dialog: { maxW: '365px' } },
+        sm: { dialog: { maxW: "92.5%" } },
+        md: { dialog: { maxW: "365px" } },
       },
       defaultProps: {
-        size: 'md',
+        size: "md",
       },
       baseStyle: {
         dialog: {
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         },
         body: {
           p: 0,
@@ -144,68 +144,68 @@ export const theme = extendTheme({
     Card: {
       baseStyle: {
         dialog: {
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         },
         body: {
           p: 0,
         },
         container: {
-          border: '1px solid transparent',
-          transition: 'all 0.2s ease-in-out',
+          border: "1px solid transparent",
+          transition: "all 0.2s ease-in-out",
         },
       },
       variants: {
         filledContainerPrimary: () => ({
           container: {
             p: 4,
-            bgColor: 'bgPrimary',
+            bgColor: "bgPrimary",
           },
         }),
         filledContainerSecondary: () => ({
           container: {
             padding: 4,
-            bgColor: 'bgSecondary',
+            bgColor: "bgSecondary",
           },
         }),
         filledContainerTertiary: () => ({
           container: {
             padding: 4,
-            bgColor: 'bgTertiary',
+            bgColor: "bgTertiary",
           },
         }),
         filled: () => ({
           container: {
-            bgColor: 'bgPrimary',
+            bgColor: "bgPrimary",
             _hover: {
-              bgColor: 'tintHoverPrimary',
-              borderColor: 'grayPrimary',
+              bgColor: "tintHoverPrimary",
+              borderColor: "grayPrimary",
             },
           },
         }),
         filledSecondary: () => ({
           container: {
-            bgColor: 'bgSecondary',
+            bgColor: "bgSecondary",
             _hover: {
-              bgColor: 'tintHoverPrimary',
-              borderColor: 'grayPrimary',
+              bgColor: "tintHoverPrimary",
+              borderColor: "grayPrimary",
             },
           },
         }),
         filledTertiary: () => ({
           container: {
-            bgColor: 'bgTertiary',
+            bgColor: "bgTertiary",
             _hover: {
-              bgColor: 'tintHoverPrimary',
-              borderColor: 'grayPrimary',
+              bgColor: "tintHoverPrimary",
+              borderColor: "grayPrimary",
             },
           },
         }),
         elevated: () => ({
           container: {
-            bgColor: 'bgPrimary',
+            bgColor: "bgPrimary",
             _hover: {
-              bgColor: 'tintHoverPrimary',
-              borderColor: 'grayPrimary',
+              bgColor: "tintHoverPrimary",
+              borderColor: "grayPrimary",
             },
           },
         }),
@@ -213,12 +213,12 @@ export const theme = extendTheme({
     },
     Text: {
       defaultProps: {
-        variant: 'primary',
+        variant: "primary",
       },
       baseStyle: {
-        fontFamily: 'Poppins, sans-serif',
-        textStyle: 'body',
-        variant: 'primary',
+        fontFamily: "Poppins, sans-serif",
+        textStyle: "body",
+        variant: "primary",
       },
       variants: {
         primary: (props: StyleFunctionProps) => ({
@@ -244,10 +244,10 @@ export const theme = extendTheme({
     },
     Modal: {
       sizes: {
-        md: { dialog: { maxW: '520px' } },
+        md: { dialog: { maxW: "520px" } },
       },
       dialog: {
-        shadow: 'none',
+        shadow: "none",
       },
       header: {
         p: 0,
@@ -257,49 +257,49 @@ export const theme = extendTheme({
       },
     },
     Button: {
-      defaultProps: { size: 'sm' },
+      defaultProps: { size: "sm" },
       variants: {
         outlinePrimary: {
           borderColor: colors.blueLight,
           _dark: { borderColor: colors.btnPrimary },
           _hover: {
-            bgColor: colors.blueLight + '33',
-            _dark: { bgColor: colors.btnPrimary + '33' },
+            bgColor: `${colors.blueLight}33`,
+            _dark: { bgColor: `${colors.btnPrimary}33` },
           },
         },
         outlineSecondary: {
           borderColor: colors.btnSecondary,
-          _hover: { bgColor: colors.btnSecondary + '33' },
+          _hover: { bgColor: `${colors.btnSecondary}33` },
         },
-        outlineTertiary: { borderColor: colors.purple, _hover: { bgColor: colors.purple + '33' } },
-        outlineWarn: { borderColor: colors.orange, _hover: { bgColor: colors.orange + '33' } },
+        outlineTertiary: { borderColor: colors.purple, _hover: { bgColor: `${colors.purple}33` } },
+        outlineWarn: { borderColor: colors.orange, _hover: { bgColor: `${colors.orange}33` } },
         outlineTint: {
           borderColor: colors.light.btnBorderPrimary,
           _dark: { borderColor: colors.gray },
           _hover: {
-            bgColor: colors.light.btnBorderPrimary + '33',
-            _dark: { bgColor: colors.gray + '33' },
+            bgColor: `${colors.light.btnBorderPrimary}33`,
+            _dark: { bgColor: `${colors.gray}33` },
           },
         },
 
         borderlessPrimary: {
           _hover: {
-            bgColor: colors.blueLight + '33',
-            _dark: { bgColor: colors.btnPrimary + '33' },
+            bgColor: `${colors.blueLight}33`,
+            _dark: { bgColor: `${colors.btnPrimary}33` },
           },
         },
         borderlessSecondary: {
-          _hover: { bgColor: colors.btnSecondary + '33' },
+          _hover: { bgColor: `${colors.btnSecondary}33` },
         },
         borderlessTertiary: {
-          _hover: { bgColor: colors.purple + '33' },
+          _hover: { bgColor: `${colors.purple}33` },
         },
         borderlessWarn: {
-          _hover: { bgColor: colors.orange + '33' },
+          _hover: { bgColor: `${colors.orange}33` },
         },
         borderlessTint: {
           _hover: {
-            bgColor: colors.bgBtnLightTintActive + '33',
+            bgColor: `${colors.bgBtnLightTintActive}33`,
             _dark: { bgColor: colors.tintHover },
           },
         },
@@ -309,29 +309,29 @@ export const theme = extendTheme({
           bgColor: colors.blueLight,
           _dark: { bgColor: colors.btnPrimary },
           _hover: {
-            bgColor: colors.blueLight + 'CC',
-            _dark: { bgColor: colors.btnPrimary + 'CC' },
+            bgColor: `${colors.blueLight}CC`,
+            _dark: { bgColor: `${colors.btnPrimary}CC` },
           },
         },
         secondary: {
           color: colors.dark.textPrimary,
           bgColor: colors.btnSecondary,
           _hover: {
-            bgColor: colors.btnSecondary + 'CC',
+            bgColor: `${colors.btnSecondary}CC`,
           },
         },
         tertiary: {
           color: colors.dark.textPrimary,
           bgColor: colors.purple,
           _hover: {
-            bgColor: colors.purple + 'CC',
+            bgColor: `${colors.purple}CC`,
           },
         },
         warn: {
           color: colors.dark.textPrimary,
           bgColor: colors.orange,
           _hover: {
-            bgColor: colors.orange + 'CC',
+            bgColor: `${colors.orange}CC`,
           },
         },
         tint: {
@@ -344,31 +344,23 @@ export const theme = extendTheme({
         },
         fancy: {
           color: colors.white,
-          border: 'none',
+          border: "none",
           bg: `linear-gradient(90deg, ${colors.btnSecondary} 0%, ${colors.blueLight} 80%)`,
           _hover: {
-            bg: `linear-gradient(90deg, ${colors.btnSecondary + 'DD'} 0%, ${
-              colors.blueLight + 'DD'
-            } 80%)`,
+            bg: `linear-gradient(90deg, ${`${colors.btnSecondary}DD`} 0%, ${`${colors.blueLight}DD`} 80%)`,
             _disabled: {
-              bg: `linear-gradient(90deg, ${colors.btnSecondary + 'DD'} 0%, ${
-                colors.blueLight + 'DD'
-              } 80%)`,
+              bg: `linear-gradient(90deg, ${`${colors.btnSecondary}DD`} 0%, ${`${colors.blueLight}DD`} 80%)`,
             },
           },
         },
         fancyError: {
           color: colors.white,
-          border: 'none',
+          border: "none",
           bg: `linear-gradient(90deg, ${colors.fancyErrorStart} 0%, ${colors.fancyErrorStop} 80%)`,
           _hover: {
-            bg: `linear-gradient(90deg, ${colors.fancyErrorStart + 'DD'} 0%, ${
-              colors.fancyErrorStop + 'DD'
-            } 80%)`,
+            bg: `linear-gradient(90deg, ${`${colors.fancyErrorStart}DD`} 0%, ${`${colors.fancyErrorStop}DD`} 80%)`,
             _disabled: {
-              bg: `linear-gradient(90deg, ${colors.fancyErrorStart + 'DD'} 0%, ${
-                colors.fancyErrorStop + 'DD'
-              } 80%)`,
+              bg: `linear-gradient(90deg, ${`${colors.fancyErrorStart}DD`} 0%, ${`${colors.fancyErrorStop}DD`} 80%)`,
             },
           },
         },
@@ -377,7 +369,7 @@ export const theme = extendTheme({
         lg: {
           h: 14,
           px: 7,
-          borderRadius: 'full',
+          borderRadius: "full",
         },
         md: {
           h: 12,
@@ -388,20 +380,20 @@ export const theme = extendTheme({
         xs: { h: 7, px: 3, borderRadius: 16 },
       },
       baseStyle: (props: StyleFunctionProps) => ({
-        display: 'flex',
-        align: 'center',
+        display: "flex",
+        align: "center",
         color: mode(colors.light.textPrimary, colors.dark.textPrimary)(props),
-        justify: 'center',
-        outline: 'none',
+        justify: "center",
+        outline: "none",
         p: 0,
-        border: '1px solid',
-        borderColor: 'transparent',
-        fontFamily: 'Poppins, sans-serif',
+        border: "1px solid",
+        borderColor: "transparent",
+        fontFamily: "Poppins, sans-serif",
 
         _active: { opacity: 1 },
 
         _disabled: {
-          cursor: 'not-allowed',
+          cursor: "not-allowed",
           opacity: 0.75,
           _dark: {
             opacity: 0.6,
@@ -416,13 +408,13 @@ export const theme = extendTheme({
     },
     Switch: {
       sizes: {
-        lg: { track: { h: 5, w: '42px' }, thumb: { h: 5, w: 5 } },
+        lg: { track: { h: 5, w: "42px" }, thumb: { h: 5, w: 5 } },
       },
       variants: {
         // eslint-disable-next-line prettier/prettier
-        'secondary': (props: StyleFunctionProps) => ({
+        secondary: (props: StyleFunctionProps) => ({
           track: {
-            _focus: { boxShadow: 'none' },
+            _focus: { boxShadow: "none" },
             _checked: {
               backgroundColor: mode(colors.bgBtnLightTintActive, colors.bgDarkBgPrimary)(props),
             },
@@ -431,7 +423,7 @@ export const theme = extendTheme({
       },
       baseStyle: (props: StyleFunctionProps) => ({
         track: {
-          _focus: { boxShadow: 'none' },
+          _focus: { boxShadow: "none" },
           _checked: {
             backgroundColor: mode(colors.bgBtnLightTintActive, colors.bgDarkBgSecondary)(props),
           },
@@ -445,14 +437,14 @@ export const theme = extendTheme({
     Tabs: {
       baseStyle: () => ({
         root: {
-          borderColor: 'borderPrimary',
-          color: 'textSecondary',
+          borderColor: "borderPrimary",
+          color: "textSecondary",
         },
         tab: {
-          letterSpacing: '0.03em',
+          letterSpacing: "0.03em",
           fontWeight: 600,
           _selected: {
-            color: 'brand.btnPrimary',
+            color: "brand.btnPrimary",
           },
         },
         tabpanel: {

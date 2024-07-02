@@ -1,17 +1,17 @@
-import { BaseDecimal, type SwapKitNumber } from '@swapkit/core';
-import type { AmountProps } from 'components/InputAmount/types';
-import { getAmountFromString } from 'components/InputAmount/utils';
-import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BaseDecimal, type SwapKitNumber } from "@swapkit/sdk";
+import type { AmountProps } from "components/InputAmount/types";
+import { getAmountFromString } from "components/InputAmount/utils";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => {
   const { decimal } = amountValue;
   const inputValue = useMemo(() => (amountValue?.gt(0) ? amountValue : undefined), [amountValue]);
 
-  const [rawValue, setRawValue] = useState(inputValue ? inputValue.toFixed(decimal) : '');
+  const [rawValue, setRawValue] = useState(inputValue ? inputValue.toFixed(decimal) : "");
 
   const handleRawValueChange = useCallback((amount: SwapKitNumber | string) => {
-    setRawValue(typeof amount === 'string' ? amount : amount.getValue('string'));
+    setRawValue(typeof amount === "string" ? amount : amount.getValue("string"));
   }, []);
 
   const onChange = useCallback(
@@ -31,7 +31,7 @@ export const useInputAmount = ({ amountValue, onAmountChange }: AmountProps) => 
   );
 
   useEffect(() => {
-    handleRawValueChange(inputValue || '');
+    handleRawValueChange(inputValue || "");
   }, [inputValue, handleRawValueChange]);
 
   return { onChange, rawValue };

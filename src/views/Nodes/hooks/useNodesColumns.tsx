@@ -1,14 +1,14 @@
-import { SwapKitNumber } from '@swapkit/core';
-import { Button, Icon, Tooltip } from 'components/Atomic';
-import { getAmountColumnSorter } from 'components/Atomic/Table/utils';
-import { HoverIcon } from 'components/HoverIcon';
-import copy from 'copy-to-clipboard';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { BreakPoint } from 'hooks/useWindowSize';
-import { useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
-import type { ProxiedNode } from 'store/midgard/types';
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Button, Icon, Tooltip } from "components/Atomic";
+import { getAmountColumnSorter } from "components/Atomic/Table/utils";
+import { HoverIcon } from "components/HoverIcon";
+import copy from "copy-to-clipboard";
+import { shortenAddress } from "helpers/shortenAddress";
+import { BreakPoint } from "hooks/useWindowSize";
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
+import type { ProxiedNode } from "store/midgard/types";
 
 export const useNodesColumns = (refetch: () => void) => {
   const { setWatchList, nodeWatchList } = useApp();
@@ -16,11 +16,11 @@ export const useNodesColumns = (refetch: () => void) => {
   const handleAddToWatchList = useCallback(
     (address: string) => {
       const isSelected = nodeWatchList.includes(address);
-      if (!isSelected) {
-        setWatchList([address, ...nodeWatchList]);
-      } else {
+      if (isSelected) {
         const newList = nodeWatchList.filter((addr) => addr !== address);
         setWatchList(newList);
+      } else {
+        setWatchList([address, ...nodeWatchList]);
       }
     },
     [setWatchList, nodeWatchList],
@@ -29,7 +29,7 @@ export const useNodesColumns = (refetch: () => void) => {
   const columns = useMemo(
     () => [
       {
-        id: 'Bookmark',
+        id: "Bookmark",
         Header: () => (
           <HoverIcon
             className="group-hover:text-dark-typo-primary"
@@ -39,7 +39,7 @@ export const useNodesColumns = (refetch: () => void) => {
             size={12}
           />
         ),
-        align: 'center',
+        align: "center",
         disableSortBy: true,
         accessor: (row: ProxiedNode) => row,
         Cell: ({ cell: { value } }: { cell: { value: ProxiedNode } }) => {
@@ -47,12 +47,12 @@ export const useNodesColumns = (refetch: () => void) => {
           return (
             <Tooltip
               className="w-fit m-auto"
-              content={isSelected ? t('views.nodes.removeFromList') : t('views.nodes.addToWatch')}
+              content={isSelected ? t("views.nodes.removeFromList") : t("views.nodes.addToWatch")}
             >
               <HoverIcon
-                color={isSelected ? 'pink' : 'secondary'}
+                color={isSelected ? "pink" : "secondary"}
                 iconHoverHighlight={false}
-                iconName={isSelected ? 'heartFilled' : 'heart'}
+                iconName={isSelected ? "heartFilled" : "heart"}
                 onClick={(e) => {
                   handleAddToWatchList(value.node_address);
                   e.stopPropagation();
@@ -65,9 +65,9 @@ export const useNodesColumns = (refetch: () => void) => {
         },
       },
       {
-        id: 'Address',
-        Header: () => t('common.address'),
-        align: 'center',
+        id: "Address",
+        Header: () => t("common.address"),
+        align: "center",
         accessor: (row: ProxiedNode) => row.node_address,
         disableSortBy: true,
         Cell: ({ cell: { value } }: { cell: { value: string } }) => (
@@ -79,7 +79,7 @@ export const useNodesColumns = (refetch: () => void) => {
               e.preventDefault();
             }}
             rightIcon={<Icon name="copy" size={16} />}
-            tooltip={t('common.copy')}
+            tooltip={t("common.copy")}
             tooltipClasses="mx-auto w-fit"
             transform="none"
             variant="borderlessTint"
@@ -89,47 +89,47 @@ export const useNodesColumns = (refetch: () => void) => {
         ),
       },
       {
-        id: 'Version',
-        Header: () => t('views.nodes.version'),
-        accessor: 'version',
+        id: "Version",
+        Header: () => t("views.nodes.version"),
+        accessor: "version",
       },
       {
-        id: 'IP',
-        Header: () => 'IP',
-        accessor: 'ip_address',
+        id: "IP",
+        Header: () => "IP",
+        accessor: "ip_address",
         minScreenSize: BreakPoint.md,
         disableSortBy: true,
       },
       {
-        id: 'Rewards',
-        Header: () => t('views.nodes.rewards'),
+        id: "Rewards",
+        Header: () => t("views.nodes.rewards"),
         accessor: (row: ProxiedNode) => new SwapKitNumber(row.current_award).div(1e8),
-        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(""),
         minScreenSize: BreakPoint.md,
-        sortType: getAmountColumnSorter('Rewards'),
+        sortType: getAmountColumnSorter("Rewards"),
       },
       {
-        id: 'Slash',
-        Header: () => t('views.nodes.slash'),
+        id: "Slash",
+        Header: () => t("views.nodes.slash"),
         accessor: (row: ProxiedNode) => new SwapKitNumber(row.slash_points),
-        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(""),
         minScreenSize: BreakPoint.md,
-        sortType: getAmountColumnSorter('Slash'),
+        sortType: getAmountColumnSorter("Slash"),
       },
       {
-        id: 'Bond',
-        Header: (() => t('views.nodes.bond')) as () => string,
+        id: "Bond",
+        Header: (() => t("views.nodes.bond")) as () => string,
         accessor: (row: ProxiedNode) => new SwapKitNumber(row.total_bond).div(1e8),
-        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
-        sortType: getAmountColumnSorter('Bond'),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(""),
+        sortType: getAmountColumnSorter("Bond"),
       },
       {
-        id: 'ActiveBlock',
-        Header: () => 'Active Block',
+        id: "ActiveBlock",
+        Header: () => "Active Block",
         accessor: (row: ProxiedNode) => new SwapKitNumber(row.active_block_height),
-        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(''),
+        Cell: ({ cell: { value } }: { cell: { value: SwapKitNumber } }) => value.toCurrency(""),
         minScreenSize: BreakPoint.md,
-        sortType: getAmountColumnSorter('ActiveBlock'),
+        sortType: getAmountColumnSorter("ActiveBlock"),
       },
     ],
     [refetch, nodeWatchList, handleAddToWatchList],

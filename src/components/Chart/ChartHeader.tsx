@@ -1,7 +1,7 @@
-import { Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { memo, useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { memo, useMemo } from "react";
 
 type Props = {
   title: string;

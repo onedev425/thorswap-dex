@@ -1,14 +1,14 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { useCallback } from 'react';
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { useCallback } from "react";
 
 type Value = AssetValue | SwapKitNumber | number | string;
 
 const getNumberOfDecimals = (amount: Value) => {
   if (!amount) return 2;
   const price =
-    typeof amount === 'object'
+    typeof amount === "object"
       ? Number.parseFloat(amount.toSignificant(2))
-      : typeof amount === 'string'
+      : typeof amount === "string"
         ? Number.parseFloat(amount)
         : amount;
 
@@ -26,17 +26,17 @@ const formatter = ({
   amount: Value;
   decimals?: number;
 }) => {
-  const parsedAmount = typeof amount === 'object' ? amount.getValue('string') : amount;
-  if (!parsedAmount) return '0';
+  const parsedAmount = typeof amount === "object" ? amount.getValue("string") : amount;
+  if (!parsedAmount) return "0";
 
   const numOfDecimals = decimals || getNumberOfDecimals(parsedAmount);
 
-  if (parsedAmount && typeof parsedAmount === 'string') {
+  if (parsedAmount && typeof parsedAmount === "string") {
     return parsedAmount;
   }
 
   const skNumber = new SwapKitNumber(parsedAmount);
-  return skNumber.toCurrency(prefix || '$', { decimal: numOfDecimals });
+  return skNumber.toCurrency(prefix || "$", { decimal: numOfDecimals });
 };
 
 export const useFormatPrice = (decimals?: number, prefix?: string) =>

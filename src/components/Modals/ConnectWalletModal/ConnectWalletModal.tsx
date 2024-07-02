@@ -1,32 +1,32 @@
-import { Link, Text } from '@chakra-ui/react';
-import type { DerivationPathArray } from '@swapkit/core';
-import { Chain, DerivationPath, derivationPathToString } from '@swapkit/core';
-import type { Keystore } from '@swapkit/wallet-keystore';
-import classNames from 'classnames';
-import { Box, Button, Checkbox, Modal, Tooltip } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoTip } from 'components/InfoTip';
-import { Input } from 'components/Input';
-import { DerivationPathDropdown } from 'components/Modals/ConnectWalletModal/DerivationPathsDropdown';
-import { showErrorToast } from 'components/Toast';
-import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { getFromStorage, saveInStorage } from 'helpers/storage';
-import useWindowSize from 'hooks/useWindowSize';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { SUPPORTED_CHAINS } from 'settings/chain';
-import { useApp } from 'store/app/hooks';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
+import { Link, Text } from "@chakra-ui/react";
+import type { DerivationPathArray, WalletChain } from "@swapkit/sdk";
+import { Chain, DerivationPath, derivationPathToString } from "@swapkit/sdk";
+import type { Keystore } from "@swapkit/wallet-keystore";
+import classNames from "classnames";
+import { Box, Button, Checkbox, Modal, Tooltip } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoTip } from "components/InfoTip";
+import { Input } from "components/Input";
+import { DerivationPathDropdown } from "components/Modals/ConnectWalletModal/DerivationPathsDropdown";
+import { showErrorToast } from "components/Toast";
+import { useConnectWallet, useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { getFromStorage, saveInStorage } from "helpers/storage";
+import useWindowSize from "hooks/useWindowSize";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { SUPPORTED_CHAINS } from "settings/chain";
+import { useApp } from "store/app/hooks";
+import type { SupportedWalletOptions } from "store/thorswap/types";
 
-import ChainItem from './ChainItem';
-import { ConnectKeystoreView } from './ConnectKeystore';
-import { CreateKeystoreView } from './CreateKeystore';
-import type { DerivationPathType, HandleWalletConnectParams } from './hooks';
-import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from './hooks';
-import { PhraseView } from './Phrase';
-import { availableChainsByWallet, WalletType } from './types';
-import WalletOption from './WalletOption';
+import ChainItem from "./ChainItem";
+import { ConnectKeystoreView } from "./ConnectKeystore";
+import { CreateKeystoreView } from "./CreateKeystore";
+import { PhraseView } from "./Phrase";
+import WalletOption from "./WalletOption";
+import type { DerivationPathType, HandleWalletConnectParams } from "./hooks";
+import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from "./hooks";
+import { WalletType, availableChainsByWallet } from "./types";
 
 const ConnectWalletModal = () => {
   const { customDerivationVisible } = useApp();
@@ -43,7 +43,7 @@ const ConnectWalletModal = () => {
   const [tos, setTos] = useState(false);
   const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
-  const [saveWallet, setSaveWallet] = useState(getFromStorage('restorePreviousWallet') as boolean);
+  const [saveWallet, setSaveWallet] = useState(getFromStorage("restorePreviousWallet") as boolean);
 
   const walletOptions = useWalletOptions({ isMdActive });
 
@@ -52,13 +52,11 @@ const ConnectWalletModal = () => {
     [selectedWalletType],
   );
 
-  const selectedAll =
-    selectedChains?.filter((chain) => chain !== Chain.Binance).length ===
-    supportedByWallet.filter((chain) => chain !== Chain.Binance).length;
+  const selectedAll = selectedChains?.length === supportedByWallet.length;
 
   const handleSaveStorageChange = useCallback((value: boolean) => {
     setSaveWallet(value);
-    saveInStorage({ key: 'restorePreviousWallet', value });
+    saveInStorage({ key: "restorePreviousWallet", value });
   }, []);
 
   // TODO (@Towan) remove when this is moved to swapkit
@@ -66,21 +64,21 @@ const ConnectWalletModal = () => {
     // The derivation path is expected to start with "m" followed by
     // a series of child indexes separated by slashes ("/").
     // For example: "m/44'/0'/0'/0/0"
-    if (!path.startsWith('m')) {
+    if (!path.startsWith("m")) {
       throw new Error('Derivation path should start with "m"');
     }
 
     const result = path
       // Removes the "m/" at the beginning
-      .replace('m/', '')
+      .replace("m/", "")
       // Removes the "'" characters
-      .replaceAll("'", '')
+      .replaceAll("'", "")
       // Splits the path into an array of indexes
-      .split('/')
+      .split("/")
       // Parses each index into a number
       .map((part) => {
         const index = Number(part);
-        if (isNaN(index)) {
+        if (Number.isNaN(index)) {
           throw new Error(`Invalid number in derivation path: ${part}`);
         }
         return index;
@@ -122,7 +120,7 @@ const ConnectWalletModal = () => {
         )) ||
       selectedAll
         ? []
-        : supportedByWallet.filter((chain) => chain !== Chain.Binance);
+        : supportedByWallet;
 
     setSelectedChains(nextWallets);
   }, [selectedAll, selectedWalletType, supportedByWallet]);
@@ -153,7 +151,7 @@ const ConnectWalletModal = () => {
 
   const handleConnect = useCallback(
     async (keystore: Keystore, phrase: string) => {
-      await unlockKeystore(keystore, phrase, selectedChains);
+      await unlockKeystore(keystore, phrase, selectedChains as WalletChain[]);
       clearState();
     },
     [unlockKeystore, selectedChains, clearState],
@@ -185,7 +183,7 @@ const ConnectWalletModal = () => {
     } catch (error) {
       logException(error as Error);
       showErrorToast(
-        `${t('txManager.failed')} ${selectedWalletType}`,
+        `${t("txManager.failed")} ${selectedWalletType}`,
         undefined,
         undefined,
         error as Error,
@@ -222,8 +220,8 @@ const ConnectWalletModal = () => {
   );
 
   useEffect(() => {
-    const previousWallet = getFromStorage('previousWallet');
-    const restorePreviousWallet = getFromStorage('restorePreviousWallet');
+    const previousWallet = getFromStorage("previousWallet");
+    const restorePreviousWallet = getFromStorage("restorePreviousWallet");
     if (previousWallet && restorePreviousWallet) {
       setTimeout(() => {
         handleConnectWallet(previousWallet as HandleWalletConnectParams);
@@ -238,7 +236,7 @@ const ConnectWalletModal = () => {
   }, [selectedChains]);
 
   const handleCustomPathSet = useCallback(async () => {
-    const { getDerivationPathFor } = await import('@swapkit/core');
+    const { getDerivationPathFor } = await import("@swapkit/sdk");
 
     const derivationPath = getDerivationPathFor({
       chain: selectedChains[0] || Chain.Ethereum,
@@ -274,14 +272,14 @@ const ConnectWalletModal = () => {
     switch (selectedWalletType) {
       case WalletType.Ledger:
         return {
-          title: t('views.walletModal.ledgerWalletWarningTitle'),
-          content: t('views.walletModal.ledgerWalletWarning'),
+          title: t("views.walletModal.ledgerWalletWarningTitle"),
+          content: t("views.walletModal.ledgerWalletWarning"),
         };
       case WalletType.Okx:
         return selectedChains.includes(Chain.Bitcoin)
           ? {
-              title: t('views.walletModal.okxWalletWarningTitle'),
-              content: t('views.walletModal.okxWalletWarning'),
+              title: t("views.walletModal.okxWalletWarningTitle"),
+              content: t("views.walletModal.okxWalletWarning"),
             }
           : undefined;
       default:
@@ -308,14 +306,14 @@ const ConnectWalletModal = () => {
       isOpened={isConnectModalOpen}
       onBack={customFlow ? () => setCustomFlow(false) : undefined}
       onClose={clearState}
-      title={t('views.walletModal.connectWallets')}
+      title={t("views.walletModal.connectWallets")}
       withBody={false}
     >
       <Box
         col
         className={classNames(
-          'bg-light-layout-primary md:!max-w-[700px] dark:bg-dark-bg-secondary rounded-3xl',
-          { '!px-2 !py-4': customFlow },
+          "bg-light-layout-primary md:!max-w-[700px] dark:bg-dark-bg-secondary rounded-3xl",
+          { "!px-2 !py-4": customFlow },
         )}
         justify="between"
       >
@@ -343,8 +341,8 @@ const ConnectWalletModal = () => {
               alignCenter
               col
               className={classNames(
-                'bg-light-bg-primary dark:bg-dark-bg-primary z-10',
-                isMdActive ? 'dark:drop-shadow-4xl pb-4 rounded-l-3xl px-4' : 'rounded-t-3xl pb-2',
+                "bg-light-bg-primary dark:bg-dark-bg-primary z-10",
+                isMdActive ? "dark:drop-shadow-4xl pb-4 rounded-l-3xl px-4" : "rounded-t-3xl pb-2",
               )}
             >
               <Box
@@ -353,8 +351,8 @@ const ConnectWalletModal = () => {
                 col={isMdActive}
               >
                 <Box flex={1}>
-                  <Text textStyle={isMdActive ? 'h4' : 'subtitle2'}>
-                    {t('views.walletModal.selectChains')}
+                  <Text textStyle={isMdActive ? "h4" : "subtitle2"}>
+                    {t("views.walletModal.selectChains")}
                   </Text>
                 </Box>
 
@@ -370,9 +368,9 @@ const ConnectWalletModal = () => {
                   onClick={handleAllClick}
                   size="sm"
                   textTransform="uppercase"
-                  variant={selectedAll ? 'primary' : 'outlinePrimary'}
+                  variant={selectedAll ? "primary" : "outlinePrimary"}
                 >
-                  <Text textStyle="caption-xs">{t('views.walletModal.selectAll')}</Text>
+                  <Text textStyle="caption-xs">{t("views.walletModal.selectAll")}</Text>
                 </Button>
               </Box>
 
@@ -396,19 +394,19 @@ const ConnectWalletModal = () => {
             <Box col>
               <Box alignCenter className="pr-6 md:pr-10 px-4">
                 <Box flex={1}>
-                  <Text className="md:py-4 pt-4" textStyle={isMdActive ? 'h4' : 'subtitle2'}>
-                    {t('views.walletModal.selectWallet')}
+                  <Text className="md:py-4 pt-4" textStyle={isMdActive ? "h4" : "subtitle2"}>
+                    {t("views.walletModal.selectWallet")}
                   </Text>
                 </Box>
 
                 <Box alignCenter className="gap-x-2">
                   {!oneTimeWalletType && (
                     <HoverIcon
-                      color={saveWallet ? 'cyan' : 'secondary'}
-                      iconName={saveWallet ? 'saveFill' : 'save'}
+                      color={saveWallet ? "cyan" : "secondary"}
+                      iconName={saveWallet ? "saveFill" : "save"}
                       onClick={() => handleSaveStorageChange(!saveWallet)}
                       size={20}
-                      tooltip={t('views.walletModal.keepWalletConnected')}
+                      tooltip={t("views.walletModal.keepWalletConnected")}
                     />
                   )}
 
@@ -418,7 +416,7 @@ const ConnectWalletModal = () => {
                     textTransform="uppercase"
                     variant="outlinePrimary"
                   >
-                    <Text textStyle="caption">{t('common.reset')}</Text>
+                    <Text textStyle="caption">{t("common.reset")}</Text>
                   </Button>
                 </Box>
               </Box>
@@ -461,7 +459,7 @@ const ConnectWalletModal = () => {
                 !customDerivationVisible && (
                   <Box center>
                     <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                      <Text>{t('common.index')}:</Text>
+                      <Text>{t("common.index")}:</Text>
                       <Input
                         stretch
                         border="rounded"
@@ -487,7 +485,7 @@ const ConnectWalletModal = () => {
                 selectedChains.length === 1 &&
                 customDerivationVisible && (
                   <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                    <Text>{t('common.derivationPath')}:</Text>
+                    <Text>{t("common.derivationPath")}:</Text>
                     <Input
                       stretch
                       border="rounded"
@@ -503,7 +501,7 @@ const ConnectWalletModal = () => {
                 label={
                   <Box alignCenter>
                     <Text>
-                      {'I agree to the '}
+                      {"I agree to the "}
                       <Link isExternal href="/tos">
                         Terms of Service
                       </Link>
@@ -518,14 +516,14 @@ const ConnectWalletModal = () => {
                 <Box col className="pt-2 mb-8" flex={1} justify="end">
                   <Button
                     alignSelf="center"
-                    disabled={!tos || !selectedWalletType || !selectedChains.length}
+                    disabled={!(tos && selectedWalletType && selectedChains.length)}
                     loading={loading}
                     onClick={connectWallet}
                     size="md"
                     variant="fancy"
                     width="66.6%"
                   >
-                    <Text>{t('common.connectWallet')}</Text>
+                    <Text>{t("common.connectWallet")}</Text>
                   </Button>
                 </Box>
               )}

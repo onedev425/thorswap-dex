@@ -1,14 +1,14 @@
-import 'swiper/css';
+import "swiper/css";
 
-import classNames from 'classnames';
-import { Box, Button, Icon } from 'components/Atomic';
-import type { PropsWithChildren } from 'react';
-import { Children, useCallback, useEffect, useState } from 'react';
+import classNames from "classnames";
+import { Box, Button, Icon } from "components/Atomic";
+import type { PropsWithChildren } from "react";
+import { Children, useCallback, useEffect, useState } from "react";
 // @ts-expect-error
-import SwiperCore, { Mousewheel, Navigation } from 'swiper';
+import SwiperCore, { Mousewheel, Navigation } from "swiper";
 // Issue related to this was closed without any notice
 // https://github.com/nolimits4web/swiper/issues/5058
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 SwiperCore.use([Mousewheel]);
 
@@ -48,10 +48,10 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
         <>
           <Button
             className={classNames(
-              '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -left-[10px] mt-4 z-10 md:flex transition',
+              "!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -left-[10px] mt-4 z-10 md:flex transition",
               navState.isBeginning
-                ? '!opacity-0 hover:!opacity-0 pointer-events-none'
-                : '!opacity-40 hover:!opacity-100 pointer-events-auto',
+                ? "!opacity-0 hover:!opacity-0 pointer-events-none"
+                : "!opacity-40 hover:!opacity-100 pointer-events-auto",
             )}
             disabled={navState.isBeginning}
             leftIcon={
@@ -68,11 +68,11 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
           />
           <Button
             className={classNames(
-              '!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -right-[10px] mt-4 z-10 md:flex transition',
+              "!bg-opacity-0 hover:!bg-opacity-0 dark:hover:!bg-opacity-0 px-0 -right-[10px] mt-4 z-10 md:flex transition",
               navState.isEnd
-                ? '!opacity-0 hover:!opacity-0 pointer-events-none'
-                : '!opacity-40 hover:!opacity-100 pointer-events-auto',
-              !showButtons && 'hidden',
+                ? "!opacity-0 hover:!opacity-0 pointer-events-none"
+                : "!opacity-40 hover:!opacity-100 pointer-events-auto",
+              !showButtons && "hidden",
             )}
             disabled={navState.isEnd}
             leftIcon={
@@ -103,7 +103,7 @@ export const HorizontalSlider = ({ children, itemWidth, showButtons = false }: P
               className="pt-4 flex justify-center self-center px-0.5"
               style={{ width: itemWidth }}
             >
-              <Box style={{ width: itemWidth, justifyContent: 'center' }}>{child}</Box>
+              <Box style={{ width: itemWidth, justifyContent: "center" }}>{child}</Box>
             </SwiperSlide>
           ))}
         </Swiper>

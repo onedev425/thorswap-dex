@@ -1,29 +1,29 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
-import { Box, Button, Modal } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
-import { Input } from 'components/Input';
-import { PercentSelect } from 'components/PercentSelect/PercentSelect';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { useCallback, useEffect, useState } from 'react';
-import type { ContractType } from 'services/contract';
-import { getContractAddress } from 'services/contract';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Box, Button, Modal } from "components/Atomic";
+import { InfoRow } from "components/InfoRow";
+import { Input } from "components/Input";
+import { PercentSelect } from "components/PercentSelect/PercentSelect";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { useCallback, useEffect, useState } from "react";
+import type { ContractType } from "services/contract";
+import { getContractAddress } from "services/contract";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
+import { useIsAssetApproved } from "views/Swap/hooks/useIsAssetApproved";
 
-import { FarmActionType } from '../types';
+import { FarmActionType } from "../types";
 
 const actionNameKey: Record<FarmActionType, string> = {
-  [FarmActionType.DEPOSIT]: 'views.staking.depositAction',
-  [FarmActionType.CLAIM]: 'views.staking.harvestAction',
-  [FarmActionType.EXIT]: 'views.staking.exitAction',
+  [FarmActionType.DEPOSIT]: "views.staking.depositAction",
+  [FarmActionType.CLAIM]: "views.staking.harvestAction",
+  [FarmActionType.EXIT]: "views.staking.exitAction",
 };
 
 type Props = {
@@ -100,24 +100,24 @@ export const StakeConfirmModal = ({
       appDispatch(
         addTransaction({
           id,
-          label: `${t('txManager.approve')} ${lpAsset.ticker}`,
+          label: `${t("txManager.approve")} ${lpAsset.ticker}`,
           inChain: lpAsset.chain,
           type: TransactionType.ETH_APPROVAL,
         }),
       );
 
-      const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+      const { approveAssetValue } = await (await import("services/swapKit")).getSwapKitClient();
 
       try {
         const txid = await approveAssetValue(lpAsset, getContractAddress(contractType).address);
 
-        if (typeof txid === 'string') {
+        if (typeof txid === "string") {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: "error" }));
+        showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
       }
     }
   }, [hasWallet, onCancel, appDispatch, lpAsset, contractType]);
@@ -130,23 +130,23 @@ export const StakeConfirmModal = ({
     <Modal isOpened={isOpened} onClose={onCancel} title={actionLabel}>
       <Box col className="w-full md:w-atuo md:!min-w-[350px]" flex={1}>
         <InfoRow
-          label={t('views.staking.tokenBalance')}
-          value={tokenBalance.gt(0) ? tokenBalance.toFixed(4) : 'N/A'}
+          label={t("views.staking.tokenBalance")}
+          value={tokenBalance.gt(0) ? tokenBalance.toFixed(4) : "N/A"}
         />
         <InfoRow
-          label={t('views.staking.tokenStaked')}
-          value={stakedAmount.gt(0) ? stakedAmount.toFixed(4) : 'N/A'}
+          label={t("views.staking.tokenStaked")}
+          value={stakedAmount.gt(0) ? stakedAmount.toFixed(4) : "N/A"}
         />
         <InfoRow
-          label={t('views.staking.claimable')}
-          value={claimableAmount.gt(0) ? claimableAmount.toFixed(2) : 'N/A'}
+          label={t("views.staking.claimable")}
+          value={claimableAmount.gt(0) ? claimableAmount.toFixed(2) : "N/A"}
         />
 
         {!isClaim && (
           <>
             <Box alignCenter className="gap-3 !mt-8">
               <Text>
-                {t('views.staking.stakeActionAmount', {
+                {t("views.staking.stakeActionAmount", {
                   stakeAction: actionLabel,
                 })}
               </Text>
@@ -154,7 +154,7 @@ export const StakeConfirmModal = ({
                 border="rounded"
                 className="text-right"
                 onChange={(e) => onAmountUpdate(e.target.value)}
-                value={amount.getValue('string')}
+                value={amount.getValue("string")}
               />
             </Box>
 
@@ -167,7 +167,7 @@ export const StakeConfirmModal = ({
         <Box className="gap-3 !mt-8">
           {type === FarmActionType.DEPOSIT && isApproved === false && hasWallet && (
             <Button stretch onClick={handleConfirmApprove} variant="fancy">
-              {t('txManager.approve')}
+              {t("txManager.approve")}
             </Button>
           )}
           {((isApproved && type === FarmActionType.DEPOSIT) || type !== FarmActionType.DEPOSIT) && (

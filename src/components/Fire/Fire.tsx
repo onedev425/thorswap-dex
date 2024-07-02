@@ -1,5 +1,5 @@
-import { Box } from '@chakra-ui/react';
-import { FireParticle } from 'components/Fire/FireParticle';
+import { Box } from "@chakra-ui/react";
+import { FireParticle } from "components/Fire/FireParticle";
 
 type Props = {
   size?: number;
@@ -11,8 +11,8 @@ export const Fire = ({ size = 4 }: Props) => {
   return (
     <Box
       sx={{
-        filter: `blur(0.02em)`,
-        position: `relative`,
+        filter: "blur(0.02em)",
+        position: "relative",
         width: size,
         height: size,
       }}

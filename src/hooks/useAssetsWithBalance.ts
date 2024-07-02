@@ -1,10 +1,10 @@
-import type { Asset } from '@swapkit/core';
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { RUNEAsset } from 'helpers/assets';
-import { useBalance } from 'hooks/useBalance';
-import { useDebouncedCallback } from 'hooks/useDebouncedValue';
-import { usePools } from 'hooks/usePools';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { Asset } from "@swapkit/sdk";
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { RUNEAsset } from "helpers/assets";
+import { useBalance } from "hooks/useBalance";
+import { useDebouncedCallback } from "hooks/useDebouncedValue";
+import { usePools } from "hooks/usePools";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
   includeRune?: boolean;
@@ -31,7 +31,7 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
       const poolsToMaxBalance = includeRune ? [...pools, { asset: RUNEAsset.toString() }] : pools;
 
       const poolsPromises = poolsToMaxBalance.map(async (pool) => {
-        const asset = AssetValue.fromStringSync(pool.asset)!;
+        const asset = AssetValue.from({ asset: pool.asset });
         const balance = await getMaxBalance(asset, true);
 
         return { asset, balance };
@@ -53,11 +53,11 @@ export const useAssetsWithBalance = ({ assets, includeRune }: Props = {}) => {
   useEffect(() => {
     const filteredPools =
       pools
-        ?.filter((pool) => pool.saversDepth !== '0')
+        ?.filter((pool) => pool.saversDepth !== "0")
         .sort((a, b) => {
           return new SwapKitNumber({ value: b.runeDepth, decimal: 8 })
             .sub(a.runeDepth)
-            .getValue('number');
+            .getValue("number");
         }) || [];
 
     handleAssetSet(filteredPools);

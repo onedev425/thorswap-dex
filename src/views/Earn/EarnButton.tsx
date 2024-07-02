@@ -1,6 +1,6 @@
-import { Box, Button, Icon } from 'components/Atomic';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import { Box, Button, Icon } from "components/Atomic";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   disabled?: boolean;
@@ -33,7 +33,7 @@ export const EarnButton = memo(
             onClick={handleSubmit}
             rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
-            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
             tooltipClasses="text-center mx-[-2px]"
             variant="fancy"
           >
@@ -42,7 +42,7 @@ export const EarnButton = memo(
         </Box>
       ) : (
         <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-          {t('common.connectWallet')}
+          {t("common.connectWallet")}
         </Button>
       )}
     </Box>

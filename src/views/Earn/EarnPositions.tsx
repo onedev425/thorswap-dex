@@ -1,16 +1,16 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { Box, Icon } from 'components/Atomic';
-import { DoughnutChart } from 'components/Chart/DoughnutChart/DoughnutChart';
-import { HighlightCard } from 'components/HighlightCard';
-import { ReloadButton } from 'components/ReloadButton';
-import { useWallet } from 'context/wallet/hooks';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useState } from 'react';
-import { t } from 'services/i18n';
-import { EarnPosition } from 'views/Earn/EarnPosition';
-import type { SaverPosition } from 'views/Earn/types';
-import { ShareChartIndex, sharesChartIndexes } from 'views/Home/types';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { Box, Icon } from "components/Atomic";
+import { DoughnutChart } from "components/Chart/DoughnutChart/DoughnutChart";
+import { HighlightCard } from "components/HighlightCard";
+import { ReloadButton } from "components/ReloadButton";
+import { useWallet } from "context/wallet/hooks";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useState } from "react";
+import { t } from "services/i18n";
+import { EarnPosition } from "views/Earn/EarnPosition";
+import type { SaverPosition } from "views/Earn/types";
+import { ShareChartIndex, sharesChartIndexes } from "views/Home/types";
 
 type Props = {
   positions: SaverPosition[];
@@ -66,7 +66,7 @@ export const EarnPositions = ({ positions, refresh, withdrawAsset, depositAsset 
         ) : (
           <Box center className="gap-2" flex={1}>
             <Text textStyle="subtitle2" variant="primary">
-              {isWalletLoading ? t('common.loading') : t('views.wallet.noDataToShow')}
+              {isWalletLoading ? t("common.loading") : t("views.wallet.noDataToShow")}
             </Text>
             {isWalletLoading && <Icon spin name="loader" size={32} />}
           </Box>

@@ -1,8 +1,8 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { IconName } from 'components/Atomic';
-import { Box, Button, Icon } from 'components/Atomic';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { IconName } from "components/Atomic";
+import { Box, Button, Icon } from "components/Atomic";
+import { memo } from "react";
 
 type Props = {
   label: string;
@@ -23,7 +23,7 @@ export const AccountCardButton = memo(
           leftIcon={
             <Icon
               className={classNames(
-                'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary min-w-[20px]',
+                "group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary min-w-[20px]",
                 className,
               )}
               color="secondary"

@@ -1,10 +1,10 @@
-import { Box } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { memo, useMemo } from 'react';
-import { Line } from 'react-chartjs-2';
+import { Box } from "@chakra-ui/react";
+import classNames from "classnames";
+import { memo, useMemo } from "react";
+import { Line } from "react-chartjs-2";
 
-import { getDataForCurvedLineChart } from './config/chartData';
-import { getChartOptions } from './config/chartOptions';
+import { getDataForCurvedLineChart } from "./config/chartData";
+import { getChartOptions } from "./config/chartOptions";
 
 type ChartProps = {
   className?: string;
@@ -46,7 +46,7 @@ export const ChartPreview = memo(
     );
 
     return (
-      <Box className={classNames('flex-1 w-full h-full relative', className)}>
+      <Box className={classNames("flex-1 w-full h-full relative", className)}>
         {/* @ts-expect-error */}
         <Line data={chartData} options={options} />
       </Box>

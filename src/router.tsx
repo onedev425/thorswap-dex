@@ -1,46 +1,46 @@
-import 'chart.js/auto';
+import "chart.js/auto";
 
-import { GiftHunt } from 'components/anniversary/GiftHunt';
-import { Box, Icon } from 'components/Atomic';
-import { Layout } from 'components/Layout';
-import { ToastPortal } from 'components/Toast';
-import { isIframe } from 'helpers/isIframe';
-import { lazy, memo, Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
-import { ROUTES } from 'settings/router';
-import { actions } from 'store/app/slice';
-import { useAppDispatch } from 'store/store';
-import { ToSView } from 'views/ToS';
-import * as z from 'zod';
+import { Box, Icon } from "components/Atomic";
+import { Layout } from "components/Layout";
+import { ToastPortal } from "components/Toast";
+import { GiftHunt } from "components/anniversary/GiftHunt";
+import { isIframe } from "helpers/isIframe";
+import { Suspense, lazy, memo, useEffect } from "react";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ROUTES } from "settings/router";
+import { actions } from "store/app/slice";
+import { useAppDispatch } from "store/store";
+import { ToSView } from "views/ToS";
+import * as z from "zod";
 
-const Swap = lazy(() => import('views/Swap'));
-const WalletBalance = lazy(() => import('views/WalletBalance'));
-const Earn = lazy(() => import('views/Earn'));
-const Lending = lazy(() => import('views/Lending'));
-const Multisig = lazy(() => import('views/Multisig/Multisig'));
-const TxBuilder = lazy(() => import('views/Multisig/TxBuilder/TxBuilder'));
-const TxCreate = lazy(() => import('views/Multisig/TxCreate/TxCreate'));
-const TxImport = lazy(() => import('views/Multisig/TxImport/TxImport'));
-const TxMultisig = lazy(() => import('views/Multisig/TxMultisig/TxMultisig'));
-const AddLiquidity = lazy(() => import('views/AddLiquidity'));
-const CreateLiquidity = lazy(() => import('views/CreateLiquidity'));
-const Home = lazy(() => import('views/Home'));
-const NodeDetails = lazy(() => import('views/Nodes/NodeDetails'));
-const NodeManager = lazy(() => import('views/Nodes/NodeManager'));
-const Nodes = lazy(() => import('views/Nodes'));
-const Send = lazy(() => import('views/Send'));
-const LegacyStake = lazy(() => import('views/LegacyStake'));
-const Staking = lazy(() => import('views/Staking'));
-const Thorname = lazy(() => import('views/Thorname'));
-const Vesting = lazy(() => import('views/Vesting'));
-const Wallet = lazy(() => import('views/Wallet'));
-const MultisigCreate = lazy(() => import('views/Multisig/MultisigCreate/MultisigCreate'));
-const MultisigImport = lazy(() => import('views/Multisig/MultisigImport/MultisigImport'));
-const Transaction = lazy(() => import('views/Transaction/Transaction'));
+const Swap = lazy(() => import("views/Swap"));
+const WalletBalance = lazy(() => import("views/WalletBalance"));
+const Earn = lazy(() => import("views/Earn"));
+const Lending = lazy(() => import("views/Lending"));
+const Multisig = lazy(() => import("views/Multisig/Multisig"));
+const TxBuilder = lazy(() => import("views/Multisig/TxBuilder/TxBuilder"));
+const TxCreate = lazy(() => import("views/Multisig/TxCreate/TxCreate"));
+const TxImport = lazy(() => import("views/Multisig/TxImport/TxImport"));
+const TxMultisig = lazy(() => import("views/Multisig/TxMultisig/TxMultisig"));
+const AddLiquidity = lazy(() => import("views/AddLiquidity"));
+const CreateLiquidity = lazy(() => import("views/CreateLiquidity"));
+const Home = lazy(() => import("views/Home"));
+const NodeDetails = lazy(() => import("views/Nodes/NodeDetails"));
+const NodeManager = lazy(() => import("views/Nodes/NodeManager"));
+const Nodes = lazy(() => import("views/Nodes"));
+const Send = lazy(() => import("views/Send"));
+const LegacyStake = lazy(() => import("views/LegacyStake"));
+const Staking = lazy(() => import("views/Staking"));
+const Thorname = lazy(() => import("views/Thorname"));
+const Vesting = lazy(() => import("views/Vesting"));
+const Wallet = lazy(() => import("views/Wallet"));
+const MultisigCreate = lazy(() => import("views/Multisig/MultisigCreate/MultisigCreate"));
+const MultisigImport = lazy(() => import("views/Multisig/MultisigImport/MultisigImport"));
+const Transaction = lazy(() => import("views/Transaction/Transaction"));
 
 // New LP
-const Liquidity = lazy(() => import('views/new-liquidity'));
-const WithdrawLiquidity = lazy(() => import('views/withdraw-liquidity'));
+const Liquidity = lazy(() => import("views/new-liquidity"));
+const WithdrawLiquidity = lazy(() => import("views/withdraw-liquidity"));
 
 export type RouteType = {
   path: string;
@@ -107,23 +107,23 @@ export const PublicRoutes = memo(() => {
   useEffect(() => {
     if (isIframe()) {
       if (!window.location.search) {
-        throw new Error('Invalid iframe');
+        throw new Error("Invalid iframe");
       }
 
       const params = new URLSearchParams(window.location.search);
       const values = {
-        fee: Number.parseInt(params.get('fee') ?? '50', 10),
-        address: params.get('address') ?? 't',
-        basePair: params.get('basePair') ?? '',
-        logoUrl: params.get('logoUrl') ?? '',
-        isWidget: params.has('widget'),
+        fee: Number.parseInt(params.get("fee") ?? "50", 10),
+        address: params.get("address") ?? "t",
+        basePair: params.get("basePair") ?? "",
+        logoUrl: params.get("logoUrl") ?? "",
+        isWidget: params.has("widget"),
       };
       try {
         const iframeParams = iframeParamsSchema.parse(values);
 
         appDispatch(actions.setIframeData(iframeParams));
-      } catch (error) {
-        throw new Error('Invalid iframe');
+      } catch (_error) {
+        throw new Error("Invalid iframe");
       }
     }
   }, [appDispatch]);

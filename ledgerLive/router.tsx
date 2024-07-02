@@ -1,15 +1,15 @@
-import 'chart.js/auto';
+import "chart.js/auto";
 
-import { Box, Icon } from 'components/Atomic';
-import { Layout } from 'components/Layout';
-import { ToastPortal } from 'components/Toast';
-import { lazy, memo, Suspense } from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
-import { ROUTES } from 'settings/router';
-import Swap from 'views/Swap';
-import WalletBalance from 'views/WalletBalance';
+import { Box, Icon } from "components/Atomic";
+import { Layout } from "components/Layout";
+import { ToastPortal } from "components/Toast";
+import { Suspense, lazy, memo } from "react";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ROUTES } from "settings/router";
+import Swap from "views/Swap";
+import WalletBalance from "views/WalletBalance";
 
-const Transaction = lazy(() => import('views/Transaction/Transaction'));
+const Transaction = lazy(() => import("views/Transaction/Transaction"));
 
 export type RouteType = {
   path: string;

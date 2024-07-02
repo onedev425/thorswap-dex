@@ -1,10 +1,10 @@
-import type { SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { useInputAmount } from 'components/InputAmount/useInputAmount';
-import { useTheme } from 'context/theme/ThemeContext';
-import { useRef } from 'react';
+import type { SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { useInputAmount } from "components/InputAmount/useInputAmount";
+import { useTheme } from "context/theme/ThemeContext";
+import { useRef } from "react";
 
-import './Range.css';
+import "./Range.css";
 
 type Props = {
   onAmountChange: (e: SwapKitNumber) => void;
@@ -21,14 +21,14 @@ const Range = ({ onAmountChange, amountValue }: Props) => {
 
   return (
     <input
-      className={classNames('range', { light: isLight, dark: !isLight })}
+      className={classNames("range", { light: isLight, dark: !isLight })}
       max="100"
       min="0"
       onChange={onChange}
       ref={slider}
       step="1"
       type="range"
-      value={rawValue || '0'}
+      value={rawValue || "0"}
     />
   );
 };

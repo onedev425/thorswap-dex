@@ -2,15 +2,15 @@ import type {
   CompletedTransactionType,
   PendingTransactionType,
   TransactionsState,
-} from 'store/transactions/types';
+} from "store/transactions/types";
 
 export const findTxById = (txs: TransactionsState, txId?: string) => {
-  if (!txs.length || !txId) return null;
+  if (!(txs.length && txId)) return null;
   return txs.find(({ txid, id, hash }) => [id, txid, hash].includes(txId)) || null;
 };
 
 export const findTxIndexById = (txs: TransactionsState, txId?: string) => {
-  if (!txs.length || !txId) return -1;
+  if (!(txs.length && txId)) return -1;
   return txs.findIndex(({ txid, id, hash }) => [id, txid, hash].includes(txId));
 };
 

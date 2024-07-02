@@ -1,15 +1,15 @@
-import { QueryStatus } from '@reduxjs/toolkit/query';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { IS_LEDGER_LIVE, IS_PROD } from 'settings/config';
-import { useLazyGetTokenListQuery } from 'store/static/api';
-import { useAppSelector } from 'store/store';
-import { useGetProvidersQuery } from 'store/thorswap/api';
-import type { Token } from 'store/thorswap/types';
+import { QueryStatus } from "@reduxjs/toolkit/query";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { IS_LEDGER_LIVE, IS_PROD } from "settings/config";
+import { useLazyGetTokenListQuery } from "store/static/api";
+import { useAppSelector } from "store/store";
+import { useGetProvidersQuery } from "store/thorswap/api";
+import type { Token } from "store/thorswap/types";
 
 export enum Provider {
-  V1_PROVIDERS = 'V1_PROVIDERS',
-  CHAINFLIP = 'CHAINFLIP',
-  MAYACHAIN = 'MAYACHAIN',
+  V1_PROVIDERS = "V1_PROVIDERS",
+  CHAINFLIP = "CHAINFLIP",
+  MAYACHAIN = "MAYACHAIN",
 }
 
 /**
@@ -18,10 +18,10 @@ export enum Provider {
 export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
   ? []
   : IS_LEDGER_LIVE
-    ? ['Stargatearb', 'Pancakeswap', 'Pancakeswapeth', 'Traderjoe', 'Pangolin']
+    ? ["Stargatearb", "Pancakeswap", "Pancakeswapeth", "Traderjoe", "Pangolin"]
     : [];
 
-const UNCHAINABLE_PROVIDERS = ['CHAINFLIP', 'MAYACHAIN'];
+const UNCHAINABLE_PROVIDERS = ["CHAINFLIP", "MAYACHAIN"];
 
 export const useTokenList = (withTradingPairs = false) => {
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -65,7 +65,7 @@ export const useTokenList = (withTradingPairs = false) => {
     if (withTradingPairs) {
       const chainableTokens = providersData
         .filter(({ data }) => {
-          return !UNCHAINABLE_PROVIDERS.includes(data?.provider || '');
+          return !UNCHAINABLE_PROVIDERS.includes(data?.provider || "");
         })
         .reduce(
           (acc, { data, status }) =>

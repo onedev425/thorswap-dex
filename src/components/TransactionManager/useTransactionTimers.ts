@@ -1,6 +1,6 @@
-import { getTxState } from 'components/TransactionTracker/helpers';
-import { useEffect, useMemo, useState } from 'react';
-import type { TxTrackerLeg } from 'store/transactions/types';
+import { getTxState } from "components/TransactionTracker/helpers";
+import { useEffect, useMemo, useState } from "react";
+import type { TxTrackerLeg } from "store/transactions/types";
 
 type LegTimer = { timeLeft: number | null; isCompleted: boolean };
 type Params = { isTxFinished: boolean; estimatedDuration?: number | null };
@@ -12,7 +12,7 @@ export const useTransactionTimers = (
   const [refreshCounter, setRefreshCounter] = useState(1);
 
   const legsTimers = useMemo(() => {
-    if (!legs.length || !refreshCounter) return [];
+    if (!(legs.length && refreshCounter)) return [];
 
     const legsState: LegTimer[] = legs.map((leg) => {
       const { completed } = getTxState(leg.status);
@@ -24,12 +24,12 @@ export const useTransactionTimers = (
   }, [legs, refreshCounter]);
 
   const canUseLegsDuration = useMemo(() => {
-    return legs.length && legs.every((leg) => typeof leg.estimatedDuration !== 'undefined');
+    return legs.length && legs.every((leg) => typeof leg.estimatedDuration !== "undefined");
   }, [legs]);
 
   const totalTimeLeft = useMemo(() => {
     if (!canUseLegsDuration) {
-      return typeof estimatedDuration === 'undefined' ? null : estimatedDuration;
+      return typeof estimatedDuration === "undefined" ? null : estimatedDuration;
     }
 
     if (isTxFinished) {

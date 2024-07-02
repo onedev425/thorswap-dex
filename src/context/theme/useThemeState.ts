@@ -1,12 +1,12 @@
-import { useColorMode } from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
-import { useApp } from 'store/app/hooks';
-import { ThemeType } from 'types/app';
+import { useColorMode } from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
+import { useApp } from "store/app/hooks";
+import { ThemeType } from "types/app";
 
 export const useThemeState = () => {
   const getThemeFromQuery = () => {
     const params = new URLSearchParams(window.location.search);
-    const theme = params.get('theme');
+    const theme = params.get("theme");
 
     switch (theme) {
       case ThemeType.Light:

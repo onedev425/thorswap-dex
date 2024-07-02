@@ -1,8 +1,8 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Icon } from 'components/Atomic';
-import type { ReactNode } from 'react';
-import { useCallback } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Icon } from "components/Atomic";
+import type { ReactNode } from "react";
+import { useCallback } from "react";
 
 type Props = {
   value: boolean;
@@ -13,7 +13,7 @@ type Props = {
 
 export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
   const handleChange = useCallback(
-    ({ target }: any) => {
+    ({ target }: Todo) => {
       onValueChange(target?.checked || !value);
     },
     [onValueChange, value],
@@ -25,15 +25,15 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
         <input
           checked={value}
           className={classNames(
-            'bg-light-bg-primary dark:bg-dark-bg-primary appearance-none transition duration-200 h-6 w-6 rounded-md focus:outline-none cursor-pointer',
+            "bg-light-bg-primary dark:bg-dark-bg-primary appearance-none transition duration-200 h-6 w-6 rounded-md focus:outline-none cursor-pointer",
           )}
           onChange={handleChange}
           type="checkbox"
         />
 
         <Icon
-          className={classNames('opacity-0 pl-0.5 pt-0.5 absolute pointer-events-none', {
-            '!opacity-100': value,
+          className={classNames("opacity-0 pl-0.5 pt-0.5 absolute pointer-events-none", {
+            "!opacity-100": value,
           })}
           color="primary"
           name="checkmark"
@@ -41,7 +41,7 @@ export const Checkbox = ({ value, onValueChange, label, className }: Props) => {
         />
       </Box>
 
-      {typeof label === 'string' ? (
+      {typeof label === "string" ? (
         <Text as="label" className="cursor-pointer" fontWeight="semibold" variant="secondary">
           {label}
         </Text>

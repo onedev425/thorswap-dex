@@ -1,10 +1,10 @@
-import type { SystemStyleObject } from '@chakra-ui/react';
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { AnalysisPlaceholder } from 'components/Analysis/AnalysisPlaceholder';
-import { Icon } from 'components/Atomic';
-import { ChartPreview } from 'components/ChartPreview';
-import { easeInOutTransition } from 'components/constants';
-import { t } from 'services/i18n';
+import type { SystemStyleObject } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { AnalysisPlaceholder } from "components/Analysis/AnalysisPlaceholder";
+import { Icon } from "components/Atomic";
+import { ChartPreview } from "components/ChartPreview";
+import { easeInOutTransition } from "components/constants";
+import { t } from "services/i18n";
 
 type SidebarProps = {
   sx?: SystemStyleObject;
@@ -35,8 +35,8 @@ export const AnalysisSidebar = ({
   return (
     <Flex
       _dark={{
-        bgColor: 'bgSecondary',
-        border: 'none',
+        bgColor: "bgSecondary",
+        border: "none",
       }}
       align="center"
       bgColor="white"
@@ -46,25 +46,25 @@ export const AnalysisSidebar = ({
       boxShadow="md"
       boxSizing="border-box"
       direction="column"
-      justify={historyData ? 'start' : 'center'}
+      justify={historyData ? "start" : "center"}
       maxWidth="480px"
       minH="500px"
-      mt={{ base: 0, lg: '64px' }}
+      mt={{ base: 0, lg: "64px" }}
       mx="auto"
       p={4}
       sx={sx}
       top={0}
       transition={easeInOutTransition}
-      width={{ lg: '280px' }}
+      width={{ lg: "280px" }}
     >
       {isLoading ? (
         <Icon spin name="loader" size={24} />
       ) : historyData ? (
         <Box w="full">
           <Box pb={2} pl={2}>
-            <Text>{t('components.gasHistory.chartTitle', { chain })}</Text>
+            <Text>{t("components.gasHistory.chartTitle", { chain })}</Text>
             <Flex>
-              <Text fontSize="11px">{t('views.swap.currentGasRate')}</Text>
+              <Text fontSize="11px">{t("views.swap.currentGasRate")}</Text>
               &nbsp;
               <Text color={`brand.${gasState?.color}`} fontSize="11px">{`${gasState?.state} (${
                 historyData.values[historyData.values.length - 1]

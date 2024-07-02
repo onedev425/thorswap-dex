@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export type ReservePrize = {
   prize: {
@@ -12,23 +12,24 @@ export type ReservePrize = {
 type SwapKitResponse<T = null> = { result: { data: { json: T } } }[];
 
 const localApi = false;
-const baseURL = localApi ? 'http://localhost:3000' : 'https://v3-dex.vercel.app';
+const baseURL = localApi ? "http://localhost:3000" : "https://v3-dex.vercel.app";
 
-const toTRPCParams = (params: any) => encodeURIComponent(JSON.stringify({ '0': { json: params } }));
+const toTRPCParams = (params: Todo) =>
+  encodeURIComponent(JSON.stringify({ "0": { json: params } }));
 const getTRPCResData = <T = null>(res: SwapKitResponse<T>) => {
   try {
     return res[0].result.data.json;
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 };
 
 export const trpcApi = createApi({
-  reducerPath: 'trpcApi',
+  reducerPath: "trpcApi",
   keepUnusedDataFor: 3600,
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseURL}/api/trpc`,
-    mode: 'cors',
+    mode: "cors",
   }),
   endpoints: (build) => ({
     validateUrl: build.query<ReservePrize | null, string>({
@@ -37,9 +38,9 @@ export const trpcApi = createApi({
     }),
     reserve: build.mutation<ReservePrize | null, { hash: string; wallet: string }>({
       query: ({ hash, wallet }) => ({
-        url: `xmas.reserve?batch=1`,
-        method: 'POST',
-        body: { '0': { json: { hash, wallet } } },
+        url: "xmas.reserve?batch=1",
+        method: "POST",
+        body: { "0": { json: { hash, wallet } } },
       }),
       transformResponse: (response: SwapKitResponse<ReservePrize>) => getTRPCResData(response),
     }),

@@ -1,16 +1,16 @@
-import type { Chain } from '@swapkit/core';
-import type { ReactNode } from 'react';
+import type { Chain } from "@swapkit/sdk";
+import type { ReactNode } from "react";
 
 export enum AnnouncementType {
-  Primary = 'primary',
-  Info = 'info',
-  Warn = 'warn',
-  Error = 'error',
+  Primary = "primary",
+  Info = "info",
+  Warn = "warn",
+  Error = "error",
 }
 
 export enum AnnouncementPlacement {
-  Announcement = 'announcement',
-  PromoBanner = 'promoBanner',
+  Announcement = "announcement",
+  PromoBanner = "promoBanner",
 }
 
 export type StatusAnnouncementLink = {
@@ -19,11 +19,11 @@ export type StatusAnnouncementLink = {
 };
 
 export enum ChainStatusFlag {
-  isChainPaused = 'isChainPaused',
-  isLPPaused = 'isLPPaused',
-  isLPDepositPaused = 'isLPDepositPaused',
-  isLPWithdrawalPaused = 'isLPWithdrawalPaused',
-  isTradingPaused = 'isTradingPaused',
+  isChainPaused = "isChainPaused",
+  isLPPaused = "isLPPaused",
+  isLPDepositPaused = "isLPDepositPaused",
+  isLPWithdrawalPaused = "isLPWithdrawalPaused",
+  isTradingPaused = "isTradingPaused",
 }
 
 export type ChainStatusFlags = Partial<Record<ChainStatusFlag, boolean>>;

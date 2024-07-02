@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import useOnClickOutside from 'hooks/useClickOutside';
-import type { ReactNode } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
-import { usePopper } from 'react-popper';
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import useOnClickOutside from "hooks/useClickOutside";
+import type { ReactNode } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react";
+import { usePopper } from "react-popper";
 
 interface PopoverProps {
   openOnHover?: boolean;
@@ -22,7 +22,7 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
     const [popperElement, setPopperElement] = useState<HTMLElement | null>();
     const containerRef = useRef<HTMLDivElement>(null);
     const { styles, attributes } = usePopper(btnRef, popperElement, {
-      placement: 'bottom-end',
+      placement: "bottom-end",
     });
 
     const closePopover = () => {
@@ -62,14 +62,15 @@ export const Popover = forwardRef<ForwarderProps, PopoverProps>(
         {disabled ? (
           trigger
         ) : (
+          // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
           <div onClick={togglePopover} onMouseEnter={openPopoverOnHover} ref={setReferenceElement}>
             {trigger}
           </div>
         )}
 
         <Box
-          className={classNames('-z-20 opacity-0', {
-            '!opacity-100 !z-20': isOpened,
+          className={classNames("-z-20 opacity-0", {
+            "!opacity-100 !z-20": isOpened,
           })}
           ref={setPopperElement}
           style={styles.popper}

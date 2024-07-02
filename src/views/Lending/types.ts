@@ -1,5 +1,5 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import type { AssetSelectType } from 'components/AssetSelect/types';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import type { AssetSelectType } from "components/AssetSelect/types";
 
 export type LoanPosition = {
   asset: AssetValue;
@@ -14,8 +14,8 @@ export type LoanPosition = {
 };
 
 export enum LendingTab {
-  Borrow = 'borrow',
-  Repay = 'repay',
+  Borrow = "borrow",
+  Repay = "repay",
 }
 
 export enum LendingViewTab {
@@ -35,7 +35,7 @@ export type LendingAsset = {
   assetDepthAssetAmount: string;
   runeDepthAssetAmount: string;
   loanCr: string;
-  loanStatus: 'GREEN' | 'YELLOW' | 'RED';
+  loanStatus: "GREEN" | "YELLOW" | "RED";
   loanCollateral: string;
   derivedDepthPercentage: number;
   lendingAvailable: boolean;

@@ -1,8 +1,8 @@
-import { Flex, Text } from '@chakra-ui/react';
-import type { StreamingSwapDetails } from '@swapkit/api';
-import { TxStreamingSwapProgress } from 'components/TransactionTracker/components/TxStreamingSwapProgress';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import { Flex, Text } from "@chakra-ui/react";
+import type { StreamingSwapDetails } from "@swapkit/api";
+import { TxStreamingSwapProgress } from "components/TransactionTracker/components/TxStreamingSwapProgress";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 export const TxStreamingSwapDetails = memo(
   ({
@@ -14,13 +14,13 @@ export const TxStreamingSwapDetails = memo(
       <Flex direction="column">
         <Flex align="center" justify="space-between">
           <Text fontWeight="medium" textStyle="caption" variant="secondary">
-            {t('txManager.streamingSwapDetails')}
+            {t("txManager.streamingSwapDetails")}
           </Text>
 
           {total && (
             <Flex>
               <Text fontWeight="medium" textStyle="caption-xs" variant="primary">
-                {t('txManager.completed')} {completed || 0} / {total}
+                {t("txManager.completed")} {completed || 0} / {total}
               </Text>
             </Flex>
           )}

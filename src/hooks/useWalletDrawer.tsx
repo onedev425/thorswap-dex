@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import type { ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type WalletDrawerContextType = {
   isOpened: boolean;
@@ -10,9 +10,9 @@ type WalletDrawerContextType = {
 
 export const WalletDrawerContext = createContext({
   isOpened: false,
-  setIsDrawerVisible: (_: boolean) => {},
-  onToggle: () => {},
-  close: () => {},
+  setIsDrawerVisible: (_: boolean) => undefined,
+  onToggle: () => undefined,
+  close: () => undefined,
 } as WalletDrawerContextType);
 
 type Props = {
@@ -23,7 +23,7 @@ const WalletDrawerProvider = ({ children }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isOpened ? 'hidden' : 'unset';
+    document.body.style.overflow = isOpened ? "hidden" : "unset";
   }, [isOpened]);
 
   const onToggle = useCallback(() => {

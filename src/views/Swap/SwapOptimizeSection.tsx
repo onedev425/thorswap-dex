@@ -1,13 +1,13 @@
-import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { type AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Icon, Tooltip } from 'components/Atomic';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { formatDuration } from 'components/TransactionTracker/helpers';
-import { STREAMING_SWAPS_URL } from 'config/constants';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { navigateToExternalLink } from 'settings/router';
+import { Card, Collapse, Flex, Text } from "@chakra-ui/react";
+import { type AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { Icon, Tooltip } from "components/Atomic";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { formatDuration } from "components/TransactionTracker/helpers";
+import { STREAMING_SWAPS_URL } from "config/constants";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { navigateToExternalLink } from "settings/router";
 
 type Props = {
   streamSwap: boolean;
@@ -34,7 +34,7 @@ export const SwapOptimizeSection = ({
   const outputAmount = useMemo(
     () =>
       new SwapKitNumber({
-        value: route?.expectedOutput || '0',
+        value: route?.expectedOutput || "0",
         decimal: outputAsset?.decimal || 0,
       }),
     [outputAsset?.decimal, route?.expectedOutput],
@@ -43,7 +43,7 @@ export const SwapOptimizeSection = ({
   const outputAmountStreamingSwap = useMemo(
     () =>
       new SwapKitNumber({
-        value: route?.streamingSwap?.expectedOutput || '0',
+        value: route?.streamingSwap?.expectedOutput || "0",
         decimal: outputAsset?.decimal || 0,
       }),
     [outputAsset?.decimal, route?.streamingSwap?.expectedOutput],
@@ -53,14 +53,14 @@ export const SwapOptimizeSection = ({
 
   return (
     <Flex animateOpacity as={Collapse} in={canStreamSwap} w="100%">
-      <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
+      <Card gap={2} p={3} sx={{ w: "full", borderRadius: 16 }} variant="filledContainerTertiary">
         <Flex>
           <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            {t('views.swap.priceOptimizationAvailable')}
+            {t("views.swap.priceOptimizationAvailable")}
           </Text>
 
           <Tooltip
-            content={t('views.swap.priceOptimizationInfo')}
+            content={t("views.swap.priceOptimizationInfo")}
             onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
             place="bottom"
           >
@@ -70,17 +70,17 @@ export const SwapOptimizeSection = ({
 
         <Flex gap={1}>
           <Card
-            borderColor={streamSwap ? 'brand.btnPrimary' : undefined}
+            borderColor={streamSwap ? "brand.btnPrimary" : undefined}
             flex={1}
             onClick={() => toggleStreamSwap(true)}
             px={2}
             py={1}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
             variant="filledTertiary"
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">{t('views.swap.priceOptimized')}</Text>
+                <Text textStyle="caption-xs">{t("views.swap.priceOptimized")}</Text>
                 <Icon color="yellow" name="coin" size={20} />
               </Flex>
 
@@ -94,7 +94,7 @@ export const SwapOptimizeSection = ({
 
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
-                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ''}
+                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ""}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
                       (+{formatPrice(priceUSDDiff)})
@@ -106,17 +106,17 @@ export const SwapOptimizeSection = ({
           </Card>
 
           <Card
-            borderColor={!streamSwap ? 'brand.alpha.btnPrimary' : undefined}
+            borderColor={streamSwap ? undefined : "brand.alpha.btnPrimary"}
             flex={1}
             onClick={() => toggleStreamSwap(false)}
             px={2}
             py={1}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
             variant="filledTertiary"
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">{t('views.swap.timeOptimized')}</Text>
+                <Text textStyle="caption-xs">{t("views.swap.timeOptimized")}</Text>
                 <Icon color="secondaryBtn" name="timer" size={22} />
               </Flex>
 
@@ -132,7 +132,7 @@ export const SwapOptimizeSection = ({
                   </Flex>
 
                   <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
+                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ""}
                   </Text>
                 </Flex>
               </Flex>

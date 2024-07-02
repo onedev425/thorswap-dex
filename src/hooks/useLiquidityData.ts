@@ -1,9 +1,9 @@
-import type { Chain } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useMemo } from 'react';
-import { useGetFullMemberQuery } from 'store/midgard/api';
-import type { FullMemberPool } from 'store/midgard/types';
-import { LiquidityTypeOption } from 'store/midgard/types';
+import type { Chain } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useMemo } from "react";
+import { useGetFullMemberQuery } from "store/midgard/api";
+import type { FullMemberPool } from "store/midgard/types";
+import { LiquidityTypeOption } from "store/midgard/types";
 
 export const useLiquidityData = ({
   testAddresses,
@@ -46,12 +46,12 @@ export const useLPMemberData = ({
     [assetString, data, walletAddresses, liquidityType],
   );
   const isRunePending = useMemo(
-    () => parseInt(lpMemberData?.runePending || '0') > 0,
+    () => Number.parseInt(lpMemberData?.runePending || "0") > 0,
     [lpMemberData?.runePending],
   );
 
   const isAssetPending = useMemo(
-    () => parseInt(lpMemberData?.assetPending || '0') > 0,
+    () => Number.parseInt(lpMemberData?.assetPending || "0") > 0,
     [lpMemberData?.assetPending],
   );
 

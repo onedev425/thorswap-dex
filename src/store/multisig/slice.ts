@@ -1,12 +1,12 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { getFromStorage, saveInStorage } from 'helpers/storage';
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { getFromStorage, saveInStorage } from "helpers/storage";
 
-import * as multisigActions from './actions';
-import type { MultisigWallet, State } from './types';
+import * as multisigActions from "./actions";
+import type { MultisigWallet, State } from "./types";
 
 const EMPTY_STATE = {
-  address: '',
-  name: '',
+  address: "",
+  name: "",
   members: [],
   threshold: 2,
   balances: [],
@@ -15,22 +15,22 @@ const EMPTY_STATE = {
 
 const initialState: State =
   {
-    ...(getFromStorage('multisigWallet') as MultisigWallet),
+    ...(getFromStorage("multisigWallet") as MultisigWallet),
     balances: [],
     loadingBalances: false,
   } || EMPTY_STATE;
 
 const multisigSlice = createSlice({
-  name: 'multisig',
+  name: "multisig",
   initialState,
   reducers: {
     addMultisigWallet(_, { payload }: PayloadAction<MultisigWallet>) {
-      saveInStorage({ key: 'multisigWallet', value: payload });
+      saveInStorage({ key: "multisigWallet", value: payload });
 
       return { ...payload, balances: [], loadingBalances: false };
     },
     clearMultisigWallet() {
-      saveInStorage({ key: 'multisigWallet', value: EMPTY_STATE });
+      saveInStorage({ key: "multisigWallet", value: EMPTY_STATE });
       return EMPTY_STATE;
     },
   },

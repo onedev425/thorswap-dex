@@ -1,13 +1,13 @@
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { MaxInt256 } from 'ethers';
-import { stakingV2Addr } from 'helpers/assets';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { t } from 'services/i18n';
-import { VestingType } from 'views/Vesting/types';
+import type { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import { Box, Button } from "components/Atomic";
+import { MaxInt256 } from "ethers";
+import { stakingV2Addr } from "helpers/assets";
+import { memo, useCallback, useEffect, useState } from "react";
+import { t } from "services/i18n";
+import { VestingType } from "views/Vesting/types";
 
-import { StakeActions, useVthorUtil } from './hooks';
+import { StakeActions, useVthorUtil } from "./hooks";
 
 type Props = {
   action: StakeActions;
@@ -31,9 +31,9 @@ export const ConfirmVThorButton = memo(
     const { approveTHOR } = useVthorUtil();
 
     const checkOnApprove = useCallback(async () => {
-      const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getWallet } = await (await import("services/swapKit")).getSwapKitClient();
       const ethWalletMethods = getWallet(Chain.Ethereum);
-      if (!ethWalletMethods || !ethAddress) return;
+      if (!(ethWalletMethods && ethAddress)) return;
 
       const isApproved = await ethWalletMethods?.isApproved?.({
         from: ethAddress,
@@ -63,11 +63,11 @@ export const ConfirmVThorButton = memo(
                     size="lg"
                     variant="fancy"
                   >
-                    {t('txManager.stake')}
+                    {t("txManager.stake")}
                   </Button>
                 ) : (
                   <Button stretch loading={false} onClick={approveTHOR} size="lg" variant="fancy">
-                    {t('txManager.approve')}
+                    {t("txManager.approve")}
                   </Button>
                 )}
               </>
@@ -79,13 +79,13 @@ export const ConfirmVThorButton = memo(
                 size="lg"
                 variant="fancy"
               >
-                {t('views.stakingVThor.unstake')}
+                {t("views.stakingVThor.unstake")}
               </Button>
             )}
           </Box>
         ) : (
           <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         )}
       </Box>

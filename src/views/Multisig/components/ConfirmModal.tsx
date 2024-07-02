@@ -1,7 +1,7 @@
-import { Box, Button, Modal } from 'components/Atomic';
-import type { ReactNode } from 'react';
-import { useCallback, useEffect } from 'react';
-import { t } from 'services/i18n';
+import { Box, Button, Modal } from "components/Atomic";
+import type { ReactNode } from "react";
+import { useCallback, useEffect } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   isOpened: boolean;
@@ -28,7 +28,7 @@ export const ConfirmModal = ({ isOpened, onConfirm, onClose, children }: Props) 
   }, [isOpened, onClose]);
 
   const handleProceed = useCallback(() => {
-    if (!onConfirm || !isOpened) {
+    if (!isOpened) {
       return;
     }
     onConfirm();
@@ -41,12 +41,12 @@ export const ConfirmModal = ({ isOpened, onConfirm, onClose, children }: Props) 
   }, [onClose]);
 
   return (
-    <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
+    <Modal isOpened={isOpened} onClose={handleCancel} title={t("common.confirm")}>
       <Box col className="gap-y-4 md:!min-w-[350px]">
         {children && <div>{children}</div>}
 
         <Button stretch onClick={handleProceed} size="md" variant="fancy">
-          {t('common.confirm')}
+          {t("common.confirm")}
         </Button>
       </Box>
     </Modal>

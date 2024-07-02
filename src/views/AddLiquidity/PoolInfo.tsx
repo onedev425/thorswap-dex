@@ -1,6 +1,6 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Collapse, Icon } from 'components/Atomic';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Box, Collapse, Icon } from "components/Atomic";
+import { t } from "services/i18n";
 
 type Props = {
   poolTicker: string;
@@ -12,19 +12,19 @@ type Props = {
 };
 
 const borderClasses =
-  'gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray';
+  "gap-2 border-0 border-r border-dotted border-light-typo-gray dark:border-dark-typo-gray";
 
 export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rate }: Props) => {
   const fields = [
     {
-      label: `${poolTicker} ${t('common.per')} ${runeTicker}`,
-      value: rate || 'N/A',
+      label: `${poolTicker} ${t("common.per")} ${runeTicker}`,
+      value: rate || "N/A",
     },
-    { label: t('views.wallet.slip'), value: slippage || 'N/A' },
-    { label: t('common.fee'), value: fee || 'N/A' },
+    { label: t("views.wallet.slip"), value: slippage || "N/A" },
+    { label: t("common.fee"), value: fee || "N/A" },
     {
-      label: t('views.addLiquidity.shareOfPool'),
-      value: poolShare || 'N/A',
+      label: t("views.addLiquidity.shareOfPool"),
+      value: poolShare || "N/A",
     },
   ];
 
@@ -37,7 +37,7 @@ export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rat
           <Icon color="secondary" name="infoCircle" size={16} />
 
           <Text fontWeight="normal" textStyle="caption" variant="primary">
-            {t('views.addLiquidity.pricesAndPoolShare')}
+            {t("views.addLiquidity.pricesAndPoolShare")}
           </Text>
         </Box>
       }
@@ -51,7 +51,7 @@ export const PoolInfo = ({ poolTicker, runeTicker, poolShare, slippage, fee, rat
             <Box
               col
               alignCenter={!(first || last)}
-              className={last ? 'text-right' : borderClasses}
+              className={last ? "text-right" : borderClasses}
               flex={1}
               justify="between"
               key={label}

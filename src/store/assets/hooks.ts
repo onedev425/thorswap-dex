@@ -1,7 +1,7 @@
-import type { AssetSelectType } from 'components/AssetSelect/types';
-import { useCallback } from 'react';
-import { actions } from 'store/assets/slice';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import type { AssetSelectType } from "components/AssetSelect/types";
+import { useCallback } from "react";
+import { actions } from "store/assets/slice";
+import { useAppDispatch, useAppSelector } from "store/store";
 
 export const useAssets = () => {
   const { frequent, featured } = useAppSelector((state) => state.assets);

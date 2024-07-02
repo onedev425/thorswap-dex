@@ -1,4 +1,4 @@
-import { Box, Button } from 'components/Atomic';
+import { Box, Button } from "components/Atomic";
 
 type Props = {
   options: number[];

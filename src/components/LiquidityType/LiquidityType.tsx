@@ -1,9 +1,9 @@
-import type { AssetValue } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { TabsSelect } from 'components/TabsSelect';
-import { RUNEAsset } from 'helpers/assets';
-import { useCallback, useMemo } from 'react';
-import { LiquidityTypeOption } from 'store/midgard/types';
+import type { AssetValue } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { TabsSelect } from "components/TabsSelect";
+import { RUNEAsset } from "helpers/assets";
+import { useCallback, useMemo } from "react";
+import { LiquidityTypeOption } from "store/midgard/types";
 
 type LiquidityTypeProps = {
   poolAsset: AssetValue;

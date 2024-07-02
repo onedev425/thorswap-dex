@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import Logo from 'assets/images/logo.png';
-import { Box, Icon, Modal, Tooltip } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import { useAddressUtils } from 'hooks/useAddressUtils';
-import { useEffect, useState } from 'react';
-import { QRCode } from 'react-qrcode-logo';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import Logo from "assets/images/logo.png";
+import { Box, Icon, Modal, Tooltip } from "components/Atomic";
+import { baseHoverClass } from "components/constants";
+import { useAddressUtils } from "hooks/useAddressUtils";
+import { useEffect, useState } from "react";
+import { QRCode } from "react-qrcode-logo";
+import { t } from "services/i18n";
 
 type Props = {
   address: string;
@@ -31,7 +31,7 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
   };
 
   return (
-    <Modal isOpened={isOpened} onClose={onClose} title={title || ''}>
+    <Modal isOpened={isOpened} onClose={onClose} title={title || ""}>
       <Box center col>
         <Text textStyle="subtitle2">{chain}</Text>
         <Box className="gap-3 p-2 bg-white rounded-xl mt-4">
@@ -39,7 +39,7 @@ export const QRCodeModal = ({ title, address, onCancel, chain }: Props) => {
         </Box>
         <Box alignCenter className="space-x-2 mt-3">
           <Text>{address}</Text>
-          <Tooltip content={t('common.copy')}>
+          <Tooltip content={t("common.copy")}>
             <Box className={baseHoverClass}>
               <Icon
                 className="cursor-pointer"

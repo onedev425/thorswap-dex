@@ -1,5 +1,5 @@
-import { Box, keyframes } from '@chakra-ui/react';
-import { useMemo } from 'react';
+import { Box, keyframes } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 type Props = { index: number; size?: number; particlesCount: number };
 
@@ -17,8 +17,8 @@ const rise = keyframes`
   }
 `;
 
-const fireColor = 'rgb(255, 80, 0)';
-const fireColorT = 'rgba(255, 80, 0, 0)';
+const fireColor = "rgb(255, 80, 0)";
+const fireColorT = "rgba(255, 80, 0, 0)";
 
 export const FireParticle = ({ index, size = 5, particlesCount }: Props) => {
   const delay = useMemo(() => Math.random(), []);
@@ -27,10 +27,10 @@ export const FireParticle = ({ index, size = 5, particlesCount }: Props) => {
     <Box
       animation={`${rise} 1s ease-in infinite`}
       sx={{
-        borderRadius: `50%`,
-        mixBlendMode: 'screen',
+        borderRadius: "50%",
+        mixBlendMode: "screen",
         opacity: 0,
-        position: 'absolute',
+        position: "absolute",
         bottom: 0,
         width: size,
         height: size,

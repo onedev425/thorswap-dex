@@ -1,19 +1,19 @@
-import { Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@swapkit/api';
-import { SwapKitNumber } from '@swapkit/core';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { useRouteFees } from 'hooks/useRouteFees';
-import { memo, useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import type { QuoteRoute } from "@swapkit/api";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { useRouteFees } from "hooks/useRouteFees";
+import { memo, useMemo } from "react";
 
 type Props = {
-  fees: QuoteRoute['fees'];
-  size?: 'sm' | 'md';
+  fees: QuoteRoute["fees"];
+  size?: "sm" | "md";
 };
 
-export const GasPriceIndicator = memo(({ fees, size = 'md' }: Props) => {
+export const GasPriceIndicator = memo(({ fees, size = "md" }: Props) => {
   const { networkFee } = useRouteFees(fees);
 
-  const iconSize = useMemo(() => (size === 'md' ? 14 : 10), [size]);
+  const iconSize = useMemo(() => (size === "md" ? 14 : 10), [size]);
 
   if (!networkFee) return null;
 

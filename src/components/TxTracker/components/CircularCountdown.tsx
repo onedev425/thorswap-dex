@@ -1,8 +1,8 @@
-import { CircularProgress, Flex, Text } from '@chakra-ui/react';
-import { Icon, Tooltip } from 'components/Atomic';
-import { formatDuration } from 'components/TransactionTracker/helpers';
-import { memo, useLayoutEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { CircularProgress, Flex, Text } from "@chakra-ui/react";
+import { Icon, Tooltip } from "components/Atomic";
+import { formatDuration } from "components/TransactionTracker/helpers";
+import { memo, useLayoutEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
 export const CircularCountdown = memo(
   ({
@@ -14,25 +14,25 @@ export const CircularCountdown = memo(
     estimatedDuration: number | null;
     hasDetails: boolean;
   }) => {
-    const [size, setSize] = useState('20px');
+    const [size, setSize] = useState("20px");
     const [showTime, setShowTime] = useState(false);
     const percent = timeLeft && estimatedDuration ? (timeLeft / estimatedDuration) * 100 : 0;
 
     useLayoutEffect(() => {
       if (hasDetails) {
-        setSize('50px');
+        setSize("50px");
         setTimeout(() => setShowTime(true), 200);
       } else {
-        setSize('20px');
+        setSize("20px");
         setShowTime(false);
       }
     }, [hasDetails]);
 
     const tooltipContent = useMemo(() => {
-      if (typeof timeLeft !== 'number') return '';
-      if (timeLeft <= 0) return t('txManager.txFinishing');
+      if (typeof timeLeft !== "number") return "";
+      if (timeLeft <= 0) return t("txManager.txFinishing");
 
-      return t('txManager.estimatedTime', { timeLeft: formatDuration(timeLeft) });
+      return t("txManager.estimatedTime", { timeLeft: formatDuration(timeLeft) });
     }, [timeLeft]);
 
     return (
@@ -41,11 +41,11 @@ export const CircularCountdown = memo(
           <CircularProgress
             animation="linear 0.2"
             color="brand.btnPrimary"
-            isIndeterminate={!percent || !timeLeft || timeLeft < 0}
+            isIndeterminate={!(percent && timeLeft) || timeLeft < 0}
             size={size}
             sx={{
-              '& svg': {
-                transition: 'all 0.2s ease-in-out',
+              "& svg": {
+                transition: "all 0.2s ease-in-out",
               },
             }}
             thickness="5px"

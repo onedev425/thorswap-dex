@@ -1,6 +1,6 @@
-import { Box, Button } from 'components/Atomic';
-import { useStepper } from 'components/Stepper/StepperContext';
-import { t } from 'services/i18n';
+import { Box, Button } from "components/Atomic";
+import { useStepper } from "components/Stepper/StepperContext";
+import { t } from "services/i18n";
 
 type Props = {
   backLabel?: string;
@@ -28,7 +28,7 @@ export const StepActions = ({
     >
       {!backHidden && (
         <Button stretch onClick={backAction || prevStep} variant="borderlessTint">
-          {backLabel || t('common.back')}
+          {backLabel || t("common.back")}
         </Button>
       )}
       <Button
@@ -37,7 +37,7 @@ export const StepActions = ({
         onClick={nextAction || nextStep}
         variant="outlinePrimary"
       >
-        {nextLabel || t('common.next')}
+        {nextLabel || t("common.next")}
       </Button>
     </Box>
   );

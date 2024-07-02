@@ -1,8 +1,8 @@
-import type { AssetValue, Chain } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import debounce from 'lodash.debounce';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTransactionsState } from 'store/transactions/hooks';
+import type { AssetValue, Chain } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTransactionsState } from "store/transactions/hooks";
 
 type Params = {
   force?: boolean;
@@ -11,8 +11,8 @@ type Params = {
 };
 
 export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
-  const { isAssetValueApproved } = await (await import('services/swapKit')).getSwapKitClient();
-  const isApproved = await isAssetValueApproved(assetValue, contract || 'thorchain');
+  const { isAssetValueApproved } = await (await import("services/swapKit")).getSwapKitClient();
+  const isApproved = await isAssetValueApproved(assetValue, contract || "thorchain");
 
   // TODO sk might need update
   return !!isApproved;
@@ -46,7 +46,7 @@ const useApproveResult = ({
     { leading: true, trailing: false },
   );
 
-  const value = useMemo(() => assetValue.getValue('string'), [assetValue]);
+  const value = useMemo(() => assetValue.getValue("string"), [assetValue]);
 
   const checkApproved = useCallback(async () => {
     try {
@@ -90,7 +90,7 @@ export const useIsAssetApproved = ({ force, contract, assetValue }: Params) => {
   const { isApproved, isLoading } = useApproveResult({
     isWalletConnected: !!walletAddress,
     numberOfPendingApprovals,
-    skip: typeof force === 'boolean' ? !force : false,
+    skip: typeof force === "boolean" ? !force : false,
     assetValue,
     contract: possibleApprove ? contract : undefined,
   });

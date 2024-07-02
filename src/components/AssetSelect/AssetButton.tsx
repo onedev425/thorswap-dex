@@ -1,12 +1,12 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon/AssetIcon';
-import { Box, Button, Icon } from 'components/Atomic';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon/AssetIcon";
+import { Box, Button, Icon } from "components/Atomic";
 
 type Props = {
   className?: string;
-  size?: 'sm' | 'md';
+  size?: "sm" | "md";
   onClick?: () => void;
   asset: AssetValue;
   withChevron?: boolean;
@@ -18,7 +18,7 @@ type Props = {
 export function AssetButton({
   className,
   asset,
-  size = 'md',
+  size = "md",
   withChevron,
   showAssetType,
   assetTypeComponent,
@@ -29,7 +29,7 @@ export function AssetButton({
     <Button
       className={classNames(
         className,
-        '!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary inline-flex !min-w-fit !ps-0 !pe-0 px-0',
+        "!rounded-full !h-10 !hover:bg-light-gray-primary border !border-solid !border-opacity-40 border-dark-gray-primary !hover:bg-dark-gray-primary inline-flex !min-w-fit !ps-0 !pe-0 px-0",
       )}
       onClick={onClick}
       size={size}
@@ -56,7 +56,7 @@ export function AssetButton({
                 fontWeight="normal"
                 textStyle="caption-xs"
                 textTransform="uppercase"
-                variant={asset.isSynthetic ? 'primaryBtn' : 'secondary'}
+                variant={asset.isSynthetic ? "primaryBtn" : "secondary"}
               >
                 {asset.type}
               </Text>

@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box, Icon, Link } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
-import { useWalletBalance } from 'context/wallet/hooks';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { logException } from 'services/logger';
-import type { TxnResult } from 'store/thorswap/types';
-import type { CompletedTransactionType } from 'store/transactions/types';
-import { TransactionType } from 'store/transactions/types';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box, Icon, Link } from "components/Atomic";
+import { TxDetailsButton } from "components/TransactionManager/TxDetailsButton";
+import { baseHoverClass } from "components/constants";
+import { useWalletBalance } from "context/wallet/hooks";
+import { memo, useCallback, useEffect, useState } from "react";
+import { logException } from "services/logger";
+import type { TxnResult } from "store/thorswap/types";
+import type { CompletedTransactionType } from "store/transactions/types";
+import { TransactionType } from "store/transactions/types";
 
-import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from './helpers';
-import { TransactionStatusIcon } from './TransactionStatusIcon';
+import { TransactionStatusIcon } from "./TransactionStatusIcon";
+import { cutTxPrefix, transactionTitle, useTxLabelUpdate } from "./helpers";
 
 export const CompletedTransaction = memo(
   ({
@@ -27,7 +27,7 @@ export const CompletedTransaction = memo(
     txUrl: txUrlOverwrite,
   }: CompletedTransactionType) => {
     const [transactionLabel, setTransactionLabel] = useState(label);
-    const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: '', secondTxUrl: '' });
+    const [{ txUrl, secondTxUrl }, setTxUrls] = useState({ txUrl: "", secondTxUrl: "" });
 
     const { reloadAllWallets } = useWalletBalance();
 
@@ -37,21 +37,21 @@ export const CompletedTransaction = memo(
       handleLabelUpdate();
     }, [handleLabelUpdate]);
 
-    const transactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
-      if (!tx) return '';
-      const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
+    const transactionUrl = useCallback(async (tx: null | string, chain: Chain) => {
+      if (!tx) return "";
+      const { getExplorerTxUrl } = await (await import("services/swapKit")).getSwapKitClient();
 
       try {
         return tx && getExplorerTxUrl({ chain, txHash: cutTxPrefix(tx) });
-      } catch (error: NotWorth) {
+      } catch (_error) {
         logException(new Error(`Failed to get explorer tx url for chain: ${chain}`));
-        return '';
+        return "";
       }
     }, []);
 
     const getTxIDFromResult = useCallback(
       ({ result, txid }: { txid?: string; result?: string | TxnResult }) => {
-        if (typeof result === 'string' || !result?.type) return '';
+        if (typeof result === "string" || !result?.type) return "";
 
         switch (result.type) {
           case TransactionType.SWAP_ETH_TO_ETH:
@@ -67,7 +67,7 @@ export const CompletedTransaction = memo(
             return txid !== result.txID ? result.txID : null;
 
           default:
-            return '';
+            return "";
         }
       },
       [],
@@ -75,7 +75,7 @@ export const CompletedTransaction = memo(
 
     useEffect(() => {
       const getTxUrl = async () => {
-        const txUrl = txUrlOverwrite || (await transactionUrl(txid, inChain));
+        const txUrl = txUrlOverwrite || (await transactionUrl(txid || null, inChain));
         const secondTxUrl = await transactionUrl(
           getTxIDFromResult({ result, txid }),
           [
@@ -94,7 +94,7 @@ export const CompletedTransaction = memo(
     }, [inChain, txid, transactionUrl, getTxIDFromResult, result, type, txUrlOverwrite]);
 
     useCallback(() => {
-      const finished = ['mined', 'error', 'refund'].includes(status);
+      const finished = ["mined", "error", "refund"].includes(status);
       if (!finished) return;
 
       reloadAllWallets([inChain, outChain]);
@@ -108,8 +108,8 @@ export const CompletedTransaction = memo(
           <Box col>
             <Box alignCenter row>
               <Text
-                className={classNames('text-[15px] pr-1 opacity-75 transition-all', {
-                  '!opacity-100': isLoading,
+                className={classNames("text-[15px] pr-1 opacity-75 transition-all", {
+                  "!opacity-100": isLoading,
                 })}
                 fontWeight="semibold"
               >

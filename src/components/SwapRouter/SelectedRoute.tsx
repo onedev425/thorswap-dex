@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
-import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useFormatPrice } from 'helpers/formatPrice';
-import type React from 'react';
-import { memo, useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Box, Button } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { GasPriceIndicator } from "components/SwapRouter/GasPriceIndicator";
+import { RouteTimeEstimate } from "components/SwapRouter/RouteTimeEstimate";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useFormatPrice } from "helpers/formatPrice";
+import type React from "react";
+import { memo, useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
-import { ProviderLogos } from './ProviderLogos';
-import { RouteGraphModal } from './RouteGraphModal';
+import { ProviderLogos } from "./ProviderLogos";
+import { RouteGraphModal } from "./RouteGraphModal";
 
 type Props = RouteWithApproveType & {
   outputAssetDecimal: number;
@@ -64,12 +64,12 @@ export const SelectedRoute = memo(
     }, []);
 
     const shortPath = useMemo(() => {
-      const pathParts = path.split(' -> ')?.map((part) => part.split('-')?.[0]);
+      const pathParts = path.split(" -> ")?.map((part) => part.split("-")?.[0]);
       const [step1, step2, ...rest] = pathParts;
 
       return rest.length > 1
         ? `${step1} → ${step2} ... ${rest[rest.length - 1]}`
-        : pathParts.join(' → ');
+        : pathParts.join(" → ");
     }, [path]);
 
     return (
@@ -108,17 +108,17 @@ export const SelectedRoute = memo(
             <Button
               className="h-6 px-3 w-fit"
               onClick={openSwapGraph}
-              tooltip={t('views.swap.swapPath')}
+              tooltip={t("views.swap.swapPath")}
               variant="tint"
             >
               <Text textStyle="caption-xs" variant="secondary">
-                {t('common.path')}: {shortPath}
+                {t("common.path")}: {shortPath}
               </Text>
             </Button>
 
             <Box className="mr-2">
               <RouteTimeEstimate
-                streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+                streamSwap={typeof streamSwap === "boolean" ? streamSwap : !!streamingSwap}
                 timeEstimates={timeEstimates}
               />
             </Box>

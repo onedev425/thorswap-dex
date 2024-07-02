@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import { Box, Icon, Link, Tooltip } from 'components/Atomic';
+import classNames from "classnames";
+import { Box, Icon, Link, Tooltip } from "components/Atomic";
 import {
   DISCORD_URL,
   MEDIUM_URL,
@@ -8,24 +8,24 @@ import {
   THORSWAP_DOCUMENTATION_URL,
   THORSWAP_YOUTUBE_URL,
   X_URL,
-} from 'config/constants';
-import { useTheme } from 'context/theme/ThemeContext';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+} from "config/constants";
+import { useTheme } from "context/theme/ThemeContext";
+import { memo } from "react";
+import { t } from "services/i18n";
 
-const commonClasses = 'p-2.5 rounded-2xl transform ';
+const commonClasses = "p-2.5 rounded-2xl transform ";
 
 export const SocialIcons = memo(() => {
   const { isLight } = useTheme();
 
   return (
     <Box center className="flex-1 gap-2 flex-wrap">
-      <Tooltip content={t('common.documentation')} place="bottom">
+      <Tooltip content={t("common.documentation")} place="bottom">
         <Link to={THORSWAP_DOCUMENTATION_URL}>
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-btn-primary fill-btn-primary hover:fill-white',
+              "hover:bg-btn-primary fill-btn-primary hover:fill-white",
             )}
             name="docs"
           />
@@ -36,7 +36,7 @@ export const SocialIcons = memo(() => {
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-discord-purple fill-discord-purple hover:fill-white',
+              "hover:bg-discord-purple fill-discord-purple hover:fill-white",
             )}
             name="discord"
           />
@@ -47,9 +47,9 @@ export const SocialIcons = memo(() => {
           <Icon
             className={classNames(
               commonClasses,
-              'dark:hover:bg-dark-bg-primary hover:bg-white dark:fill-white fill-dark-bg-primary',
+              "dark:hover:bg-dark-bg-primary hover:bg-white dark:fill-white fill-dark-bg-primary",
             )}
-            name={isLight ? 'xLogoLight' : 'xLogo'}
+            name={isLight ? "xLogoLight" : "xLogo"}
           />
         </Link>
       </Tooltip>
@@ -58,7 +58,7 @@ export const SocialIcons = memo(() => {
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-black hover:dark:bg-white fill-black dark:fill-white hover:fill-white hover:dark:fill-black',
+              "hover:bg-black hover:dark:bg-white fill-black dark:fill-white hover:fill-white hover:dark:fill-black",
             )}
             name="medium"
           />
@@ -69,7 +69,7 @@ export const SocialIcons = memo(() => {
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-youtube-red fill-youtube-red hover:fill-white',
+              "hover:bg-youtube-red fill-youtube-red hover:fill-white",
             )}
             name="youtube"
           />
@@ -80,18 +80,18 @@ export const SocialIcons = memo(() => {
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-telegram-blue fill-telegram-blue hover:fill-white',
+              "hover:bg-telegram-blue fill-telegram-blue hover:fill-white",
             )}
             name="telegram"
           />
         </Link>
       </Tooltip>
-      <Tooltip content={t('common.merchStore')} place="bottom">
+      <Tooltip content={t("common.merchStore")} place="bottom">
         <Link to={THORCHADS_MERCH_URL}>
           <Icon
             className={classNames(
               commonClasses,
-              'hover:bg-chain-thor fill-chain-thor hover:fill-white',
+              "hover:bg-chain-thor fill-chain-thor hover:fill-white",
             )}
             name="cart"
           />

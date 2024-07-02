@@ -1,28 +1,28 @@
-import { Text } from '@chakra-ui/react';
-import type { TableRowType } from 'components/Atomic';
-import { Box, Button, Link, Select, Table } from 'components/Atomic';
-import { Helmet } from 'components/Helmet';
-import { Input } from 'components/Input';
-import type { ChangeEvent } from 'react';
-import { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getNodeDetailRoute } from 'settings/router';
-import { useGetNodesQuery } from 'store/midgard/api';
-import { useNodesColumns } from 'views/Nodes/hooks/useNodesColumns';
+import { Text } from "@chakra-ui/react";
+import type { TableRowType } from "components/Atomic";
+import { Box, Button, Link, Select, Table } from "components/Atomic";
+import { Helmet } from "components/Helmet";
+import { Input } from "components/Input";
+import type { ChangeEvent } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { getNodeDetailRoute } from "settings/router";
+import { useGetNodesQuery } from "store/midgard/api";
+import { useNodesColumns } from "views/Nodes/hooks/useNodesColumns";
 
-import { useApp } from '../../store/app/hooks';
+import { useApp } from "../../store/app/hooks";
 
-import { NodeStats } from './NodeStats';
-import { nodeStatusOptions } from './types';
+import { NodeStats } from "./NodeStats";
+import { nodeStatusOptions } from "./types";
 
-const initialSort = [{ id: 'Bond', desc: true }];
+const initialSort = [{ id: "Bond", desc: true }];
 
 const Nodes = () => {
   const navigate = useNavigate();
   const { nodeWatchList } = useApp();
   const [nodeStatusType, setNodeStatusType] = useState(0);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const { data, refetch, isLoading, isFetching } = useGetNodesQuery();
 
   const columns = useNodesColumns(refetch);
@@ -62,15 +62,15 @@ const Nodes = () => {
   return (
     <Box col>
       <Helmet
-        content={t('views.nodes.description')}
+        content={t("views.nodes.description")}
         keywords=" THORChain, Nodes, Overview, Management, DEFI, DEX"
-        title={t('views.nodes.title')}
+        title={t("views.nodes.title")}
       />
       <NodeStats />
       {watchListData?.length > 0 && (
         <Box col className="mt-4 mb-4">
           <Text className="mb-2 text-light-typo-primary dark:text-dark-typo-primary">
-            {`${t('views.nodes.watchList')} (${watchListData.length})`}
+            {`${t("views.nodes.watchList")} (${watchListData.length})`}
           </Text>
           <Table
             sortable
@@ -101,7 +101,7 @@ const Nodes = () => {
           </div>
           <Link className="no-underline" to="/node-manager">
             <Button size="sm" variant="outlineSecondary">
-              {t('common.manage')}
+              {t("common.manage")}
             </Button>
           </Link>
         </Box>

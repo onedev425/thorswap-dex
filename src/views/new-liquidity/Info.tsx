@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import { InfoTable } from 'components/InfoTable';
-import { RUNEAsset, unitToValue } from 'helpers/assets';
-import type { RefObject } from 'react';
-import { memo, useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { PoolShareType } from 'store/midgard/types';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import { InfoTable } from "components/InfoTable";
+import { RUNEAsset, unitToValue } from "helpers/assets";
+import type { RefObject } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { PoolShareType } from "store/midgard/types";
 
 type Props = {
   asset: AssetValue;
@@ -47,16 +47,16 @@ export const LiquidityInfo = memo(
 
     const summary = useMemo(() => {
       const infoFields = [
-        ...(runePending !== '0'
-          ? [{ label: t('views.liquidity.runePending'), value: toUnitValue(runePending) }]
+        ...(runePending !== "0"
+          ? [{ label: t("views.liquidity.runePending"), value: toUnitValue(runePending) }]
           : []),
-        ...(assetPending !== '0'
-          ? [{ label: t('views.liquidity.assetPending'), value: toUnitValue(assetPending) }]
+        ...(assetPending !== "0"
+          ? [{ label: t("views.liquidity.assetPending"), value: toUnitValue(assetPending) }]
           : []),
         ...([PoolShareType.SYM, PoolShareType.RUNE_ASYM].includes(shareType)
           ? [
               {
-                label: `${RUNEAsset.symbol} ${t('views.liquidity.share')}`,
+                label: `${RUNEAsset.symbol} ${t("views.liquidity.share")}`,
                 value: (
                   <Box center className="gap-2">
                     <Text>{`${runeShare} ${RUNEAsset.symbol}`}</Text>
@@ -69,7 +69,7 @@ export const LiquidityInfo = memo(
         ...([PoolShareType.SYM, PoolShareType.ASSET_ASYM].includes(shareType)
           ? [
               {
-                label: `${asset.ticker} ${t('views.liquidity.share')}`,
+                label: `${asset.ticker} ${t("views.liquidity.share")}`,
                 value: (
                   <Box center className="gap-2">
                     <Text>{`${assetShare} ${asset.ticker}`}</Text>
@@ -79,14 +79,14 @@ export const LiquidityInfo = memo(
               },
             ]
           : []),
-        { label: t('views.liquidity.poolShare'), value: poolShare },
-        ...(runeWithdrawn !== '0'
-          ? [{ label: t('views.liquidity.runeWithdrawn'), value: toUnitValue(runeWithdrawn) }]
+        { label: t("views.liquidity.poolShare"), value: poolShare },
+        ...(runeWithdrawn !== "0"
+          ? [{ label: t("views.liquidity.runeWithdrawn"), value: toUnitValue(runeWithdrawn) }]
           : []),
-        ...(assetWithdrawn !== '0'
-          ? [{ label: t('views.liquidity.assetWithdrawn'), value: toUnitValue(assetWithdrawn) }]
+        ...(assetWithdrawn !== "0"
+          ? [{ label: t("views.liquidity.assetWithdrawn"), value: toUnitValue(assetWithdrawn) }]
           : []),
-        { label: t('views.liquidity.lastAdded'), value: lastAddedDate },
+        { label: t("views.liquidity.lastAdded"), value: lastAddedDate },
       ];
 
       return infoFields;
@@ -113,7 +113,7 @@ export const LiquidityInfo = memo(
       >
         {!!pendingTicker && (
           <Text className="brightness-90" textStyle="caption" variant="yellow">
-            {t('pendingLiquidity.content', { asset: pendingTicker })}
+            {t("pendingLiquidity.content", { asset: pendingTicker })}
           </Text>
         )}
         <Box col className="self-stretch pt-1 pb-2">

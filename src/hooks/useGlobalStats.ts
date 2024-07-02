@@ -1,8 +1,8 @@
-import { SwapKitNumber } from '@swapkit/core';
-import { parseToPercent } from 'helpers/parseHelpers';
-import { useGetHistorySwapsQuery, useGetNetworkQuery, useGetStatsQuery } from 'store/midgard/api';
-import type { NetworkResponse } from 'store/midgard/types';
-import { parseBaseValueToNumber } from 'views/Home/GlobalChart';
+import { SwapKitNumber } from "@swapkit/sdk";
+import { parseToPercent } from "helpers/parseHelpers";
+import { useGetHistorySwapsQuery, useGetNetworkQuery, useGetStatsQuery } from "store/midgard/api";
+import type { NetworkResponse } from "store/midgard/types";
+import { parseBaseValueToNumber } from "views/Home/GlobalChart";
 
 const getTotalBond = (networkData?: NetworkResponse) => {
   // totalActiveBond + totalStandbyBond
@@ -45,7 +45,7 @@ const getTotalActiveBond = (networkData?: NetworkResponse) =>
 export const useGlobalStats = () => {
   const { data: stats } = useGetStatsQuery();
   const { data: networkData } = useGetNetworkQuery();
-  const { data: swapGlobalHistory } = useGetHistorySwapsQuery();
+  const { data: swapGlobalHistory } = useGetHistorySwapsQuery({});
 
   const totalBond = getTotalBond(networkData);
   const tvlInRune = getTVL(networkData);

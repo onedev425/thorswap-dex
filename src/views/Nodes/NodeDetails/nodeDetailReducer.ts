@@ -5,13 +5,13 @@ export type AddLiquidityState = {
 };
 
 export type NodeDetailActions =
-  | { type: 'setAmount'; payload: string }
+  | { type: "setAmount"; payload: string }
   | {
-      type: 'setFavorite';
+      type: "setFavorite";
       payload: boolean;
     }
   | {
-      type: 'setActionIndex';
+      type: "setActionIndex";
       payload: number;
     };
 
@@ -20,19 +20,19 @@ export const nodeDetailReducer = (
   actions: NodeDetailActions,
 ): AddLiquidityState => {
   switch (actions.type) {
-    case 'setAmount':
+    case "setAmount":
       return {
         ...state,
         amount: actions.payload,
       };
 
-    case 'setFavorite': {
+    case "setFavorite": {
       return {
         ...state,
         favorite: actions.payload,
       };
     }
-    case 'setActionIndex': {
+    case "setActionIndex": {
       return {
         ...state,
         actionIndex: actions.payload,

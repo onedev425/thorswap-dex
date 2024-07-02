@@ -1,15 +1,15 @@
-import type { QuoteRoute, TxStatus, TxTrackerDetails } from '@swapkit/api';
-import type { Chain, ChainId, WalletOption } from '@swapkit/core';
-import type { BaseWallet } from '@swapkit/helpers';
-import type { CosmosWallets, ThorchainWallets } from '@swapkit/toolbox-cosmos';
-import type { EVMWallets } from '@swapkit/toolbox-evm';
-import type { SubstrateWallets } from '@swapkit/toolbox-substrate';
-import type { UTXOWallets } from '@swapkit/toolbox-utxo';
+import type { QuoteRoute, TxStatus, TxTrackerDetails } from "@swapkit/api";
+import type { BaseWallet } from "@swapkit/helpers";
+import type { Chain, ChainId, WalletOption } from "@swapkit/sdk";
+import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type {
   InitialTrackerPayload,
   TransactionStatus,
   TransactionType,
-} from 'store/transactions/types';
+} from "store/transactions/types";
 
 export type Wallet = BaseWallet<
   ThorchainWallets | EVMWallets | UTXOWallets | CosmosWallets | SubstrateWallets
@@ -17,7 +17,11 @@ export type Wallet = BaseWallet<
 
 export type SupportedWalletOptions = Exclude<
   WalletOption,
-  WalletOption.EXODUS | WalletOption.EIP6963 | WalletOption.RADIX_WALLET
+  | WalletOption.EXODUS
+  | WalletOption.EIP6963
+  | WalletOption.RADIX_WALLET
+  | WalletOption.TALISMAN
+  | WalletOption.PHANTOM
 >;
 
 type LiquidityTxResult<T extends TransactionType> = {
@@ -139,7 +143,7 @@ export type GetWhitelistTokensResponse = {
 export type TxnResult = SuccessTxnResult | WithdrawTxResult | AddLiquidityTxResult;
 
 export type GetTxnStatusResponse =
-  | { ok: false; status: 'pending'; result: string }
+  | { ok: false; status: "pending"; result: string }
   | {
       ok: true;
       status: TransactionStatus;
@@ -174,7 +178,7 @@ export type GetTokensQuoteResponse = {
       path: string;
       providers: string[];
       subProviders: string[];
-      swaps: QuoteRoute['swaps'];
+      swaps: QuoteRoute["swaps"];
       expectedOutput: string;
       expectedOutputMaxSlippage: string;
       expectedOutputUSD: string;
@@ -189,7 +193,7 @@ export type GetTokensQuoteResponse = {
       };
       optimal: boolean;
       complete: boolean;
-      fees: QuoteRoute['fees'];
+      fees: QuoteRoute["fees"];
       meta: {
         sellChain: string;
         sellChainGasRate: string;
@@ -231,7 +235,7 @@ export type GetTokensQuoteResponse = {
         expectedOutputUSD: string;
         expectedOutputMaxSlippageUSD: string;
         estimatedTime: number;
-        fees: QuoteRoute['fees'];
+        fees: QuoteRoute["fees"];
         maxQuantity?: number;
         maxIntervalForMaxQuantity?: number;
         savingsInAsset?: string;
@@ -359,7 +363,7 @@ type BorrowCalldata = {
 
 type BorrowStreamingSwap = {
   estimatedTime: number;
-  fees: QuoteRoute['fees'];
+  fees: QuoteRoute["fees"];
   expectedDebtIssued: string;
   expectedCollateralDeposited: string;
   expectedOutput: string;
@@ -394,7 +398,7 @@ export type BorrowQuoteResponse = {
   amountIn: string;
   amountOut: string;
   amountOutMin: string;
-  swaps: QuoteRoute['swaps'];
+  swaps: QuoteRoute["swaps"];
   targetAddress: string;
   recipientAddress: string;
   memo: string;
@@ -407,7 +411,7 @@ export type BorrowQuoteResponse = {
       };
     };
   };
-  fees: QuoteRoute['fees'];
+  fees: QuoteRoute["fees"];
 
   estimatedTime: number;
   complete: boolean;
@@ -425,7 +429,7 @@ export type RepayStreamingSwap = {
   inboundAddress: string;
   outboundDelayBlocks: number;
   outboundDelaySeconds: number;
-  fees: QuoteRoute['fees'];
+  fees: QuoteRoute["fees"];
   router: string;
   expiry: number;
   memo: string;
@@ -443,7 +447,7 @@ export type RepayQuoteResponse = {
   inboundConfirmationSeconds: number;
   outboundDelayBlocks: number;
   outboundDelaySeconds: number;
-  fees: QuoteRoute['fees'];
+  fees: QuoteRoute["fees"];
   expiry: number;
   warning?: string;
   notes?: string;
@@ -464,7 +468,7 @@ export type LendingAssetResponse = {
   assetDepthAssetAmount: string;
   runeDepthAssetAmount: string;
   loanCr: string;
-  loanStatus: 'GREEN' | 'YELLOW' | 'RED';
+  loanStatus: "GREEN" | "YELLOW" | "RED";
   loanCollateral: string;
   derivedDepthPercentage: string;
   filledPercentage: string;

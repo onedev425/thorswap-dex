@@ -1,8 +1,8 @@
-import type { AssetValue } from '@swapkit/core';
-import { parseAssetToToken } from 'helpers/parseHelpers';
-import { useMemo } from 'react';
-import { useGetTokenCachedPricesQuery } from 'store/thorswap/api';
-import type { GetTokenPriceResponse } from 'store/thorswap/types';
+import type { AssetValue } from "@swapkit/sdk";
+import { parseAssetToToken } from "helpers/parseHelpers";
+import { useMemo } from "react";
+import { useGetTokenCachedPricesQuery } from "store/thorswap/api";
+import type { GetTokenPriceResponse } from "store/thorswap/types";
 export type TokenParam = { assetValue: AssetValue };
 
 export const useTokenPrices = (
@@ -33,8 +33,8 @@ export const useTokenPrices = (
   }, [data]);
 
   const { inputUnitPrice, outputUnitPrice } = useMemo(() => {
-    const inputIdentifier = assets?.[0]?.toString() || '';
-    const outputIdentifier = assets?.[1]?.toString() || '';
+    const inputIdentifier = assets?.[0]?.toString() || "";
+    const outputIdentifier = assets?.[1]?.toString() || "";
 
     return {
       inputUnitPrice: tokenPricesPerIdentifier[inputIdentifier]?.price_usd || 0,

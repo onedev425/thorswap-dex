@@ -1,18 +1,18 @@
-import { Box, Button } from 'components/Atomic';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { LiquidityType } from 'components/LiquidityType/LiquidityType';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { PanelInput } from 'components/PanelInput';
-import { useState } from 'react';
-import { t } from 'services/i18n';
-import { LiquidityTypeOption } from 'store/midgard/types';
-import { AssetInputs } from 'views/AddLiquidity/AssetInputs';
-import { PoolInfo } from 'views/AddLiquidity/PoolInfo';
-import { useTxDeposit } from 'views/Multisig/TxDeposit/hooks';
+import { Box, Button } from "components/Atomic";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { LiquidityType } from "components/LiquidityType/LiquidityType";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { PanelInput } from "components/PanelInput";
+import { useState } from "react";
+import { t } from "services/i18n";
+import { LiquidityTypeOption } from "store/midgard/types";
+import { AssetInputs } from "views/AddLiquidity/AssetInputs";
+import { PoolInfo } from "views/AddLiquidity/PoolInfo";
+import { useTxDeposit } from "views/Multisig/TxDeposit/hooks";
 
 export const TxDeposit = () => {
-  const [assetSideAddress, setassetSideAddress] = useState('');
+  const [assetSideAddress, setassetSideAddress] = useState("");
   const {
     addLiquiditySlip,
     confirmInfo,
@@ -53,11 +53,11 @@ export const TxDeposit = () => {
 
       {liquidityType === LiquidityTypeOption.SYMMETRICAL && (
         <Box col>
-          <InfoTip className="mb-1" content={t('views.multisig.depositSymWarning')} type="warn" />
+          <InfoTip className="mb-1" content={t("views.multisig.depositSymWarning")} type="warn" />
           <PanelInput
             className="mb-1"
             onChange={(e) => setassetSideAddress(e.target.value)}
-            title={t('views.multisig.assetWalletAddress')}
+            title={t("views.multisig.assetWalletAddress")}
             value={assetSideAddress}
           />
         </Box>
@@ -93,7 +93,7 @@ export const TxDeposit = () => {
           size="lg"
           variant="fancy"
         >
-          {t('views.multisig.createTransaction')}
+          {t("views.multisig.createTransaction")}
         </Button>
       </Box>
 

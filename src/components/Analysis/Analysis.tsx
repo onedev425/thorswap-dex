@@ -1,15 +1,15 @@
-import { Box } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { ChainToChainId } from '@swapkit/core';
-import { AnalysisModal } from 'components/Analysis/AnalysisModal';
-import { AnalysisSidebar } from 'components/Analysis/AnalysisSidebar';
-import { gasState } from 'components/Analysis/helpers';
-import { easeInOutTransition } from 'components/constants';
-import dayjs from 'dayjs';
-import { chainName } from 'helpers/chainName';
-import useWindowSize from 'hooks/useWindowSize';
-import { useEffect, useMemo, useState } from 'react';
-import { useGetGasHistoryQuery } from 'store/thorswap/api';
+import { Box } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { ChainToChainId } from "@swapkit/sdk";
+import { AnalysisModal } from "components/Analysis/AnalysisModal";
+import { AnalysisSidebar } from "components/Analysis/AnalysisSidebar";
+import { gasState } from "components/Analysis/helpers";
+import { easeInOutTransition } from "components/constants";
+import dayjs from "dayjs";
+import { chainName } from "helpers/chainName";
+import useWindowSize from "hooks/useWindowSize";
+import { useEffect, useMemo, useState } from "react";
+import { useGetGasHistoryQuery } from "store/thorswap/api";
 
 type Props = {
   analyticsVisible: boolean;
@@ -30,7 +30,7 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
     if (!gasData) return undefined;
     const values = gasData?.history.map((val) => val.value) ?? [];
     const timestamps =
-      gasData?.history.map((val) => dayjs(val.timestamp).format('DD MMM YYYY, HH:mm')) ?? [];
+      gasData?.history.map((val) => dayjs(val.timestamp).format("DD MMM YYYY, HH:mm")) ?? [];
 
     const nullIndexes: number[] = values.reduce((indexes: number[], el, index) => {
       if (el === null) {
@@ -71,11 +71,11 @@ export const Analysis = ({ analyticsVisible, toggleAnalytics, inputAssetChain }:
 
   return isLgActive ? (
     <Box
-      position={{ base: 'static', xl: 'absolute' }}
+      position={{ base: "static", xl: "absolute" }}
       right={2}
       transform={{
-        base: `translateY(${analyticsVisible ? '0%' : '100%'})`,
-        lg: `translateX(${analyticsVisible ? '0%' : '100%'})`,
+        base: `translateY(${analyticsVisible ? "0%" : "100%"})`,
+        lg: `translateX(${analyticsVisible ? "0%" : "100%"})`,
       }}
       transition={easeInOutTransition}
     >

@@ -1,9 +1,9 @@
-import { Flex } from '@chakra-ui/react';
-import { Box, Card } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import { Helmet } from 'components/Helmet';
-import type { ReactNode } from 'react';
-import { memo } from 'react';
+import { Flex } from "@chakra-ui/react";
+import { Box, Card } from "components/Atomic";
+import { Helmet } from "components/Helmet";
+import { easeInOutTransition } from "components/constants";
+import type { ReactNode } from "react";
+import { memo } from "react";
 
 export type Props = {
   title: string;

@@ -1,7 +1,7 @@
-import type { Chain } from '@swapkit/core';
-import { cutTxPrefix } from 'components/TransactionManager/helpers';
-import { useCallback, useEffect, useState } from 'react';
-import { logException } from 'services/logger';
+import type { Chain } from "@swapkit/sdk";
+import { cutTxPrefix } from "components/TransactionManager/helpers";
+import { useCallback, useEffect, useState } from "react";
+import { logException } from "services/logger";
 
 type Props = {
   chain?: Chain;
@@ -9,17 +9,17 @@ type Props = {
 };
 
 export const useTxUrl = ({ chain, txHash }: Props) => {
-  const [txUrl, setTxUrl] = useState('');
+  const [txUrl, setTxUrl] = useState("");
 
-  const getTransactionUrl = useCallback(async (tx: null | string = '', chain: Chain) => {
-    if (!tx) return '';
-    const { getExplorerTxUrl } = await (await import('services/swapKit')).getSwapKitClient();
+  const getTransactionUrl = useCallback(async (tx: null | string, chain: Chain) => {
+    if (!tx) return "";
+    const { getExplorerTxUrl } = await (await import("services/swapKit")).getSwapKitClient();
 
     try {
       return tx && getExplorerTxUrl({ chain, txHash: cutTxPrefix(tx) });
-    } catch (error: NotWorth) {
+    } catch (_error) {
       logException(`Can't get explorer tx url for chain ${chain}`);
-      return '';
+      return "";
     }
   }, []);
 

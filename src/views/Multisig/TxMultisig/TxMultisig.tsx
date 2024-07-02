@@ -1,22 +1,22 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Collapse } from 'components/Atomic';
-import { PanelView } from 'components/PanelView';
-import { Stepper } from 'components/Stepper';
-import { StepperProvider } from 'components/Stepper/StepperContext';
-import type { StepType } from 'components/Stepper/types';
-import { ViewHeader } from 'components/ViewHeader';
-import { useEffect, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { t } from 'services/i18n';
-import { ROUTES } from 'settings/router';
-import { useAppSelector } from 'store/store';
-import { SignerCheckBox } from 'views/Multisig/components/SignerCheckBox';
-import type { ScreenState } from 'views/Multisig/TxMultisig/hooks';
-import { useTxData } from 'views/Multisig/TxMultisig/hooks';
-import { BroadcastTxStep } from 'views/Multisig/TxMultisig/steps/BroadcastTxStep';
-import { ExportTxStep } from 'views/Multisig/TxMultisig/steps/ExportTxStep';
-import { SignTxStep } from 'views/Multisig/TxMultisig/steps/SignTxStep';
-import { TxInfoTip } from 'views/Multisig/TxMultisig/TxInfoTip';
+import { Text } from "@chakra-ui/react";
+import { Box, Collapse } from "components/Atomic";
+import { PanelView } from "components/PanelView";
+import { Stepper } from "components/Stepper";
+import { StepperProvider } from "components/Stepper/StepperContext";
+import type { StepType } from "components/Stepper/types";
+import { ViewHeader } from "components/ViewHeader";
+import { useEffect, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { t } from "services/i18n";
+import { ROUTES } from "settings/router";
+import { useAppSelector } from "store/store";
+import { TxInfoTip } from "views/Multisig/TxMultisig/TxInfoTip";
+import type { ScreenState } from "views/Multisig/TxMultisig/hooks";
+import { useTxData } from "views/Multisig/TxMultisig/hooks";
+import { BroadcastTxStep } from "views/Multisig/TxMultisig/steps/BroadcastTxStep";
+import { ExportTxStep } from "views/Multisig/TxMultisig/steps/ExportTxStep";
+import { SignTxStep } from "views/Multisig/TxMultisig/steps/SignTxStep";
+import { SignerCheckBox } from "views/Multisig/components/SignerCheckBox";
 
 const TxMultisig = () => {
   const { state } = useLocation();
@@ -46,18 +46,18 @@ const TxMultisig = () => {
     () => [
       {
         id: 0,
-        label: t('views.multisig.signTx'),
+        label: t("views.multisig.signTx"),
         content: <SignTxStep connectedSignature={connectedSignature} handleSign={handleSign} />,
       },
       {
         id: 1,
-        label: t('views.multisig.exportTxWithSignatures'),
+        label: t("views.multisig.exportTxWithSignatures"),
         content: <ExportTxStep exportTxData={exportTxData} signatures={signatures} />,
-        tooltip: t('views.multisig.exportTxWithSignaturesTooltip'),
+        tooltip: t("views.multisig.exportTxWithSignaturesTooltip"),
       },
       {
         id: 2,
-        label: t('views.multisig.broadcastTx'),
+        label: t("views.multisig.broadcastTx"),
         content: (
           <BroadcastTxStep
             canBroadcast={canBroadcast}
@@ -65,7 +65,7 @@ const TxMultisig = () => {
             isBroadcasting={isBroadcasting}
           />
         ),
-        tooltip: t('views.multisig.exportTxWithSignaturesTooltip'),
+        tooltip: t("views.multisig.exportTxWithSignaturesTooltip"),
       },
     ],
     [
@@ -82,8 +82,8 @@ const TxMultisig = () => {
   return (
     <Box col>
       <PanelView
-        header={<ViewHeader title={t('views.multisig.finalizeTransaction')} />}
-        title={t('views.multisig.finalizeTransaction')}
+        header={<ViewHeader title={t("views.multisig.finalizeTransaction")} />}
+        title={t("views.multisig.finalizeTransaction")}
       >
         <Box col className="w-full gap-1">
           <TxInfoTip canBroadcast={canBroadcast} txBodyStr={txBodyStr} txHash={broadcastedTxHash} />
@@ -94,7 +94,7 @@ const TxMultisig = () => {
               title={
                 <Box align="end" className="gap-1 my-1.5">
                   <Text className="leading-[24px]" textStyle="body">
-                    {t('views.multisig.requiredSignatures')}:
+                    {t("views.multisig.requiredSignatures")}:
                   </Text>
                   <Text textStyle="subtitle1" variant="primaryBtn">
                     {signatures.length}
@@ -110,7 +110,7 @@ const TxMultisig = () => {
             >
               <Box col className="gap-1">
                 <Text className="mb-2" fontWeight="normal" textStyle="caption" variant="secondary">
-                  {t('views.multisig.txSignaturesInfo')}
+                  {t("views.multisig.txSignaturesInfo")}
                 </Text>
 
                 {requiredSigners.map((s) => (

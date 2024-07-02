@@ -1,10 +1,10 @@
-import { type AssetValue, BaseDecimal, SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getSaverQuote } from 'store/midgard/actions';
-import type { SaverQuoteResponse } from 'views/Earn/types';
+import { type AssetValue, BaseDecimal, SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useNetworkFee } from "hooks/useNetworkFee";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getSaverQuote } from "store/midgard/actions";
+import type { SaverQuoteResponse } from "views/Earn/types";
 
 type Props = {
   isDeposit: boolean;
@@ -19,7 +19,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   const { getWalletAddress } = useWallet();
 
   const assetAmount = useMemo(
-    () => new SwapKitNumber({ value: amount.getValue('number'), decimal: asset.decimal }),
+    () => new SwapKitNumber({ value: amount.getValue("number"), decimal: asset.decimal }),
     [amount, asset.decimal],
   );
 
@@ -28,7 +28,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   const address = useMemo(() => getWalletAddress(asset.chain), [getWalletAddress, asset.chain]);
 
   const getConfirmData = useCallback(async () => {
-    if (!asset.decimal || !debouncedAmount?.gt(0)) {
+    if (!(asset.decimal && debouncedAmount?.gt(0))) {
       return;
     }
 
@@ -36,14 +36,14 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
       value: debouncedAmount,
       from: asset.decimal,
       to: 8,
-    }).getBaseValue('string');
-    const withdraw_bps = `${parseInt(
-      debouncedWithdrawPercent?.mul(100).getValue('string') || '10000',
+    }).getBaseValue("string");
+    const withdraw_bps = `${Number.parseInt(
+      debouncedWithdrawPercent?.mul(100).getValue("string") || "10000",
     )}`;
 
     const quoteParams = isDeposit
-      ? { type: 'deposit' as const, amount }
-      : { address, type: 'withdraw' as const, withdraw_bps };
+      ? { type: "deposit" as const, amount }
+      : { address, type: "withdraw" as const, withdraw_bps };
 
     const response = (await getSaverQuote({
       ...quoteParams,
@@ -63,7 +63,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
   );
 
   const slippage = SwapKitNumber.fromBigInt(
-    BigInt(saverQuote?.fees?.total || '0'),
+    BigInt(saverQuote?.fees?.total || "0"),
     BaseDecimal.THOR,
   );
 

@@ -1,15 +1,15 @@
-import { Box, Collapse, Flex, List, Text } from '@chakra-ui/react';
-import { Icon } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import { NavItem } from 'components/Sidebar/NavItem';
-import { SidebarWidgets } from 'components/Sidebar/SidebarWidgets';
+import { Box, Collapse, Flex, List, Text } from "@chakra-ui/react";
+import { Icon } from "components/Atomic";
+import { NavItem } from "components/Sidebar/NavItem";
+import { SidebarWidgets } from "components/Sidebar/SidebarWidgets";
 import type {
   SidebarItemProps,
   SidebarVariant,
   SidebarWidgetOption,
-} from 'components/Sidebar/types';
-import { Fragment, memo, useCallback } from 'react';
-import { useApp } from 'store/app/hooks';
+} from "components/Sidebar/types";
+import { easeInOutTransition } from "components/constants";
+import { Fragment, memo, useCallback } from "react";
+import { useApp } from "store/app/hooks";
 
 type Props = {
   options: SidebarItemProps[];
@@ -34,7 +34,7 @@ export const SidebarItems = memo(
     const { collapsedSidebarGroups, setCollapsedSidebarGroups } = useApp();
 
     const parsedCollapsedSidebarGroups: string[] =
-      typeof collapsedSidebarGroups === 'string'
+      typeof collapsedSidebarGroups === "string"
         ? JSON.parse(collapsedSidebarGroups)
         : collapsedSidebarGroups;
 
@@ -47,9 +47,8 @@ export const SidebarItems = memo(
                 (label: string) => label !== groupLabel,
               );
               return filteredGroups.filter(Boolean);
-            } else {
-              return [...parsedCollapsedSidebarGroups, groupLabel].filter(Boolean);
             }
+            return [...parsedCollapsedSidebarGroups, groupLabel].filter(Boolean);
           };
           setCollapsedSidebarGroups(updatedCollapsedSidebarGroups());
         }
@@ -74,16 +73,16 @@ export const SidebarItems = memo(
 
         return (
           <Fragment key={label}>
-            {(children || variant === 'primary') && (
+            {(children || variant === "primary") && (
               <Flex
                 cursor="pointer"
                 justify="space-between"
-                maxH={collapsed ? 0 : '20px'}
+                maxH={collapsed ? 0 : "20px"}
                 mb={isGroupCollapsed ? 4 : 0}
                 onClick={() => toggleGroup(label)}
                 overflow="hidden"
                 pr={2}
-                transform={collapsed ? 'scale(0)' : 'scale(1)'}
+                transform={collapsed ? "scale(0)" : "scale(1)"}
                 transition={easeInOutTransition}
                 w="full"
               >
@@ -100,7 +99,7 @@ export const SidebarItems = memo(
                 {!background && (
                   <Flex
                     align="center"
-                    transform={isGroupCollapsed ? 'rotate(0)' : 'rotate(180deg)'}
+                    transform={isGroupCollapsed ? "rotate(0)" : "rotate(180deg)"}
                     transition={easeInOutTransition}
                   >
                     <Icon color="secondary" name="chevronDown" size={14} />
@@ -124,13 +123,12 @@ export const SidebarItems = memo(
             {!children && (
               <NavItem
                 {...rest}
-                children={undefined}
                 collapsed={collapsed}
                 href={href}
                 key={label}
                 label={navLabel || label}
                 onItemClickCb={onItemClick}
-                sx={{ mb: variant === 'primary' ? 4 : 1, _last: { mb: 0 } }}
+                sx={{ mb: variant === "primary" ? 4 : 1, _last: { mb: 0 } }}
                 variant={variant}
               />
             )}
@@ -144,14 +142,14 @@ export const SidebarItems = memo(
       <Box mx={1}>
         <List
           bgColor={
-            variant === 'secondary' && hasBackground ? 'brand.alpha.bgBtnSecondary' : undefined
+            variant === "secondary" && hasBackground ? "brand.alpha.bgBtnSecondary" : undefined
           }
           borderRadius="2xl"
           display="flex"
           flexDirection="column"
           key={variant}
           listStyleType="none"
-          mb={variant === 'secondary' ? 5 : 0}
+          mb={variant === "secondary" ? 5 : 0}
           p={0}
           w="full"
         >

@@ -1,8 +1,8 @@
-import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
-import { useMimir } from 'hooks/useMimir';
-import { usePools } from 'hooks/usePools';
-import { getFormattedPercent, getSaverPoolNameForAsset } from 'views/Earn/utils';
+import type { AssetValue } from "@swapkit/sdk";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { useMimir } from "hooks/useMimir";
+import { usePools } from "hooks/usePools";
+import { getFormattedPercent, getSaverPoolNameForAsset } from "views/Earn/utils";
 
 export const useAssetsWithApr = (assets: AssetValue[]) => {
   const { pools } = usePools();

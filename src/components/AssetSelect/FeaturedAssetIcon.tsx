@@ -1,6 +1,6 @@
-import { Box, Icon } from 'components/Atomic';
-import { useAssets } from 'store/assets/hooks';
-import { useAppSelector } from 'store/store';
+import { Box, Icon } from "components/Atomic";
+import { useAssets } from "store/assets/hooks";
+import { useAppSelector } from "store/store";
 
 type Props = {
   assetString: string;
@@ -23,7 +23,7 @@ export const FeaturedAssetIcon = ({ assetString }: Props) => {
         }
       }}
     >
-      <Icon name={isFeatured ? 'starFilled' : 'starEmpty'} size={18} />
+      <Icon name={isFeatured ? "starFilled" : "starEmpty"} size={18} />
     </Box>
   );
 };

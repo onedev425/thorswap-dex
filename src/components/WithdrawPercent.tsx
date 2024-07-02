@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { MaxPopover } from 'components/AssetInput/MaxPopover';
-import { Box, Range } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import { InputAmount } from 'components/InputAmount';
-import { useCallback } from 'react';
+import { Text } from "@chakra-ui/react";
+import { SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { MaxPopover } from "components/AssetInput/MaxPopover";
+import { Box, Range } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import { InputAmount } from "components/InputAmount";
+import { useCallback } from "react";
 
 type Props = {
   title: string;
@@ -37,7 +37,7 @@ export const PercentageSlider = ({
   return (
     <HighlightCard
       className={classNames(
-        'min-h-[50px] p-4 !mb-1 flex-row items-center justify-start',
+        "min-h-[50px] p-4 !mb-1 flex-row items-center justify-start",
         className,
       )}
       disabled={highlightDisabled}

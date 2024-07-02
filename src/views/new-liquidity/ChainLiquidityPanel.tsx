@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import { Box, Button, Icon, Link } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
-import { chainName } from 'helpers/chainName';
-import { useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { getThorYieldLPInfoBaseRoute } from 'settings/router';
-import type { FullMemberPool } from 'store/midgard/types';
-import { PoolShareType } from 'store/midgard/types';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import { Box, Button, Icon, Link } from "components/Atomic";
+import { InfoRow } from "components/InfoRow";
+import { chainName } from "helpers/chainName";
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { getThorYieldLPInfoBaseRoute } from "settings/router";
+import type { FullMemberPool } from "store/midgard/types";
+import { PoolShareType } from "store/midgard/types";
 
-import { LiquidityCard } from './Card';
+import { LiquidityCard } from "./Card";
 
 type Props = {
   chain: Chain;
@@ -35,8 +35,8 @@ export const ChainLiquidityPanel = ({ chain, data, hardCapReached }: Props) => {
   const lpLink = useMemo(
     () =>
       `${getThorYieldLPInfoBaseRoute()}?${
-        runeAddress ? `${Chain.THORChain.toLowerCase()}=${runeAddress}` : ''
-      }${assetAddress ? `${chain.toLowerCase()}=${assetAddress}` : ''}`,
+        runeAddress ? `${Chain.THORChain.toLowerCase()}=${runeAddress}` : ""
+      }${assetAddress ? `${chain.toLowerCase()}=${assetAddress}` : ""}`,
     [assetAddress, chain, runeAddress],
   );
 
@@ -52,7 +52,7 @@ export const ChainLiquidityPanel = ({ chain, data, hardCapReached }: Props) => {
               <Button
                 className="px-2.5"
                 leftIcon={<Icon name="chart" size={16} />}
-                tooltip={t('common.viewOnThoryield')}
+                tooltip={t("common.viewOnThoryield")}
                 variant="borderlessTint"
               />
             </Link>

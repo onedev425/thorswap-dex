@@ -1,14 +1,14 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetInput } from 'components/AssetInput';
-import type { AssetInputType } from 'components/AssetInput/types';
-import type { AssetSelectType } from 'components/AssetSelect/types';
-import { Box, Icon } from 'components/Atomic';
-import { RUNEAsset } from 'helpers/assets';
-import { useAssetListSearch } from 'hooks/useAssetListSearch';
-import { memo } from 'react';
-import { t } from 'services/i18n';
-import { LiquidityTypeOption } from 'store/midgard/types';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetInput } from "components/AssetInput";
+import type { AssetInputType } from "components/AssetInput/types";
+import type { AssetSelectType } from "components/AssetSelect/types";
+import { Box, Icon } from "components/Atomic";
+import { RUNEAsset } from "helpers/assets";
+import { useAssetListSearch } from "hooks/useAssetListSearch";
+import { memo } from "react";
+import { t } from "services/i18n";
+import { LiquidityTypeOption } from "store/midgard/types";
 
 type Props = {
   onPoolChange: (asset: AssetValue) => void;
@@ -40,21 +40,21 @@ export const AssetInputs = memo(
       <Box col className="relative self-stretch w-full">
         <Box
           className={classNames(
-            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'p-1 md:p-2 rounded-xl md:rounded-[18px]',
-            'border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary',
-            'opacity-100 scale-100 transition-all',
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+            "p-1 md:p-2 rounded-xl md:rounded-[18px]",
+            "border-10 border-solid bg-blue dark:border-dark-border-primary border-light-border-primary",
+            "opacity-100 scale-100 transition-all",
             {
-              '!scale-0 !opacity-0': liquidityType !== LiquidityTypeOption.SYMMETRICAL,
+              "!scale-0 !opacity-0": liquidityType !== LiquidityTypeOption.SYMMETRICAL,
             },
           )}
         >
-          <Icon className={classNames('w-7 h-7')} color="white" name="plus" />
+          <Icon className={classNames("w-7 h-7")} color="white" name="plus" />
         </Box>
 
         <Box
-          className={classNames('overflow-hidden h-[111px] transition-all', {
-            '!h-[0px]': liquidityType === LiquidityTypeOption.RUNE,
+          className={classNames("overflow-hidden h-[111px] transition-all", {
+            "!h-[0px]": liquidityType === LiquidityTypeOption.RUNE,
           })}
         >
           <AssetInput
@@ -62,34 +62,34 @@ export const AssetInputs = memo(
             assets={assets}
             className="!mb-1 flex-1"
             disabled={isAssetPending}
-            maxButtonLabel={isRunePending ? t('pendingLiquidity.complete') : ''}
+            maxButtonLabel={isRunePending ? t("pendingLiquidity.complete") : ""}
             onAssetChange={onPoolChange}
             onValueChange={onAssetAmountChange}
             selectedAsset={poolAsset}
             warning={
-              isAssetPending ? t('pendingLiquidity.content', { asset: RUNEAsset.ticker }) : ''
+              isAssetPending ? t("pendingLiquidity.content", { asset: RUNEAsset.ticker }) : ""
             }
           />
         </Box>
 
         <Box
-          className={classNames('overflow-hidden h-[111px] transition-all', {
-            '!h-[0px]': liquidityType === LiquidityTypeOption.ASSET,
+          className={classNames("overflow-hidden h-[111px] transition-all", {
+            "!h-[0px]": liquidityType === LiquidityTypeOption.ASSET,
           })}
         >
           <AssetInput
             singleAsset
             className="!mb-1 flex-1"
             disabled={isRunePending}
-            maxButtonLabel={isAssetPending ? t('pendingLiquidity.complete') : ''}
+            maxButtonLabel={isAssetPending ? t("pendingLiquidity.complete") : ""}
             onValueChange={onRuneAmountChange}
             selectedAsset={runeAsset}
             warning={
               isRunePending
-                ? t('pendingLiquidity.content', {
+                ? t("pendingLiquidity.content", {
                     asset: poolAsset.asset.ticker,
                   })
-                : ''
+                : ""
             }
           />
         </Box>

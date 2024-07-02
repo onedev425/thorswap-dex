@@ -1,6 +1,6 @@
-import { Badge, Flex, Text } from '@chakra-ui/react';
-import { Button, Icon } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
+import { Badge, Flex, Text } from "@chakra-ui/react";
+import { Button, Icon } from "components/Atomic";
+import { InfoRow } from "components/InfoRow";
 
 export const TrackerV2BetaInfo = ({ explorerUrl }: { explorerUrl?: string }) => {
   return (

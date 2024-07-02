@@ -1,12 +1,12 @@
-import { AssetInput } from 'components/AssetInput';
-import { Box, Button } from 'components/Atomic';
-import { InfoTable } from 'components/InfoTable';
-import { PanelInput } from 'components/PanelInput';
-import { RUNEAsset } from 'helpers/assets';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { ConfirmModal } from 'views/Multisig/components/ConfirmModal';
-import { useTxSend } from 'views/Multisig/TxSend/hooks';
+import { AssetInput } from "components/AssetInput";
+import { Box, Button } from "components/Atomic";
+import { InfoTable } from "components/InfoTable";
+import { PanelInput } from "components/PanelInput";
+import { RUNEAsset } from "helpers/assets";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { useTxSend } from "views/Multisig/TxSend/hooks";
+import { ConfirmModal } from "views/Multisig/components/ConfirmModal";
 
 export const TxSend = () => {
   const {
@@ -29,10 +29,10 @@ export const TxSend = () => {
   const confirmModalInfo = useMemo(
     () => [
       {
-        label: t('common.send'),
+        label: t("common.send"),
         value: `${sendAmount?.toSignificant(6)} ${sendAsset.ticker}`,
       },
-      { label: t('common.recipient'), value: recipientAddress },
+      { label: t("common.recipient"), value: recipientAddress },
     ],
     [recipientAddress, sendAmount, sendAsset.ticker],
   );
@@ -52,16 +52,16 @@ export const TxSend = () => {
         onChange={handleChangeRecipient}
         placeholder={`${
           assetInput.asset.isSynthetic ? RUNEAsset.chain : assetInput.asset.chain
-        } ${t('common.address')}`}
-        title={t('common.recipientAddress')}
+        } ${t("common.address")}`}
+        title={t("common.recipientAddress")}
         value={recipientAddress}
       />
 
-      <PanelInput collapsible onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
+      <PanelInput collapsible onChange={handleChangeMemo} title={t("common.memo")} value={memo} />
 
       <Box center className="w-full pt-5">
         <Button stretch onClick={handleSend} size="lg" variant="fancy">
-          {t('views.multisig.createTransaction')}
+          {t("views.multisig.createTransaction")}
         </Button>
       </Box>
 

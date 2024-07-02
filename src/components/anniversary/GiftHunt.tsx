@@ -8,15 +8,15 @@ import {
   ModalFooter,
   ModalHeader,
   Text,
-} from '@chakra-ui/react';
-import { Gift } from 'components/anniversary/Gift';
-import { Button, Link } from 'components/Atomic';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Confetti from 'react-confetti';
-import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
-import { useReserveMutation, useValidateUrlQuery } from 'store/trpcApi/api';
+} from "@chakra-ui/react";
+import { Button, Link } from "components/Atomic";
+import { Gift } from "components/anniversary/Gift";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Confetti from "react-confetti";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import { useReserveMutation, useValidateUrlQuery } from "store/trpcApi/api";
 
 const domain = window.location.origin;
 
@@ -24,8 +24,8 @@ export const GiftHunt = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const urlToValidate = useMemo(() => {
-    const isTx = location.pathname.includes('/tx');
-    const pathname = location.pathname.split('?')[0];
+    const isTx = location.pathname.includes("/tx");
+    const pathname = location.pathname.split("?")[0];
 
     return isTx ? `${domain}/tx` : `${domain}${pathname}`;
   }, [location.pathname]);
@@ -35,18 +35,18 @@ export const GiftHunt = () => {
 
   const [reservePrize] = useReserveMutation();
   const [isTaken, setIsTaken] = useState(false);
-  const [error, setError] = useState('');
-  const [placement, setPlacement] = useState({ top: '20%', left: '20%' });
+  const [error, setError] = useState("");
+  const [placement, setPlacement] = useState({ top: "20%", left: "20%" });
   const isValidPrize = data?.prize && !isTaken;
 
   useEffect(() => {
     setIsOpen(false);
-    setError('');
+    setError("");
   }, [location]);
 
   useEffect(() => {
     setIsTaken(false);
-    setError('');
+    setError("");
 
     setPlacement({
       top: `${Math.floor(Math.random() * 70) + 10}%`,
@@ -69,22 +69,22 @@ export const GiftHunt = () => {
 
   const onSubmit = useCallback(
     async (values: { address: string }) => {
-      setError('');
+      setError("");
 
       if (!data?.prize) return true;
 
       try {
         const response = await reservePrize({ hash: data.prize.hash, wallet: values.address });
 
-        if ('data' in response) {
+        if ("data" in response) {
           if (response.data?.prize) {
             return setIsTaken(true);
           }
         }
 
-        throw new Error('Something went wrong');
-      } catch (e) {
-        setError('This prize has already been secured by someone else.');
+        throw new Error("Something went wrong");
+      } catch (_e) {
+        setError("This prize has already been secured by someone else.");
       }
 
       return true;
@@ -114,7 +114,7 @@ export const GiftHunt = () => {
                 ) : (
                   <Flex className="gap-2" direction="column">
                     <Text fontWeight="semibold" textStyle="caption">
-                      You&apos;ve discovered one of the hidden treasures for{' '}
+                      You&apos;ve discovered one of the hidden treasures for{" "}
                       <Link
                         className="!inline-flex text-btn-secondary hover:underline"
                         to="https://thorswap.medium.com/8cb9e86e78db"
@@ -122,7 +122,7 @@ export const GiftHunt = () => {
                         THORSwap&apos;s 3rd Birthday Giveaway
                       </Link>
                       ! To claim your {data?.prize?.value}
-                      {'\u00A0'}$THOR, please enter your Ethereum wallet address below. Your $THOR
+                      {"\u00A0"}$THOR, please enter your Ethereum wallet address below. Your $THOR
                       will be airdropped at the end of the celebration campaign.
                     </Text>
                     <Text fontWeight="semibold" textStyle="caption">
@@ -139,20 +139,20 @@ export const GiftHunt = () => {
                 disabled={isTaken}
                 isInvalid={!!errors.address}
                 placeholder="Erc-20 wallet address 0x..."
-                {...register('address', {
-                  required: 'Address is required',
+                {...register("address", {
+                  required: "Address is required",
                   validate: {
                     isValidAddress: (value: string) => {
-                      return value.length && value.startsWith('0x') && value.length === 42
+                      return value.length && value.startsWith("0x") && value.length === 42
                         ? true
-                        : 'Invalid address';
+                        : "Invalid address";
                     },
                   },
                 })}
               />
 
               <Text opacity={error ? 1 : 0} textStyle="caption" variant="red">
-                {error || '-'}
+                {error || "-"}
               </Text>
             </Flex>
           </ModalBody>
@@ -165,7 +165,7 @@ export const GiftHunt = () => {
               mr={3}
               onClick={isTaken ? () => setIsOpen(false) : handleSubmit(onSubmit)}
             >
-              {isTaken ? 'Close' : 'Secure my gift!'}
+              {isTaken ? "Close" : "Secure my gift!"}
             </Button>
           </ModalFooter>
         </ModalContent>

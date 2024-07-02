@@ -1,32 +1,32 @@
 import {
   Badge,
   Box,
-  chakra,
   CircularProgress,
   Flex,
   Link,
-  shouldForwardProp,
   Text,
-} from '@chakra-ui/react';
-import { TxStatus } from '@swapkit/api';
-import { Chain, SwapKitNumber } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
-import { Button, Icon, Tooltip } from 'components/Atomic';
-import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
-import { TxLegProvider } from 'components/TransactionTracker/components/TxLegProvider';
-import { TxLegTimer } from 'components/TransactionTracker/components/TxLegTimer';
-import { getTxState, getTxStatusColor } from 'components/TransactionTracker/helpers';
-import { useTxTrackerDetails } from 'components/TransactionTracker/TxTrackerDetailsContext';
-import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
-import { isValidMotionProp, motion } from 'framer-motion';
-import { getChainIdentifier } from 'helpers/chains';
-import { getTickerFromIdentifier, tokenLogoURL } from 'helpers/logoURL';
-import { useTxUrl } from 'hooks/useTxUrl';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import type { TransactionStatus, TxTrackerLeg } from 'store/transactions/types';
-import { TransactionType } from 'store/transactions/types';
+  chakra,
+  shouldForwardProp,
+} from "@chakra-ui/react";
+import { TxStatus } from "@swapkit/api";
+import { Chain, SwapKitNumber } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { FallbackIcon } from "components/AssetIcon/FallbackIcon";
+import { Button, Icon, Tooltip } from "components/Atomic";
+import { getSimpleTxStatus } from "components/TransactionManager/helpers";
+import { useTxTrackerDetails } from "components/TransactionTracker/TxTrackerDetailsContext";
+import { TxLegProvider } from "components/TransactionTracker/components/TxLegProvider";
+import { TxLegTimer } from "components/TransactionTracker/components/TxLegTimer";
+import { getTxState, getTxStatusColor } from "components/TransactionTracker/helpers";
+import { TrackerTxDisplayType } from "components/TransactionTracker/types";
+import { isValidMotionProp, motion } from "framer-motion";
+import { getChainIdentifier } from "helpers/chains";
+import { getTickerFromIdentifier, tokenLogoURL } from "helpers/logoURL";
+import { useTxUrl } from "hooks/useTxUrl";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import type { TransactionStatus, TxTrackerLeg } from "store/transactions/types";
+import { TransactionType } from "store/transactions/types";
 
 type Props = {
   leg: TxTrackerLeg;
@@ -59,25 +59,25 @@ const getLabelForType = ({
 }) => {
   if (txDisplayType === TrackerTxDisplayType.LENDING) {
     if (index === 0) {
-      return t('txManager.transferCollateral');
+      return t("txManager.transferCollateral");
     }
 
     if (index === 1) {
-      return t('txManager.lending');
+      return t("txManager.lending");
     }
   }
 
   if (!type) return;
-  if (type.includes('SWAP'))
-    return `${t(`txManager.txBadge.swap`, { fromAsset, toAsset })}${
-      provider ? ` (${provider})` : ''
+  if (type.includes("SWAP"))
+    return `${t("txManager.txBadge.swap", { fromAsset, toAsset })}${
+      provider ? ` (${provider})` : ""
     }`;
   if (type.includes(TransactionType.TRANSFER_FROM_TC))
-    return t(`txManager.txBadge.fromTCRouter`, { asset: fromAsset });
+    return t("txManager.txBadge.fromTCRouter", { asset: fromAsset });
   if (type.includes(TransactionType.TRANSFER_TO_TC))
-    return t(`txManager.txBadge.toTCRouter`, { asset: fromAsset });
+    return t("txManager.txBadge.toTCRouter", { asset: fromAsset });
 
-  return t(`txManager.txBadge.transfer`, { asset: fromAsset });
+  return t("txManager.txBadge.transfer", { asset: fromAsset });
 };
 
 const getBadge = ({
@@ -91,36 +91,37 @@ const getBadge = ({
 }) => {
   if (txDisplayType === TrackerTxDisplayType.LENDING) {
     if (index === 0) {
-      return t('txManager.collateral');
+      return t("txManager.collateral");
     }
 
     if (index === 1) {
-      return t('txManager.loan');
+      return t("txManager.loan");
     }
   }
 
-  return isTransfer ? t('txManager.transfer') : t('txManager.swap');
+  return isTransfer ? t("txManager.transfer") : t("txManager.swap");
 };
 
 const colorSchemeForChain = {
-  [Chain.Avalanche]: 'red',
-  [Chain.Binance]: 'yellow',
-  [Chain.BinanceSmartChain]: 'yellow',
-  [Chain.Bitcoin]: 'orange',
-  [Chain.BitcoinCash]: 'greenLight',
-  [Chain.Cosmos]: 'cyan',
-  [Chain.Dogecoin]: 'yellow',
-  [Chain.Ethereum]: 'purple',
-  [Chain.Litecoin]: 'blue',
-  [Chain.Arbitrum]: 'blue',
-  [Chain.Optimism]: 'red',
-  [Chain.Polygon]: 'purple',
-  [Chain.THORChain]: 'green',
-  [Chain.Maya]: 'green',
-  [Chain.Kujira]: 'green',
-  [Chain.Dash]: 'green',
-  [Chain.Polkadot]: 'green',
-  [Chain.Chainflip]: 'green',
+  [Chain.Avalanche]: "red",
+  [Chain.BinanceSmartChain]: "yellow",
+  [Chain.Bitcoin]: "orange",
+  [Chain.BitcoinCash]: "greenLight",
+  [Chain.Cosmos]: "cyan",
+  [Chain.Dogecoin]: "yellow",
+  [Chain.Ethereum]: "purple",
+  [Chain.Litecoin]: "blue",
+  [Chain.Arbitrum]: "blue",
+  [Chain.Optimism]: "red",
+  [Chain.Polygon]: "purple",
+  [Chain.THORChain]: "green",
+  [Chain.Maya]: "green",
+  [Chain.Kujira]: "red",
+  [Chain.Dash]: "blue",
+  [Chain.Polkadot]: "red",
+  [Chain.Chainflip]: "green",
+  [Chain.Radix]: "green",
+  [Chain.Solana]: "green",
 };
 
 export const TxLegPreview = ({
@@ -138,7 +139,7 @@ export const TxLegPreview = ({
   const isRuneLastLeg = isLast && leg.chain === Chain.THORChain;
   const invalidRuneTxHash =
     isRuneLastLeg &&
-    leg.hash === '0000000000000000000000000000000000000000000000000000000000000000';
+    leg.hash === "0000000000000000000000000000000000000000000000000000000000000000";
 
   const inAssetIdentifier = leg.fromAsset;
   const outAssetIdentifier = leg.toAsset;
@@ -146,38 +147,38 @@ export const TxLegPreview = ({
     txHash:
       (invalidRuneTxHash
         ? txDetails?.legs[Math.max(txDetails.legs.length - 2, 0)]?.hash
-        : leg?.hash) || '',
+        : leg?.hash) || "",
     chain: leg.chain,
   });
-  const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || '') || '??';
-  const toAssetTicker = getTickerFromIdentifier(outAssetIdentifier || '') || '??';
+  const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || "") || "??";
+  const toAssetTicker = getTickerFromIdentifier(outAssetIdentifier || "") || "??";
 
   const isTransfer = !leg.provider && leg.fromAsset === leg.toAsset;
   const isStreamming = leg.status === TxStatus.STREAMING;
 
   const status = useMemo(() => {
-    if (typeof currentLegIndex !== 'undefined') {
+    if (typeof currentLegIndex !== "undefined") {
       // logic for v1 tracker
       if (!isTxFinished && currentLegIndex === index) {
-        return 'pending';
+        return "pending";
       }
 
-      if (leg.status === 'pending' && txStatus === TxStatus.ERROR) {
-        return 'error';
+      if (leg.status === "pending" && txStatus === TxStatus.ERROR) {
+        return "error";
       }
 
       if (currentLegIndex > -1 && currentLegIndex < index) {
-        return 'notStarted';
+        return "notStarted";
       }
     }
 
-    return leg.status ? getSimpleTxStatus(leg.status) : 'unknown';
+    return leg.status ? getSimpleTxStatus(leg.status) : "unknown";
   }, [currentLegIndex, index, leg.status, isTxFinished, txStatus]);
 
   const { badgeLabel, badgeColorScheme } = useMemo(
     () => ({
       badgeLabel: isStreamming
-        ? t('txManager.streaming')
+        ? t("txManager.streaming")
         : leg.txnType
           ? getLabelForType({
               fromAsset: fromAssetTicker,
@@ -209,8 +210,8 @@ export const TxLegPreview = ({
           borderRadius={4}
           flexDirection="column"
           gap={1.5}
-          maxW={horizontalView ? '160px' : 'none'}
-          minW={horizontalView ? '110px' : 'none'}
+          maxW={horizontalView ? "160px" : "none"}
+          minW={horizontalView ? "110px" : "none"}
           opacity={status === null ? 0.6 : 1}
           overflow="hidden"
           pb={2}
@@ -219,7 +220,7 @@ export const TxLegPreview = ({
           px={2}
           w="full"
         >
-          {status === 'pending' ? (
+          {status === "pending" ? (
             <AnimatedBox
               animate={{
                 opacity: [0.2, 0.05, 0.2],
@@ -229,14 +230,14 @@ export const TxLegPreview = ({
               left={0}
               position="absolute"
               right={0}
-              sx={{ pointerEvents: 'none' }}
+              sx={{ pointerEvents: "none" }}
               top={0}
               // @ts-expect-error
               transition={{
                 duration: 2.5,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatType: 'loop',
+                ease: "easeInOut",
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: "loop",
               }}
             />
           ) : (
@@ -264,7 +265,7 @@ export const TxLegPreview = ({
 
           <Flex
             align="center"
-            display={horizontalView ? 'none' : 'flex'}
+            display={horizontalView ? "none" : "flex"}
             gap={1}
             justify="center"
             position="absolute"
@@ -272,7 +273,7 @@ export const TxLegPreview = ({
             top={1}
           >
             <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-              {leg.chain || 'unknown'}
+              {leg.chain || "unknown"}
             </Text>
 
             {leg && (
@@ -287,7 +288,7 @@ export const TxLegPreview = ({
                   <FallbackIcon
                     icon={<Icon name="hourglass" size={18} />}
                     size={22}
-                    ticker={leg.hash || 'unknown'}
+                    ticker={leg.hash || "unknown"}
                   />
                 )}
               </Flex>
@@ -295,7 +296,7 @@ export const TxLegPreview = ({
           </Flex>
 
           <Flex
-            display={horizontalView ? 'none' : 'flex'}
+            display={horizontalView ? "none" : "flex"}
             justify="center"
             left={0}
             opacity={0.8}
@@ -312,7 +313,7 @@ export const TxLegPreview = ({
 
           <Flex
             align="center"
-            display={horizontalView ? 'flex' : 'none'}
+            display={horizontalView ? "flex" : "none"}
             justify="center"
             mt={1}
             opacity={0.8}
@@ -327,10 +328,10 @@ export const TxLegPreview = ({
           <Flex gap={3} mt={1}>
             <Flex
               align="center"
-              direction={horizontalView ? 'column-reverse' : 'row'}
+              direction={horizontalView ? "column-reverse" : "row"}
               flex={4}
               gap={1}
-              justifyContent={isTransfer ? 'center' : 'end'}
+              justifyContent={isTransfer ? "center" : "end"}
             >
               <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
                 {leg.fromAmount ? (
@@ -346,7 +347,7 @@ export const TxLegPreview = ({
                 </Text>
               </Flex>
               <AssetIcon
-                logoURI={leg.fromAssetImage || ''}
+                logoURI={leg.fromAssetImage || ""}
                 size={horizontalView ? 30 : 22}
                 ticker={fromAssetTicker}
               />
@@ -361,20 +362,20 @@ export const TxLegPreview = ({
                 </Flex>
                 <Flex
                   align="center"
-                  direction={horizontalView ? 'column' : 'row'}
+                  direction={horizontalView ? "column" : "row"}
                   flex={4}
                   gap={1}
                   justifyContent="start"
                 >
                   <AssetIcon
-                    logoURI={leg.toAssetImage || ''}
+                    logoURI={leg.toAssetImage || ""}
                     size={horizontalView ? 30 : 22}
                     ticker={toAssetTicker}
                   />
                   <Flex align="center" direction="column" gap={horizontalView ? 1 : 0}>
-                    {leg.toAmount || status === 'refund' ? (
+                    {leg.toAmount || status === "refund" ? (
                       <Text fontSize="10px" lineHeight="12px" textStyle="caption-xs">
-                        {new SwapKitNumber(leg.toAmount || '0').toSignificant(6)}
+                        {new SwapKitNumber(leg.toAmount || "0").toSignificant(6)}
                       </Text>
                     ) : (
                       <Icon spin name="loader" size={14} />
@@ -392,7 +393,7 @@ export const TxLegPreview = ({
           <Flex
             align="center"
             direction="row"
-            display={horizontalView ? 'flex' : 'none'}
+            display={horizontalView ? "flex" : "none"}
             gap={1}
             justify="center"
             mb={1}
@@ -403,7 +404,7 @@ export const TxLegPreview = ({
                 {leg.chain ? (
                   <>
                     <Text fontWeight="light" textAlign="center" textStyle="caption-xs">
-                      {leg.chain || 'unknown'}
+                      {leg.chain || "unknown"}
                     </Text>
                     <AssetIcon
                       logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
@@ -417,23 +418,23 @@ export const TxLegPreview = ({
           </Flex>
         </Flex>
 
-        <Flex justify={horizontalView ? 'center' : 'end'} minH="28px" position="relative" w="full">
+        <Flex justify={horizontalView ? "center" : "end"} minH="28px" position="relative" w="full">
           {transactionUrl && (
             <Link href={transactionUrl} target="_blank" zIndex={1}>
               <Button
                 rightIcon={<Icon name="external" size={16} />}
                 size="xs"
-                sx={{ w: 'full' }}
+                sx={{ w: "full" }}
                 variant="borderlessTint"
               >
-                {t('txManager.viewTx')}
+                {t("txManager.viewTx")}
               </Button>
             </Link>
           )}
           {!isLast && (
             <Flex
               align="center"
-              display={horizontalView ? 'none' : 'flex'}
+              display={horizontalView ? "none" : "flex"}
               justify="center"
               position="absolute"
               right={0}
@@ -446,7 +447,7 @@ export const TxLegPreview = ({
         </Flex>
       </Flex>
 
-      <Box display={horizontalView ? 'flex' : 'none'}>
+      <Box display={horizontalView ? "flex" : "none"}>
         {!isLast && (
           <TxLegProvider horizontalView={horizontalView} isTransfer={isTransfer} leg={leg} />
         )}
@@ -457,13 +458,13 @@ export const TxLegPreview = ({
 
 const getTxIcon = (status: TransactionStatus | null) => {
   switch (status) {
-    case 'mined':
+    case "mined":
       return <Icon color="green" name="checkmark" size={18} />;
-    case 'error':
+    case "error":
       return <Icon color="red" name="close" size={18} />;
-    case 'notStarted':
+    case "notStarted":
       return <Icon name="hourglass" size={16} />;
-    case 'pending':
+    case "pending":
       return (
         <CircularProgress
           isIndeterminate
@@ -473,7 +474,7 @@ const getTxIcon = (status: TransactionStatus | null) => {
           trackColor="transaprent"
         />
       );
-    case 'refund':
+    case "refund":
       return <Icon color="yellow" name="revert" size={18} />;
     default:
       return <Icon name="question" size={18} />;

@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { IconName } from 'components/Atomic';
-import { Box, Icon } from 'components/Atomic';
-import useWindowSize from 'hooks/useWindowSize';
-import { memo, useCallback } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { IconName } from "components/Atomic";
+import { Box, Icon } from "components/Atomic";
+import useWindowSize from "hooks/useWindowSize";
+import { memo, useCallback } from "react";
 
-import type { WalletType } from './types';
+import type { WalletType } from "./types";
 
 type Props = {
   label: string;
@@ -35,11 +35,11 @@ const WalletOption = ({
     <Box
       alignCenter
       className={classNames(
-        'cursor-pointer relative bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110',
-        'w-fit p-1.5 rounded-xl m-1 gap-x-1 md:h-10 md:gap-x-2 md:px-2',
+        "cursor-pointer relative bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110",
+        "w-fit p-1.5 rounded-xl m-1 gap-x-1 md:h-10 md:gap-x-2 md:px-2",
         {
-          '!bg-cyan !bg-opacity-20': selected,
-          'opacity-40 cursor-not-allowed': disabled,
+          "!bg-cyan !bg-opacity-20": selected,
+          "opacity-40 cursor-not-allowed": disabled,
         },
       )}
       justify="between"
@@ -47,10 +47,10 @@ const WalletOption = ({
     >
       <Box
         className={classNames(
-          'opacity-0 duration-200 transition-all !bg-light-layout-primary dark:!bg-dark-bg-secondary',
-          'absolute -top-2 -right-1 p-0.5 rounded-xl',
-          'border border-solid border-cyan',
-          { '!opacity-100': selected },
+          "opacity-0 duration-200 transition-all !bg-light-layout-primary dark:!bg-dark-bg-secondary",
+          "absolute -top-2 -right-1 p-0.5 rounded-xl",
+          "border border-solid border-cyan",
+          { "!opacity-100": selected },
         )}
       >
         <Icon color="cyan" name="connect" size={14} />
@@ -58,10 +58,10 @@ const WalletOption = ({
 
       <Box
         className={classNames(
-          'opacity-0 duration-200 transition-all !bg-light-layout-primary dark:!bg-dark-bg-secondary',
-          'absolute -top-2 -left-1 p-0.5 rounded-xl',
-          'border border-solid border-green',
-          { '!opacity-100': connected },
+          "opacity-0 duration-200 transition-all !bg-light-layout-primary dark:!bg-dark-bg-secondary",
+          "absolute -top-2 -left-1 p-0.5 rounded-xl",
+          "border border-solid border-green",
+          { "!opacity-100": connected },
         )}
       >
         <Icon color="green" name="connect" size={14} />

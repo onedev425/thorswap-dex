@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { Link } from 'components/Atomic';
-import { RUNEAsset } from 'helpers/assets';
-import { getSwapRoute } from 'settings/router';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { Link } from "components/Atomic";
+import { RUNEAsset } from "helpers/assets";
+import { getSwapRoute } from "settings/router";
 
 const RUNEInfoContent = ({ inputAsset }: { inputAsset: AssetValue }) => (
   <>
     <Text textStyle="caption" variant="yellow">
-      {`Are you looking for native token `}
+      {"Are you looking for native token "}
       <Link className="text-twitter-blue" to={getSwapRoute(inputAsset, RUNEAsset)}>
         $RUNE?
       </Link>

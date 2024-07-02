@@ -1,8 +1,8 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 
-import { AssetIcon } from './AssetIcon';
-import type { AssetLpIconProps } from './types';
-import { iconSizes } from './types';
+import { AssetIcon } from "./AssetIcon";
+import type { AssetLpIconProps } from "./types";
+import { iconSizes } from "./types";
 
 export const AssetLpIcon = ({
   asset1,
@@ -12,14 +12,14 @@ export const AssetLpIcon = ({
   hasShadow = false,
   ...styleProps
 }: AssetLpIconProps) => {
-  const iconSize = typeof size === 'number' ? size : iconSizes[size];
+  const iconSize = typeof size === "number" ? size : iconSizes[size];
   const pairIconOffset = iconSize * 0.45;
 
   return (
     <div className="flex">
       <div
-        className={classNames('border-light-bg-primary dark:border-dark-bg-primary z-10', {
-          '-translate-y-2': !inline,
+        className={classNames("border-light-bg-primary dark:border-dark-bg-primary z-10", {
+          "-translate-y-2": !inline,
         })}
       >
         <AssetIcon
@@ -34,8 +34,8 @@ export const AssetLpIcon = ({
       <div className="transition-all" style={{ marginLeft: -pairIconOffset }}>
         <AssetIcon
           asset={asset2}
-          className={classNames('rounded-full', {
-            'translate-y-2': !inline,
+          className={classNames("rounded-full", {
+            "translate-y-2": !inline,
           })}
           hasChainIcon={false}
           hasShadow={hasShadow}

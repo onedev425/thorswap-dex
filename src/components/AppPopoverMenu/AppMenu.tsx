@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Card, Icon } from 'components/Atomic';
-import { Scrollbar } from 'components/Scrollbar';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Text } from "@chakra-ui/react";
+import { Box, Card, Icon } from "components/Atomic";
+import { Scrollbar } from "components/Scrollbar";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import packageJson from '../../../package.json';
+import packageJson from "../../../package.json";
 
-import { MainMenu } from './components/MainMenu';
-import { SocialIcons } from './components/SocialIcons';
-import { Submenu } from './components/Submenu';
-import { SwitchMenu } from './components/SwitchMenu';
-import { useAppPopoverMenu } from './useAppPopoverMenu';
+import { MainMenu } from "./components/MainMenu";
+import { SocialIcons } from "./components/SocialIcons";
+import { Submenu } from "./components/Submenu";
+import { SwitchMenu } from "./components/SwitchMenu";
+import { useAppPopoverMenu } from "./useAppPopoverMenu";
 
 export const AppMenu = () => {
   const mainMenuRef = useRef<HTMLDivElement>(null);
@@ -25,20 +25,20 @@ export const AppMenu = () => {
 
   const menuElement = useMemo(() => {
     switch (menuType) {
-      case 'main':
+      case "main":
         return (
           <Box col className="gap-4" ref={mainMenuRef}>
             <MainMenu items={menus.main.items} />
             <SocialIcons />
           </Box>
         );
-      case 'settings':
+      case "settings":
         return (
           <Box style={{ width: containerWidth }}>
             <SwitchMenu items={menus.settings.items} />
           </Box>
         );
-      case 'language':
+      case "language":
         return (
           <Box style={{ width: containerWidth }}>
             <Scrollbar height="420px">
@@ -46,7 +46,7 @@ export const AppMenu = () => {
             </Scrollbar>
           </Box>
         );
-      case 'proMode':
+      case "proMode":
         return (
           <Box style={{ width: containerWidth }}>
             <SwitchMenu items={menus.proMode.items} />
@@ -69,7 +69,7 @@ export const AppMenu = () => {
       >
         <Box col className="m-2">
           <Box alignCenter row>
-            {menuType !== 'main' && (
+            {menuType !== "main" && (
               <Box
                 center
                 className="p-2.5 !mr-2 rounded-2xl hover:bg-btn-light-tint-active dark:hover:bg-btn-dark-tint-active cursor-pointer"

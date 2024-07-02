@@ -1,10 +1,10 @@
-import { Text, Tooltip as CustomizeTooltip } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { IconName } from 'components/Atomic';
-import { Icon } from 'components/Atomic';
-import type { TooltipPlacement } from 'components/Atomic/Tooltip/types';
-import useWindowSize from 'hooks/useWindowSize';
-import type { PropsWithChildren } from 'react';
+import { Tooltip as CustomizeTooltip, Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { IconName } from "components/Atomic";
+import { Icon } from "components/Atomic";
+import type { TooltipPlacement } from "components/Atomic/Tooltip/types";
+import useWindowSize from "hooks/useWindowSize";
+import type { PropsWithChildren } from "react";
 
 type Props = {
   place?: TooltipPlacement;
@@ -23,7 +23,7 @@ export const Tooltip = ({
   children,
   className,
   wrapperClassName,
-  place = 'top',
+  place = "top",
   iconName,
   content,
   disabled = false,
@@ -33,7 +33,7 @@ export const Tooltip = ({
 }: Props) => {
   const { isMdActive } = useWindowSize();
 
-  if (!content) return (children as JSX.Element) || null;
+  if (!content) return (children as React.JSX.Element) || null;
 
   return (
     <CustomizeTooltip
@@ -42,9 +42,9 @@ export const Tooltip = ({
       backgroundColor="#222326"
       borderRadius={24}
       className={classNames(
-        'flex items-center justify-center m-0.5',
+        "flex items-center justify-center m-0.5",
         {
-          'border border-solid bg-light-bg-secondary dark:bg-dark-bg-secondary border-light-border-primary dark:border-dark-border-primary rounded-3xl':
+          "border border-solid bg-light-bg-secondary dark:bg-dark-bg-secondary border-light-border-primary dark:border-dark-border-primary rounded-3xl":
             !children,
         },
         className,
@@ -54,8 +54,8 @@ export const Tooltip = ({
       label={
         <div
           className={classNames(
-            'hidden w-full h-full sm:block px-5 py-2 rounded-2xl max-w-[260px]',
-            'bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary',
+            "hidden w-full h-full sm:block px-5 py-2 rounded-2xl max-w-[260px]",
+            "bg-light-bg-primary border border-light-border-primary border-solid dark:bg-dark-bg-primary dark:border-dark-border-primary",
           )}
         >
           <Text
@@ -71,8 +71,9 @@ export const Tooltip = ({
       p={0}
       placement={place}
     >
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
-        className={classNames({ 'cursor-pointer': onClick, 'w-full': stretch }, wrapperClassName)}
+        className={classNames({ "cursor-pointer": onClick, "w-full": stretch }, wrapperClassName)}
         onClick={() => onClick?.()}
       >
         {children || <Icon color="secondary" name={iconName as IconName} size={TOOLTIP_ICON} />}

@@ -1,6 +1,6 @@
-import { Button, Icon } from 'components/Atomic';
-import { t } from 'services/i18n';
-import { useMultisigExport } from 'views/Multisig/components/MultisigExport/hooks';
+import { Button, Icon } from "components/Atomic";
+import { t } from "services/i18n";
+import { useMultisigExport } from "views/Multisig/components/MultisigExport/hooks";
 
 export const MultisigExport = () => {
   const { hasWallet, handleExport } = useMultisigExport();
@@ -13,10 +13,10 @@ export const MultisigExport = () => {
     <Button
       onClick={handleExport}
       rightIcon={<Icon name="export" />}
-      tooltip={t('views.multisig.exportTooltip')}
+      tooltip={t("views.multisig.exportTooltip")}
       variant="tint"
     >
-      {t('views.multisig.export')}
+      {t("views.multisig.export")}
     </Button>
   );
 };

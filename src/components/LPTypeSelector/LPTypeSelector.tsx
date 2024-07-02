@@ -1,10 +1,10 @@
-import type { AssetValue } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { TabsSelect } from 'components/TabsSelect';
-import { useCallback, useMemo } from 'react';
-import { PoolShareType } from 'store/midgard/types';
+import type { AssetValue } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { TabsSelect } from "components/TabsSelect";
+import { useCallback, useMemo } from "react";
+import { PoolShareType } from "store/midgard/types";
 
-import type { LPTypeSelectorProps } from './types';
+import type { LPTypeSelectorProps } from "./types";
 
 const getOptionsProp = (types: PoolShareType[], asset: AssetValue) => {
   const options: { label: string; value: string }[] = [];
@@ -25,14 +25,14 @@ const getOptionsProp = (types: PoolShareType[], asset: AssetValue) => {
   if (types.includes(PoolShareType.RUNE_ASYM)) {
     options.push({
       value: PoolShareType.RUNE_ASYM,
-      label: 'RUNE LP',
+      label: "RUNE LP",
     });
   }
 
   if (types.includes(PoolShareType.PENDING)) {
     options.push({
       value: PoolShareType.PENDING,
-      label: 'PENDING LP',
+      label: "PENDING LP",
     });
   }
 

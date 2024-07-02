@@ -1,14 +1,14 @@
-import type { SystemStyleObject } from '@chakra-ui/react';
+import type { SystemStyleObject } from "@chakra-ui/react";
 import {
   Modal as CustomModal,
   ModalBody,
   ModalContent,
   ModalOverlay,
   Text,
-} from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Card, Icon } from 'components/Atomic';
-import type { ReactNode } from 'react';
+} from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Card, Icon } from "components/Atomic";
+import type { ReactNode } from "react";
 
 type Props = {
   HeaderComponent?: ReactNode;
@@ -58,8 +58,8 @@ export const Modal = ({
               <Box
                 center
                 className={classNames(
-                  'h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110',
-                  'border-dark-typo-primary dark:border-dark-typo-primary',
+                  "h-10 w-10 rounded-2xl self-center border border-solid cursor-pointer hover:brightness-90 dark:hover:brightness-110",
+                  "border-dark-typo-primary dark:border-dark-typo-primary",
                 )}
                 onClick={onClose}
               >

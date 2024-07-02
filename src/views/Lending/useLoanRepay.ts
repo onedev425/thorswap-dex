@@ -1,14 +1,14 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import type { RepayQuoteResponse } from 'store/thorswap/types';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import type { RepayQuoteResponse } from "store/thorswap/types";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
 export function useLoanRepay({
   repayAsset,
@@ -36,8 +36,8 @@ export function useLoanRepay({
 
   const handleRepay = useCallback(
     async (expectedAmount: string) => {
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-      if (!thorchain) throw new Error('SwapKit client not found');
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+      if (!thorchain) throw new Error("SwapKit client not found");
       setIsConfirmOpen(false);
 
       const id = v4();
@@ -45,7 +45,7 @@ export function useLoanRepay({
       appDispatch(
         addTransaction({
           id,
-          label: t('txManager.closeLoan', {
+          label: t("txManager.closeLoan", {
             asset: repayAsset.ticker,
             amount: expectedAmount,
           }),
@@ -56,7 +56,7 @@ export function useLoanRepay({
 
       try {
         const txid = await thorchain.loan({
-          type: 'close',
+          type: "close",
           memo: stream ? repayQuote?.streamingSwap?.memo : repayQuote?.memo,
           assetValue: repayAsset.add(amount),
           minAmount: repayAsset.set(expectedAmount),
@@ -77,8 +77,8 @@ export function useLoanRepay({
           );
       } catch (error) {
         logException(error as Error);
-        showErrorToast(t('txManager.failed'), undefined, undefined, error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        showErrorToast(t("txManager.failed"), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: "error" }));
       }
     },
     [appDispatch, repayAsset, stream, repayQuote, amount, onSuccess, collateralAddress],

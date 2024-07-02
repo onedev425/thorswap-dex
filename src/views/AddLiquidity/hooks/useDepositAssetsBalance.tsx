@@ -1,10 +1,10 @@
-import { type AssetValue, Chain } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { BTCAsset, RUNEAsset } from 'helpers/assets';
-import { getAssetBalance } from 'helpers/wallet';
-import { useBalance } from 'hooks/useBalance';
-import { useEffect, useMemo, useState } from 'react';
-import { zeroAmount } from 'types/app';
+import { type AssetValue, Chain } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { BTCAsset, RUNEAsset } from "helpers/assets";
+import { getAssetBalance } from "helpers/wallet";
+import { useBalance } from "hooks/useBalance";
+import { useEffect, useMemo, useState } from "react";
+import { zeroAmount } from "types/app";
 
 type Props = {
   poolAsset: AssetValue | undefined;

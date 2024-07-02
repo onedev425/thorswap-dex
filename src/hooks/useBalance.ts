@@ -1,13 +1,13 @@
-import { AssetValue, Chain, isGasAsset } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { getAssetBalance } from 'helpers/wallet';
-import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
-import { useCallback } from 'react';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useAppSelector } from 'store/store';
-import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
+import { AssetValue, Chain, isGasAsset } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { getAssetBalance } from "helpers/wallet";
+import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from "hooks/useNetworkFee";
+import { useCallback } from "react";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useAppSelector } from "store/store";
+import { useGetGasPriceRatesQuery } from "store/thorswap/api";
 
-import { getInboundFeeDataForChain } from '../../ledgerLive/wallet/swap';
+import { getInboundFeeDataForChain } from "../../ledgerLive/wallet/swap";
 
 export const useBalance = (skipFees?: boolean) => {
   const { data: gasPriceRates } = useGetGasPriceRatesQuery(undefined, { skip: skipFees });

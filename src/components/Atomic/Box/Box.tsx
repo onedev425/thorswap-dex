@@ -1,9 +1,9 @@
-import type { ChakraProps } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { BoxProps } from 'components/Atomic/Box/types';
-import { alignClasses, justifyClasses } from 'components/Atomic/Box/types';
-import type { CSSProperties } from 'react';
-import { forwardRef, useMemo } from 'react';
+import type { ChakraProps } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { BoxProps } from "components/Atomic/Box/types";
+import { alignClasses, justifyClasses } from "components/Atomic/Box/types";
+import type { CSSProperties } from "react";
+import { forwardRef, useMemo } from "react";
 
 export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
   (
@@ -30,12 +30,12 @@ export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
       <div
         {...rest}
         className={classNames(
-          'flex',
+          "flex",
           {
-            'flex-col': col,
-            'flex-row': row,
-            'items-center': alignCenter || center,
-            'justify-center': justifyCenter || center,
+            "flex-col": col,
+            "flex-row": row,
+            "items-center": alignCenter || center,
+            "justify-center": justifyCenter || center,
           },
           align && alignClasses[align],
           justify && justifyClasses[justify],

@@ -1,26 +1,26 @@
-import { Text } from '@chakra-ui/react';
-import { Chain, getTHORNameCost } from '@swapkit/core';
-import { Box, Button, Collapse, Icon, Tooltip } from 'components/Atomic';
-import { FieldLabel } from 'components/Form';
-import { HighlightCard } from 'components/HighlightCard';
-import { InfoRow } from 'components/InfoRow';
-import { InfoTable } from 'components/InfoTable';
-import { Input } from 'components/Input';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { PanelView } from 'components/PanelView';
-import { showErrorToast } from 'components/Toast';
-import { ViewHeader } from 'components/ViewHeader';
-import { useKeystore, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { shortenAddress } from 'helpers/shortenAddress';
-import type { KeyboardEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Chain, getTHORNameCost } from "@swapkit/sdk";
+import { Box, Button, Collapse, Icon, Tooltip } from "components/Atomic";
+import { FieldLabel } from "components/Form";
+import { HighlightCard } from "components/HighlightCard";
+import { InfoRow } from "components/InfoRow";
+import { InfoTable } from "components/InfoTable";
+import { Input } from "components/Input";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { PanelView } from "components/PanelView";
+import { showErrorToast } from "components/Toast";
+import { ViewHeader } from "components/ViewHeader";
+import { useKeystore, useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { shortenAddress } from "helpers/shortenAddress";
+import type { KeyboardEvent } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
-import { ChainDropdown } from './ChainDropdown';
-import { RegisteredThornames } from './RegisteredThornames';
-import { useThornameInfoItems } from './useThornameInfoItems';
-import { useThornameLookup } from './useThornameLookup';
+import { ChainDropdown } from "./ChainDropdown";
+import { RegisteredThornames } from "./RegisteredThornames";
+import { useThornameInfoItems } from "./useThornameInfoItems";
+import { useThornameLookup } from "./useThornameLookup";
 
 const Thorname = () => {
   const { setIsConnectModalOpen } = useWalletConnectModal();
@@ -44,7 +44,7 @@ const Thorname = () => {
   } = useThornameLookup(thorAddress);
   const [validAddress, setValidAddress] = useState(false);
   const [address, setAddress] = useState<null | string>(null);
-  const [transferAddress, setTransferAddress] = useState<string>('');
+  const [transferAddress, setTransferAddress] = useState<string>("");
 
   const [isOpened, setIsOpened] = useState(false);
   const [isOpenedTransfer, setIsOpenedTransfer] = useState(false);
@@ -114,7 +114,7 @@ const Thorname = () => {
 
   const handleEnterKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         handleAction();
       }
     },
@@ -133,22 +133,22 @@ const Thorname = () => {
   );
 
   const buttonLabel = useMemo(() => {
-    if (currentThorname !== searchedThorname && searchedThorname !== '') {
-      return t('common.refresh');
+    if (currentThorname !== searchedThorname && searchedThorname !== "") {
+      return t("common.refresh");
     }
     if (unavailableForPurchase) {
-      return t('views.thorname.unavailableForPurchase');
+      return t("views.thorname.unavailableForPurchase");
     }
 
     if (available) {
       return thorAddress
         ? registeredChains.length > 0
-          ? t('common.update')
-          : t('views.thorname.purchase')
-        : t('common.connectWallet');
+          ? t("common.update")
+          : t("views.thorname.purchase")
+        : t("common.connectWallet");
     }
 
-    return t('views.wallet.search');
+    return t("views.wallet.search");
   }, [
     unavailableForPurchase,
     available,
@@ -159,17 +159,17 @@ const Thorname = () => {
   ]);
 
   const onTransfer = useCallback(async () => {
-    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
+    const { validateAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
     const isValidAddress = validateAddress({
       chain: Chain.THORChain,
-      address: transferAddress || '',
+      address: transferAddress || "",
     });
 
     if (!isValidAddress) {
       return showErrorToast(
-        t('views.thorname.invalidTransferAddress'),
-        t('views.thorname.inputValidThorAddress'),
+        t("views.thorname.invalidTransferAddress"),
+        t("views.thorname.inputValidThorAddress"),
       );
     }
 
@@ -180,43 +180,43 @@ const Thorname = () => {
     if (chainWalletAddress) {
       setAddress(chainWalletAddress);
     } else if (chainWalletAddress === undefined) {
-      setAddress('');
+      setAddress("");
     }
   }, [chainWalletAddress, chain]);
 
   useEffect(() => {
     if (address) {
-      import('services/swapKit')
+      import("services/swapKit")
         .then(({ getSwapKitClient }) => getSwapKitClient())
         .then(({ validateAddress }) => setValidAddress(!!validateAddress({ chain, address })));
     }
   }, [address, chain]);
 
   const handleResetThorname = () => {
-    setSearchedThorname('');
-    setCurrentThorname('');
+    setSearchedThorname("");
+    setCurrentThorname("");
     setStep(0);
   };
   return (
     <PanelView
-      description={t('views.thorname.description')}
+      description={t("views.thorname.description")}
       header={
         <Box col>
-          <ViewHeader title={t('components.sidebar.thorname')} />
+          <ViewHeader title={t("components.sidebar.thorname")} />
 
           <Box className="px-2.5 pt-1" justify="between">
             <Text fontWeight="medium" textStyle="caption" variant="secondary">
-              {t('views.thorname.thornameSubtitle')}
+              {t("views.thorname.thornameSubtitle")}
             </Text>
 
-            <Tooltip content={t('views.thorname.thornameInfo')} place="bottom">
+            <Tooltip content={t("views.thorname.thornameInfo")} place="bottom">
               <Icon color="primaryBtn" name="infoCircle" size={24} />
             </Tooltip>
           </Box>
         </Box>
       }
       keywords="THORName, THORSwap, THORChain, DEFI, DEX"
-      title={t('views.thorname.title')}
+      title={t("views.thorname.title")}
     >
       <Input
         autoFocus
@@ -226,7 +226,7 @@ const Thorname = () => {
         containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
         onChange={(e) => setCurrentThorname(e.target.value)}
         onKeyDown={handleEnterKeyDown}
-        placeholder={t('views.thorname.checkNameAvailability')}
+        placeholder={t("views.thorname.checkNameAvailability")}
         suffix={
           currentThorname && <Icon color="secondary" name="close" onClick={handleResetThorname} />
         }
@@ -240,7 +240,7 @@ const Thorname = () => {
             title={
               <Box className="flex justify-between w-full">
                 <Text fontWeight="medium" variant="secondary">
-                  {t('components.sidebar.thorname')}
+                  {t("components.sidebar.thorname")}
                 </Text>
                 <Text className="text-right" fontWeight="semibold" variant="primary">
                   {searchedThorname}
@@ -250,7 +250,7 @@ const Thorname = () => {
           >
             <Box col className="gap-4">
               <Box col>
-                <FieldLabel label={t('views.thorname.transferTHORName')} />
+                <FieldLabel label={t("views.thorname.transferTHORName")} />
                 <Box row className="w-full gap-x-4">
                   <Input
                     autoFocus
@@ -259,8 +259,8 @@ const Thorname = () => {
                     className="!text-md !p-1.5 border pt-5"
                     containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
                     onChange={({ target }) => setTransferAddress(target.value)}
-                    placeholder={`${Chain.THORChain} ${t('common.address')}`}
-                    value={transferAddress || ''}
+                    placeholder={`${Chain.THORChain} ${t("common.address")}`}
+                    value={transferAddress || ""}
                   />
                 </Box>
               </Box>
@@ -273,7 +273,7 @@ const Thorname = () => {
                 size="sm"
                 variant="secondary"
               >
-                {t('common.transfer')}
+                {t("common.transfer")}
               </Button>
             </Box>
           </Collapse>
@@ -293,8 +293,8 @@ const Thorname = () => {
             className="!text-xs !p-1.5 border"
             containerClassName="bg-light-gray-light dark:bg-dark-gray-light !bg-opacity-80"
             onChange={({ target }) => setAddress(target.value)}
-            placeholder={`${chain} ${t('common.address')}`}
-            value={address || ''}
+            placeholder={`${chain} ${t("common.address")}`}
+            value={address || ""}
           />
         </Box>
       )}
@@ -339,14 +339,14 @@ const Thorname = () => {
             <InfoRow label="THORName" value={searchedThorname} />
             <InfoRow
               capitalizeLabel
-              label={t('view.thorname.cost')}
+              label={t("view.thorname.cost")}
               value={`${getTHORNameCost(Math.max(0, years - 10))} RUNE`}
             />
             {years > 0 && (
               <InfoRow
                 capitalizeLabel
-                label={t('view.thorname.duration')}
-                value={`${years} ${years > 1 ? t('view.thorname.years') : t('view.thorname.year')}`}
+                label={t("view.thorname.duration")}
+                value={`${years} ${years > 1 ? t("view.thorname.years") : t("view.thorname.year")}`}
               />
             )}
           </Box>
@@ -355,13 +355,13 @@ const Thorname = () => {
             <InfoRow label="THORName" value={searchedThorname} />
             <InfoRow
               capitalizeLabel
-              label={t('view.thorname.cost')}
+              label={t("view.thorname.cost")}
               value={`${getTHORNameCost(years)} RUNE`}
             />
             <InfoRow
               capitalizeLabel
-              label={t('view.thorname.duration')}
-              value={`${years} ${years > 1 ? t('view.thorname.years') : t('view.thorname.year')}`}
+              label={t("view.thorname.duration")}
+              value={`${years} ${years > 1 ? t("view.thorname.years") : t("view.thorname.year")}`}
             />
           </Box>
         )}
@@ -372,7 +372,7 @@ const Thorname = () => {
         isOpened={isOpenedTransfer}
         onClose={() => setIsOpenedTransfer(false)}
         onConfirm={() => {
-          registerThornameAddress(address || '', transferAddress);
+          registerThornameAddress(address || "", transferAddress);
           setIsOpenedTransfer(false);
         }}
       >
@@ -380,7 +380,7 @@ const Thorname = () => {
           <InfoRow label="THORName" value={searchedThorname} />
           <InfoRow
             capitalizeLabel
-            label={t('common.transferAddress')}
+            label={t("common.transferAddress")}
             value={shortenAddress(transferAddress, 6, 8)}
           />
         </Box>

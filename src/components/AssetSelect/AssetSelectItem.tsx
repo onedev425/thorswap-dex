@@ -1,23 +1,23 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import type { IconName } from 'components/Atomic';
-import { Box, Tooltip } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { useTheme } from 'context/theme/ThemeContext';
-import { useFormatPrice } from 'helpers/formatPrice';
-import type { MouseEventHandler } from 'react';
-import { memo, useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import type { IconName } from "components/Atomic";
+import { Box, Tooltip } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { useTheme } from "context/theme/ThemeContext";
+import { useFormatPrice } from "helpers/formatPrice";
+import type { MouseEventHandler } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { t } from "services/i18n";
 import {
   navigateToBscscanAddress,
   navigateToEtherScanAddress,
   navigateToPoolDetail,
   navigateToSnowtraceAddress,
-} from 'settings/router';
+} from "settings/router";
 
-import type { AssetSelectType } from './types';
+import type { AssetSelectType } from "./types";
 
 type Props = AssetSelectType & {
   select: (asset: AssetValue) => void;
@@ -28,8 +28,8 @@ export const AssetSelectItem = memo(
   ({ asset, logoURI, style, provider, balance, select, value, price }: Props) => {
     const { isLight } = useTheme();
     const formatPrice = useFormatPrice();
-    const address = asset.symbol.split('-')[1];
-    const assetChain = provider?.toLowerCase() === 'thorchain' ? Chain.THORChain : asset.chain;
+    const address = asset.symbol.split("-")[1];
+    const assetChain = provider?.toLowerCase() === "thorchain" ? Chain.THORChain : asset.chain;
 
     const navigateToTokenContract: MouseEventHandler<HTMLButtonElement> = useCallback(
       (e) => {
@@ -51,39 +51,39 @@ export const AssetSelectItem = memo(
     const serviceName = useMemo(() => {
       switch (assetChain) {
         case Chain.THORChain:
-          return 'THORYield';
+          return "THORYield";
         case Chain.Avalanche:
-          return 'Snowtrace';
+          return "Snowtrace";
         case Chain.BinanceSmartChain:
-          return 'BscScan';
+          return "BscScan";
         default:
-          return 'EtherScan';
+          return "EtherScan";
       }
     }, [assetChain]);
 
     const description = useMemo(() => {
       if (asset.isSynthetic) return `${asset.type}`;
 
-      return `${asset.type}${price ? `, ${formatPrice(price)}` : ''}`;
+      return `${asset.type}${price ? `, ${formatPrice(price)}` : ""}`;
     }, [asset.isSynthetic, asset.type, formatPrice, price]);
 
     const tokenInfoIcon: IconName = useMemo(() => {
       switch (assetChain) {
         case Chain.Ethereum:
-          return isLight ? 'etherscan' : 'etherscanLight';
+          return isLight ? "etherscan" : "etherscanLight";
         case Chain.Avalanche:
-          return 'snowtrace';
+          return "snowtrace";
         case Chain.BinanceSmartChain:
-          return isLight ? 'bscscan' : 'bscscanLight';
+          return isLight ? "bscscan" : "bscscanLight";
         default:
-          return 'thoryieldColor';
+          return "thoryieldColor";
       }
     }, [assetChain, isLight]);
 
-    const checkType = assetChain === Chain.THORChain ? 'pool' : 'address';
+    const checkType = assetChain === Chain.THORChain ? "pool" : "address";
 
     const assetName = useMemo(() => {
-      return '';
+      return "";
     }, []);
 
     return (
@@ -114,16 +114,16 @@ export const AssetSelectItem = memo(
 
               <Box className="opacity-40 group-hover:opacity-100 transition">
                 <Tooltip
-                  content={`${t('views.swap.check', {
+                  content={`${t("views.swap.check", {
                     checkType,
-                  })} ${t('views.swap.onService', {
+                  })} ${t("views.swap.onService", {
                     serviceName,
                   })}${
-                    checkType === 'address'
-                      ? `, ${t('views.swap.contractAddress', {
+                    checkType === "address"
+                      ? `, ${t("views.swap.contractAddress", {
                           contractAddress: address,
                         })}`
-                      : ''
+                      : ""
                   }`}
                 >
                   <HoverIcon iconName={tokenInfoIcon} onClick={navigateToTokenContract} size={16} />
@@ -136,7 +136,7 @@ export const AssetSelectItem = memo(
               fontWeight="light"
               textStyle="caption-xs"
               textTransform="uppercase"
-              variant={asset.isSynthetic ? 'primaryBtn' : 'secondary'}
+              variant={asset.isSynthetic ? "primaryBtn" : "secondary"}
             >
               {description}
             </Text>
@@ -145,12 +145,12 @@ export const AssetSelectItem = memo(
 
         <Box col className="pr-6" justify="end">
           <Text className="text-right" textStyle="caption" variant="secondary">
-            {balance?.gt(0) ? balance.toSignificant(6) : ''}
+            {balance?.gt(0) ? balance.toSignificant(6) : ""}
           </Text>
 
           <Box className="gap-x-1" justify="end">
             <Text textStyle="caption-xs" variant="secondary">
-              {value?.gt(0) ? `${formatPrice(value)} ` : ''}
+              {value?.gt(0) ? `${formatPrice(value)} ` : ""}
             </Text>
           </Box>
         </Box>

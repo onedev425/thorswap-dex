@@ -1,5 +1,5 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
 
 export const blockReward: Record<Chain, number> = {
   [Chain.Bitcoin]: 6.25,
@@ -7,7 +7,6 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Litecoin]: 12.5,
   [Chain.Dogecoin]: 10000,
   [Chain.Ethereum]: 3,
-  [Chain.Binance]: 0,
   [Chain.THORChain]: 0,
   [Chain.Avalanche]: 0,
   [Chain.Cosmos]: 0,
@@ -20,13 +19,14 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Dash]: 0,
   [Chain.Chainflip]: 0,
   [Chain.Polkadot]: 0,
+  [Chain.Solana]: 0,
+  [Chain.Radix]: 0,
 };
 
 // time secs for 1 block confirmation
 export const blockTime: Record<Chain, number> = {
   [Chain.Arbitrum]: 50,
   [Chain.Avalanche]: 3,
-  [Chain.Binance]: 1,
   [Chain.BinanceSmartChain]: 3,
   [Chain.Bitcoin]: 600,
   [Chain.BitcoinCash]: 600,
@@ -42,6 +42,8 @@ export const blockTime: Record<Chain, number> = {
   [Chain.Polkadot]: 6,
   [Chain.Polygon]: 2,
   [Chain.THORChain]: 6,
+  [Chain.Solana]: 1,
+  [Chain.Radix]: 5,
 };
 
 const getEstimatedTxSeconds = ({
@@ -56,7 +58,7 @@ const getEstimatedTxSeconds = ({
 
   if (!chainBlockReward) return 0;
 
-  const block = Math.ceil(amount?.getValue('number') || 0 / chainBlockReward);
+  const block = Math.ceil(amount?.getValue("number") || 0 / chainBlockReward);
   return block * chainBlockTime;
 };
 
@@ -69,7 +71,7 @@ export const getEstimatedTxTime = ({
 }) => {
   const seconds = getEstimatedTxSeconds({ chain, amount });
 
-  if (!seconds) return '<5s';
+  if (!seconds) return "<5s";
   if (seconds < 60) return `<${seconds}s`;
   return `<${Math.ceil(seconds / 60)}m`;
 };

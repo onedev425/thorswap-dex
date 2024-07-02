@@ -1,10 +1,10 @@
-import { chakra, Flex, shouldForwardProp, Text } from '@chakra-ui/react';
-import { Tooltip } from 'components/Atomic/Tooltip';
-import { isValidMotionProp, motion } from 'framer-motion';
-import { useState } from 'react';
+import { Flex, Text, chakra, shouldForwardProp } from "@chakra-ui/react";
+import { Tooltip } from "components/Atomic/Tooltip";
+import { isValidMotionProp, motion } from "framer-motion";
+import { useState } from "react";
 
-import EggBottom from './assets/egg-lrg-bottom.png';
-import EggTop from './assets/egg-lrg-top.png';
+import EggBottom from "./assets/egg-lrg-bottom.png";
+import EggTop from "./assets/egg-lrg-top.png";
 
 const Box = chakra(motion.div, {
   /**
@@ -47,18 +47,18 @@ export const Egg = ({ onOpen }: Props) => {
 
   return (
     <Flex>
-      <Tooltip content={open ? '' : '?!'}>
+      <Tooltip content={open ? "" : "?!"}>
         <Box
           animate={{
             rotate: open ? wiggleFast : wiggle,
             transition: {
               duration: open ? 1.5 : 3,
-              ease: 'easeInOut',
-              repeat: open ? 0 : Infinity,
-              repeatType: 'loop',
+              ease: "easeInOut",
+              repeat: open ? 0 : Number.POSITIVE_INFINITY,
+              repeatType: "loop",
             },
           }}
-          cursor={onOpen ? 'pointer' : 'default'}
+          cursor={onOpen ? "pointer" : "default"}
           height={`${height}px`}
           onClick={handleOpen}
           position="relative"
@@ -74,7 +74,7 @@ export const Egg = ({ onOpen }: Props) => {
                     translateY: [20, -10],
                     transition: {
                       duration: 0.3,
-                      ease: 'easeInOut',
+                      ease: "easeInOut",
                       delay: 1.3,
                     },
                   }
@@ -97,13 +97,13 @@ export const Egg = ({ onOpen }: Props) => {
                     translateY: 20,
                     transition: {
                       duration: 0.3,
-                      ease: 'easeInOut',
+                      ease: "easeInOut",
                       delay: 1.3,
                     },
                   }
                 : {}
             }
-            animation={open ? 'open' : 'stop'}
+            animation={open ? "open" : "stop"}
             bottom={0}
             left={0}
             position="absolute"

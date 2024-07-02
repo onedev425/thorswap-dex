@@ -1,8 +1,8 @@
-import type { CSSProperties, PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren } from "react";
 
-export type CustomAlignType = 'start' | 'end' | 'stretch' | 'baseline';
+export type CustomAlignType = "start" | "end" | "stretch" | "baseline";
 
-export type CustomJustifyType = 'start' | 'end' | 'between' | 'around' | 'evenly';
+export type CustomJustifyType = "start" | "end" | "between" | "around" | "evenly";
 
 type AlignProps = {
   align?: CustomAlignType;
@@ -54,16 +54,16 @@ export type BoxProps = PropsWithChildren<
 >;
 
 export const alignClasses: Record<CustomAlignType, string> = {
-  start: 'items-start',
-  end: 'items-end',
-  baseline: 'items-baseline',
-  stretch: 'items-stretch',
+  start: "items-start",
+  end: "items-end",
+  baseline: "items-baseline",
+  stretch: "items-stretch",
 };
 
 export const justifyClasses: Record<CustomJustifyType, string> = {
-  start: 'justify-start',
-  end: 'justify-end',
-  between: 'justify-between',
-  around: 'justify-around',
-  evenly: 'justify-evenly',
+  start: "justify-start",
+  end: "justify-end",
+  between: "justify-between",
+  around: "justify-around",
+  evenly: "justify-evenly",
 };

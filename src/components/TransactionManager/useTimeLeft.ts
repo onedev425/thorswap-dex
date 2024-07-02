@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export function useTimeLeft(endTimestamp?: number) {
   // count against now and refresh every second

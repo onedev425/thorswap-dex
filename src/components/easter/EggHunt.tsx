@@ -8,23 +8,23 @@ import {
   ModalFooter,
   ModalHeader,
   Text,
-} from '@chakra-ui/react';
-import { Button } from 'components/Atomic';
-import { Egg } from 'components/easter/Egg';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Confetti from 'react-confetti';
-import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
-import { useReserveMutation, useValidateUrlQuery } from 'store/trpcApi/api';
+} from "@chakra-ui/react";
+import { Button } from "components/Atomic";
+import { Egg } from "components/easter/Egg";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Confetti from "react-confetti";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import { useReserveMutation, useValidateUrlQuery } from "store/trpcApi/api";
 
 const domain = window.location.origin;
 export const EggHunt = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const urlToValidate = useMemo(() => {
-    const isTx = location.pathname.includes('/tx');
-    const pathname = location.pathname.split('?')[0];
+    const isTx = location.pathname.includes("/tx");
+    const pathname = location.pathname.split("?")[0];
 
     return isTx ? `${domain}/tx` : `${domain}${pathname}`;
   }, [location.pathname]);
@@ -34,18 +34,18 @@ export const EggHunt = () => {
 
   const [reservePrize] = useReserveMutation();
   const [isTaken, setIsTaken] = useState(false);
-  const [error, setError] = useState('');
-  const [placement, setPlacement] = useState({ top: '20%', left: '20%' });
+  const [error, setError] = useState("");
+  const [placement, setPlacement] = useState({ top: "20%", left: "20%" });
   const isValidPrize = data?.prize && !isTaken;
 
   useEffect(() => {
     setIsOpen(false);
-    setError('');
+    setError("");
   }, [location]);
 
   useEffect(() => {
     setIsTaken(false);
-    setError('');
+    setError("");
 
     setPlacement({
       top: `${Math.floor(Math.random() * 70) + 10}%`,
@@ -68,22 +68,22 @@ export const EggHunt = () => {
 
   const onSubmit = useCallback(
     async (values: { address: string }) => {
-      setError('');
+      setError("");
 
       if (!data?.prize) return true;
 
       try {
         const response = await reservePrize({ hash: data.prize.hash, wallet: values.address });
 
-        if ('data' in response) {
+        if ("data" in response) {
           if (response.data?.prize) {
             return setIsTaken(true);
           }
         }
 
-        throw new Error('Something went wrong');
-      } catch (e) {
-        setError('This prize has already been secured by someone else.');
+        throw new Error("Something went wrong");
+      } catch (_e) {
+        setError("This prize has already been secured by someone else.");
       }
 
       return true;
@@ -112,7 +112,7 @@ export const EggHunt = () => {
                   </Text>
                 ) : (
                   <Text fontWeight="semibold" textStyle="caption">
-                    Ēastre the goddess of spring and rebirth has blessed you with{' '}
+                    Ēastre the goddess of spring and rebirth has blessed you with{" "}
                     {data?.prize?.value} $THOR! Secure the coveted egg with your wallet address, and
                     the Easter Bunny shall airdrop your reward soon!
                   </Text>
@@ -126,20 +126,20 @@ export const EggHunt = () => {
                 disabled={isTaken}
                 isInvalid={!!errors.address}
                 placeholder="Erc-20 wallet address 0x..."
-                {...register('address', {
-                  required: 'Address is required',
+                {...register("address", {
+                  required: "Address is required",
                   validate: {
                     isValidAddress: (value: string) => {
-                      return value.length && value.startsWith('0x') && value.length === 42
+                      return value.length && value.startsWith("0x") && value.length === 42
                         ? true
-                        : 'Invalid address';
+                        : "Invalid address";
                     },
                   },
                 })}
               />
 
               <Text opacity={error ? 1 : 0} textStyle="caption" variant="red">
-                {error || '-'}
+                {error || "-"}
               </Text>
             </Flex>
           </ModalBody>
@@ -152,7 +152,7 @@ export const EggHunt = () => {
               mr={3}
               onClick={isTaken ? () => setIsOpen(false) : handleSubmit(onSubmit)}
             >
-              {isTaken ? 'Close' : 'Secure my egg!'}
+              {isTaken ? "Close" : "Secure my egg!"}
             </Button>
           </ModalFooter>
         </ModalContent>

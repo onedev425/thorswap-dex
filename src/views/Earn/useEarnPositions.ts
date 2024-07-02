@@ -1,10 +1,10 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { usePools } from 'hooks/usePools';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getSaverData, getSaverPools } from 'store/midgard/actions';
-import type { ThornodePoolType } from 'store/midgard/types';
-import type { SaverPosition } from 'views/Earn/types';
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { usePools } from "hooks/usePools";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getSaverData, getSaverPools } from "store/midgard/actions";
+import type { ThornodePoolType } from "store/midgard/types";
+import type { SaverPosition } from "views/Earn/types";
 
 export const useSaverPositions = () => {
   const { getWalletAddress, isWalletLoading } = useWallet();
@@ -62,8 +62,8 @@ export const useSaverPositions = () => {
 
     const saversAssets =
       pools
-        ?.filter((pool) => pool.saversDepth !== '0')
-        .map((pool) => AssetValue.fromStringSync(pool.asset)!) || [];
+        ?.filter((pool) => pool.saversDepth !== "0")
+        .map((pool) => AssetValue.from({ asset: pool.asset })) || [];
 
     const promises = saversAssets.map(getSaverPosition);
 

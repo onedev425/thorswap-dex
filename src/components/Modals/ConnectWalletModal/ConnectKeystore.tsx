@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { Keystore } from '@swapkit/wallet-keystore';
-import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import { Input } from 'components/Input';
-import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useFilePicker } from 'use-file-picker';
+import { Text } from "@chakra-ui/react";
+import type { Keystore } from "@swapkit/wallet-keystore";
+import classNames from "classnames";
+import { Box, Button, Icon, Tooltip } from "components/Atomic";
+import { Input } from "components/Input";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useFilePicker } from "use-file-picker";
 
 type Props = {
   loading?: boolean;
@@ -18,23 +18,23 @@ type Props = {
 export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => {
   const {
     openFilePicker,
-    filesContent: [{ content } = { content: '' }],
+    filesContent: [{ content } = { content: "" }],
     loading: filesLoading,
-  } = useFilePicker({ accept: ['.txt', '.json'] });
+  } = useFilePicker({ accept: [".txt", ".json"] });
   const [keystore, setKeystore] = useState<Keystore>();
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<string>("");
   const [invalidStatus, setInvalidStatus] = useState(false);
-  const [keystoreError, setKeystoreError] = useState('');
+  const [keystoreError, setKeystoreError] = useState("");
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     if (content) {
       const key = JSON.parse(content as string);
-      if (!('version' in key) || !('crypto' in key)) {
-        setKeystoreError(t('views.walletModal.keystoreError'));
-      } else {
-        setKeystoreError('');
+      if ("version" in key && "crypto" in key) {
+        setKeystoreError("");
         setKeystore(key);
+      } else {
+        setKeystoreError(t("views.walletModal.keystoreError"));
       }
     }
   }, [content]);
@@ -42,21 +42,21 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
   const unlockKeystore = useCallback(async () => {
     if (keystore) {
       setProcessing(true);
-      const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
+      const { decryptFromKeystore } = await import("@swapkit/wallet-keystore");
 
       try {
         const phrase = await decryptFromKeystore(keystore, password);
 
         await onConnect(keystore, phrase);
-        setPassword('');
+        setPassword("");
         setKeystore(undefined);
         setProcessing(false);
-      } catch (error: Todo) {
+      } catch (error) {
         console.error(error);
         setProcessing(false);
 
         setInvalidStatus(true);
-        logException(error.toString());
+        logException((error as Todo).toString());
       }
     }
   }, [keystore, password, onConnect]);
@@ -70,7 +70,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
 
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.code === 'Enter') {
+      if (event.code === "Enter") {
         unlockKeystore();
       }
     },
@@ -79,35 +79,35 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
   return (
     <Box col className="w-full">
       <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
-        {t('views.walletModal.selectKeystore')}
+        {t("views.walletModal.selectKeystore")}
       </Text>
       <Box
         alignCenter
         className="h-10 px-3 border border-solid cursor-pointer rounded-2xl border-light-border-primary dark:border-dark-border-primary hover:border-light-typo-gray dark:hover:border-dark-typo-gray"
         onClick={openFilePicker}
       >
-        {!keystore && !keystoreError && <Icon name="upload" size={18} />}
+        {!(keystore || keystoreError) && <Icon name="upload" size={18} />}
         {keystore && !keystoreError && <Icon color="green" name="valid" size={18} />}
         {keystoreError && <Icon color="red" name="invalid" size={18} />}
         <Text
-          className={classNames('!text-[11px] opacity-80 ml-2', {
-            'opacity-100': keystore && !keystoreError,
+          className={classNames("!text-[11px] opacity-80 ml-2", {
+            "opacity-100": keystore && !keystoreError,
           })}
           fontWeight="semibold"
           textStyle="caption-xs"
         >
-          {t('views.walletModal.chooseKeystore')}
+          {t("views.walletModal.chooseKeystore")}
         </Text>
       </Box>
 
       <Text className="mt-2 ml-3" fontWeight="normal" textStyle="caption" variant="red">
-        {keystoreError ? t('views.walletModal.invalidKeystore') : ''}
+        {keystoreError ? t("views.walletModal.invalidKeystore") : ""}
       </Text>
 
       <Box row className="space-x-2 mt-6 mb-2">
-        <Text textStyle="subtitle2">{t('views.walletModal.keystorePassword')}</Text>
+        <Text textStyle="subtitle2">{t("views.walletModal.keystorePassword")}</Text>
         <Tooltip
-          content={t('views.walletModal.recoveryPassword')}
+          content={t("views.walletModal.recoveryPassword")}
           iconName="question"
           place="top"
         />
@@ -127,7 +127,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
 
       {invalidStatus && (
         <Text className="mt-2 ml-3" textStyle="caption" variant="orange">
-          {t('views.walletModal.wrongPassword')}
+          {t("views.walletModal.wrongPassword")}
         </Text>
       )}
 
@@ -140,7 +140,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           rightIcon={<Icon className="transition group-hover:text-white" name="unlock" size={18} />}
           size="sm"
         >
-          {t('views.walletModal.unlock')}
+          {t("views.walletModal.unlock")}
         </Button>
         <Button
           className="flex-1 group"
@@ -149,7 +149,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
           size="sm"
           variant="outlineTint"
         >
-          {t('views.walletModal.createWallet')}
+          {t("views.walletModal.createWallet")}
         </Button>
       </Box>
     </Box>

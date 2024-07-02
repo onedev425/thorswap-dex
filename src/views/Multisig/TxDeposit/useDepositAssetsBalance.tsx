@@ -1,8 +1,8 @@
-import { AssetValue, Chain } from '@swapkit/core';
-import { RUNEAsset } from 'helpers/assets';
-import { useMemo } from 'react';
-import { useMultisig } from 'store/multisig/hooks';
-import { useMultissigAssets } from 'views/Multisig/hooks';
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { RUNEAsset } from "helpers/assets";
+import { useMemo } from "react";
+import { useMultisig } from "store/multisig/hooks";
+import { useMultissigAssets } from "views/Multisig/hooks";
 
 type Props = {
   poolAsset: AssetValue | undefined;
@@ -25,7 +25,7 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props) => {
     () =>
       poolAsset
         ? getMaxBalance(poolAsset)
-        : new AssetValue({ value: 0, decimal: 8, chain: Chain.THORChain, symbol: 'RUNE' }),
+        : new AssetValue({ value: 0, decimal: 8, chain: Chain.THORChain, symbol: "RUNE" }),
     [poolAsset, getMaxBalance],
   );
 

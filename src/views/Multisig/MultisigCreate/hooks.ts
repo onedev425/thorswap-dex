@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { t } from 'services/i18n';
-import { multisig } from 'services/multisig';
-import { useMultisig } from 'store/multisig/hooks';
-import type { MultisigMember } from 'store/multisig/types';
-import type { MultisigFormFields, MultisigFormValues } from 'views/Multisig/MultisigCreate/types';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { t } from "services/i18n";
+import { multisig } from "services/multisig";
+import { useMultisig } from "store/multisig/hooks";
+import type { MultisigMember } from "store/multisig/types";
+import type { MultisigFormFields, MultisigFormValues } from "views/Multisig/MultisigCreate/types";
 
 export const MIN_MEMBERS = 2;
 
@@ -27,10 +27,10 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
     setValue,
   } = useForm<MultisigFormValues>({
     defaultValues: {
-      name: '',
+      name: "",
       members: [
-        { name: '', pubKey: '' },
-        { name: '', pubKey: '' },
+        { name: "", pubKey: "" },
+        { name: "", pubKey: "" },
       ],
       threshold: 2,
     },
@@ -42,20 +42,20 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
     remove,
   } = useFieldArray({
     control,
-    name: 'members',
+    name: "members",
   });
 
-  const nameField = register('name');
-  const tresholdField = register('threshold', {
+  const nameField = register("name");
+  const tresholdField = register("threshold", {
     validate: (v) => v <= membersFields.length,
   });
 
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState("");
 
   const generateMultisigAddress = useCallback(
     async (members: MultisigMember[], threshold: number) => {
       const address = await multisig.createMultisigWallet(members, threshold);
-      setWalletAddress(address || '');
+      setWalletAddress(address || "");
 
       return address;
     },
@@ -63,33 +63,32 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
   );
 
   useEffect(() => {
-    const members = getValues('members');
+    const members = getValues("members");
     if (pubKey && !members[0].pubKey) {
       const updatedMembers = [...members];
       updatedMembers[0].pubKey = pubKey;
 
-      setValue('members', updatedMembers);
+      setValue("members", updatedMembers);
     }
   }, [getValues, pubKey, setValue]);
 
   useEffect(() => {
     const subscription = watch(async (values) => {
-      const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
       const toolbox = await ThorchainToolbox({});
       const members = await Promise.all(
         values.members?.map(async (member) => {
           if (!member) return member;
 
-          const isThorchainAddress = await toolbox.validateAddress(member.pubKey || '');
+          const isThorchainAddress = await toolbox.validateAddress(member.pubKey || "");
           if (isThorchainAddress) {
-            const account = await toolbox.getAccount(member.pubKey!);
+            const account = await toolbox.getAccount(member.pubKey as string);
             return {
               ...member,
               pubKey: account?.pubkey?.value as string,
             };
-          } else {
-            return member;
           }
+          return member;
         }) || [],
       );
       const address = await generateMultisigAddress(
@@ -97,7 +96,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
         values.threshold as number,
       );
 
-      if (address) clearErrors('signatureValidation');
+      if (address) clearErrors("signatureValidation");
     });
 
     return () => subscription.unsubscribe();
@@ -109,9 +108,9 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
         walletAddress || (await generateMultisigAddress(values.members, values.threshold));
 
       if (!address) {
-        setError('signatureValidation', {
-          type: 'custom',
-          message: t('views.multisig.incorrectSignatures'),
+        setError("signatureValidation", {
+          type: "custom",
+          message: t("views.multisig.incorrectSignatures"),
         });
 
         return;
@@ -131,7 +130,7 @@ export const useMultisigForm = ({ pubKey }: Props = {}) => {
 
   const submit = (onSubmit?: () => void) => handleSubmit((data) => handleConfirm(data, onSubmit))();
 
-  const addMember = useCallback(() => append({ name: '', pubKey: '' }), [append]);
+  const addMember = useCallback(() => append({ name: "", pubKey: "" }), [append]);
 
   const formFields: MultisigFormFields = useMemo(
     () => ({

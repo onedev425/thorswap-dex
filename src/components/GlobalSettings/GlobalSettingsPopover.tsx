@@ -1,8 +1,8 @@
-import { Box, Button, Card, Icon } from 'components/Atomic';
-import { GlobalSettings } from 'components/GlobalSettings';
-import { Popover } from 'components/Popover';
-import type { PropsWithChildren } from 'react';
-import { t } from 'services/i18n';
+import { Box, Button, Card, Icon } from "components/Atomic";
+import { GlobalSettings } from "components/GlobalSettings";
+import { Popover } from "components/Popover";
+import type { PropsWithChildren } from "react";
+import { t } from "services/i18n";
 
 type Props = PropsWithChildren<{
   transactionMode?: boolean;
@@ -23,7 +23,7 @@ export const GlobalSettingsPopover = ({ transactionMode, noSlippage, children }:
             />
           }
           px="2!"
-          tooltip={t('common.settings')}
+          tooltip={t("common.settings")}
           tooltipPlacement="top"
           variant="borderlessTint"
         />

@@ -25,7 +25,7 @@ export const midgardApi = createApi({
     mode: "cors",
   }),
   endpoints: (build) => ({
-    getStats: build.query<any, void>({
+    getStats: build.query<Todo, void>({
       keepUnusedDataFor: 3600,
       query: () => "/stats",
     }),
@@ -33,12 +33,12 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 3600,
       query: () => `${MIDGARD_URL}/v2/network`,
     }),
-    getHistoryEarnings: build.query<any, HistoryParams>({
+    getHistoryEarnings: build.query<Todo, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = "day", count = 100 } = {}) =>
         `${MIDGARD_URL}/v2/history/earnings?interval=${interval}&count=${count}`,
     }),
-    getHistoryTvl: build.query<any, HistoryParams>({
+    getHistoryTvl: build.query<Todo, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = "day", count = 100 } = {}) =>
         `${MIDGARD_URL}/v2/history/tvl?interval=${interval}&count=${count}`,
@@ -51,7 +51,7 @@ export const midgardApi = createApi({
     getHistoryLiquidityChanges: build.query<LiquidityHistoryResponse, HistoryParams>({
       keepUnusedDataFor: 3600,
       query: ({ interval = "day", count = 100 } = {}) =>
-        `${MIDGARD_URL}/v2/history/liquidity_changes?interval=${interval}&count=${count}`,
+        `/pooldepth/liquidity_changes?interval=${interval}&count=${count}`,
     }),
     getFullMember: build.query<FullMemberPool[], string[]>({
       keepUnusedDataFor: 10,
@@ -61,7 +61,7 @@ export const midgardApi = createApi({
       keepUnusedDataFor: 300,
       query: () => "/ts-swaps?interval=month&count=1&unique=false",
     }),
-    getPools: build.query<PoolDetail[], (typeof POOLS_TIME_PERIODS_OPTIONS)[number] | void>({
+    getPools: build.query<PoolDetail[], (typeof POOLS_TIME_PERIODS_OPTIONS)[number] | undefined>({
       keepUnusedDataFor: 60,
       query: (period = "30d") => `/pools?period=${period}`,
     }),
@@ -76,11 +76,11 @@ export const midgardApi = createApi({
     /**
      * THORNODE API
      */
-    getLastblock: build.query<any, void>({
+    getLastblock: build.query<Todo, void>({
       query: () => `${THORNODE_URL}/lastblock`,
       keepUnusedDataFor: 6,
     }),
-    getQueue: build.query<any, void>({
+    getQueue: build.query<Todo, void>({
       query: () => `${THORNODE_URL}/queue`,
       keepUnusedDataFor: 60,
     }),

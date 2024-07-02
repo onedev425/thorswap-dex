@@ -1,6 +1,6 @@
-import { Box } from 'components/Atomic';
-import { Step } from 'components/Stepper/Step';
-import { useStepper } from 'components/Stepper/StepperContext';
+import { Box } from "components/Atomic";
+import { Step } from "components/Stepper/Step";
+import { useStepper } from "components/Stepper/StepperContext";
 
 export const Stepper = () => {
   const { steps, setStep, activeStep } = useStepper();

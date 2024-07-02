@@ -1,8 +1,8 @@
-import { RequestClient } from '@swapkit/core';
-import dayjs from 'dayjs';
-import { THORNODE_URL } from 'settings/config';
+import { RequestClient } from "@swapkit/sdk";
+import dayjs from "dayjs";
+import { THORNODE_URL } from "settings/config";
 
-import type { InboundAddressesItem, SaverProvider, ThornodePoolType } from './types';
+import type { InboundAddressesItem, SaverProvider, ThornodePoolType } from "./types";
 
 export const getThornameExpireDate = ({
   expire,
@@ -12,10 +12,10 @@ export const getThornameExpireDate = ({
   lastThorchainBlock: number;
 }) => {
   const blocksPerYear = 5_256_000;
-  const blocksDiff = lastThorchainBlock - parseInt(expire);
+  const blocksDiff = lastThorchainBlock - Number.parseInt(expire);
   const days = (blocksDiff / blocksPerYear) * -365;
 
-  return dayjs().add(days, 'days').format('YYYY-MM-DD');
+  return dayjs().add(days, "days").format("YYYY-MM-DD");
 };
 
 export const getInboundData = () =>
@@ -28,7 +28,7 @@ export const getSaverQuote = ({
   type,
   ...rest
 }: {
-  type: 'deposit' | 'withdraw';
+  type: "deposit" | "withdraw";
   asset: string;
   amount?: string;
   address?: string;

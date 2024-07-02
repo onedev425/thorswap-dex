@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { IconName } from 'components/Atomic';
-import { Box, Icon, Link } from 'components/Atomic';
-import { genericBgClasses } from 'components/constants';
-import { useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { IconName } from "components/Atomic";
+import { Box, Icon, Link } from "components/Atomic";
+import { genericBgClasses } from "components/constants";
+import { useMemo } from "react";
 
-import type { MenuItemType } from '../types';
+import type { MenuItemType } from "../types";
 
 export const MenuItem = ({
   onClick,
@@ -15,13 +15,13 @@ export const MenuItem = ({
   labelClassName,
   value,
   href,
-  gap = 'gap-6',
+  gap = "gap-6",
 }: MenuItemType) => {
   const menuItemElement = useMemo(
     () => (
       <button
         className={classNames(
-          'outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-2 py-3 hover:brightness-95 dark:hover:brightness-125',
+          "outline-none border-none rounded-md relative flex flex-row w-full justify-between items-center cursor-pointer px-2 py-3 hover:brightness-95 dark:hover:brightness-125",
           genericBgClasses.secondary,
         )}
         onClick={onClick}
@@ -30,7 +30,7 @@ export const MenuItem = ({
         <Box alignCenter className={gap}>
           {icon && <Icon name={icon as IconName} size={16} />}
 
-          <Text className={classNames('mx-2', labelClassName)}>{label}</Text>
+          <Text className={classNames("mx-2", labelClassName)}>{label}</Text>
         </Box>
         <Box center>
           {!!value && <Text>{value}</Text>}

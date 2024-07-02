@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { ChainIcon } from 'components/AssetIcon/ChainIcon';
-import { Box, Collapse, Tooltip } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoTable } from 'components/InfoTable';
-import { Scrollbar } from 'components/Scrollbar';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { useFetchThornames } from 'hooks/useFetchThornames';
-import { memo } from 'react';
-import { t } from 'services/i18n';
-import { getThornameExpireDate } from 'store/midgard/actions';
-import { useGetLastblockQuery } from 'store/midgard/api';
+import { Text } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { ChainIcon } from "components/AssetIcon/ChainIcon";
+import { Box, Collapse, Tooltip } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoTable } from "components/InfoTable";
+import { Scrollbar } from "components/Scrollbar";
+import { shortenAddress } from "helpers/shortenAddress";
+import { useFetchThornames } from "hooks/useFetchThornames";
+import { memo } from "react";
+import { t } from "services/i18n";
+import { getThornameExpireDate } from "store/midgard/actions";
+import { useGetLastblockQuery } from "store/midgard/api";
 
 type Props = {
   editThorname: (thorname: string) => void;
@@ -26,7 +26,7 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
   return (
     <Box col className="pt-8 w-full">
       <Text className="pb-4" textStyle="h5">
-        {t('views.thorname.myThornames')}
+        {t("views.thorname.myThornames")}
       </Text>
 
       <Scrollbar secondary maxHeight="60vh" scrollClassName="!mr-2">
@@ -45,25 +45,25 @@ export const RegisteredThornames = memo(({ editThorname }: Props) => {
               <InfoTable
                 items={[
                   {
-                    label: t('views.thorname.expire'),
+                    label: t("views.thorname.expire"),
                     value: (
                       <Box center className="gap-x-2">
                         <Tooltip
-                          content={t('views.thorname.expirationNote', {
+                          content={t("views.thorname.expirationNote", {
                             block: expire,
                           })}
                           iconName="infoCircle"
                         />
                         <Text>
                           {getThornameExpireDate({
-                            expire: expire || '0',
+                            expire: expire || "0",
                             lastThorchainBlock: lastBlock?.[0]?.thorchain,
                           })}
                         </Text>
                       </Box>
                     ),
                   },
-                  { label: t('views.thorname.owner'), value: owner },
+                  { label: t("views.thorname.owner"), value: owner },
                   ...entries.map(({ address, chain }) => ({
                     label: <ChainIcon withoutBackground chain={chain as Chain} size={24} />,
                     value: shortenAddress(address, 15),

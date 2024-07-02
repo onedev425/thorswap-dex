@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { memo, useMemo } from 'react';
-import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import { useFormatPrice } from "helpers/formatPrice";
+import { memo, useMemo } from "react";
+import type { GetTokenPriceResponseItem } from "store/thorswap/types";
 
 type Props = {
   assetValue: AssetValue;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
-  const formatPrice = useFormatPrice(2, '');
+  const formatPrice = useFormatPrice(2, "");
 
   const { currentPrice, priceChangePercentage24h } = useMemo(() => {
     const { price_usd, cg } = priceData?.[assetValue.toString()] || {};
@@ -23,7 +23,7 @@ export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
     };
   }, [assetValue, priceData]);
 
-  const assetNumberValue = assetValue.getValue('number');
+  const assetNumberValue = assetValue.getValue("number");
   const value = `${assetValue.toSignificant(6)} (${formatPrice(assetNumberValue * currentPrice)})`;
 
   return (
@@ -46,7 +46,7 @@ export const ChainInfo = memo(({ assetValue, priceData }: Props) => {
         <Text
           fontWeight="semibold"
           textStyle="caption"
-          variant={priceChangePercentage24h >= 0 ? 'green' : 'red'}
+          variant={priceChangePercentage24h >= 0 ? "green" : "red"}
         >
           {priceChangePercentage24h?.toFixed(2)}%
         </Text>

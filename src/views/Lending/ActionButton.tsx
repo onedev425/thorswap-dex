@@ -1,6 +1,6 @@
-import { Box, Button } from 'components/Atomic';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import { Box, Button } from "components/Atomic";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   disabled?: boolean;
@@ -37,7 +37,7 @@ export const ActionButton = memo(
           size="lg"
           variant="fancy"
         >
-          {t('common.connectWallet')}
+          {t("common.connectWallet")}
         </Button>
       )}
     </Box>

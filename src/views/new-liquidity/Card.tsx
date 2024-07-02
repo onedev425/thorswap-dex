@@ -1,28 +1,28 @@
-import { Text } from '@chakra-ui/react';
+import { Text } from "@chakra-ui/react";
 import {
   AssetValue,
   BaseDecimal,
+  SwapKitNumber,
   getAsymmetricAssetShare,
   getAsymmetricRuneShare,
-  SwapKitNumber,
-} from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetLpIcon } from 'components/AssetIcon/AssetLpIcon';
-import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import dayjs from 'dayjs';
-import { RUNEAsset } from 'helpers/assets';
-import { getTickerFromIdentifier } from 'helpers/logoURL';
-import { parseToPercent } from 'helpers/parseHelpers';
-import useWindowSize from 'hooks/useWindowSize';
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getWithdrawRoute } from 'settings/router';
-import type { FullMemberPool } from 'store/midgard/types';
-import { PoolShareType } from 'store/midgard/types';
+} from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetLpIcon } from "components/AssetIcon/AssetLpIcon";
+import { Box, Button, Icon, Tooltip, useCollapse } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import dayjs from "dayjs";
+import { RUNEAsset } from "helpers/assets";
+import { getTickerFromIdentifier } from "helpers/logoURL";
+import { parseToPercent } from "helpers/parseHelpers";
+import useWindowSize from "hooks/useWindowSize";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { getAddLiquidityRoute, getWithdrawRoute } from "settings/router";
+import type { FullMemberPool } from "store/midgard/types";
+import { PoolShareType } from "store/midgard/types";
 
-import { LiquidityInfo } from './Info';
+import { LiquidityInfo } from "./Info";
 
 type LiquidityCardProps = FullMemberPool & {
   shareType: PoolShareType;
@@ -43,7 +43,7 @@ const getBasePoolShare = ({
   const P = SwapKitNumber.fromBigInt(BigInt(poolUnits), 8);
   const poolLiquidityUnits = SwapKitNumber.fromBigInt(BigInt(liquidityUnits));
 
-  return poolLiquidityUnits.div(P).getValue('number');
+  return poolLiquidityUnits.div(P).getValue("number");
 };
 
 export const LiquidityCard = ({
@@ -51,15 +51,15 @@ export const LiquidityCard = ({
   shareType,
   withFooter,
   pool,
-  poolUnits = '0',
+  poolUnits = "0",
   sharedUnits,
   runePending,
   hardCapReached,
   assetPending,
   assetWithdrawn,
   runeWithdrawn,
-  poolAssetDepth = '0',
-  poolRuneDepth = '0',
+  poolAssetDepth = "0",
+  poolRuneDepth = "0",
 }: LiquidityCardProps) => {
   const navigate = useNavigate();
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse();
@@ -80,7 +80,7 @@ export const LiquidityCard = ({
           ? [poolTicker]
           : [RUNEAsset.ticker];
 
-    return `${tickers.join(' + ')} LP`;
+    return `${tickers.join(" + ")} LP`;
   }, [poolTicker, shareType]);
 
   const { runeShare, assetShare, poolShare } = useMemo(() => {
@@ -91,23 +91,23 @@ export const LiquidityCard = ({
       assetDepth: poolAssetDepth,
     };
 
-    const hasPoolUnits = parseInt(poolUnits) > 0;
-    const runeAmount = hasPoolUnits ? getAsymmetricRuneShare(params).getValue('string') : '0';
-    const assetAmount = hasPoolUnits ? getAsymmetricAssetShare(params).getValue('string') : '0';
+    const hasPoolUnits = Number.parseInt(poolUnits) > 0;
+    const runeAmount = hasPoolUnits ? getAsymmetricRuneShare(params).getValue("string") : "0";
+    const assetAmount = hasPoolUnits ? getAsymmetricAssetShare(params).getValue("string") : "0";
 
     const runeShare =
       shareType === PoolShareType.SYM && hasPoolUnits
         ? SwapKitNumber.fromBigInt(BigInt(params.runeDepth), BaseDecimal.THOR)
             .mul(params.liquidityUnits)
             .div(poolUnits)
-            .getValue('string')
+            .getValue("string")
         : runeAmount;
     const assetShare =
       shareType === PoolShareType.SYM && hasPoolUnits
         ? SwapKitNumber.fromBigInt(BigInt(params.assetDepth), BaseDecimal.THOR)
             .mul(params.liquidityUnits)
             .div(poolUnits)
-            .getValue('string')
+            .getValue("string")
         : assetAmount;
     const poolShare = hasPoolUnits
       ? getBasePoolShare({ liquidityUnits: sharedUnits, poolUnits })
@@ -117,17 +117,17 @@ export const LiquidityCard = ({
       //TODO this might not work
       runeShare: new SwapKitNumber(runeShare).toSignificant(6),
       assetShare: new SwapKitNumber(assetShare).toSignificant(6),
-      poolShare: poolShare > 0.0001 ? `${parseToPercent(poolShare, 5)}` : '~0%',
+      poolShare: poolShare > 0.0001 ? `${parseToPercent(poolShare, 5)}` : "~0%",
     };
   }, [poolAssetDepth, poolRuneDepth, poolUnits, shareType, sharedUnits]);
 
   return (
     <Box col justifyCenter className="self-stretch">
-      <HighlightCard className="!rounded-2xl p-2 !gap-1" type={pendingTicker ? 'warn' : 'primary'}>
+      <HighlightCard className="!rounded-2xl p-2 !gap-1" type={pendingTicker ? "warn" : "primary"}>
         <Box alignCenter className="cursor-pointer" justify="between" onClick={toggle}>
           <Box center>
             {pendingTicker && (
-              <Tooltip content={t('pendingLiquidity.pendingLiquidity')}>
+              <Tooltip content={t("pendingLiquidity.pendingLiquidity")}>
                 <Icon className="mr-3" color="yellow" name="warn" size={24} />
               </Tooltip>
             )}
@@ -143,8 +143,8 @@ export const LiquidityCard = ({
 
             <Text
               className={classNames(
-                'mx-1 md:mx-3 !transition-all',
-                isActive ? 'text-body md:!text-subtitle1' : '!text-body',
+                "mx-1 md:mx-3 !transition-all",
+                isActive ? "text-body md:!text-subtitle1" : "!text-body",
               )}
               fontWeight="semibold"
             >
@@ -155,16 +155,16 @@ export const LiquidityCard = ({
           <Box center className="gap-2">
             <Box col align="end">
               <Text
-                className={classNames('!transition-all', isActive ? '!text-body' : '!text-caption')}
+                className={classNames("!transition-all", isActive ? "!text-body" : "!text-caption")}
                 fontWeight="normal"
               >
-                {` ${t('views.liquidity.poolShare')}`}
+                {` ${t("views.liquidity.poolShare")}`}
               </Text>
 
               <Text
                 className={classNames(
-                  '!transition-all',
-                  isActive ? '!text-subtitle1' : '!text-body',
+                  "!transition-all",
+                  isActive ? "!text-subtitle1" : "!text-body",
                 )}
                 fontWeight="bold"
               >
@@ -173,8 +173,8 @@ export const LiquidityCard = ({
             </Box>
 
             <Icon
-              className={classNames('transform duration-300 ease', {
-                '-rotate-180': isActive,
+              className={classNames("transform duration-300 ease", {
+                "-rotate-180": isActive,
               })}
               color="secondary"
               name="chevronDown"
@@ -188,7 +188,7 @@ export const LiquidityCard = ({
           assetShare={assetShare}
           assetWithdrawn={assetWithdrawn}
           contentRef={contentRef}
-          lastAddedDate={dayjs.unix(Number(dateLastAdded)).format('YYYY-MM-DD')}
+          lastAddedDate={dayjs.unix(Number(dateLastAdded)).format("YYYY-MM-DD")}
           lpName={lpName}
           maxHeightStyle={maxHeightStyle}
           pendingTicker={pendingTicker}
@@ -208,13 +208,13 @@ export const LiquidityCard = ({
                 disabled={hardCapReached}
                 onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
                 rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
-                tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+                tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
                 tooltipClasses="text-center mx-[-2px]"
-                variant={hardCapReached ? 'fancyError' : 'primary'}
+                variant={hardCapReached ? "fancyError" : "primary"}
               >
                 {pendingTicker
-                  ? t('views.liquidity.completeButton')
-                  : t('views.liquidity.addButton')}
+                  ? t("views.liquidity.completeButton")
+                  : t("views.liquidity.addButton")}
               </Button>
             </Box>
             <Box className="w-full">
@@ -224,7 +224,7 @@ export const LiquidityCard = ({
                 onClick={() => navigate(getWithdrawRoute(poolAsset))}
                 variant="secondary"
               >
-                {t('common.withdraw')}
+                {t("common.withdraw")}
               </Button>
             </Box>
           </Box>

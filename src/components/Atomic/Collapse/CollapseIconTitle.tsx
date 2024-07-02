@@ -1,7 +1,7 @@
-import { Text } from '@chakra-ui/react';
-import { Icon } from 'components/Atomic';
+import { Text } from "@chakra-ui/react";
+import { Icon } from "components/Atomic";
 
-import type { CollapseTitleProps } from './types';
+import type { CollapseTitleProps } from "./types";
 
 export const CollapseIconTitle = ({ iconName, title, subTitle }: CollapseTitleProps) => {
   return (

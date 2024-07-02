@@ -1,6 +1,6 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Button, Modal } from 'components/Atomic';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Box, Button, Modal } from "components/Atomic";
+import { t } from "services/i18n";
 
 type Props = {
   isOpened: boolean;
@@ -22,15 +22,15 @@ export const Confirm = ({
   onCancel,
 }: Props) => {
   return (
-    <Modal isOpened={isOpened} onClose={onCancel} title={title || ''}>
+    <Modal isOpened={isOpened} onClose={onCancel} title={title || ""}>
       <Box col>
         <Text>{description}</Text>
         <Box className="gap-3 mt-4" justify="end">
           <Button onClick={onCancel} variant="tint">
-            {cancelLabel || t('common.cancel')}
+            {cancelLabel || t("common.cancel")}
           </Button>
           <Button onClick={onConfirm} variant="primary">
-            {confirmLabel || t('common.confirm')}
+            {confirmLabel || t("common.confirm")}
           </Button>
         </Box>
       </Box>

@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import { Box } from 'components/Atomic';
-import { StatsList } from 'components/StatsList';
-import { memo } from 'react';
-import { useApp } from 'store/app/hooks';
+import { Text } from "@chakra-ui/react";
+import { Box } from "components/Atomic";
+import { StatsList } from "components/StatsList";
+import { memo } from "react";
+import { useApp } from "store/app/hooks";
 
-import { useGlobalStatsData } from './useGlobalStatsData';
+import { useGlobalStatsData } from "./useGlobalStatsData";
 
 const GlobalStatsComponent = () => {
   const { hideStats } = useApp();

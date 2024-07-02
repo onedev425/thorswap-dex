@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import { type AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { MaxPopover } from 'components/AssetInput/MaxPopover';
-import { AssetSelect } from 'components/AssetSelect';
-import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import { InputAmount } from 'components/InputAmount';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useBalance } from 'hooks/useBalance';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { type AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { MaxPopover } from "components/AssetInput/MaxPopover";
+import { AssetSelect } from "components/AssetSelect";
+import { AssetSelectButton } from "components/AssetSelect/AssetSelectButton";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import { InputAmount } from "components/InputAmount";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useBalance } from "hooks/useBalance";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
-import type { AssetInputProps } from './types';
+import type { AssetInputProps } from "./types";
 
 export const AssetInput = ({
   hideZeroPrice,
@@ -43,7 +43,7 @@ export const AssetInput = ({
   }, [asset, getMaxBalance]);
 
   const localPriceLoading = useMemo(
-    () => (typeof priceLoading === 'boolean' ? priceLoading : loading),
+    () => (typeof priceLoading === "boolean" ? priceLoading : loading),
     [priceLoading, loading],
   );
 
@@ -76,18 +76,18 @@ export const AssetInput = ({
     const rawValue = formatPrice(asset);
     const fontSize =
       rawValue.length > 30
-        ? '1rem'
+        ? "1rem"
         : rawValue.length > 25
-          ? '1.2rem'
+          ? "1.2rem"
           : rawValue.length > 20
-            ? '1.4rem'
-            : '1.5rem';
+            ? "1.4rem"
+            : "1.5rem";
 
-    return { fontSize, lineHeight: '2rem' };
+    return { fontSize, lineHeight: "2rem" };
   }, [formatPrice, asset]);
 
   return (
-    <HighlightCard className={classNames('min-h-[70px] text-2 !gap-1 !justify-start', className)}>
+    <HighlightCard className={classNames("min-h-[70px] text-2 !gap-1 !justify-start", className)}>
       {title && (
         <Box alignCenter className="pl-4 md:pl-0 pt-2 md:pt-0" justify="between">
           <Box center className="gap-x-2">
@@ -100,9 +100,9 @@ export const AssetInput = ({
 
       <Box
         alignCenter
-        className={classNames('pl-4 md:pl-0', className, {
-          'flex-col md:flex-row': showSecondaryChainSelector,
-          'flex-row': !showSecondaryChainSelector,
+        className={classNames("pl-4 md:pl-0", className, {
+          "flex-col md:flex-row": showSecondaryChainSelector,
+          "flex-row": !showSecondaryChainSelector,
         })}
         justify="between"
       >
@@ -114,7 +114,7 @@ export const AssetInput = ({
           <InputAmount
             stretch
             amountValue={value || new SwapKitNumber(0)}
-            className={classNames('-ml-1 font-normal text-left', inputClassName)}
+            className={classNames("-ml-1 font-normal text-left", inputClassName)}
             containerClassName="!py-0"
             customPrefix={
               warning ? (
@@ -170,7 +170,7 @@ export const AssetInput = ({
         <Box center row className="gap-1 pb-2 pr-2 md:pr-0">
           {balance && walletBalance && (
             <Text fontWeight="medium" variant="secondary">
-              {t('common.balance')}: {walletBalance?.toSignificant(6) || '0'}
+              {t("common.balance")}: {walletBalance?.toSignificant(6) || "0"}
             </Text>
           )}
 

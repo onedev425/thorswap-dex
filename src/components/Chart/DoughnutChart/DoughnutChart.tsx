@@ -1,6 +1,6 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { AssetIcon } from 'components/AssetIcon';
-import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
+import { Flex, Text } from "@chakra-ui/react";
+import { AssetIcon } from "components/AssetIcon";
+import { ChartTypeSelect } from "components/Chart/ChartTypeSelect";
 import {
   StrokeColor3,
   StrokeColor4,
@@ -10,14 +10,14 @@ import {
   StrokeColor8,
   StrokeColor9,
   StrokeColor10,
-} from 'components/Chart/styles/colors';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import type { SaverPosition } from 'views/Earn/types';
-import { ShareChartIndex } from 'views/Home/types';
+} from "components/Chart/styles/colors";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { Doughnut } from "react-chartjs-2";
+import type { SaverPosition } from "views/Earn/types";
+import { ShareChartIndex } from "views/Home/types";
 
-import { colors } from '../../../theme/colors';
+import { colors } from "../../../theme/colors";
 
 const chartColors = [
   StrokeColor3,
@@ -41,7 +41,7 @@ type Props = {
 
 export const DoughnutChart = ({
   data,
-  unit = '$',
+  unit = "$",
   chartIndexes,
   selectChart,
   selectedIndex,
@@ -60,27 +60,30 @@ export const DoughnutChart = ({
     chartRef.current?.update();
   }, []);
 
-  const options: any = useMemo(
+  const options: Todo = useMemo(
     () => ({
-      cutout: '70%',
+      cutout: "70%",
       padding: 0,
       responsive: true,
       plugins: {
         legend: { display: false },
         tooltip: {
           displayColors: false,
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          backgroundColor: "rgba(0, 0, 0, 0.9)",
           bodyFont: { size: 12 },
           cornerRadius: 16,
           padding: 14,
           titleFont: { size: 14 },
           titleSpacing: 8,
           callbacks: {
-            label: (context: any) => `${context.formattedValue} ${unit}`,
+            label: (context: Todo) => `${context.formattedValue} ${unit}`,
           },
         },
       },
-      onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
+      onHover: (
+        _e: Todo,
+        elements: { element: Element; datasetIndex: number; index: number }[],
+      ) => {
         if (elements[0]?.index === chartHovered) return;
         setChartHovered(elements[0]?.index);
       },
@@ -91,8 +94,8 @@ export const DoughnutChart = ({
   const chartData = useMemo(() => {
     const usdPrices = data.map(({ asset, amount, earnedAmount }) => {
       const assetAmount = isEarned
-        ? earnedAmount?.getValue('number') || 0
-        : amount.getValue('number');
+        ? earnedAmount?.getValue("number") || 0
+        : amount.getValue("number");
 
       return (tokenPricesData[asset.toString()]?.price_usd || 0) * assetAmount;
     });
@@ -101,9 +104,9 @@ export const DoughnutChart = ({
       labels: data.map((position) => position.asset.ticker),
       datasets: [
         {
-          label: isEarned ? 'Earned' : 'Total',
+          label: isEarned ? "Earned" : "Total",
           data: usdPrices,
-          backgroundColor: chartColors.map((color) => color + '50'),
+          backgroundColor: chartColors.map((color) => `${color}50`),
           borderColor: chartColors,
           borderWidth: 1,
         },
@@ -143,12 +146,12 @@ export const DoughnutChart = ({
                 }}
                 align="center"
                 bgColor={hovered ? colors.bgBtnLightTintActive : colors.bgLightGray}
-                border={hovered ? `1px solid ${colors.btnPrimary}` : '1px solid transparent'}
+                border={hovered ? `1px solid ${colors.btnPrimary}` : "1px solid transparent"}
                 borderRadius="3xl"
                 display="flex"
                 gap={2}
                 justify="space-between"
-                key={`${share.amount.getValue('string')}-${share.earnedAmount?.getValue('string')}`}
+                key={`${share.amount.getValue("string")}-${share.earnedAmount?.getValue("string")}`}
                 onMouseEnter={() => onLegendHover(data.indexOf(share))}
                 onMouseLeave={() => onLegendHover(null)}
                 p={1}

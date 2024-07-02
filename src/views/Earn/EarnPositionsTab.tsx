@@ -1,9 +1,9 @@
-import type { AssetValue } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { t } from 'services/i18n';
-import { EarnPositions } from 'views/Earn/EarnPositions';
-import type { SaverPosition } from 'views/Earn/types';
+import type { AssetValue } from "@swapkit/sdk";
+import { Box, Button } from "components/Atomic";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { t } from "services/i18n";
+import { EarnPositions } from "views/Earn/EarnPositions";
+import type { SaverPosition } from "views/Earn/types";
 
 type Props = {
   onWithdraw: (asset: AssetValue) => void;
@@ -34,7 +34,7 @@ export const EarnPositionsTab = ({ onWithdraw, onDeposit, positions, refreshPosi
             size="lg"
             variant="fancy"
           >
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         </Box>
       )}

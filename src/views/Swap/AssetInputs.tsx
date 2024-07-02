@@ -1,28 +1,28 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetInput } from 'components/AssetInput';
-import type { AssetInputType } from 'components/AssetInput/types';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { isAVAXAsset, isBSCAsset, isETHAsset } from 'helpers/assets';
-import { useAssetListSearch } from 'hooks/useAssetListSearch';
-import { memo, useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import type { Token } from 'store/thorswap/types';
-import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
-import type { Provider } from 'views/Swap/hooks/useTokenList';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetInput } from "components/AssetInput";
+import type { AssetInputType } from "components/AssetInput/types";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { isAVAXAsset, isBSCAsset, isETHAsset } from "helpers/assets";
+import { useAssetListSearch } from "hooks/useAssetListSearch";
+import { memo, useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import type { Token } from "store/thorswap/types";
+import { useTokenAddresses } from "views/Swap/hooks/useTokenAddresses";
+import type { Provider } from "views/Swap/hooks/useTokenList";
 
 import {
   isLedgerLiveSupportedInputAsset,
   isLedgerLiveSupportedOutputAsset,
-} from '../../../ledgerLive/wallet/LedgerLive';
+} from "../../../ledgerLive/wallet/LedgerLive";
 
-import { useAssetsWithBalanceFromTokens } from './hooks/useAssetsWithBalanceFromTokens';
+import { useAssetsWithBalanceFromTokens } from "./hooks/useAssetsWithBalanceFromTokens";
 
 const ConditionalWrapper = ({ children, condition }: { children: Todo; condition: boolean }) =>
   IS_LEDGER_LIVE && condition ? (
-    <Tooltip className="mb-5" content={t('components.assetSelect.ledgerLiveSwitchNotSupported')}>
+    <Tooltip className="mb-5" content={t("components.assetSelect.ledgerLiveSwitchNotSupported")}>
       {children}
     </Tooltip>
   ) : (
@@ -51,7 +51,7 @@ const Inputs = ({
 }: Props) => {
   const [iconRotate, setIconRotate] = useState(false);
 
-  const thorchainEVNSupportedAddresses = useTokenAddresses('tokens');
+  const thorchainEVNSupportedAddresses = useTokenAddresses("tokens");
 
   const isAssetSwitchPossible = useMemo(() => {
     return isLedgerLiveSupportedInputAsset(outputAsset.asset);
@@ -87,7 +87,7 @@ const Inputs = ({
         isAVAXAsset(asset) ||
         isBSCAsset(asset) ||
         ![Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(asset?.chain) ||
-        thorchainEVNSupportedAddresses.includes(asset.symbol.split('-')[1]?.toLowerCase()),
+        thorchainEVNSupportedAddresses.includes(asset.symbol.split("-")[1]?.toLowerCase()),
     );
 
     return thorchainSupported;
@@ -103,24 +103,24 @@ const Inputs = ({
     <div className="relative self-stretch md:w-full">
       <Box
         center
-        className={classNames('absolute mt-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2')}
+        className={classNames("absolute mt-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}
       >
         <ConditionalWrapper condition={!isAssetSwitchPossible}>
           <Box
             center
             className={classNames(
               isAssetSwitchPossible
-                ? 'cursor-pointer hover:brightness-125'
-                : 'cursor-not-allowed brightness-75 hover:brightness-100',
-              'absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-              'p-1 md:p-2 rounded-xl md:rounded-[18px]',
-              'border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent transition',
+                ? "cursor-pointer hover:brightness-125"
+                : "cursor-not-allowed brightness-75 hover:brightness-100",
+              "absolute -mt-0.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              "p-1 md:p-2 rounded-xl md:rounded-[18px]",
+              "border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent transition",
             )}
             onClick={isAssetSwitchPossible ? handleAssetSwap : undefined}
           >
             <Icon
-              className={classNames('p-1 transition-all', {
-                '-scale-x-100': iconRotate,
+              className={classNames("p-1 transition-all", {
+                "-scale-x-100": iconRotate,
               })}
               color="white"
               name="arrowDown"
@@ -145,11 +145,11 @@ const Inputs = ({
         hideMaxButton
         hideZeroPrice
         assets={
-          !IS_LEDGER_LIVE
-            ? outputAssets
-            : outputAssets.filter((outputAsset) =>
+          IS_LEDGER_LIVE
+            ? outputAssets.filter((outputAsset) =>
                 isLedgerLiveSupportedOutputAsset(outputAsset.asset),
               )
+            : outputAssets
         }
         className="h-[90px]"
         onAssetChange={onOutputAssetChange}

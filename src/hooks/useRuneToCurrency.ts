@@ -1,11 +1,11 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { RUNEAsset } from 'helpers/assets';
-import { usePools } from 'hooks/usePools';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback } from 'react';
-import { useApp } from 'store/app/hooks';
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { RUNEAsset } from "helpers/assets";
+import { usePools } from "hooks/usePools";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback } from "react";
+import { useApp } from "store/app/hooks";
 
-export const useRuneToCurrency = (abbreviate: boolean = true) => {
+export const useRuneToCurrency = (abbreviate = true) => {
   const { baseCurrency } = useApp();
   const { pools } = usePools();
 
@@ -23,25 +23,25 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
 
   const runeToCurrency = useCallback(
     (runeAmount: string) => {
-      const isUSD = baseCurrency.includes('THOR.USD');
+      const isUSD = baseCurrency.includes("THOR.USD");
       const quoteAsset = isUSD
         ? new AssetValue({ value: 1, identifier: baseCurrency, decimal: 8 })
         : AssetValue.fromStringSync(baseCurrency);
 
-      if (!quoteAsset) return `$0.00`;
+      if (!quoteAsset) return "$0.00";
 
-      const runeAmountNumber = parseFloat(runeAmount);
+      const runeAmountNumber = Number.parseFloat(runeAmount);
       const pool =
         pools.find((pool) => pool.asset.toString() === quoteAsset.toString()) || pools[0];
 
-      if (!pool || runeAmountNumber === 0) return `$0.00`;
-      if (baseCurrency.includes('RUNE')) return `ᚱ ${formatter(runeAmountNumber)}`;
+      if (!pool || runeAmountNumber === 0) return "$0.00";
+      if (baseCurrency.includes("RUNE")) return `ᚱ ${formatter(runeAmountNumber)}`;
 
       const runeValue = runeAmountNumber * runePrice;
 
       if (isUSD) return `$${formatter(runeValue)}`;
 
-      const assetValue = runeValue / parseFloat(pool.assetPriceUSD);
+      const assetValue = runeValue / Number.parseFloat(pool.assetPriceUSD);
 
       return `${quoteAsset.ticker} ${formatter(assetValue)}`;
     },
@@ -51,7 +51,7 @@ export const useRuneToCurrency = (abbreviate: boolean = true) => {
   return runeToCurrency;
 };
 
-export const useRuneAtTimeToCurrency = (abbreviate: boolean = true) => {
+export const useRuneAtTimeToCurrency = (abbreviate = true) => {
   const { baseCurrency } = useApp();
   const { pools } = usePools();
 
@@ -63,29 +63,29 @@ export const useRuneAtTimeToCurrency = (abbreviate: boolean = true) => {
   const runeToCurrencyAtTime = useCallback(
     (runeAmountString: string, runePriceStr?: string) => {
       const runeAmount = new SwapKitNumber({
-        value: parseInt(runeAmountString) / 10 ** 8,
+        value: Number.parseInt(runeAmountString) / 10 ** 8,
         decimal: 8,
       });
-      const runePrice = runeAmount.mul(runePriceStr || '0').getValue('number') || 0;
-      const isUSD = baseCurrency.includes('THOR.USD');
+      const runePrice = runeAmount.mul(runePriceStr || "0").getValue("number") || 0;
+      const isUSD = baseCurrency.includes("THOR.USD");
       const quoteAsset = isUSD
         ? new AssetValue({ value: 1, identifier: baseCurrency, decimal: 8 })
         : AssetValue.fromStringSync(baseCurrency);
 
-      if (!quoteAsset) return `$0.00`;
+      if (!quoteAsset) return "$0.00";
 
       const pool =
         pools.find((pool) => pool.asset.toString() === quoteAsset.toString()) || pools[0];
-      const runeAmountNumber = runeAmount?.getValue('number') || 0;
+      const runeAmountNumber = runeAmount?.getValue("number") || 0;
 
-      if (!pool || runeAmountNumber === 0) return `$0.00`;
-      if (baseCurrency.includes('RUNE')) return `ᚱ ${formatter(runeAmountNumber)}`;
+      if (!pool || runeAmountNumber === 0) return "$0.00";
+      if (baseCurrency.includes("RUNE")) return `ᚱ ${formatter(runeAmountNumber)}`;
 
       const runeValue = runeAmountNumber * runePrice;
 
       if (isUSD) return `$${formatter(runeValue)}`;
 
-      const assetValue = runeValue / parseFloat(pool.assetPriceUSD);
+      const assetValue = runeValue / Number.parseFloat(pool.assetPriceUSD);
 
       return `${quoteAsset.ticker} ${formatter(assetValue)}`;
     },

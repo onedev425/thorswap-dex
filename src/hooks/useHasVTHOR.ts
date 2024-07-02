@@ -1,7 +1,7 @@
-import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
-import { useCallback, useEffect, useState } from 'react';
-import { logException } from 'services/logger';
-import { getVthorState } from 'views/Staking/hooks';
+import { BaseDecimal, SwapKitNumber } from "@swapkit/sdk";
+import { useCallback, useEffect, useState } from "react";
+import { logException } from "services/logger";
+import { getVthorState } from "views/Staking/hooks";
 
 export const useVTHORBalance = (address?: string) => {
   const [VTHORBalance, setVTHORBalance] = useState(
@@ -11,10 +11,10 @@ export const useVTHORBalance = (address?: string) => {
     if (!address) return setVTHORBalance(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
 
     try {
-      const vTHORBalance = await getVthorState('balanceOf', [address]);
+      const vTHORBalance = await getVthorState("balanceOf", [address]);
       setVTHORBalance(vTHORBalance);
-    } catch (error: NotWorth) {
-      logException(error.toString());
+    } catch (error) {
+      logException((error as Todo).toString());
     }
   }, [address]);
 

@@ -1,1 +1,1 @@
-export { InfoTable } from './InfoTable';
+export { InfoTable } from "./InfoTable";

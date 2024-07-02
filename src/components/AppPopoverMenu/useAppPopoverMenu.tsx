@@ -1,63 +1,63 @@
-import { AssetValue, Chain } from '@swapkit/core';
-import type { MenuItemType } from 'components/AppPopoverMenu/types';
-import { AssetIcon } from 'components/AssetIcon';
-import type { IconName } from 'components/Atomic';
-import { useTheme } from 'context/theme/ThemeContext';
-import { USDAsset } from 'helpers/assets';
-import { useMemo, useState } from 'react';
-import { changeAppLanguage, FLAG_ICONS, LANGUAGE_NAMES, t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useApp } from 'store/app/hooks';
-import type { SupportedLanguages } from 'types/app';
-import { SUPPORTED_LANGUAGES, ThemeType, ThousandSeparator } from 'types/app';
+import { AssetValue, Chain } from "@swapkit/sdk";
+import type { MenuItemType } from "components/AppPopoverMenu/types";
+import { AssetIcon } from "components/AssetIcon";
+import type { IconName } from "components/Atomic";
+import { useTheme } from "context/theme/ThemeContext";
+import { USDAsset } from "helpers/assets";
+import { useMemo, useState } from "react";
+import { FLAG_ICONS, LANGUAGE_NAMES, changeAppLanguage, t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useApp } from "store/app/hooks";
+import type { SupportedLanguages } from "types/app";
+import { SUPPORTED_LANGUAGES, ThemeType, ThousandSeparator } from "types/app";
 
 type MenuType =
-  | 'main'
-  | 'language'
-  | 'currency'
-  | 'theme'
-  | 'thousandSeparator'
-  | 'proMode'
-  | 'settings';
+  | "main"
+  | "language"
+  | "currency"
+  | "theme"
+  | "thousandSeparator"
+  | "proMode"
+  | "settings";
 
 const separatorIcons: Record<ThousandSeparator, IconName> = {
-  [ThousandSeparator.Space]: 'spaceBar',
-  [ThousandSeparator.Comma]: 'comma',
-  [ThousandSeparator.None]: 'blocked',
+  [ThousandSeparator.Space]: "spaceBar",
+  [ThousandSeparator.Comma]: "comma",
+  [ThousandSeparator.None]: "blocked",
 };
 
 export const useAppPopoverMenu = () => {
-  const [menuType, setMenuType] = useState<MenuType>('main');
+  const [menuType, setMenuType] = useState<MenuType>("main");
 
-  const onBack = () => setMenuType('main');
+  const onBack = () => setMenuType("main");
 
   const menus = {
     language: {
-      title: t('appMenu.language'),
+      title: t("appMenu.language"),
       items: useLanguageMenu(onBack),
     },
     currency: {
-      title: t('appMenu.currency'),
+      title: t("appMenu.currency"),
       items: useCurrencyMenu(onBack),
     },
     main: {
-      title: t('common.globalSettings'),
+      title: t("common.globalSettings"),
       items: useMainMenu(setMenuType),
     },
     theme: {
-      title: t('appMenu.theme'),
+      title: t("appMenu.theme"),
       items: useThemeMenu(onBack),
     },
     thousandSeparator: {
-      title: t('appMenu.thousandSeparator'),
+      title: t("appMenu.thousandSeparator"),
       items: useThousandSeparatorMenu(onBack),
     },
     proMode: {
-      title: t('appMenu.proModeSettings'),
+      title: t("appMenu.proModeSettings"),
       items: useProModeSettings(),
     },
     settings: {
-      title: t('appMenu.customize'),
+      title: t("appMenu.customize"),
       items: useCompositionSettingsMenu(),
     },
   };
@@ -74,7 +74,7 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const { themeType, thousandSeparator, language, baseCurrency } = useApp();
 
   const currencyAsset = useMemo(() => {
-    if (baseCurrency.includes('USD')) return USDAsset;
+    if (baseCurrency.includes("USD")) return USDAsset;
     if (baseCurrency.includes(Chain.Bitcoin)) return AssetValue.fromChainOrSignature(Chain.Bitcoin);
     if (baseCurrency.includes(Chain.Ethereum))
       return AssetValue.fromChainOrSignature(Chain.Ethereum);
@@ -85,24 +85,24 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
   const mainMenu: MenuItemType[] = [
     {
       label: getThemeLabel(themeType),
-      desc: t('appMenu.themeDesc'),
-      icon: isLight ? 'sun' : 'moon',
-      onClick: () => setMenuType('theme'),
+      desc: t("appMenu.themeDesc"),
+      icon: isLight ? "sun" : "moon",
+      onClick: () => setMenuType("theme"),
     },
     IS_LEDGER_LIVE
       ? undefined
       : {
           label: LANGUAGE_NAMES[language],
-          desc: t('appMenu.languageDesc'),
-          onClick: () => setMenuType('language'),
-          icon: 'languageLetters',
+          desc: t("appMenu.languageDesc"),
+          onClick: () => setMenuType("language"),
+          icon: "languageLetters",
           hasSubmenu: true,
           value: language,
         },
     {
       label: getSeparatorLabel(thousandSeparator),
-      desc: t('appMenu.separatorDesc'),
-      onClick: () => setMenuType('thousandSeparator'),
+      desc: t("appMenu.separatorDesc"),
+      onClick: () => setMenuType("thousandSeparator"),
       icon: separatorIcons[thousandSeparator],
       hasSubmenu: true,
       value: thousandSeparator,
@@ -110,12 +110,12 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
     IS_LEDGER_LIVE
       ? undefined
       : {
-          label: currencyAsset?.ticker || t('appMenu.currency'),
-          desc: t('appMenu.currencyDesc'),
-          onClick: () => setMenuType('currency'),
-          icon: 'dollarOutlined',
+          label: currencyAsset?.ticker || t("appMenu.currency"),
+          desc: t("appMenu.currencyDesc"),
+          onClick: () => setMenuType("currency"),
+          icon: "dollarOutlined",
           iconComponent:
-            !currencyAsset || currencyAsset?.ticker === 'USD' ? null : (
+            !currencyAsset || currencyAsset?.ticker === "USD" ? null : (
               <AssetIcon asset={currencyAsset} size={25} />
             ),
           hasSubmenu: true,
@@ -124,18 +124,18 @@ const useMainMenu = (setMenuType: (val: MenuType) => void) => {
     IS_LEDGER_LIVE
       ? undefined
       : {
-          label: t('appMenu.proMode'),
-          desc: t('appMenu.proModeSettings'),
-          onClick: () => setMenuType('proMode'),
-          icon: 'rocket',
+          label: t("appMenu.proMode"),
+          desc: t("appMenu.proModeSettings"),
+          onClick: () => setMenuType("proMode"),
+          icon: "rocket",
         },
     IS_LEDGER_LIVE
       ? undefined
       : {
-          label: t('appMenu.settings'),
-          desc: t('appMenu.customize'),
-          onClick: () => setMenuType('settings'),
-          icon: 'settings',
+          label: t("appMenu.settings"),
+          desc: t("appMenu.customize"),
+          onClick: () => setMenuType("settings"),
+          icon: "settings",
         },
   ].filter((i) => !!i) as MenuItemType[];
 
@@ -157,7 +157,7 @@ const useLanguageMenu = (onBack: () => void) => {
     icon: FLAG_ICONS[lang] as IconName,
     onClick: () => onLanguageClick(lang),
     isSelected: isLanguageSelected(lang),
-    gap: 'gap-1',
+    gap: "gap-1",
   }));
 
   return languageMenu;
@@ -173,26 +173,26 @@ const useCurrencyMenu = (onBack: () => void) => {
 
   const currencyMenu: MenuItemType[] = [
     {
-      label: 'USD',
-      icon: 'currencyDollar',
+      label: "USD",
+      icon: "currencyDollar",
       onClick: () => onCurrencyClick(USDAsset),
       isSelected: isCurrencySelected(USDAsset),
     },
     {
-      label: 'RUNE',
-      icon: 'thor',
+      label: "RUNE",
+      icon: "thor",
       onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.THORChain)),
       isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.THORChain)),
     },
     {
-      label: 'BTC',
-      icon: 'btc',
+      label: "BTC",
+      icon: "btc",
       onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
       isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Bitcoin)),
     },
     {
-      label: 'ETH',
-      icon: 'eth',
+      label: "ETH",
+      icon: "eth",
       onClick: () => onCurrencyClick(AssetValue.fromChainOrSignature(Chain.Ethereum)),
       isSelected: isCurrencySelected(AssetValue.fromChainOrSignature(Chain.Ethereum)),
     },
@@ -212,14 +212,14 @@ const useThemeMenu = (onBack: () => void) => {
 
   const menu: MenuItemType[] = [
     {
-      icon: 'sun',
-      label: t('appMenu.lightTheme'),
+      icon: "sun",
+      label: t("appMenu.lightTheme"),
       onClick: () => onThemeClick(ThemeType.Light),
       isSelected: isThemeSelected(ThemeType.Light),
     },
     {
-      icon: 'moon',
-      label: t('appMenu.darkTheme'),
+      icon: "moon",
+      label: t("appMenu.darkTheme"),
       onClick: () => onThemeClick(ThemeType.Dark),
       isSelected: isThemeSelected(ThemeType.Dark),
     },
@@ -239,20 +239,20 @@ const useThousandSeparatorMenu = (onBack: () => void) => {
 
   const menu: MenuItemType[] = [
     {
-      icon: 'spaceBar',
-      label: t('appMenu.separatorSpace'),
+      icon: "spaceBar",
+      label: t("appMenu.separatorSpace"),
       onClick: () => onClick(ThousandSeparator.Space),
       isSelected: isThemeSelected(ThousandSeparator.Space),
     },
     {
-      icon: 'comma',
-      label: t('appMenu.separatorComma'),
+      icon: "comma",
+      label: t("appMenu.separatorComma"),
       onClick: () => onClick(ThousandSeparator.Comma),
       isSelected: isThemeSelected(ThousandSeparator.Comma),
     },
     {
-      icon: 'blocked',
-      label: t('appMenu.separatorNone'),
+      icon: "blocked",
+      label: t("appMenu.separatorNone"),
       onClick: () => onClick(ThousandSeparator.None),
       isSelected: isThemeSelected(ThousandSeparator.None),
     },
@@ -272,17 +272,17 @@ const useProModeSettings = () => {
   } = useApp();
   const menu: MenuItemType[] = [
     {
-      label: t('appMenu.showMultisig'),
+      label: t("appMenu.showMultisig"),
       status: multisigVisible,
       onClick: () => setMultisigShowStatus(!multisigVisible),
     },
     {
-      label: t('appMenu.showCustomSend'),
+      label: t("appMenu.showCustomSend"),
       status: customSendVisible,
       onClick: () => setCustomSendShowStatus(!customSendVisible),
     },
     {
-      label: t('appMenu.showCustomDerivation'),
+      label: t("appMenu.showCustomDerivation"),
       status: customDerivationVisible,
       onClick: () => setCustomDerivationShowStatus(!customDerivationVisible),
     },
@@ -296,12 +296,12 @@ const useCompositionSettingsMenu = () => {
 
   const menu: MenuItemType[] = [
     {
-      label: t('appMenu.showStats'),
+      label: t("appMenu.showStats"),
       status: !hideStats,
       onClick: () => setStatsShowStatus(!hideStats),
     },
     {
-      label: t('appMenu.showCharts'),
+      label: t("appMenu.showCharts"),
       status: !hideCharts,
       onClick: () => setChartsShowStatus(!hideCharts),
     },
@@ -313,23 +313,23 @@ const useCompositionSettingsMenu = () => {
 const getThemeLabel = (val: ThemeType) => {
   switch (val) {
     case ThemeType.Dark:
-      return t('appMenu.darkTheme');
+      return t("appMenu.darkTheme");
     case ThemeType.Light:
-      return t('appMenu.lightTheme');
+      return t("appMenu.lightTheme");
     default:
-      return t('appMenu.theme');
+      return t("appMenu.theme");
   }
 };
 
 const getSeparatorLabel = (val: ThousandSeparator) => {
   switch (val) {
     case ThousandSeparator.Space:
-      return `${t('appMenu.separatorSpace')} (1 000)`;
+      return `${t("appMenu.separatorSpace")} (1 000)`;
     case ThousandSeparator.Comma:
-      return `${t('appMenu.separatorComma')} (1,000)`;
+      return `${t("appMenu.separatorComma")} (1,000)`;
     case ThousandSeparator.None:
-      return `${t('appMenu.separatorNone')} (1000)`;
+      return `${t("appMenu.separatorNone")} (1000)`;
     default:
-      return t('appMenu.separatorComma');
+      return t("appMenu.separatorComma");
   }
 };

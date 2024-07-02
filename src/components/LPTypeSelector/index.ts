@@ -1,1 +1,1 @@
-export { LPTypeSelector } from './LPTypeSelector';
+export { LPTypeSelector } from "./LPTypeSelector";

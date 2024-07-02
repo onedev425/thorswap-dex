@@ -1,6 +1,6 @@
-import { Box } from '@chakra-ui/react';
-import type { SidebarWidgetOption } from 'components/Sidebar/types';
-import { RenderWidget } from 'components/Sidebar/widgets/RenderWidget';
+import { Box } from "@chakra-ui/react";
+import type { SidebarWidgetOption } from "components/Sidebar/types";
+import { RenderWidget } from "components/Sidebar/widgets/RenderWidget";
 
 type Props = {
   widgets?: SidebarWidgetOption[];

@@ -1,14 +1,14 @@
-import type { TxTrackerDetails } from '@swapkit/api';
-import { TxStatus } from '@swapkit/api';
-import type { TxnTransient } from '@swapkit/api/src/thorswapApiV2/types';
-import { TxnStatus } from '@swapkit/api/src/thorswapApiV2/types';
-import { AssetValue, BaseDecimal, Chain } from '@swapkit/core';
-import { useCallback, useState } from 'react';
-import { getCustomContract } from 'services/contract';
-import { t } from 'services/i18n';
-import type { TxnResult } from 'store/thorswap/types';
-import type { TransactionStatus } from 'store/transactions/types';
-import { TransactionType } from 'store/transactions/types';
+import type { TxTrackerDetails } from "@swapkit/api";
+import { TxStatus } from "@swapkit/api";
+import type { TxnTransient } from "@swapkit/api/src/thorswapApiV2/types";
+import { TxnStatus } from "@swapkit/api/src/thorswapApiV2/types";
+import { AssetValue, BaseDecimal, Chain } from "@swapkit/core";
+import { useCallback, useState } from "react";
+import { getCustomContract } from "services/contract";
+import { t } from "services/i18n";
+import type { TxnResult } from "store/thorswap/types";
+import type { TransactionStatus } from "store/transactions/types";
+import { TransactionType } from "store/transactions/types";
 
 const getTcPart = ({
   asset: assetString,
@@ -26,7 +26,7 @@ const getTcPart = ({
       ? asset?.ticker
       : `${assetAmount.toSignificant(6)} ${asset?.ticker}`;
   } catch {
-    return '';
+    return "";
   }
 };
 
@@ -43,65 +43,65 @@ const getEthPart = async ({ asset, amount }: { asset: string; amount: string }) 
 
     return `${assetAmount.toSignificant(6)} ${name}`;
   } catch {
-    return '';
+    return "";
   }
 };
 
 export const transactionTitle = (type: TransactionType): string => {
   switch (type) {
     case TransactionType.TC_DEPOSIT:
-      return t('txManager.deposit');
+      return t("txManager.deposit");
     case TransactionType.TC_SEND:
-      return t('txManager.send');
+      return t("txManager.send");
 
     case TransactionType.TC_LENDING:
     case TransactionType.TC_LENDING_OPEN:
     case TransactionType.TC_LENDING_CLOSE:
-      return t('txManager.loan');
+      return t("txManager.loan");
 
     case TransactionType.TC_SWITCH:
-      return t('txManager.switch');
+      return t("txManager.switch");
     case TransactionType.TC_TNS_UPDATE:
-      return t('txManager.updateThorname');
+      return t("txManager.updateThorname");
     case TransactionType.TC_TNS_CREATE:
-      return t('txManager.registerThorname');
+      return t("txManager.registerThorname");
     case TransactionType.TC_LP_ADD:
-      return t('txManager.addLiquidity');
+      return t("txManager.addLiquidity");
 
     case TransactionType.TC_SAVINGS_ADD:
-      return t('txManager.addEarn');
+      return t("txManager.addEarn");
 
     case TransactionType.TC_SAVINGS_WITHDRAW:
     case TransactionType.TC_LP_WITHDRAW:
-      return t('txManager.withdraw');
+      return t("txManager.withdraw");
 
     case TransactionType.AVAX_APPROVAL:
     case TransactionType.ETH_APPROVAL:
     case TransactionType.BSC_APPROVAL:
-      return t('txManager.approve');
+      return t("txManager.approve");
 
     case TransactionType.TC_STATUS:
     case TransactionType.AVAX_STATUS:
     case TransactionType.ETH_STATUS:
     case TransactionType.BSC_STATUS:
     case TransactionType.UNSUPPORTED:
-      return t('appMenu.transaction');
+      return t("appMenu.transaction");
 
     default:
-      return t('txManager.swap');
+      return t("txManager.swap");
   }
 };
 
 export const transactionBorderColors: Record<TransactionStatus, string> = {
-  mined: 'border-btn-secondary dark:hover:!border-btn-secondary',
-  pending: 'hover:border-btn-primary dark:hover:!border-btn-primary',
-  unknown: 'hover:border-btn-primary dark:hover:!border-btn-primary',
-  notStarted: 'hover:border-btn-primary dark:hover:!border-btn-primary',
-  refund: 'border-yellow dark:hover:!border-yellow',
-  error: 'border-pink dark:hover:border-pink',
+  mined: "border-btn-secondary dark:hover:!border-btn-secondary",
+  pending: "hover:border-btn-primary dark:hover:!border-btn-primary",
+  unknown: "hover:border-btn-primary dark:hover:!border-btn-primary",
+  notStarted: "hover:border-btn-primary dark:hover:!border-btn-primary",
+  refund: "border-yellow dark:hover:!border-yellow",
+  error: "border-pink dark:hover:border-pink",
 };
 
-export const cutTxPrefix = (tx = '', prefix = '0x') => {
+export const cutTxPrefix = (tx = "", prefix = "0x") => {
   /**
    * Temporary fix to figure out dev quotes
    */
@@ -123,7 +123,7 @@ export const useTxLabelUpdate = ({
   setTransactionLabel: (label: string) => void;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const resultType = ((typeof result === 'string' ? result : result?.type) || '').toUpperCase();
+  const resultType = ((typeof result === "string" ? result : result?.type) || "").toUpperCase();
   const inputGetter = [TransactionType.SWAP_ETH_TO_ETH, TransactionType.SWAP_ETH_TO_TC].includes(
     resultType as TransactionType,
   )
@@ -159,7 +159,7 @@ export const useTxLabelUpdate = ({
         outAssets.length !== labelParts.length;
 
         if (outAssets.length === labelParts.length) {
-          setTransactionLabel(labelParts.join(' & '));
+          setTransactionLabel(labelParts.join(" & "));
         }
         break;
       }
@@ -189,25 +189,25 @@ export const getSimpleTxStatus = (status: TxStatus | TxnStatus): TransactionStat
   switch (status) {
     case TxStatus.SUCCESS:
     case TxnStatus.completed:
-      return 'mined';
+      return "mined";
     case TxStatus.PENDING:
     case TxnStatus.swappping:
     case TxnStatus.pending:
-      return 'pending';
+      return "pending";
     case TxStatus.REFUNDED:
     case TxStatus.REPLACED:
-      return 'refund';
+      return "refund";
     case TxStatus.ERROR:
     case TxStatus.CANCELLED:
-      return 'error';
+      return "error";
     case TxStatus.UNKNOWN:
     case TxStatus.RETRIES_EXCEEDED:
-      return 'unknown';
+      return "unknown";
     case TxStatus.NOT_STARTED:
     case TxnStatus.not_started:
-      return 'notStarted';
+      return "notStarted";
     default:
-      return 'pending';
+      return "pending";
   }
 };
 
@@ -220,7 +220,7 @@ export function getEstimatedTxDuration(
     if (
       acc === null ||
       leg.estimatedDuration === null ||
-      typeof leg.estimatedDuration === 'undefined'
+      typeof leg.estimatedDuration === "undefined"
     )
       return null;
 

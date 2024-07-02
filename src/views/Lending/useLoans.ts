@@ -1,11 +1,11 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useMemo, useState } from 'react';
-import { SORTED_LENDING_COLLATERAL_ASSETS } from 'settings/chain';
-import { useLazyGetLoansQuery } from 'store/thorswap/api';
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useMemo, useState } from "react";
+import { SORTED_LENDING_COLLATERAL_ASSETS } from "settings/chain";
+import { useLazyGetLoansQuery } from "store/thorswap/api";
 
-import type { LoanPosition } from './types';
+import type { LoanPosition } from "./types";
 
 export const useLoans = () => {
   const { getWalletAddress, isWalletLoading } = useWallet();
@@ -38,21 +38,21 @@ export const useLoans = () => {
 
         const collateralDeposited = AssetValue.fromStringSync(
           asset.toString(),
-          data?.collateralDeposited || '0',
-        )!;
+          data?.collateralDeposited || "0",
+        );
         const collateralWithdrawn = AssetValue.fromStringSync(
           asset.toString(),
-          data?.collateralWithdrawn || '0',
-        )!;
+          data?.collateralWithdrawn || "0",
+        );
         const collateralCurrent = AssetValue.fromStringSync(
           asset.toString(),
-          data?.collateralCurrent || '0',
-        )!;
-        const debtIssued = new SwapKitNumber({ value: data?.debtIssued || '0', decimal: 8 });
-        const debtRepaid = new SwapKitNumber({ value: data?.debtRepaid || '0', decimal: 8 });
-        const debtCurrent = new SwapKitNumber({ value: data?.debtCurrent || '0', decimal: 8 });
+          data?.collateralCurrent || "0",
+        );
+        const debtIssued = new SwapKitNumber({ value: data?.debtIssued || "0", decimal: 8 });
+        const debtRepaid = new SwapKitNumber({ value: data?.debtRepaid || "0", decimal: 8 });
+        const debtCurrent = new SwapKitNumber({ value: data?.debtCurrent || "0", decimal: 8 });
 
-        return parseFloat(data?.debtCurrent || '0')
+        return Number.parseFloat(data?.debtCurrent || "0")
           ? {
               asset,
               collateralCurrent,
@@ -81,7 +81,8 @@ export const useLoans = () => {
     const res = await Promise.allSettled(promises);
 
     const loadedLoans = res.reduce((acc, result) => {
-      if ('value' in result && result.value !== null) {
+      if ("value" in result && result.value !== null) {
+        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
         return [...acc, result.value];
       }
 

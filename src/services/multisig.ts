@@ -1,8 +1,8 @@
-import type { MultisigThresholdPubkey } from '@cosmjs/amino';
-import type { AssetValue, Chain } from '@swapkit/core';
-import type { Signer, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
-import { logException } from 'services/logger';
-import type { MultisigMember } from 'store/multisig/types';
+import type { MultisigThresholdPubkey } from "@cosmjs/amino";
+import type { AssetValue, Chain } from "@swapkit/sdk";
+import type { Signer, ThorchainToolbox } from "@swapkit/toolbox-cosmos";
+import { logException } from "services/logger";
+import type { MultisigMember } from "store/multisig/types";
 
 export type MultisigTransferTxParams = {
   recipient: string;
@@ -21,7 +21,7 @@ export type TxAmount = {
 };
 
 export type TxMessage = {
-  '@type': string;
+  "@type": string;
   fromAddress: string;
   toAddress: string;
   amount: TxAmount[];
@@ -49,8 +49,9 @@ let _multisigAddress: string | null = null;
 export const getMultisigAddress = () => _multisigAddress;
 
 export const getThorchainToolbox = async () => {
-  const { ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+  const { ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
 
+  // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
   return (_thorchainToolbox ||= ThorchainToolbox({}));
 };
 
@@ -61,11 +62,11 @@ export const createMultisigWallet = async (members: MultisigMember[], threshold:
       members.map((member) => member.pubKey),
       Number(threshold),
     );
-    _multisigAddress = await toolbox.pubkeyToAddress(_multisigPubKey, 'thor');
+    _multisigAddress = await toolbox.pubkeyToAddress(_multisigPubKey, "thor");
     return _multisigAddress;
-  } catch (error: NotWorth) {
+  } catch (error) {
     logException(error as Error);
-    return '';
+    return "";
   }
 };
 
@@ -75,10 +76,10 @@ export const clearMultisigWallet = () => {
 };
 
 const buildTransferTx = async ({ recipient, memo, assetValue }: MultisigTransferTxParams) => {
-  if (!_multisigAddress || !_multisigPubKey) {
-    throw new Error('Multisig wallet is not imported');
+  if (!(_multisigAddress && _multisigPubKey)) {
+    throw new Error("Multisig wallet is not imported");
   }
-  const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
+  const { buildTransaction } = await import("@swapkit/toolbox-cosmos");
 
   const transferTx = await buildTransaction({
     chain: assetValue.chain as Chain.Maya | Chain.THORChain,
@@ -92,17 +93,17 @@ const buildTransferTx = async ({ recipient, memo, assetValue }: MultisigTransfer
 };
 
 const buildDepositTx = async ({ memo, assetValue }: MultisigDepositTxParams) => {
-  if (!_multisigAddress || !_multisigPubKey) {
-    throw new Error('Multisig wallet is not imported');
+  if (!(_multisigAddress && _multisigPubKey)) {
+    throw new Error("Multisig wallet is not imported");
   }
-  const { buildTransaction } = await import('@swapkit/toolbox-cosmos');
+  const { buildTransaction } = await import("@swapkit/toolbox-cosmos");
 
   const depositTx = await buildTransaction({
     chain: assetValue.chain as Chain.Maya | Chain.THORChain,
     from: _multisigAddress,
     memo,
     assetValue,
-    recipient: '',
+    recipient: "",
   });
 
   return depositTx;
@@ -151,8 +152,8 @@ export const isMultisigInitialized = async () => {
     if (!_multisigAddress) return false;
 
     return !!(await (await getThorchainToolbox()).getAccount(_multisigAddress));
-  } catch (error: NotWorth) {
-    logException(error);
+  } catch (error) {
+    logException(error as Error);
     return false;
   }
 };

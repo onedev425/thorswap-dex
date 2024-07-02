@@ -1,17 +1,17 @@
-import type { QuoteResponseRoute, SwapKitNumber } from '@swapkit/core';
-import { AssetValue, FeeTypeEnum, ProviderName } from '@swapkit/core';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useVTHORBalance } from 'hooks/useHasVTHOR';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from 'settings/config';
-import { useApp } from 'store/app/hooks';
-import { useAppSelector } from 'store/store';
-import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from 'store/thorswap/api';
-import type { GetTokensQuoteResponse } from 'store/thorswap/types';
-import { checkAssetApprove } from 'views/Swap/hooks/useIsAssetApproved';
-import { Provider } from 'views/Swap/hooks/useTokenList';
+import type { QuoteResponseRoute, SwapKitNumber } from "@swapkit/sdk";
+import { AssetValue, FeeTypeEnum, ProviderName } from "@swapkit/sdk";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "config/constants";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useVTHORBalance } from "hooks/useHasVTHOR";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
+import { useApp } from "store/app/hooks";
+import { useAppSelector } from "store/store";
+import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from "store/thorswap/api";
+import type { GetTokensQuoteResponse } from "store/thorswap/types";
+import { checkAssetApprove } from "views/Swap/hooks/useIsAssetApproved";
+import { Provider } from "views/Swap/hooks/useTokenList";
 
 type Params = {
   inputAsset: AssetValue;
@@ -47,11 +47,10 @@ export const useSwapQuote = ({
   const [routes, setRoutes] = useState<RouteWithApproveType[]>([]);
 
   const debouncedManualSlippage = useDebouncedValue(slippageTolerance, 1000);
-  const debouncedSellAmount = useDebouncedValue(inputAmount.getValue('string'), 400);
+  const debouncedSellAmount = useDebouncedValue(inputAmount.getValue("string"), 400);
 
   const VTHORBalance = useVTHORBalance(ethAddress);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: need to force reset selectedProvider
   useEffect(() => {
     setSelectedProvider([]);
   }, [inputAmount]);
@@ -115,7 +114,7 @@ export const useSwapQuote = ({
     isUninitialized,
   } = useGetTokensQuoteQuery(params, {
     skip:
-      params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.V1_PROVIDERS),
+      params.sellAmount === "0" || inputAmount.lte(0) || !providers.includes(Provider.V1_PROVIDERS),
   });
 
   const {
@@ -126,10 +125,10 @@ export const useSwapQuote = ({
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, providers: ['CHAINFLIP'] },
+    { ...params, providers: ["CHAINFLIP"] },
     {
       skip:
-        params.sellAmount === '0' || inputAmount.lte(0) || !providers.includes(Provider.CHAINFLIP),
+        params.sellAmount === "0" || inputAmount.lte(0) || !providers.includes(Provider.CHAINFLIP),
     },
   );
 
@@ -141,12 +140,12 @@ export const useSwapQuote = ({
     isFetching: isFetchingMayaSpecial,
     isUninitialized: isMayaSpecialUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, affiliateBasisPoints: '0', providers: ['MAYACHAIN'] },
+    { ...params, affiliateBasisPoints: "0", providers: ["MAYACHAIN"] },
     {
       skip:
         // TODO move ledger live integration to SK
         IS_LEDGER_LIVE ||
-        params.sellAmount === '0' ||
+        params.sellAmount === "0" ||
         inputAmount.lte(0) ||
         !providers.includes(Provider.MAYACHAIN),
     },
@@ -181,11 +180,11 @@ export const useSwapQuote = ({
   );
 
   const setSortedRoutes = useCallback(
-    async (routes: GetTokensQuoteResponse['routes']) => {
+    async (routes: GetTokensQuoteResponse["routes"]) => {
       try {
         const routesWithApprovePromise = routes.map(async (route) => {
           const isApproved =
-            senderAddress && !route.providers.includes('CHAINFLIP')
+            senderAddress && !route.providers.includes("CHAINFLIP")
               ? await checkAssetApprove({
                   assetValue: inputAsset.set(inputAmount),
                   contract:
@@ -246,11 +245,11 @@ export const useSwapQuote = ({
               const inboundFeeUSD = inboundFee.mul(inputUnitPrice);
               acc.inbound = {
                 ...acc.inbound,
-                networkFee: inboundFee.getValue('number'),
-                networkFeeUSD: inboundFeeUSD.getValue('number'),
+                networkFee: inboundFee.getValue("number"),
+                networkFeeUSD: inboundFeeUSD.getValue("number"),
               };
               acc.total = {
-                totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+                totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
               };
               return acc;
             }
@@ -265,11 +264,11 @@ export const useSwapQuote = ({
               const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
               acc.inbound = {
                 ...acc.inbound,
-                affiliateFee: affiliateFee.getValue('number'),
-                affiliateFeeUSD: affiliateFeeUSD.getValue('number'),
+                affiliateFee: affiliateFee.getValue("number"),
+                affiliateFeeUSD: affiliateFeeUSD.getValue("number"),
               };
               acc.total = {
-                totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+                totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
               };
               return acc;
             }
@@ -280,11 +279,11 @@ export const useSwapQuote = ({
               const outboundFeeUSD = outboundFee.mul(outputUnitPrice);
               acc.outbound = {
                 ...acc.outbound,
-                networkFee: outboundFee.getValue('number'),
-                networkFeeUSD: outboundFeeUSD.getValue('number'),
+                networkFee: outboundFee.getValue("number"),
+                networkFeeUSD: outboundFeeUSD.getValue("number"),
               };
               acc.total = {
-                totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+                totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
               };
               return acc;
             }
@@ -294,11 +293,11 @@ export const useSwapQuote = ({
               );
               acc.slippage = {
                 ...acc.slippage,
-                slipFee: networkFee.getValue('number'),
-                slipFeeUSD: networkFee.getValue('number'),
+                slipFee: networkFee.getValue("number"),
+                slipFeeUSD: networkFee.getValue("number"),
               };
               acc.total = {
-                totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue('number'),
+                totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue("number"),
               };
               return acc;
             }
@@ -309,11 +308,11 @@ export const useSwapQuote = ({
               const networkFeeUSD = networkFee.mul(inputUnitPrice);
               acc.slippage = {
                 ...acc.slippage,
-                slipFee: networkFee.getValue('number'),
-                slipFeeUSD: networkFeeUSD.getValue('number'),
+                slipFee: networkFee.getValue("number"),
+                slipFeeUSD: networkFeeUSD.getValue("number"),
               };
               acc.total = {
-                totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue('number'),
+                totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
               };
               return acc;
             }
@@ -346,9 +345,9 @@ export const useSwapQuote = ({
           expectedOutput: route.buyAmount,
           isApproved: true,
           fees: {
-            [fullRoute?.providers?.includes(ProviderName.CHAINFLIP) ? 'FLIP' : 'MAYA']: [
+            [fullRoute?.providers?.includes(ProviderName.CHAINFLIP) ? "FLIP" : "MAYA"]: [
               {
-                type: 'inbound',
+                type: "inbound",
                 asset: route.sellAsset,
                 networkFee: chainFlipFees?.inbound.networkFee,
                 networkFeeUSD: chainFlipFees?.inbound.networkFeeUSD,
@@ -359,7 +358,7 @@ export const useSwapQuote = ({
                 isOutOfPocket: true,
               },
               {
-                type: 'outbound',
+                type: "outbound",
                 asset: route.buyAsset,
                 networkFee: chainFlipFees?.outbound.networkFee,
                 networkFeeUSD: chainFlipFees?.outbound.networkFeeUSD,
@@ -375,7 +374,7 @@ export const useSwapQuote = ({
           },
         };
       });
-    if ((!data?.routes && !chainFlipRoutes) || isInputZero) return setRoutes([]);
+    if (!(data?.routes || chainFlipRoutes) || isInputZero) return setRoutes([]);
 
     setSortedRoutes(
       // @ts-expect-error
@@ -408,7 +407,7 @@ export const useSwapQuote = ({
       isLoading ||
       isLoadingChainflip ||
       isLoadingMayaSpecial ||
-      inputAmount.getValue('number') === 0
+      inputAmount.getValue("number") === 0
         ? undefined
         : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
     [

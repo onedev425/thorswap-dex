@@ -1,5 +1,5 @@
 export enum FarmActionType {
-  DEPOSIT = 'deposit',
-  CLAIM = 'claim',
-  EXIT = 'exit',
+  DEPOSIT = "deposit",
+  CLAIM = "claim",
+  EXIT = "exit",
 }

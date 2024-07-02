@@ -1,15 +1,16 @@
-import { validateTNS } from '@swapkit/core';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useCallback, useEffect, useState } from 'react';
-import { useLazyGetTNSDetailQuery } from 'store/midgard/api';
-import type { THORNameEntry } from 'types/app';
+import { validateTNS } from "@swapkit/sdk";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useCallback, useEffect, useState } from "react";
+import { useLazyGetTNSDetailQuery } from "store/midgard/api";
+import type { THORNameEntry } from "types/app";
 
 export const useAddressForTNS = (thornameOrAddress: string) => {
   const debouncedAddress = useDebouncedValue(thornameOrAddress, 1000);
   const [loading, setLoading] = useState(false);
-  const [validThorname, setValidThorname] = useState('');
+  const [validThorname, setValidThorname] = useState("");
   const [TNS, setTNS] =
     useState<
+      // biome-ignore lint/correctness/noUndeclaredVariables:
       Maybe<{ entries?: THORNameEntry[]; owner?: string; expire?: string; thorname: string }>
     >(null);
 
@@ -21,7 +22,7 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
         const { data: details } = await getTNSDetail(providedThorname);
 
         const payload =
-          Array.isArray(details) || typeof details === 'boolean'
+          Array.isArray(details) || typeof details === "boolean"
             ? { thorname: providedThorname }
             : { ...(details || {}), thorname: providedThorname };
         setTNS(payload);
@@ -35,13 +36,13 @@ export const useAddressForTNS = (thornameOrAddress: string) => {
   );
 
   useEffect(() => {
-    const [possibleThorname] = debouncedAddress.toLowerCase().split('.');
+    const [possibleThorname] = debouncedAddress.toLowerCase().split(".");
 
     if (validateTNS(possibleThorname)) {
       getTNSDetail(possibleThorname)
         .then((details) => {
           const payload =
-            typeof details === 'boolean'
+            typeof details === "boolean"
               ? { thorname: possibleThorname }
               : { ...details, thorname: possibleThorname };
           setTNS(payload);

@@ -1,5 +1,5 @@
-import { Text } from '@chakra-ui/react';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import { memo } from "react";
 
 type Props = {
   label: string;
@@ -8,7 +8,7 @@ type Props = {
 
 export const FieldLabel = memo(({ label, hasError }: Props) => {
   return (
-    <Text className="mx-2 mb-0.5" textStyle="caption" variant={hasError ? 'red' : 'primary'}>
+    <Text className="mx-2 mb-0.5" textStyle="caption" variant={hasError ? "red" : "primary"}>
       {label}
     </Text>
   );

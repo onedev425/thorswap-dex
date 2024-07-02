@@ -1,15 +1,15 @@
-import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { RUNEAsset } from 'helpers/assets';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import type { ChangeEvent } from 'react';
-import { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { ROUTES } from 'settings/router';
-import { useMultisig } from 'store/multisig/hooks';
-import { useMultissigAssets } from 'views/Multisig/hooks';
-import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
+import { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { RUNEAsset } from "helpers/assets";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import type { ChangeEvent } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { ROUTES } from "settings/router";
+import { useMultisig } from "store/multisig/hooks";
+import { useTxCreate } from "views/Multisig/TxCreate/TxCreateContext";
+import { useMultissigAssets } from "views/Multisig/hooks";
 
 export const useTxDepositCustom = () => {
   const { signers } = useTxCreate();
@@ -20,12 +20,12 @@ export const useTxDepositCustom = () => {
     new SwapKitNumber({ value: 0, decimal: 8 }),
   );
 
-  const [memo, setMemo] = useState('');
+  const [memo, setMemo] = useState("");
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const { data } = useTokenPrices([RUNEAsset]);
   const assetPriceInUSD = useMemo(
-    () => data[RUNEAsset.ticker]?.price_usd || 0 * depositAmount.getValue('number'),
+    () => data[RUNEAsset.ticker]?.price_usd || 0 * depositAmount.getValue("number"),
     [data, depositAmount],
   );
 
@@ -44,9 +44,9 @@ export const useTxDepositCustom = () => {
   const handleChangeDepositAmount = useCallback(
     (assetValue: SwapKitNumber) =>
       setDepositAmount(
-        assetValue.gt(maxSpendableBalance.getValue('string'))
+        assetValue.gt(maxSpendableBalance.getValue("string"))
           ? new SwapKitNumber({
-              value: maxSpendableBalance.getValue('string'),
+              value: maxSpendableBalance.getValue("string"),
               decimal: maxSpendableBalance.decimal,
             })
           : assetValue,
@@ -69,7 +69,7 @@ export const useTxDepositCustom = () => {
       memo,
       assetValue: AssetValue.fromChainOrSignature(
         Chain.THORChain,
-        depositAmount.getValue('string'),
+        depositAmount.getValue("string"),
       ),
     });
 
@@ -82,7 +82,7 @@ export const useTxDepositCustom = () => {
 
   const handleDeposit = useCallback(() => {
     if (!memo) {
-      showErrorToast(t('views.multisig.memoRequired'));
+      showErrorToast(t("views.multisig.memoRequired"));
 
       return;
     }

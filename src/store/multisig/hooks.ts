@@ -1,16 +1,16 @@
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import { showErrorToast } from 'components/Toast';
-import { useKeystore } from 'context/wallet/hooks';
-import { useCallback, useMemo } from 'react';
-import { logException } from 'services/logger';
-import type { MultisigDepositTxParams, MultisigTransferTxParams } from 'services/multisig';
-import { getMultisigAddress, multisig } from 'services/multisig';
-import { loadMultisigBalances } from 'store/multisig/actions';
-import { actions } from 'store/multisig/slice';
-import type { MultisigWallet } from 'store/multisig/types';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import type { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import { showErrorToast } from "components/Toast";
+import { useKeystore } from "context/wallet/hooks";
+import { useCallback, useMemo } from "react";
+import { logException } from "services/logger";
+import type { MultisigDepositTxParams, MultisigTransferTxParams } from "services/multisig";
+import { getMultisigAddress, multisig } from "services/multisig";
+import { loadMultisigBalances } from "store/multisig/actions";
+import { actions } from "store/multisig/slice";
+import type { MultisigWallet } from "store/multisig/types";
+import { useAppDispatch, useAppSelector } from "store/store";
 
 export const useMultisig = () => {
   const { address, members, threshold } = useAppSelector(({ multisig }) => multisig);
@@ -44,9 +44,9 @@ export const useMultisig = () => {
 
       try {
         return await multisig.buildTransferTx(txParams);
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        showErrorToast(error.message, undefined, undefined, error as Error);
+        showErrorToast((error as Todo).message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet],
@@ -58,23 +58,23 @@ export const useMultisig = () => {
 
       try {
         return await multisig.buildDepositTx(txParams);
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        showErrorToast(error.message, undefined, undefined, error as Error);
+        showErrorToast((error as Todo).message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet],
   );
 
   const signTx = useCallback(
-    async (tx: any) => {
+    async (tx: Todo) => {
       initMultisigWallet();
 
       try {
         return await multisig.signMultisigTx(phrase, tx);
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        showErrorToast(error.message, undefined, undefined, error as Error);
+        showErrorToast((error as Todo).message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet, phrase],
@@ -92,15 +92,15 @@ export const useMultisig = () => {
           threshold,
           Uint8Array.from(bodyBytes),
         );
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        showErrorToast(error.message, undefined, undefined, error as Error);
+        showErrorToast((error as Todo).message, undefined, undefined, error as Error);
       }
     },
     [initMultisigWallet, members],
   );
 
-  const loadBalances = useCallback(async () => {
+  const loadBalances = useCallback(() => {
     initMultisigWallet();
 
     if (getMultisigAddress()) {

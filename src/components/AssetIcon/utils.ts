@@ -1,26 +1,26 @@
-import type { SecondaryIconPlacement } from './types';
+import type { SecondaryIconPlacement } from "./types";
 
 export const getSecondaryIconPlacementStyle = (placement: SecondaryIconPlacement, size: number) => {
   const offset = size * 0.3;
 
   switch (placement) {
-    case 'tl': {
+    case "tl": {
       return { top: 0, left: -offset };
     }
-    case 'tr': {
+    case "tr": {
       return { top: 0, right: -offset };
     }
-    case 'bl': {
+    case "bl": {
       return { bottom: -offset, left: -offset };
     }
-    case 'br': {
+    case "br": {
       return { bottom: -offset, right: -offset };
     }
   }
 };
 
 export const rgb2hex = (r: number, g: number, b: number) =>
-  `#${((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')}`;
+  `#${((r << 16) + (g << 8) + b).toString(16).padStart(6, "0")}`;
 
 export const rainbowStop = (h: number) => {
   const f = (n: number, k = (n + h * 12) % 12) =>
@@ -33,8 +33,8 @@ export const getIntFromName = (str: string): number[] => {
 
   const div = 22;
 
-  const firstInt = (inputStr.charCodeAt(0) - 'A'.charCodeAt(0)) / div;
-  const secondInt = inputStr.length > 1 ? (inputStr.charCodeAt(1) - 'A'.charCodeAt(0)) / div : 0;
+  const firstInt = (inputStr.charCodeAt(0) - "A".charCodeAt(0)) / div;
+  const secondInt = inputStr.length > 1 ? (inputStr.charCodeAt(1) - "A".charCodeAt(0)) / div : 0;
 
   return [Number(firstInt.toFixed(2)), Number(secondInt.toFixed(2))];
 };

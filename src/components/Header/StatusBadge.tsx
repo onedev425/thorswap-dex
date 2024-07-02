@@ -1,8 +1,8 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import { StatusType } from 'hooks/useNetwork';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import { StatusType } from "hooks/useNetwork";
+import { memo } from "react";
 
 export type Props = {
   className?: string;
@@ -11,10 +11,10 @@ export type Props = {
 };
 
 const colors: Record<StatusType, string> = {
-  [StatusType.Good]: 'bg-green',
-  [StatusType.Slow]: 'bg-yellow',
-  [StatusType.Busy]: 'bg-red',
-  [StatusType.Offline]: 'bg-red',
+  [StatusType.Good]: "bg-green",
+  [StatusType.Slow]: "bg-yellow",
+  [StatusType.Busy]: "bg-red",
+  [StatusType.Offline]: "bg-red",
 };
 
 export const StatusBadge = memo(({ className, status, withLabel }: Props) => {
@@ -22,7 +22,7 @@ export const StatusBadge = memo(({ className, status, withLabel }: Props) => {
     <>
       <Box
         className={classNames(
-          'w-[14px] h-[14px] border-none rounded-full',
+          "w-[14px] h-[14px] border-none rounded-full",
           colors[status],
           className,
         )}

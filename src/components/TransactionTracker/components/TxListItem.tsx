@@ -1,7 +1,7 @@
-import { Card, Flex, Text } from '@chakra-ui/react';
-import { transactionTitle } from 'components/TransactionManager/helpers';
-import { TransactionStatusIcon } from 'components/TransactionManager/TransactionStatusIcon';
-import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
+import { Card, Flex, Text } from "@chakra-ui/react";
+import { TransactionStatusIcon } from "components/TransactionManager/TransactionStatusIcon";
+import { transactionTitle } from "components/TransactionManager/helpers";
+import type { CompletedTransactionType, PendingTransactionType } from "store/transactions/types";
 
 type Props = {
   item: CompletedTransactionType | PendingTransactionType;
@@ -10,16 +10,16 @@ type Props = {
 };
 
 export const TxListItem = ({ item, onClick, isSelected }: Props) => {
-  const status = 'status' in item ? item.status : 'pending';
+  const status = "status" in item ? item.status : "pending";
 
   return (
     <Card
-      borderColor={isSelected ? 'brand.btnPrimary' : undefined}
+      borderColor={isSelected ? "brand.btnPrimary" : undefined}
       key={item.id}
       onClick={onClick}
       px={2}
       py={1}
-      sx={{ cursor: 'pointer' }}
+      sx={{ cursor: "pointer" }}
       variant="filled"
     >
       <Flex>

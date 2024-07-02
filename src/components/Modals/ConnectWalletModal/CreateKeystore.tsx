@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react';
-import type { Keystore } from '@swapkit/wallet-keystore';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import { Helmet } from 'components/Helmet';
-import { Input } from 'components/Input';
-import { ConfirmKeystorePhrase } from 'components/Modals/ConnectWalletModal/ConfirmKeystorePhrase';
-import { downloadAsFile } from 'helpers/download';
-import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
+import { Text } from "@chakra-ui/react";
+import type { Keystore } from "@swapkit/wallet-keystore";
+import { Box, Button, Icon, Tooltip } from "components/Atomic";
+import { Helmet } from "components/Helmet";
+import { Input } from "components/Input";
+import { ConfirmKeystorePhrase } from "components/Modals/ConnectWalletModal/ConfirmKeystorePhrase";
+import { downloadAsFile } from "helpers/download";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
 
 type Props = {
   onConnect: (keystore: Keystore, phrase: string) => void;
@@ -16,12 +16,12 @@ type Props = {
 };
 
 export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [invalidStatus, setInvalidStatus] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [keystoreCopyConfirmed, setKeystoreCopyConfirmed] = useState(false);
-  const [phrase, setPhrase] = useState('');
+  const [phrase, setPhrase] = useState("");
 
   const ready = useMemo(
     () => password.length > 0 && password === confirmPassword,
@@ -48,7 +48,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const handleCreate = useCallback(async () => {
     if (ready) {
       setProcessing(true);
-      const { generatePhrase } = await import('@swapkit/wallet-keystore');
+      const { generatePhrase } = await import("@swapkit/wallet-keystore");
 
       try {
         const newPhrase = generatePhrase();
@@ -64,17 +64,17 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
   const handleCreationConfirm = useCallback(async () => {
     if (ready && phrase) {
       setProcessing(true);
-      const { encryptToKeyStore } = await import('@swapkit/wallet-keystore');
+      const { encryptToKeyStore } = await import("@swapkit/wallet-keystore");
 
       try {
         const keystore = await encryptToKeyStore(phrase, password);
-        downloadAsFile('thorswap-keystore.txt', JSON.stringify(keystore));
+        downloadAsFile("thorswap-keystore.txt", JSON.stringify(keystore));
         onConnect(keystore, phrase);
 
         // clean up
-        setPassword('');
-        setConfirmPassword('');
-        setPhrase('');
+        setPassword("");
+        setConfirmPassword("");
+        setPhrase("");
       } catch (error) {
         setInvalidStatus(true);
         console.error(error);
@@ -85,7 +85,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
 
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.code === 'Enter') {
+      if (event.code === "Enter") {
         handleCreate();
       }
     },
@@ -109,10 +109,10 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
       <Helmet content="Create Wallet" title="Create Wallet" />
       <Box row className="space-x-2">
         <Text className="mb-2" fontWeight="semibold" textStyle="subtitle2">
-          {t('views.walletModal.inputPassword')}
+          {t("views.walletModal.inputPassword")}
         </Text>
         <Tooltip
-          content={t('views.walletModal.recoveryPassword')}
+          content={t("views.walletModal.recoveryPassword")}
           iconName="question"
           place="top"
         />
@@ -124,13 +124,13 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
           name="password"
           onChange={handlePasswordChange}
           onKeyDown={handleKeypress}
-          placeholder={t('views.walletModal.enterPassword')}
+          placeholder={t("views.walletModal.enterPassword")}
           type="password"
           value={password}
         />
       </Box>
       <Box row className="space-x-2 mt-6 mb-2">
-        <Text textStyle="subtitle2">{t('views.walletModal.confirmPassword')}</Text>
+        <Text textStyle="subtitle2">{t("views.walletModal.confirmPassword")}</Text>
       </Box>
       <Box className="w-full">
         <Input
@@ -139,14 +139,14 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
           name="password"
           onChange={handleConfirmPasswordChange}
           onKeyDown={handleKeypress}
-          placeholder={t('views.walletModal.confirmPassword')}
+          placeholder={t("views.walletModal.confirmPassword")}
           type="password"
           value={confirmPassword}
         />
       </Box>
       {invalidStatus && (
         <Text className="mt-2 ml-3" textStyle="caption" variant="orange">
-          {t('views.walletModal.wrongPassword')}
+          {t("views.walletModal.wrongPassword")}
         </Text>
       )}
 
@@ -161,7 +161,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
           }
           size="sm"
         >
-          {t('common.create')}
+          {t("common.create")}
         </Button>
 
         <Button
@@ -171,7 +171,7 @@ export const CreateKeystoreView = ({ onConnect, onKeystore }: Props) => {
           size="sm"
           variant="outlineTint"
         >
-          {t('views.walletModal.connectWallet')}
+          {t("views.walletModal.connectWallet")}
         </Button>
       </Box>
     </Box>

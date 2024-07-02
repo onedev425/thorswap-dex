@@ -1,11 +1,11 @@
-import type { Chain } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { QRCodeModal } from 'components/Modals/QRCodeModal';
-import { chainName } from 'helpers/chainName';
-import type { ReactNode } from 'react';
-import { useCallback, useState } from 'react';
-import { t } from 'services/i18n';
+import type { Chain } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { QRCodeModal } from "components/Modals/QRCodeModal";
+import { chainName } from "helpers/chainName";
+import type { ReactNode } from "react";
+import { useCallback, useState } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   chain: Chain;
@@ -18,7 +18,7 @@ type QrCodeData = {
   address: string;
 };
 
-const EMPTY_QR_DATA = { chain: '', address: '' };
+const EMPTY_QR_DATA = { chain: "", address: "" };
 
 export const ShowQrCode = ({ chain, address, openComponent }: Props) => {
   const [qrData, setQrData] = useState<QrCodeData>(EMPTY_QR_DATA);
@@ -41,7 +41,7 @@ export const ShowQrCode = ({ chain, address, openComponent }: Props) => {
           iconName="qrcode"
           onClick={handleViewQRCode}
           size={16}
-          tooltip={address ? t('views.wallet.showQRCode') : t('views.walletModal.notConnected')}
+          tooltip={address ? t("views.wallet.showQRCode") : t("views.walletModal.notConnected")}
         />
       )}
 

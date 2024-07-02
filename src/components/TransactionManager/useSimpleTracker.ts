@@ -1,18 +1,18 @@
-import { cutTxPrefix } from 'components/TransactionManager/helpers';
-import { trackerUnsupportedProviders } from 'components/TransactionManager/PendingTransaction';
-import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
-import { useTxUrl } from 'hooks/useTxUrl';
-import { useEffect, useMemo } from 'react';
-import { useGetTxnStatusQuery } from 'store/thorswap/api';
-import type { PendingTransactionType } from 'store/transactions/types';
-import { TransactionType } from 'store/transactions/types';
+import { trackerUnsupportedProviders } from "components/TransactionManager/PendingTransaction";
+import { cutTxPrefix } from "components/TransactionManager/helpers";
+import { useCompleteTransaction } from "components/TransactionManager/useCompleteTransaction";
+import { useTxUrl } from "hooks/useTxUrl";
+import { useEffect, useMemo } from "react";
+import { useGetTxnStatusQuery } from "store/thorswap/api";
+import type { PendingTransactionType } from "store/transactions/types";
+import { TransactionType } from "store/transactions/types";
 
 export const useSimpleTracker = (tx: PendingTransactionType | null) => {
   const { inChain, txid, type, label, from } = tx || {};
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const params = useMemo(() => {
-    if (!txid || !type) return { txid: '' };
+    if (!(txid && type)) return { txid: "" };
 
     const isApprove = [TransactionType.AVAX_APPROVAL, TransactionType.ETH_APPROVAL].includes(type);
 
@@ -24,12 +24,12 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
         TransactionType.SWAP_TC_TO_ETH,
       ].includes(type);
 
-    const evmTx = txid?.startsWith?.('0x') ? txid : `0x${txid}`;
+    const evmTx = txid?.startsWith?.("0x") ? txid : `0x${txid}`;
 
     return {
       from,
       type,
-      txid: cutTxPrefix(isApprove ? evmTx : txid, shouldCutTx ? '0x' : ''),
+      txid: cutTxPrefix(isApprove ? evmTx : txid, shouldCutTx ? "0x" : ""),
     };
   }, [from, txid, type]);
 
@@ -39,23 +39,23 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
     skip: !params.txid,
   });
 
-  const txUrl = useTxUrl({ txHash: tx?.txid || '', chain: inChain });
+  const txUrl = useTxUrl({ txHash: tx?.txid || "", chain: inChain });
 
   // TODO remove after tracker supports providers
   const isTrackerWorkaround = useMemo(
-    () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ''),
+    () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ""),
     [tx],
   );
   const txUrlOverwrite =
     isTrackerWorkaround && txid
-      ? `https://www.mayascan.org/tx/${txid.replace('0x', '')}`
+      ? `https://www.mayascan.org/tx/${txid.replace("0x", "")}`
       : undefined;
 
   useEffect(() => {
-    const transactionCompleted = data?.ok && ['mined', 'refund'].includes(data.status);
+    const transactionCompleted = data?.ok && ["mined", "refund"].includes(data.status);
     const instantComplete =
       type && ([TransactionType.TC_SEND].includes(type) || isTrackerWorkaround);
-    const status = data?.status || 'mined';
+    const status = data?.status || "mined";
 
     if (transactionCompleted || (instantComplete && txUrl)) {
       onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });

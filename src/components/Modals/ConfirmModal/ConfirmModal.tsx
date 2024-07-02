@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box, Button, Modal } from 'components/Atomic';
-import { PasswordInput } from 'components/PasswordInput';
-import { useKeystore } from 'context/wallet/hooks';
-import type { KeyboardEventHandler, ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box, Button, Modal } from "components/Atomic";
+import { PasswordInput } from "components/PasswordInput";
+import { useKeystore } from "context/wallet/hooks";
+import type { KeyboardEventHandler, ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
 
 type Props = {
   inputAssets: AssetValue[];
@@ -32,7 +32,7 @@ export const ConfirmModal = ({
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validating, setValidating] = useState(false);
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
 
   // check if keystore wallet is connected for input assets
   const isKeystoreSigningRequired = useMemo(
@@ -55,14 +55,14 @@ export const ConfirmModal = ({
   }, [isOpened, onClose]);
   // reset password on visible update
   useEffect(() => {
-    setPassword('');
+    setPassword("");
     setInvalidPassword(false);
     setValidating(false);
   }, [isOpened]);
 
   // handler after password is verified
   const handleProceed = useCallback(() => {
-    if (!onConfirm || !isOpened) {
+    if (!isOpened) {
       return;
     }
 
@@ -71,7 +71,7 @@ export const ConfirmModal = ({
 
   const handleCancel = useCallback(() => {
     if (onClose) {
-      setPassword('');
+      setPassword("");
       setInvalidPassword(false);
       setValidating(false);
       onClose();
@@ -79,7 +79,7 @@ export const ConfirmModal = ({
   }, [onClose]);
 
   const handleClickConfirm = useCallback(async () => {
-    const { decryptFromKeystore } = await import('@swapkit/wallet-keystore');
+    const { decryptFromKeystore } = await import("@swapkit/wallet-keystore");
     if (!isKeystoreSigningRequired) {
       return handleProceed();
     }
@@ -97,7 +97,7 @@ export const ConfirmModal = ({
       } else {
         setInvalidPassword(true);
       }
-    } catch (error) {
+    } catch (_error) {
       setInvalidPassword(true);
     }
 
@@ -106,7 +106,7 @@ export const ConfirmModal = ({
 
   const onPasswordKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
     (event) => {
-      if (event.code === 'Enter' && !validating) {
+      if (event.code === "Enter" && !validating) {
         handleClickConfirm();
       }
     },
@@ -114,10 +114,10 @@ export const ConfirmModal = ({
   );
 
   return (
-    <Modal isOpened={isOpened} onClose={handleCancel} title={t('common.confirm')}>
+    <Modal isOpened={isOpened} onClose={handleCancel} title={t("common.confirm")}>
       <Box
         col
-        className={classNames('gap-y-4 md:min-w-[350px]', { 'min-w-[350px]': IS_LEDGER_LIVE })}
+        className={classNames("gap-y-4 md:min-w-[350px]", { "min-w-[350px]": IS_LEDGER_LIVE })}
       >
         {children && <div>{children}</div>}
 
@@ -131,7 +131,7 @@ export const ConfirmModal = ({
 
             {invalidPassword && (
               <Text className="ml-2" fontWeight="medium" textStyle="caption" variant="orange">
-                {t('views.walletModal.wrongPassword')}
+                {t("views.walletModal.wrongPassword")}
               </Text>
             )}
           </Box>
@@ -145,7 +145,7 @@ export const ConfirmModal = ({
           size="md"
           variant="fancy"
         >
-          {t('common.confirm')}
+          {t("common.confirm")}
         </Button>
       </Box>
     </Modal>

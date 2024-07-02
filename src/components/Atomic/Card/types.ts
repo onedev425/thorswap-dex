@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
-export type CardSize = 'sm' | 'md' | 'lg';
+export type CardSize = "sm" | "md" | "lg";
 
 export type CardProps = {
   className?: string;

@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Button } from 'components/Atomic';
-import { InfoTip } from 'components/InfoTip';
-import { useStepper } from 'components/Stepper/StepperContext';
-import { useEffect } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Box, Button } from "components/Atomic";
+import { InfoTip } from "components/InfoTip";
+import { useStepper } from "components/Stepper/StepperContext";
+import { useEffect } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   handleBroadcast: () => void;
@@ -24,10 +24,10 @@ export function BroadcastTxStep({ canBroadcast, handleBroadcast, isBroadcasting 
       <Box col className="gap-6">
         {canBroadcast ? (
           <Text fontWeight="normal" textStyle="caption">
-            {t('views.multisig.broadcastTxInfo')}
+            {t("views.multisig.broadcastTxInfo")}
           </Text>
         ) : (
-          <InfoTip content={t('views.multisig.broadcastTxInfoBlocked')} type="warn" />
+          <InfoTip content={t("views.multisig.broadcastTxInfoBlocked")} type="warn" />
         )}
 
         <Button
@@ -39,7 +39,7 @@ export function BroadcastTxStep({ canBroadcast, handleBroadcast, isBroadcasting 
           size="lg"
           variant="fancy"
         >
-          {t('views.multisig.broadcast')}
+          {t("views.multisig.broadcast")}
         </Button>
       </Box>
     </Box>

@@ -1,28 +1,28 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { AssetValue, isGasAsset, WalletOption } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Icon } from 'components/Atomic';
-import { baseBgHoverClass } from 'components/constants';
-import { Scrollbar } from 'components/Scrollbar';
-import { useWallet } from 'context/wallet/hooks';
-import { useWalletDispatch } from 'context/wallet/WalletProvider';
-import { useWalletDrawer } from 'hooks/useWalletDrawer';
-import type { MouseEventHandler } from 'react';
-import { memo, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { SORTED_CHAINS } from 'settings/chain';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { getSendRoute, getSwapRoute } from 'settings/router';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
+import { Text } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue, WalletOption, isGasAsset } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button, Icon } from "components/Atomic";
+import { Scrollbar } from "components/Scrollbar";
+import { baseBgHoverClass } from "components/constants";
+import { useWalletDispatch } from "context/wallet/WalletProvider";
+import { useWallet } from "context/wallet/hooks";
+import { useWalletDrawer } from "hooks/useWalletDrawer";
+import type { MouseEventHandler } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { SORTED_CHAINS } from "settings/chain";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { getSendRoute, getSwapRoute } from "settings/router";
+import type { SupportedWalletOptions } from "store/thorswap/types";
 
-import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
+import { isLedgerLiveSupportedInputAsset } from "../../../ledgerLive/wallet/LedgerLive";
 
-import { ChainHeader } from './ChainHeader';
-import { WalletDrawer } from './WalletDrawer';
-import { WalletHeader } from './WalletHeader';
+import { ChainHeader } from "./ChainHeader";
+import { WalletDrawer } from "./WalletDrawer";
+import { WalletHeader } from "./WalletHeader";
 
 type ChainBalanceProps = {
   chain: Chain;
@@ -57,7 +57,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
       (event) => {
         event.stopPropagation();
         walletDispatch({
-          type: 'hideAsset',
+          type: "hideAsset",
           payload: { chain, address: assetValue.toString() },
         });
       },
@@ -74,6 +74,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
       />
 
       {walletBalance.map((assetValue) => (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
           key={assetValue.symbol}
           onClick={
@@ -85,15 +86,15 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
           <Box
             alignCenter
             className={classNames(
-              'p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80',
+              "p-4 bg-light-bg-secondary dark:bg-dark-bg-secondary !bg-opacity-80",
               `${
                 !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(assetValue)
-                  ? 'cursor-pointer'
-                  : ''
+                  ? "cursor-pointer"
+                  : ""
               }`,
               !IS_LEDGER_LIVE || isLedgerLiveSupportedInputAsset(assetValue)
                 ? baseBgHoverClass
-                : '',
+                : "",
             )}
             justify="between"
           >
@@ -105,7 +106,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
                   {assetValue.type}
                 </Text>
               </Box>
-              <Text variant="primary">{assetValue.toCurrency('', { decimal: 8 })}</Text>
+              <Text variant="primary">{assetValue.toCurrency("", { decimal: 8 })}</Text>
             </Box>
 
             <Box row className="space-x-1">
@@ -114,7 +115,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="eyeSlash" size={16} />}
                   onClick={hideAsset(chain, assetValue)}
-                  tooltip={t('common.hide')}
+                  tooltip={t("common.hide")}
                   variant="tint"
                 />
               )}
@@ -123,7 +124,7 @@ const ChainBalance = memo(({ chain, address, loading, walletType, balance }: Cha
                   className="px-3 hover:bg-transparent dark:hover:bg-transparent"
                   leftIcon={<Icon color="primaryBtn" name="send" size={16} />}
                   onClick={handleNavigate(getSendRoute(assetValue))}
-                  tooltip={t('common.send')}
+                  tooltip={t("common.send")}
                   variant="tint"
                 />
               )}
@@ -150,7 +151,7 @@ export const WalletBalance = () => {
 
             return chainWallet?.address ? (
               <ChainBalance
-                address={chainWallet?.address ?? ''}
+                address={chainWallet?.address ?? ""}
                 balance={chainWallet?.balance ?? []}
                 chain={chain}
                 key={chain}

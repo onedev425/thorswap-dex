@@ -1,46 +1,44 @@
-import { Skeleton, Text } from '@chakra-ui/react';
-import { Box, Icon, Link } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import { getEstimatedTxDuration, transactionTitle } from 'components/TransactionManager/helpers';
-import { TxDetailsButton } from 'components/TransactionManager/TxDetailsButton';
-import { useAdvancedTracker } from 'components/TransactionManager/useAdvancedTracker';
-import { useSimpleTracker } from 'components/TransactionManager/useSimpleTracker';
-import { useTimeLeft } from 'components/TransactionManager/useTimeLeft';
-import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
-import { useTrackerV2 } from 'components/TransactionTrackerV2/useTrackerV2';
-import { CircularCountdown } from 'components/TxTracker/components/CircularCountdown';
-import { memo } from 'react';
-import type { PendingTransactionType } from 'store/transactions/types';
+import { Skeleton, Text } from "@chakra-ui/react";
+import { Box, Icon, Link } from "components/Atomic";
+import { TxDetailsButton } from "components/TransactionManager/TxDetailsButton";
+import { getEstimatedTxDuration, transactionTitle } from "components/TransactionManager/helpers";
+import { useAdvancedTracker } from "components/TransactionManager/useAdvancedTracker";
+import { useSimpleTracker } from "components/TransactionManager/useSimpleTracker";
+import { useTimeLeft } from "components/TransactionManager/useTimeLeft";
+import { useTransactionTimers } from "components/TransactionManager/useTransactionTimers";
+import { useTrackerV2 } from "components/TransactionTrackerV2/useTrackerV2";
+import { CircularCountdown } from "components/TxTracker/components/CircularCountdown";
+import { baseHoverClass } from "components/constants";
+import { memo } from "react";
+import type { PendingTransactionType } from "store/transactions/types";
 
-const trackerV2Providers = ['CHAINFLIP'];
+const trackerV2Providers = ["CHAINFLIP"];
 
-export const trackerUnsupportedProviders = ['MAYACHAIN'];
+export const trackerUnsupportedProviders = ["MAYACHAIN"];
 
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
   // keep it backward compatible with old cached txs
   const hasDetailsParams = (txid && route && quoteId) || txDetails;
-  const provider = route?.providers[0] || '';
+  const provider = route?.providers[0] || "";
   const isV2Tracker = trackerV2Providers.includes(provider);
 
-  const isTrackerWorkaround = trackerUnsupportedProviders.includes(route?.providers[0] || '');
+  const isTrackerWorkaround = trackerUnsupportedProviders.includes(route?.providers[0] || "");
 
   const simpleTrackerData = useSimpleTracker(
     hasDetailsParams || advancedTracker || isV2Tracker ? null : pendingTx,
   );
   const advancedTrackerData = useAdvancedTracker(
-    (!hasDetailsParams && !advancedTracker) || isV2Tracker || isTrackerWorkaround
-      ? null
-      : pendingTx,
+    !(hasDetailsParams || advancedTracker) || isV2Tracker || isTrackerWorkaround ? null : pendingTx,
   );
-  const trackerV2Data = useTrackerV2(!isV2Tracker ? null : pendingTx);
+  const trackerV2Data = useTrackerV2(isV2Tracker ? pendingTx : null);
 
   const { totalTimeLeft } = useTransactionTimers(txDetails?.legs || [], { isTxFinished: false });
 
   const txData = simpleTrackerData || advancedTrackerData || pendingTx || trackerV2Data;
 
   const { label, type, details } = txData;
-  const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
+  const transactionUrl = "txUrl" in txData ? txData.txUrl : "";
 
   const v2TimeLeft = useTimeLeft((details?.transient?.estimatedfinalisedAt || 0) * 1000);
 

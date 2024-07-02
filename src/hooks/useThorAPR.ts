@@ -1,6 +1,6 @@
-import { AssetValue } from '@swapkit/core';
-import { usePools } from 'hooks/usePools';
-import { useMemo } from 'react';
+import { AssetValue } from "@swapkit/sdk";
+import { usePools } from "hooks/usePools";
+import { useMemo } from "react";
 
 const BLOCKS_PER_DAY = 6432;
 
@@ -16,12 +16,12 @@ export const useThorAPR = () => {
   const { pools } = usePools();
 
   const thorPool = useMemo(() => {
-    const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR');
+    const thorAsset = AssetValue.fromChainOrSignature("ETH.THOR");
 
     return pools?.find(({ asset }) => thorAsset.toString() === asset);
   }, [pools]);
 
-  const thorDepth = useMemo(() => parseFloat(thorPool?.assetDepth ?? '0') * 2, [thorPool]);
+  const thorDepth = useMemo(() => Number.parseFloat(thorPool?.assetDepth ?? "0") * 2, [thorPool]);
   const apy = useMemo(() => Number(thorDepth ? getAPY(0, thorDepth).toFixed(2) : 0), [thorDepth]);
 
   const thorchainAPY = Number(thorPool?.poolAPY ?? 0) * 100;

@@ -1,11 +1,11 @@
-import type { Chain } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { CountDownIndicator } from 'components/CountDownIndicator';
-import { GasButton } from 'components/GasButton/GasButton';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { ViewHeader } from 'components/ViewHeader';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import type { Chain } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { CountDownIndicator } from "components/CountDownIndicator";
+import { GasButton } from "components/GasButton/GasButton";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { ViewHeader } from "components/ViewHeader";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   isSidebarVisible: boolean;
@@ -30,7 +30,7 @@ export const SwapHeader = memo(
             <GlobalSettingsPopover noSlippage transactionMode />
           </Box>
         }
-        title={t('common.swap')}
+        title={t("common.swap")}
       />
     );
   },

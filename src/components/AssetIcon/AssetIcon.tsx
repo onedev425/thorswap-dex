@@ -1,21 +1,21 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { FallbackIcon } from 'components/AssetIcon/FallbackIcon';
-import { Box } from 'components/Atomic';
-import { RUNEAsset } from 'helpers/assets';
-import { tokenLogoURL } from 'helpers/logoURL';
-import { memo, useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { FallbackIcon } from "components/AssetIcon/FallbackIcon";
+import { Box } from "components/Atomic";
+import { RUNEAsset } from "helpers/assets";
+import { tokenLogoURL } from "helpers/logoURL";
+import { memo, useMemo } from "react";
 
-import { genericBgClasses } from '../constants';
+import { genericBgClasses } from "../constants";
 
-import { ChainIcon } from './ChainIcon';
-import type { AssetIconProps } from './types';
-import { iconSizes } from './types';
-import { getSecondaryIconPlacementStyle } from './utils';
+import { ChainIcon } from "./ChainIcon";
+import type { AssetIconProps } from "./types";
+import { iconSizes } from "./types";
+import { getSecondaryIconPlacementStyle } from "./utils";
 
 const AssetIconComponent = ({
-  shadowPosition = 'corner',
+  shadowPosition = "corner",
   iconUrl,
   showChainIcon,
   className,
@@ -26,17 +26,17 @@ const AssetIconComponent = ({
   bgColor,
   badge,
   ticker,
-  secondaryIconPlacement = 'br',
+  secondaryIconPlacement = "br",
   size = 40,
 }: Pick<
   AssetIconProps,
-  | 'badge'
-  | 'secondaryIconPlacement'
-  | 'bgColor'
-  | 'size'
-  | 'hasShadow'
-  | 'shadowPosition'
-  | 'className'
+  | "badge"
+  | "secondaryIconPlacement"
+  | "bgColor"
+  | "size"
+  | "hasShadow"
+  | "shadowPosition"
+  | "className"
 > & {
   chain: Chain;
   iconUrl: string;
@@ -46,7 +46,7 @@ const AssetIconComponent = ({
   showChainIcon: boolean;
 }) => {
   const { iconSize, secondaryIconSize } = useMemo(() => {
-    const iconSize = typeof size === 'number' ? size : iconSizes[size];
+    const iconSize = typeof size === "number" ? size : iconSizes[size];
     return { iconSize, secondaryIconSize: iconSize * 0.75 };
   }, [size]);
 
@@ -76,8 +76,8 @@ const AssetIconComponent = ({
   return (
     <div
       className={classNames(
-        'relative flex rounded-full',
-        { 'p-[1px] bg-btn-primary': isSynth },
+        "relative flex rounded-full",
+        { "p-[1px] bg-btn-primary": isSynth },
         className,
       )}
     >
@@ -85,8 +85,8 @@ const AssetIconComponent = ({
         <img
           alt={symbol}
           className={classNames(
-            'absolute blur-xl transition-all',
-            shadowPosition === 'corner' ? '-top-2 -left-2' : '-bottom-2',
+            "absolute blur-xl transition-all",
+            shadowPosition === "corner" ? "-top-2 -left-2" : "-bottom-2",
           )}
           src={iconUrl}
           style={style}
@@ -97,8 +97,8 @@ const AssetIconComponent = ({
         <Box
           center
           className={classNames(
-            'rounded-full box-border overflow-hidden relative transition-all z-10',
-            { [genericBgClasses[bgColor || 'secondary']]: bgColor },
+            "rounded-full box-border overflow-hidden relative transition-all z-10",
+            { [genericBgClasses[bgColor || "secondary"]]: bgColor },
           )}
           style={style}
         >
@@ -154,12 +154,12 @@ export const AssetIcon = memo(
       chain,
       symbol,
     } = useMemo(() => asset || RUNEAsset, [asset]);
-    const address = symbol.slice(symbol.indexOf('-') + 1).toLowerCase();
-    const identifier = `${isSynthetic ? symbol.split('/')[0] : chain}.${assetTicker}`;
+    const address = symbol.slice(symbol.indexOf("-") + 1).toLowerCase();
+    const identifier = `${isSynthetic ? symbol.split("/")[0] : chain}.${assetTicker}`;
     const iconUrl = logoURI && !isSynthetic ? logoURI : tokenLogoURL({ address, identifier });
 
     const assetChain = useMemo(
-      () => (isSynthetic ? symbol.split('/')[0] : chain) as Chain,
+      () => (isSynthetic ? symbol.split("/")[0] : chain) as Chain,
       [chain, isSynthetic, symbol],
     );
 
@@ -172,13 +172,13 @@ export const AssetIcon = memo(
         chain={assetChain}
         className={className}
         hasShadow={hasShadow}
-        iconUrl={canShowIcon ? iconUrl : ''}
+        iconUrl={canShowIcon ? iconUrl : ""}
         isSynth={isSynthetic}
         secondaryIconPlacement={secondaryIconPlacement}
-        showChainIcon={hasChainIcon && (type !== 'Native' || asset?.chain === Chain.Arbitrum)}
+        showChainIcon={hasChainIcon && (type !== "Native" || asset?.chain === Chain.Arbitrum)}
         size={size}
         symbol={symbol}
-        ticker={ticker || assetTicker || ''}
+        ticker={ticker || assetTicker || ""}
       />
     );
   },

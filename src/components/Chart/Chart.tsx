@@ -1,15 +1,15 @@
-import classNames from 'classnames';
-import { Box, Select } from 'components/Atomic';
-import { ChartHeader } from 'components/Chart/ChartHeader';
-import { ChartPlaceholder } from 'components/Chart/ChartPlaceholder';
-import { ChartTypeSelect } from 'components/Chart/ChartTypeSelect';
-import { useChartData } from 'components/Chart/useChartData';
-import { memo, useMemo, useState } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import { t } from 'services/i18n';
+import classNames from "classnames";
+import { Box, Select } from "components/Atomic";
+import { ChartHeader } from "components/Chart/ChartHeader";
+import { ChartPlaceholder } from "components/Chart/ChartPlaceholder";
+import { ChartTypeSelect } from "components/Chart/ChartTypeSelect";
+import { useChartData } from "components/Chart/useChartData";
+import { memo, useMemo, useState } from "react";
+import { Bar, Line } from "react-chartjs-2";
+import { t } from "services/i18n";
 
-import type { BarChartType, ChartProps, LineChartType } from './types';
-import { ChartTimeFrame, ChartType } from './types';
+import type { BarChartType, ChartProps, LineChartType } from "./types";
+import { ChartTimeFrame, ChartType } from "./types";
 
 export const Chart = memo(
   ({
@@ -26,7 +26,7 @@ export const Chart = memo(
     beginAt,
     dataInProgress,
   }: ChartProps) => {
-    const chartTimeFrames = [t('components.chart.week'), t('components.chart.all')];
+    const chartTimeFrames = [t("components.chart.week"), t("components.chart.all")];
 
     const [chartTimeFrame, setChartTimeFrame] = useState(ChartTimeFrame.AllTime);
 
@@ -58,7 +58,7 @@ export const Chart = memo(
     }, [selectedChartType, options, parsedChartData]);
 
     return (
-      <Box col className={classNames('w-full h-full', className)}>
+      <Box col className={classNames("w-full h-full", className)}>
         <Box alignCenter row justify="between">
           <ChartHeader title={title} values={values} />
 
@@ -81,7 +81,7 @@ export const Chart = memo(
 
         <Box
           center={isChartLoading}
-          className={classNames('min-h-[280px] max-h-[300px]', {
+          className={classNames("min-h-[280px] max-h-[300px]", {
             relative: isChartLoading,
           })}
         >

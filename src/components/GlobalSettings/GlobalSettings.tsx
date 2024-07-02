@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react';
-import { FeeOption } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box, Button, Icon, Switch, Tooltip } from 'components/Atomic';
-import { Input } from 'components/Input';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useApp } from 'store/app/hooks';
+import { Text } from "@chakra-ui/react";
+import { FeeOption } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box, Button, Icon, Switch, Tooltip } from "components/Atomic";
+import { Input } from "components/Input";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useApp } from "store/app/hooks";
 
-import { slippageOptions } from './settingOptions';
+import { slippageOptions } from "./settingOptions";
 
 type Props = {
   transactionMode?: boolean;
@@ -30,19 +30,19 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
   const feeOptions = useMemo(
     () => [
       {
-        key: 'fee.average',
+        key: "fee.average",
         type: FeeOption.Average,
-        text: t('common.feeAverage'),
+        text: t("common.feeAverage"),
       },
       {
-        key: 'fee.fast',
+        key: "fee.fast",
         type: FeeOption.Fast,
-        text: t('common.feeFast'),
+        text: t("common.feeFast"),
       },
       {
-        key: 'fee.fastest',
+        key: "fee.fastest",
         type: FeeOption.Fastest,
-        text: t('common.feeFastest'),
+        text: t("common.feeFastest"),
       },
     ],
     [],
@@ -51,15 +51,15 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
   return (
     <>
       <Box>
-        <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
+        <Text textStyle="caption">{t("views.swap.transactionSettings")}</Text>
       </Box>
       {!noSlippage && (
         <>
           <Box className="space-x-2">
             <Text textStyle="caption-xs" variant="secondary">
-              {t('views.swap.slippageTolerance')}
+              {t("views.swap.slippageTolerance")}
             </Text>
-            <Tooltip content={t('common.slippageTooltip')} place="top">
+            <Tooltip content={t("common.slippageTooltip")} place="top">
               <Icon color="secondary" name="questionCircle" size={16} />
             </Tooltip>
           </Box>
@@ -71,7 +71,7 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
               className="text-right"
               containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
               onChange={(e) => setSlippage(Number(e.target.value))}
-              placeholder={t('common.percentage')}
+              placeholder={t("common.percentage")}
               symbol="%"
               type="number"
               value={slippageTolerance}
@@ -82,7 +82,7 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
                 key={option.key}
                 onClick={() => setSlippage(option.value)}
                 size="sm"
-                variant={slippageTolerance === option.value ? 'primary' : 'outlineTint'}
+                variant={slippageTolerance === option.value ? "primary" : "outlineTint"}
               >
                 <Text textStyle="caption-xs">{option.text}</Text>
               </Button>
@@ -93,17 +93,17 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
 
       <Box className="space-x-2">
         <Text textStyle="caption-xs" variant="secondary">
-          {t('common.transactionFee')}
+          {t("common.transactionFee")}
         </Text>
-        <Tooltip content={t('common.txFeeTooltip')} place="top">
+        <Tooltip content={t("common.txFeeTooltip")} place="top">
           <Icon color="secondary" name="questionCircle" size={16} />
         </Tooltip>
       </Box>
 
       <Box
         alignCenter
-        className={classNames('w-full space-x-2', {
-          'pb-6': transactionMode,
+        className={classNames("w-full space-x-2", {
+          "pb-6": transactionMode,
         })}
       >
         {feeOptions.map((feeOption) => (
@@ -111,7 +111,7 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
             key={feeOption.key}
             onClick={() => setFeeOptionType(feeOption.type)}
             size="sm"
-            variant={feeOptionType === feeOption.type ? 'primary' : 'outlineTint'}
+            variant={feeOptionType === feeOption.type ? "primary" : "outlineTint"}
           >
             <Text textStyle="caption-xs">{feeOption.text}</Text>
           </Button>
@@ -121,15 +121,15 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
       {transactionMode && (
         <>
           <Box>
-            <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
+            <Text textStyle="caption">{t("views.setting.transactionMode")}</Text>
           </Box>
 
           <Box alignCenter justify="between">
             <Box alignCenter className="space-x-2">
               <Text textStyle="caption-xs" variant="secondary">
-                {t('views.swap.expertMode')}
+                {t("views.swap.expertMode")}
               </Text>
-              <Tooltip content={t('common.expertModeTooltip')} place="top">
+              <Tooltip content={t("common.expertModeTooltip")} place="top">
                 <Icon color="secondary" name="questionCircle" size={16} />
               </Tooltip>
             </Box>
@@ -145,9 +145,9 @@ export const GlobalSettings = ({ transactionMode, noSlippage }: Props) => {
             <Box alignCenter justify="between">
               <Box alignCenter className="space-x-2">
                 <Text textStyle="caption-xs" variant="secondary">
-                  {t('views.setting.customRecipientMode')}
+                  {t("views.setting.customRecipientMode")}
                 </Text>
-                <Tooltip content={t('common.customRecipientTooltip')} place="top">
+                <Tooltip content={t("common.customRecipientTooltip")} place="top">
                   <Icon color="secondary" name="questionCircle" size={16} />
                 </Tooltip>
               </Box>

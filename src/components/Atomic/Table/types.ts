@@ -1,5 +1,5 @@
-import type { BreakPoint } from 'hooks/useWindowSize';
-import type { Cell, Column, HeaderGroup, Row } from 'react-table';
+import type { BreakPoint } from "hooks/useWindowSize";
+import type { Cell, Column, HeaderGroup, Row } from "react-table";
 
 export type TableData = Record<string, FixMe>;
 export type TableColumns = Column<TableData>[];
@@ -15,13 +15,13 @@ export type InitialTableSort = {
 }[];
 
 export enum SortType {
-  Asc = 'asc',
-  Desc = 'desc',
-  None = 'none',
+  Asc = "asc",
+  Desc = "desc",
+  None = "none",
 }
 
 export const columnAlignClasses = {
-  left: 'text-left',
-  center: 'text-center',
-  right: 'text-right',
+  left: "text-left",
+  center: "text-center",
+  right: "text-right",
 };

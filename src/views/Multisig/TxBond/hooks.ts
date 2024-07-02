@@ -1,13 +1,13 @@
-import { Chain, getMinAmountByChain } from '@swapkit/core';
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from 'settings/router';
-import { useMultisig } from 'store/multisig/hooks';
-import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
-import type { HandleBondAction } from 'views/Nodes/types';
-import { BondActionType } from 'views/Nodes/types';
+import { Chain, getMinAmountByChain } from "@swapkit/sdk";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "settings/router";
+import { useMultisig } from "store/multisig/hooks";
+import { useTxCreate } from "views/Multisig/TxCreate/TxCreateContext";
+import type { HandleBondAction } from "views/Nodes/types";
+import { BondActionType } from "views/Nodes/types";
 
-import { getBondMemo } from './utils';
+import { getBondMemo } from "./utils";
 
 export const useTxBond = () => {
   const { signers } = useTxCreate();
@@ -18,7 +18,7 @@ export const useTxBond = () => {
   const handleBondAction: HandleBondAction = useCallback(
     async ({ amount, nodeAddress, type }) => {
       if ((type === BondActionType.Bond || type === BondActionType.Unbond) && !amount) {
-        throw new Error('Amount not provided');
+        throw new Error("Amount not provided");
       }
 
       const memo = getBondMemo(type, nodeAddress, amount);

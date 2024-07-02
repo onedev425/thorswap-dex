@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import type { AssetSelectProps } from 'components/AssetSelect/types';
-import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon } from 'components/Atomic';
-import { genericBgClasses } from 'components/constants';
-import { useCallback } from 'react';
-import { t } from 'services/i18n';
-import { BorrowAssetSelectItem } from 'views/Lending/BorrowAssetSelectItem';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import type { AssetSelectProps } from "components/AssetSelect/types";
+import { useAssetSelect } from "components/AssetSelect/useAssetSelect";
+import { Box, Icon } from "components/Atomic";
+import { genericBgClasses } from "components/constants";
+import { useCallback } from "react";
+import { t } from "services/i18n";
+import { BorrowAssetSelectItem } from "views/Lending/BorrowAssetSelectItem";
 
 export const BorrowAssetSelectList = ({
   assets,
@@ -26,7 +26,7 @@ export const BorrowAssetSelectList = ({
   const handleSelect = useCallback(
     (asset: AssetValue) => {
       select(asset);
-      setTimeout(() => setQuery?.(''), 500);
+      setTimeout(() => setQuery?.(""), 500);
     },
     [select, setQuery],
   );
@@ -35,7 +35,7 @@ export const BorrowAssetSelectList = ({
     <Box
       col
       className={classNames(
-        'rounded-box-lg justify-center items-start w-2/5 py-5 px-6',
+        "rounded-box-lg justify-center items-start w-2/5 py-5 px-6",
         genericBgClasses.secondary,
       )}
       flex={1}
@@ -48,7 +48,7 @@ export const BorrowAssetSelectList = ({
         textTransform="none"
         variant="secondary"
       >
-        {t('views.lending.selectCollateralAsset')}
+        {t("views.lending.selectCollateralAsset")}
       </Text>
 
       {filteredAssets.length ? (
@@ -67,7 +67,7 @@ export const BorrowAssetSelectList = ({
           {isLoading ? (
             <Icon spin name="loader" size={24} />
           ) : (
-            <Text>{t('components.assetSelect.noResultsFound')}</Text>
+            <Text>{t("components.assetSelect.noResultsFound")}</Text>
           )}
         </Box>
       )}

@@ -1,8 +1,8 @@
-import { Chain } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useGetTNSByOwnerAddressQuery, useLazyGetTNSDetailQuery } from 'store/midgard/api';
-import type { THORNameEntry } from 'types/app';
+import { Chain } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useGetTNSByOwnerAddressQuery, useLazyGetTNSDetailQuery } from "store/midgard/api";
+import type { THORNameEntry } from "types/app";
 
 export const useFetchThornames = () => {
   const fetching = useRef(false);
@@ -18,7 +18,7 @@ export const useFetchThornames = () => {
   });
 
   const fetchRegisteredThornames = useCallback(async () => {
-    if (!thornames || !thorAddress || fetching.current) return;
+    if (!(thornames && thorAddress) || fetching.current) return;
     fetching.current = true;
 
     try {
@@ -26,7 +26,7 @@ export const useFetchThornames = () => {
         thornames.map(async (name) => {
           const { data: details } = await getTNSDetail(name);
 
-          return Array.isArray(details) || typeof details === 'boolean'
+          return Array.isArray(details) || typeof details === "boolean"
             ? { thorname: name }
             : { ...(details || {}), thorname: name };
         }),

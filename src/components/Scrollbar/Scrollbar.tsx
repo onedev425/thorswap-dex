@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
-import { useCallback, useMemo } from 'react';
-import Scrollbars from 'react-custom-scrollbars-2';
+import type { ReactNode } from "react";
+import { useCallback, useMemo } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 
-import { useTheme } from '../../context/theme/ThemeContext';
+import { useTheme } from "../../context/theme/ThemeContext";
 
 type ScrollbarProps = {
   children: ReactNode;
@@ -28,7 +28,7 @@ export const Scrollbar = ({
   const { isLight } = useTheme();
   const useAutoHeight = !!maxHeight || !!minHeight || autoHeight;
   const [light, dark] = useMemo(
-    () => (secondary ? ['#F0F1F3', '#121526'] : ['#afb6cc', '#29354a']),
+    () => (secondary ? ["#F0F1F3", "#121526"] : ["#afb6cc", "#29354a"]),
     [secondary],
   );
 
@@ -38,9 +38,9 @@ export const Scrollbar = ({
         className={scrollClassName}
         style={{
           ...props.style,
-          borderRadius: '4px',
+          borderRadius: "4px",
           backgroundColor: isLight ? light : dark,
-          width: '4px',
+          width: "4px",
         }}
       />
     ),
@@ -48,7 +48,7 @@ export const Scrollbar = ({
   );
 
   const style = useMemo(
-    () => (useAutoHeight ? {} : { height: height || '100vh' }),
+    () => (useAutoHeight ? {} : { height: height || "100vh" }),
     [height, useAutoHeight],
   );
 

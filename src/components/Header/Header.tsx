@@ -1,24 +1,24 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import LogoTsDark from 'assets/images/header_logo_black.png';
-import LogoTsWhite from 'assets/images/header_logo_white.png';
-import Logo from 'assets/images/logo.png';
-import classNames from 'classnames';
-import { AnnouncementsPopover } from 'components/Announcements/AnnouncementsPopover/AnnouncementsPopover';
-import { AppPopoverMenu } from 'components/AppPopoverMenu';
-import { Button, Icon } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import { StatusDropdown } from 'components/Header/StatusDropdown';
-import { TransactionManager } from 'components/TransactionManager';
-import { useConnectWallet, useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { isIframe } from 'helpers/isIframe';
-import { useWalletDrawer } from 'hooks/useWalletDrawer';
-import useWindowSize from 'hooks/useWindowSize';
-import { memo, useCallback } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from 'settings/config';
-import { useApp } from 'store/app/hooks';
-import { useAppSelector } from 'store/store';
-import { ThemeType } from 'types/app';
+import { Box, Flex, Text } from "@chakra-ui/react";
+import LogoTsDark from "assets/images/header_logo_black.png";
+import LogoTsWhite from "assets/images/header_logo_white.png";
+import Logo from "assets/images/logo.png";
+import classNames from "classnames";
+import { AnnouncementsPopover } from "components/Announcements/AnnouncementsPopover/AnnouncementsPopover";
+import { AppPopoverMenu } from "components/AppPopoverMenu";
+import { Button, Icon } from "components/Atomic";
+import { StatusDropdown } from "components/Header/StatusDropdown";
+import { TransactionManager } from "components/TransactionManager";
+import { easeInOutTransition } from "components/constants";
+import { useConnectWallet, useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { isIframe } from "helpers/isIframe";
+import { useWalletDrawer } from "hooks/useWalletDrawer";
+import useWindowSize from "hooks/useWindowSize";
+import { memo, useCallback } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from "settings/config";
+import { useApp } from "store/app/hooks";
+import { useAppSelector } from "store/store";
+import { ThemeType } from "types/app";
 
 type Props = {
   openMenu: () => void;
@@ -38,10 +38,10 @@ export const Header = memo(({ openMenu }: Props) => {
 
   const handleClickWalletBtn = useCallback(() => {
     if (isWalletLoading) return;
-    if (!hasWallet) {
-      !IS_LEDGER_LIVE ? setIsConnectModalOpen(true) : connectLedgerLiveWallet();
-    } else {
+    if (hasWallet) {
       setIsDrawerVisible(true);
+    } else {
+      IS_LEDGER_LIVE ? connectLedgerLiveWallet() : setIsConnectModalOpen(true);
     }
   }, [
     isWalletLoading,
@@ -52,10 +52,10 @@ export const Header = memo(({ openMenu }: Props) => {
   ]);
 
   return (
-    <header className={classNames({ 'min-h-[70px]': !isWidget })}>
+    <header className={classNames({ "min-h-[70px]": !isWidget })}>
       {IS_PROTECTED && (
         <Box
-          _dark={{ borderColor: 'brand.cyan', bgColor: 'transparent' }}
+          _dark={{ borderColor: "brand.cyan", bgColor: "transparent" }}
           bg="white"
           border="1px solid"
           borderColor="transparent"
@@ -99,7 +99,7 @@ export const Header = memo(({ openMenu }: Props) => {
           <Flex flex={1} gap={2} mr={2} mt="auto" shrink={0}>
             <Button
               className="flex !p-1"
-              display={{ md: 'none' }}
+              display={{ md: "none" }}
               leftIcon={<Icon name="menu" size={isMdActive ? 24 : 20} />}
               onClick={openMenu}
               variant="borderlessPrimary"
@@ -108,7 +108,7 @@ export const Header = memo(({ openMenu }: Props) => {
             {!isWidget && (
               <Box
                 bottom={4}
-                display={{ base: 'none', md: 'flex' }}
+                display={{ base: "none", md: "flex" }}
                 position="fixed"
                 right={4}
                 zIndex={50}
@@ -124,20 +124,20 @@ export const Header = memo(({ openMenu }: Props) => {
             mr={2}
             onClick={handleClickWalletBtn}
             size="sm"
-            variant={themeType === ThemeType.Light ? 'primary' : 'outlinePrimary'}
+            variant={themeType === ThemeType.Light ? "primary" : "outlinePrimary"}
           >
             {isWalletLoading ? (
               <Flex gap={1} justify="center">
-                {t('common.loading')} <Icon spin color="primary" name="loader" size={20} />
+                {t("common.loading")} <Icon spin color="primary" name="loader" size={20} />
               </Flex>
             ) : hasWallet ? (
-              t('common.wallet')
+              t("common.wallet")
             ) : (
-              t('common.connect')
+              t("common.connect")
             )}
           </Button>
           {!isWidget && <AnnouncementsPopover />}
-          {!isIframe() && !isWidget && <AppPopoverMenu />}
+          {!(isIframe() || isWidget) && <AppPopoverMenu />}
 
           <TransactionManager />
         </Flex>

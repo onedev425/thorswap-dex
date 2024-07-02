@@ -1,13 +1,13 @@
-import { type AssetValue, Chain } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { useCallback } from 'react';
-import { t } from 'services/i18n';
-import { logEvent, logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+import { type AssetValue, Chain } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { useCallback } from "react";
+import { t } from "services/i18n";
+import { logEvent, logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
 type Params = {
   inputAsset: AssetValue;
@@ -37,27 +37,27 @@ export const useSwapApprove = ({ inputAsset, contract }: Params) => {
             from,
             inChain,
             type,
-            label: `${t('txManager.approve')} ${inputAsset.ticker}`,
+            label: `${t("txManager.approve")} ${inputAsset.ticker}`,
           }),
         );
 
-        const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+        const { approveAssetValue } = await (await import("services/swapKit")).getSwapKitClient();
 
         try {
           const txid = await approveAssetValue(
             inputAsset.set(approveAmount || 0),
-            contract || 'thorchain',
+            contract || "thorchain",
           );
-          logEvent('swap_approve', { approveAmount, asset: inputAsset.toString() });
+          logEvent("swap_approve", { approveAmount, asset: inputAsset.toString() });
 
-          if (typeof txid === 'string') {
+          if (typeof txid === "string") {
             appDispatch(updateTransaction({ id, txid }));
           }
         } catch (error) {
-          logEvent('swap_approve_failed', { error, approveAmount, asset: inputAsset.toString() });
+          logEvent("swap_approve_failed", { error, approveAmount, asset: inputAsset.toString() });
           logException(error as Error);
-          appDispatch(completeTransaction({ id, status: 'error' }));
-          showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+          appDispatch(completeTransaction({ id, status: "error" }));
+          showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
         }
       }
     },

@@ -1,10 +1,10 @@
-import type { FeeOption } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { USDAsset } from 'helpers/assets';
-import { useCallback } from 'react';
-import { actions } from 'store/app/slice';
-import { useAppDispatch, useAppSelector } from 'store/store';
-import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from 'types/app';
+import type { FeeOption } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import { USDAsset } from "helpers/assets";
+import { useCallback } from "react";
+import { actions } from "store/app/slice";
+import { useAppDispatch, useAppSelector } from "store/store";
+import type { SupportedLanguages, ThemeType, ThousandSeparator, ViewMode } from "types/app";
 
 export const useApp = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export const useApp = () => {
   );
 
   const baseCurrencyAsset =
-    appState.baseCurrency === 'THOR.USD'
+    appState.baseCurrency === "THOR.USD"
       ? USDAsset
       : AssetValue.fromStringSync(appState.baseCurrency);
 

@@ -1,10 +1,9 @@
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import type { initialWallet } from 'context/wallet/WalletProvider';
+import type { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import type { initialWallet } from "context/wallet/WalletProvider";
 
 export const THORCHAIN_UNSUPPORTED_CHAINS = [
   Chain.Arbitrum,
-  Chain.Binance,
   Chain.Chainflip,
   Chain.Dash,
   Chain.Maya,

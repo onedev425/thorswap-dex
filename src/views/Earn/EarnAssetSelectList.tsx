@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import type { AssetSelectProps } from 'components/AssetSelect/types';
-import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { genericBgClasses } from 'components/constants';
-import { useCallback } from 'react';
-import { t } from 'services/i18n';
-import { EarnAssetSelectItem } from 'views/Earn/EarnAssetSelectItem';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import type { AssetSelectProps } from "components/AssetSelect/types";
+import { useAssetSelect } from "components/AssetSelect/useAssetSelect";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { genericBgClasses } from "components/constants";
+import { useCallback } from "react";
+import { t } from "services/i18n";
+import { EarnAssetSelectItem } from "views/Earn/EarnAssetSelectItem";
 
 export const EarnAssetSelectList = ({
   assets,
@@ -26,7 +26,7 @@ export const EarnAssetSelectList = ({
   const handleSelect = useCallback(
     (asset: AssetValue) => {
       select(asset);
-      setTimeout(() => setQuery?.(''), 500);
+      setTimeout(() => setQuery?.(""), 500);
     },
     [select, setQuery],
   );
@@ -35,13 +35,13 @@ export const EarnAssetSelectList = ({
     <Box
       col
       className={classNames(
-        'rounded-box-lg justify-center items-start w-2/5 py-5 px-6',
+        "rounded-box-lg justify-center items-start w-2/5 py-5 px-6",
         genericBgClasses.secondary,
       )}
       flex={1}
     >
       <Box className="w-full -mt-2 mb-2 pr-3.5" flex={1} justify="end">
-        <Tooltip content={t('views.savings.aprTooltip')} place="bottom">
+        <Tooltip content={t("views.savings.aprTooltip")} place="bottom">
           <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
         </Tooltip>
       </Box>
@@ -62,7 +62,7 @@ export const EarnAssetSelectList = ({
           {isLoading ? (
             <Icon spin name="loader" size={24} />
           ) : (
-            <Text>{t('components.assetSelect.noResultsFound')}</Text>
+            <Text>{t("components.assetSelect.noResultsFound")}</Text>
           )}
         </Box>
       )}

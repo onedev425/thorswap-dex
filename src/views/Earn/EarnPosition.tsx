@@ -1,16 +1,16 @@
-import { Flex, Text } from '@chakra-ui/react';
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoTable } from 'components/InfoTable';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { zeroAmount } from 'types/app';
-import type { SaverPosition } from 'views/Earn/types';
+import { Flex, Text } from "@chakra-ui/react";
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoTable } from "components/InfoTable";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { zeroAmount } from "types/app";
+import type { SaverPosition } from "views/Earn/types";
 
 type Props = {
   position: SaverPosition;
@@ -21,14 +21,14 @@ type Props = {
 
 export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Props) => {
   const amountUsd = useCallback(
-    (amount: SwapKitNumber) => `$${(assetPriceUSD * amount.getValue('number')).toFixed(2)}`,
+    (amount: SwapKitNumber) => `$${(assetPriceUSD * amount.getValue("number")).toFixed(2)}`,
     [assetPriceUSD],
   );
 
   const infoFields: InfoRowConfig[] = useMemo(
     () => [
       {
-        label: 'Amount Deposited',
+        label: "Amount Deposited",
         value: (
           <InfoWithTooltip
             icon="usdCircle"
@@ -38,7 +38,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
         ),
       },
       {
-        label: 'Amount Redeemable',
+        label: "Amount Redeemable",
         value: (
           <InfoWithTooltip
             icon="usdCircle"
@@ -48,7 +48,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
         ),
       },
       {
-        label: 'Total Earned',
+        label: "Total Earned",
         value: (
           <InfoWithTooltip
             icon="usdCircle"
@@ -71,7 +71,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
                 <AssetIcon asset={position.asset} size={32} />
               </Box>
 
-              <Text className={classNames('mx-1 md:mx-3 !transition-all')} fontWeight="semibold">
+              <Text className={classNames("mx-1 md:mx-3 !transition-all")} fontWeight="semibold">
                 {position.asset.ticker}
               </Text>
             </Box>
@@ -96,7 +96,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
               onClick={() => deposit(position.asset)}
               variant="primary"
             >
-              {t('views.liquidity.addButton')}
+              {t("views.liquidity.addButton")}
             </Button>
 
             <Button
@@ -105,7 +105,7 @@ export const EarnPosition = ({ assetPriceUSD, position, withdraw, deposit }: Pro
               onClick={() => withdraw(position.asset)}
               variant="outlineSecondary"
             >
-              {t('common.withdraw')}
+              {t("common.withdraw")}
             </Button>
           </Box>
         </Box>

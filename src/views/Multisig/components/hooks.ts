@@ -1,7 +1,7 @@
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import { useCallback, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { useAppSelector } from 'store/store';
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import { useCallback, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { useAppSelector } from "store/store";
 
 type FormValues = {
   signature: string;
@@ -30,13 +30,13 @@ export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
     watch,
   } = useForm<FormValues>({
     defaultValues: {
-      signature: '',
+      signature: "",
       memberPubKey: membersOptions[0].value,
     },
   });
 
   const handleConfirm = useCallback(
-    async (values: FormValues) => {
+    (values: FormValues) => {
       // TODO (@0xGeneral): Import signature - check if signature is correct?
 
       onSubmit({ pubKey: values.memberPubKey, signature: values.signature });
@@ -45,7 +45,7 @@ export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
     [onSubmit, reset],
   );
 
-  const signatureField = register('signature', { required: true });
+  const signatureField = register("signature", { required: true });
 
   const formFields = useMemo(
     () => ({
@@ -55,13 +55,13 @@ export const useImportSignatureForm = (onSubmit: (val: Signer) => void) => {
   );
   const submit = handleSubmit(handleConfirm);
 
-  const setMemberPubKey = (val: string) => setValue('memberPubKey', val);
-  const setSignature = (val: string) => setValue('signature', val);
+  const setMemberPubKey = (val: string) => setValue("memberPubKey", val);
+  const setSignature = (val: string) => setValue("signature", val);
 
-  if (watch('signature').includes('-->')) {
-    const splited = watch('signature').split(' --> ');
-    setValue('signature', splited[1]);
-    setValue('memberPubKey', splited[0]);
+  if (watch("signature").includes("-->")) {
+    const splited = watch("signature").split(" --> ");
+    setValue("signature", splited[1]);
+    setValue("memberPubKey", splited[0]);
   }
 
   return {

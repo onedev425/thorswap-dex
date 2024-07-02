@@ -1,6 +1,6 @@
-import { Icon } from 'components/Atomic';
+import { Icon } from "components/Atomic";
 
-import { SortType } from './types';
+import { SortType } from "./types";
 
 type Props = {
   sortType: SortType;
@@ -13,13 +13,13 @@ export const SortIndicator = (props: Props) => {
     <div className="flex flex-col">
       <Icon
         className="-mb-1.5"
-        color={sortType === SortType.Asc ? 'primary' : 'secondary'}
+        color={sortType === SortType.Asc ? "primary" : "secondary"}
         name="sortUp"
         size={12}
       />
       <Icon
         className="-mt-1"
-        color={sortType === SortType.Desc ? 'primary' : 'secondary'}
+        color={sortType === SortType.Desc ? "primary" : "secondary"}
         name="sortDown"
         size={12}
       />

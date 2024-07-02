@@ -1,17 +1,17 @@
-import type { Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box, Card } from 'components/Atomic';
-import { borderHoverHighlightClass } from 'components/constants';
-import { useWalletDispatch } from 'context/wallet/WalletProvider';
-import { memo, useCallback } from 'react';
-import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
-import { CopyAddress } from 'views/Wallet/components/CopyAddress';
-import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
-import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
+import type { Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box, Card } from "components/Atomic";
+import { borderHoverHighlightClass } from "components/constants";
+import { useWalletDispatch } from "context/wallet/WalletProvider";
+import { memo, useCallback } from "react";
+import { ConnectionActions } from "views/Wallet/components/ConnectionActions";
+import { CopyAddress } from "views/Wallet/components/CopyAddress";
+import { HeaderChainInfo } from "views/Wallet/components/HeaderChainInfo";
+import { WalletHeaderActions } from "views/Wallet/components/WalletHeaderActions";
 
-import { useAccountData, useWalletChainActions } from '../hooks';
+import { useAccountData, useWalletChainActions } from "../hooks";
 
-import { ChainInfoTable } from './ChainInfoTable';
+import { ChainInfoTable } from "./ChainInfoTable";
 
 type Props = {
   chain: Chain;
@@ -34,14 +34,14 @@ export const AccountRow = memo(({ thornames, chain }: Props) => {
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
-      walletDispatch({ type: 'disconnectByChain', payload: chain });
+      walletDispatch({ type: "disconnectByChain", payload: chain });
     } else {
       setIsConnectModalOpen(true);
     }
   }, [chain, chainAddress, setIsConnectModalOpen, walletDispatch]);
 
   return (
-    <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
+    <Card className={classNames("overflow-hidden", borderHoverHighlightClass)}>
       <Box col className="w-full min-w-fit" flex={1}>
         <Box
           alignCenter

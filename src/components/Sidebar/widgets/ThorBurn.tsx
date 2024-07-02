@@ -1,11 +1,11 @@
-import { Box, Flex, keyframes, Link, Progress, ScaleFade, Text } from '@chakra-ui/react';
-import { SwapKitNumber } from '@swapkit/core';
-import { Icon, Tooltip } from 'components/Atomic';
-import { baseTextHoverClass } from 'components/constants';
-import { Fire } from 'components/Fire/Fire';
-import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
-import { useGetMonthlyTradeVolumeQuery } from 'store/midgard/api';
+import { Box, Flex, Link, Progress, ScaleFade, Text, keyframes } from "@chakra-ui/react";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Icon, Tooltip } from "components/Atomic";
+import { Fire } from "components/Fire/Fire";
+import { baseTextHoverClass } from "components/constants";
+import dayjs from "dayjs";
+import { useEffect, useMemo, useState } from "react";
+import { useGetMonthlyTradeVolumeQuery } from "store/midgard/api";
 
 const colorBurn = keyframes`
   from {
@@ -20,8 +20,8 @@ const colorBurn = keyframes`
 `;
 
 const TARGET_AMOUNT = new SwapKitNumber({ value: 92_600_000 });
-const currentMonth = dayjs().format('MMMM');
-const INFO_ARTICLE_URL = 'https://docs.thorswap.finance/thorswap/thor/about/thor-burn';
+const currentMonth = dayjs().format("MMMM");
+const INFO_ARTICLE_URL = "https://docs.thorswap.finance/thorswap/thor/about/thor-burn";
 
 export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
   const [totalVolume, setTotalVolume] = useState(SwapKitNumber.fromBigInt(0n));
@@ -86,9 +86,9 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
               animation={triggerReached ? `${colorBurn} 2s ease-in infinite` : undefined}
               size="sm"
               sx={{
-                '& > div': {
-                  transitionProperty: 'width',
-                  background: 'linear-gradient(0deg, #FFB359 10%, #E98566 90%)',
+                "& > div": {
+                  transitionProperty: "width",
+                  background: "linear-gradient(0deg, #FFB359 10%, #E98566 90%)",
                   borderRightRadius: 10,
                 },
                 borderRadius: 10,
@@ -100,9 +100,9 @@ export const ThorBurn = ({ collapsed }: { collapsed?: boolean }) => {
               <Progress
                 size="sm"
                 sx={{
-                  '& > div': {
-                    transitionProperty: 'width',
-                    background: 'linear-gradient(0deg, #de562c 10%, #ff2357 90%)',
+                  "& > div": {
+                    transitionProperty: "width",
+                    background: "linear-gradient(0deg, #de562c 10%, #ff2357 90%)",
                     borderRightRadius: 10,
                   },
                   borderRadius: 10,

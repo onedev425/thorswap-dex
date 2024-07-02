@@ -1,11 +1,11 @@
-import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
-import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
-import { useEffect, useMemo, useState } from 'react';
-import { useAppDispatch } from 'store/store';
-import { useGetTxnStatusDetailsQuery } from 'store/thorswap/api';
-import type { GetAdvancedTrackerStatusPayload } from 'store/thorswap/types';
-import { updateTransaction } from 'store/transactions/slice';
-import type { PendingTransactionType } from 'store/transactions/types';
+import { getSimpleTxStatus } from "components/TransactionManager/helpers";
+import { useCompleteTransaction } from "components/TransactionManager/useCompleteTransaction";
+import { useEffect, useMemo, useState } from "react";
+import { useAppDispatch } from "store/store";
+import { useGetTxnStatusDetailsQuery } from "store/thorswap/api";
+import type { GetAdvancedTrackerStatusPayload } from "store/thorswap/types";
+import { updateTransaction } from "store/transactions/slice";
+import type { PendingTransactionType } from "store/transactions/types";
 
 export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
@@ -32,11 +32,11 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
   const { onCompleteTransaction } = useCompleteTransaction(tx);
 
   const txnPayload = initialPayload || {
-    quoteId: quoteId || '',
+    quoteId: quoteId || "",
     route,
-    sellAmount: sellAmountNormalized || '0',
-    fromAddress: from || '',
-    toAddress: recipient || '',
+    sellAmount: sellAmountNormalized || "0",
+    fromAddress: from || "",
+    toAddress: recipient || "",
     isStreamingSwap: !!streamingSwap,
   };
 
@@ -45,7 +45,7 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
       ? { hash: txid }
       : {
           txn: {
-            hash: txid || '',
+            hash: txid || "",
             startTimestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
             ...txnPayload,
           },
@@ -61,15 +61,13 @@ export const useAdvancedTracker = (tx: PendingTransactionType | null) => {
 
     if (transactionCompleted) {
       onCompleteTransaction({ status, details: data.result });
-    } else {
-      if (id) {
-        const txDetails = data.result;
-        appDispatch(updateTransaction({ id, details: txDetails }));
-      }
+    } else if (id) {
+      const txDetails = data.result;
+      appDispatch(updateTransaction({ id, details: txDetails }));
     }
   }, [appDispatch, data, id, onCompleteTransaction]);
 
-  return tx ? { type, label, details, txUrl: '' } : null;
+  return tx ? { type, label, details, txUrl: "" } : null;
 };
 
 export const useTransactionDetails = (params: GetAdvancedTrackerStatusPayload, skip?: boolean) => {
@@ -86,7 +84,7 @@ export const useTransactionDetails = (params: GetAdvancedTrackerStatusPayload, s
   });
 
   const apiError = resData?.error
-    ? { message: resData.error?.message || 'An error occured' }
+    ? { message: resData.error?.message || "An error occured" }
     : null;
 
   const data = useMemo(() => {

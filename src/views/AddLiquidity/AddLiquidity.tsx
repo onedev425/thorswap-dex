@@ -1,29 +1,29 @@
-import { Chain, SwapKitNumber } from '@swapkit/core';
-import { Box, Button, Icon, Link } from 'components/Atomic';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { LiquidityCard } from 'components/LiquidityCard';
-import { LiquidityType } from 'components/LiquidityType/LiquidityType';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { PanelView } from 'components/PanelView';
-import { ViewHeader } from 'components/ViewHeader';
-import { ADD_LIQUIDITY_GUIDE_URL } from 'config/constants';
-import { BTCAsset, RUNEAsset } from 'helpers/assets';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
-import { useCheckHardCap } from 'hooks/useCheckHardCap';
-import { useLiquidityType } from 'hooks/useLiquidityType';
-import { usePools } from 'hooks/usePools';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
-import { AddLPProgressModal } from 'views/AddLiquidity/AddLPProgressModal';
-import { useAddLiquidity } from 'views/AddLiquidity/hooks/hooks';
-import { useAddLiquidityPools } from 'views/AddLiquidity/hooks/useAddLiquidityPools';
-import { useDepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Box, Button, Icon, Link } from "components/Atomic";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { LiquidityCard } from "components/LiquidityCard";
+import { LiquidityType } from "components/LiquidityType/LiquidityType";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { PanelView } from "components/PanelView";
+import { ViewHeader } from "components/ViewHeader";
+import { ADD_LIQUIDITY_GUIDE_URL } from "config/constants";
+import { BTCAsset, RUNEAsset } from "helpers/assets";
+import { useAssetsWithBalance } from "hooks/useAssetsWithBalance";
+import { useCheckHardCap } from "hooks/useCheckHardCap";
+import { useLiquidityType } from "hooks/useLiquidityType";
+import { usePools } from "hooks/usePools";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { LiquidityTypeOption, PoolShareType } from "store/midgard/types";
+import { AddLPProgressModal } from "views/AddLiquidity/AddLPProgressModal";
+import { useAddLiquidity } from "views/AddLiquidity/hooks/hooks";
+import { useAddLiquidityPools } from "views/AddLiquidity/hooks/useAddLiquidityPools";
+import { useDepositAssetsBalance } from "views/AddLiquidity/hooks/useDepositAssetsBalance";
 
-import { AssetInputs } from './AssetInputs';
-import { PoolInfo } from './PoolInfo';
+import { AssetInputs } from "./AssetInputs";
+import { PoolInfo } from "./PoolInfo";
 
 const liquidityToPoolShareType = (type: LiquidityTypeOption): PoolShareType => {
   if (type === LiquidityTypeOption.ASSET) return PoolShareType.ASSET_ASYM;
@@ -53,7 +53,7 @@ export const AddLiquidity = () => {
             assetsWithBalances.find((a) => a.asset.eq(asset)) || { asset, balance: undefined },
         )
         // type === 'Native' should be first
-        .sort((a, b) => Number(b.asset.type === 'Native') - Number(a.asset.type === 'Native')),
+        .sort((a, b) => Number(b.asset.type === "Native") - Number(a.asset.type === "Native")),
     [assetsWithBalances, poolAssets],
   );
 
@@ -106,27 +106,26 @@ export const AddLiquidity = () => {
     setLiquidityType,
   });
 
-  const bnbDepositDisabled = useMemo(() => poolAsset?.chain === Chain.Binance, [poolAsset]);
   const hasLP = useMemo(() => !!Object.keys(lpMemberData || {}).length, [lpMemberData]);
 
   return (
     <PanelView
-      description={t('views.addLiquidity.description')}
+      description={t("views.addLiquidity.description")}
       header={
         <ViewHeader
           actionsComponent={<GlobalSettingsPopover transactionMode />}
-          title={`${t('common.addLiquidity')} - ${poolAsset?.ticker}${
-            pool?.status === 'staged' ? ' (Staged)' : ''
+          title={`${t("common.addLiquidity")} - ${poolAsset?.ticker}${
+            pool?.status === "staged" ? " (Staged)" : ""
           }`}
         />
       }
       keywords="LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
-      title={t('views.addLiquidity.title')}
+      title={t("views.addLiquidity.title")}
     >
       <LiquidityType
         onChange={handleSelectLiquidityType}
         options={
-          pool?.status === 'staged'
+          pool?.status === "staged"
             ? [LiquidityTypeOption.SYMMETRICAL]
             : [LiquidityTypeOption.ASSET, LiquidityTypeOption.SYMMETRICAL, LiquidityTypeOption.RUNE]
         }
@@ -168,7 +167,7 @@ export const AddLiquidity = () => {
           <InfoTip
             content={
               <>
-                {`${t('views.addLiquidity.asymmetricPoolNotice0', {
+                {`${t("views.addLiquidity.asymmetricPoolNotice0", {
                   depositAsset:
                     liquidityType === LiquidityTypeOption.ASSET
                       ? (poolAsset || BTCAsset).ticker
@@ -176,12 +175,12 @@ export const AddLiquidity = () => {
                   asset: (poolAsset || BTCAsset).ticker,
                 })} `}
                 <Link className="text-twitter-blue" to={ADD_LIQUIDITY_GUIDE_URL}>
-                  {t('common.learnMore')}
+                  {t("common.learnMore")}
                 </Link>
               </>
             }
             onClose={() => setAsymmTipVisible(false)}
-            title={t('views.addLiquidity.asymmetricPoolTip')}
+            title={t("views.addLiquidity.asymmetricPoolTip")}
             type="warn"
           />
         )}
@@ -196,10 +195,10 @@ export const AddLiquidity = () => {
             onClick={handleApprove}
             rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
-            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
             variant="fancy"
           >
-            {t('common.approve')}
+            {t("common.approve")}
           </Button>
         </Box>
       )}
@@ -208,12 +207,12 @@ export const AddLiquidity = () => {
         <Box className="w-full pt-5">
           <Button
             stretch
-            disabled={bnbDepositDisabled || !isValidDeposit.valid || hardCapReached}
-            error={bnbDepositDisabled || !isValidDeposit.valid || hardCapReached}
+            disabled={!isValidDeposit.valid || hardCapReached}
+            error={!isValidDeposit.valid || hardCapReached}
             onClick={handleAddLiquidity}
             rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
             size="lg"
-            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
             variant="fancy"
           >
             {btnLabel}
@@ -224,7 +223,7 @@ export const AddLiquidity = () => {
       {!isWalletConnected && (
         <Box className="w-full pt-5">
           <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         </Box>
       )}

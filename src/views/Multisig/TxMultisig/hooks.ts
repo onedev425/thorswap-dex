@@ -1,11 +1,11 @@
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import { showErrorToast } from 'components/Toast';
-import { useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import type { ImportedMultisigTx, MultisigTx } from 'services/multisig';
-import { useMultisig } from 'store/multisig/hooks';
-import type { MultisigMember } from 'store/multisig/types';
-import { useAppSelector } from 'store/store';
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import { showErrorToast } from "components/Toast";
+import { useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import type { ImportedMultisigTx, MultisigTx } from "services/multisig";
+import { useMultisig } from "store/multisig/hooks";
+import type { MultisigMember } from "store/multisig/types";
+import { useAppSelector } from "store/store";
 
 export type ScreenState = {
   tx: MultisigTx;
@@ -22,11 +22,11 @@ export const useTxData = (state: ScreenState | null) => {
   const requiredSigners = useMemo(() => state?.members || [], [state?.members]);
 
   const [signatures, setSignatures] = useState<Signer[]>(state?.signatures || []);
-  const [broadcastedTxHash, setBroadcastedTxHash] = useState('');
+  const [broadcastedTxHash, setBroadcastedTxHash] = useState("");
   const [isBroadcasting, setIsBroadcasting] = useState(false);
   const [bodyBytes, setBodyBytes] = useState<number[]>(state?.bodyBytes || []);
 
-  const txBodyStr = JSON.stringify(txData, null, 2) || '';
+  const txBodyStr = JSON.stringify(txData, null, 2) || "";
   const canBroadcast = signatures.length >= threshold;
 
   const connectedSignature = useMemo(() => {
@@ -68,7 +68,7 @@ export const useTxData = (state: ScreenState | null) => {
 
   const sign = useCallback(async () => {
     if (!pubKey) {
-      return showErrorToast(t('views.multisig.incorrectSigner'));
+      return showErrorToast(t("views.multisig.incorrectSigner"));
     }
 
     const signatureResult = await signTx(JSON.stringify(txData));
@@ -83,8 +83,8 @@ export const useTxData = (state: ScreenState | null) => {
   // TODO (@0xGeneral) - get recipient and amount from tx
   const txInfo = useMemo(
     () => [
-      { label: t('common.amount'), value: 'test amount' },
-      { label: t('common.recipient'), value: 'test recipient' },
+      { label: t("common.amount"), value: "test amount" },
+      { label: t("common.recipient"), value: "test recipient" },
     ],
     [],
   );

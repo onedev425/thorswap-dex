@@ -1,23 +1,23 @@
-import { Box, Flex, ListItem, Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Icon, Link, Tooltip } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import type { MouseEventHandler } from 'react';
-import { memo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Box, Flex, ListItem, Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Icon, Link, Tooltip } from "components/Atomic";
+import { easeInOutTransition } from "components/constants";
+import type { MouseEventHandler } from "react";
+import { memo, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 
-import type { NavItemProps } from './types';
-import { iconClasses } from './types';
+import type { NavItemProps } from "./types";
+import { iconClasses } from "./types";
 
 export const NavItem = memo(
   ({
     sx,
     iconName,
-    href = '',
-    variant = 'primary',
+    href = "",
+    variant = "primary",
     label,
     collapsed = false,
-    transform = 'uppercase',
+    transform = "uppercase",
     rightIconName,
     onClick,
     onItemClickCb,
@@ -38,18 +38,18 @@ export const NavItem = memo(
           <Flex
             _hover={{
               bg:
-                variant === 'primary'
-                  ? 'brand.alpha.btnPrimary'
-                  : variant === 'secondary'
-                    ? 'brand.alpha.btnSecondary'
+                variant === "primary"
+                  ? "brand.alpha.btnPrimary"
+                  : variant === "secondary"
+                    ? "brand.alpha.btnSecondary"
                     : undefined,
             }}
             align="center"
             bg={
-              isActive && variant === 'primary'
-                ? 'brand.btnPrimary'
-                : isActive && variant === 'secondary'
-                  ? 'brand.btnSecondary'
+              isActive && variant === "primary"
+                ? "brand.btnPrimary"
+                : isActive && variant === "secondary"
+                  ? "brand.btnSecondary"
                   : undefined
             }
             borderRadius="2xl"
@@ -65,7 +65,7 @@ export const NavItem = memo(
           >
             {beta && !isActive && (
               <Flex
-                _groupHover={{ bgColor: 'transparent' }}
+                _groupHover={{ bgColor: "transparent" }}
                 align="center"
                 bgColor="brand.btnSecondary"
                 borderRadius="xl"
@@ -80,7 +80,7 @@ export const NavItem = memo(
               >
                 <Text
                   _groupHover={{
-                    color: 'white',
+                    color: "white",
                   }}
                   fontSize="10px"
                   fontWeight={500}
@@ -103,9 +103,9 @@ export const NavItem = memo(
                     {iconName && (
                       <Icon
                         className={classNames(
-                          'transition group-hover:stroke-white group-hover:text-white font-bold',
+                          "transition group-hover:stroke-white group-hover:text-white font-bold",
                           iconClasses[variant],
-                          { 'stroke-white !text-white': isActive },
+                          { "stroke-white !text-white": isActive },
                         )}
                         name={iconName}
                         size={18}
@@ -114,10 +114,10 @@ export const NavItem = memo(
                   </Flex>
                 </Box>
 
-                <Flex overflow="hidden" transition={easeInOutTransition} w={collapsed ? 0 : 'full'}>
+                <Flex overflow="hidden" transition={easeInOutTransition} w={collapsed ? 0 : "full"}>
                   <Text
-                    _dark={{ color: isActive ? 'white' : 'brand.dark.textGreenLight' }}
-                    _groupHover={{ color: 'white' }}
+                    _dark={{ color: isActive ? "white" : "brand.dark.textGreenLight" }}
+                    _groupHover={{ color: "white" }}
                     fontWeight="semibold"
                     px={2}
                     textStyle="caption"
@@ -131,9 +131,9 @@ export const NavItem = memo(
                   {rightIconName && (
                     <Icon
                       className={classNames(
-                        'ml-auto transition group-hover:stroke-white group-hover:text-white font-bold',
+                        "ml-auto transition group-hover:stroke-white group-hover:text-white font-bold",
                         iconClasses[variant],
-                        { 'stroke-white !text-white': isActive },
+                        { "stroke-white !text-white": isActive },
                       )}
                       name={rightIconName}
                       size={18}

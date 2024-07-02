@@ -50,8 +50,8 @@ export type MimirData = {
   HALTTRADING: number;
   ILPCUTOFF: number;
   KILLSWITCHSTART: number;
-  'LENDING-THOR-BTC': number;
-  'LENDING-THOR-ETH': number;
+  "LENDING-THOR-BTC": number;
+  "LENDING-THOR-ETH": number;
   LENDINGLEVER: number;
   LOANREPAYMENTMATURITY: number;
   MAXANCHORBLOCKS: number;
@@ -76,7 +76,7 @@ export type MimirData = {
   NODEPAUSECHAINGLOBAL: number;
   NUMBEROFNEWNODESPERCHURN: number;
   OBSERVATIONDELAYFLEXIBILITY: number;
-  'PAUSEASYMWITHDRAWAL-TERRA': number;
+  "PAUSEASYMWITHDRAWAL-TERRA": number;
   PAUSELOANS: number;
   PAUSELP: number;
   PAUSELPAVAX: number;
@@ -90,8 +90,8 @@ export type MimirData = {
   PAUSELPTERRA: number;
   PAUSEUNBOND: number;
   PENDINGLIQUIDITYAGELIMIT: number;
-  'POL-BTC-BTC': number;
-  'POL-ETH-ETH': number;
+  "POL-BTC-BTC": number;
+  "POL-ETH-ETH": number;
   POLBUFFER: number;
   POLMAXNETWORKDEPOSIT: number;
   POLMAXPOOLMOVEMENT: number;
@@ -99,8 +99,8 @@ export type MimirData = {
   POOLCYCLE: number;
   POOLDEPTHFORYGGFUNDINGMIN: number;
   PREFERREDASSETOUTBOUNDFEEMULTIPLIER: number;
-  'RAGNAROK-TERRA-LUNA': number;
-  'RAGNAROK-TERRA-UST': number;
+  "RAGNAROK-TERRA-LUNA": number;
+  "RAGNAROK-TERRA-UST": number;
   SLASHPENALTY: number;
   SOLVENCYHALTBCHCHAIN: number;
   SOLVENCYHALTETHCHAIN: number;
@@ -115,10 +115,10 @@ export type MimirData = {
   STREAMINGSWAPMINBPFEE: number;
   SYNTHYIELDBASISPOINTS: number;
   THORNAMES: number;
-  'TORANCHOR-AVAX-USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E': number;
-  'TORANCHOR-BNB-BUSD-BD1': number;
-  'TORANCHOR-ETH-USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48': number;
-  'TORANCHOR-ETH-USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7': number;
+  "TORANCHOR-AVAX-USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E": number;
+  "TORANCHOR-BNB-BUSD-BD1": number;
+  "TORANCHOR-ETH-USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48": number;
+  "TORANCHOR-ETH-USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7": number;
   TXOUTDELAYRATE: number;
   VIRTUALMULTSYNTHS: number;
   VOTEDOFM: number;
@@ -128,13 +128,13 @@ export type MimirData = {
   YGGFUNDRETRY: number;
 };
 
-export type ShareType = 'sym' | 'runeAsym' | 'assetAsym';
+export type ShareType = "sym" | "runeAsym" | "assetAsym";
 
 export enum PoolShareType {
-  SYM = 'sym',
-  RUNE_ASYM = 'runeAsym',
-  ASSET_ASYM = 'assetAsym',
-  PENDING = 'pending',
+  SYM = "sym",
+  RUNE_ASYM = "runeAsym",
+  ASSET_ASYM = "assetAsym",
+  PENDING = "pending",
 }
 
 export type LiquidityProvider = {
@@ -211,12 +211,12 @@ export type MidgardTradeHistory = {
 };
 
 export enum LiquidityTypeOption {
-  'RUNE' = 'RUNE',
-  'ASSET' = 'ASSET',
-  'SYMMETRICAL' = 'SYMMETRICAL',
+  RUNE = "RUNE",
+  ASSET = "ASSET",
+  SYMMETRICAL = "SYMMETRICAL",
 }
 
-export type HistoryParams = void | { interval?: 'day' | 'hour'; count?: number };
+export type HistoryParams = undefined | { interval?: "day" | "hour"; count?: number };
 
 export type NetworkResponse = {
   activeBonds: string[];
@@ -371,9 +371,9 @@ export type ProxiedNode = {
   total_bond: string;
   validator_cons_pub_key: string;
   version: string;
-  jail: any;
-  preflight_status: any;
-  pub_key_set: any;
+  jail: Todo;
+  preflight_status: Todo;
+  pub_key_set: Todo;
   observe_chains: {
     chain: string;
     height: number;
@@ -404,6 +404,6 @@ export type MemberPool = {
   runeWithdrawn: string;
 };
 
-export interface FullMemberPool extends Omit<MemberPool, 'liquidityUnits'> {
+export interface FullMemberPool extends Omit<MemberPool, "liquidityUnits"> {
   sharedUnits: string;
 }

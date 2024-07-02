@@ -1,17 +1,17 @@
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import { useWallet } from 'context/wallet/hooks';
-import { chainName } from 'helpers/chainName';
-import { useFetchThornames } from 'hooks/useFetchThornames';
-import { memo, useCallback, useMemo } from 'react';
-import { SORTED_CHAINS } from 'settings/chain';
-import { useApp } from 'store/app/hooks';
-import { ViewMode } from 'types/app';
-import { AccountRow } from 'views/Wallet/AccountRow';
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import { useWallet } from "context/wallet/hooks";
+import { chainName } from "helpers/chainName";
+import { useFetchThornames } from "hooks/useFetchThornames";
+import { memo, useCallback, useMemo } from "react";
+import { SORTED_CHAINS } from "settings/chain";
+import { useApp } from "store/app/hooks";
+import { ViewMode } from "types/app";
+import { AccountRow } from "views/Wallet/AccountRow";
 
-import { AccountCard } from './AccountCard';
+import { AccountCard } from "./AccountCard";
 
 type Props = {
   keyword: string;
@@ -58,8 +58,8 @@ export const AccountType = memo(({ onlyConnected, keyword }: Props) => {
     <Box
       col
       className={classNames({
-        'gap-1.5 flex-1': walletViewMode === ViewMode.LIST,
-        'grid w-full grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3 md:flex-row':
+        "gap-1.5 flex-1": walletViewMode === ViewMode.LIST,
+        "grid w-full grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3 md:flex-row":
           walletViewMode === ViewMode.CARD,
       })}
     >

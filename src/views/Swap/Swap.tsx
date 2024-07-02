@@ -1,46 +1,46 @@
-import { Flex, Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@swapkit/api';
-import type { QuoteMode } from '@swapkit/core';
-import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
-import { Analysis } from 'components/Analysis/Analysis';
-import { Box } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import { InfoTip } from 'components/InfoTip';
-import { PanelView } from 'components/PanelView';
-import { SwapRouter } from 'components/SwapRouter';
-import { useKeystore, useWallet } from 'context/wallet/hooks';
-import { isAVAXAsset, isETHAsset } from 'helpers/assets';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useBalance } from 'hooks/useBalance';
-import { useRouteFees } from 'hooks/useRouteFees';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { logEvent } from 'services/logger';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { getSwapRoute, ROUTES } from 'settings/router';
-import { useApp } from 'store/app/hooks';
-import { useAppSelector } from 'store/store';
-import { V2Providers } from 'store/thorswap/api';
-import { zeroAmount } from 'types/app';
-import { FeeModal } from 'views/Swap/FeeModal';
-import { useSwapParams } from 'views/Swap/hooks/useSwapParams';
-import { Provider, useTokenList } from 'views/Swap/hooks/useTokenList';
-import RUNEInfoContent from 'views/Swap/RUNEInfoContent';
-import { SwapSettings } from 'views/Swap/SwapSettings';
-import THORInfoContent from 'views/Swap/THORInfoContent';
+import { Flex, Text } from "@chakra-ui/react";
+import type { QuoteRoute } from "@swapkit/api";
+import type { QuoteMode } from "@swapkit/sdk";
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from "@swapkit/sdk";
+import { Analysis } from "components/Analysis/Analysis";
+import { Box } from "components/Atomic";
+import { InfoTip } from "components/InfoTip";
+import { PanelView } from "components/PanelView";
+import { SwapRouter } from "components/SwapRouter";
+import { easeInOutTransition } from "components/constants";
+import { useKeystore, useWallet } from "context/wallet/hooks";
+import { isAVAXAsset, isETHAsset } from "helpers/assets";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useBalance } from "hooks/useBalance";
+import { useRouteFees } from "hooks/useRouteFees";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { t } from "services/i18n";
+import { logEvent } from "services/logger";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { ROUTES, getSwapRoute } from "settings/router";
+import { useApp } from "store/app/hooks";
+import { useAppSelector } from "store/store";
+import { V2Providers } from "store/thorswap/api";
+import { zeroAmount } from "types/app";
+import { FeeModal } from "views/Swap/FeeModal";
+import RUNEInfoContent from "views/Swap/RUNEInfoContent";
+import { SwapSettings } from "views/Swap/SwapSettings";
+import THORInfoContent from "views/Swap/THORInfoContent";
+import { useSwapParams } from "views/Swap/hooks/useSwapParams";
+import { Provider, useTokenList } from "views/Swap/hooks/useTokenList";
 
-import { ApproveModal } from './ApproveModal';
-import { AssetInputs } from './AssetInputs';
-import { ConfirmSwapModal } from './ConfirmSwapModal';
-import { CustomRecipientInput } from './CustomRecipientInput';
-import { useSwap } from './hooks/useSwap';
-import { useSwapApprove } from './hooks/useSwapApprove';
-import { useSwapQuote } from './hooks/useSwapQuote';
-import { SwapHeader } from './SwapHeader';
-import { SwapInfo } from './SwapInfo';
-import { SwapSubmitButton } from './SwapSubmitButton';
+import { ApproveModal } from "./ApproveModal";
+import { AssetInputs } from "./AssetInputs";
+import { ConfirmSwapModal } from "./ConfirmSwapModal";
+import { CustomRecipientInput } from "./CustomRecipientInput";
+import { SwapHeader } from "./SwapHeader";
+import { SwapInfo } from "./SwapInfo";
+import { SwapSubmitButton } from "./SwapSubmitButton";
+import { useSwap } from "./hooks/useSwap";
+import { useSwapApprove } from "./hooks/useSwapApprove";
+import { useSwapQuote } from "./hooks/useSwapQuote";
 
 const baseInput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum);
 const baseOutput = AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin);
@@ -54,18 +54,18 @@ const SwapView = () => {
   const { getWallet, getWalletAddress } = useWallet();
 
   const isOKXPage = useMemo(
-    () => location.pathname.split('/').includes('okx'),
+    () => location.pathname.split("/").includes("okx"),
     [location.pathname],
   );
 
   const { analyticsVisible, toggleAnalytics } = useApp();
   const { pair } = useParams<{ pair: string }>();
-  const [inputString, outputString] = useMemo(() => (pair || '').split('_'), [pair]);
+  const [inputString, outputString] = useMemo(() => (pair || "").split("_"), [pair]);
 
   const input = useMemo(() => {
-    if (!pair || !inputString) return baseInput;
+    if (!(pair && inputString)) return baseInput;
 
-    const [chain, synthChain, symbol] = inputString.split('.');
+    const [chain, synthChain, symbol] = inputString.split(".");
     const isSynth = chain === Chain.THORChain && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : inputString;
 
@@ -73,9 +73,9 @@ const SwapView = () => {
   }, [inputString, pair]);
 
   const output = useMemo(() => {
-    if (!pair || !outputString) return baseOutput;
+    if (!(pair && outputString)) return baseOutput;
 
-    const [chain, synthChain, symbol] = outputString.split('.');
+    const [chain, synthChain, symbol] = outputString.split(".");
     const isSynth = chain === Chain.THORChain && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : outputString;
 
@@ -86,7 +86,7 @@ const SwapView = () => {
   const outputAsset = useMemo(() => output, [output]);
 
   useEffect(() => {
-    logEvent('swap_pair', {
+    logEvent("swap_pair", {
       sell: inputAsset.toString(),
       buy: outputAsset.toString(),
     });
@@ -95,14 +95,14 @@ const SwapView = () => {
   const [maxNewInputBalance, setMaxNewInputBalance] = useState(zeroAmount);
   const [maxInputBalance, setMaxInputBalance] = useState<AssetValue | undefined>(input.set(0));
 
-  const [recipient, setRecipient] = useState('');
+  const [recipient, setRecipient] = useState("");
   const [isValidRecipient, setIsValidRecipient] = useState(true);
-  const [walletRecipient, setWalletRecipient] = useState('');
-  const [sender, setSender] = useState('');
+  const [walletRecipient, setWalletRecipient] = useState("");
+  const [sender, setSender] = useState("");
   const [visibleConfirmModal, setVisibleConfirmModal] = useState(false);
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [feeModalOpened, setFeeModalOpened] = useState(false);
-  const [priceImpact, setPriceImpact] = useState('0');
+  const [priceImpact, setPriceImpact] = useState("0");
   const formatPrice = useFormatPrice();
   const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
@@ -112,12 +112,12 @@ const SwapView = () => {
     () => [
       tokens.find(
         ({ chain, ticker, address }) =>
-          `${chain}.${ticker}${address ? `-${address}` : ''}`.toUpperCase() ===
+          `${chain}.${ticker}${address ? `-${address}` : ""}`.toUpperCase() ===
           `${inputAsset.chain}.${inputAsset.symbol}`.toUpperCase(),
       ),
       tokens.find(
         ({ chain, ticker, address }) =>
-          `${chain}.${ticker}${address ? `-${address}` : ''}`.toUpperCase() ===
+          `${chain}.${ticker}${address ? `-${address}` : ""}`.toUpperCase() ===
           `${outputAsset.chain}.${outputAsset.symbol}`.toUpperCase(),
       ),
     ],
@@ -127,7 +127,7 @@ const SwapView = () => {
   const inputAmount = useMemo(
     () =>
       new SwapKitNumber({
-        value: searchParams.get('sellAmount') || '0',
+        value: searchParams.get("sellAmount") || "0",
         decimal: inputAsset.decimal,
       }),
     [inputAsset.decimal, searchParams],
@@ -135,8 +135,8 @@ const SwapView = () => {
 
   const setInputAmount = useCallback(
     (value: SwapKitNumber) => {
-      const assetAmountString = value.getValue('string');
-      const assetRoutePath = location.pathname.split('?')[0];
+      const assetAmountString = value.getValue("string");
+      const assetRoutePath = location.pathname.split("?")[0];
 
       navigate(`${assetRoutePath}?sellAmount=${assetAmountString}`);
     },
@@ -150,9 +150,9 @@ const SwapView = () => {
       return;
     }
     const walletRecipientAddress = getWalletAddress(outputAsset.chain);
-    setRecipient(walletRecipientAddress || '');
-    setWalletRecipient(walletRecipientAddress || '');
-    setSender(getWalletAddress(inputAsset.chain) || '');
+    setRecipient(walletRecipientAddress || "");
+    setWalletRecipient(walletRecipientAddress || "");
+    setSender(getWalletAddress(inputAsset.chain) || "");
 
     // import('services/swapKit')
     //   .then(({ getSwapKitClient }) => getSwapKitClient())
@@ -180,7 +180,7 @@ const SwapView = () => {
   } = useTokenPrices([inputAsset, outputAsset]);
 
   const inputUSDPrice = useMemo(
-    () => inputUnitPrice * inputAmount.getValue('number'),
+    () => inputUnitPrice * inputAmount.getValue("number"),
     [inputAmount, inputUnitPrice],
   );
 
@@ -226,12 +226,12 @@ const SwapView = () => {
   });
 
   const isChainflip = useMemo(
-    () => selectedRouteRaw?.providers?.includes('CHAINFLIP'),
+    () => selectedRouteRaw?.providers?.includes("CHAINFLIP"),
     [selectedRouteRaw?.providers],
   );
 
   const isMayaSpecial = useMemo(
-    () => selectedRouteRaw?.providers?.includes('MAYACHAIN'),
+    () => selectedRouteRaw?.providers?.includes("MAYACHAIN"),
     [selectedRouteRaw?.providers],
   );
 
@@ -258,11 +258,11 @@ const SwapView = () => {
 
   // TODO remove after full v2 migration
   const highValueImpact = useMemo(() => {
-    if (!selectedRouteRaw || !selectedRouteRaw.calldata || !inputUSDPrice) return false;
+    if (!(selectedRouteRaw?.calldata && inputUSDPrice)) return false;
     const buyAmountUSD = new SwapKitNumber(selectedRouteRaw.expectedOutputUSD);
     const priceImpact = buyAmountUSD.div(inputUSDPrice).sub(1).mul(100);
     setPriceImpact(priceImpact.toFixed(2));
-    return buyAmountUSD && priceImpact.lt('-5');
+    return buyAmountUSD && priceImpact.lt("-5");
   }, [selectedRouteRaw, inputUSDPrice]);
 
   const {
@@ -295,7 +295,7 @@ const SwapView = () => {
   //   });
 
   const outputUSDPrice = useMemo(
-    () => outputUnitPrice * outputAmount.getValue('number'),
+    () => outputUnitPrice * outputAmount.getValue("number"),
     [outputUnitPrice, outputAmount],
   );
 
@@ -343,7 +343,7 @@ const SwapView = () => {
   const { approvalTarget, allowanceTarget, targetAddress } = selectedRoute || {};
 
   const quoteMode = useMemo(
-    () => (selectedRoute?.meta?.quoteMode || '') as QuoteMode,
+    () => (selectedRoute?.meta?.quoteMode || "") as QuoteMode,
     [selectedRoute?.meta?.quoteMode],
   );
 
@@ -359,13 +359,13 @@ const SwapView = () => {
       .flat()
       .map(({ asset }) => new AssetValue({ identifier: asset, decimal: 2, value: 0 }).ticker);
 
-    return Array.from(new Set(assets)).join(', ');
+    return Array.from(new Set(assets)).join(", ");
   }, [fees]);
 
   const handleSelectAsset = useCallback(
-    (type: 'input' | 'output') => async (asset: AssetValue) => {
-      const isInput = type === 'input';
-      const input = !isInput ? (asset.eq(inputAsset) ? outputAsset : inputAsset) : asset;
+    (type: "input" | "output") => async (asset: AssetValue) => {
+      const isInput = type === "input";
+      const input = isInput ? asset : asset.eq(inputAsset) ? outputAsset : inputAsset;
       const output = isInput ? (asset.eq(outputAsset) ? inputAsset : outputAsset) : asset;
 
       if (isInput) {
@@ -373,7 +373,7 @@ const SwapView = () => {
         setInputAmount(
           inputAmount.gt(maxNewInputBalance)
             ? new SwapKitNumber({
-                value: maxNewInputBalance.getValue('string'),
+                value: maxNewInputBalance.getValue("string"),
                 decimal: maxNewInputBalance.decimal,
               })
             : inputAmount,
@@ -382,7 +382,7 @@ const SwapView = () => {
 
       const route = getSwapRoute(input, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
 
-      navigate(`${route}?sellAmount=${inputAmount.getValue('string')}`);
+      navigate(`${route}?sellAmount=${inputAmount.getValue("string")}`);
     },
     [getMaxBalance, inputAmount, inputAsset, isOKXPage, navigate, outputAsset, setInputAmount],
   );
@@ -393,13 +393,13 @@ const SwapView = () => {
         outputAmount.gt(maxNewInputBalance) ? maxNewInputBalance : outputAmount,
       );
       const defaultAsset = isETHAsset(outputAsset)
-        ? AssetValue.fromChainOrSignature(!IS_LEDGER_LIVE ? 'ETH.THOR' : Chain.Bitcoin)
+        ? AssetValue.fromChainOrSignature(IS_LEDGER_LIVE ? Chain.Bitcoin : "ETH.THOR")
         : AssetValue.fromChainOrSignature(Chain.Ethereum);
       const output = unsupportedOutput ? defaultAsset : inputAsset;
 
       const route = getSwapRoute(outputAsset, output, isOKXPage ? ROUTES.Okx : ROUTES.Swap);
 
-      navigate(`${route}?sellAmount=${outputAmount.getValue('string')}`);
+      navigate(`${route}?sellAmount=${outputAmount.getValue("string")}`);
     },
     [outputAmount, maxNewInputBalance, outputAsset, inputAsset, isOKXPage, navigate],
   );
@@ -410,8 +410,8 @@ const SwapView = () => {
   }, [refetchPrice, refetchQuote]);
 
   const handleSwap = useSwap({
-    inputAsset: inputAsset.set(inputAmount.getValue('string')),
-    outputAsset: outputAsset.set(outputAmount.getValue('string')),
+    inputAsset: inputAsset.set(inputAmount.getValue("string")),
+    outputAsset: outputAsset.set(outputAmount.getValue("string")),
     quoteMode,
     recipient,
     route: selectedRoute as unknown as QuoteRoute,
@@ -428,7 +428,7 @@ const SwapView = () => {
     () =>
       minReceive.gte(0)
         ? `${minReceive.toSignificant(6)} ${outputAsset.ticker.toUpperCase()}`
-        : '-',
+        : "-",
     [minReceive, outputAsset.ticker],
   );
 
@@ -443,11 +443,11 @@ const SwapView = () => {
   );
 
   const isAvaxTHOR = useMemo(
-    () => outputAsset.ticker.includes('THOR') && outputAsset.chain === Chain.Avalanche,
+    () => outputAsset.ticker.includes("THOR") && outputAsset.chain === Chain.Avalanche,
     [outputAsset],
   );
   const isEthRUNE = useMemo(
-    () => outputAsset.ticker === 'RUNE' && outputAsset.chain === Chain.Ethereum,
+    () => outputAsset.ticker === "RUNE" && outputAsset.chain === Chain.Ethereum,
     [outputAsset],
   );
 
@@ -474,8 +474,8 @@ const SwapView = () => {
     [inputAsset.ticker, outputAsset.ticker],
   );
 
-  const onInputAmountChange = useCallback(() => handleSelectAsset('input'), [handleSelectAsset]);
-  const onOutputAmountChange = useCallback(() => handleSelectAsset('output'), [handleSelectAsset]);
+  const onInputAmountChange = useCallback(() => handleSelectAsset("input"), [handleSelectAsset]);
+  const onOutputAmountChange = useCallback(() => handleSelectAsset("output"), [handleSelectAsset]);
 
   const isWidget = useAppSelector(({ app }) => app.iframeData?.isWidget);
 
@@ -483,7 +483,7 @@ const SwapView = () => {
     <Flex alignSelf="center" gap={3} w="full">
       <Flex flex={1} justify="center" transition={easeInOutTransition}>
         <PanelView
-          description={t('views.swap.description', {
+          description={t("views.swap.description", {
             inputAsset: inputAsset.ticker.toUpperCase(),
             outputAsset: outputAsset.ticker.toUpperCase(),
           })}
@@ -500,7 +500,7 @@ const SwapView = () => {
             )
           }
           keywords={`${inputAsset.ticker}, ${outputAsset.ticker}, SWAP, THORSwap, THORChain, DEX, DeFi`}
-          title={`${t('common.swap')} ${inputAsset.ticker} to ${outputAsset.ticker}`}
+          title={`${t("common.swap")} ${inputAsset.ticker} to ${outputAsset.ticker}`}
         >
           <AssetInputs
             inputAsset={inputAssetProps}
@@ -551,10 +551,10 @@ const SwapView = () => {
           {noPriceProtection && (
             <InfoTip
               className="!mt-2"
-              content={t('views.swap.priceProtectionUnavailableDesc', {
+              content={t("views.swap.priceProtectionUnavailableDesc", {
                 chain: inputAsset.chain,
               })}
-              title={t('views.swap.priceProtectionUnavailable')}
+              title={t("views.swap.priceProtectionUnavailable")}
               type="warn"
             />
           )}
@@ -584,27 +584,29 @@ const SwapView = () => {
             />
           )}
 
-          {// @ts-ignore TODO add typings for new v2 response
-          selectedRoute?.warnings?.map(
-            (warning: { code: string; display: string; tooltip: string }) => (
-              <InfoTip
-                className="!mt-2"
-                key={warning.code}
-                title={
-                  warning.code === 'highPriceImpact' ? (
-                    <Box row className="pl-4 self-stretch w-[100%]" justify="between">
-                      <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{' '}
-                      <Text color="red">{warning.display}</Text>
-                    </Box>
-                  ) : (
-                    t(`views.swap.warning.${warning.code}`)
-                  )
-                }
-                tooltip={warning.tooltip}
-                type="warn"
-              />
-            ),
-          )}
+          {
+            // @ts-ignore TODO add typings for new v2 response
+            selectedRoute?.warnings?.map(
+              (warning: { code: string; display: string; tooltip: string }) => (
+                <InfoTip
+                  className="!mt-2"
+                  key={warning.code}
+                  title={
+                    warning.code === "highPriceImpact" ? (
+                      <Box row className="pl-4 self-stretch w-[100%]" justify="between">
+                        <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{" "}
+                        <Text color="red">{warning.display}</Text>
+                      </Box>
+                    ) : (
+                      t(`views.swap.warning.${warning.code}`)
+                    )
+                  }
+                  tooltip={warning.tooltip}
+                  type="warn"
+                />
+              ),
+            )
+          }
 
           {highValueImpact &&
             !streamSwap &&
@@ -614,11 +616,11 @@ const SwapView = () => {
                 key="highValueImpact-v1"
                 title={
                   <Box row className="pl-4 self-stretch w-[100%]" justify="between">
-                    <Text>{t('views.swap.warning.highPriceImpact')}</Text>{' '}
+                    <Text>{t("views.swap.warning.highPriceImpact")}</Text>{" "}
                     <Text color="red">{`${priceImpact}%`}</Text>
                   </Box>
                 }
-                tooltip={t('views.swap.warning.highPriceImpactTooltip')}
+                tooltip={t("views.swap.warning.highPriceImpactTooltip")}
                 type="warn"
               />
             )}
@@ -627,7 +629,7 @@ const SwapView = () => {
             <InfoTip
               className="!mt-2"
               key="amountTooLowForLimit"
-              title={t('views.swap.priceProtectionUnavailable')}
+              title={t("views.swap.priceProtectionUnavailable")}
               type="warn"
             />
           )}
@@ -640,10 +642,9 @@ const SwapView = () => {
             isApproved={!!selectedRoute?.isApproved}
             isInputWalletConnected={isInputWalletConnected}
             isLoading={(isFetching || isPriceLoading) && !error}
-            isOutputWalletConnected={isOutputWalletConnected}
             outputAsset={outputAsset}
             quoteError={!!error}
-            recipient={!isValidRecipient ? null : recipient || walletRecipient}
+            recipient={isValidRecipient ? recipient || walletRecipient : null}
             setVisibleApproveModal={setVisibleApproveModal}
             setVisibleConfirmModal={setVisibleConfirmModal}
           />

@@ -1,7 +1,7 @@
-import { Box } from 'components/Atomic';
-import { memo } from 'react';
-import { useTxBond } from 'views/Multisig/TxBond/hooks';
-import { NodeManagePanel } from 'views/Nodes/NodeManagePanel/NodeManagePanel';
+import { Box } from "components/Atomic";
+import { memo } from "react";
+import { useTxBond } from "views/Multisig/TxBond/hooks";
+import { NodeManagePanel } from "views/Nodes/NodeManagePanel/NodeManagePanel";
 
 export const TxBond = memo(() => {
   const handleBondAction = useTxBond();

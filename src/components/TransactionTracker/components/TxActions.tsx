@@ -1,11 +1,11 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { Button, Icon } from 'components/Atomic';
-import { Confirm } from 'components/Modals/Confirm';
-import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
-import { useCallback, useState } from 'react';
-import { t } from 'services/i18n';
-import { useAppDispatch } from 'store/store';
-import { removeTransaction } from 'store/transactions/slice';
+import { Flex, Text } from "@chakra-ui/react";
+import { Button, Icon } from "components/Atomic";
+import { Confirm } from "components/Modals/Confirm";
+import { useTransactionsModal } from "context/txManager/useTransactionsModal";
+import { useCallback, useState } from "react";
+import { t } from "services/i18n";
+import { useAppDispatch } from "store/store";
+import { removeTransaction } from "store/transactions/slice";
 
 type Props = {
   txHash: string;
@@ -41,13 +41,13 @@ export const TxActions = ({ txHash, isPending }: Props) => {
             <Icon className="-ml-[2px] -mt-[1px]" color="secondary" name="chevronLeft" size={16} />
           }
           onClick={previous}
-          tooltip={t('txManager.prevTx')}
+          tooltip={t("txManager.prevTx")}
           variant="borderlessTint"
         />
 
         <Flex>
           <Text textStyle="caption-xs" variant="secondary">
-            {selectedIndex !== null ? selectedIndex + 1 : ' '} / {allCount || '-'}
+            {selectedIndex !== null ? selectedIndex + 1 : " "} / {allCount || "-"}
           </Text>
         </Flex>
 
@@ -57,7 +57,7 @@ export const TxActions = ({ txHash, isPending }: Props) => {
           h={8}
           leftIcon={<Icon color="secondary" name="chevronRight" size={16} />}
           onClick={next}
-          tooltip={t('txManager.nextTx')}
+          tooltip={t("txManager.nextTx")}
           variant="borderlessTint"
         />
       </Flex>
@@ -67,19 +67,19 @@ export const TxActions = ({ txHash, isPending }: Props) => {
           h={8}
           leftIcon={<Icon color="secondary" name="trash" size={16} />}
           onClick={onDelete}
-          tooltip={t('txManager.deleteFromHistory')}
+          tooltip={t("txManager.deleteFromHistory")}
           variant="borderlessTint"
         />
 
         <Confirm
-          description={t('txManager.confirmRemovePending')}
+          description={t("txManager.confirmRemovePending")}
           isOpened={confirmOpened}
           onCancel={() => setConfirmOpened(false)}
           onConfirm={() => {
             removeTx();
             setConfirmOpened(false);
           }}
-          title={t('common.confirm')}
+          title={t("common.confirm")}
         />
       </Flex>
     </Flex>

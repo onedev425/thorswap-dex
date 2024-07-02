@@ -1,16 +1,16 @@
-import { Text } from '@chakra-ui/react';
-import { AssetSelect } from 'components/AssetSelect';
-import { Box } from 'components/Atomic';
-import { PanelInput } from 'components/PanelInput';
-import { RUNEAsset } from 'helpers/assets';
-import { usePools } from 'hooks/usePools';
-import type { ChangeEvent } from 'react';
-import { useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { AssetSelect } from "components/AssetSelect";
+import { Box } from "components/Atomic";
+import { PanelInput } from "components/PanelInput";
+import { RUNEAsset } from "helpers/assets";
+import { usePools } from "hooks/usePools";
+import type { ChangeEvent } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
 enum MemoType {
-  'deposit' = 'deposit',
-  'swap' = 'swap',
+  deposit = "deposit",
+  swap = "swap",
 }
 
 type Props = {
@@ -35,17 +35,17 @@ export const CustomSend = ({ memo, setMemo }: Props) => {
   return (
     <Box col className="self-stretch gap-1" flex={1}>
       <Box className="self-stretch px-1.5">
-        <Text>{t('common.msgDeposit')}</Text>
+        <Text>{t("common.msgDeposit")}</Text>
       </Box>
 
       {memoType === MemoType.swap && (
         <Box alignCenter className="px-1.5" justify="between">
-          <Text textStyle="caption">{t('views.send.outputAsset')}:</Text>
+          <Text textStyle="caption">{t("views.send.outputAsset")}:</Text>
           <AssetSelect assets={outputAssetsList} onSelect={setOutputAsset} selected={outputAsset} />
         </Box>
       )}
 
-      <PanelInput onChange={handleChangeMemo} title={t('common.memo')} value={memo} />
+      <PanelInput onChange={handleChangeMemo} title={t("common.memo")} value={memo} />
     </Box>
   );
 };

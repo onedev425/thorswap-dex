@@ -1,8 +1,8 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { AnalysisPlaceholder } from 'components/Analysis/AnalysisPlaceholder';
-import { Icon, Modal } from 'components/Atomic';
-import { ChartPreview } from 'components/ChartPreview';
-import { t } from 'services/i18n';
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { AnalysisPlaceholder } from "components/Analysis/AnalysisPlaceholder";
+import { Icon, Modal } from "components/Atomic";
+import { ChartPreview } from "components/ChartPreview";
+import { t } from "services/i18n";
 
 type Props = {
   title?: string;
@@ -39,7 +39,7 @@ export const AnalysisModal = ({
   };
 
   return (
-    <Modal isOpened={isOpened} onClose={onClose} title={title || ''}>
+    <Modal isOpened={isOpened} onClose={onClose} title={title || ""}>
       {isLoading ? (
         <Flex align="center" minH="230px">
           <Icon spin name="loader" size={24} />
@@ -47,9 +47,9 @@ export const AnalysisModal = ({
       ) : historyData ? (
         <Box w="full">
           <Box pb={2} pl={3}>
-            <Text>{t('components.gasHistory.chartTitle', { chain })}</Text>
+            <Text>{t("components.gasHistory.chartTitle", { chain })}</Text>
             <Flex>
-              <Text fontSize="11px">{t('views.swap.currentGasRate')}</Text>
+              <Text fontSize="11px">{t("views.swap.currentGasRate")}</Text>
               &nbsp;
               <Text color={`brand.${gasState?.color}`} fontSize="11px">{`${gasState?.state} (${
                 historyData.values[historyData.values.length - 1]

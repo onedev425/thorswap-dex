@@ -1,8 +1,8 @@
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import { borderHoverHighlightClass } from 'components/constants';
-import type { CardStyleType } from 'components/HighlightCard/types';
-import type { ReactNode } from 'react';
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import type { CardStyleType } from "components/HighlightCard/types";
+import { borderHoverHighlightClass } from "components/constants";
+import type { ReactNode } from "react";
 
 type Props = {
   className?: string;
@@ -15,11 +15,11 @@ type Props = {
 };
 
 const borderClasses: Record<CardStyleType, string> = {
-  primary: '',
-  warn: 'border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10',
-  info: 'border-btn-primary hover:!border-btn-primary border-opacity-50 hover:border-opacity-100 !bg-btn-primary !bg-opacity-10',
+  primary: "",
+  warn: "border-yellow hover:!border-yellow border-opacity-50 hover:border-opacity-100 !bg-yellow !bg-opacity-10",
+  info: "border-btn-primary hover:!border-btn-primary border-opacity-50 hover:border-opacity-100 !bg-btn-primary !bg-opacity-10",
   success:
-    'border-green hover:!border-green border-opacity-50 hover:border-opacity-100 !bg-green !bg-opacity-10',
+    "border-green hover:!border-green border-opacity-50 hover:border-opacity-100 !bg-green !bg-opacity-10",
 };
 
 export const HighlightCard = ({
@@ -27,7 +27,7 @@ export const HighlightCard = ({
   disabled,
   children,
   isFocused,
-  type = 'primary',
+  type = "primary",
   onClick,
   withBackground = true,
 }: Props) => {
@@ -35,10 +35,10 @@ export const HighlightCard = ({
     <Box
       col
       className={classNames(
-        'rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent transition',
+        "rounded-2xl md:rounded-3xl md:px-6 pb-3 md:py-4 md:gap-2 border border-solid border-transparent transition",
         {
-          'bg-light-bg-primary dark:bg-dark-gray-light': withBackground,
-          '!border-light-border-primary dark:!border-dark-gray-primary': isFocused,
+          "bg-light-bg-primary dark:bg-dark-gray-light": withBackground,
+          "!border-light-border-primary dark:!border-dark-gray-primary": isFocused,
           [borderHoverHighlightClass]: !disabled,
         },
         borderClasses[type],

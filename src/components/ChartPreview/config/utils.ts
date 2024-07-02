@@ -1,6 +1,6 @@
-import type { Chart } from 'chart.js';
+import type { Chart } from "chart.js";
 
-type ColorType = 'background' | 'stroke';
+type ColorType = "background" | "stroke";
 
 const getGradientInstance = (gradientColors: string[], colorType: ColorType) => {
   let width: number;
@@ -17,7 +17,7 @@ const getGradientInstance = (gradientColors: string[], colorType: ColorType) => 
       width = chartWidth;
       height = chartHeight;
 
-      const isBackground: boolean = colorType === 'background';
+      const isBackground: boolean = colorType === "background";
 
       const bottom: number = isBackground ? chartArea.bottom : 0;
       const top: number = isBackground ? chartArea.top : 0;

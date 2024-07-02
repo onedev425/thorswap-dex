@@ -1,10 +1,7 @@
 {
   "apiVersion": "2.0.0",
   "branch": "stable",
-  "categories": [
-    "swap",
-    "staking"
-  ],
+  "categories": ["swap", "staking"],
   "content": {
     "description": {
       "en": "TBD"
@@ -13,28 +10,19 @@
       "en": "TBD"
     }
   },
-  "currencies": [
-    "bitcoin",
-    "ethereum",
-    "litecoin",
-    "bitcoin-cash",
-    "dogecoin",
-    "cosmos"
-  ],
-  "domains": [
-    "https://*"
-  ],
+  "currencies": ["bitcoin", "ethereum", "litecoin", "bitcoin-cash", "dogecoin", "cosmos"],
+  "domains": ["https://*"],
   "homepageUrl": "https://ledgerlive.thorswap.finance",
   "icon": "https://static.thorswap.net/logo.png",
   "id": "thorswap",
   "manifestVersion": "2",
   "name": "THORSwap",
   "permissions": [
-      "account.list",
-      "account.request",
-      "transaction.sign",
-      "transaction.signAndBroadcast",
-      "wallet.capabailities"
+    "account.list",
+    "account.request",
+    "transaction.sign",
+    "transaction.signAndBroadcast",
+    "wallet.capabailities"
   ],
   "platform": "all",
   "url": "http://localhost:5173/swap"

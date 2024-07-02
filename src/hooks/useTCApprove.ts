@@ -1,14 +1,14 @@
-import { TransactionType } from '@swapkit/api';
-import type { AssetValue } from '@swapkit/core';
-import { Chain } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { t } from 'i18next';
-import { useCallback, useMemo } from 'react';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { v4 } from 'uuid';
+import { TransactionType } from "@swapkit/api";
+import type { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { t } from "i18next";
+import { useCallback, useMemo } from "react";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { v4 } from "uuid";
 
 export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
   const { getWalletAddress } = useWallet();
@@ -32,14 +32,14 @@ export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
           from,
           inChain,
           type,
-          label: `${t('txManager.approve')} ${asset.ticker}`,
+          label: `${t("txManager.approve")} ${asset.ticker}`,
         }),
       );
 
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
 
       if (!thorchain) {
-        throw new Error('Thorchain client not found');
+        throw new Error("Thorchain client not found");
       }
 
       try {
@@ -47,13 +47,13 @@ export const useTCApprove = ({ asset }: { asset: AssetValue }) => {
           assetValue: asset,
         });
 
-        if (typeof txid === 'string') {
+        if (typeof txid === "string") {
           appDispatch(updateTransaction({ id, txid }));
         }
       } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
-        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: "error" }));
+        showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
       }
     }
   }, [from, asset, appDispatch]);

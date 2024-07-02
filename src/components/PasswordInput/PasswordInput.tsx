@@ -1,7 +1,7 @@
-import { Input } from 'components/Input';
-import type { ChangeEventHandler, KeyboardEventHandler } from 'react';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import { Input } from "components/Input";
+import type { ChangeEventHandler, KeyboardEventHandler } from "react";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   value: string;
@@ -15,11 +15,11 @@ export const PasswordInput = memo(({ error, onChange, value, onKeyDown, ...restP
     <Input
       stretch
       border="rounded"
-      error={error ? t('validation.invalidPassword') : undefined}
+      error={error ? t("validation.invalidPassword") : undefined}
       icon="lock"
       onChange={onChange}
       onKeyDown={onKeyDown}
-      placeholder={t('common.password')}
+      placeholder={t("common.password")}
       type="password"
       value={value}
       {...restProps}

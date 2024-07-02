@@ -1,4 +1,4 @@
-// import { Chain, getSignatureAssetFor } from '@swapkit/core';
+// import { Chain, getSignatureAssetFor } from '@swapkit/sdk';
 // import { showErrorToast } from 'components/Toast';
 // import { fetchVthorApr } from 'helpers/staking';
 // import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -56,7 +56,7 @@
 //       try {
 //         const apr = await fetchVthorApr(stakedAmount);
 //         setVthorApr(apr);
-//       } catch (error: NotWorth) {
+//       } catch (error) {
 //         console.error(error);
 //         setVthorApr(0);
 //       }

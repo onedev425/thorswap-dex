@@ -1,5 +1,5 @@
-import type { AssetValue } from '@swapkit/core';
-import { useMultissigAssets } from 'views/Multisig/hooks';
+import type { AssetValue } from "@swapkit/sdk";
+import { useMultissigAssets } from "views/Multisig/hooks";
 
 type Props = {
   poolAssets: AssetValue[];

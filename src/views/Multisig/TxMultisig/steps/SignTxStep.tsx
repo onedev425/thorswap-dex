@@ -1,13 +1,13 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import { Box, Button } from 'components/Atomic';
-import { StepActions } from 'components/Stepper';
-import { useStepper } from 'components/Stepper/StepperContext';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useCallback, useEffect } from 'react';
-import { t } from 'services/i18n';
-import { CurrentSignerItem } from 'views/Multisig/components/CurrentSignerItem';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import { Box, Button } from "components/Atomic";
+import { StepActions } from "components/Stepper";
+import { useStepper } from "components/Stepper/StepperContext";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useCallback, useEffect } from "react";
+import { t } from "services/i18n";
+import { CurrentSignerItem } from "views/Multisig/components/CurrentSignerItem";
 
 type Props = {
   handleSign: () => void;
@@ -41,17 +41,17 @@ export function SignTxStep({ handleSign, connectedSignature }: Props) {
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-2">
         <Text fontWeight="normal" textStyle="caption">
-          {t('views.multisig.addYourSignatureInfo')}
+          {t("views.multisig.addYourSignatureInfo")}
         </Text>
-        {!connectedSignature ? (
-          <Button stretch onClick={handleSignClick} variant="primary">
-            {connectedWalletAddress ? t('views.multisig.signTx') : t('common.connectWallet')}
-          </Button>
-        ) : (
+        {connectedSignature ? (
           <CurrentSignerItem
             pubKey={connectedSignature.pubKey}
             signature={connectedSignature.signature}
           />
+        ) : (
+          <Button stretch onClick={handleSignClick} variant="primary">
+            {connectedWalletAddress ? t("views.multisig.signTx") : t("common.connectWallet")}
+          </Button>
         )}
       </Box>
 

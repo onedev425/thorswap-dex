@@ -1,7 +1,7 @@
-import { AssetValue } from '@swapkit/core';
-import { useMemo } from 'react';
-import type { POOLS_TIME_PERIODS_OPTIONS } from 'settings/pools';
-import { useGetPoolsQuery } from 'store/midgard/api';
+import { AssetValue } from "@swapkit/sdk";
+import { useMemo } from "react";
+import type { POOLS_TIME_PERIODS_OPTIONS } from "settings/pools";
+import { useGetPoolsQuery } from "store/midgard/api";
 
 export const usePools = (period?: (typeof POOLS_TIME_PERIODS_OPTIONS)[number]) => {
   const { data: pools = [], isFetching: poolsLoading } = useGetPoolsQuery(period);
@@ -10,10 +10,10 @@ export const usePools = (period?: (typeof POOLS_TIME_PERIODS_OPTIONS)[number]) =
     () =>
       pools.reduce(
         (acc, { status, asset }) => {
-          const [chain, symbol] = asset.split('.');
+          const [chain, symbol] = asset.split(".");
           const poolAsset = AssetValue.fromStringSync(asset) as AssetValue;
           const synthAsset = AssetValue.fromStringSync(`${chain}/${symbol}`) as AssetValue;
-          const isStaged = status.toLowerCase() === 'staged';
+          const isStaged = status.toLowerCase() === "staged";
 
           if (isStaged && poolAsset) {
             // @ts-expect-error
@@ -36,8 +36,8 @@ export const usePools = (period?: (typeof POOLS_TIME_PERIODS_OPTIONS)[number]) =
 
   const [poolAssets, synthAssets] = useMemo(
     () => [
-      allPoolAssets.filter(({ type }) => !type.includes('Staged')) ?? [],
-      allSynthAssets.filter(({ type }) => !type.includes('Staged')) ?? [],
+      allPoolAssets.filter(({ type }) => !type.includes("Staged")) ?? [],
+      allSynthAssets.filter(({ type }) => !type.includes("Staged")) ?? [],
     ],
     [allPoolAssets, allSynthAssets],
   );

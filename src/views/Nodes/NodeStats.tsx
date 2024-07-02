@@ -1,11 +1,11 @@
-import { SwapKitNumber } from '@swapkit/core';
-import { StatsList } from 'components/StatsList';
-import type { StatsType } from 'components/StatsList/types';
-import { useGlobalStats } from 'hooks/useGlobalStats';
-import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { useGetNetworkQuery } from 'store/midgard/api';
+import { SwapKitNumber } from "@swapkit/sdk";
+import { StatsList } from "components/StatsList";
+import type { StatsType } from "components/StatsList/types";
+import { useGlobalStats } from "hooks/useGlobalStats";
+import { useRuneToCurrency } from "hooks/useRuneToCurrency";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { useGetNetworkQuery } from "store/midgard/api";
 
 export const NodeStats = () => {
   const runeToCurrency = useRuneToCurrency();
@@ -15,54 +15,54 @@ export const NodeStats = () => {
   const statsData: StatsType[] = useMemo(
     () => [
       {
-        iconName: 'chartPie',
-        color: 'yellow',
-        label: t('views.nodes.totalBond'),
-        value: `${runeToCurrency(totalBond.getValue('string'))} (${totalBond.toAbbreviation(1)} ᚱ)`,
-        tooltip: t('views.nodes.detail.totalBond'),
+        iconName: "chartPie",
+        color: "yellow",
+        label: t("views.nodes.totalBond"),
+        value: `${runeToCurrency(totalBond.getValue("string"))} (${totalBond.toAbbreviation(1)} ᚱ)`,
+        tooltip: t("views.nodes.detail.totalBond"),
       },
       {
-        iconName: 'lightning',
-        color: 'pink',
-        label: t('views.nodes.detail.activeBond'),
+        iconName: "lightning",
+        color: "pink",
+        label: t("views.nodes.detail.activeBond"),
         value: `${runeToCurrency(
-          totalActiveBond.getValue('string'),
+          totalActiveBond.getValue("string"),
         )} (${totalActiveBond.toAbbreviation(1)} ᚱ)`,
-        tooltip: t('views.nodes.detail.activeBondTooltip'),
+        tooltip: t("views.nodes.detail.activeBondTooltip"),
       },
       {
-        iconName: 'wifi',
-        color: 'red',
-        label: t('views.nodes.detail.standbyBond'),
+        iconName: "wifi",
+        color: "red",
+        label: t("views.nodes.detail.standbyBond"),
         value: `${runeToCurrency(
-          totalStandbyBond.getValue('string'),
+          totalStandbyBond.getValue("string"),
         )} (${totalStandbyBond.toAbbreviation(1)} ᚱ)`,
-        tooltip: t('views.nodes.detail.standbyBondTooltip'),
+        tooltip: t("views.nodes.detail.standbyBondTooltip"),
       },
       {
-        iconName: 'chartArea',
-        color: 'purple',
-        label: t('views.nodes.detail.bondingAPY'),
+        iconName: "chartArea",
+        color: "purple",
+        label: t("views.nodes.detail.bondingAPY"),
         value: bondingAPYLabel,
       },
       {
-        iconName: 'chartArea2',
-        color: 'green',
-        label: t('views.nodes.detail.dailyBondRewards'),
+        iconName: "chartArea2",
+        color: "green",
+        label: t("views.nodes.detail.dailyBondRewards"),
         value: `${runeToCurrency(
           new SwapKitNumber({
-            value: networkData?.blockRewards?.bondReward || '0',
+            value: networkData?.blockRewards?.bondReward || "0",
             decimal: 8,
           })
             .mul(14400)
-            .getValue('string'),
+            .getValue("string"),
         )} `,
       },
       {
-        iconName: 'fire',
-        color: 'blueLight',
-        label: t('views.nodes.detail.nextChurnHeight'),
-        value: new SwapKitNumber(networkData?.nextChurnHeight || 0).getValue('number').toFixed(1),
+        iconName: "fire",
+        color: "blueLight",
+        label: t("views.nodes.detail.nextChurnHeight"),
+        value: new SwapKitNumber(networkData?.nextChurnHeight || 0).getValue("number").toFixed(1),
       },
     ],
     [runeToCurrency, totalBond, totalActiveBond, totalStandbyBond, bondingAPYLabel, networkData],

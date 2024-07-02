@@ -1,19 +1,19 @@
 import {
   AssetValue,
   Chain,
-  getMemoFor,
-  getMinAmountByChain,
   MemoType,
   SwapKitNumber,
-} from '@swapkit/core';
-import { RUNEAsset } from 'helpers/assets';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
-import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
-import { useMultisig } from 'store/multisig/hooks';
-import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
+  getMemoFor,
+  getMinAmountByChain,
+} from "@swapkit/sdk";
+import { RUNEAsset } from "helpers/assets";
+import { useAssetsWithBalance } from "hooks/useAssetsWithBalance";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ROUTES, getMultisigTxCreateRoute } from "settings/router";
+import { LiquidityTypeOption, PoolShareType } from "store/midgard/types";
+import { useMultisig } from "store/multisig/hooks";
+import { useTxCreate } from "views/Multisig/TxCreate/TxCreateContext";
 
 const SHARE_TYPES: PoolShareType[] = [PoolShareType.SYM, PoolShareType.RUNE_ASYM];
 
@@ -110,7 +110,7 @@ export const useTxWithdraw = () => {
       chain,
       symbol,
       ticker,
-      basisPoints: new SwapKitNumber({ value: percent, decimal: 2 }).mul(100).getValue('number'),
+      basisPoints: new SwapKitNumber({ value: percent, decimal: 2 }).mul(100).getValue("number"),
     });
 
     const tx = await createDepositTx({

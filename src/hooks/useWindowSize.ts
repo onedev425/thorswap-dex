@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export enum BreakPoint {
-  sm = 'sm',
-  md = 'md',
-  lg = 'lg',
-  xl = 'xl',
+  sm = "sm",
+  md = "md",
+  lg = "lg",
+  xl = "xl",
 }
 
 const BREAKPOINTS_WIDTHS = {
@@ -14,12 +14,12 @@ const BREAKPOINTS_WIDTHS = {
   [BreakPoint.xl]: 1280,
 };
 
-const isClient = typeof window === 'object';
+const isClient = typeof window === "object";
 
-export const getSize = (type: 'innerWidth' | 'innerHeight' = 'innerWidth') => window[type] || 0;
+export const getSize = (type: "innerWidth" | "innerHeight" = "innerWidth") => window[type] || 0;
 
 const getCurrentBreakpoint = () => {
-  const width = getSize('innerWidth');
+  const width = getSize("innerWidth");
 
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.xl]) return BreakPoint.xl;
   if (width >= BREAKPOINTS_WIDTHS[BreakPoint.lg]) return BreakPoint.lg;
@@ -68,10 +68,10 @@ const useWindowSize = () => {
       return;
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [handleResize]);
 

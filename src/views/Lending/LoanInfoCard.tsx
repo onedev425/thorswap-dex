@@ -1,5 +1,5 @@
-import { Card, Flex, Text } from '@chakra-ui/react';
-import { Icon, Tooltip } from 'components/Atomic';
+import { Card, Flex, Text } from "@chakra-ui/react";
+import { Icon, Tooltip } from "components/Atomic";
 
 type Props = {
   header: string;

@@ -1,14 +1,14 @@
-import { useFormatPrice } from 'helpers/formatPrice';
-import useWindowSize from 'hooks/useWindowSize';
-import { useMemo } from 'react';
-import { useApp } from 'store/app/hooks';
-import { ThemeType } from 'types/app';
+import { useFormatPrice } from "helpers/formatPrice";
+import useWindowSize from "hooks/useWindowSize";
+import { useMemo } from "react";
+import { useApp } from "store/app/hooks";
+import { ThemeType } from "types/app";
 
-import { abbreviateNumber } from './../../helpers/number';
-import { getChartData } from './config/chartData';
-import { getChartOptions } from './config/chartOptions';
-import type { ChartData } from './types';
-import { ChartTimeFrame, ChartType } from './types';
+import { abbreviateNumber } from "./../../helpers/number";
+import { getChartData } from "./config/chartData";
+import { getChartOptions } from "./config/chartOptions";
+import type { ChartData } from "./types";
+import { ChartTimeFrame, ChartType } from "./types";
 
 type Params = {
   chartData: ChartData;

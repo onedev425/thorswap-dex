@@ -1,24 +1,24 @@
-import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useCallback, useEffect, useState } from 'react';
+import { BaseDecimal, SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useCallback, useEffect, useState } from "react";
 import {
   ContractType,
+  LPContractType,
   getCustomContract,
   getEtherscanContract,
-  LPContractType,
-} from 'services/contract';
+} from "services/contract";
 
-import type { FarmActionType } from './types';
+import type { FarmActionType } from "./types";
 
 const lpContractConfig: Record<LPContractType, { tokenAddr: string; stakingAddr: string }> = {
   [LPContractType.THOR]: {
-    tokenAddr: '0xa5f2211B9b8170F694421f2046281775E8468044',
-    stakingAddr: '0x6755630c583f12fFBD10568EB633c0319dB34922',
+    tokenAddr: "0xa5f2211B9b8170F694421f2046281775E8468044",
+    stakingAddr: "0x6755630c583f12fFBD10568EB633c0319dB34922",
   },
   [LPContractType.THOR_ETH]: {
     // SUSHI SLP Address
-    tokenAddr: '0x3D3F13F2529eC3C84B2940155EffBf9b39a8f3Ec',
-    stakingAddr: '0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24',
+    tokenAddr: "0x3D3F13F2529eC3C84B2940155EffBf9b39a8f3Ec",
+    stakingAddr: "0xae1Fc3947Ee83aeb3b7fEC237BCC1D194C88BC24",
   },
 };
 
@@ -67,7 +67,7 @@ export const useV1ThorStakeInfo = () => {
 
       setStakedThorAmount(
         SwapKitNumber.fromBigInt(
-          BigInt(typeof amount === 'string' ? amount : amount?.toString()),
+          BigInt(typeof amount === "string" ? amount : amount?.toString()),
           BaseDecimal.ETH,
         ),
       );

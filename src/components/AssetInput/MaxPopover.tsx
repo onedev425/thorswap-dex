@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
-import { Button, Card } from 'components/Atomic';
-import { Popover } from 'components/Popover';
-import type { ForwarderProps } from 'components/Popover/Popover';
-import { useCallback, useRef } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Button, Card } from "components/Atomic";
+import { Popover } from "components/Popover";
+import type { ForwarderProps } from "components/Popover/Popover";
+import { useCallback, useRef } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   maxButtonLabel?: string;
@@ -12,10 +12,10 @@ type Props = {
 };
 
 const options = [
-  { label: '25%', value: 0.25 },
-  { label: '50%', value: 0.5 },
-  { label: '75%', value: 0.75 },
-  { label: '100%', value: 1 },
+  { label: "25%", value: 0.25 },
+  { label: "50%", value: 0.5 },
+  { label: "75%", value: 0.75 },
+  { label: "100%", value: 1 },
 ];
 
 export const MaxPopover = ({ maxButtonLabel, onChange, disabled }: Props) => {
@@ -47,7 +47,7 @@ export const MaxPopover = ({ maxButtonLabel, onChange, disabled }: Props) => {
           textTransform="uppercase"
           variant="outlineSecondary"
         >
-          {maxButtonLabel || t('common.max')}
+          {maxButtonLabel || t("common.max")}
         </Button>
       }
     >

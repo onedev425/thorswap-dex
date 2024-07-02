@@ -1,7 +1,7 @@
-import { Button, Icon, Tooltip } from 'components/Atomic';
-import useWindowSize from 'hooks/useWindowSize';
-import { memo } from 'react';
-import { t } from 'services/i18n';
+import { Button, Icon, Tooltip } from "components/Atomic";
+import useWindowSize from "hooks/useWindowSize";
+import { memo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   pendingCount: number;
@@ -10,10 +10,10 @@ type Props = {
 
 const getTooltipContent = (hasHistory: boolean, pendingCount: number) =>
   pendingCount > 0
-    ? `${t('common.pendingTransactions')}:${'\u00A0\u00A0'}${pendingCount}`
+    ? `${t("common.pendingTransactions")}:${"\u00A0\u00A0"}${pendingCount}`
     : hasHistory
-      ? t('txManager.transactionHistory')
-      : t('common.noTxHistory');
+      ? t("txManager.transactionHistory")
+      : t("common.noTxHistory");
 
 export const OpenButton = memo(({ pendingCount, hasHistory }: Props) => {
   const { isMdActive } = useWindowSize();

@@ -1,19 +1,19 @@
-import { ChainflipPlugin } from '@swapkit/chainflip';
-import type { ConnectWalletParams } from '@swapkit/core';
-import { SwapKit } from '@swapkit/core';
-import { MayachainPlugin, ThorchainPlugin } from '@swapkit/thorchain';
-import { coinbaseWallet } from '@swapkit/wallet-coinbase';
-import { evmWallet } from '@swapkit/wallet-evm-extensions';
-import { keepkeyWallet } from '@swapkit/wallet-keepkey';
-import { keplrWallet } from '@swapkit/wallet-keplr';
-import { keystoreWallet } from '@swapkit/wallet-keystore';
-import { ledgerWallet } from '@swapkit/wallet-ledger';
-import { okxWallet } from '@swapkit/wallet-okx';
-import { trezorWallet } from '@swapkit/wallet-trezor';
-import { walletconnectWallet } from '@swapkit/wallet-wc';
-import { xdefiWallet } from '@swapkit/wallet-xdefi';
-import { IS_LOCAL, IS_STAGENET } from 'settings/config';
-import { apiV2BaseUrl } from 'store/thorswap/api';
+import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
+import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
+import type { ConnectWalletParams } from "@swapkit/sdk";
+import { SwapKit } from "@swapkit/sdk";
+import { coinbaseWallet } from "@swapkit/wallet-coinbase";
+import { evmWallet } from "@swapkit/wallet-evm-extensions";
+import { keepkeyWallet } from "@swapkit/wallet-keepkey";
+import { keplrWallet } from "@swapkit/wallet-keplr";
+import { keystoreWallet } from "@swapkit/wallet-keystore";
+import { ledgerWallet } from "@swapkit/wallet-ledger";
+import { okxWallet } from "@swapkit/wallet-okx";
+import { trezorWallet } from "@swapkit/wallet-trezor";
+import { walletconnectWallet } from "@swapkit/wallet-wc";
+import { xdefiWallet } from "@swapkit/wallet-xdefi";
+import { IS_LOCAL, IS_STAGENET } from "settings/config";
+import { apiV2BaseUrl } from "store/thorswap/api";
 
 const wallets = {
   connectCoinbaseWallet: ({ addChain, config, rpcUrls, apis }: ConnectWalletParams) =>
@@ -23,8 +23,8 @@ const wallets = {
       rpcUrls,
       apis,
       coinbaseWalletSettings: {
-        appName: 'THORSwap',
-        appLogoUrl: 'https://www.thorswap.finance/logo.png',
+        appName: "THORSwap",
+        appLogoUrl: "https://www.thorswap.finance/logo.png",
         overrideIsMetaMask: false,
       },
     }),
@@ -69,12 +69,12 @@ export const getSwapKitClient = () => {
       walletConnectProjectId:
         import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || process.env.VITE_WALLETCONNECT_PROJECT_ID,
       keepkeyConfig: {
-        apiKey: localStorage.getItem('keepkeyApiKey') || '',
+        apiKey: localStorage.getItem("keepkeyApiKey") || "",
         pairingInfo: {
-          name: 'THORSwap',
-          imageUrl: 'https://www.thorswap.finance/logo.png',
-          basePath: 'swap',
-          url: 'https://app.thorswap.finance',
+          name: "THORSwap",
+          imageUrl: "https://www.thorswap.finance/logo.png",
+          basePath: "swap",
+          url: "https://app.thorswap.finance",
         },
       },
     },

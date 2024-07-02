@@ -1,18 +1,18 @@
-import { Chain } from '@swapkit/core';
-import type { AssetSelectType } from 'components/AssetSelect/types';
-import type { IFuseOptions } from 'fuse.js';
-import Fuse from 'fuse.js';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { SORTED_CHAINS, SUPPORTED_CHAINS } from 'settings/chain';
-import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import { Chain } from "@swapkit/sdk";
+import type { AssetSelectType } from "components/AssetSelect/types";
+import type { IFuseOptions } from "fuse.js";
+import Fuse from "fuse.js";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { SORTED_CHAINS, SUPPORTED_CHAINS } from "settings/chain";
+import { useTokenList } from "views/Swap/hooks/useTokenList";
 
 const options: IFuseOptions<AssetSelectType> = {
   keys: [
-    { name: 'asset.ticker', weight: 1 },
-    { name: 'asset.symbol', weight: 0.5 },
-    { name: 'asset.type', weight: 0.1 },
-    { name: 'cg.name', weight: 0.1 },
-    { name: 'cg.id', weight: 0.01 },
+    { name: "asset.ticker", weight: 1 },
+    { name: "asset.symbol", weight: 0.5 },
+    { name: "asset.type", weight: 0.1 },
+    { name: "cg.name", weight: 0.1 },
+    { name: "cg.id", weight: 0.01 },
   ],
   isCaseSensitive: false,
   minMatchCharLength: 1,
@@ -20,7 +20,7 @@ const options: IFuseOptions<AssetSelectType> = {
 };
 
 const uniqBy = <T>(arr: T[], predicate: (item: T) => boolean | string) => {
-  const cb = typeof predicate === 'function' ? predicate : (o: Todo) => o[predicate];
+  const cb = typeof predicate === "function" ? predicate : (o: Todo) => o[predicate];
 
   return [
     ...arr
@@ -39,7 +39,7 @@ export const useAssetListSearch = (
 ) => {
   const { isLoading } = useTokenList();
   const fuse = useRef<Fuse<AssetSelectType>>(new Fuse([], options));
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     fuse.current = new Fuse<AssetSelectType>(assetList, options);
@@ -77,7 +77,7 @@ export const useAssetListSearch = (
     const supportedAssets = uniqueAssets.filter(
       ({ asset }) =>
         SUPPORTED_CHAINS.includes(asset.chain) &&
-        !(asset.chain === Chain.Avalanche && asset.symbol.includes('THOR-')),
+        !(asset.chain === Chain.Avalanche && asset.symbol.includes("THOR-")),
     );
 
     return supportedAssets;

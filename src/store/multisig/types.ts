@@ -1,4 +1,4 @@
-import type { AssetValue } from '@swapkit/core';
+import type { AssetValue } from "@swapkit/sdk";
 
 export type MultisigMember = { name: string; pubKey: string };
 

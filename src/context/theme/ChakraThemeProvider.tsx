@@ -1,7 +1,7 @@
-import { ChakraProvider } from '@chakra-ui/react';
-import type { ReactNode } from 'react';
+import { ChakraProvider } from "@chakra-ui/react";
+import type { ReactNode } from "react";
 
-import theme from '../../theme/index';
+import theme from "../../theme/index";
 
 type Props = {
   children: ReactNode;

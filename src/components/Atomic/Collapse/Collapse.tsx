@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Card } from 'components/Atomic';
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { forwardRef, useImperativeHandle } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Card } from "components/Atomic";
+import { CollapseChevron } from "components/Atomic/Collapse/CollapseChevron";
+import { forwardRef, useImperativeHandle } from "react";
 
-import type { CollapseProps } from './types';
-import { useCollapse } from './useCollapse';
+import type { CollapseProps } from "./types";
+import { useCollapse } from "./useCollapse";
 
 export const maxHeightTransitionClass =
-  'duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden';
+  "duration-300 ease-in-out transition-max-height overflow-auto overflow-y-hidden";
 
 export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
   (
@@ -31,19 +31,20 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
 
     return (
       <Card
-        className={classNames('flex flex-col h-max !p-0 !py-0', className)}
+        className={classNames("flex flex-col h-max !p-0 !py-0", className)}
         shadow={shadow}
         size="md"
       >
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
         <div
           className={classNames(
-            'box-border w-full appearance-none focus:outline-none cursor-pointer px-4 py-2',
+            "box-border w-full appearance-none focus:outline-none cursor-pointer px-4 py-2",
             titleClassName,
           )}
           onClick={toggle}
         >
           <Box alignCenter row justify="between">
-            {typeof title === 'string' ? (
+            {typeof title === "string" ? (
               <Text fontWeight="normal" textStyle="subtitle1" variant="primary">
                 {title}
               </Text>
@@ -58,7 +59,7 @@ export const Collapse = forwardRef<{ toggle: () => void }, CollapseProps>(
         </div>
 
         <div className={maxHeightTransitionClass} ref={contentRef} style={maxHeightStyle}>
-          <div className={classNames('px-4 pb-2', contentClassName)}>{children}</div>
+          <div className={classNames("px-4 pb-2", contentClassName)}>{children}</div>
         </div>
       </Card>
     );

@@ -1,20 +1,20 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 
-import type { Props } from './types';
+import type { Props } from "./types";
 import {
   colorClasses,
   defaultWeightClasses,
   transformClasses,
   variantClasses,
   weightClasses,
-} from './types';
+} from "./types";
 
 export const Typography = ({
-  component: Component = 'div',
-  className = '',
-  color = 'primary',
-  variant = 'body',
-  transform = 'none',
+  component: Component = "div",
+  className = "",
+  color = "primary",
+  variant = "body",
+  transform = "none",
   fontWeight,
   children,
   ...rest
@@ -27,7 +27,7 @@ export const Typography = ({
         transformClasses[transform],
         fontWeight ? weightClasses[fontWeight] : defaultWeightClasses[variant],
         className,
-        'font-primary',
+        "font-primary",
       )}
       {...rest}
     >

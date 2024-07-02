@@ -1,5 +1,5 @@
-import { Box, Button, Icon } from 'components/Atomic';
-import { t } from 'services/i18n';
+import { Box, Button, Icon } from "components/Atomic";
+import { t } from "services/i18n";
 
 type Props = {
   isLoading: boolean;
@@ -22,14 +22,14 @@ export const ConnectionActions = ({
             className="px-3"
             leftIcon={<Icon color="primaryBtn" name="refresh" size={16} spin={isLoading} />}
             onClick={handleRefreshChain}
-            tooltip={t('common.refresh')}
+            tooltip={t("common.refresh")}
             variant="outlinePrimary"
           />
           <Button
             className="px-3"
             leftIcon={<Icon color="orange" name="disconnect" size={16} />}
             onClick={toggleConnect}
-            tooltip={t('common.disconnect')}
+            tooltip={t("common.disconnect")}
             variant="outlineWarn"
           />
         </>
@@ -37,10 +37,10 @@ export const ConnectionActions = ({
         <Button
           disabled={isLoading}
           onClick={toggleConnect}
-          variant={isConnected ? 'outlinePrimary' : 'primary'}
+          variant={isConnected ? "outlinePrimary" : "primary"}
         >
           <Box center className="gap-x-2">
-            {t('common.connect')}
+            {t("common.connect")}
           </Box>
         </Button>
       )}

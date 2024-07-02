@@ -1,6 +1,6 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { TxListItem } from 'components/TransactionTracker/components/TxListItem';
-import { useTransactionsState } from 'store/transactions/hooks';
+import { Flex, Text } from "@chakra-ui/react";
+import { TxListItem } from "components/TransactionTracker/components/TxListItem";
+import { useTransactionsState } from "store/transactions/hooks";
 
 type Props = {
   selectedId: string;
@@ -24,12 +24,12 @@ export const TxList = ({ selectedId, onSelect }: Props) => {
       minW="200px"
       overflowY="auto"
       sx={{
-        '&::-webkit-scrollbar': {
-          width: '5px',
+        "&::-webkit-scrollbar": {
+          width: "5px",
         },
-        '::-webkit-scrollbar-thumb': {
-          backgroundColor: 'tintHoverPrimary',
-          borderRadius: '5px',
+        "::-webkit-scrollbar-thumb": {
+          backgroundColor: "tintHoverPrimary",
+          borderRadius: "5px",
         },
       }}
     >
@@ -40,7 +40,7 @@ export const TxList = ({ selectedId, onSelect }: Props) => {
             isSelected={!!item.txid && selectedId === item.txid}
             item={item}
             key={item.id}
-            onClick={() => onSelect(item.txid || '')}
+            onClick={() => onSelect(item.txid || "")}
           />
         ))}
       {completed
@@ -50,7 +50,7 @@ export const TxList = ({ selectedId, onSelect }: Props) => {
             isSelected={!!item.txid && selectedId === item.txid}
             item={item}
             key={item.id}
-            onClick={() => onSelect(item.txid || '')}
+            onClick={() => onSelect(item.txid || "")}
           />
         ))}
     </Flex>

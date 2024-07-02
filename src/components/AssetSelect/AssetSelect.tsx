@@ -1,17 +1,17 @@
-import type { AssetValue } from '@swapkit/core';
-import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { AssetSelectList } from 'components/AssetSelect/AssetSelectList';
-import { TokenListProviderSelect } from 'components/AssetSelect/TokenListProviderSelect';
-import type { AssetSelectProps } from 'components/AssetSelect/types';
-import { Box, Modal } from 'components/Atomic';
-import { useState } from 'react';
-import { t } from 'services/i18n';
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetSelectButton } from "components/AssetSelect/AssetSelectButton";
+import { AssetSelectList } from "components/AssetSelect/AssetSelectList";
+import { TokenListProviderSelect } from "components/AssetSelect/TokenListProviderSelect";
+import type { AssetSelectProps } from "components/AssetSelect/types";
+import { Box, Modal } from "components/Atomic";
+import { useState } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   selected?: AssetValue | null;
   className?: string;
   showAssetType?: boolean;
-  AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
+  AssetListComponent?: (props: AssetSelectProps) => React.JSX.Element;
   logoURI?: string;
 } & AssetSelectProps;
 
@@ -49,8 +49,8 @@ export const AssetSelect = ({
         onClose={() => setIsOpened(false)}
         title={t(
           manageTokenListIsOpened
-            ? 'components.assetSelect.manageTokenList'
-            : 'components.assetSelect.selectAToken',
+            ? "components.assetSelect.manageTokenList"
+            : "components.assetSelect.selectAToken",
         )}
         withBody={false}
       >

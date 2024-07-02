@@ -1,20 +1,20 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
-import { Button, Icon } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { showSuccessToast } from 'components/Toast';
-import { TxDetailsStatusInfo } from 'components/TransactionTracker/components/TxDetailsStatusInfo';
-import { TxStreamingSwapDetails } from 'components/TransactionTracker/components/TxStreamingSwapDetails';
-import { formatDuration, getTxDuration, getTxState } from 'components/TransactionTracker/helpers';
-import { useTxTrackerDetails } from 'components/TransactionTracker/TxTrackerDetailsContext';
-import { TrackerTxDisplayType } from 'components/TransactionTracker/types';
-import copy from 'copy-to-clipboard';
-import { getTickerFromIdentifier } from 'helpers/logoURL';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { useCounter } from 'hooks/useCountdown';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
+import { Flex, Text } from "@chakra-ui/react";
+import { BaseDecimal, SwapKitNumber } from "@swapkit/sdk";
+import { Button, Icon } from "components/Atomic";
+import { InfoRow } from "components/InfoRow";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { showSuccessToast } from "components/Toast";
+import { useTxTrackerDetails } from "components/TransactionTracker/TxTrackerDetailsContext";
+import { TxDetailsStatusInfo } from "components/TransactionTracker/components/TxDetailsStatusInfo";
+import { TxStreamingSwapDetails } from "components/TransactionTracker/components/TxStreamingSwapDetails";
+import { formatDuration, getTxDuration, getTxState } from "components/TransactionTracker/helpers";
+import { TrackerTxDisplayType } from "components/TransactionTracker/types";
+import copy from "copy-to-clipboard";
+import { getTickerFromIdentifier } from "helpers/logoURL";
+import { shortenAddress } from "helpers/shortenAddress";
+import { useCounter } from "hooks/useCountdown";
+import { useMemo } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   isCompleted: boolean;
@@ -36,8 +36,8 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
   }, [txDetails?.isStreamingSwap, txDetails?.legs]);
 
   const swapLabel = useMemo(() => {
-    if (txDisplayType === TrackerTxDisplayType.SWAP) return t('txManager.swap');
-    if (txDisplayType === TrackerTxDisplayType.LENDING) return t('txManager.lending');
+    if (txDisplayType === TrackerTxDisplayType.SWAP) return t("txManager.swap");
+    if (txDisplayType === TrackerTxDisplayType.LENDING) return t("txManager.lending");
   }, [txDisplayType]);
 
   if (!txDetails) return null;
@@ -50,23 +50,23 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
 
   const firstLegInfo =
     (!!firstLeg.fromAmount &&
-      parseFloat(firstLeg.fromAmount) &&
+      Number.parseFloat(firstLeg.fromAmount) &&
       `${new SwapKitNumber({
         value: firstLeg.fromAmount,
         decimal: BaseDecimal[firstLeg.chain],
-      }).toSignificant(6)} ${getTickerFromIdentifier(firstLeg.fromAsset || '')}`) ||
-    '';
+      }).toSignificant(6)} ${getTickerFromIdentifier(firstLeg.fromAsset || "")}`) ||
+    "";
 
   const lastLegInfo =
     (!!lastLeg.toAmount &&
-      parseFloat(lastLeg.toAmount) &&
+      Number.parseFloat(lastLeg.toAmount) &&
       `${new SwapKitNumber({
         value: lastLeg.toAmount,
         decimal: BaseDecimal[lastLeg.chain],
-      }).toSignificant(6)} ${getTickerFromIdentifier(lastLeg.toAsset || '')}`) ||
-    '';
+      }).toSignificant(6)} ${getTickerFromIdentifier(lastLeg.toAsset || "")}`) ||
+    "";
 
-  const swapLabelValue = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ''}`;
+  const swapLabelValue = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ""}`;
   const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
 
   return (
@@ -76,7 +76,7 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
       )}
 
       <InfoRow
-        label={t('views.thorname.status')}
+        label={t("views.thorname.status")}
         size="md"
         value={
           <Flex align="center" gap={1} justify="center">
@@ -96,12 +96,12 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
               {!!firstLeg?.startTimestamp && (
                 <Flex align="center" gap={1}>
                   <Text color="textSecondary" fontWeight="medium" textStyle="caption">
-                    {t('txManager.started')}:
+                    {t("txManager.started")}:
                   </Text>
                   <Text fontWeight="semibold" textStyle="caption">
-                    {new Date(firstLeg?.startTimestamp || '').toLocaleString('default', {
-                      dateStyle: 'short',
-                      timeStyle: 'medium',
+                    {new Date(firstLeg?.startTimestamp || "").toLocaleString("default", {
+                      dateStyle: "short",
+                      timeStyle: "medium",
                     })}
                   </Text>
                 </Flex>
@@ -109,12 +109,12 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
               {isCompleted && !error && !!lastLeg?.endTimestamp && (
                 <Flex align="center" gap={1}>
                   <Text color="textSecondary" fontWeight="medium" textStyle="caption">
-                    {t('txManager.completed')}:
+                    {t("txManager.completed")}:
                   </Text>
                   <Text fontWeight="semibold" textStyle="caption">
-                    {new Date(lastLeg?.endTimestamp || '').toLocaleString('default', {
-                      dateStyle: 'short',
-                      timeStyle: 'medium',
+                    {new Date(lastLeg?.endTimestamp || "").toLocaleString("default", {
+                      dateStyle: "short",
+                      timeStyle: "medium",
                     })}
                   </Text>
                 </Flex>
@@ -123,11 +123,11 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
               {((!!txCounter && !!txCounter.timeSince) || !!duration) && (
                 <Flex align="center" gap={1}>
                   <Text color="textSecondary" fontWeight="medium" textStyle="caption">
-                    {t('txManager.duration')}:
+                    {t("txManager.duration")}:
                   </Text>
                   <InfoWithTooltip
                     icon="timer"
-                    tooltip={t('txManager.totalTimeTooltip')}
+                    tooltip={t("txManager.totalTimeTooltip")}
                     value={
                       <Text
                         fontWeight="semibold"
@@ -147,19 +147,19 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
       )}
 
       <InfoRow
-        label={t('txManager.shareTransaction')}
+        label={t("txManager.shareTransaction")}
         size="md"
         value={
           <Flex flexWrap="wrap">
             <Button
               className="!px-2 h-auto"
               onClick={() => {
-                showSuccessToast(t('txManager.txIdCopied'));
+                showSuccessToast(t("txManager.txIdCopied"));
                 copy(firstTransactionHash);
               }}
               rightIcon={<Icon color="primaryBtn" name="copy" size={14} />}
               size="xs"
-              tooltip={t('txManager.copyTxId')}
+              tooltip={t("txManager.copyTxId")}
               variant="borderlessTint"
             >
               {shortenAddress(firstTransactionHash, 8, 8)}
@@ -167,17 +167,17 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
             <Button
               className="!px-2 h-auto"
               onClick={() => {
-                showSuccessToast(t('txManager.txUrlCopied'));
+                showSuccessToast(t("txManager.txUrlCopied"));
                 copy(txUrl);
               }}
               rightIcon={
                 <Icon className="-mt-[5px]" color="primaryBtn" name="shareUrl" size={14} />
               }
               size="xs"
-              tooltip={`${t('txManager.copyTxUrl')}: ${txUrl}`}
+              tooltip={`${t("txManager.copyTxUrl")}: ${txUrl}`}
               variant="borderlessTint"
             >
-              {t('txManager.shareTxUrl')}
+              {t("txManager.shareTxUrl")}
             </Button>
           </Flex>
         }

@@ -1,36 +1,36 @@
-import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { AssetSelect } from 'components/AssetSelect';
-import { AssetSelectButton } from 'components/AssetSelect/AssetSelectButton';
-import { Button, Icon } from 'components/Atomic';
-import { InfoRow } from 'components/InfoRow';
-import { InfoTip } from 'components/InfoTip';
-import { InputAmount } from 'components/InputAmount';
-import { PercentageSlider } from 'components/PercentageSlider';
-import { showErrorToast } from 'components/Toast';
-import { formatDuration } from 'components/TransactionTracker/helpers';
-import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useAssetsWithBalance } from 'hooks/useAssetsWithBalance';
-import { useBalance } from 'hooks/useBalance';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useTCApprove } from 'hooks/useTCApprove';
-import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import type { MouseEventHandler } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { ETH_USDC_IDENTIFIER, MATURITY_BLOCKS } from 'views/Lending/Borrow';
-import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
-import { LendingConfirmModal } from 'views/Lending/LendingConfirmModal';
-import { LoanInfoRowCell } from 'views/Lending/LoanInfoRowCell';
-import type { LoanPosition } from 'views/Lending/types';
-import { useLoanRepay } from 'views/Lending/useLoanRepay';
-import { useRepayQuote } from 'views/Lending/useRepayQuote';
-import { ApproveModal } from 'views/Swap/ApproveModal';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
+import { Card, Collapse, Flex, Text } from "@chakra-ui/react";
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { AssetSelect } from "components/AssetSelect";
+import { AssetSelectButton } from "components/AssetSelect/AssetSelectButton";
+import { Button, Icon } from "components/Atomic";
+import { InfoRow } from "components/InfoRow";
+import { InfoTip } from "components/InfoTip";
+import { InputAmount } from "components/InputAmount";
+import { PercentageSlider } from "components/PercentageSlider";
+import { showErrorToast } from "components/Toast";
+import { formatDuration } from "components/TransactionTracker/helpers";
+import { TxOptimizeSection } from "components/TxOptimize/TxOptimizeSection";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useAssetsWithBalance } from "hooks/useAssetsWithBalance";
+import { useBalance } from "hooks/useBalance";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useTCApprove } from "hooks/useTCApprove";
+import { useTCBlockTimer } from "hooks/useTCBlockTimer";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import type { MouseEventHandler } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { MATURITY_BLOCKS } from "views/Lending/Borrow";
+import { LendingConfirmModal } from "views/Lending/LendingConfirmModal";
+import { LoanInfoRowCell } from "views/Lending/LoanInfoRowCell";
+import { HIGH_LENDING_SLIPPAGE } from "views/Lending/constants";
+import type { LoanPosition } from "views/Lending/types";
+import { useLoanRepay } from "views/Lending/useLoanRepay";
+import { useRepayQuote } from "views/Lending/useRepayQuote";
+import { ApproveModal } from "views/Swap/ApproveModal";
+import { useIsAssetApproved } from "views/Swap/hooks/useIsAssetApproved";
 
 type Props = {
   loan: LoanPosition;
@@ -47,7 +47,9 @@ export const LoanInfoRow = ({
   const [visibleApproveModal, setVisibleApproveModal] = useState(false);
   const [sliderValue, setSliderValue] = useState(new SwapKitNumber({ decimal: 2, value: 0 }));
   const [repayBalance, setRepayBalance] = useState<AssetValue>();
-  const [repayAsset, setRepayAsset] = useState(AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER));
+  const [repayAsset, setRepayAsset] = useState(
+    AssetValue.from({ asset: "ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" }),
+  );
 
   const { getBlockTimeDifference } = useTCBlockTimer();
   const { getMaxBalance } = useBalance();
@@ -89,7 +91,7 @@ export const LoanInfoRow = ({
   });
 
   const { isApproved, isLoading: isLoadingApproval } = useIsAssetApproved({
-    assetValue: repayAsset.set(repayAssetAmount.getValue('string')),
+    assetValue: repayAsset.set(repayAssetAmount.getValue("string")),
     force: true,
   });
 
@@ -98,14 +100,14 @@ export const LoanInfoRow = ({
   const collateralUsd = useMemo(() => {
     const price = tokenPricesData[asset.toString()]?.price_usd || 0;
 
-    return collateralCurrent.mul(price).toCurrency('$');
+    return collateralCurrent.mul(price).toCurrency("$");
   }, [asset, collateralCurrent, tokenPricesData]);
 
   const repayAssetString = useMemo(() => repayAsset.toString(), [repayAsset]);
   const repayUsd = useMemo(() => {
     const price = tokenPricesData[repayAssetString]?.price_usd || 0;
 
-    return repayAssetAmount.mul(price).getValue('number');
+    return repayAssetAmount.mul(price).getValue("number");
   }, [repayAssetAmount, repayAssetString, tokenPricesData]);
 
   useEffect(() => {
@@ -147,7 +149,7 @@ export const LoanInfoRow = ({
 
   useEffect(() => {
     if (!hasLoanMatured && debouncedPercentage.gt(0)) {
-      showErrorToast(t('views.lending.maturityError'));
+      showErrorToast(t("views.lending.maturityError"));
     }
   }, [debouncedPercentage, hasLoanMatured]);
 
@@ -165,7 +167,7 @@ export const LoanInfoRow = ({
         className="!rounded-3xl flex-col flex !gap-0 !px-3 !py-3"
         variant="filledContainerSecondary"
       >
-        <Flex direction={{ base: 'column', lg: 'row' }} flex={4} gap={2}>
+        <Flex direction={{ base: "column", lg: "row" }} flex={4} gap={2}>
           <Flex flex={5}>
             <LoanInfoRowCell>
               <Flex gap={1}>
@@ -183,8 +185,8 @@ export const LoanInfoRow = ({
               <Text textAlign="end">{`$${debtCurrent.toFixed(2)}`}</Text>
             </LoanInfoRowCell>
             <LoanInfoRowCell>
-              <Text variant={hasLoanMatured ? 'green' : 'primary'}>
-                {hasLoanMatured ? t('views.lending.repayAvailable') : timeLeft}
+              <Text variant={hasLoanMatured ? "green" : "primary"}>
+                {hasLoanMatured ? t("views.lending.repayAvailable") : timeLeft}
               </Text>
             </LoanInfoRowCell>
           </Flex>
@@ -206,7 +208,7 @@ export const LoanInfoRow = ({
               }}
               variant="outlinePrimary"
             >
-              {t('views.lending.borrow')}
+              {t("views.lending.borrow")}
             </Button>
 
             <Button
@@ -215,7 +217,7 @@ export const LoanInfoRow = ({
               rightIcon={
                 <Icon
                   className={classNames({
-                    '-rotate-180': show,
+                    "-rotate-180": show,
                   })}
                   name="chevronDown"
                   size={14}
@@ -223,7 +225,7 @@ export const LoanInfoRow = ({
               }
               variant="outlineSecondary"
             >
-              {t('views.lending.repay')}
+              {t("views.lending.repay")}
             </Button>
 
             {/* <Button
@@ -250,13 +252,13 @@ export const LoanInfoRow = ({
               <Flex align="center" direction="column" display="flex" flex={1} justify="center">
                 <Flex
                   alignSelf="stretch"
-                  direction={{ base: 'column', lg: 'row' }}
+                  direction={{ base: "column", lg: "row" }}
                   flex={1}
                   gap={{ base: 4, lg: 8 }}
                 >
                   <Flex direction="column" flex={1}>
                     <Flex alignItems="center" justifyContent="space-between">
-                      <Text textStyle="caption">{t('views.lending.repayAsset')}:</Text>
+                      <Text textStyle="caption">{t("views.lending.repayAsset")}:</Text>
                       <AssetSelect
                         showAssetType
                         assets={repayAssets}
@@ -270,7 +272,7 @@ export const LoanInfoRow = ({
                       onChange={setSliderValue}
                       percent={sliderValue}
                       slideClassName="!pb-0"
-                      title={t('views.lending.repayPercent')}
+                      title={t("views.lending.repayPercent")}
                     />
 
                     <TxOptimizeSection
@@ -278,14 +280,14 @@ export const LoanInfoRow = ({
                       outputAsset={selectedRepayAsset.asset}
                       quote={repayOptimizeQuoteDetails}
                       stream={stream}
-                      title={t('views.lending.txOptimizeTitle')}
+                      title={t("views.lending.txOptimizeTitle")}
                       toggleStream={toggleStream}
                     />
                   </Flex>
 
                   <Flex direction="column" flex={1}>
                     <Flex alignItems="center" minH="40px">
-                      <Text textStyle="caption">{t('views.lending.repayAmount')}:</Text>
+                      <Text textStyle="caption">{t("views.lending.repayAmount")}:</Text>
                     </Flex>
 
                     <Flex>
@@ -322,8 +324,8 @@ export const LoanInfoRow = ({
 
                         <Flex mr={4}>
                           <Text variant="secondary">
-                            {t('common.balance')}:{' '}
-                            {selectedRepayAsset.balance?.toSignificant(6) || '0'}
+                            {t("common.balance")}:{" "}
+                            {selectedRepayAsset.balance?.toSignificant(6) || "0"}
                           </Text>
                         </Flex>
                       </Flex>
@@ -346,7 +348,7 @@ export const LoanInfoRow = ({
                         <InfoTip
                           title={
                             <Text color="brand.yellow" mx={2} textStyle="caption">
-                              {t('views.lending.slippageRepayWarning')}
+                              {t("views.lending.slippageRepayWarning")}
                             </Text>
                           }
                           type="warn"
@@ -356,7 +358,7 @@ export const LoanInfoRow = ({
                   </Flex>
                 </Flex>
 
-                {repayAssetAmount.getValue('number') > 0 && (!isApproved || isLoadingApproval) ? (
+                {repayAssetAmount.getValue("number") > 0 && (!isApproved || isLoadingApproval) ? (
                   <Button
                     stretch
                     disabled={isLoadingApproval}
@@ -366,7 +368,7 @@ export const LoanInfoRow = ({
                     size="md"
                     variant="fancy"
                   >
-                    {t('common.approve')}
+                    {t("common.approve")}
                   </Button>
                 ) : (
                   <Button
@@ -386,7 +388,7 @@ export const LoanInfoRow = ({
                     size="md"
                     variant="fancy"
                   >
-                    {repayAddress ? t('views.lending.repay') : t('common.connectWallet')}
+                    {repayAddress ? t("views.lending.repay") : t("common.connectWallet")}
                   </Button>
                 )}
               </Flex>
@@ -411,7 +413,7 @@ export const LoanInfoRow = ({
         onClose={closeRepayConfirm}
         onConfirm={handleRepay}
         slippagePercent={repaySlippage}
-        tabLabel={t('views.lending.repay')}
+        tabLabel={t("views.lending.repay")}
       />
     </Flex>
   );

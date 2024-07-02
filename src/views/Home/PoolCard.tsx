@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import { AssetValue, Chain } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Card } from 'components/Atomic';
-import { parseToPercent } from 'helpers/parseHelpers';
-import { useRuneToCurrency } from 'hooks/useRuneToCurrency';
-import { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getAddLiquidityRoute, getSwapRoute } from 'settings/router';
-import type { ColorType } from 'types/app';
+import { Text } from "@chakra-ui/react";
+import { AssetValue, Chain } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button, Card } from "components/Atomic";
+import { parseToPercent } from "helpers/parseHelpers";
+import { useRuneToCurrency } from "hooks/useRuneToCurrency";
+import { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { getAddLiquidityRoute, getSwapRoute } from "settings/router";
+import type { ColorType } from "types/app";
 
 type PoolCardProps = {
   color: ColorType;
@@ -48,7 +48,7 @@ export const PoolCard = ({ assetString, poolAPY, runeDepth, color }: PoolCardPro
           </Text>
 
           <Text fontWeight="semibold" variant="green">
-            {`${t('common.APR')}: ${parseToPercent(poolAPY)}`}
+            {`${t("common.APR")}: ${parseToPercent(poolAPY)}`}
           </Text>
         </Box>
 
@@ -63,17 +63,17 @@ export const PoolCard = ({ assetString, poolAPY, runeDepth, color }: PoolCardPro
 
       <Box justifyCenter align="end" className="gap-x-2 mt-6">
         <Button stretch onClick={handleSwapNavigate} variant="outlineSecondary">
-          {t('common.swap')}
+          {t("common.swap")}
         </Button>
 
         <Button stretch onClick={handleAddLiquidityNavigate} variant="outlineTertiary">
-          {t('common.addLiquidity')}
+          {t("common.addLiquidity")}
         </Button>
       </Box>
 
       <div
         className={classNames(
-          '-z-10 absolute rounded-full w-[90px] h-[90px] right-5 md:top-5 blur-xl opacity-50 dark:opacity-30',
+          "-z-10 absolute rounded-full w-[90px] h-[90px] right-5 md:top-5 blur-xl opacity-50 dark:opacity-30",
           `bg-${color}`,
         )}
       />

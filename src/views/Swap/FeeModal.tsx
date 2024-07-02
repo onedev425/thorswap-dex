@@ -1,26 +1,26 @@
-import { Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@swapkit/api';
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Modal } from 'components/Atomic';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoTable } from 'components/InfoTable';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { memo, useEffect, useMemo } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import type { QuoteRoute } from "@swapkit/api";
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Modal } from "components/Atomic";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoTable } from "components/InfoTable";
+import { useFormatPrice } from "helpers/formatPrice";
+import { memo, useEffect, useMemo } from "react";
+import { t } from "services/i18n";
 
-type Fees = QuoteRoute['fees'][Chain];
+type Fees = QuoteRoute["fees"][Chain];
 
 type Props = {
   isOpened: boolean;
   onClose: () => void;
-  fees?: QuoteRoute['fees'];
+  fees?: QuoteRoute["fees"];
   totalFee: string;
 };
 
 export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
-  const formatPrice = useFormatPrice(2, '');
+  const formatPrice = useFormatPrice(2, "");
   const rows: InfoRowConfig[] = useMemo(() => {
     if (!fees) return [];
 
@@ -29,7 +29,9 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         const [chain, value] = fee as [Chain, Fees];
 
         if (value) {
-          value?.forEach((a) => (acc.affiliateFee += a.affiliateFeeUSD));
+          for (const a of value) {
+            acc.affiliateFee += a.affiliateFeeUSD;
+          }
 
           acc[chain] = value;
         }
@@ -52,8 +54,8 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
           label: (
             <Box center className="gap-x-1">
               <Text textStyle="caption">
-                {`${t('common.network')} `}
-                {type ? t(`common.${type}`) : ''}
+                {`${t("common.network")} `}
+                {type ? t(`common.${type}`) : ""}
               </Text>
               <AssetIcon asset={chainAsset} size={20} />
             </Box>
@@ -77,6 +79,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
         };
       });
 
+      // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
       return [...chainFees, ...acc];
     }, [] as InfoRowConfig[]);
 
@@ -85,9 +88,9 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
       {
         label: (
           <Box center className="gap-x-1">
-            <Text textStyle="caption">{t('views.swap.exchangeFee')}</Text>
+            <Text textStyle="caption">{t("views.swap.exchangeFee")}</Text>
             <AssetIcon
-              asset={AssetValue.fromChainOrSignature('ETH.THOR')}
+              asset={AssetValue.fromChainOrSignature("ETH.THOR")}
               hasChainIcon={false}
               size={20}
             />
@@ -98,7 +101,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
       {
         label: (
           <Box center>
-            <Text textStyle="caption">{t('views.wallet.totalFee')}</Text>
+            <Text textStyle="caption">{t("views.wallet.totalFee")}</Text>
           </Box>
         ),
         value: <Text>{totalFee}</Text>,
@@ -115,7 +118,7 @@ export const FeeModal = memo(({ totalFee, fees, isOpened, onClose }: Props) => {
   if (!fees) return null;
 
   return (
-    <Modal isOpened={isOpened} onClose={onClose} title={t('views.swap.feeExplanation')}>
+    <Modal isOpened={isOpened} onClose={onClose} title={t("views.swap.feeExplanation")}>
       <Box className="w-80" flex={1}>
         <InfoTable items={rows} />
       </Box>

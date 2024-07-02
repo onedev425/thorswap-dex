@@ -1,13 +1,13 @@
-import { mergeConfig } from 'vite';
+import { mergeConfig } from "vite";
 
-import baseConfig from './vite.config';
+import baseConfig from "./vite.config";
 
 // @ts-expect-error
 export default mergeConfig(baseConfig, {
-  root: 'ledgerLive',
+  root: "ledgerLive",
   define: {
-    'process.env': {
-      VITE_LEDGER_LIVE: 'true',
+    "process.env": {
+      VITE_LEDGER_LIVE: "true",
     },
   },
 });

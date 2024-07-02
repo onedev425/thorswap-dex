@@ -1,8 +1,8 @@
-import type { AssetInputType } from 'components/AssetInput/types';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { t } from 'services/i18n';
+import type { AssetInputType } from "components/AssetInput/types";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { shortenAddress } from "helpers/shortenAddress";
+import { t } from "services/i18n";
 
 type Params = {
   inputAsset: AssetInputType;
@@ -26,35 +26,35 @@ export const useConfirmInfoItems = ({
 }: Params) => {
   const confirmInfoItems: InfoRowConfig[] = [
     {
-      label: t('common.send'),
+      label: t("common.send"),
       value: `${inputAsset.value?.toSignificant(6)} ${inputAsset.asset.ticker.toUpperCase()}`,
     },
     {
-      label: t('common.receive'),
+      label: t("common.receive"),
 
       value: `${outputAsset.value?.toSignificant(6)} ${outputAsset.asset.ticker.toUpperCase()}`,
     },
     {
-      label: t('common.recipientAddress'),
+      label: t("common.recipientAddress"),
       value: shortenAddress(recipient, 6),
-      size: 'lg',
+      size: "lg",
     },
     {
-      label: t('views.wallet.slip'),
-      value: <InfoWithTooltip tooltip={t('views.wallet.slippageTooltip')} value={slippage} />,
+      label: t("views.wallet.slip"),
+      value: <InfoWithTooltip tooltip={t("views.wallet.slippageTooltip")} value={slippage} />,
     },
     {
-      label: t('views.wallet.minReceived'),
-      value: <InfoWithTooltip tooltip={t('views.wallet.minReceivedTooltip')} value={minReceive} />,
+      label: t("views.wallet.minReceived"),
+      value: <InfoWithTooltip tooltip={t("views.wallet.minReceivedTooltip")} value={minReceive} />,
     },
     {
-      label: t('views.wallet.totalFee'),
-      value: <InfoWithTooltip tooltip={t('views.wallet.totalFeeTooltip')} value={totalFee} />,
+      label: t("views.wallet.totalFee"),
+      value: <InfoWithTooltip tooltip={t("views.wallet.totalFeeTooltip")} value={totalFee} />,
     },
     {
-      label: t('views.wallet.estimatedTime'),
+      label: t("views.wallet.estimatedTime"),
       value: (
-        <InfoWithTooltip tooltip={t('views.wallet.estimatedTimeTooltip')} value={estimatedTime} />
+        <InfoWithTooltip tooltip={t("views.wallet.estimatedTimeTooltip")} value={estimatedTime} />
       ),
     },
   ];

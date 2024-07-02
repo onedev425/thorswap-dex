@@ -1,26 +1,26 @@
-import { Text } from '@chakra-ui/react';
-import { BaseDecimal, Chain, SwapKitNumber, TransactionType } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoRow } from 'components/InfoRow';
-import { InputAmount } from 'components/InputAmount';
-import { PanelView } from 'components/PanelView';
-import { PercentSelect } from 'components/PercentSelect/PercentSelect';
-import { TabsSelect } from 'components/TabsSelect';
-import { showErrorToast } from 'components/Toast';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { defaultVestingInfo, useWalletContext } from 'context/wallet/WalletProvider';
-import dayjs from 'dayjs';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { contractConfig, ContractType, triggerContractCall } from 'services/contract';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { v4 } from 'uuid';
+import { Text } from "@chakra-ui/react";
+import { BaseDecimal, Chain, SwapKitNumber, TransactionType } from "@swapkit/sdk";
+import { Box, Button } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoRow } from "components/InfoRow";
+import { InputAmount } from "components/InputAmount";
+import { PanelView } from "components/PanelView";
+import { PercentSelect } from "components/PercentSelect/PercentSelect";
+import { TabsSelect } from "components/TabsSelect";
+import { showErrorToast } from "components/Toast";
+import { ViewHeader } from "components/ViewHeader";
+import { defaultVestingInfo, useWalletContext } from "context/wallet/WalletProvider";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import dayjs from "dayjs";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ContractType, contractConfig, triggerContractCall } from "services/contract";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { v4 } from "uuid";
 
-import { VestingType } from './types';
+import { VestingType } from "./types";
 
 const Vesting = () => {
   const [amount, setAmount] = useState(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
@@ -37,9 +37,9 @@ const Vesting = () => {
     async (vestingType: VestingType) => {
       if (!ethAddress) return defaultVestingInfo;
 
-      const { getWallet } = await (await import('services/swapKit')).getSwapKitClient();
-      const { getProvider } = await import('@swapkit/toolbox-evm');
-      const contractType = vestingType === VestingType.THOR ? 'vesting' : 'vthor_vesting';
+      const { getWallet } = await (await import("services/swapKit")).getSwapKitClient();
+      const { getProvider } = await import("@swapkit/toolbox-evm");
+      const contractType = vestingType === VestingType.THOR ? "vesting" : "vthor_vesting";
       const { abi, address } = contractConfig[contractType];
       const callParams = {
         callProvider: getProvider(Chain.Ethereum),
@@ -59,37 +59,37 @@ const Vesting = () => {
           ...callParams,
           abi,
           contractAddress: address,
-          funcName: 'vestingSchedule',
+          funcName: "vestingSchedule",
         })) || ([] as Todo);
 
       const claimableAmount = (await getWallet(Chain.Ethereum)?.call({
         ...callParams,
         abi,
         contractAddress: address,
-        funcName: 'claimableAmount',
+        funcName: "claimableAmount",
       })) as bigint;
 
       const totalVested = new SwapKitNumber({
-        value: totalVestedAmount?.toString() || '0',
+        value: totalVestedAmount?.toString() || "0",
         decimal: BaseDecimal.ETH,
       }).div(10 ** BaseDecimal.ETH);
       const totalClaimed = new SwapKitNumber({
-        value: totalClaimedAmount?.toString() || '0',
+        value: totalClaimedAmount?.toString() || "0",
         decimal: BaseDecimal.ETH,
       }).div(10 ** BaseDecimal.ETH);
       const claimable = new SwapKitNumber({
-        value: claimableAmount?.toString() || '0',
+        value: claimableAmount?.toString() || "0",
         decimal: BaseDecimal.ETH,
       }).div(10 ** BaseDecimal.ETH);
       const hasAlloc = totalVested.gt(0) || totalClaimed.gt(0) || claimable.gt(0);
 
       return {
-        totalVestedAmount: totalVested.getValue('string'),
+        totalVestedAmount: totalVested.getValue("string"),
         totalClaimedAmount: totalClaimed,
-        startTime: dayjs.unix(startTime.toString()).format('YYYY-MM-DD HH:MM:ss'),
+        startTime: dayjs.unix(startTime.toString()).format("YYYY-MM-DD HH:MM:ss"),
         vestingPeriod: dayjs.duration(vestingPeriod.toString() * 1000).asDays() / 365,
         cliff: dayjs.duration(cliff.toString() * 1000).asDays() / 30,
-        initialRelease: (initialRelease || '0').toString(),
+        initialRelease: (initialRelease || "0").toString(),
         claimableAmount: claimable,
         hasAlloc,
       };
@@ -110,14 +110,14 @@ const Vesting = () => {
             id,
             inChain: Chain.Ethereum,
             type: TransactionType.ETH_STATUS,
-            label: `${t('txManager.claim')} ${amount.toSignificant(8)} ${vestingAction}`,
+            label: `${t("txManager.claim")} ${amount.toSignificant(8)} ${vestingAction}`,
           }),
         );
 
         const txHash = (await triggerContractCall(
           vestingAction === VestingType.THOR ? ContractType.VESTING : ContractType.VTHOR_VESTING,
-          'claim',
-          [amount.getBaseValue('bigint')],
+          "claim",
+          [amount.getBaseValue("bigint")],
         )) as string;
 
         if (txHash) {
@@ -125,11 +125,11 @@ const Vesting = () => {
         }
       } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        appDispatch(completeTransaction({ id, status: "error" }));
 
         showErrorToast(
-          t('notification.submitFail'),
-          t('common.defaultErrMsg'),
+          t("notification.submitFail"),
+          t("common.defaultErrMsg"),
           undefined,
           error as Error,
         );
@@ -147,10 +147,10 @@ const Vesting = () => {
     try {
       const thorVestingInfo = await getContractVestingInfo(VestingType.THOR);
       const vthorVestingInfo = await getContractVestingInfo(VestingType.VTHOR);
-      walletDispatch({ type: 'setTHORVesting', payload: thorVestingInfo });
-      walletDispatch({ type: 'setVTHORVesting', payload: vthorVestingInfo });
-    } catch (error: NotWorth) {
-      logException(error.toString());
+      walletDispatch({ type: "setTHORVesting", payload: thorVestingInfo });
+      walletDispatch({ type: "setVTHORVesting", payload: vthorVestingInfo });
+    } catch (error) {
+      logException((error as Todo).toString());
     } finally {
       setIsLoading(false);
     }
@@ -184,7 +184,7 @@ const Vesting = () => {
     (percent: number) => {
       setAmount(
         new SwapKitNumber({
-          value: (claimableAmount.getValue('number') * percent) / 100,
+          value: (claimableAmount.getValue("number") * percent) / 100,
           decimal: BaseDecimal.ETH,
         }),
       );
@@ -201,18 +201,18 @@ const Vesting = () => {
               <HoverIcon iconName="refresh" onClick={loadVestingInfo} size={18} spin={isLoading} />
             )
           }
-          title={t('views.vesting.vesting')}
+          title={t("views.vesting.vesting")}
         />
       }
-      title={t('views.vesting.vesting')}
+      title={t("views.vesting.vesting")}
     >
       <Box className="self-stretch">
         <TabsSelect
           onChange={(v) => setVestingTab(v as VestingType)}
           tabs={[
-            { label: t('views.vesting.vestingThor'), value: VestingType.THOR },
+            { label: t("views.vesting.vestingThor"), value: VestingType.THOR },
             {
-              label: t('views.vesting.vestingVthor'),
+              label: t("views.vesting.vestingVthor"),
               value: VestingType.VTHOR,
             },
           ]}
@@ -220,32 +220,32 @@ const Vesting = () => {
         />
       </Box>
       <Box col className="w-full p-2 pt-0">
-        <InfoRow label={t('views.vesting.totalVested')} value={totalVestedAmount} />
+        <InfoRow label={t("views.vesting.totalVested")} value={totalVestedAmount} />
         <InfoRow
-          label={t('views.vesting.totalClaimed')}
+          label={t("views.vesting.totalClaimed")}
           value={totalClaimedAmount.toSignificant(10)}
         />
         <InfoRow
-          label={t('views.vesting.vestingStartTime')}
-          value={totalVestedAmount === '0' ? 'N/A' : startTime}
+          label={t("views.vesting.vestingStartTime")}
+          value={totalVestedAmount === "0" ? "N/A" : startTime}
         />
         <InfoRow
-          label={t('views.vesting.cliff')}
-          value={t('views.vesting.cliffValue', { cliff })}
+          label={t("views.vesting.cliff")}
+          value={t("views.vesting.cliffValue", { cliff })}
         />
         <InfoRow
-          label={t('views.vesting.vestingPeriod')}
-          value={t('views.vesting.vestingPeriodValue', { vestingPeriod })}
+          label={t("views.vesting.vestingPeriod")}
+          value={t("views.vesting.vestingPeriodValue", { vestingPeriod })}
         />
         <InfoRow
-          label={t('views.vesting.claimableAmount')}
+          label={t("views.vesting.claimableAmount")}
           value={claimableAmount.toSignificant(10)}
         />
 
         {ethAddress && (
           <>
             <Box alignCenter row className="!mt-6" justify="between">
-              <Text className="pr-4 min-w-fit">{t('views.vesting.claimAmount')}</Text>
+              <Text className="pr-4 min-w-fit">{t("views.vesting.claimAmount")}</Text>
 
               <InputAmount
                 stretch
@@ -270,7 +270,7 @@ const Vesting = () => {
             size="lg"
             variant="fancy"
           >
-            {t('views.vesting.claim')}
+            {t("views.vesting.claim")}
           </Button>
         ) : (
           <Button
@@ -280,7 +280,7 @@ const Vesting = () => {
             size="lg"
             variant="fancy"
           >
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         )}
       </Box>

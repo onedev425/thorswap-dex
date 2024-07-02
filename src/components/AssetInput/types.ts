@@ -1,5 +1,6 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import type { AssetSelectProps, AssetSelectType } from 'components/AssetSelect/types';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import type { AssetSelectProps, AssetSelectType } from "components/AssetSelect/types";
+import type React from "react";
 
 export type AssetInputType = {
   asset: AssetValue;
@@ -16,7 +17,7 @@ export type AssetInputType = {
 export type AssetInputProps = {
   title?: string;
   hideZeroPrice?: boolean;
-  AssetListComponent?: (props: AssetSelectProps) => JSX.Element;
+  AssetListComponent?: (props: AssetSelectProps) => React.JSX.Element;
   isLoading?: boolean;
   className?: string;
   setQuery?: (query: string) => void;

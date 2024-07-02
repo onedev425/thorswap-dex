@@ -1,15 +1,15 @@
-import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { RUNEAsset } from 'helpers/assets';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getMultisigTxCreateRoute, ROUTES } from 'settings/router';
-import { useMultisig } from 'store/multisig/hooks';
-import { useMultissigAssets } from 'views/Multisig/hooks';
-import { useTxCreate } from 'views/Multisig/TxCreate/TxCreateContext';
+import { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { RUNEAsset } from "helpers/assets";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { t } from "services/i18n";
+import { ROUTES, getMultisigTxCreateRoute } from "settings/router";
+import { useMultisig } from "store/multisig/hooks";
+import { useTxCreate } from "views/Multisig/TxCreate/TxCreateContext";
+import { useMultissigAssets } from "views/Multisig/hooks";
 
 export const useTxSend = () => {
   const { signers } = useTxCreate();
@@ -25,13 +25,13 @@ export const useTxSend = () => {
     new SwapKitNumber({ value: 0, decimal: 8 }),
   );
 
-  const [memo, setMemo] = useState('');
-  const [recipientAddress, setRecipientAddress] = useState('');
+  const [memo, setMemo] = useState("");
+  const [recipientAddress, setRecipientAddress] = useState("");
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   const { data } = useTokenPrices([sendAsset]);
   const assetPriceInUSD = useMemo(
-    () => data[sendAsset.ticker]?.price_usd || 0 * Number(sendAmount.getValue('string')),
+    () => data[sendAsset.ticker]?.price_usd || 0 * Number(sendAmount.getValue("string")),
     [data, sendAmount, sendAsset.ticker],
   );
 
@@ -49,9 +49,7 @@ export const useTxSend = () => {
 
   useEffect(() => {
     const getSendAsset = async () => {
-      if (!assetParam) {
-        setSendAsset(RUNEAsset);
-      } else {
+      if (assetParam) {
         const assetEntity = await AssetValue.fromString(assetParam);
 
         if (assetEntity) {
@@ -59,6 +57,8 @@ export const useTxSend = () => {
         } else {
           setSendAsset(RUNEAsset);
         }
+      } else {
+        setSendAsset(RUNEAsset);
       }
     };
 
@@ -67,7 +67,7 @@ export const useTxSend = () => {
 
   const handleSelectAsset = useCallback(
     (selected: AssetValue) => {
-      setRecipientAddress('');
+      setRecipientAddress("");
       navigate(getMultisigTxCreateRoute(selected));
     },
     [navigate],
@@ -76,9 +76,9 @@ export const useTxSend = () => {
   const handleChangeSendAmount = useCallback(
     (amount: SwapKitNumber) =>
       setSendAmount(
-        amount.gt(maxSpendableBalance.getValue('string'))
+        amount.gt(maxSpendableBalance.getValue("string"))
           ? new SwapKitNumber({
-              value: maxSpendableBalance.getValue('string'),
+              value: maxSpendableBalance.getValue("string"),
               decimal: maxSpendableBalance.decimal,
             })
           : amount,
@@ -116,11 +116,11 @@ export const useTxSend = () => {
   };
 
   const handleSend = useCallback(async () => {
-    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
-    if (!validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
-      showErrorToast(t('notification.invalidchainAddy', { chain: Chain.THORChain }));
-    } else {
+    const { validateAddress } = await (await import("services/swapKit")).getSwapKitClient();
+    if (validateAddress({ chain: Chain.THORChain, address: recipientAddress })) {
       setIsOpenConfirmModal(true);
+    } else {
+      showErrorToast(t("notification.invalidchainAddy", { chain: Chain.THORChain }));
     }
   }, [recipientAddress, setIsOpenConfirmModal]);
 

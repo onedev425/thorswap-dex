@@ -1,12 +1,12 @@
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import classNames from 'classnames';
-import { Box, Button, DropdownMenu, Modal } from 'components/Atomic';
-import { useButtonClasses } from 'components/Atomic/Button/useButtonClasses';
-import { FieldLabel } from 'components/Form';
-import { Controller } from 'react-hook-form';
-import { t } from 'services/i18n';
-import { useImportSignatureForm } from 'views/Multisig/components/hooks';
-import { TextareaPaste } from 'views/Multisig/components/TextareaPaste';
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import classNames from "classnames";
+import { Box, Button, DropdownMenu, Modal } from "components/Atomic";
+import { useButtonClasses } from "components/Atomic/Button/useButtonClasses";
+import { FieldLabel } from "components/Form";
+import { Controller } from "react-hook-form";
+import { t } from "services/i18n";
+import { TextareaPaste } from "views/Multisig/components/TextareaPaste";
+import { useImportSignatureForm } from "views/Multisig/components/hooks";
 
 type Props = {
   isOpened: boolean;
@@ -19,8 +19,8 @@ export const ImportSignatureModal = ({ isOpened, onSubmit, onClose }: Props) => 
     useImportSignatureForm(onSubmit);
 
   const { backgroundClass } = useButtonClasses({
-    size: 'sm',
-    variant: 'tint',
+    size: "sm",
+    variant: "tint",
     isFancy: false,
     error: false,
   });
@@ -31,10 +31,10 @@ export const ImportSignatureModal = ({ isOpened, onSubmit, onClose }: Props) => 
   };
 
   return (
-    <Modal isOpened={isOpened} onClose={handleClose} title={t('views.multisig.importSignature')}>
+    <Modal isOpened={isOpened} onClose={handleClose} title={t("views.multisig.importSignature")}>
       <Box col className="max-w-[440px] md:min-w-[350px] self-stretch gap-6">
         <Box col className="gap-1">
-          <FieldLabel hasError={!!errors.memberPubKey} label={t('views.multisig.selectMember')} />
+          <FieldLabel hasError={!!errors.memberPubKey} label={t("views.multisig.selectMember")} />
 
           <Controller
             control={control}
@@ -43,7 +43,7 @@ export const ImportSignatureModal = ({ isOpened, onSubmit, onClose }: Props) => 
               <DropdownMenu
                 buttonClassName={classNames(
                   backgroundClass,
-                  'shadow-none text-left !py-3 overflow-hidden',
+                  "shadow-none text-left !py-3 overflow-hidden",
                 )}
                 menuItems={membersOptions}
                 onChange={field.onChange}
@@ -53,17 +53,17 @@ export const ImportSignatureModal = ({ isOpened, onSubmit, onClose }: Props) => 
           />
         </Box>
         <Box col className="gap-1">
-          <FieldLabel hasError={!!errors.signature} label={t('views.multisig.signature')} />
+          <FieldLabel hasError={!!errors.signature} label={t("views.multisig.signature")} />
           <TextareaPaste
             hasError={!!errors.signature}
             onPasteClick={setSignature}
-            placeholder={t('views.multisig.pasteSignature')}
+            placeholder={t("views.multisig.pasteSignature")}
             {...formFields.signature}
           />
         </Box>
 
         <Button stretch onClick={submit} variant="secondary">
-          {t('views.multisig.submitSignature')}
+          {t("views.multisig.submitSignature")}
         </Button>
       </Box>
     </Modal>

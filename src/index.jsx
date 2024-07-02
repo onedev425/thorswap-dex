@@ -1,22 +1,22 @@
 /* eslint-disable prettier/prettier */
-import { ColorModeScript } from '@chakra-ui/react';
-import * as Sentry from '@sentry/react';
-import hmacSHA512 from 'crypto-js/hmac-sha512';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { ColorModeScript } from "@chakra-ui/react";
+import * as Sentry from "@sentry/react";
+import hmacSHA512 from "crypto-js/hmac-sha512";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-import './index.css';
+import "./index.css";
 
-import { App } from './App';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { initialiseLogger } from './services/logger'
-import { IS_LOCAL, IS_PROD, IS_STAGENET } from './settings/config';
+import { App } from "./App";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { initialiseLogger } from "./services/logger";
+import { IS_LOCAL, IS_PROD, IS_STAGENET } from "./settings/config";
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
 
 const renderApp = () => {
-  initialiseLogger()
+  initialiseLogger();
 
   root.render(
     <StrictMode>
@@ -24,7 +24,7 @@ const renderApp = () => {
         <ColorModeScript />
         <App />
       </Sentry.ErrorBoundary>
-    </StrictMode>
+    </StrictMode>,
   );
 };
 
@@ -33,23 +33,23 @@ const checkAppRender = () => {
     renderApp();
   } else {
     const pagePassword =
-      localStorage.getItem('pagePassword') ||
-      prompt('Please enter the password to access this page');
-    localStorage.setItem('pagePassword', pagePassword);
+      localStorage.getItem("pagePassword") ||
+      prompt("Please enter the password to access this page");
+    localStorage.setItem("pagePassword", pagePassword);
 
-    const decodedPass = hmacSHA512(pagePassword, 'I!(G#s@1ADgjAlcSW!@()GF#(!@')
+    const decodedPass = hmacSHA512(pagePassword, "I!(G#s@1ADgjAlcSW!@()GF#(!@")
       .toString()
       .slice(-10);
 
     /**
      * Replace with new password hash generated from command line.
      */
-    const currentPasswordHash = '8d2cd907fb';
+    const currentPasswordHash = "8d2cd907fb";
     if (decodedPass === currentPasswordHash) {
       renderApp();
     } else {
-      localStorage.setItem('pagePassword', '');
-      alert('Incorrect password');
+      localStorage.setItem("pagePassword", "");
+      alert("Incorrect password");
       setTimeout(() => window.location.reload(), 500);
     }
   }

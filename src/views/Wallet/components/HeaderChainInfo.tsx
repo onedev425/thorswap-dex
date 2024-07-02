@@ -1,17 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain, ChainWallet } from '@swapkit/core';
-import { WalletOption } from '@swapkit/core';
-import { Box } from 'components/Atomic';
-import { PhraseModal } from 'components/Modals/PhraseModal';
-import { showInfoToast } from 'components/Toast';
-import { WalletIcon } from 'components/WalletIcon/WalletIcon';
-import { chainName } from 'helpers/chainName';
-import { t } from 'i18next';
-import { useCallback, useState } from 'react';
-import type { SupportedWalletOptions } from 'store/thorswap/types';
+import { Text } from "@chakra-ui/react";
+import type { Chain, ChainWallet } from "@swapkit/sdk";
+import { WalletOption } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
+import { PhraseModal } from "components/Modals/PhraseModal";
+import { showInfoToast } from "components/Toast";
+import { WalletIcon } from "components/WalletIcon/WalletIcon";
+import { chainName } from "helpers/chainName";
+import { t } from "i18next";
+import { useCallback, useState } from "react";
+import type { SupportedWalletOptions } from "store/thorswap/types";
 
 type Props = {
   chain: Chain;
+  // biome-ignore lint/correctness/noUndeclaredVariables:
   chainWallet: Maybe<ChainWallet>;
   balance: string;
 };
@@ -26,10 +27,10 @@ export const HeaderChainInfo = ({ chain, chainWallet, balance }: Props) => {
     if (chainWallet?.walletType === WalletOption.KEYSTORE) {
       setIsPhraseModalVisible(true);
     }
-    const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
+    const { getAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
     if (chainWallet?.walletType === WalletOption.LEDGER) {
-      showInfoToast(t('notification.verifyLedgerAddy'), getAddress(chain), {
+      showInfoToast(t("notification.verifyLedgerAddy"), getAddress(chain), {
         duration: 20 * 1000,
       });
     }

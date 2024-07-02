@@ -1,5 +1,5 @@
 export type TabSelectType = {
-  label: string | JSX.Element;
+  label: string | React.JSX.Element;
   value: string;
   tooltip?: string;
   disabled?: boolean;

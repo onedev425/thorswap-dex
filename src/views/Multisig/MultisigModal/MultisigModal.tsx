@@ -1,24 +1,24 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Button, Modal } from 'components/Atomic';
-import { FieldLabel, TextField } from 'components/Form';
-import { HoverIcon } from 'components/HoverIcon';
-import { Input } from 'components/Input';
-import { Scrollbar } from 'components/Scrollbar';
-import { t } from 'services/i18n';
-import { useMultisigForm } from 'views/Multisig/MultisigCreate/hooks';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Button, Modal } from "components/Atomic";
+import { FieldLabel, TextField } from "components/Form";
+import { HoverIcon } from "components/HoverIcon";
+import { Input } from "components/Input";
+import { Scrollbar } from "components/Scrollbar";
+import { t } from "services/i18n";
+import { useMultisigForm } from "views/Multisig/MultisigCreate/hooks";
 
 type Props = {
   isOpen: boolean;
   onCancel?: () => void;
 };
 
-export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Element => {
+export const MultisigModal = ({ isOpen, onCancel = () => undefined }: Props): React.JSX.Element => {
   const { formFields, submit, errors, register, addMember, removeMember, isRequiredMember } =
     useMultisigForm();
 
   return (
-    <Modal isOpened={isOpen} onClose={onCancel} title={t('views.multisig.multisigModalTitle')}>
+    <Modal isOpened={isOpen} onClose={onCancel} title={t("views.multisig.multisigModalTitle")}>
       <Box col>
         <Box
           col
@@ -27,34 +27,34 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
           <Scrollbar maxHeight="65vh">
             <Box col className="gap-6 pr-7">
               <Text className="mx-2 my-3" textStyle="caption">
-                {t('views.multisig.nameYourMultisigWallet')}
+                {t("views.multisig.nameYourMultisigWallet")}
               </Text>
 
               <Box col>
                 <TextField
                   field={formFields.name}
                   hasError={!!errors.name}
-                  label={t('views.multisig.nameOfNewMultisig')}
-                  placeholder={t('views.multisig.nameExample')}
+                  label={t("views.multisig.nameOfNewMultisig")}
+                  placeholder={t("views.multisig.nameExample")}
                 />
               </Box>
 
               <Box col>
                 <FieldLabel
                   hasError={!!errors.signatureValidation}
-                  label={`${t('views.multisig.members')}${
-                    errors.signatureValidation ? ` (${errors.signatureValidation.message})` : ''
+                  label={`${t("views.multisig.members")}${
+                    errors.signatureValidation ? ` (${errors.signatureValidation.message})` : ""
                   }`}
                 />
                 <Text className="mx-2 my-3" fontWeight="semibold" textStyle="caption-xs">
-                  {t('views.multisig.addMembersDescription')}
+                  {t("views.multisig.addMembersDescription")}
                 </Text>
                 <Box className="mx-2">
                   <Box flex={1}>
-                    <Text textStyle="caption">{t('views.multisig.walletName')}</Text>
+                    <Text textStyle="caption">{t("views.multisig.walletName")}</Text>
                   </Box>
                   <Box flex={2}>
-                    <Text textStyle="caption">{t('common.pubKey')}</Text>
+                    <Text textStyle="caption">{t("common.pubKey")}</Text>
                   </Box>
                 </Box>
                 <Box col className="gap-4">
@@ -64,7 +64,7 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                         <TextField
                           field={register(`members.${index}.name`)}
                           hasError={!!errors.members?.[index]?.name}
-                          placeholder={t('views.multisig.memberName')}
+                          placeholder={t("views.multisig.memberName")}
                         />
                       </Box>
                       <Box flex={2}>
@@ -81,7 +81,7 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                         <HoverIcon
                           color="secondary"
                           iconName="infoCircle"
-                          tooltip={t('views.multisig.requiredMember')}
+                          tooltip={t("views.multisig.requiredMember")}
                         />
                       ) : (
                         <HoverIcon
@@ -90,20 +90,20 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                           onClick={() => {
                             removeMember(index);
                           }}
-                          tooltip={t('views.multisig.removeMember')}
+                          tooltip={t("views.multisig.removeMember")}
                         />
                       )}
                     </Box>
                   ))}
 
                   <Button stretch onClick={addMember} variant="outlineTertiary">
-                    {t('views.multisig.addMember')}
+                    {t("views.multisig.addMember")}
                   </Button>
                 </Box>
               </Box>
 
               <Box center className="mx-1 gap-2">
-                <Text textStyle="caption">{t('views.multisig.setMultisigSigners')}</Text>
+                <Text textStyle="caption">{t("views.multisig.setMultisigSigners")}</Text>
 
                 <Box center className="gap-2">
                   <Input
@@ -111,13 +111,13 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
                     border="rounded"
                     className="py-1 min-w-[25px] text-right"
                     containerClassName={classNames({
-                      '!border-red': !!errors.threshold,
+                      "!border-red": !!errors.threshold,
                     })}
                     {...formFields.threshold}
                   />
 
                   <Text className="whitespace-nowrap" textStyle="caption">
-                    {t('views.multisig.outOf')}
+                    {t("views.multisig.outOf")}
                     {formFields.members.length}
                   </Text>
                 </Box>
@@ -125,7 +125,7 @@ export const MultisigModal = ({ isOpen, onCancel = () => {} }: Props): JSX.Eleme
 
               <Box className="mt-8" flex={1}>
                 <Button stretch onClick={() => submit(onCancel)} variant="secondary">
-                  {t('views.multisig.create')}
+                  {t("views.multisig.create")}
                 </Button>
               </Box>
             </Box>

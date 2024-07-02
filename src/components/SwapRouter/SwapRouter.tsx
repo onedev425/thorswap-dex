@@ -1,10 +1,10 @@
-import type { AssetValue } from '@swapkit/core';
-import { Box, Collapse } from 'components/Atomic';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { memo } from 'react';
+import type { AssetValue } from "@swapkit/sdk";
+import { Box, Collapse } from "components/Atomic";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { memo } from "react";
 
-import { SelectedRoute } from './SelectedRoute';
-import { SwapRoute } from './SwapRoute';
+import { SelectedRoute } from "./SelectedRoute";
+import { SwapRoute } from "./SwapRoute";
 
 type Props = {
   routes: RouteWithApproveType[];
@@ -37,7 +37,7 @@ export const SwapRouter = memo(
             {routes.map((route) => (
               <SwapRoute
                 {...route}
-                key={`${route.path}-${route.providers.join(',')}`}
+                key={`${route.path}-${route.providers.join(",")}`}
                 onClick={() => setSwapRoute(route)}
                 outputAsset={outputAsset}
                 selected={route === selectedRoute}

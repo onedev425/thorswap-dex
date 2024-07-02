@@ -1,9 +1,9 @@
-import { Flex, useMediaQuery } from '@chakra-ui/react';
-import type { TxTrackerDetails } from '@swapkit/api';
-import { useTransactionTimers } from 'components/TransactionManager/useTransactionTimers';
-import { TxDetailsInfo } from 'components/TransactionTracker/components/TxDetailsInfo';
-import { TxLegPreview } from 'components/TransactionTracker/components/TxLegPreview';
-import type { TrackerV2Details } from 'store/transactions/types';
+import { Flex, useMediaQuery } from "@chakra-ui/react";
+import type { TxTrackerDetails } from "@swapkit/api";
+import { useTransactionTimers } from "components/TransactionManager/useTransactionTimers";
+import { TxDetailsInfo } from "components/TransactionTracker/components/TxDetailsInfo";
+import { TxLegPreview } from "components/TransactionTracker/components/TxLegPreview";
+import type { TrackerV2Details } from "store/transactions/types";
 
 type Props = {
   txDetails: TxTrackerDetails & TrackerV2Details;
@@ -11,11 +11,10 @@ type Props = {
 };
 
 export const TxPreview = ({ txDetails, isCompleted }: Props) => {
-  console.log('🔥d', txDetails);
   const legsLength = txDetails?.legs?.length;
   const hasLegs = legsLength > 0;
-  const [isLargerThan840] = useMediaQuery('(min-width: 840px)');
-  const [isLargerThan505] = useMediaQuery('(min-width: 505px)');
+  const [isLargerThan840] = useMediaQuery("(min-width: 840px)");
+  const [isLargerThan505] = useMediaQuery("(min-width: 505px)");
   const { totalTimeLeft, legsTimers } = useTransactionTimers(txDetails.legs || [], {
     estimatedDuration: txDetails.estimatedDuration,
     isTxFinished: false,
@@ -30,7 +29,7 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
 
   return (
     <Flex direction="column" flex={1} justifyContent="flex-start" px={3}>
-      <Flex direction={horizontalView ? 'row' : 'column'} gap={0.5} justify="center">
+      <Flex direction={horizontalView ? "row" : "column"} gap={0.5} justify="center">
         {hasLegs &&
           txDetails.legs.map((leg, index) => (
             <TxLegPreview

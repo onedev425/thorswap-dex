@@ -1,4 +1,4 @@
-import { t } from 'services/i18n';
+import { t } from "services/i18n";
 
 export const calculateAverage = (array?: number[]) => {
   if (!array) return;
@@ -8,14 +8,14 @@ export const calculateAverage = (array?: number[]) => {
 
 export const gasState = (array?: number[], estimatedAverage?: number) => {
   const averageValue = estimatedAverage || calculateAverage(array);
-  if (!averageValue || !array) return;
+  if (!(averageValue && array)) return;
   const latestGasValue = array[array?.length - 1];
 
   if (latestGasValue < averageValue * 0.85) {
-    return { color: 'green', state: t('views.swap.low') };
-  } else if (latestGasValue > averageValue * 1.15) {
-    return { color: 'red', state: t('views.swap.high') };
-  } else {
-    return { color: 'yellow', state: t('views.swap.average') };
+    return { color: "green", state: t("views.swap.low") };
   }
+  if (latestGasValue > averageValue * 1.15) {
+    return { color: "red", state: t("views.swap.high") };
+  }
+  return { color: "yellow", state: t("views.swap.average") };
 };

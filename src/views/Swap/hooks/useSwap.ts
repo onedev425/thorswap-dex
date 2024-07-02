@@ -1,20 +1,20 @@
-import type { QuoteRoute } from '@swapkit/api';
-import type { AssetValue } from '@swapkit/core';
-import { ProviderName, QuoteMode } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { translateErrorMsg } from 'helpers/error';
-import { useCallback } from 'react';
-import { t } from 'services/i18n';
-import { logEvent, logException } from 'services/logger';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useApp } from 'store/app/hooks';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+import type { QuoteRoute } from "@swapkit/api";
+import type { AssetValue } from "@swapkit/sdk";
+import { ProviderName, QuoteMode } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { translateErrorMsg } from "helpers/error";
+import { useCallback } from "react";
+import { t } from "services/i18n";
+import { logEvent, logException } from "services/logger";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useApp } from "store/app/hooks";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
-import { ledgerLiveSwap } from '../../../../ledgerLive/wallet/swap';
+import { ledgerLiveSwap } from "../../../../ledgerLive/wallet/swap";
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -46,7 +46,7 @@ const quoteModeToTransactionType = {
 } as const;
 
 export const useSwap = ({
-  recipient = '',
+  recipient = "",
   inputAsset,
   outputAsset,
   route,
@@ -61,29 +61,29 @@ export const useSwap = ({
     const id = v4();
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
-      const isChainflip = route?.providers?.includes('CHAINFLIP');
+      const isChainflip = route?.providers?.includes("CHAINFLIP");
 
       if (route) {
-        if (!from) throw new Error('No address found');
+        if (!from) throw new Error("No address found");
 
         const label = `${inputAsset.toSignificant(6)} ${
-          inputAsset.isSynthetic ? 'Synth ' : ''
+          inputAsset.isSynthetic ? "Synth " : ""
         }${inputAsset.ticker} → ${outputAsset.toSignificant(6)} ${
-          outputAsset.isSynthetic ? 'Synth ' : ''
+          outputAsset.isSynthetic ? "Synth " : ""
         }${outputAsset.ticker}`;
 
-        const initLabel = isChainflip ? t('txManager.preparingTransaction') : label;
+        const initLabel = isChainflip ? t("txManager.preparingTransaction") : label;
 
         const { swap, validateAddress } = await (
-          await import('services/swapKit')
+          await import("services/swapKit")
         ).getSwapKitClient();
 
         const validAddress = validateAddress({
           chain: outputAsset.chain,
           address: recipient,
         });
-        if (typeof validAddress === 'boolean' && !validAddress) {
-          throw new Error('Invalid recipient address');
+        if (typeof validAddress === "boolean" && !validAddress) {
+          throw new Error("Invalid recipient address");
         }
 
         const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
@@ -114,7 +114,7 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({
-            pluginName: isV1Aggregator ? 'thorchain' : undefined,
+            pluginName: isV1Aggregator ? "thorchain" : undefined,
             feeOptionKey,
             recipient,
             route,
@@ -122,7 +122,7 @@ export const useSwap = ({
             streamSwap,
             wallet,
           });
-          logEvent('swap', {
+          logEvent("swap", {
             quoteId,
             expectedVolume: route.expectedOutputUSD,
             minVolume: route.expectedOutputMaxSlippageUSD,
@@ -130,7 +130,7 @@ export const useSwap = ({
             output: outputAsset.toString(),
           });
 
-          if (typeof txid === 'string') {
+          if (typeof txid === "string") {
             const timestamp = new Date();
             appDispatch(
               updateTransaction({
@@ -144,16 +144,17 @@ export const useSwap = ({
               }),
             );
           } else {
-            appDispatch(completeTransaction({ id, status: 'error' }));
-            showErrorToast(t('notification.submitFail'), JSON.stringify(txid));
+            appDispatch(completeTransaction({ id, status: "error" }));
+            showErrorToast(t("notification.submitFail"), JSON.stringify(txid));
           }
-        } catch (error: any) {
+        } catch (error) {
           logException(error as Error);
-          appDispatch(completeTransaction({ id, status: 'error' }));
-          const userCancelled = error?.code === 4001 || error?.toString().includes('4001');
+          appDispatch(completeTransaction({ id, status: "error" }));
+          const userCancelled =
+            (error as Todo)?.code === 4001 || error?.toString().includes("4001");
 
           if (!userCancelled) {
-            logEvent('swap_failed', {
+            logEvent("swap_failed", {
               error,
               input: inputAsset.toString(),
               output: outputAsset.toString(),
@@ -161,26 +162,26 @@ export const useSwap = ({
           }
 
           showErrorToast(
-            t('notification.submitFail'),
-            userCancelled ? t('notification.cancelledByUser') : error?.toString(),
+            t("notification.submitFail"),
+            userCancelled ? t("notification.cancelledByUser") : error?.toString(),
             undefined,
             error as Error,
           );
         }
       }
-    } catch (error: NotWorth) {
-      logEvent('swap_failed', {
+    } catch (error) {
+      logEvent("swap_failed", {
         error,
         input: inputAsset.toString(),
         output: outputAsset.toString(),
       });
       logException(error as Error);
-      const description = translateErrorMsg(error?.toString());
-      appDispatch(completeTransaction({ id, status: 'error' }));
+      const description = translateErrorMsg((error as Todo)?.toString());
+      appDispatch(completeTransaction({ id, status: "error" }));
 
       showErrorToast(
-        t('notification.submitFail'),
-        description.includes('Object') ? '' : description,
+        t("notification.submitFail"),
+        description.includes("Object") ? "" : description,
         undefined,
         error as Error,
       );

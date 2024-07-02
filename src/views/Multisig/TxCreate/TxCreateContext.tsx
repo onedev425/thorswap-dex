@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { useMultisig } from 'store/multisig/hooks';
-import type { MultisigMember } from 'store/multisig/types';
-import { useAppSelector } from 'store/store';
+import type { ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { useMultisig } from "store/multisig/hooks";
+import type { MultisigMember } from "store/multisig/types";
+import { useAppSelector } from "store/store";
 
 type Props = {
   children: ReactNode;
@@ -21,7 +21,7 @@ export const useTxCreate = () => {
   const context = useContext(TxCreateContext);
 
   if (!context?.signers) {
-    throw Error(t('views.multisig.incorrectTxCreateConfig'));
+    throw Error(t("views.multisig.incorrectTxCreateConfig"));
   }
 
   return context;

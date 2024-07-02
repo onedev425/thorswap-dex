@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import { Box, DropdownMenu } from 'components/Atomic';
-import { useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import { Box, DropdownMenu } from "components/Atomic";
+import { useMemo } from "react";
 
-import type { DerivationPathType } from './hooks';
+import type { DerivationPathType } from "./hooks";
 
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
   Chain.Ethereum,
@@ -14,16 +14,16 @@ const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
 ];
 
 const evmLedgerTypes = [
-  { value: '', label: "MetaMask (m/44'/60'/0'/0/{index})" },
-  { value: 'ledgerLive', label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
-  { value: 'legacy', label: "Legacy (m/44'/60'/0'/{index})" },
+  { value: "", label: "MetaMask (m/44'/60'/0'/0/{index})" },
+  { value: "ledgerLive", label: "Ledger Live (m/44'/60'/{index}'/0/0)" },
+  { value: "legacy", label: "Legacy (m/44'/60'/0'/{index})" },
 ];
 
 const utxoLedgerTypes = (network = 0) => [
-  { value: '', label: `Native Segwit (m/84'/${network}'/0'/0/{index})` },
-  { value: 'nativeSegwitMiddle', label: `Native Segwit (m/84'/${network}'/{index}'/0/0)` },
-  { value: 'segwit', label: `Segwit (m/49'/${network}'/0'/0/{index})` },
-  { value: 'legacy', label: `Legacy (m/44'/${network}'/0'/0/{index})` },
+  { value: "", label: `Native Segwit (m/84'/${network}'/0'/0/{index})` },
+  { value: "nativeSegwitMiddle", label: `Native Segwit (m/84'/${network}'/{index}'/0/0)` },
+  { value: "segwit", label: `Segwit (m/49'/${network}'/0'/0/{index})` },
+  { value: "legacy", label: `Legacy (m/44'/${network}'/0'/0/{index})` },
 ];
 
 const useLedgerTypes = (chain: Chain) => {
@@ -77,11 +77,11 @@ export const DerivationPathDropdown = ({
             <Text textStyle="caption">
               {types
                 .find(({ value }) => !derivationPathType || value === derivationPathType)
-                ?.label?.replace('{index}', (ledgerIndex || 0).toString())}
+                ?.label?.replace("{index}", (ledgerIndex || 0).toString())}
             </Text>
           </Box>
         }
-        value={derivationPathType || ''}
+        value={derivationPathType || ""}
       />
     </Box>
   );

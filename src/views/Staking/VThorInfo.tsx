@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import type { WalletOption } from '@swapkit/core';
-import { Box, Icon, Link, Tooltip } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoTip } from 'components/InfoTip';
-import { toOptionalFixed } from 'helpers/number';
-import { fetchVthorStats } from 'helpers/staking';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { ROUTES } from 'settings/router';
+import { Text } from "@chakra-ui/react";
+import type { WalletOption } from "@swapkit/sdk";
+import { Box, Icon, Link, Tooltip } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoTip } from "components/InfoTip";
+import { toOptionalFixed } from "helpers/number";
+import { fetchVthorStats } from "helpers/staking";
+import { memo, useCallback, useEffect, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { ROUTES } from "settings/router";
 
-import { AddVThorMM } from './AddVThorMM';
-import { useV1ThorStakeInfo, useVthorUtil } from './hooks';
+import { AddVThorMM } from "./AddVThorMM";
+import { useV1ThorStakeInfo, useVthorUtil } from "./hooks";
 
 type Props = {
   ethAddress?: string;
@@ -41,12 +41,12 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
   }, [handleRefresh]);
 
   const getVthorAPR = useCallback(async () => {
-    if (thorStaked && thorStaked.gt(0)) {
+    if (thorStaked?.gt(0)) {
       try {
-        const stats = await fetchVthorStats(thorStaked.getValue('number'));
+        const stats = await fetchVthorStats(thorStaked.getValue("number"));
         setVthorApy(stats);
-      } catch (error: NotWorth) {
-        logException(error.toString());
+      } catch (error) {
+        logException((error as Todo).toString());
         setVthorApy(DEFAULT_VTHOR_STATS);
       }
     }
@@ -66,14 +66,14 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
         <InfoTip
           content={
             <>
-              {t('views.stakingVThor.stakeInfoDescription')}
+              {t("views.stakingVThor.stakeInfoDescription")}
               <Link className="text-twitter-blue" to={ROUTES.LegacyStake}>
-                {t('views.stakingVThor.goToUnstake')}
+                {t("views.stakingVThor.goToUnstake")}
               </Link>
             </>
           }
           onClose={() => setStakeInfoOpen(false)}
-          title={t('views.stakingVThor.stakeInfoTitle')}
+          title={t("views.stakingVThor.stakeInfoTitle")}
           type="warn"
         />
       )}
@@ -87,7 +87,7 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
             justify="between"
           >
             <Text fontWeight="semibold" textStyle="subtitle2">
-              {t('views.stakingVThor.statTitle')}
+              {t("views.stakingVThor.statTitle")}
             </Text>
 
             <Box alignCenter row className="gap-2">
@@ -99,16 +99,16 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.stakingVThor.stakingApy')}
+                {t("views.stakingVThor.stakingApy")}
               </Text>
 
-              <Tooltip className="cursor-pointer" content={t('views.stakingVThor.apyTip')}>
+              <Tooltip className="cursor-pointer" content={t("views.stakingVThor.apyTip")}>
                 <Icon color="primaryBtn" name="infoCircle" size={16} />
               </Tooltip>
             </Box>
             <Box alignCenter row className="gap-2">
               <Text fontWeight="medium" textStyle="subtitle2">
-                {vthorApy.apy > 0 ? `${toOptionalFixed(vthorApy.apy, 3)}%` : '-'}
+                {vthorApy.apy > 0 ? `${toOptionalFixed(vthorApy.apy, 3)}%` : "-"}
               </Text>
               <Tooltip
                 className="cursor-pointer"
@@ -124,10 +124,10 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.stakingVThor.totalStaked')}
+                {t("views.stakingVThor.totalStaked")}
               </Text>
 
-              <Tooltip className="cursor-pointer" content={t('views.stakingVThor.totalThorTip')}>
+              <Tooltip className="cursor-pointer" content={t("views.stakingVThor.totalThorTip")}>
                 <Icon color="primaryBtn" name="infoCircle" size={16} />
               </Tooltip>
             </Box>
@@ -139,14 +139,14 @@ export const VThorInfo = memo(({ walletType, ethAddress }: Props) => {
           <Box alignCenter row className="gap-2" justify="between">
             <Box alignCenter row className="gap-x-1">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.stakingVThor.redeemableBalance')}
+                {t("views.stakingVThor.redeemableBalance")}
               </Text>
             </Box>
 
             <Text fontWeight="medium" textStyle="subtitle2">
               {vthorBalance.gt(0)
-                ? `${vthorBalance.mul(getRate()).toCurrency('')} / ${vthorBalance.toCurrency('')}`
-                : '-'}
+                ? `${vthorBalance.mul(getRate()).toCurrency("")} / ${vthorBalance.toCurrency("")}`
+                : "-"}
             </Text>
           </Box>
         </Box>

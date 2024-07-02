@@ -1,9 +1,9 @@
-import { useConnectWallet, useWalletBalance, useWalletConnectModal } from 'context/wallet/hooks';
-import { useWalletDispatch } from 'context/wallet/WalletProvider';
-import { useWalletDrawer } from 'hooks/useWalletDrawer';
-import { useCallback, useState } from 'react';
-import { SUPPORTED_CHAINS } from 'settings/chain';
-import { IS_LEDGER_LIVE } from 'settings/config';
+import { useWalletDispatch } from "context/wallet/WalletProvider";
+import { useConnectWallet, useWalletBalance, useWalletConnectModal } from "context/wallet/hooks";
+import { useWalletDrawer } from "hooks/useWalletDrawer";
+import { useCallback, useState } from "react";
+import { SUPPORTED_CHAINS } from "settings/chain";
+import { IS_LEDGER_LIVE } from "settings/config";
 
 export const useWalletDrawerActions = () => {
   const walletDispatch = useWalletDispatch();
@@ -21,7 +21,7 @@ export const useWalletDrawerActions = () => {
 
   const onConfirmDisconnect = useCallback(() => {
     close();
-    walletDispatch({ type: 'disconnect', payload: undefined });
+    walletDispatch({ type: "disconnect", payload: undefined });
     setIsDisconnectModalOpened(false);
   }, [close, walletDispatch]);
 

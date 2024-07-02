@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Button, Checkbox, Icon } from 'components/Atomic';
-import { borderHoverHighlightClass, genericBgClasses } from 'components/constants';
-import { showSuccessToast } from 'components/Toast';
-import copy from 'copy-to-clipboard';
-import { useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Button, Checkbox, Icon } from "components/Atomic";
+import { showSuccessToast } from "components/Toast";
+import { borderHoverHighlightClass, genericBgClasses } from "components/constants";
+import copy from "copy-to-clipboard";
+import { useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   phrase: string;
@@ -14,11 +14,11 @@ type Props = {
 
 export const ConfirmKeystorePhrase = ({ phrase, onConfirm }: Props) => {
   const [keystoreCopyConfirmed, setKeystoreCopyConfirmed] = useState(false);
-  const phrases = useMemo(() => phrase?.split(' ') || [], [phrase]);
+  const phrases = useMemo(() => phrase?.split(" ") || [], [phrase]);
 
   const handleCopyPhrase = useCallback(() => {
     copy(phrase);
-    showSuccessToast(t('views.walletModal.phraseCopied'));
+    showSuccessToast(t("views.walletModal.phraseCopied"));
   }, [phrase]);
 
   return (
@@ -30,12 +30,12 @@ export const ConfirmKeystorePhrase = ({ phrase, onConfirm }: Props) => {
             rightIcon={<Icon color="primaryBtn" name="copy" />}
             variant="borderlessTint"
           >
-            {t('views.walletModal.copyPhrase')}
+            {t("views.walletModal.copyPhrase")}
           </Button>
         </Box>
         <Box
           className={classNames(
-            'ph-no-capture grid p-2.5 rounded-2xl grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+            "ph-no-capture grid p-2.5 rounded-2xl grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
             genericBgClasses.primary,
             borderHoverHighlightClass,
           )}
@@ -57,7 +57,7 @@ export const ConfirmKeystorePhrase = ({ phrase, onConfirm }: Props) => {
           className="pt-4 pb-2"
           label={
             <Box alignCenter>
-              <Text>{t('views.walletModal.confirmBackupKeystore')}</Text>
+              <Text>{t("views.walletModal.confirmBackupKeystore")}</Text>
             </Box>
           }
           onValueChange={(v) => setKeystoreCopyConfirmed(v)}

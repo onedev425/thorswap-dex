@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Icon } from 'components/Atomic';
-import { ChainBadge } from 'components/ChainBadge';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { useCallback } from 'react';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Icon } from "components/Atomic";
+import { ChainBadge } from "components/ChainBadge";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { useCallback } from "react";
 
 type Props = {
   stakingAsset: AssetValue;

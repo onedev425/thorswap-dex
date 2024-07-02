@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
-import type { IconName } from 'components/Atomic';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { baseTextHoverClass } from 'components/constants';
-import type { ReactNode } from 'react';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import type { IconName } from "components/Atomic";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { baseTextHoverClass } from "components/constants";
+import type { ReactNode } from "react";
+import { memo } from "react";
 
 type Props = {
   value: string | ReactNode;
@@ -11,10 +11,10 @@ type Props = {
   icon?: IconName;
 };
 
-export const InfoWithTooltip = memo(({ value, tooltip, icon = 'infoCircle' }: Props) => {
+export const InfoWithTooltip = memo(({ value, tooltip, icon = "infoCircle" }: Props) => {
   return (
     <Box alignCenter className="gap-x-2">
-      {typeof value === 'string' ? (
+      {typeof value === "string" ? (
         <Text className="text-right" fontWeight="semibold" textStyle="caption" variant="primary">
           {value}
         </Text>

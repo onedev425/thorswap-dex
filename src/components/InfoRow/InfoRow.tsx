@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import type { InfoRowProps } from 'components/InfoRow/types';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import type { InfoRowProps } from "components/InfoRow/types";
 
 const labelVariant = {
-  sm: 'caption-xs',
-  md: 'caption',
-  lg: 'body',
+  sm: "caption-xs",
+  md: "caption",
+  lg: "body",
 } as const;
-const valueVariant = { sm: 'caption-xs', md: 'caption', lg: 'body' } as const;
+const valueVariant = { sm: "caption-xs", md: "caption", lg: "body" } as const;
 const heightVariant = {
-  sm: 'min-h-[30px]',
-  md: 'min-h-[43px]',
-  lg: 'min-h-[52px]',
+  sm: "min-h-[30px]",
+  md: "min-h-[43px]",
+  lg: "min-h-[52px]",
 } as const;
 
 export const InfoRow = ({
@@ -20,18 +20,18 @@ export const InfoRow = ({
   value,
   className,
   onClick,
-  size = 'md',
+  size = "md",
   showBorder = true,
   capitalizeLabel = false,
 }: InfoRowProps) => {
   const borderClasses =
-    'border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20';
+    "border-0 border-b border-solid border-bottom border-light-typo-gray dark:border-dark-typo-gray !border-opacity-20";
 
   return (
     <Box
       alignCenter
       className={classNames(
-        'gap-4',
+        "gap-4",
         { [borderClasses]: showBorder },
         heightVariant[size],
         className,
@@ -39,11 +39,11 @@ export const InfoRow = ({
       justify="between"
       onClick={onClick}
     >
-      {typeof label === 'string' ? (
+      {typeof label === "string" ? (
         <Text
           fontWeight="medium"
           textStyle={labelVariant[size]}
-          textTransform={capitalizeLabel ? 'capitalize' : 'none'}
+          textTransform={capitalizeLabel ? "capitalize" : "none"}
           variant="secondary"
         >
           {label}
@@ -52,7 +52,7 @@ export const InfoRow = ({
         label
       )}
 
-      {typeof value === 'string' || typeof value === 'number' ? (
+      {typeof value === "string" || typeof value === "number" ? (
         <Text className="text-right" fontWeight="semibold" textStyle={valueVariant[size]}>
           {value}
         </Text>

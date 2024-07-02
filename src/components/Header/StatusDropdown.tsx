@@ -1,17 +1,16 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import { Box, DropdownMenu } from 'components/Atomic';
-import { chainName } from 'helpers/chainName';
-import { useHardCapPercentage } from 'hooks/useCheckHardCap';
-import { useMimir } from 'hooks/useMimir';
-import { StatusType, useNetwork } from 'hooks/useNetwork';
-import { memo, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { SUPPORTED_CHAINS } from 'settings/chain';
-import { MIDGARD_URL, THORNODE_URL } from 'settings/config';
-import { parse } from 'url';
+import { parse } from "url";
+import { Text } from "@chakra-ui/react";
+import { Box, DropdownMenu } from "components/Atomic";
+import { chainName } from "helpers/chainName";
+import { useHardCapPercentage } from "hooks/useCheckHardCap";
+import { useMimir } from "hooks/useMimir";
+import { StatusType, useNetwork } from "hooks/useNetwork";
+import { memo, useMemo } from "react";
+import { t } from "services/i18n";
+import { SUPPORTED_CHAINS } from "settings/chain";
+import { MIDGARD_URL, THORNODE_URL } from "settings/config";
 
-import { StatusBadge } from './StatusBadge';
+import { StatusBadge } from "./StatusBadge";
 
 type StatusItem = {
   label: string;
@@ -20,14 +19,14 @@ type StatusItem = {
 };
 
 const getHostnameFromUrl = (u: string): string | null => {
-  if (typeof u !== 'string') return null;
+  if (typeof u !== "string") return null;
 
   const parsed = parse(u, true);
   return parsed?.hostname ?? null;
 };
 
 // Midgard IP on devnet OR on test|chaos|mainnet
-const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || '';
+const midgardUrl = getHostnameFromUrl(MIDGARD_URL) || "";
 
 export const StatusDropdown = memo(() => {
   const { outboundQueue, outboundQueueLevel } = useNetwork();
@@ -37,14 +36,14 @@ export const StatusDropdown = memo(() => {
   const liquidityCapLabel = useMemo(
     () =>
       hardCapPercentage >= 100
-        ? `${t('components.statusDropdown.capLimit')} (${hardCapPercentage.toFixed(2)}%)`
-        : `${t('components.statusDropdown.capAvailable')} (${hardCapPercentage.toFixed(2)}%)`,
+        ? `${t("components.statusDropdown.capLimit")} (${hardCapPercentage.toFixed(2)}%)`
+        : `${t("components.statusDropdown.capAvailable")} (${hardCapPercentage.toFixed(2)}%)`,
     [hardCapPercentage],
   );
 
   const chainsData = useMemo(
     () =>
-      SUPPORTED_CHAINS.filter((chain) => chain !== Chain.Binance).map((chain) => ({
+      SUPPORTED_CHAINS.map((chain) => ({
         label: chainName(chain, true),
         status: isChainHalted[chain]
           ? StatusType.Offline
@@ -74,12 +73,12 @@ export const StatusDropdown = memo(() => {
   const menuItemData: StatusItem[] = useMemo(
     () => [
       {
-        label: t('components.statusDropdown.outbound'),
-        value: `${t('components.statusDropdown.queue')}: ${outboundQueue} (${outboundQueueLevel})`,
+        label: t("components.statusDropdown.outbound"),
+        value: `${t("components.statusDropdown.queue")}: ${outboundQueue} (${outboundQueueLevel})`,
         statusType: statusType,
       },
       {
-        label: t('components.statusDropdown.liqCap'),
+        label: t("components.statusDropdown.liqCap"),
         value: liquidityCapLabel,
         statusType: hardCapStatus,
       },
@@ -88,17 +87,17 @@ export const StatusDropdown = memo(() => {
         statusType: status,
         value:
           status === StatusType.Offline
-            ? t('components.statusDropdown.offline')
-            : t('components.statusDropdown.online'),
+            ? t("components.statusDropdown.offline")
+            : t("components.statusDropdown.online"),
       })),
       {
-        label: t('components.statusDropdown.midgard'),
+        label: t("components.statusDropdown.midgard"),
         value: midgardUrl,
         statusType: StatusType.Good,
       },
       {
-        label: t('components.statusDropdown.thornode'),
-        value: getHostnameFromUrl(THORNODE_URL) || '',
+        label: t("components.statusDropdown.thornode"),
+        value: getHostnameFromUrl(THORNODE_URL) || "",
         statusType: StatusType.Good,
       },
     ],
@@ -136,11 +135,11 @@ export const StatusDropdown = memo(() => {
     <DropdownMenu
       hideIcon
       menuItems={menuItems}
-      onChange={() => {}}
+      onChange={() => undefined}
       openComponent={<StatusBadge status={statusType} />}
       placement="top-end"
-      tooltipContent={t('components.statusDropdown.networkStatus')}
-      value={t('components.statusDropdown.networkStatus')}
+      tooltipContent={t("components.statusDropdown.networkStatus")}
+      value={t("components.statusDropdown.networkStatus")}
     />
   );
 });

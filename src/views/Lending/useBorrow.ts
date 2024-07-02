@@ -1,10 +1,10 @@
-import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { useWallet } from 'context/wallet/hooks';
-import { useDebouncedValue } from 'hooks/useDebouncedValue';
-import { useVTHORBalance } from 'hooks/useHasVTHOR';
-import { useStreamTxToggle } from 'hooks/useStreamTxToggle';
-import { useEffect, useMemo } from 'react';
-import { useGetBorrowQuoteQuery } from 'store/thorswap/api';
+import { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
+import { useWallet } from "context/wallet/hooks";
+import { useDebouncedValue } from "hooks/useDebouncedValue";
+import { useVTHORBalance } from "hooks/useHasVTHOR";
+import { useStreamTxToggle } from "hooks/useStreamTxToggle";
+import { useEffect, useMemo } from "react";
+import { useGetBorrowQuoteQuery } from "store/thorswap/api";
 
 interface UseBorrowProps {
   recipientAddress: string;
@@ -25,7 +25,7 @@ export const useBorrow = ({
   slippage,
   estimatedLoanSizeUsd,
 }: UseBorrowProps) => {
-  const amountString = amount.gte(0) ? amount.toSignificant(8) : '0';
+  const amountString = amount.gte(0) ? amount.toSignificant(8) : "0";
   const debouncedAmount = useDebouncedValue(amountString);
   const debouncedSlippage = useDebouncedValue(slippage);
 
@@ -105,7 +105,7 @@ export const useBorrow = ({
 
   const totalFeeUsd = useMemo(() => {
     const fees = borrowData?.fees.THOR;
-    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+    const outboundFees = fees?.find((fee) => fee.type === "outbound");
 
     // extracting affiliate fee from total fee - it has its own section in the UI
     const totalFeeNum = (outboundFees?.totalFeeUSD || 0) - (outboundFees?.affiliateFeeUSD || 0);
@@ -115,7 +115,7 @@ export const useBorrow = ({
 
   const exchangeFeeUsd = useMemo(() => {
     const fees = borrowData?.fees.THOR;
-    const outboundFees = fees?.find((fee) => fee.type === 'outbound');
+    const outboundFees = fees?.find((fee) => fee.type === "outbound");
 
     return new SwapKitNumber({ value: outboundFees?.affiliateFeeUSD || 0, decimal: 8 });
   }, [borrowData?.fees.THOR]);
@@ -127,12 +127,12 @@ export const useBorrow = ({
   const borrowSlippage = useMemo(() => {
     if (!data) return 0;
 
-    const expectedDebtNum = expectedDebt.getValue('number');
-    const expectedOutputUSD = expectedOutput.getValue('number');
+    const expectedDebtNum = expectedDebt.getValue("number");
+    const expectedOutputUSD = expectedOutput.getValue("number");
 
     const slippagePercent =
       // does not account for exchange fee
-      ((expectedDebtNum - expectedOutputUSD - exchangeFeeUsd.getValue('number')) /
+      ((expectedDebtNum - expectedOutputUSD - exchangeFeeUsd.getValue("number")) /
         expectedOutputUSD) *
       100;
 
@@ -167,7 +167,7 @@ const getBasisPoints = ({
   loanSizeUsd: number;
 }) => {
   // edge cases - no need to calculate
-  if (loanSizeUsd < 100 || VTHORBalance.gte(500_000)) return '0';
+  if (loanSizeUsd < 100 || VTHORBalance.gte(500_000)) return "0";
 
   // default basis points
   let basisPoints = 100;

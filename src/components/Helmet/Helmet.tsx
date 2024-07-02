@@ -1,4 +1,4 @@
-import { Helmet as ReactHelmet } from 'react-helmet-async';
+import { Helmet as ReactHelmet } from "react-helmet-async";
 
 export const Helmet = ({
   title,

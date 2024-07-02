@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Button } from 'components/Atomic';
-import { FieldLabel, TextField } from 'components/Form';
-import { HoverIcon } from 'components/HoverIcon';
-import { Input } from 'components/Input';
-import { StepActions } from 'components/Stepper';
-import { useStepper } from 'components/Stepper/StepperContext';
-import type { DeepRequired, FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Button } from "components/Atomic";
+import { FieldLabel, TextField } from "components/Form";
+import { HoverIcon } from "components/HoverIcon";
+import { Input } from "components/Input";
+import { StepActions } from "components/Stepper";
+import { useStepper } from "components/Stepper/StepperContext";
+import type { DeepRequired, FieldErrorsImpl, UseFormRegister } from "react-hook-form";
+import { t } from "services/i18n";
 import type {
   MultisigFormFields,
   MultisigFormValues,
   SubmitMultisigForm,
-} from 'views/Multisig/MultisigCreate/types';
+} from "views/Multisig/MultisigCreate/types";
 
 type Props = {
   id: number;
@@ -40,30 +40,30 @@ export const MembersStep = ({
     <Box col className="self-stretch mx-2 gap-6" flex={1}>
       <Box col className="gap-3" flex={1}>
         <Text fontWeight="normal" textStyle="caption">
-          {t('views.multisig.addMembersToWallet')}
+          {t("views.multisig.addMembersToWallet")}
         </Text>
       </Box>
       <Box className="justify-between">
         <Text fontWeight="bold" textStyle="body">
-          {t('views.multisig.members')}
+          {t("views.multisig.members")}
         </Text>
         <HoverIcon
           color="secondary"
           iconName="infoCircle"
-          tooltip={t('views.multisig.membersTooltip')}
+          tooltip={t("views.multisig.membersTooltip")}
         />
       </Box>
       <Box col>
         {!!errors.signatureValidation && (
-          <FieldLabel hasError label={errors.signatureValidation.message || ''} />
+          <FieldLabel hasError label={errors.signatureValidation.message || ""} />
         )}
 
         <Box className="mx-2">
           <Box flex={1}>
-            <Text textStyle="caption">{t('views.multisig.memberName')}</Text>
+            <Text textStyle="caption">{t("views.multisig.memberName")}</Text>
           </Box>
           <Box flex={2}>
-            <Text textStyle="caption">{t('common.pubKey')}</Text>
+            <Text textStyle="caption">{t("common.pubKey")}</Text>
           </Box>
         </Box>
 
@@ -74,7 +74,7 @@ export const MembersStep = ({
                 <TextField
                   field={register(`members.${index}.name`)}
                   hasError={!!errors.members?.[index]?.name}
-                  placeholder={t('views.multisig.memberName')}
+                  placeholder={t("views.multisig.memberName")}
                 />
               </Box>
               <Box flex={2}>
@@ -83,7 +83,7 @@ export const MembersStep = ({
                     required: isRequiredMember(index),
                   })}
                   hasError={!!errors.members?.[index]?.pubKey}
-                  placeholder={t('views.multisig.publicKeyBase64')}
+                  placeholder={t("views.multisig.publicKeyBase64")}
                 />
               </Box>
 
@@ -91,7 +91,7 @@ export const MembersStep = ({
                 <HoverIcon
                   color="secondary"
                   iconName="infoCircle"
-                  tooltip={t('views.multisig.requiredMember')}
+                  tooltip={t("views.multisig.requiredMember")}
                 />
               ) : (
                 <HoverIcon
@@ -100,29 +100,29 @@ export const MembersStep = ({
                   onClick={() => {
                     removeMember(index);
                   }}
-                  tooltip={t('views.multisig.removeMember')}
+                  tooltip={t("views.multisig.removeMember")}
                 />
               )}
             </Box>
           ))}
 
           <Button stretch onClick={addMember} variant="outlineTertiary">
-            {t('views.multisig.addMember')}
+            {t("views.multisig.addMember")}
           </Button>
         </Box>
       </Box>
       <Box className="justify-between">
         <Text fontWeight="bold" textStyle="body">
-          {t('views.multisig.signers')}
+          {t("views.multisig.signers")}
         </Text>
         <HoverIcon
           color="secondary"
           iconName="infoCircle"
-          tooltip={t('views.multisig.signersTooltip')}
+          tooltip={t("views.multisig.signersTooltip")}
         />
       </Box>
       <Box center className="mx-1 gap-2">
-        <Text textStyle="caption">{t('views.multisig.setMultisigSigners')}</Text>
+        <Text textStyle="caption">{t("views.multisig.setMultisigSigners")}</Text>
 
         <Box center className="gap-2">
           <Input
@@ -130,13 +130,13 @@ export const MembersStep = ({
             border="rounded"
             className="py-1 min-w-[25px] text-right"
             containerClassName={classNames({
-              '!border-red': !!errors.threshold,
+              "!border-red": !!errors.threshold,
             })}
             {...formFields.threshold}
           />
 
           <Text className="whitespace-nowrap" textStyle="caption">
-            {t('views.multisig.outOf')}
+            {t("views.multisig.outOf")}
             {formFields.members.length}
           </Text>
         </Box>

@@ -1,22 +1,22 @@
-import { AssetValue, type BaseWallet, Chain } from '@swapkit/core';
-import type { ThorchainWallets } from '@swapkit/toolbox-cosmos';
-import { Button, Icon } from 'components/Atomic';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useAddressUtils } from 'hooks/useAddressUtils';
-import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from 'hooks/useNetworkFee';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { multisig } from 'services/multisig';
-import { ROUTES } from 'settings/router';
-import { useMultisig } from 'store/multisig/hooks';
-import { useAppSelector } from 'store/store';
-import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
+import { AssetValue, type BaseWallet, Chain } from "@swapkit/sdk";
+import type { ThorchainWallets } from "@swapkit/toolbox-cosmos";
+import { Button, Icon } from "components/Atomic";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useAddressUtils } from "hooks/useAddressUtils";
+import { getMultiplierForAsset, getNetworkFee, parseFeeToAssetAmount } from "hooks/useNetworkFee";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { multisig } from "services/multisig";
+import { ROUTES } from "settings/router";
+import { useMultisig } from "store/multisig/hooks";
+import { useAppSelector } from "store/store";
+import { useGetGasPriceRatesQuery } from "store/thorswap/api";
 
 export const useMultisigWalletInfo = () => {
   const { runeBalance, loadingBalances } = useMultissigAssets();
   const { address, threshold } = useAppSelector(({ multisig }) => multisig);
-  const formatPrice = useFormatPrice(2, '');
+  const formatPrice = useFormatPrice(2, "");
 
   const { shortAddress, handleCopyAddress } = useAddressUtils(address);
   const formattedRune = `${formatPrice(runeBalance || 0)} ${
@@ -28,12 +28,12 @@ export const useMultisigWalletInfo = () => {
       return formattedRune;
     }
 
-    return loadingBalances ? <Icon spin name="refresh" size={16} /> : '-';
+    return loadingBalances ? <Icon spin name="refresh" size={16} /> : "-";
   }, [formattedRune, loadingBalances, runeBalance]);
 
   const info = [
     {
-      label: t('views.multisig.safeAddress'),
+      label: t("views.multisig.safeAddress"),
       value: (
         <Button
           className="!px-2 h-[30px]"
@@ -43,7 +43,7 @@ export const useMultisigWalletInfo = () => {
             e.preventDefault();
           }}
           rightIcon={<Icon name="copy" size={14} />}
-          tooltip={t('common.copy')}
+          tooltip={t("common.copy")}
           variant="borderlessTint"
         >
           {shortAddress}
@@ -51,10 +51,10 @@ export const useMultisigWalletInfo = () => {
       ),
     },
     {
-      label: t('views.multisig.runeBalance'),
+      label: t("views.multisig.runeBalance"),
       value: runeValue,
     },
-    { label: t('views.multisig.threshold'), value: threshold },
+    { label: t("views.multisig.threshold"), value: threshold },
   ];
 
   return info;

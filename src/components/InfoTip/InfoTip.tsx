@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Icon, Tooltip } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import type { CardStyleType } from 'components/HighlightCard/types';
-import { cardFontColors } from 'components/HighlightCard/types';
-import type { ReactNode } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Icon, Tooltip } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import type { CardStyleType } from "components/HighlightCard/types";
+import { cardFontColors } from "components/HighlightCard/types";
+import type { ReactNode } from "react";
 
 type Props = {
   className?: string;
@@ -30,7 +30,7 @@ export const InfoTip = ({
   children,
   title,
   content,
-  type = 'primary',
+  type = "primary",
   onClose,
   onClick,
   contentClassName,
@@ -39,10 +39,10 @@ export const InfoTip = ({
   return (
     <HighlightCard
       className={classNames(
-        'self-stretch items-center !px-2',
-        title || onClose ? '!pt-4' : '!pt-2',
-        { 'cursor-pointer': !!onClick },
-        content ? 'pb-2' : 'pb-4',
+        "self-stretch items-center !px-2",
+        title || onClose ? "!pt-4" : "!pt-2",
+        { "cursor-pointer": !!onClick },
+        content ? "pb-2" : "pb-4",
         className,
       )}
       onClick={onClick}
@@ -54,7 +54,7 @@ export const InfoTip = ({
             <Box className="w-[100%]">
               {tooltip ? <Tooltip content={tooltip}>{icons[type]}</Tooltip> : icons[type]}
 
-              {typeof title === 'string' ? <Text className="mx-2">{title}</Text> : title}
+              {typeof title === "string" ? <Text className="mx-2">{title}</Text> : title}
             </Box>
           )}
 
@@ -67,7 +67,7 @@ export const InfoTip = ({
       {children ||
         (content && (
           <Text
-            className={classNames('px-2 py-2 brightness-90', contentClassName)}
+            className={classNames("px-2 py-2 brightness-90", contentClassName)}
             fontWeight="semibold"
             textStyle="caption"
             variant={cardFontColors[type]}

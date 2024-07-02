@@ -1,9 +1,9 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Icon } from 'components/Atomic';
-import type { InputProps } from 'components/Input/types';
-import type { RefObject } from 'react';
-import { forwardRef, useRef } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Icon } from "components/Atomic";
+import type { InputProps } from "components/Input/types";
+import type { RefObject } from "react";
+import { forwardRef, useRef } from "react";
 
 const DEFAULT_ICON_SIZE = 16;
 
@@ -35,25 +35,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <Box className={classNames(stretch ? 'w-full' : 'w-fit')}>
+      <Box className={classNames(stretch ? "w-full" : "w-fit")}>
         <Box
           alignCenter
           className={classNames(
-            'flex flex-row py-1.5 transition-all',
-            'border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray dark:focus-within:border-dark-typo-gray',
-            'hover:!border-opacity-100',
-            border ? 'border-solid' : 'border-none',
-            stretch ? 'w-full' : 'w-fit',
+            "flex flex-row py-1.5 transition-all",
+            "border-light-border-primary focus-within:border-dark-typo-gray dark:border-dark-border-primary hover:border-dark-typo-gray dark:hover:border-dark-typo-gray dark:focus-within:border-dark-typo-gray",
+            "hover:!border-opacity-100",
+            border ? "border-solid" : "border-none",
+            stretch ? "w-full" : "w-fit",
             {
-              'px-2 border rounded-2xl': border === 'rounded',
-              'border-0 border-b': border === 'bottom',
+              "px-2 border rounded-2xl": border === "rounded",
+              "border-0 border-b": border === "bottom",
             },
             containerClassName,
           )}
           onClick={focus}
         >
           {customPrefix &&
-            (typeof customPrefix === 'string' ? (
+            (typeof customPrefix === "string" ? (
               <Text textStyle="caption-xs" variant="secondary">
                 {customPrefix}
               </Text>
@@ -63,8 +63,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
           {icon && (
             <Icon
-              className={classNames('pr-2', {
-                'pl-2': border === 'rounded',
+              className={classNames("pr-2", {
+                "pl-2": border === "rounded",
               })}
               color="tertiary"
               name={icon}
@@ -74,10 +74,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
           <input
             className={classNames(
-              'font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors',
-              'border-none font-normal text-[14px] focus:outline-none',
-              stretch ? 'w-full' : 'md:w-52',
-              { 'md:w-48': icon && !stretch, 'cursor-not-allowed': disabled },
+              "font-primary bg-transparent dark:placeholder-dark-typo-gray dark:text-dark-typo-primary placeholder-light-typo-gray text-light-typo-primary transition-colors",
+              "border-none font-normal text-[14px] focus:outline-none",
+              stretch ? "w-full" : "md:w-52",
+              { "md:w-48": icon && !stretch, "cursor-not-allowed": disabled },
               className,
             )}
             disabled={disabled}
@@ -94,7 +94,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </Text>
           )}
           {suffix &&
-            (typeof suffix === 'string' ? (
+            (typeof suffix === "string" ? (
               <Text textStyle="caption-xs" variant="secondary">
                 {suffix}
               </Text>

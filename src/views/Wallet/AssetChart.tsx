@@ -1,10 +1,10 @@
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box } from 'components/Atomic';
-import { ChartPreview } from 'components/ChartPreview/ChartPreview';
-import { memo } from 'react';
-import { ViewMode } from 'types/app';
-import { useChartData } from 'views/Wallet/hooks';
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box } from "components/Atomic";
+import { ChartPreview } from "components/ChartPreview/ChartPreview";
+import { memo } from "react";
+import { ViewMode } from "types/app";
+import { useChartData } from "views/Wallet/hooks";
 
 type Props = {
   asset: AssetValue;
@@ -18,9 +18,9 @@ export const AssetChart = memo(({ asset, mode, sparkline }: Props) => {
   return (
     <Box
       center
-      className={classNames('opacity-0 w-[99%] transition-opacity duration-500', {
-        '!opacity-100': values.length > 0,
-        '!-my-[20px] lg:w-[100px] xl:w-[320px]': mode === ViewMode.LIST,
+      className={classNames("opacity-0 w-[99%] transition-opacity duration-500", {
+        "!opacity-100": values.length > 0,
+        "!-my-[20px] lg:w-[100px] xl:w-[320px]": mode === ViewMode.LIST,
       })}
       style={{ height: mode === ViewMode.CARD ? 100 : 80 }}
     >

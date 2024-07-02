@@ -1,5 +1,5 @@
-import type { AssetValue } from '@swapkit/core';
-import type { Token } from 'store/thorswap/types';
+import type { AssetValue } from "@swapkit/sdk";
+import type { Token } from "store/thorswap/types";
 
 export type AssetSelectProps = {
   assets?: AssetSelectType[];
@@ -13,7 +13,7 @@ export type AssetSelectProps = {
   assetTypeComponent?: React.ReactNode;
 };
 
-export type AssetSelectType = Pick<Token, 'logoURI'> & {
+export type AssetSelectType = Pick<Token, "logoURI"> & {
   asset: AssetValue;
   apr?: string;
   filled?: number;

@@ -1,15 +1,15 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Button, Icon, Tooltip } from 'components/Atomic';
-import { ReloadButton } from 'components/ReloadButton';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useEffect, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { LoanInfoCard } from 'views/Lending/LoanInfoCard';
-import { LoanInfoRow } from 'views/Lending/LoanInfoRow';
-import type { LoanPosition } from 'views/Lending/types';
-import { LendingTab, LendingViewTab } from 'views/Lending/types';
+import { Box, Flex, Text } from "@chakra-ui/react";
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { Button, Icon, Tooltip } from "components/Atomic";
+import { ReloadButton } from "components/ReloadButton";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useEffect, useMemo } from "react";
+import { t } from "services/i18n";
+import { LoanInfoCard } from "views/Lending/LoanInfoCard";
+import { LoanInfoRow } from "views/Lending/LoanInfoRow";
+import type { LoanPosition } from "views/Lending/types";
+import { LendingTab, LendingViewTab } from "views/Lending/types";
 
 type Props = {
   setTab: (value: LendingTab) => void;
@@ -44,14 +44,14 @@ export const BorrowPositionsTab = ({
   const infoFields = useMemo(
     () => [
       {
-        header: t('views.lending.totalCollateralValue'),
-        value: totalCollateral?.gt(0) ? formatPrice(totalCollateral.toFixed(2)) : '-',
-        tooltipText: 'Fair market value of the assets used to secure a loan',
+        header: t("views.lending.totalCollateralValue"),
+        value: totalCollateral?.gt(0) ? formatPrice(totalCollateral.toFixed(2)) : "-",
+        tooltipText: "Fair market value of the assets used to secure a loan",
       },
       {
-        header: t('views.lending.totalDebtValue'),
-        value: totalBorrowed?.gt(0) ? formatPrice(totalBorrowed) : '-',
-        tooltipText: 'Value of borrowed assets',
+        header: t("views.lending.totalDebtValue"),
+        value: totalBorrowed?.gt(0) ? formatPrice(totalBorrowed) : "-",
+        tooltipText: "Value of borrowed assets",
       },
     ],
     [formatPrice, totalBorrowed, totalCollateral],
@@ -68,14 +68,14 @@ export const BorrowPositionsTab = ({
           <Flex flex={2} justifyContent="space-between" w="full">
             <Flex alignItems="center" flex={1} justifyContent="space-between">
               <Text ml={3} mr={2} textStyle="h3">
-                {t('views.lending.myLoans')}
+                {t("views.lending.myLoans")}
               </Text>
 
               <ReloadButton loading={isLoading} onLoad={refreshLoans} size={16} />
             </Flex>
           </Flex>
           <Flex
-            direction={{ base: 'column', md: 'row' }}
+            direction={{ base: "column", md: "row" }}
             flex={2}
             gap={8}
             justifyContent="space-between"
@@ -98,28 +98,28 @@ export const BorrowPositionsTab = ({
                   <Flex flex={5}>
                     <Flex flex={1}>
                       <Text color="secondary" ml={3} textStyle="caption">
-                        {t('views.lending.collateral')}
+                        {t("views.lending.collateral")}
                       </Text>
                     </Flex>
                     <Flex flex={1}>
                       <Text color="secondary" textStyle="caption">
-                        {t('views.lending.debt')}
+                        {t("views.lending.debt")}
                       </Text>
                     </Flex>
                     <Flex flex={1}>
-                      <Tooltip content={t('views.lending.unlockDescription')}>
+                      <Tooltip content={t("views.lending.unlockDescription")}>
                         <Flex align="center" flex={1} gap={1}>
                           <Text color="secondary" textStyle="caption">
-                            {t('views.lending.unlock')}
+                            {t("views.lending.unlock")}
                           </Text>
                           <Icon color="secondary" name="infoCircle" size={14} />
                         </Flex>
                       </Tooltip>
                     </Flex>
                   </Flex>
-                  <Flex display={{ lg: 'flex', base: 'none' }} flex={3} pl="32px">
+                  <Flex display={{ lg: "flex", base: "none" }} flex={3} pl="32px">
                     <Text color="secondary" textStyle="caption">
-                      {t('views.lending.actions')}
+                      {t("views.lending.actions")}
                     </Text>
                   </Flex>
                 </Flex>
@@ -157,7 +157,7 @@ export const BorrowPositionsTab = ({
             size="lg"
             variant="fancy"
           >
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         </Flex>
       )}

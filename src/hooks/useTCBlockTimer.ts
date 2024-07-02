@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { useGetLastblockQuery } from 'store/midgard/api';
+import { useCallback } from "react";
+import { useGetLastblockQuery } from "store/midgard/api";
 
 const TC_BLOCK_TIME = 6000; // 6 seconds avg
 

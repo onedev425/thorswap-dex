@@ -1,12 +1,12 @@
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useMemo } from 'react';
-import type { StreamSwapParams } from 'views/Swap/hooks/useSwapParams';
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useMemo } from "react";
+import type { StreamSwapParams } from "views/Swap/hooks/useSwapParams";
 
 // max time 24h
 const MAX_TIME = 24 * 60 * 60 * 1000;
 
 type Props = {
-  timeEstimates: RouteWithApproveType['timeEstimates'] | undefined;
+  timeEstimates: RouteWithApproveType["timeEstimates"] | undefined;
   streamSwap: boolean;
   streamingSwapParams?: null | StreamSwapParams;
   useMaxTime?: boolean;

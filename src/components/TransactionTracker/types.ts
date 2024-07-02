@@ -1,4 +1,4 @@
 export enum TrackerTxDisplayType {
-  SWAP = 'swap',
-  LENDING = 'lending',
+  SWAP = "swap",
+  LENDING = "lending",
 }

@@ -1,10 +1,10 @@
-import type { AssetValue, ChainWallet } from '@swapkit/core';
-import { BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
-import type { Keystore } from '@swapkit/wallet-keystore';
-import { getFromStorage, saveInStorage } from 'helpers/storage';
-import { createContext, memo, useContext, useMemo, useReducer } from 'react';
+import type { AssetValue, ChainWallet } from "@swapkit/sdk";
+import { BaseDecimal, Chain, SwapKitNumber } from "@swapkit/sdk";
+import type { Keystore } from "@swapkit/wallet-keystore";
+import { getFromStorage, saveInStorage } from "helpers/storage";
+import { createContext, memo, useContext, useMemo, useReducer } from "react";
 
-import type { LedgerAccount } from '../../../ledgerLive/wallet/LedgerLive';
+import type { LedgerAccount } from "../../../ledgerLive/wallet/LedgerLive";
 
 export type ChainWalletWithLedger<T> =
   | (T & {
@@ -16,7 +16,6 @@ export type ChainWalletWithLedger<T> =
 export const initialWallet = {
   [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet>,
   [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Binance]: null as ChainWalletWithLedger<ChainWallet>,
   [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet>,
   [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet>,
   [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet>,
@@ -29,7 +28,6 @@ export const initialWallet = {
 const chainLoading = {
   [Chain.Avalanche]: false,
   [Chain.BinanceSmartChain]: false,
-  [Chain.Binance]: false,
   [Chain.BitcoinCash]: false,
   [Chain.Bitcoin]: false,
   [Chain.Cosmos]: false,
@@ -40,12 +38,12 @@ const chainLoading = {
 };
 
 export const defaultVestingInfo = {
-  totalVestedAmount: 'N/A',
+  totalVestedAmount: "N/A",
   totalClaimedAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
-  startTime: '-',
+  startTime: "-",
   vestingPeriod: 0,
   cliff: 0,
-  initialRelease: '-',
+  initialRelease: "-",
   claimableAmount: new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   hasAlloc: false,
 };
@@ -54,31 +52,31 @@ export const walletInitialState = {
   chainLoading,
   thorVesting: defaultVestingInfo,
   vthorVesting: defaultVestingInfo,
-  hiddenAssets: (getFromStorage('hiddenAssets') || {}) as Record<Chain, string[]>,
+  hiddenAssets: (getFromStorage("hiddenAssets") || {}) as Record<Chain, string[]>,
   isConnectModalOpen: false,
   keystore: null as Keystore | null,
   oldBalance: initialWallet as Record<Chain, AssetValue[] | null>,
-  phrase: '',
-  pubKey: '',
+  phrase: "",
+  pubKey: "",
   wallet: initialWallet,
 };
 
 type Action =
-  | { type: 'connectKeystore'; payload: { keystore: Keystore; phrase: string; pubKey: string } }
-  | { type: 'disconnect'; payload: undefined }
-  | { type: 'disconnectByChain'; payload: Chain }
-  | { type: 'hideAsset'; payload: { address: string; chain: Chain } }
-  | { type: 'restoreHiddenAssets'; payload: Chain }
+  | { type: "connectKeystore"; payload: { keystore: Keystore; phrase: string; pubKey: string } }
+  | { type: "disconnect"; payload: undefined }
+  | { type: "disconnectByChain"; payload: Chain }
+  | { type: "hideAsset"; payload: { address: string; chain: Chain } }
+  | { type: "restoreHiddenAssets"; payload: Chain }
   | {
-      type: 'setChainWallet';
+      type: "setChainWallet";
       payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet> };
     }
-  | { type: 'setChainWalletLoading'; payload: { chain: Chain; loading: boolean } }
-  | { type: 'setTHORVesting'; payload: typeof defaultVestingInfo }
-  | { type: 'setVTHORVesting'; payload: typeof defaultVestingInfo }
-  | { type: 'setVestingAlloc'; payload: { hasThorAlloc: boolean; hasVthorAlloc: boolean } }
-  | { type: 'setIsConnectModalOpen'; payload: boolean }
-  | { type: 'setWallet'; payload: typeof initialWallet };
+  | { type: "setChainWalletLoading"; payload: { chain: Chain; loading: boolean } }
+  | { type: "setTHORVesting"; payload: typeof defaultVestingInfo }
+  | { type: "setVTHORVesting"; payload: typeof defaultVestingInfo }
+  | { type: "setVestingAlloc"; payload: { hasThorAlloc: boolean; hasVthorAlloc: boolean } }
+  | { type: "setIsConnectModalOpen"; payload: boolean }
+  | { type: "setWallet"; payload: typeof initialWallet };
 
 type Dispatch = (action: Action) => void;
 type ProviderProps = { children: React.ReactNode };
@@ -88,44 +86,44 @@ const WalletUpdaterContext = createContext<Dispatch | undefined>(undefined);
 
 const walletReducer = (state: typeof walletInitialState, { type, payload }: Action) => {
   switch (type) {
-    case 'disconnect': {
-      saveInStorage({ key: 'previousWallet', value: null });
-      saveInStorage({ key: 'restorePreviousWallet', value: false });
+    case "disconnect": {
+      saveInStorage({ key: "previousWallet", value: null });
+      saveInStorage({ key: "restorePreviousWallet", value: false });
       return { ...state, keystore: null, hasVestingAlloc: false, wallet: initialWallet };
     }
-    case 'setTHORVesting':
+    case "setTHORVesting":
       return { ...state, thorVesting: payload };
-    case 'setVTHORVesting':
+    case "setVTHORVesting":
       return { ...state, vthorVesting: payload };
-    case 'setVestingAlloc':
+    case "setVestingAlloc":
       return {
         ...state,
         thorVesting: { ...state.thorVesting, hasAlloc: payload.hasThorAlloc },
         vthorVesting: { ...state.vthorVesting, hasAlloc: payload.hasVthorAlloc },
       };
 
-    case 'setIsConnectModalOpen':
+    case "setIsConnectModalOpen":
       return { ...state, isConnectModalOpen: payload };
-    case 'setWallet':
+    case "setWallet":
       return { ...state, wallet: payload };
-    case 'setChainWalletLoading':
+    case "setChainWalletLoading":
       return {
         ...state,
         chainLoading: { ...state.chainLoading, [payload.chain]: payload.loading },
       };
 
-    case 'disconnectByChain':
+    case "disconnectByChain":
       return {
         ...state,
         chainLoading: { ...state.chainLoading, [payload]: false },
         wallet: { ...state.wallet, [payload]: null },
       };
 
-    case 'connectKeystore': {
+    case "connectKeystore": {
       const { keystore, phrase, pubKey } = payload;
       return { ...state, keystore, phrase, pubKey };
     }
-    case 'hideAsset': {
+    case "hideAsset": {
       const { address, chain } = payload;
       const hiddenAssets = {
         ...state.hiddenAssets,
@@ -142,12 +140,12 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
           }
         : null;
 
-      saveInStorage({ key: 'hiddenAssets', value: hiddenAssets });
+      saveInStorage({ key: "hiddenAssets", value: hiddenAssets });
       return { ...state, hiddenAssets, wallet: { ...state.wallet, [chain]: filteredWallet } };
     }
-    case 'restoreHiddenAssets': {
+    case "restoreHiddenAssets": {
       const hiddenAssets = { ...state.hiddenAssets, [payload]: undefined };
-      saveInStorage({ key: 'hiddenAssets', value: hiddenAssets });
+      saveInStorage({ key: "hiddenAssets", value: hiddenAssets });
 
       return {
         ...state,
@@ -162,7 +160,7 @@ const walletReducer = (state: typeof walletInitialState, { type, payload }: Acti
       };
     }
 
-    case 'setChainWallet': {
+    case "setChainWallet": {
       const balance = (payload.data?.balance || []).filter(
         (asset) => !state.hiddenAssets[payload.chain]?.includes(asset.toString()),
       );
@@ -198,16 +196,16 @@ export const WalletProvider = memo(Provider);
 
 export const useWalletState = () => {
   const walletState = useContext(WalletStateContext);
-  if (typeof walletState === 'undefined') {
-    throw new Error('useWalletState must be used within a WalletProvider');
+  if (typeof walletState === "undefined") {
+    throw new Error("useWalletState must be used within a WalletProvider");
   }
   return walletState;
 };
 
 export const useWalletDispatch = () => {
   const walletDispatch = useContext(WalletUpdaterContext);
-  if (typeof walletDispatch === 'undefined') {
-    throw new Error('useWalletDispatch must be used within a AppProvider');
+  if (typeof walletDispatch === "undefined") {
+    throw new Error("useWalletDispatch must be used within a AppProvider");
   }
 
   return walletDispatch;

@@ -1,1 +1,1 @@
-export { InfoWithTooltip } from './InfoWithTooltip';
+export { InfoWithTooltip } from "./InfoWithTooltip";

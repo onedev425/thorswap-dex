@@ -1,5 +1,5 @@
-import type { TooltipCallbacks } from 'chart.js';
-import * as styles from 'components/Chart/styles/styles';
+import type { TooltipCallbacks } from "chart.js";
+import * as styles from "components/Chart/styles/styles";
 
 type Params = {
   animated?: boolean;
@@ -14,13 +14,13 @@ const parseTooltipLabel =
   (
     unit: string,
     formatter?: (value: number) => string,
-  ): TooltipCallbacks<'line' | 'bar'>['label'] =>
+  ): TooltipCallbacks<"line" | "bar">["label"] =>
   ({ formattedValue }) =>
     formatter
-      ? formatter(parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, '')))
+      ? formatter(Number.parseFloat(`${formattedValue}`.replace(/[^0-9.]/g, "")))
       : `${unit}${formattedValue}`;
 
-export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$', beginAt }: Params) =>
+export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = "$", beginAt }: Params) =>
   ({
     animation: false,
     maintainAspectRatio: false,
@@ -29,14 +29,14 @@ export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$', beg
     normalized: true,
     interaction: {
       intersect: false,
-      axis: 'x' as const,
+      axis: "x" as const,
     },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
         bodyFont: { size: 16 },
         bodySpacing: 10,
         borderWidth: 0,
@@ -55,18 +55,18 @@ export const getChartOptions = ({ formatter, hideLabel, hasGrid, unit = '$', beg
     scales: {
       x: {
         grid: { display: false, drawOnChartArea: hasGrid, drawTicks: false },
-        ticks: { ...styles.chartXTicksStyles, display: hideLabel ? false : true },
+        ticks: { ...styles.chartXTicksStyles, display: !hideLabel },
       },
       y: {
         grid: { display: false, drawOnChartArea: hasGrid, drawTicks: false },
         ticks: {
           ...styles.chartYTicksStyles,
           callback: (value: number | string, index: number) => {
-            if (index % 2 === 0) return '';
+            if (index % 2 === 0) return "";
 
-            return typeof value === 'number' ? formatter?.(value) : value;
+            return typeof value === "number" ? formatter?.(value) : value;
           },
-          display: hideLabel ? false : true,
+          display: !hideLabel,
         },
         min: beginAt,
       },

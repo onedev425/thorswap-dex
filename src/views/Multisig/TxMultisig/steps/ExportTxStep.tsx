@@ -1,16 +1,16 @@
-import { Text } from '@chakra-ui/react';
-import type { Signer } from '@swapkit/toolbox-cosmos';
-import { Box, Button, Icon } from 'components/Atomic';
-import { StepActions } from 'components/Stepper';
-import { showErrorToast } from 'components/Toast';
-import { downloadAsFile } from 'helpers/download';
-import { useCallback, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import type { ImportedMultisigTx } from 'services/multisig';
-import { useAppSelector } from 'store/store';
+import { Text } from "@chakra-ui/react";
+import type { Signer } from "@swapkit/toolbox-cosmos";
+import { Box, Button, Icon } from "components/Atomic";
+import { StepActions } from "components/Stepper";
+import { showErrorToast } from "components/Toast";
+import { downloadAsFile } from "helpers/download";
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import type { ImportedMultisigTx } from "services/multisig";
+import { useAppSelector } from "store/store";
 
-const MULTISIG_FILE_NAME = 'thorsafetx';
+const MULTISIG_FILE_NAME = "thorsafetx";
 
 type Props = {
   exportTxData: ImportedMultisigTx | null;
@@ -21,15 +21,15 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
   const members = useAppSelector(({ multisig }) => multisig.members);
   const fileNameSuffix = useMemo(() => {
     if (!signatures?.length) {
-      return 'unsigned';
+      return "unsigned";
     }
 
     const signerNames = signatures.map(
-      (s) => members.find((m) => m.pubKey === s.pubKey)?.name || '',
+      (s) => members.find((m) => m.pubKey === s.pubKey)?.name || "",
     );
 
     if (signerNames.every(Boolean)) {
-      return `signed-${signerNames.join('_')}`;
+      return `signed-${signerNames.join("_")}`;
     }
 
     return `signed-${signatures.length}_members`;
@@ -37,7 +37,7 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
 
   const handleExport = useCallback(async () => {
     if (!exportTxData) {
-      showErrorToast('Missing tx data to export.');
+      showErrorToast("Missing tx data to export.");
       return;
     }
 
@@ -46,9 +46,9 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
         `${MULTISIG_FILE_NAME}-${fileNameSuffix}.json`,
         JSON.stringify(exportTxData),
       );
-    } catch (error: NotWorth) {
+    } catch (error) {
       logException(error as Error);
-      const message = error.message || t('views.multisig.exportError');
+      const message = (error as Todo).message || t("views.multisig.exportError");
       showErrorToast(message, undefined, undefined, error as Error);
     }
   }, [exportTxData, fileNameSuffix]);
@@ -57,10 +57,10 @@ export const ExportTxStep = ({ exportTxData, signatures }: Props) => {
     <Box col className="self-stretch mx-2" flex={1}>
       <Box col className="gap-2 mt-6">
         <Text fontWeight="normal" textStyle="caption">
-          {t('views.multisig.exportTxInfo')}
+          {t("views.multisig.exportTxInfo")}
         </Text>
         <Button stretch onClick={handleExport} rightIcon={<Icon name="export" />}>
-          {t('views.multisig.export')}
+          {t("views.multisig.export")}
         </Button>
       </Box>
 

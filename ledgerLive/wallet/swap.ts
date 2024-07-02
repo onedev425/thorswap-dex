@@ -1,9 +1,9 @@
-import type { SwapParams } from '@swapkit/core';
-import { AssetValue, Chain, QuoteMode, RequestClient, SwapKitNumber } from '@swapkit/core';
-import { apiV2BaseUrl } from 'store/thorswap/api';
+import type { SwapParams } from "@swapkit/sdk";
+import { AssetValue, Chain, QuoteMode, RequestClient, SwapKitNumber } from "@swapkit/sdk";
+import { apiV2BaseUrl } from "store/thorswap/api";
 
 const getInboundData = () => {
-  return RequestClient.get<Todo>('https://thornode.thorswap.net/thorchain/inbound_addresses');
+  return RequestClient.get<Todo>("https://thornode.thorswap.net/thorchain/inbound_addresses");
 };
 
 export const getInboundFeeDataForChain = async (chain: Chain) => {
@@ -21,10 +21,10 @@ export const ledgerLiveSwap = async ({
   streamSwap,
 }: SwapParams & { wallet: Todo; route: Todo; feeOptionKey: string; streamSwap: boolean }) => {
   if (streamSwap && !route.calldata.memoStreamingSwap)
-    throw new Error('Streaming swap not supported');
+    throw new Error("Streaming swap not supported");
 
-  if (route.provider === 'CHAINFLIP') {
-    const { confirmSwap } = await import('@swapkit/chainflip');
+  if (route.provider === "CHAINFLIP") {
+    const { confirmSwap } = await import("@swapkit/plugin-chainflip");
 
     const { buyAsset: buyAssetString, sellAsset: sellAssetString, sellAmount } = route;
     const sellAsset = await AssetValue.fromString(sellAssetString);
@@ -44,7 +44,7 @@ export const ledgerLiveSwap = async ({
 
     return walletInstance.transfer({
       recipient: channelInfo.depositAddress,
-      memo: '',
+      memo: "",
       from: walletInstance.getAddress(),
       assetValue,
     });
@@ -60,19 +60,19 @@ export const ledgerLiveSwap = async ({
     case QuoteMode.TC_SUPPORTED_TO_ETH: {
       const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
       const assetValue = await AssetValue.fromIdentifier(fromAsset as `${Chain}.${string}`);
-      if (!assetValue) throw new Error('Asset not recognised');
+      if (!assetValue) throw new Error("Asset not recognised");
 
       const replacedMemo = (streamSwap ? memoStreamingSwap : memo).replace(
-        '{recipientAddress}',
+        "{recipientAddress}",
         recipient,
       );
 
       const inboundData = await getInboundData();
       const chainAddressData = inboundData.find(({ chain }: Todo) => chain === assetValue.chain);
 
-      if (!chainAddressData) throw new Error('pool address not found');
+      if (!chainAddressData) throw new Error("pool address not found");
       if (chainAddressData?.halted) {
-        throw new Error('Network temporarily halted, please try again later.');
+        throw new Error("Network temporarily halted, please try again later.");
       }
 
       const { address: inboundAddress } = chainAddressData;
@@ -90,7 +90,7 @@ export const ledgerLiveSwap = async ({
         switch (chain) {
           case Chain.Bitcoin:
             // filter out taproot addresses
-            return !address.startsWith('bc1p');
+            return !address.startsWith("bc1p");
           default:
             return true;
         }
@@ -101,7 +101,7 @@ export const ledgerLiveSwap = async ({
         address: walletInstance.getAddress(),
       });
       if (!validAddress) {
-        throw new Error('Sender address not supported by THORChain');
+        throw new Error("Sender address not supported by THORChain");
       }
 
       const params:

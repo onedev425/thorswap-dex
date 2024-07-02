@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import { memo } from "react";
 
-import type { AssetSelectType } from '../../components/AssetSelect/types';
+import type { AssetSelectType } from "../../components/AssetSelect/types";
 
 type Props = AssetSelectType & {
   select: (asset: AssetValue) => void;
@@ -18,9 +18,9 @@ export const RepayLoanSelectItem = memo(
       <Box
         alignCenter
         className={classNames(
-          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent',
+          "dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent",
           {
-            'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary':
+            "brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary":
               isSelected,
           },
         )}

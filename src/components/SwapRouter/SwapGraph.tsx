@@ -1,12 +1,12 @@
-import { Text } from '@chakra-ui/react';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import type { SwapGraphType } from 'components/SwapRouter/types';
-import { memo } from 'react';
+import { Text } from "@chakra-ui/react";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import type { SwapGraphType } from "components/SwapRouter/types";
+import { memo } from "react";
 
-import { SwapPart } from './SwapPart';
+import { SwapPart } from "./SwapPart";
 
-type Props = SwapGraphType[number]['chainSwaps'][number][number];
+type Props = SwapGraphType[number]["chainSwaps"][number][number];
 
 export const SwapGraph = memo(({ fromAsset, toAsset, swapParts }: Props) => {
   return (

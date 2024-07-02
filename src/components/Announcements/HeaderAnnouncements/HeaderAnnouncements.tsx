@@ -1,8 +1,8 @@
-import { Announcement } from 'components/Announcements/Announcement/Announcement';
-import { Box } from 'components/Atomic';
-import { HorizontalSlider } from 'components/HorizontalSlider';
-import { useAnnouncements } from 'context/announcements/AnnouncementsContext';
-import useWindowSize from 'hooks/useWindowSize';
+import { Announcement } from "components/Announcements/Announcement/Announcement";
+import { Box } from "components/Atomic";
+import { HorizontalSlider } from "components/HorizontalSlider";
+import { useAnnouncements } from "context/announcements/AnnouncementsContext";
+import useWindowSize from "hooks/useWindowSize";
 
 export const HeaderAnnouncements = () => {
   const { fresh } = useAnnouncements();
@@ -12,7 +12,7 @@ export const HeaderAnnouncements = () => {
 
   if (showSlider) {
     return (
-      <HorizontalSlider showButtons itemWidth={isLgActive ? '100%' : '90%'}>
+      <HorizontalSlider showButtons itemWidth={isLgActive ? "100%" : "90%"}>
         {fresh.map((announcement) => (
           <Box
             className="!max-w-[90%]"

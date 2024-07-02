@@ -1,32 +1,32 @@
-import { Text } from '@chakra-ui/react';
-import { type AssetValue, BaseDecimal, Chain, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon, AssetLpIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Icon, Link } from 'components/Atomic';
-import { borderHoverHighlightClass } from 'components/constants';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoRow } from 'components/InfoRow';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { BLOCKS_PER_YEAR } from 'helpers/staking';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { LPContractType } from 'services/contract';
+import { Text } from "@chakra-ui/react";
+import { type AssetValue, BaseDecimal, Chain, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon, AssetLpIcon } from "components/AssetIcon";
+import { Box, Button, Card, Icon, Link } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoRow } from "components/InfoRow";
+import { borderHoverHighlightClass } from "components/constants";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { shortenAddress } from "helpers/shortenAddress";
+import { BLOCKS_PER_YEAR } from "helpers/staking";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { LPContractType } from "services/contract";
 import {
   ContractType,
   getCustomContract,
   getEtherscanContract,
   triggerContractCall,
-} from 'services/contract';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+} from "services/contract";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
-import { StakeConfirmModal } from './components/StakeConfirmModal';
-import { getLPContractAddress, getLpTokenBalance, useStakingModal } from './hooks';
-import { FarmActionType } from './types';
+import { StakeConfirmModal } from "./components/StakeConfirmModal";
+import { getLPContractAddress, getLpTokenBalance, useStakingModal } from "./hooks";
+import { FarmActionType } from "./types";
 
 type Props = {
   exchange: string;
@@ -67,8 +67,8 @@ export const StakingCard = ({
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
   const [{ stakingTokenUrl, stakeAddrUrl }, setUrls] = useState({
-    stakingTokenUrl: '',
-    stakeAddrUrl: '',
+    stakingTokenUrl: "",
+    stakeAddrUrl: "",
   });
 
   const {
@@ -97,8 +97,8 @@ export const StakingCard = ({
 
         setStakedAmount(SwapKitNumber.fromBigInt(BigInt(amount || 0), BaseDecimal.ETH));
         setPendingRewardDebt(SwapKitNumber.fromBigInt(BigInt(pendingReward || 0), BaseDecimal.ETH));
-      } catch (error: NotWorth) {
-        logException(error.toString());
+      } catch (error) {
+        logException((error as Todo).toString());
       }
     }
 
@@ -131,13 +131,13 @@ export const StakingCard = ({
       if (contractType === ContractType.STAKING_THOR) {
         const tokenBalance = await getLpTokenBalance(lpContractType);
 
-        const apr = getAPR(blockReward.getValue('number'), tokenBalance.getValue('number'));
+        const apr = getAPR(blockReward.getValue("number"), tokenBalance.getValue("number"));
         setAPRRate(apr);
       } else {
         const {
           data: { pair },
-        } = await fetch('https://api.thegraph.com/subgraphs/name/sushiswap/exchange', {
-          method: 'POST',
+        } = await fetch("https://api.thegraph.com/subgraphs/name/sushiswap/exchange", {
+          method: "POST",
           body: JSON.stringify({
             query: `{
                 pair(id: "${getLPContractAddress(lpContractType)}") {
@@ -160,24 +160,24 @@ export const StakingCard = ({
         const stakedLpSupply = await getLpTokenBalance(lpContractType);
 
         const apr = getAPR(
-          blockReward.getValue('number') * thorPrice,
-          stakedLpSupply.getValue('number') * lpUnitPrice,
+          blockReward.getValue("number") * thorPrice,
+          stakedLpSupply.getValue("number") * lpUnitPrice,
         );
         setAPRRate(apr);
       }
-    } catch (error: NotWorth) {
-      logException(error.toString());
+    } catch (error) {
+      logException((error as Todo).toString());
     }
   }, [getBlockReward, contractType, lpContractType, getAPR]);
 
   const [methodName, txType] = useMemo(() => {
     switch (modalType) {
       case FarmActionType.DEPOSIT:
-        return ['deposit', TransactionType.ETH_STATUS] as const;
+        return ["deposit", TransactionType.ETH_STATUS] as const;
       case FarmActionType.EXIT:
-        return ['withdraw', TransactionType.ETH_STATUS] as const;
+        return ["withdraw", TransactionType.ETH_STATUS] as const;
       case FarmActionType.CLAIM:
-        return ['harvest', TransactionType.ETH_STATUS] as const;
+        return ["harvest", TransactionType.ETH_STATUS] as const;
       default:
         return [] as const;
     }
@@ -186,7 +186,7 @@ export const StakingCard = ({
   const handleStakingAction = useCallback(
     async (tokenAmount: SwapKitNumber) => {
       closeConfirm();
-      if (!methodName || !ethAddr || !txType) return;
+      if (!(methodName && ethAddr && txType)) return;
 
       const id = v4();
       const label = `${t(`common.${txType}`)} ${tokenAmount.toSignificant(6)} ${lpAsset.ticker}`;
@@ -202,7 +202,7 @@ export const StakingCard = ({
       );
 
       const params =
-        methodName === 'harvest' ? [0, ethAddr] : [0, tokenAmount.getBaseValue('string'), ethAddr];
+        methodName === "harvest" ? [0, ethAddr] : [0, tokenAmount.getBaseValue("string"), ethAddr];
 
       try {
         const hash = (await triggerContractCall(contractType, methodName, params)) as string;
@@ -210,9 +210,9 @@ export const StakingCard = ({
         if (hash) {
           appDispatch(updateTransaction({ id, txid: hash }));
         }
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        appDispatch(completeTransaction({ id, status: "error" }));
       }
     },
     [closeConfirm, methodName, ethAddr, txType, lpAsset, appDispatch, contractType],
@@ -231,13 +231,13 @@ export const StakingCard = ({
   useEffect(() => {
     getAPRRate();
 
-    import('services/swapKit')
+    import("services/swapKit")
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) => {
         setUrls({
-          stakeAddrUrl: getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakeAddr }) || '',
+          stakeAddrUrl: getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakeAddr }) || "",
           stakingTokenUrl:
-            getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakingToken }) || '',
+            getExplorerAddressUrl({ chain: Chain.Ethereum, address: stakingToken }) || "",
         });
       });
   }, [getAPRRate, stakeAddr, stakingToken]);
@@ -245,7 +245,7 @@ export const StakingCard = ({
   return (
     <Box col className="flex-1 !min-w-[360px] lg:!max-w-[50%]">
       <Box className="relative w-full mt-14">
-        <Card className={classNames('flex-col w-full', borderHoverHighlightClass)}>
+        <Card className={classNames("flex-col w-full", borderHoverHighlightClass)}>
           <div className="flex justify-center absolute m-auto left-0 right-0 top-[-28px]">
             {assets.length > 1 ? (
               <AssetLpIcon hasShadow inline asset1={assets[0]} asset2={assets[1]} size="big" />
@@ -285,7 +285,7 @@ export const StakingCard = ({
                 textTransform="uppercase"
                 variant="secondary"
               >
-                {t('common.exchange')}
+                {t("common.exchange")}
               </Text>
               <Text fontWeight="bold" textStyle="body" variant="primary">
                 {exchange}
@@ -298,17 +298,17 @@ export const StakingCard = ({
                 textStyle="caption-xs"
                 variant="secondary"
               >
-                {t('common.APR')}
+                {t("common.APR")}
               </Text>
 
               <Text className="text-right" fontWeight="bold" textStyle="body" variant="green">
-                {aprRate?.toFixed(2) || '-'}%
+                {aprRate?.toFixed(2) || "-"}%
               </Text>
             </Box>
           </Box>
           <Box className="flex-col px-4">
             <InfoRow
-              label={t('views.staking.stakingToken')}
+              label={t("views.staking.stakingToken")}
               size="md"
               value={
                 <Box alignCenter row className="space-x-1">
@@ -327,7 +327,7 @@ export const StakingCard = ({
               }
             />
             <InfoRow
-              label={t('views.staking.stakingContract')}
+              label={t("views.staking.stakingContract")}
               size="md"
               value={
                 <Box alignCenter row className="space-x-1">
@@ -346,30 +346,26 @@ export const StakingCard = ({
               }
             />
             <InfoRow
-              label={t('views.staking.tokenBalance')}
+              label={t("views.staking.tokenBalance")}
               size="md"
-              value={ethAddr && lpTokenBal.gt(0) ? lpTokenBal.toSignificant(4) : 'N/A'}
+              value={ethAddr && lpTokenBal.gt(0) ? lpTokenBal.toSignificant(4) : "N/A"}
             />
             <InfoRow
-              label={t('views.staking.tokenStaked')}
+              label={t("views.staking.tokenStaked")}
               size="md"
-              value={ethAddr && stakedAmount.gt(0) ? stakedAmount.toSignificant(4) : 'N/A'}
+              value={ethAddr && stakedAmount.gt(0) ? stakedAmount.toSignificant(4) : "N/A"}
             />
             <InfoRow
-              label={t('views.staking.claimable')}
+              label={t("views.staking.claimable")}
               size="md"
               value={
-                ethAddr && pendingRewardDebt.gt(0) ? pendingRewardDebt.toSignificant(4) : 'N/A'
+                ethAddr && pendingRewardDebt.gt(0) ? pendingRewardDebt.toSignificant(4) : "N/A"
               }
             />
           </Box>
 
           <Box alignCenter className="w-full gap-2 mt-4">
-            {!ethAddr ? (
-              <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-                {t('common.connectWallet')}
-              </Button>
-            ) : (
+            {ethAddr ? (
               <>
                 {withdrawOnly ? (
                   <Button
@@ -377,7 +373,7 @@ export const StakingCard = ({
                     onClick={() => openConfirm(FarmActionType.EXIT)}
                     variant="fancy"
                   >
-                    {withdrawOnly ? t('common.withdraw') : t('common.deposit')}
+                    {withdrawOnly ? t("common.withdraw") : t("common.deposit")}
                   </Button>
                 ) : (
                   <>
@@ -386,25 +382,29 @@ export const StakingCard = ({
                       onClick={() => openConfirm(FarmActionType.DEPOSIT)}
                       variant="primary"
                     >
-                      {t('common.deposit')}
+                      {t("common.deposit")}
                     </Button>
                     <Button
                       className="flex-1"
                       onClick={() => openConfirm(FarmActionType.EXIT)}
                       variant="primary"
                     >
-                      {t('common.withdraw')}
+                      {t("common.withdraw")}
                     </Button>
                   </>
                 )}
                 <Button
                   className="flex-1"
                   onClick={() => openConfirm(FarmActionType.CLAIM)}
-                  variant={withdrawOnly ? 'fancy' : 'tertiary'}
+                  variant={withdrawOnly ? "fancy" : "tertiary"}
                 >
-                  {t('common.claim')}
+                  {t("common.claim")}
                 </Button>
               </>
+            ) : (
+              <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
+                {t("common.connectWallet")}
+              </Button>
             )}
           </Box>
         </Card>

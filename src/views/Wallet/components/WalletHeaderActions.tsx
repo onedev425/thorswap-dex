@@ -1,10 +1,10 @@
-import type { Chain } from '@swapkit/core';
-import { Box } from 'components/Atomic';
+import type { Chain } from "@swapkit/sdk";
+import { Box } from "components/Atomic";
 
-import { CopyAddress } from './CopyAddress';
-import { GoToAccount } from './GoToAccount';
-import { ResetHiddenAssets } from './ResetHiddenAssets';
-import { ShowQrCode } from './ShowQrCode';
+import { CopyAddress } from "./CopyAddress";
+import { GoToAccount } from "./GoToAccount";
+import { ResetHiddenAssets } from "./ResetHiddenAssets";
+import { ShowQrCode } from "./ShowQrCode";
 
 type Props = {
   chain: Chain;

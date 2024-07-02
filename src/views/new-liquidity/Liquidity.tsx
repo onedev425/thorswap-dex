@@ -1,20 +1,20 @@
-import { Chain } from '@swapkit/core';
-import { Box, Button, Icon, Modal } from 'components/Atomic';
-import { InfoTip } from 'components/InfoTip';
-import { Input } from 'components/Input';
-import { PanelView } from 'components/PanelView';
-import { ReloadButton } from 'components/ReloadButton';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { useCheckHardCap } from 'hooks/useCheckHardCap';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { t } from 'services/i18n';
-import { IS_PROTECTED } from 'settings/config';
-import { getAddLiquidityRoute, ROUTES } from 'settings/router';
-import { useGetFullMemberQuery } from 'store/midgard/api';
-import type { FullMemberPool } from 'store/midgard/types';
-import { ChainLiquidityPanel } from 'views/new-liquidity/ChainLiquidityPanel';
+import { Chain } from "@swapkit/sdk";
+import { Box, Button, Icon, Modal } from "components/Atomic";
+import { InfoTip } from "components/InfoTip";
+import { Input } from "components/Input";
+import { PanelView } from "components/PanelView";
+import { ReloadButton } from "components/ReloadButton";
+import { ViewHeader } from "components/ViewHeader";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useCheckHardCap } from "hooks/useCheckHardCap";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { t } from "services/i18n";
+import { IS_PROTECTED } from "settings/config";
+import { ROUTES, getAddLiquidityRoute } from "settings/router";
+import { useGetFullMemberQuery } from "store/midgard/api";
+import type { FullMemberPool } from "store/midgard/types";
+import { ChainLiquidityPanel } from "views/new-liquidity/ChainLiquidityPanel";
 
 export const Liquidity = () => {
   const navigate = useNavigate();
@@ -43,7 +43,8 @@ export const Liquidity = () => {
   const hasPendingLP = useMemo(
     () =>
       lpMemberData?.some(
-        ({ assetPending, runePending }) => parseInt(assetPending) > 0 || parseInt(runePending) > 0,
+        ({ assetPending, runePending }) =>
+          Number.parseInt(assetPending) > 0 || Number.parseInt(runePending) > 0,
       ),
     [lpMemberData],
   );
@@ -52,7 +53,7 @@ export const Liquidity = () => {
     () =>
       lpMemberData?.reduce(
         (acc, item) => {
-          const [chain] = item.pool.split('.') as [Chain, string];
+          const [chain] = item.pool.split(".") as [Chain, string];
           acc[chain] = [...(acc[chain] || []), item];
 
           return acc;
@@ -64,7 +65,7 @@ export const Liquidity = () => {
 
   return (
     <PanelView
-      description={t('views.liquidity.description')}
+      description={t("views.liquidity.description")}
       header={
         <ViewHeader
           actionsComponent={
@@ -82,19 +83,19 @@ export const Liquidity = () => {
               <ReloadButton loading={isWalletLoading || isLiquiditiesFetching} onLoad={refetch} />
             </>
           }
-          title={t('common.liquidityPosition')}
+          title={t("common.liquidityPosition")}
         />
       }
       keywords="LP, Liquidity provider, THORSwap, THORChain, DEFI, DEX"
-      title={t('views.liquidity.title')}
+      title={t("views.liquidity.title")}
     >
       <Box col className="gap-3 self-stretch">
         {hasPendingLP && tipVisible && (
           <InfoTip
             className="mt-0 mb-4"
-            content={t('pendingLiquidity.pendingInfoGeneral')}
+            content={t("pendingLiquidity.pendingInfoGeneral")}
             onClose={() => setTipVisible(false)}
-            title={t('pendingLiquidity.pendingInfoTitle')}
+            title={t("pendingLiquidity.pendingInfoTitle")}
             type="warn"
           />
         )}
@@ -109,22 +110,22 @@ export const Liquidity = () => {
                   onClick={() => navigate(getAddLiquidityRoute())}
                   rightIcon={hardCapReached ? <Icon name="infoCircle" size={20} /> : undefined}
                   size="lg"
-                  tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+                  tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
                   tooltipClasses="text-center mx-[-2px]"
-                  variant={hardCapReached ? 'fancyError' : 'primary'}
+                  variant={hardCapReached ? "fancyError" : "primary"}
                 >
-                  {t('common.deposit')}
+                  {t("common.deposit")}
                 </Button>
               </Box>
               <Box className="w-full">
                 <Button stretch onClick={() => navigate(ROUTES.CreateLiquidity)} size="lg">
-                  {t('common.create')}
+                  {t("common.create")}
                 </Button>
               </Box>
             </>
           ) : (
             <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-              {t('common.connectWallet')}
+              {t("common.connectWallet")}
             </Button>
           )}
         </Box>
@@ -155,7 +156,7 @@ export const Liquidity = () => {
                 key={chain}
                 onChange={(e) => setFormValue((prev) => ({ ...prev, [chain]: e.target.value }))}
                 placeholder={chain}
-                value={formTestAddresses[chain as Chain] ?? ''}
+                value={formTestAddresses[chain as Chain] ?? ""}
               />
             ))}
 

@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import { Chain } from '@swapkit/core';
-import { Box, Button, Icon, Link, Modal } from 'components/Atomic';
-import { InfoTip } from 'components/InfoTip';
-import { useEffect, useState } from 'react';
-import { t } from 'services/i18n';
-import { TextareaCopy } from 'views/Multisig/components/TextareaCopy';
+import { Text } from "@chakra-ui/react";
+import { Chain } from "@swapkit/sdk";
+import { Box, Button, Icon, Link, Modal } from "components/Atomic";
+import { InfoTip } from "components/InfoTip";
+import { useEffect, useState } from "react";
+import { t } from "services/i18n";
+import { TextareaCopy } from "views/Multisig/components/TextareaCopy";
 
 type Props = {
   canBroadcast: boolean;
@@ -14,13 +14,13 @@ type Props = {
 
 export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   const [isTxModalVisible, setIsTxModalVisible] = useState(false);
-  const [txUrl, setTxUrl] = useState('');
+  const [txUrl, setTxUrl] = useState("");
 
   useEffect(() => {
-    import('services/swapKit')
+    import("services/swapKit")
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerTxUrl }) =>
-        setTxUrl(txHash ? getExplorerTxUrl({ chain: Chain.THORChain, txHash }) : ''),
+        setTxUrl(txHash ? getExplorerTxUrl({ chain: Chain.THORChain, txHash }) : ""),
       );
   }, [setTxUrl, txHash]);
 
@@ -30,7 +30,7 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
         <Box className="self-stretch m-2">
           <Box className="self-stretch w-full" flex={1}>
             <Text textStyle="caption" variant="green">
-              {t('views.multisig.txBroadcasted')}
+              {t("views.multisig.txBroadcasted")}
             </Text>
             <Link to={txUrl}>
               <Box center>
@@ -40,7 +40,7 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
                   textStyle="caption"
                   variant="green"
                 >
-                  {t('views.multisig.viewTx')}
+                  {t("views.multisig.viewTx")}
                 </Text>
                 <Icon color="green" name="external" size={14} />
               </Box>
@@ -52,33 +52,33 @@ export const TxInfoTip = ({ canBroadcast, txHash, txBodyStr }: Props) => {
   }
 
   return (
-    <InfoTip className="self-stretch flex-1" type={canBroadcast ? 'info' : 'warn'}>
+    <InfoTip className="self-stretch flex-1" type={canBroadcast ? "info" : "warn"}>
       <Box alignCenter className="self-stretch ml-2.5" justify="between">
         {canBroadcast ? (
           <Text textStyle="caption" variant="primaryBtn">
-            {t('views.multisig.pendingTx')} - {t('views.multisig.txReadyToBroadcast')}
+            {t("views.multisig.pendingTx")} - {t("views.multisig.txReadyToBroadcast")}
           </Text>
         ) : (
           <Text textStyle="caption" variant="yellow">
-            {t('views.multisig.pendingTx')} - {t('views.multisig.txMissingSignatures')}
+            {t("views.multisig.pendingTx")} - {t("views.multisig.txMissingSignatures")}
           </Text>
         )}
 
         <Button onClick={() => setIsTxModalVisible(true)} variant="borderlessTint">
-          {t('views.multisig.viewTxData')}
+          {t("views.multisig.viewTxData")}
         </Button>
       </Box>
 
       <Modal
         isOpened={isTxModalVisible}
         onClose={() => setIsTxModalVisible(false)}
-        title={t('views.multisig.transactionData')}
+        title={t("views.multisig.transactionData")}
       >
         <Box className="w-full self-stretch min-w-[330px] md:min-w-[400px]" flex={1}>
           <TextareaCopy
             disabled
             className="flex-1 h-[50vh] max-h-[60vh]"
-            copyMessage={t('views.multisig.transactionCopied')}
+            copyMessage={t("views.multisig.transactionCopied")}
             value={txBodyStr}
           />
         </Box>

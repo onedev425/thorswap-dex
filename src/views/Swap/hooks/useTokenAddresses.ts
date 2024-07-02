@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useGetWhiteListPoolsQuery, useGetWhiteListTokensQuery } from 'store/static/api';
+import { useEffect, useState } from "react";
+import { useGetWhiteListPoolsQuery, useGetWhiteListTokensQuery } from "store/static/api";
 
-type WhitelistType = 'pools' | 'tokens';
+type WhitelistType = "pools" | "tokens";
 
 export const useTokenAddresses = (type: WhitelistType) => {
   const [addresses, setAddresses] = useState<string[]>([]);
@@ -12,7 +12,7 @@ export const useTokenAddresses = (type: WhitelistType) => {
 
   useEffect(() => {
     const tokensList =
-      (type === 'pools' ? poolsData : tokensData)?.flatMap((provider) => provider.tokens) || [];
+      (type === "pools" ? poolsData : tokensData)?.flatMap((provider) => provider.tokens) || [];
     const addresses = tokensList
       .map(({ address }) => address?.toLowerCase())
       .filter(Boolean) as string[];

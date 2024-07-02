@@ -1,8 +1,8 @@
-import type { Chart } from 'chart.js';
-import { Black } from 'components/Chart/styles/colors';
-import dayjs from 'dayjs';
+import type { Chart } from "chart.js";
+import { Black } from "components/Chart/styles/colors";
+import dayjs from "dayjs";
 
-type ColorType = 'background' | 'stroke';
+type ColorType = "background" | "stroke";
 
 const getGradientInstance = (gradientColors: string[], colorType: ColorType) => {
   let width: number;
@@ -19,7 +19,7 @@ const getGradientInstance = (gradientColors: string[], colorType: ColorType) => 
       width = chartWidth;
       height = chartHeight;
 
-      const isBackground: boolean = colorType === 'background';
+      const isBackground: boolean = colorType === "background";
 
       const bottom: number = isBackground ? chartArea.bottom : 0;
       const top: number = isBackground ? chartArea.top : 0;
@@ -53,8 +53,8 @@ export const getColor = (gradientColors: string[], colorType: ColorType) => {
 export const generateRandomTimeSeries = (minValue: number, maxValue: number) => {
   const labels: string[] = [];
   const values: number[] = [];
-  for (let date = dayjs().subtract(30, 'days'); date.isBefore(dayjs()); date = date.add(1, 'day')) {
-    labels.push(date.format('MMM DD'));
+  for (let date = dayjs().subtract(30, "days"); date.isBefore(dayjs()); date = date.add(1, "day")) {
+    labels.push(date.format("MMM DD"));
     values.push(minValue + (Math.floor(Math.random() * 100) / 100) * (maxValue - minValue));
   }
 

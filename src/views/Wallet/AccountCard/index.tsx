@@ -1,31 +1,31 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Card, useCollapse } from 'components/Atomic';
-import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { borderHoverHighlightClass } from 'components/constants';
-import { Scrollbar } from 'components/Scrollbar';
-import { useWalletDispatch } from 'context/wallet/WalletProvider';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { memo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getSendRoute, getSwapRoute } from 'settings/router';
-import { ViewMode } from 'types/app';
-import { AssetChart } from 'views/Wallet/AssetChart';
-import { ConnectionActions } from 'views/Wallet/components/ConnectionActions';
-import { CopyAddress } from 'views/Wallet/components/CopyAddress';
-import { HeaderChainInfo } from 'views/Wallet/components/HeaderChainInfo';
-import { ShowQrCode } from 'views/Wallet/components/ShowQrCode';
-import { WalletHeaderActions } from 'views/Wallet/components/WalletHeaderActions';
+import { Text } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Card, useCollapse } from "components/Atomic";
+import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
+import { CollapseChevron } from "components/Atomic/Collapse/CollapseChevron";
+import { Scrollbar } from "components/Scrollbar";
+import { borderHoverHighlightClass } from "components/constants";
+import { useWalletDispatch } from "context/wallet/WalletProvider";
+import { useFormatPrice } from "helpers/formatPrice";
+import { memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { getSendRoute, getSwapRoute } from "settings/router";
+import { ViewMode } from "types/app";
+import { AssetChart } from "views/Wallet/AssetChart";
+import { ConnectionActions } from "views/Wallet/components/ConnectionActions";
+import { CopyAddress } from "views/Wallet/components/CopyAddress";
+import { HeaderChainInfo } from "views/Wallet/components/HeaderChainInfo";
+import { ShowQrCode } from "views/Wallet/components/ShowQrCode";
+import { WalletHeaderActions } from "views/Wallet/components/WalletHeaderActions";
 
-import { useAccountData, useWalletChainActions } from '../hooks';
+import { useAccountData, useWalletChainActions } from "../hooks";
 
-import { AccountCardButton } from './AccountCardButton';
-import { ChainInfo } from './ChainInfo';
+import { AccountCardButton } from "./AccountCardButton";
+import { ChainInfo } from "./ChainInfo";
 
 type Props = {
   chain: Chain;
@@ -54,14 +54,14 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
-      walletDispatch({ type: 'disconnectByChain', payload: chain });
+      walletDispatch({ type: "disconnectByChain", payload: chain });
     } else {
       setIsConnectModalOpen(true);
     }
   }, [chain, chainAddress, setIsConnectModalOpen, walletDispatch]);
 
   return (
-    <Card className={classNames('overflow-hidden', borderHoverHighlightClass)}>
+    <Card className={classNames("overflow-hidden", borderHoverHighlightClass)}>
       <Box col className="w-full">
         <Box
           row
@@ -125,7 +125,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
             fontWeight="semibold"
             textStyle="caption"
             variant={
-              (sigAssetPriceInfo?.cg?.price_change_percentage_24h_usd || 0) >= 0 ? 'green' : 'red'
+              (sigAssetPriceInfo?.cg?.price_change_percentage_24h_usd || 0) >= 0 ? "green" : "red"
             }
           >
             {sigAssetPriceInfo?.cg?.price_change_percentage_24h_usd?.toFixed(2)}%
@@ -145,7 +145,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
           <AccountCardButton
             className="rotate-180"
             icon="receive"
-            label={t('common.send')}
+            label={t("common.send")}
             onClick={() => navigate(getSendRoute(sigAsset))}
           />
 
@@ -156,9 +156,9 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
               <AccountCardButton
                 disabled={!chainAddress}
                 icon="receive"
-                label={t('common.receive')}
+                label={t("common.receive")}
                 tooltip={
-                  chainAddress ? t('views.wallet.showQRCode') : t('views.walletModal.notConnected')
+                  chainAddress ? t("views.wallet.showQRCode") : t("views.walletModal.notConnected")
                 }
               />
             }
@@ -166,7 +166,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
 
           <AccountCardButton
             icon="swap"
-            label={t('common.swap')}
+            label={t("common.swap")}
             onClick={() => navigate(getSwapRoute(sigAsset))}
           />
         </Box>
@@ -183,7 +183,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
           ) : (
             <Box center flex={1}>
               <Text textStyle="subtitle2" variant="secondary">
-                {t('views.wallet.noDataToShow')}
+                {t("views.wallet.noDataToShow")}
               </Text>
             </Box>
           )}

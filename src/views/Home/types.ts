@@ -1,27 +1,27 @@
 export enum PoolCategoryOption {
-  Savers = 'Savers',
-  All = 'Liquidity Pools',
+  Savers = "Savers",
+  All = "Liquidity Pools",
 }
 
 export const poolCategoryOptions = [PoolCategoryOption.Savers, PoolCategoryOption.All];
-export const poolStatusOptions = ['Available', 'Staged'];
+export const poolStatusOptions = ["Available", "Staged"];
 
 export enum VolumeChartIndex {
-  Swap = 'swap',
-  Add = 'add',
-  Withdraw = 'withdraw',
-  Synth = 'synth',
+  Swap = "swap",
+  Add = "add",
+  Withdraw = "withdraw",
+  Synth = "synth",
 }
 
 export enum ShareChartIndex {
-  Total = 'total',
-  Earned = 'earned',
+  Total = "total",
+  Earned = "earned",
 }
 
 export enum LiquidityChartIndex {
-  Liquidity = 'liquidity',
-  LpEarning = 'lpEarning',
-  BondEarning = 'bondEarning',
+  Liquidity = "liquidity",
+  LpEarning = "lpEarning",
+  BondEarning = "bondEarning",
 }
 
 export const volumeChartIndexes = [

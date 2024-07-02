@@ -1,12 +1,12 @@
-import { Text } from '@chakra-ui/react';
-import { Announcement } from 'components/Announcements/Announcement/Announcement';
-import { useSeenAnnouncements } from 'components/Announcements/hooks';
-import { Box, Button, Card, Icon } from 'components/Atomic';
-import { Popover } from 'components/Popover';
-import { Scrollbar } from 'components/Scrollbar';
-import { useAnnouncements } from 'context/announcements/AnnouncementsContext';
-import useWindowSize from 'hooks/useWindowSize';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { Announcement } from "components/Announcements/Announcement/Announcement";
+import { useSeenAnnouncements } from "components/Announcements/hooks";
+import { Box, Button, Card, Icon } from "components/Atomic";
+import { Popover } from "components/Popover";
+import { Scrollbar } from "components/Scrollbar";
+import { useAnnouncements } from "context/announcements/AnnouncementsContext";
+import useWindowSize from "hooks/useWindowSize";
+import { t } from "services/i18n";
 
 export const AnnouncementsPopover = () => {
   const notifications = useAnnouncements();
@@ -16,7 +16,7 @@ export const AnnouncementsPopover = () => {
 
   const onClose = () => {
     if (all.length === 0) return;
-    seeAnnouncements(all.map((ann) => (ann.key ? ann.key : '')));
+    seeAnnouncements(all.map((ann) => (ann.key ? ann.key : "")));
   };
   const announcementsToShow = [...fresh, ...dismissed];
 
@@ -29,7 +29,7 @@ export const AnnouncementsPopover = () => {
         <Button
           className="relative !px-2"
           leftIcon={<Icon name="bell" size={isMdActive ? 28 : 22} />}
-          tooltip={t('components.announcements.announcements')}
+          tooltip={t("components.announcements.announcements")}
           variant="borderlessTint"
         >
           {unreadAnnouncementsCount > 0 && (
@@ -49,7 +49,7 @@ export const AnnouncementsPopover = () => {
         >
           <Scrollbar height="480px">
             <Text className="p-2" textStyle="subtitle2">
-              {t('components.announcements.announcements')}
+              {t("components.announcements.announcements")}
             </Text>
             <Box col className="pt-3 self-stretch gap-1 px-0.5">
               {announcementsToShow.length > 0 ? (
@@ -62,7 +62,7 @@ export const AnnouncementsPopover = () => {
                 ))
               ) : (
                 <Text className="p-2 text-center" textStyle="caption">
-                  {t('common.allCaughtUp')}
+                  {t("common.allCaughtUp")}
                 </Text>
               )}
             </Box>

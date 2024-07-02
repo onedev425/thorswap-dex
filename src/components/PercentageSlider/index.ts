@@ -1,1 +1,1 @@
-export { PercentageSlider } from './PercentageSlider';
+export { PercentageSlider } from "./PercentageSlider";

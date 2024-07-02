@@ -1,1 +1,1 @@
-export { HorizontalSlider } from './HorizontalSlider';
+export { HorizontalSlider } from "./HorizontalSlider";

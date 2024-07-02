@@ -1,11 +1,11 @@
-import type { SystemStyleObject } from '@chakra-ui/react';
-import type { IconName, TextTransform } from 'components/Atomic';
-import type { MouseEventHandler } from 'react';
+import type { SystemStyleObject } from "@chakra-ui/react";
+import type { IconName, TextTransform } from "components/Atomic";
+import type { MouseEventHandler } from "react";
 
-export type SidebarVariant = 'primary' | 'secondary';
+export type SidebarVariant = "primary" | "secondary";
 
 export enum SidebarWidgetOption {
-  ThorBurn = 'thorBurn',
+  ThorBurn = "thorBurn",
 }
 
 type ItemProps = {
@@ -42,11 +42,11 @@ export type SidebarProps = {
 };
 
 export const itemClasses = {
-  primary: 'hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent !mx-1',
-  secondary: 'hover:bg-btn-secondary-translucent hover:dark:bg-btn-secondary-translucent',
+  primary: "hover:bg-btn-primary-translucent hover:dark:bg-btn-primary-translucent !mx-1",
+  secondary: "hover:bg-btn-secondary-translucent hover:dark:bg-btn-secondary-translucent",
 };
 
 export const iconClasses = {
-  primary: 'text-light-gray-primary dark:text-dark-gray-primary',
-  secondary: 'text-light-green-light dark:text-dark-green-light',
+  primary: "text-light-gray-primary dark:text-dark-gray-primary",
+  secondary: "text-light-green-light dark:text-dark-green-light",
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   onActiveChange?: (index: number | null) => void;
@@ -7,7 +7,7 @@ type Props = {
 
 export const useAccordion = ({ onActiveChange, initIndex }: Props = {}) => {
   const [openIndex, setOpenIndex] = useState<number | null>(() =>
-    typeof initIndex === 'number' ? initIndex : null,
+    typeof initIndex === "number" ? initIndex : null,
   );
 
   const open = useCallback((index: number) => {
@@ -23,7 +23,7 @@ export const useAccordion = ({ onActiveChange, initIndex }: Props = {}) => {
 
   const close = useCallback(
     (index?: number) => {
-      if (typeof index === 'undefined' || isOpened(index)) {
+      if (typeof index === "undefined" || isOpened(index)) {
         setOpenIndex(null);
       }
     },

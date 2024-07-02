@@ -1,54 +1,54 @@
-import { AssetValue, Chain } from '@swapkit/core';
-import { isETHAsset } from 'helpers/assets';
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { isETHAsset } from "helpers/assets";
 
 export enum ROUTES {
-  AddLiquidity = '/add',
-  AddLiquidityPool = '/add/:assetParam',
-  CreateLiquidity = '/create',
-  Home = '/dashboard',
-  Okx = '/okx',
-  OkxPair = '/okx/:pair',
-  Liquidity = '/liquidity',
-  NodeDetail = '/nodes/:nodeAddress',
-  NodeManager = '/node-manager',
-  Nodes = '/nodes',
-  Send = '/send',
-  SendAsset = '/send/:assetParam',
-  LegacyStake = '/legacy_stake',
-  Stake = '/stake',
-  Stats = '/stats',
-  Swap = '/swap',
-  SwapPair = '/swap/:pair',
-  Thorname = '/thorname',
-  Vesting = '/vesting',
-  Wallet = '/wallet',
-  WithdrawLiquidity = '/withdraw',
-  WithdrawLiquidityPool = '/withdraw/:assetParam',
-  Multisig = '/thorsafe',
-  MultisigConnect = '/thorsafe/connect',
-  MultisigCreate = '/thorsafe/create',
-  ToS = '/tos',
-  TxBuilder = '/txbuilder',
-  TxCreate = '/txcreate',
-  TxCreatePool = '/txcreate/:assetParam',
-  TxImport = '/tximport',
-  TxMultisig = '/txthorsafe',
-  Earn = '/earn',
-  EarnAsset = '/earn/:asset',
-  Lending = '/lending',
-  LendingAsset = '/lending/:asset',
-  Transaction = '/tx/:txid',
+  AddLiquidity = "/add",
+  AddLiquidityPool = "/add/:assetParam",
+  CreateLiquidity = "/create",
+  Home = "/dashboard",
+  Okx = "/okx",
+  OkxPair = "/okx/:pair",
+  Liquidity = "/liquidity",
+  NodeDetail = "/nodes/:nodeAddress",
+  NodeManager = "/node-manager",
+  Nodes = "/nodes",
+  Send = "/send",
+  SendAsset = "/send/:assetParam",
+  LegacyStake = "/legacy_stake",
+  Stake = "/stake",
+  Stats = "/stats",
+  Swap = "/swap",
+  SwapPair = "/swap/:pair",
+  Thorname = "/thorname",
+  Vesting = "/vesting",
+  Wallet = "/wallet",
+  WithdrawLiquidity = "/withdraw",
+  WithdrawLiquidityPool = "/withdraw/:assetParam",
+  Multisig = "/thorsafe",
+  MultisigConnect = "/thorsafe/connect",
+  MultisigCreate = "/thorsafe/create",
+  ToS = "/tos",
+  TxBuilder = "/txbuilder",
+  TxCreate = "/txcreate",
+  TxCreatePool = "/txcreate/:assetParam",
+  TxImport = "/tximport",
+  TxMultisig = "/txthorsafe",
+  Earn = "/earn",
+  EarnAsset = "/earn/:asset",
+  Lending = "/lending",
+  LendingAsset = "/lending/:asset",
+  Transaction = "/tx/:txid",
 }
 
-export const THORYIELD_ROUTE = 'https://app.thoryield.com';
-export const THORYIELD_LP_PATH = 'accounts';
-export const THORYIELD_STATS_ROUTE = 'https://app.thoryield.com/stats';
+export const THORYIELD_ROUTE = "https://app.thoryield.com";
+export const THORYIELD_LP_PATH = "accounts";
+export const THORYIELD_STATS_ROUTE = "https://app.thoryield.com/stats";
 
 const getAssetRoute = (route: ROUTES, asset?: AssetValue) =>
-  `${route}${asset ? `/${asset.toUrl()}` : ''}`;
+  `${route}${asset ? `/${asset.toUrl()}` : ""}`;
 
 export const navigateToExternalLink = (url: string) => {
-  window.open(url, '_blank noreferrer noopener');
+  window.open(url, "_blank noreferrer noopener");
 };
 
 export const getAddLiquidityRoute = (asset?: AssetValue) => {
@@ -61,7 +61,7 @@ export const getWithdrawRoute = (asset?: AssetValue) => {
 
 export const getSendRoute = (asset?: AssetValue, recipient?: string) => {
   const route = getAssetRoute(ROUTES.Send, asset);
-  const query = recipient ? `?recipient=${recipient}` : '';
+  const query = recipient ? `?recipient=${recipient}` : "";
   return `${route}${query}`;
 };
 
@@ -75,16 +75,16 @@ export const getSwapRoute = (
   route = ROUTES.Swap,
 ) => {
   const outputAsset =
-    isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature('ETH.THOR') : output;
+    isETHAsset(input) && isETHAsset(output) ? AssetValue.fromChainOrSignature("ETH.THOR") : output;
 
   const inputString = input.isSynthetic
-    ? `THOR.${input.symbol.replace('/', '.')}`
+    ? `THOR.${input.symbol.replace("/", ".")}`
     : input.toString();
   const outputString = outputAsset.isSynthetic
-    ? `THOR.${outputAsset.symbol.replace('/', '.')}`
+    ? `THOR.${outputAsset.symbol.replace("/", ".")}`
     : outputAsset.toString();
 
-  const assetUrl = `${inputString}_${outputString}`.replace(/\//g, '.');
+  const assetUrl = `${inputString}_${outputString}`.replace(/\//g, ".");
 
   return `${route}/${assetUrl}`;
 };

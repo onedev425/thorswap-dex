@@ -1,15 +1,15 @@
-import { Box } from 'components/Atomic';
-import { Helmet } from 'components/Helmet';
-import { useState } from 'react';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
-import { AccountType } from 'views/Wallet/AccountType';
-import { SearchAndFilters } from 'views/Wallet/SearchAndFilters';
+import { Box } from "components/Atomic";
+import { Helmet } from "components/Helmet";
+import { useState } from "react";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
+import { AccountType } from "views/Wallet/AccountType";
+import { SearchAndFilters } from "views/Wallet/SearchAndFilters";
 
 const Wallet = () => {
   const { walletViewMode, setWalletViewMode } = useApp();
 
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [onlyConnected, setOnlyConnected] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ const Wallet = () => {
       <Helmet
         content="Manage you tokens in your custodial wallet on THORSwap"
         keywords="Wallet, Tokens, THORSwap, THORChain, DEFI, DEX"
-        title={t('views.wallet.wallet')}
+        title={t("views.wallet.wallet")}
       />
       <SearchAndFilters
         keyword={keyword}

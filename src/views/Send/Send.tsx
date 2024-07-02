@@ -1,33 +1,33 @@
-import { Spinner, Text } from '@chakra-ui/react';
-import { AssetValue, Chain, SwapKitNumber } from '@swapkit/core';
-import { SwitchMenu } from 'components/AppPopoverMenu/components/SwitchMenu';
-import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { PanelInput } from 'components/PanelInput';
-import { PanelView } from 'components/PanelView';
-import { showErrorToast } from 'components/Toast';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { chainName } from 'helpers/chainName';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { useAddressForTNS } from 'hooks/useAddressForTNS';
-import { useBalance } from 'hooks/useBalance';
-import { useNetworkFee } from 'hooks/useNetworkFee';
-import type { ChangeEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { getSendRoute } from 'settings/router';
-import { CustomSend } from 'views/Send/components/CustomSend';
-import { useCustomSend } from 'views/Send/hooks/useCustomSend';
-import { useConfirmSend } from 'views/Send/useConfirmSend';
+import { Spinner, Text } from "@chakra-ui/react";
+import { AssetValue, Chain, SwapKitNumber } from "@swapkit/sdk";
+import { SwitchMenu } from "components/AppPopoverMenu/components/SwitchMenu";
+import { AssetInput } from "components/AssetInput";
+import { Box, Button, Icon, Tooltip } from "components/Atomic";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { PanelInput } from "components/PanelInput";
+import { PanelView } from "components/PanelView";
+import { showErrorToast } from "components/Toast";
+import { ViewHeader } from "components/ViewHeader";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { chainName } from "helpers/chainName";
+import { shortenAddress } from "helpers/shortenAddress";
+import { useAddressForTNS } from "hooks/useAddressForTNS";
+import { useBalance } from "hooks/useBalance";
+import { useNetworkFee } from "hooks/useNetworkFee";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { t } from "services/i18n";
+import { getSendRoute } from "settings/router";
+import { CustomSend } from "views/Send/components/CustomSend";
+import { useCustomSend } from "views/Send/hooks/useCustomSend";
+import { useConfirmSend } from "views/Send/useConfirmSend";
 
-const mayaRouterAddress = '0xe9495f24fF1E8DD8E803B6717Fb9264683CdD7bC';
+const mayaRouterAddress = "0xe9495f24fF1E8DD8E803B6717Fb9264683CdD7bC";
 
 const Send = () => {
   const navigate = useNavigate();
@@ -40,22 +40,22 @@ const Send = () => {
     setSendAsset((asset) => asset.set(amount));
   }, []);
 
-  const sendAmount = useMemo(() => sendAsset.getValue('string'), [sendAsset]);
+  const sendAmount = useMemo(() => sendAsset.getValue("string"), [sendAsset]);
 
   const [maxSpendableBalance, setMaxSpendableBalance] = useState<AssetValue | undefined>(
     sendAsset.set(0),
   );
 
-  const [memo, setMemo] = useState('');
-  const [recipientAddress, setRecipientAddress] = useState(searchParams.get('recipient') || '');
-  const [thorname, setThorname] = useState('');
+  const [memo, setMemo] = useState("");
+  const [recipientAddress, setRecipientAddress] = useState(searchParams.get("recipient") || "");
+  const [thorname, setThorname] = useState("");
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const { wallet, getWallet, getWalletAddress } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();
 
   const { getMaxBalance } = useBalance();
   const { inputAssetUSDPrice, inputFee, feeInUSD, isLoading } = useNetworkFee({
-    type: 'transfer',
+    type: "transfer",
     inputAsset: sendAsset,
   });
 
@@ -75,7 +75,7 @@ const Send = () => {
   const txFeeUsd = customTxEnabled ? customFeeUsd : feeInUSD;
   const txFee = customTxEnabled
     ? customFeeRune
-    : `${inputFee.getValue('string')} ${inputFee.ticker}`;
+    : `${inputFee.getValue("string")} ${inputFee.ticker}`;
 
   const handleConfirmSend = useConfirmSend({
     setIsOpenConfirmModal,
@@ -94,7 +94,7 @@ const Send = () => {
   const { loading, TNS } = useAddressForTNS(recipientAddress);
 
   const TNSAddress = useMemo(
-    () => (TNS?.entries ? TNS.entries.find(({ chain }) => chain === sendAsset.chain)?.address : ''),
+    () => (TNS?.entries ? TNS.entries.find(({ chain }) => chain === sendAsset.chain)?.address : ""),
     [TNS, sendAsset.chain],
   );
 
@@ -106,24 +106,24 @@ const Send = () => {
   }, [TNS, TNSAddress]);
 
   useEffect(() => {
-    const getSendAsset = async () => {
+    const getSendAsset = () => {
       if (customTxEnabled) {
         return setSendAsset(RUNEAsset);
       }
 
-      if (!assetParam) {
-        setSendAsset(RUNEAsset);
-      } else {
-        const [chain, synthChain, symbol] = assetParam.split('.');
+      if (assetParam) {
+        const [chain, synthChain, symbol] = assetParam.split(".");
         const isSynth = chain === Chain.THORChain && symbol;
         const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : assetParam;
-        const assetEntity = AssetValue.fromStringSync(assetString);
+        const assetEntity = AssetValue.from({ asset: assetString });
 
         if (assetEntity) {
           setSendAsset(assetEntity);
         } else {
           setSendAsset(RUNEAsset);
         }
+      } else {
+        setSendAsset(RUNEAsset);
       }
     };
 
@@ -173,7 +173,7 @@ const Send = () => {
 
   const handleSelectAsset = useCallback(
     (selected: AssetValue) => {
-      setRecipientAddress('');
+      setRecipientAddress("");
       navigate(getSendRoute(selected));
     },
     [navigate],
@@ -190,8 +190,8 @@ const Send = () => {
     (amount: SwapKitNumber) => {
       setSendAmount(
         isWalletConnected && maxSpendableBalance && amount.gt(maxSpendableBalance)
-          ? maxSpendableBalance.getValue('string')
-          : amount.getValue('string'),
+          ? maxSpendableBalance.getValue("string")
+          : amount.getValue("string"),
       );
     },
     [isWalletConnected, maxSpendableBalance, setSendAmount],
@@ -200,7 +200,7 @@ const Send = () => {
   const handleChangeRecipient = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setRecipientAddress(value);
-      setThorname('');
+      setThorname("");
     },
     [],
   );
@@ -214,12 +214,12 @@ const Send = () => {
   }, []);
 
   const handleSend = useCallback(async () => {
-    const { validateAddress } = await (await import('services/swapKit')).getSwapKitClient();
+    const { validateAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
-    if (!customTxEnabled && !validateAddress({ chain: sendAsset.chain, address: txRecipient })) {
-      showErrorToast(t('notification.invalidChainAddy', { chain: sendAsset.chain }));
-    } else {
+    if (customTxEnabled || validateAddress({ chain: sendAsset.chain, address: txRecipient })) {
       setIsOpenConfirmModal(true);
+    } else {
+      showErrorToast(t("notification.invalidChainAddy", { chain: sendAsset.chain }));
     }
   }, [customTxEnabled, sendAsset.chain, txRecipient]);
 
@@ -239,13 +239,13 @@ const Send = () => {
   const summary = useMemo(
     () => [
       {
-        label: t('common.transactionFee'),
+        label: t("common.transactionFee"),
         value: isLoading ? (
           <Spinner />
         ) : (
           <Box center className="gap-2">
             <Text textStyle="caption">{`${txFee} (${txFeeUsd})`}</Text>
-            <Tooltip content={t('views.send.txFeeTooltip')}>
+            <Tooltip content={t("views.send.txFeeTooltip")}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>
@@ -258,20 +258,20 @@ const Send = () => {
   const confirmModalInfo = useMemo(
     () => [
       {
-        label: t('common.send'),
+        label: t("common.send"),
         value: `${sendAsset?.toSignificant(6)} ${sendAsset.ticker}`,
       },
       {
-        label: t('common.recipient'),
-        value: customTxEnabled ? t('common.msgDeposit') : shortenAddress(txRecipient, 6),
+        label: t("common.recipient"),
+        value: customTxEnabled ? t("common.msgDeposit") : shortenAddress(txRecipient, 6),
       },
-      { label: t('common.memo'), value: txMemo },
+      { label: t("common.memo"), value: txMemo },
       {
-        label: t('common.transactionFee'),
+        label: t("common.transactionFee"),
         value: (
           <Box center className="gap-2">
             <Text variant="caption">{`${txFee} (${txFeeUsd})`}</Text>
-            <Tooltip content={t('views.send.txFeeTooltip')}>
+            <Tooltip content={t("views.send.txFeeTooltip")}>
               <Icon color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>
@@ -283,18 +283,18 @@ const Send = () => {
 
   const recipientTitle = useMemo(
     () =>
-      `${t('common.recipientAddress')}${
-        TNSAddress && thorname ? ` - ${thorname}.${sendAsset.chain}` : ''
+      `${t("common.recipientAddress")}${
+        TNSAddress && thorname ? ` - ${thorname}.${sendAsset.chain}` : ""
       }`,
     [TNSAddress, sendAsset.chain, thorname],
   );
 
   return (
     <PanelView
-      description={t('views.send.description')}
-      header={<ViewHeader actionsComponent={<GlobalSettingsPopover />} title={t('common.send')} />}
+      description={t("views.send.description")}
+      header={<ViewHeader actionsComponent={<GlobalSettingsPopover />} title={t("common.send")} />}
       keywords="Wallet, Tokens, THORSwap, THORChain, DEFI, DEX"
-      title={t('views.send.title')}
+      title={t("views.send.title")}
     >
       <div className="relative self-stretch md:w-full">
         {customTxEnabled ? (
@@ -333,7 +333,7 @@ const Send = () => {
               assetInput.asset.isSynthetic || assetInput.asset.chain === Chain.THORChain
                 ? RUNEAsset.chain
                 : chainName(assetInput.asset.chain)
-            } ${t('common.address')}`}
+            } ${t("common.address")}`}
             title={recipientTitle}
             value={recipientAddress}
           />
@@ -349,7 +349,7 @@ const Send = () => {
           <PanelInput
             collapsible
             onChange={handleChangeMemo}
-            title={t('common.memo')}
+            title={t("common.memo")}
             value={memo}
           />
         </>
@@ -368,11 +368,11 @@ const Send = () => {
       <Box center className="w-full pt-5">
         {isWalletConnected ? (
           <Button stretch disabled={isMayaRouter} onClick={handleSend} size="lg" variant="fancy">
-            {t('common.send')}
+            {t("common.send")}
           </Button>
         ) : (
           <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         )}
       </Box>

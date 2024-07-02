@@ -1,10 +1,10 @@
-import type { EVMChain } from '@swapkit/core';
-import { AssetValue, Chain } from '@swapkit/core';
-import { useBalance } from 'hooks/useBalance';
-import { usePools } from 'hooks/usePools';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { Token } from 'store/thorswap/types';
-import { zeroAmount } from 'types/app';
+import type { EVMChain } from "@swapkit/sdk";
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { useBalance } from "hooks/useBalance";
+import { usePools } from "hooks/usePools";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { Token } from "store/thorswap/types";
+import { zeroAmount } from "types/app";
 
 export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: boolean) => {
   const { getMaxBalance, isWalletConnected } = useBalance();
@@ -43,7 +43,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
       synthAssets.map((asset) => {
         return getBalance(asset).then((balance) => ({
           asset,
-          provider: 'Thorchain',
+          provider: "Thorchain",
           identifier: asset.symbol,
           balance,
         }));
@@ -53,20 +53,20 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
 
   const handleAssetSets = useCallback(async () => {
     const filteredTokens = thorchainOnly
-      ? tokens.filter((t) => t?.provider?.toLowerCase() === 'thorchain')
+      ? tokens.filter((t) => t?.provider?.toLowerCase() === "thorchain")
       : tokens;
 
     const tokenPromises = filteredTokens.map(
       async ({ identifier, address, chain, ...rest }: Token) => {
-        const assetChain = (chain || identifier.split('.')[0]) as EVMChain;
-        const [id] = identifier.split('-');
+        const assetChain = (chain || identifier.split(".")[0]) as EVMChain;
+        const [id] = identifier.split("-");
         // if (id.includes('/') && !id.startsWith(Chain.THORChain)) return null;
 
         const asset = AssetValue.fromStringSync(
           [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain, Chain.Arbitrum].includes(
             assetChain,
           )
-            ? `${id}${address ? `-${address}` : ''}`
+            ? `${id}${address ? `-${address}` : ""}`
             : identifier,
         );
 
@@ -94,7 +94,7 @@ export const useAssetsWithBalanceFromTokens = (tokens: Token[], thorchainOnly?: 
   const assets = useMemo(
     () =>
       assetsWithBalance.find(
-        (asset) => asset.identifier === 'DOT.DOT' || asset.identifier === 'DASH.DASH',
+        (asset) => asset.identifier === "DOT.DOT" || asset.identifier === "DASH.DASH",
       )
         ? assetsWithBalance
         : assetsWithBalance.concat(synthAssetsWithBalance),

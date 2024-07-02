@@ -1,12 +1,12 @@
-import { Card, Collapse, Flex, Text } from '@chakra-ui/react';
-import { type AssetValue, SwapKitNumber } from '@swapkit/core';
-import { Icon, Tooltip } from 'components/Atomic';
-import { formatDuration } from 'components/TransactionTracker/helpers';
-import { STREAMING_SWAPS_URL } from 'config/constants';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { navigateToExternalLink } from 'settings/router';
+import { Card, Collapse, Flex, Text } from "@chakra-ui/react";
+import { type AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { Icon, Tooltip } from "components/Atomic";
+import { formatDuration } from "components/TransactionTracker/helpers";
+import { STREAMING_SWAPS_URL } from "config/constants";
+import { useFormatPrice } from "helpers/formatPrice";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { navigateToExternalLink } from "settings/router";
 
 type OptimizeQuote = {
   estimatedTime?: number;
@@ -55,7 +55,7 @@ export const TxOptimizeSection = ({
   const outputAmount = useMemo(
     () =>
       new SwapKitNumber({
-        value: quote?.expectedOutput || '0',
+        value: quote?.expectedOutput || "0",
         decimal: outputAsset?.decimal || 0,
       }),
     [outputAsset?.decimal, quote?.expectedOutput],
@@ -64,7 +64,7 @@ export const TxOptimizeSection = ({
   const outputAmountStreamingSwap = useMemo(
     () =>
       new SwapKitNumber({
-        value: quote?.streamingSwap?.expectedOutput || '0',
+        value: quote?.streamingSwap?.expectedOutput || "0",
         decimal: outputAsset?.decimal || 0,
       }),
     [outputAsset?.decimal, quote?.streamingSwap?.expectedOutput],
@@ -74,14 +74,14 @@ export const TxOptimizeSection = ({
 
   return (
     <Flex animateOpacity as={Collapse} in={canStream} w="100%">
-      <Card gap={2} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
+      <Card gap={2} p={3} sx={{ w: "full", borderRadius: 16 }} variant="filledContainerTertiary">
         <Flex>
           <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-            {title || t('views.swap.priceOptimizationAvailable')}
+            {title || t("views.swap.priceOptimizationAvailable")}
           </Text>
 
           <Tooltip
-            content={t('views.swap.priceOptimizationInfo')}
+            content={t("views.swap.priceOptimizationInfo")}
             onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
             place="bottom"
           >
@@ -91,17 +91,17 @@ export const TxOptimizeSection = ({
 
         <Flex gap={1}>
           <Card
-            borderColor={stream ? 'brand.btnPrimary' : undefined}
+            borderColor={stream ? "brand.btnPrimary" : undefined}
             flex={1}
             onClick={() => toggleStream(true)}
             px={2}
             py={1}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
             variant="filledTertiary"
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">{t('views.swap.priceOptimized')}</Text>
+                <Text textStyle="caption-xs">{t("views.swap.priceOptimized")}</Text>
                 <Icon color="yellow" name="coin" size={20} />
               </Flex>
 
@@ -115,13 +115,13 @@ export const TxOptimizeSection = ({
                     >
                       {estimatedTimeStreamingSwap
                         ? formatDuration(estimatedTimeStreamingSwap, { approx: true })
-                        : 'Time: N/A'}
+                        : "Time: N/A"}
                     </Text>
                   </Flex>
 
                   <Flex gap={1}>
                     <Text textStyle="caption-xs">
-                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ''}
+                      {outputAmountStreamingSwap.toSignificant(6)} {outputAsset?.ticker || ""}
                     </Text>
                     <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
                       (+{formatPrice(displayPriceUSDDiff)})
@@ -133,17 +133,17 @@ export const TxOptimizeSection = ({
           </Card>
 
           <Card
-            borderColor={!stream ? 'brand.alpha.btnPrimary' : undefined}
+            borderColor={stream ? undefined : "brand.alpha.btnPrimary"}
             flex={1}
             onClick={() => toggleStream(false)}
             px={2}
             py={1}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
             variant="filledTertiary"
           >
             <Flex direction="column">
               <Flex align="center" gap={1} justify="space-between">
-                <Text textStyle="caption-xs">{t('views.swap.timeOptimized')}</Text>
+                <Text textStyle="caption-xs">{t("views.swap.timeOptimized")}</Text>
                 <Icon color="secondaryBtn" name="timer" size={22} />
               </Flex>
 
@@ -157,7 +157,7 @@ export const TxOptimizeSection = ({
                     >
                       {estimatedTime
                         ? formatDuration(estimatedTime, { approx: true })
-                        : 'Time: N/A'}
+                        : "Time: N/A"}
                     </Text>
                     {!!timeDiff && (
                       <Text color="brand.green" fontWeight="normal" textStyle="caption-xs">
@@ -167,7 +167,7 @@ export const TxOptimizeSection = ({
                   </Flex>
 
                   <Text textStyle="caption-xs">
-                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ''}
+                    {outputAmount.toSignificant(6)} {outputAsset?.ticker || ""}
                   </Text>
                 </Flex>
               </Flex>

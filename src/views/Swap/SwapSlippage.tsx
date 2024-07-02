@@ -1,4 +1,5 @@
 import {
+  Tooltip as ChakraTooltip,
   Collapse,
   Flex,
   RangeSlider,
@@ -7,15 +8,14 @@ import {
   RangeSliderTrack,
   Stack,
   Text,
-  Tooltip as ChakraTooltip,
-} from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { SwapKitNumber } from '@swapkit/core';
-import { Icon } from 'components/Atomic';
-import { Tooltip } from 'components/Atomic/Tooltip';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
+} from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { SwapKitNumber } from "@swapkit/sdk";
+import { Icon } from "components/Atomic";
+import { Tooltip } from "components/Atomic/Tooltip";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   route?: RouteWithApproveType;
@@ -53,7 +53,7 @@ export const SwapSlippage = ({
     const outputRatio = outputAmount.div(maxOutputAmount);
     const maxSlipValue = startSlipSliderValue + maxSlip * sliderScale;
 
-    const outputValue = outputRatio.getValue('number') * 100;
+    const outputValue = outputRatio.getValue("number") * 100;
     const slipPercent = 100 - Number(outputValue);
 
     const scaledValue = getScaledValue(maxSlipValue, slipPercent);
@@ -66,7 +66,7 @@ export const SwapSlippage = ({
     setSlipValue(slippagePercent > 0 ? sliderSlipValue : 0);
   }, [slippagePercent]);
 
-  const mainColor = slippagePercent > 0 ? 'brand.btnPrimary' : 'brand.orange';
+  const mainColor = slippagePercent > 0 ? "brand.btnPrimary" : "brand.orange";
 
   const onChange = useCallback(
     (values: number[]) => {
@@ -95,10 +95,10 @@ export const SwapSlippage = ({
     <Flex animateOpacity in as={Collapse} w="100%">
       <Flex>
         <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-          {t('common.slippageSettings')}
+          {t("common.slippageSettings")}
         </Text>
 
-        <Tooltip content={t('common.slippageTooltip')} place="bottom">
+        <Tooltip content={t("common.slippageTooltip")} place="bottom">
           <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
         </Tooltip>
       </Flex>
@@ -132,7 +132,7 @@ export const SwapSlippage = ({
                   <Stack p={1}>
                     {slippagePercent === 0 ? (
                       <Text color="brand.orange" textStyle="caption-xs">
-                        {t('views.swap.noPriceProtection')}
+                        {t("views.swap.noPriceProtection")}
                       </Text>
                     ) : (
                       <Flex>
@@ -140,7 +140,7 @@ export const SwapSlippage = ({
                           Slippage: &nbsp;
                         </Text>
                         <Text
-                          color={slippagePercent === 10 ? 'brand.yellow' : 'textPrimary'}
+                          color={slippagePercent === 10 ? "brand.yellow" : "textPrimary"}
                           textStyle="caption-xs"
                         >
                           {slippagePercent}%
@@ -158,7 +158,7 @@ export const SwapSlippage = ({
                 bgColor={mainColor}
                 boxSize={3}
                 index={1}
-                sx={{ pointerEvents: 'none' }}
+                sx={{ pointerEvents: "none" }}
               />
 
               <Flex
@@ -166,12 +166,12 @@ export const SwapSlippage = ({
                 sx={{
                   w: 4,
                   h: 4,
-                  borderRadius: '50%',
-                  bg: 'textSecondary',
-                  position: 'absolute',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  left: '-8px',
+                  borderRadius: "50%",
+                  bg: "textSecondary",
+                  position: "absolute",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  left: "-8px",
                 }}
               />
 
@@ -180,11 +180,11 @@ export const SwapSlippage = ({
                 sx={{
                   w: 4,
                   h: 4,
-                  borderRadius: '50%',
-                  bg: slippagePercent > 0 ? 'textSecondary' : mainColor,
-                  position: 'absolute',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
+                  borderRadius: "50%",
+                  bg: slippagePercent > 0 ? "textSecondary" : mainColor,
+                  position: "absolute",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   left: `calc(${startSlipSliderValue}% - 7px)`,
                 }}
               />

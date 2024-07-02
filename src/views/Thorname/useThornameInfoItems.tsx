@@ -1,20 +1,21 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { getTHORNameCost } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { ChainIcon } from 'components/AssetIcon/ChainIcon';
-import { Box, Button, Icon, Tooltip } from 'components/Atomic';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { RUNEAsset } from 'helpers/assets';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { getThornameExpireDate } from 'store/midgard/actions';
-import { useGetLastblockQuery } from 'store/midgard/api';
-import type { THORNameDetails } from 'types/app';
-import { CopyValue } from 'views/Wallet/components/CopyValue';
+import { Text } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { getTHORNameCost } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { ChainIcon } from "components/AssetIcon/ChainIcon";
+import { Box, Button, Icon, Tooltip } from "components/Atomic";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { RUNEAsset } from "helpers/assets";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { getThornameExpireDate } from "store/midgard/actions";
+import { useGetLastblockQuery } from "store/midgard/api";
+import type { THORNameDetails } from "types/app";
+import { CopyValue } from "views/Wallet/components/CopyValue";
 
 type Params = {
   available: boolean;
+  // biome-ignore lint/correctness/noUndeclaredVariables:
   details: Maybe<THORNameDetails>;
   thorname: string;
   setYears: (years: number) => void;
@@ -28,7 +29,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
   const commonColumns = useMemo(
     () => [
       !details && {
-        label: t('components.sidebar.thorname'),
+        label: t("components.sidebar.thorname"),
         value: (
           <div className="flex">
             {thorname} <CopyValue type="icon" value={thorname} />
@@ -36,12 +37,12 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
         ),
       },
       {
-        label: t('views.thorname.status'),
+        label: t("views.thorname.status"),
         value: (
-          <Text variant={isAvailable ? 'green' : 'red'}>
+          <Text variant={isAvailable ? "green" : "red"}>
             {t(
               `views.thorname.${
-                isAvailable ? (details ? 'ownedByYou' : 'available') : 'unavailable'
+                isAvailable ? (details ? "ownedByYou" : "available") : "unavailable"
               }`,
             )}
           </Text>
@@ -51,7 +52,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
       ...(isAvailable
         ? [
             {
-              label: details ? t('views.thorname.extend') : t('views.thorname.duration'),
+              label: details ? t("views.thorname.extend") : t("views.thorname.duration"),
               value: (
                 <Box alignCenter className="gap-x-2" justify="between">
                   <Button
@@ -87,7 +88,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
               ),
             },
             {
-              label: details ? t('views.thorname.updateFee') : t('views.thorname.registrationFee'),
+              label: details ? t("views.thorname.updateFee") : t("views.thorname.registrationFee"),
               value: (
                 <Box center className="gap-x-2">
                   <AssetIcon asset={RUNEAsset} size="tiny" />
@@ -106,11 +107,11 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
       details
         ? [
             {
-              label: t('views.thorname.expire'),
+              label: t("views.thorname.expire"),
               value: (
                 <Box center className="gap-x-2">
                   <Tooltip
-                    content={t('views.thorname.expirationNote', {
+                    content={t("views.thorname.expirationNote", {
                       block: details.expire,
                     })}
                     iconName="infoCircle"
@@ -125,7 +126,7 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
               ),
             },
             {
-              label: t('views.thorname.owner'),
+              label: t("views.thorname.owner"),
               value: <Text className="!text-xs">{details.owner}</Text>,
             },
           ]

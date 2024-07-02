@@ -1,32 +1,32 @@
-import type { AssetValue } from '@swapkit/core';
-import { BaseDecimal, Chain, getMinAmountByChain, isGasAsset, SwapKitNumber } from '@swapkit/core';
-import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
-import { showErrorToast, showInfoToast } from 'components/Toast';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
-import { parseToPercent } from 'helpers/parseHelpers';
-import { useLPMemberData } from 'hooks/useLiquidityData';
-import { useMimir } from 'hooks/useMimir';
-import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useApp } from 'store/app/hooks';
-import { useExternalConfig } from 'store/externalConfig/hooks';
-import { getInboundData } from 'store/midgard/actions';
-import type { PoolDetail } from 'store/midgard/types';
-import { LiquidityTypeOption } from 'store/midgard/types';
-import { useAppDispatch } from 'store/store';
-import type { Wallet } from 'store/thorswap/types';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
-import type { DepositAssetsBalance } from 'views/AddLiquidity/hooks/useDepositAssetsBalance';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
+import type { AssetValue } from "@swapkit/sdk";
+import { BaseDecimal, Chain, SwapKitNumber, getMinAmountByChain, isGasAsset } from "@swapkit/sdk";
+import { useApproveInfoItems } from "components/Modals/ConfirmModal/useApproveInfoItems";
+import { showErrorToast, showInfoToast } from "components/Toast";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { getEstimatedTxTime } from "helpers/getEstimatedTxTime";
+import { parseToPercent } from "helpers/parseHelpers";
+import { useLPMemberData } from "hooks/useLiquidityData";
+import { useMimir } from "hooks/useMimir";
+import { useNetworkFee } from "hooks/useNetworkFee";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useApp } from "store/app/hooks";
+import { useExternalConfig } from "store/externalConfig/hooks";
+import { getInboundData } from "store/midgard/actions";
+import type { PoolDetail } from "store/midgard/types";
+import { LiquidityTypeOption } from "store/midgard/types";
+import { useAppDispatch } from "store/store";
+import type { Wallet } from "store/thorswap/types";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
+import type { DepositAssetsBalance } from "views/AddLiquidity/hooks/useDepositAssetsBalance";
+import { useIsAssetApproved } from "views/Swap/hooks/useIsAssetApproved";
 
-import { useConfirmInfoItems } from './useConfirmInfoItems';
+import { useConfirmInfoItems } from "./useConfirmInfoItems";
 
 type Props = {
   depositAssetsBalance: DepositAssetsBalance;
@@ -50,7 +50,7 @@ const getEstimatedPoolShareForPoolDepth = ({
   poolUnits: string;
   liquidityUnits: string;
   depth: string;
-}) => new SwapKitNumber(depth).mul(liquidityUnits).div(poolUnits).getValue('string');
+}) => new SwapKitNumber(depth).mul(liquidityUnits).div(poolUnits).getValue("string");
 
 const getLiquiditySlippage = ({
   runeAmount,
@@ -63,10 +63,10 @@ const getLiquiditySlippage = ({
   runeDepth: string;
   assetDepth: string;
 }) => {
-  if ((runeAmount === '0' && assetAmount === '0') || runeDepth === '0' || assetDepth === '0')
+  if ((runeAmount === "0" && assetAmount === "0") || runeDepth === "0" || assetDepth === "0")
     return 0;
 
-  if (runeAmount === '0' || assetAmount === '0') {
+  if (runeAmount === "0" || assetAmount === "0") {
     // Get current pool balance
     const poolBalanceRune = SwapKitNumber.fromBigInt(BigInt(runeDepth));
     const poolBalanceAsset = SwapKitNumber.fromBigInt(BigInt(assetDepth));
@@ -83,7 +83,7 @@ const getLiquiditySlippage = ({
       : runeInputValue;
 
     const slippage = slippageAsset.div(2).div(slippageAsset.add(poolBalanceRune)).mul(100);
-    return slippage.getValue('number');
+    return slippage.getValue("number");
   }
 
   // formula: (t * R - T * r)/ (T*r + R*T)
@@ -95,7 +95,7 @@ const getLiquiditySlippage = ({
   const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
   // set absolute value of percent, no negative allowed
-  return Math.abs(numerator.div(denominator).mul(100).getValue('number'));
+  return Math.abs(numerator.div(denominator).mul(100).getValue("number"));
 };
 
 const getEstimatedPoolShareAfterAdd = ({
@@ -112,7 +112,7 @@ const getEstimatedPoolShareAfterAdd = ({
   runeDepth: string;
   assetDepth: string;
 }) => {
-  if (runeAmount === '0' && assetAmount === '0') return 0;
+  if (runeAmount === "0" && assetAmount === "0") return 0;
 
   const R = new SwapKitNumber({ value: runeDepth, decimal: 8 });
   const A = new SwapKitNumber({ value: assetDepth, decimal: 8 });
@@ -130,7 +130,7 @@ const getEstimatedPoolShareAfterAdd = ({
   const diffAfterAdd = numerator.div(denominator || 1);
 
   if (diffAfterAdd.gt(0)) {
-    return diffAfterAdd.div(P || 1).getValue('number');
+    return diffAfterAdd.div(P || 1).getValue("number");
   }
 
   return 0;
@@ -158,12 +158,12 @@ const getMaxSymAmounts = ({
     const symRuneAmount = runeAmount.lte(minRuneAmount) ? minRuneAmount : runeAmount;
 
     const maxRuneAmount = Math.min(
-      symAssetAmount.set(symAssetAmount.getValue('number') / runePriceInAsset).getValue('number'),
-      runeAmount.getValue('number'),
+      symAssetAmount.set(symAssetAmount.getValue("number") / runePriceInAsset).getValue("number"),
+      runeAmount.getValue("number"),
     );
     const maxAssetAmount = Math.min(
-      symRuneAmount.set(symRuneAmount.getValue('number') / assetPriceInRune).getValue('number'),
-      assetAmount.getValue('number'),
+      symRuneAmount.set(symRuneAmount.getValue("number") / assetPriceInRune).getValue("number"),
+      assetAmount.getValue("number"),
     );
 
     return {
@@ -179,10 +179,10 @@ const getMaxSymAmounts = ({
 };
 
 type Actions =
-  | { type: 'setLpProgressModal'; payload: boolean }
-  | { type: 'setContract'; payload: string }
+  | { type: "setLpProgressModal"; payload: boolean }
+  | { type: "setContract"; payload: string }
   | {
-      type: 'setLPProgressState';
+      type: "setLPProgressState";
       payload: {
         assetAddress?: string;
         poolAddress: string;
@@ -194,25 +194,25 @@ type Actions =
     };
 
 const initialState = {
-  assetAddress: '',
-  contract: '',
+  assetAddress: "",
+  contract: "",
   symmetric: false,
   lpProgressModal: false,
-  poolAddress: '',
+  poolAddress: "",
   poolAssetValue: undefined as AssetValue | undefined,
-  runeAddress: '',
+  runeAddress: "",
   runeAssetValue: undefined as AssetValue | undefined,
 };
 
 const reducer = (state: typeof initialState, { type, payload }: Actions) => {
   switch (type) {
-    case 'setLpProgressModal':
+    case "setLpProgressModal":
       return { ...state, lpProgressModal: payload };
 
-    case 'setContract':
+    case "setContract":
       return { ...state, contract: payload };
 
-    case 'setLPProgressState':
+    case "setLPProgressState":
       return { ...state, ...payload, lpProgressModal: true };
 
     default:
@@ -284,12 +284,12 @@ export const useAddLiquidity = ({
 
   const liquidityParams = useMemo(
     () => ({
-      runeAmount: runeAmount.getValue('string'),
-      assetAmount: assetAmount.getValue('string'),
-      runeDepth: poolData?.runeDepth ?? '0',
-      assetDepth: poolData?.assetDepth ?? '0',
-      liquidityUnits: poolData?.liquidityUnits ?? '0',
-      poolUnits: poolData?.units ?? '0',
+      runeAmount: runeAmount.getValue("string"),
+      assetAmount: assetAmount.getValue("string"),
+      runeDepth: poolData?.runeDepth ?? "0",
+      assetDepth: poolData?.assetDepth ?? "0",
+      liquidityUnits: poolData?.liquidityUnits ?? "0",
+      poolUnits: poolData?.units ?? "0",
     }),
     [
       assetAmount,
@@ -302,9 +302,9 @@ export const useAddLiquidity = ({
   );
 
   const runePriceInAsset =
-    Number.parseInt(poolData?.assetDepth || '0') / Number.parseInt(poolData?.runeDepth || '0');
+    Number.parseInt(poolData?.assetDepth || "0") / Number.parseInt(poolData?.runeDepth || "0");
   const assetPriceInRune =
-    Number.parseInt(poolData?.runeDepth || '0') / Number.parseInt(poolData?.assetDepth || '0');
+    Number.parseInt(poolData?.runeDepth || "0") / Number.parseInt(poolData?.assetDepth || "0");
 
   const addLiquiditySlip = useMemo(
     () => `${getLiquiditySlippage(liquidityParams).toFixed(2)}%`,
@@ -331,10 +331,10 @@ export const useAddLiquidity = ({
     const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
 
     if (halted && !router) {
-      throw new Error('Trading & LP is temporarily halted, please try again later.');
+      throw new Error("Trading & LP is temporarily halted, please try again later.");
     }
 
-    reducerDispatch({ type: 'setContract', payload: router || '' });
+    reducerDispatch({ type: "setContract", payload: router || "" });
   }, []);
 
   useEffect(() => {
@@ -342,7 +342,7 @@ export const useAddLiquidity = ({
   }, [getContractAddress, poolAsset.chain]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
-    assetValue: poolAsset.set(assetAmount.getValue('string')),
+    assetValue: poolAsset.set(assetAmount.getValue("string")),
     contract: state.contract,
     force: true,
   });
@@ -353,8 +353,8 @@ export const useAddLiquidity = ({
     const price = tokenPricesData[poolString]?.price_usd || 0;
     const amount =
       (isAssetPending &&
-        SwapKitNumber.fromBigInt(BigInt(lpMemberData?.assetPending || '0')).getValue('number')) ||
-      assetAmount.getValue('number');
+        SwapKitNumber.fromBigInt(BigInt(lpMemberData?.assetPending || "0")).getValue("number")) ||
+      assetAmount.getValue("number");
 
     return price * amount;
   }, [tokenPricesData, poolString, isAssetPending, lpMemberData?.assetPending, assetAmount]);
@@ -444,7 +444,7 @@ export const useAddLiquidity = ({
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
         setAssetAmount(
           new SwapKitNumber({
-            value: maxAmount.getValue('string'),
+            value: maxAmount.getValue("string"),
             decimal: 8,
           }),
         );
@@ -452,7 +452,7 @@ export const useAddLiquidity = ({
         if (isSymDeposit) {
           setRuneAmount(
             new SwapKitNumber({
-              value: maxAmount.mul(assetPriceInRune).getValue('string'),
+              value: maxAmount.mul(assetPriceInRune).getValue("string"),
               decimal: 8,
             }),
           );
@@ -463,7 +463,7 @@ export const useAddLiquidity = ({
         if (isSymDeposit) {
           setRuneAmount(
             new SwapKitNumber({
-              value: amount.mul(assetPriceInRune).getValue('string'),
+              value: amount.mul(assetPriceInRune).getValue("string"),
               decimal: 8,
             }),
           );
@@ -491,7 +491,7 @@ export const useAddLiquidity = ({
       if (maxAmount && amount.gt(maxAmount) && !skipWalletCheck) {
         setRuneAmount(
           new SwapKitNumber({
-            value: maxAmount.getValue('string'),
+            value: maxAmount.getValue("string"),
             decimal: 8,
           }),
         );
@@ -499,7 +499,7 @@ export const useAddLiquidity = ({
         if (isSymDeposit) {
           setAssetAmount(
             new SwapKitNumber({
-              value: maxAmount.mul(runePriceInAsset).getValue('string'),
+              value: maxAmount.mul(runePriceInAsset).getValue("string"),
               decimal: 8,
             }),
           );
@@ -519,7 +519,7 @@ export const useAddLiquidity = ({
     if (onAddLiquidity && poolAsset && liquidityType !== LiquidityTypeOption.ASSET) {
       onAddLiquidity({
         poolAsset,
-        runeAmount: RUNEAsset.set(runeAmount.getValue('string')),
+        runeAmount: RUNEAsset.set(runeAmount.getValue("string")),
       });
 
       return;
@@ -528,11 +528,11 @@ export const useAddLiquidity = ({
     if (hasWallet && poolData) {
       const runeAssetAmount =
         liquidityType !== LiquidityTypeOption.ASSET
-          ? RUNEAsset.set(runeAmount.getValue('string'))
+          ? RUNEAsset.set(runeAmount.getValue("string"))
           : undefined;
       const poolAssetAmount =
         liquidityType !== LiquidityTypeOption.RUNE
-          ? poolAsset.set(assetAmount.getValue('string'))
+          ? poolAsset.set(assetAmount.getValue("string"))
           : undefined;
 
       const runeId = v4();
@@ -542,7 +542,7 @@ export const useAddLiquidity = ({
         appDispatch(
           addTransaction({
             id: runeId,
-            label: t('txManager.addAmountAsset', {
+            label: t("txManager.addAmountAsset", {
               asset: RUNEAsset.ticker,
               amount: runeAmount.toSignificant(6),
             }),
@@ -556,7 +556,7 @@ export const useAddLiquidity = ({
         appDispatch(
           addTransaction({
             id: assetId,
-            label: t('txManager.addAmountAsset', {
+            label: t("txManager.addAmountAsset", {
               asset: poolAsset.ticker,
               amount: assetAmount.toSignificant(6),
             }),
@@ -579,41 +579,41 @@ export const useAddLiquidity = ({
 
       const mode =
         liquidityType === LiquidityTypeOption.SYMMETRICAL
-          ? ('sym' as const)
+          ? ("sym" as const)
           : liquidityType === LiquidityTypeOption.ASSET
-            ? ('asset' as const)
-            : ('rune' as const);
+            ? ("asset" as const)
+            : ("baseAsset" as const);
 
       const params = {
-        runeAssetValue: RUNEAsset.set(runeAmount.getValue('string')),
-        assetValue: poolAsset.set(assetAmount.getValue('string')),
+        baseAssetValue: RUNEAsset.set(runeAmount.getValue("string")),
+        assetValue: poolAsset.set(assetAmount.getValue("string")),
         isPendingSymmAsset,
         mode,
-        poolIdentifier: '',
+        poolIdentifier: "",
         ...addresses,
       };
 
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-      if (!thorchain) throw new Error('SwapKit client not found');
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+      if (!thorchain) throw new Error("SwapKit client not found");
       try {
         const { runeTx, assetTx } = await thorchain.addLiquidity(params);
 
-        if (runeTx !== 'failed' && typeof runeTx === 'string') {
+        if (runeTx !== "failed" && typeof runeTx === "string") {
           appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         } else {
-          appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+          appDispatch(completeTransaction({ id: runeId, status: "error" }));
         }
 
-        if (assetTx !== 'failed' && typeof assetTx === 'string') {
+        if (assetTx !== "failed" && typeof assetTx === "string") {
           appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
         } else {
-          appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+          appDispatch(completeTransaction({ id: assetId, status: "error" }));
         }
-      } catch (error: NotWorth) {
-        const message = error?.data?.originalError || error.message;
-        appDispatch(completeTransaction({ id: runeId, status: 'error' }));
-        appDispatch(completeTransaction({ id: assetId, status: 'error' }));
-        showErrorToast(t('notification.submitFail'), message, undefined, error as Error);
+      } catch (error) {
+        const message = (error as Todo)?.data?.originalError || (error as Todo).message;
+        appDispatch(completeTransaction({ id: runeId, status: "error" }));
+        appDispatch(completeTransaction({ id: assetId, status: "error" }));
+        showErrorToast(t("notification.submitFail"), message, undefined, error as Error);
       }
     }
   }, [
@@ -637,17 +637,17 @@ export const useAddLiquidity = ({
     if (hasWallet && poolData) {
       const runeAssetValue =
         liquidityType !== LiquidityTypeOption.ASSET && !isRunePending
-          ? RUNEAsset.set(runeAmount.getValue('string'))
+          ? RUNEAsset.set(runeAmount.getValue("string"))
           : undefined;
       const poolAssetValue =
         liquidityType !== LiquidityTypeOption.RUNE && !isAssetPending
-          ? poolAsset.set(assetAmount.getValue('string'))
+          ? poolAsset.set(assetAmount.getValue("string"))
           : undefined;
 
-      const { getAddress } = await (await import('services/swapKit')).getSwapKitClient();
+      const { getAddress } = await (await import("services/swapKit")).getSwapKitClient();
 
       reducerDispatch({
-        type: 'setLPProgressState',
+        type: "setLPProgressState",
         payload: {
           runeAssetValue,
           poolAssetValue,
@@ -683,34 +683,34 @@ export const useAddLiquidity = ({
         addTransaction({
           id,
           type,
-          label: `${t('txManager.approve')} ${poolAsset.ticker}`,
+          label: `${t("txManager.approve")} ${poolAsset.ticker}`,
           inChain: poolAsset.chain,
         }),
       );
 
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-      if (!thorchain) throw new Error('SwapKit client not found');
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+      if (!thorchain) throw new Error("SwapKit client not found");
 
       try {
         const txid = await thorchain.approveAssetValue({
           assetValue: poolAsset,
         });
 
-        if (typeof txid === 'string') {
+        if (typeof txid === "string") {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        appDispatch(completeTransaction({ id, status: "error" }));
 
-        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+        showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
       }
     }
   }, [appDispatch, poolAsset, isWalletAssetConnected]);
 
   const handleAddLiquidity = useCallback(() => {
-    if (!isWalletConnected && !skipWalletCheck) {
-      return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+    if (!(isWalletConnected || skipWalletCheck)) {
+      return showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
 
     setVisibleConfirmModal(true);
@@ -720,7 +720,7 @@ export const useAddLiquidity = ({
     if (hasWallet) {
       setVisibleApproveModal(true);
     } else {
-      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
   }, [hasWallet]);
 
@@ -753,17 +753,17 @@ export const useAddLiquidity = ({
 
   const isValidDeposit = useMemo(() => {
     if (isLPActionPaused) {
-      return { valid: false, msg: t('notification.notAvailableDeposit') };
+      return { valid: false, msg: t("notification.notAvailableDeposit") };
     }
     // only invalid scenario is
     // 1. rune asym
     // 2. rune-asset sym
 
     if (liquidityType === LiquidityTypeOption.SYMMETRICAL) {
-      if (!runeAmount.gte(minRuneAmount) || !assetAmount.gte(minAssetAmount)) {
+      if (!(runeAmount.gte(minRuneAmount) && assetAmount.gte(minAssetAmount))) {
         return {
           valid: false,
-          msg: t('notification.invalidAmount'),
+          msg: t("notification.invalidAmount"),
         };
       }
 
@@ -773,20 +773,20 @@ export const useAddLiquidity = ({
       ) {
         // if runeAsym or assetAsym already exist, cannot deposit symmetrically
         if (Number(lpMemberData.runeAdded) && !Number(lpMemberData.assetAdded)) {
-          return { valid: false, msg: t('notification.alreadyHaveRune') };
+          return { valid: false, msg: t("notification.alreadyHaveRune") };
         }
       }
     }
 
     if (liquidityType === LiquidityTypeOption.ASSET) {
       if (!assetAmount.gte(minAssetAmount)) {
-        return { valid: false, msg: t('notification.insufficientAmount') };
+        return { valid: false, msg: t("notification.insufficientAmount") };
       }
     }
 
     if (liquidityType === LiquidityTypeOption.RUNE) {
       if (!runeAmount.gte(minRuneAmount)) {
-        return { valid: false, msg: t('notification.insufficientAmount') };
+        return { valid: false, msg: t("notification.insufficientAmount") };
       }
     }
 
@@ -833,7 +833,7 @@ export const useAddLiquidity = ({
     return {
       asset: RUNEAsset,
       balance: runeBalance,
-      usdPrice: runePrice * value.getValue('number'),
+      usdPrice: runePrice * value.getValue("number"),
       value,
     };
   }, [isRunePending, lpMemberData, runeAmount, runeBalance, tokenPricesData]);
@@ -843,9 +843,9 @@ export const useAddLiquidity = ({
   const btnLabel = useMemo(() => {
     if (!isValidDeposit.valid) return isValidDeposit.msg;
 
-    if (isApproveRequired) return 'Add';
+    if (isApproveRequired) return "Add";
 
-    return 'Add Liquidity';
+    return "Add Liquidity";
   }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(() => {
@@ -860,7 +860,7 @@ export const useAddLiquidity = ({
   const confirmInfo = useConfirmInfoItems({
     assets: depositAssetInputs,
     poolShare: poolShareEst,
-    slippage: addLiquiditySlip || 'N/A',
+    slippage: addLiquiditySlip || "N/A",
     estimatedTime,
     totalFee: feeInUSD,
     fees: [
@@ -891,7 +891,7 @@ export const useAddLiquidity = ({
   }, [poolString, tokenPricesData]);
 
   const setLpProgressModal = useCallback(
-    (value: boolean) => reducerDispatch({ type: 'setLpProgressModal', payload: value }),
+    (value: boolean) => reducerDispatch({ type: "setLpProgressModal", payload: value }),
     [reducerDispatch],
   );
 

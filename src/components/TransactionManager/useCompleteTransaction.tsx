@@ -1,10 +1,10 @@
-import type { TxTrackerDetails } from '@swapkit/api';
-import { useWalletBalance } from 'context/wallet/hooks';
-import { useCallback } from 'react';
-import { useAppDispatch } from 'store/store';
-import type { TxnResult } from 'store/thorswap/types';
-import { completeTransaction } from 'store/transactions/slice';
-import type { PendingTransactionType, TransactionStatus } from 'store/transactions/types';
+import type { TxTrackerDetails } from "@swapkit/api";
+import { useWalletBalance } from "context/wallet/hooks";
+import { useCallback } from "react";
+import { useAppDispatch } from "store/store";
+import type { TxnResult } from "store/thorswap/types";
+import { completeTransaction } from "store/transactions/slice";
+import type { PendingTransactionType, TransactionStatus } from "store/transactions/types";
 
 export const useCompleteTransaction = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();

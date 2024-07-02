@@ -1,25 +1,25 @@
-import { AssetValue, BaseDecimal, Chain, RequestClient, SwapKitNumber } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useWallet } from 'context/wallet/hooks';
-import { stakingV2Addr, VestingType } from 'helpers/assets';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { AssetValue, BaseDecimal, Chain, RequestClient, SwapKitNumber } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useWallet } from "context/wallet/hooks";
+import { VestingType, stakingV2Addr } from "helpers/assets";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  contractConfig,
   ContractType,
+  contractConfig,
   getCustomContract,
   getEtherscanContract,
   triggerContractCall,
-} from 'services/contract';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+} from "services/contract";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
 export enum StakeActions {
-  Unstake = 'unstake',
-  Deposit = 'deposit',
+  Unstake = "unstake",
+  Deposit = "deposit",
 }
 
 export const useV1ThorStakeInfo = (ethAddress?: string) => {
@@ -88,14 +88,14 @@ export const useVthorUtil = () => {
     setThorStaked(staked);
 
     const circulating = await RequestClient.get<number>(
-      'https://api.thorswap.net/aggregator/stats/supply/circulating',
+      "https://api.thorswap.net/aggregator/stats/supply/circulating",
     );
 
     setCirculatingSupply(new SwapKitNumber(circulating));
   }, []);
 
   const getVthorTS = useCallback(async () => {
-    const res = await getVthorState('totalSupply');
+    const res = await getVthorState("totalSupply");
     setVthorTS(res);
   }, []);
 
@@ -125,31 +125,31 @@ export const useVthorUtil = () => {
   const approveTHOR = useCallback(async () => {
     if (!ethAddr) return;
 
-    const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR');
+    const thorAsset = AssetValue.fromChainOrSignature("ETH.THOR");
     const id = v4();
 
     appDispatch(
       addTransaction({
         id,
         from: ethAddr,
-        label: `${t('txManager.approve')} ${thorAsset.ticker}`,
+        label: `${t("txManager.approve")} ${thorAsset.ticker}`,
         inChain: thorAsset.chain,
         type: TransactionType.ETH_APPROVAL,
       }),
     );
 
-    const { approveAssetValue } = await (await import('services/swapKit')).getSwapKitClient();
+    const { approveAssetValue } = await (await import("services/swapKit")).getSwapKitClient();
 
     try {
       const txid = await approveAssetValue(thorAsset, stakingV2Addr[VestingType.VTHOR]);
 
-      if (typeof txid === 'string') {
+      if (typeof txid === "string") {
         appDispatch(updateTransaction({ id, txid }));
       }
     } catch (error) {
       logException(error as Error);
-      appDispatch(completeTransaction({ id, status: 'error' }));
-      showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
+      appDispatch(completeTransaction({ id, status: "error" }));
+      showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
     }
   }, [ethAddr, appDispatch]);
 
@@ -169,7 +169,7 @@ export const useVthorUtil = () => {
       return;
     }
 
-    const res = await getVthorState('balanceOf', [ethAddr]);
+    const res = await getVthorState("balanceOf", [ethAddr]);
 
     setVthorBalance(res);
   }, [ethAddr]);
@@ -180,8 +180,8 @@ export const useVthorUtil = () => {
       return;
     }
 
-    const vThorBal = await getVthorState('balanceOf', [ethAddr]);
-    const res = await getVthorState('previewRedeem', [vThorBal]);
+    const vThorBal = await getVthorState("balanceOf", [ethAddr]);
+    const res = await getVthorState("previewRedeem", [vThorBal]);
 
     return setTHORRedeemable(res);
   }, [ethAddr]);
@@ -199,39 +199,39 @@ export const useVthorUtil = () => {
       if (stakeAmount.eq(0)) return;
 
       const id = v4();
-      const thorAsset = AssetValue.fromChainOrSignature('ETH.THOR', stakeAmount.getValue('string'));
+      const thorAsset = AssetValue.fromChainOrSignature("ETH.THOR", stakeAmount.getValue("string"));
       appDispatch(
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.stake')} ${stakeAmount.toSignificant()} ${thorAsset.ticker}`,
+          label: `${t("txManager.stake")} ${stakeAmount.toSignificant()} ${thorAsset.ticker}`,
           inChain: thorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
       );
 
-      if (!ethAddr) throw new Error('No ETH address');
+      if (!ethAddr) throw new Error("No ETH address");
 
       let hash: string;
       try {
         // TODO(@Chillios): rewrite to call from swapkit
-        hash = (await triggerContractCall(ContractType.VTHOR, 'deposit', [
-          stakeAmount.getBaseValue('bigint'),
+        hash = (await triggerContractCall(ContractType.VTHOR, "deposit", [
+          stakeAmount.getBaseValue("bigint"),
           receiverAddr,
         ])) as string;
-      } catch (error: any) {
+      } catch (error) {
         showErrorToast(
-          t('notification.stakeFailed'),
-          error?.message || error?.toString(),
+          t("notification.stakeFailed"),
+          (error as Todo)?.message || (error as Todo)?.toString(),
           undefined,
           error as Error,
         );
-        return appDispatch(completeTransaction({ id, status: 'error' }));
+        return appDispatch(completeTransaction({ id, status: "error" }));
       }
 
       hash
         ? appDispatch(updateTransaction({ id, txid: hash }))
-        : appDispatch(completeTransaction({ id, status: 'mined' }));
+        : appDispatch(completeTransaction({ id, status: "mined" }));
     },
     [appDispatch, ethAddr],
   );
@@ -239,8 +239,8 @@ export const useVthorUtil = () => {
   const unstakeThor = useCallback(
     async (unstakeAmount: SwapKitNumber, receiverAddr: string) => {
       const vthorAsset = AssetValue.fromChainOrSignature(
-        'ETH.vTHOR',
-        unstakeAmount.getValue('string'),
+        "ETH.vTHOR",
+        unstakeAmount.getValue("string"),
       );
 
       const id = v4();
@@ -248,7 +248,7 @@ export const useVthorUtil = () => {
         addTransaction({
           id,
           from: ethAddr,
-          label: `${t('txManager.unstake')} ${unstakeAmount.toSignificant()} ${vthorAsset.ticker}`,
+          label: `${t("txManager.unstake")} ${unstakeAmount.toSignificant()} ${vthorAsset.ticker}`,
           inChain: vthorAsset.chain,
           type: TransactionType.ETH_STATUS,
         }),
@@ -256,24 +256,24 @@ export const useVthorUtil = () => {
 
       let hash: string;
       try {
-        hash = (await triggerContractCall(ContractType.VTHOR, 'redeem', [
-          unstakeAmount.getBaseValue('bigint'),
+        hash = (await triggerContractCall(ContractType.VTHOR, "redeem", [
+          unstakeAmount.getBaseValue("bigint"),
           receiverAddr,
           receiverAddr,
         ])) as string;
-      } catch (error: any) {
+      } catch (error) {
         showErrorToast(
-          t('notification.stakeFailed'),
-          error?.message || error?.toString(),
+          t("notification.stakeFailed"),
+          (error as Todo)?.message || error?.toString(),
           undefined,
           error as Error,
         );
-        return appDispatch(completeTransaction({ id, status: 'error' }));
+        return appDispatch(completeTransaction({ id, status: "error" }));
       }
 
       hash
         ? appDispatch(updateTransaction({ id, txid: hash }))
-        : appDispatch(completeTransaction({ id, status: 'mined' }));
+        : appDispatch(completeTransaction({ id, status: "mined" }));
     },
     [appDispatch, ethAddr],
   );
@@ -284,7 +284,7 @@ export const useVthorUtil = () => {
     thorStaked,
     thorRedeemable,
     stakePercentageRate: circulatingSupply.gt(0)
-      ? thorStaked.div(circulatingSupply).mul(100).getValue('number').toFixed(2)
+      ? thorStaked.div(circulatingSupply).mul(100).getValue("number").toFixed(2)
       : 0,
     vthorBalance,
     vthorTS,

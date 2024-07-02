@@ -1,16 +1,16 @@
-import { SwapKitNumber } from '@swapkit/core';
-import { useMimir } from 'hooks/useMimir';
-import { usePools } from 'hooks/usePools';
-import { useMemo } from 'react';
-import { getFormattedPercent } from 'views/Earn/utils';
+import { SwapKitNumber } from "@swapkit/sdk";
+import { useMimir } from "hooks/useMimir";
+import { usePools } from "hooks/usePools";
+import { useMemo } from "react";
+import { getFormattedPercent } from "views/Earn/utils";
 
 export const useAssetsWithApr = () => {
-  const { pools } = usePools('7d');
+  const { pools } = usePools("7d");
   const { synthCap } = useMimir();
 
   const assetsWithAPR = useMemo(() => {
     const filteredPools = pools.filter(
-      (pool) => pool.saversDepth !== '0' && pool.saversUnits !== '0',
+      (pool) => pool.saversDepth !== "0" && pool.saversUnits !== "0",
     );
     return filteredPools
       .map((pool) => {

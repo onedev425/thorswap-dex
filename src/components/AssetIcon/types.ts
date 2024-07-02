@@ -1,6 +1,6 @@
-import type { AssetValue } from '@swapkit/core';
-import type { IconColor } from 'components/Atomic';
-import type { ColorType } from 'types/app';
+import type { AssetValue } from "@swapkit/sdk";
+import type { IconColor } from "components/Atomic";
+import type { ColorType } from "types/app";
 
 export const iconSizes = {
   large: 72,
@@ -27,7 +27,7 @@ export type AssetIconProps = (
   secondaryIconPlacement?: SecondaryIconPlacement;
   hasShadow?: boolean;
   bgColor?: ColorType;
-  shadowPosition?: 'corner' | 'center';
+  shadowPosition?: "corner" | "center";
   ticker?: string;
 } & AssetStyleType;
 
@@ -38,4 +38,4 @@ export type AssetLpIconProps = {
   hasShadow?: boolean;
 } & AssetStyleType;
 
-export type SecondaryIconPlacement = 'tl' | 'tr' | 'bl' | 'br';
+export type SecondaryIconPlacement = "tl" | "tr" | "bl" | "br";

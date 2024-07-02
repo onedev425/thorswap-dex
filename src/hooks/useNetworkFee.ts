@@ -1,13 +1,13 @@
-import { AssetValue, Chain, FeeOption, SwapKitNumber } from '@swapkit/core';
-import { isAVAXAsset, isBTCAsset, isETHAsset } from 'helpers/assets';
-import { parseAssetToToken } from 'helpers/parseHelpers';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useMemo } from 'react';
-import { useApp } from 'store/app/hooks';
-import { useGetGasPriceRatesQuery } from 'store/thorswap/api';
-import type { GasPriceInfo } from 'store/thorswap/types';
+import { AssetValue, Chain, FeeOption, SwapKitNumber } from "@swapkit/sdk";
+import { isAVAXAsset, isBTCAsset, isETHAsset } from "helpers/assets";
+import { parseAssetToToken } from "helpers/parseHelpers";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useMemo } from "react";
+import { useApp } from "store/app/hooks";
+import { useGetGasPriceRatesQuery } from "store/thorswap/api";
+import type { GasPriceInfo } from "store/thorswap/types";
 
-type DirectionType = 'inbound' | 'outbound' | 'transfer';
+type DirectionType = "inbound" | "outbound" | "transfer";
 
 const getTxSizeByAsset = (asset: AssetValue): number => {
   switch (asset.chain) {
@@ -38,7 +38,7 @@ const getTypeMultiplier = ({
 }: {
   direction: DirectionType;
   multiplier: number;
-}) => (direction === 'transfer' ? multiplier : direction === 'inbound' ? 2 / 3 : 2);
+}) => (direction === "transfer" ? multiplier : direction === "inbound" ? 2 / 3 : 2);
 
 export const getMultiplierForAsset = (asset?: AssetValue) => {
   if (!asset || asset.isSynthetic) return 1;
@@ -66,7 +66,7 @@ const gasFeeMultiplier: Record<FeeOption, number> = {
 
 export const getNetworkFee = ({
   gasPrice,
-  direction = 'transfer',
+  direction = "transfer",
   feeOptionType = FeeOption.Fast,
   multiplier,
 }: {
@@ -80,12 +80,12 @@ export const getNetworkFee = ({
 
 const useAssetNetworkFee = ({
   asset,
-  type = 'transfer',
+  type = "transfer",
   chainInfo,
 }: {
   chainInfo: GasPriceInfo | undefined;
   asset: AssetValue;
-  type?: 'inbound' | 'outbound' | 'transfer';
+  type?: "inbound" | "outbound" | "transfer";
 }) => {
   const { feeOptionType } = useApp();
 
@@ -94,7 +94,7 @@ const useAssetNetworkFee = ({
       gasPrice: chainInfo?.gasAsset || 0,
       feeOptionType,
       multiplier: getMultiplierForAsset(asset),
-      direction: type === 'inbound' ? 'inbound' : 'transfer',
+      direction: type === "inbound" ? "inbound" : "transfer",
     });
 
     return gasRate * getTxSizeByAsset(asset);
@@ -106,10 +106,10 @@ const useAssetNetworkFee = ({
 export const useNetworkFee = ({
   inputAsset,
   outputAsset,
-  type = 'transfer',
+  type = "transfer",
 }: {
   inputAsset: AssetValue;
-  type?: 'inbound' | 'outbound' | 'transfer';
+  type?: "inbound" | "outbound" | "transfer";
   outputAsset?: AssetValue;
 }) => {
   const inputGasAsset = getGasFeeAssetForAsset(inputAsset);
@@ -167,8 +167,8 @@ export const useNetworkFee = ({
     );
 
   const feeInUSD = useMemo(() => {
-    const inputFeePrice = inputFee.getValue('number') * inputGasAssetUSDPrice;
-    const outputFeePrice = outputFee.getValue('number') * outputGasAssetUSDPrice;
+    const inputFeePrice = inputFee.getValue("number") * inputGasAssetUSDPrice;
+    const outputFeePrice = outputFee.getValue("number") * outputGasAssetUSDPrice;
 
     return new SwapKitNumber(
       inputFee.eq(outputFee) ? inputFeePrice : inputFeePrice + outputFeePrice,

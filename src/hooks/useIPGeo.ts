@@ -1,24 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useIPGeo = (customApi?: string) => {
   const isCancelled = useRef(false);
   const [country, setCountry] = useState<null | string>(null);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const api = customApi || 'https://api.country.is';
+  const api = customApi || "https://api.country.is";
 
   const fetchCountry = useCallback(async () => {
-    if (typeof country === 'string') return;
+    if (typeof country === "string") return;
 
     /**
      * make it less obvious how we store country code (firstLetter # timestamp # restOfCountry)
      */
     const [firstLetter, timestamp, restCountry] = (
-      (sessionStorage.getItem('affTimestamp') as string) || ''
-    ).split('#');
+      (sessionStorage.getItem("affTimestamp") as string) || ""
+    ).split("#");
     const savedCountry = `${firstLetter}${restCountry}`;
 
-    if (savedCountry && new Date(parseInt(timestamp)) > new Date()) {
+    if (savedCountry && new Date(Number.parseInt(timestamp)) > new Date()) {
       return setCountry(savedCountry);
     }
 
@@ -30,16 +30,16 @@ export const useIPGeo = (customApi?: string) => {
         const [firstLetter, ...rest] = response.country;
 
         sessionStorage.setItem(
-          'affTimestamp',
+          "affTimestamp",
           `${firstLetter}#${new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).getTime()}#${rest.join(
-            '',
+            "",
           )}`,
         );
 
         setCountry(response.country);
       }
-    } catch (error: any) {
-      setError(error);
+    } catch (error) {
+      setError(error as Todo);
     } finally {
       setIsLoading(false);
     }

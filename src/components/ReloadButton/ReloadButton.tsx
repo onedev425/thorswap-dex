@@ -1,5 +1,6 @@
-import { Button, Icon } from 'components/Atomic';
-import { t } from 'services/i18n';
+import { Button, Icon } from "components/Atomic";
+import type React from "react";
+import { t } from "services/i18n";
 
 export type ReloadProps = {
   loading: boolean;
@@ -11,15 +12,15 @@ export type ReloadProps = {
 export const ReloadButton = ({
   loading,
   onLoad,
-  tooltip = t('common.reload'),
+  tooltip = t("common.reload"),
   size = 20,
-}: ReloadProps): JSX.Element => {
+}: ReloadProps): React.JSX.Element => {
   return (
     <Button
       className="px-2.5"
       leftIcon={<Icon name="refresh" size={size} spin={loading} />}
       onClick={onLoad}
-      tooltip={onLoad ? tooltip : ''}
+      tooltip={onLoad ? tooltip : ""}
       variant="borderlessTint"
     />
   );

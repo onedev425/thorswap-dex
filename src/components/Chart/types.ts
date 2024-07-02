@@ -1,4 +1,4 @@
-import type { ChartData as ReactChartData } from 'chart.js';
+import type { ChartData as ReactChartData } from "chart.js";
 
 export type ChartDetail = { value: number; time: string };
 
@@ -7,10 +7,10 @@ export type DataPoint = { x: string; y: number };
 export type ChartValues = ChartDetail[];
 
 export enum ChartType {
-  Bar = 'bar',
-  Area = 'area',
-  Line = 'line',
-  CurvedLine = 'curvedLine',
+  Bar = "bar",
+  Area = "area",
+  Line = "line",
+  CurvedLine = "curvedLine",
 }
 
 export type BarChartType = ReactChartData<ChartType.Bar, DataPoint[], string>;

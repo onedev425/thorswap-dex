@@ -1,7 +1,7 @@
-import { HorizontalSlider } from 'components/HorizontalSlider';
+import { HorizontalSlider } from "components/HorizontalSlider";
 
-import { Stats } from './Stats';
-import type { StatsListProps } from './types';
+import { Stats } from "./Stats";
+import type { StatsListProps } from "./types";
 
 export const StatsList = ({ list, scrollable = true, itemWidth = 225 }: StatsListProps) => {
   if (scrollable) {

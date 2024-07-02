@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import type { IconColor, IconName } from 'components/Atomic';
-import { Box, Icon, Link, Tooltip } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import type { MouseEventHandler } from 'react';
-import { memo } from 'react';
+import classNames from "classnames";
+import type { IconColor, IconName } from "components/Atomic";
+import { Box, Icon, Link, Tooltip } from "components/Atomic";
+import { baseHoverClass } from "components/constants";
+import type { MouseEventHandler } from "react";
+import { memo } from "react";
 
 type Props = {
   className?: string;
@@ -33,7 +33,7 @@ const IconComponent = memo(
     tooltip,
     className,
     iconName,
-    color = 'secondary',
+    color = "secondary",
     size = 16,
     spin = false,
     onClick,
@@ -41,13 +41,13 @@ const IconComponent = memo(
   }: Props) => (
     <Tooltip content={tooltip}>
       <Box
-        className={classNames(baseHoverClass, 'group box-content')}
+        className={classNames(baseHoverClass, "group box-content")}
         style={{ width: size, height: size }}
       >
         <Icon
           className={classNames(
             {
-              'group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary':
+              "group-hover:!text-light-typo-primary dark:group-hover:!text-dark-typo-primary":
                 iconHoverHighlight,
             },
             className,

@@ -1,25 +1,25 @@
-import { Text } from '@chakra-ui/react';
-import type { Chain } from '@swapkit/core';
-import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from 'components/Atomic';
-import { baseHoverClass } from 'components/constants';
-import { Confirm } from 'components/Modals/Confirm';
-import { Popover } from 'components/Popover';
-import { Scrollbar } from 'components/Scrollbar';
-import { CompletedTransaction } from 'components/TransactionManager/CompletedTransaction';
-import { transactionBorderColors } from 'components/TransactionManager/helpers';
-import { PendingTransaction } from 'components/TransactionManager/PendingTransaction';
-import { TransactionContainer } from 'components/TransactionManager/TransactionContainer';
-import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
-import { useLedgerLive, useWalletBalance } from 'context/wallet/hooks';
-import type { ElementRef } from 'react';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useAppDispatch } from 'store/store';
-import { useTransactionsState } from 'store/transactions/hooks';
-import { clearTransactions } from 'store/transactions/slice';
+import { Text } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
+import { Box, Button, Card, Icon, SwitchToggle, Tooltip } from "components/Atomic";
+import { Confirm } from "components/Modals/Confirm";
+import { Popover } from "components/Popover";
+import { Scrollbar } from "components/Scrollbar";
+import { CompletedTransaction } from "components/TransactionManager/CompletedTransaction";
+import { PendingTransaction } from "components/TransactionManager/PendingTransaction";
+import { TransactionContainer } from "components/TransactionManager/TransactionContainer";
+import { transactionBorderColors } from "components/TransactionManager/helpers";
+import { baseHoverClass } from "components/constants";
+import { useTransactionsModal } from "context/txManager/useTransactionsModal";
+import { useLedgerLive, useWalletBalance } from "context/wallet/hooks";
+import type { ElementRef } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useAppDispatch } from "store/store";
+import { useTransactionsState } from "store/transactions/hooks";
+import { clearTransactions } from "store/transactions/slice";
 
-import { OpenButton } from './OpenButton';
+import { OpenButton } from "./OpenButton";
 
 export const TransactionManager = memo(() => {
   const completedTransactionIds = useRef<string[]>([]);
@@ -76,7 +76,7 @@ export const TransactionManager = memo(() => {
     }, [] as Chain[]);
 
     for (const chain of chainsToUpdate) {
-      !IS_LEDGER_LIVE ? getWalletByChain(chain) : updateLedgerLiveBalance(chain);
+      IS_LEDGER_LIVE ? updateLedgerLiveBalance(chain) : getWalletByChain(chain);
     }
   }, [completed, getWalletByChain, updateLedgerLiveBalance]);
 
@@ -91,19 +91,19 @@ export const TransactionManager = memo(() => {
         <Box col className="w-full gap-4 !my-2">
           <Box col className="!mx-4">
             <Box className="flex items-center" justify="between">
-              <Text textStyle="subtitle2">{t('txManager.transactionHistory')}</Text>
+              <Text textStyle="subtitle2">{t("txManager.transactionHistory")}</Text>
               <Button h={8} onClick={() => openModal()} variant="fancy">
-                {t('txManager.viewDetails')}
+                {t("txManager.viewDetails")}
               </Button>
             </Box>
 
             <Box alignCenter className="pt-2" justify="between">
               <Box alignCenter className="gap-x-2 rounded-2xl">
                 <SwitchToggle checked={onlyPending} onChange={setOnlyPending} variant="secondary" />
-                <Text textStyle="caption">{t('txManager.onlyPending')}</Text>
+                <Text textStyle="caption">{t("txManager.onlyPending")}</Text>
               </Box>
 
-              <Tooltip content={t('common.clearHistory')}>
+              <Tooltip content={t("common.clearHistory")}>
                 <Icon
                   className={baseHoverClass}
                   color="secondary"
@@ -138,14 +138,14 @@ export const TransactionManager = memo(() => {
       </Card>
 
       <Confirm
-        description={t('txManager.confirmRemovePending')}
+        description={t("txManager.confirmRemovePending")}
         isOpened={confirmClearOpened}
         onCancel={() => setConfirmClearOpened(false)}
         onConfirm={() => {
           handleTransactionsClear();
           setConfirmClearOpened(false);
         }}
-        title={t('common.confirm')}
+        title={t("common.confirm")}
       />
     </Popover>
   );

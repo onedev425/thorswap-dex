@@ -1,17 +1,17 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Icon } from 'components/Atomic';
-import { t } from 'i18next';
-import type { ReactNode } from 'react';
-import React from 'react';
-import type { ToastOptions } from 'react-hot-toast';
-import { toast, ToastBar, Toaster } from 'react-hot-toast';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Icon } from "components/Atomic";
+import { t } from "i18next";
+import type { ReactNode } from "react";
+import React from "react";
+import type { ToastOptions } from "react-hot-toast";
+import { ToastBar, Toaster, toast } from "react-hot-toast";
 
 export enum ToastType {
-  Info = 'info',
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
+  Info = "info",
+  Success = "success",
+  Error = "error",
+  Warning = "warning",
 }
 
 const getToastIcon = (type: ToastType) => {
@@ -37,7 +37,7 @@ type ShowToastFunction = (params: {
   message: string;
   description?: string | ReactNode;
   type?: ToastType;
-  options?: Partial<Pick<ToastOptions, 'position' | 'duration' | 'style' | 'className'>>;
+  options?: Partial<Pick<ToastOptions, "position" | "duration" | "style" | "className">>;
   error?: Error;
 }) => void;
 
@@ -70,8 +70,8 @@ const showToast: ShowToastFunction = ({
               <Box alignCenter>
                 <Box>{icon}</Box>
 
-                <Box col className={classNames('pr-2', { 'pl-2': icon })}>
-                  <Text fontWeight={description ? 'bold' : 'medium'} textStyle="caption">
+                <Box col className={classNames("pr-2", { "pl-2": icon })}>
+                  <Text fontWeight={description ? "bold" : "medium"} textStyle="caption">
                     {message}
                   </Text>
                 </Box>
@@ -81,9 +81,9 @@ const showToast: ShowToastFunction = ({
             </Box>
 
             <Box className="pl-8 pr-4">
-              {typeof description === 'string' ? (
+              {typeof description === "string" ? (
                 <Text fontWeight="light" textStyle="caption-xs">
-                  {t(`skErrorMessages.${description.replace('Error: ', '')}`) || description}
+                  {t(`skErrorMessages.${description.replace("Error: ", "")}`) || description}
                 </Text>
               ) : (
                 description
@@ -93,8 +93,8 @@ const showToast: ShowToastFunction = ({
               <Box className="pt-4">
                 <Box width="80%">
                   <Text fontWeight="light" textStyle="caption-xs">
-                    {t('skErrorMessages.core_error')}
-                    {' ( '}
+                    {t("skErrorMessages.core_error")}
+                    {" ( "}
                     <a
                       className="underline"
                       href="https://discord.gg/thorswap"
@@ -103,11 +103,11 @@ const showToast: ShowToastFunction = ({
                     >
                       https://discord.gg/thorswap
                     </a>
-                    {' ).'}
-                    <div className="pt-4">{t('skErrorMessages.core_error_copy')}</div>
+                    {" )."}
+                    <div className="pt-4">{t("skErrorMessages.core_error_copy")}</div>
                   </Text>
                 </Box>
-                <Box style={{ alignItems: 'flex-end' }} width="20%">
+                <Box style={{ alignItems: "flex-end" }} width="20%">
                   <Icon
                     color="primary"
                     name="copy"
@@ -132,7 +132,7 @@ const showToast: ShowToastFunction = ({
 const showToastWrapper: (type?: ToastType) => ToastFunction =
   (type) => (message, descriptionOrOptions, options, error) => {
     const descriptionProvided =
-      React.isValidElement(descriptionOrOptions) || typeof descriptionOrOptions === 'string';
+      React.isValidElement(descriptionOrOptions) || typeof descriptionOrOptions === "string";
 
     const providedOptions = descriptionProvided
       ? options
@@ -142,7 +142,7 @@ const showToastWrapper: (type?: ToastType) => ToastFunction =
       options: providedOptions,
       type: type || ToastType.Info,
       message,
-      description: descriptionProvided ? descriptionOrOptions : '',
+      description: descriptionProvided ? descriptionOrOptions : "",
       error,
     });
   };
@@ -157,7 +157,7 @@ export const ToastPortal = () => {
     <Toaster containerClassName="m-4" gutter={16} position="bottom-right">
       {(t) => (
         // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-        <div onClick={() => toast.dismiss(t.id)} style={{ cursor: 'pointer' }}>
+        <div onClick={() => toast.dismiss(t.id)} style={{ cursor: "pointer" }}>
           <ToastBar toast={t} />
         </div>
       )}

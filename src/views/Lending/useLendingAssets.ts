@@ -1,9 +1,9 @@
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { useBalance } from 'hooks/useBalance';
-import { useEffect, useState } from 'react';
-import { useGetLendingAssetsQuery } from 'store/thorswap/api';
-import type { LendingAsset } from 'views/Lending/types';
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import { useBalance } from "hooks/useBalance";
+import { useEffect, useState } from "react";
+import { useGetLendingAssetsQuery } from "store/thorswap/api";
+import type { LendingAsset } from "views/Lending/types";
 
 export function useLendingAssets() {
   const { data } = useGetLendingAssetsQuery();
@@ -16,7 +16,7 @@ export function useLendingAssets() {
 
     Promise.all(
       data.map(async (assetRes) => {
-        const asset = AssetValue.fromStringSync(assetRes.asset)!;
+        const asset = AssetValue.from({ asset: assetRes.asset });
 
         return {
           ...assetRes,
@@ -25,15 +25,15 @@ export function useLendingAssets() {
           balance: isWalletConnected(asset.chain as Chain) ? await getMaxBalance(asset) : undefined,
           extraInfo:
             assetRes.ltvPercentage &&
-            assetRes.ltvPercentage !== 'NaN' &&
-            assetRes.ltvPercentage !== 'Infinity'
+            assetRes.ltvPercentage !== "NaN" &&
+            assetRes.ltvPercentage !== "Infinity"
               ? assetRes.ltvPercentage
               : undefined,
           filled: assetRes.filledPercentage ? Number(assetRes.filledPercentage) : undefined,
           lendingAvailable: assetRes.lendingAvailable,
           ltvPercentage:
-            isNaN(Number(assetRes.ltvPercentage)) || assetRes.ltvPercentage === 'Infinity'
-              ? ''
+            Number.isNaN(Number(assetRes.ltvPercentage)) || assetRes.ltvPercentage === "Infinity"
+              ? ""
               : assetRes.ltvPercentage,
         };
       }),

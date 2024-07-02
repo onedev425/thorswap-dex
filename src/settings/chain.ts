@@ -1,4 +1,4 @@
-import { AssetValue, Chain } from '@swapkit/core';
+import { AssetValue, Chain } from "@swapkit/sdk";
 export const SUPPORTED_CHAINS = [
   Chain.THORChain,
   Chain.Bitcoin,
@@ -14,7 +14,6 @@ export const SUPPORTED_CHAINS = [
   Chain.Cosmos,
   Chain.Dash,
   Chain.Kujira,
-  Chain.Binance,
 ];
 
 export const SORTED_CHAINS = [
@@ -32,14 +31,12 @@ export const SORTED_CHAINS = [
   Chain.Cosmos,
   Chain.Dash,
   Chain.Kujira,
-  Chain.Binance,
 ] as Chain[];
 
 export const SORTED_LENDING_COLLATERAL_ASSETS = [
   AssetValue.fromChainOrSignature(Chain.Bitcoin),
   AssetValue.fromChainOrSignature(Chain.Ethereum),
   AssetValue.fromChainOrSignature(Chain.BinanceSmartChain),
-  AssetValue.fromChainOrSignature(Chain.Binance),
   AssetValue.fromChainOrSignature(Chain.Avalanche),
   AssetValue.fromChainOrSignature(Chain.Cosmos),
   AssetValue.fromChainOrSignature(Chain.Dogecoin),

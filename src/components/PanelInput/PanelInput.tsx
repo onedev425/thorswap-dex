@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { Box, Icon, useCollapse } from 'components/Atomic';
-import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
-import { borderHighlightClass } from 'components/constants';
-import { Input } from 'components/Input';
-import { useInputFocusState } from 'components/Input/hooks/useInputFocusState';
-import type { InputProps } from 'components/Input/types';
-import type { ReactNode } from 'react';
-import { useEffect, useMemo } from 'react';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { Box, Icon, useCollapse } from "components/Atomic";
+import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
+import { Input } from "components/Input";
+import { useInputFocusState } from "components/Input/hooks/useInputFocusState";
+import type { InputProps } from "components/Input/types";
+import { borderHighlightClass } from "components/constants";
+import type { ReactNode } from "react";
+import { useEffect, useMemo } from "react";
 
-type Props = Omit<InputProps, 'title'> & {
+type Props = Omit<InputProps, "title"> & {
   loading?: boolean;
   title: string | ReactNode;
   collapsible?: boolean;
@@ -29,11 +29,11 @@ export const PanelInput = ({
   const fontSizeClass = useMemo(() => {
     const { length } = String(value);
 
-    if (length > 50) return '!text-[12px]';
-    if (length > 40) return '!text-[13px]';
-    if (length > 30) return '!text-[14px]';
+    if (length > 50) return "!text-[12px]";
+    if (length > 40) return "!text-[13px]";
+    if (length > 30) return "!text-[14px]";
 
-    return '!text-[16px]';
+    return "!text-[16px]";
   }, [value]);
 
   useEffect(() => {
@@ -46,11 +46,11 @@ export const PanelInput = ({
     <Box
       col
       className={classNames(
-        'py-4 px-4 md:px-6 self-stretch !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl md:!rounded-3xl transition-all duration-300',
-        'border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary',
+        "py-4 px-4 md:px-6 self-stretch !bg-light-bg-primary dark:!bg-dark-gray-light !rounded-2xl md:!rounded-3xl transition-all duration-300",
+        "border border-transparent border-solid hover:border-light-gray-primary dark:hover:border-dark-gray-primary",
         {
           [borderHighlightClass]: isFocused,
-          '!py-2': collapsible && !isActive,
+          "!py-2": collapsible && !isActive,
         },
         className,
       )}
@@ -58,12 +58,12 @@ export const PanelInput = ({
     >
       <Box
         alignCenter
-        className={classNames({ 'cursor-pointer': collapsible })}
+        className={classNames({ "cursor-pointer": collapsible })}
         justify="between"
         onClick={toggle}
       >
         <Box center className="gap-x-2">
-          {typeof title === 'string' ? (
+          {typeof title === "string" ? (
             <Text fontWeight="normal" textStyle="caption">
               {title}
             </Text>
@@ -76,8 +76,8 @@ export const PanelInput = ({
 
         {collapsible && (
           <Icon
-            className={classNames('transform duration-300 ease inline-block', {
-              '-rotate-180': isActive,
+            className={classNames("transform duration-300 ease inline-block", {
+              "-rotate-180": isActive,
             })}
             color="secondary"
             name="chevronDown"
@@ -96,9 +96,9 @@ export const PanelInput = ({
             <Input
               {...inputProps}
               stretch
-              className={classNames('!font-medium flex-1', fontSizeClass)}
-              containerClassName={classNames('pt-1 pb-0 flex-1', {
-                'flex-1': !!suffix,
+              className={classNames("!font-medium flex-1", fontSizeClass)}
+              containerClassName={classNames("pt-1 pb-0 flex-1", {
+                "flex-1": !!suffix,
               })}
               onBlur={onBlur}
               onFocus={onFocus}
@@ -108,7 +108,7 @@ export const PanelInput = ({
           </Box>
 
           {suffix &&
-            (typeof suffix === 'string' ? (
+            (typeof suffix === "string" ? (
               <Text textStyle="caption-xs" variant="secondary">
                 {suffix}
               </Text>

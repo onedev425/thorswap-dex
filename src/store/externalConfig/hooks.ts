@@ -1,23 +1,23 @@
-import type { Chain } from '@swapkit/core';
-import { useCallback, useMemo } from 'react';
-import { useGetAnnouncementsQuery } from 'store/thorswap/api';
+import type { Chain } from "@swapkit/sdk";
+import { useCallback, useMemo } from "react";
+import { useGetAnnouncementsQuery } from "store/thorswap/api";
 
-import { ChainStatusFlag } from './types';
+import { ChainStatusFlag } from "./types";
 
 export const useExternalConfig = () => {
   const { data, refetch } = useGetAnnouncementsQuery();
-  const isLoaded = typeof data !== 'undefined';
+  const isLoaded = typeof data !== "undefined";
   const announcements = useMemo(() => data || { chainStatus: {}, manual: [] }, [data]);
   // Not used for now, but we might want it in the future
   const isTradingGloballyDisabled = false;
 
-  const refreshExternalConfig = useCallback(async () => {
+  const refreshExternalConfig = useCallback(() => {
     refetch();
   }, [refetch]);
 
   const getChainCustomFlag = useCallback(
     (chain: Chain, flag: ChainStatusFlag) => {
-      return announcements?.chainStatus[chain]?.flags?.[flag] || false;
+      return announcements?.chainStatus[chain]?.flags?.[flag];
     },
     [announcements],
   );

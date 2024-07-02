@@ -1,25 +1,25 @@
-import { Box, Flex, List, Text } from '@chakra-ui/react';
-import LogoTsDark from 'assets/images/header_logo_black.png';
-import LogoTsWhite from 'assets/images/header_logo_white.png';
-import Logo from 'assets/images/logo.png';
-import { AssetIcon } from 'components/AssetIcon';
-import { Icon, Tooltip } from 'components/Atomic';
-import { easeInOutTransition } from 'components/constants';
-import { SupportModal } from 'components/Modals/Support/Support';
-import { Scrollbar } from 'components/Scrollbar';
-import { useSidebarOptions } from 'components/Sidebar/hooks';
-import { NavItem } from 'components/Sidebar/NavItem';
-import { RUNEAsset, THORAsset } from 'helpers/assets';
-import { parseAssetToToken } from 'helpers/parseHelpers';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import useWindowSize from 'hooks/useWindowSize';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { ROUTES } from 'settings/router';
+import { Box, Flex, List, Text } from "@chakra-ui/react";
+import LogoTsDark from "assets/images/header_logo_black.png";
+import LogoTsWhite from "assets/images/header_logo_white.png";
+import Logo from "assets/images/logo.png";
+import { AssetIcon } from "components/AssetIcon";
+import { Icon, Tooltip } from "components/Atomic";
+import { SupportModal } from "components/Modals/Support/Support";
+import { Scrollbar } from "components/Scrollbar";
+import { NavItem } from "components/Sidebar/NavItem";
+import { useSidebarOptions } from "components/Sidebar/hooks";
+import { easeInOutTransition } from "components/constants";
+import { RUNEAsset, THORAsset } from "helpers/assets";
+import { parseAssetToToken } from "helpers/parseHelpers";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import useWindowSize from "hooks/useWindowSize";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { ROUTES } from "settings/router";
 
-import { SidebarItems } from './SidebarItems';
-import type { SidebarProps } from './types';
+import { SidebarItems } from "./SidebarItems";
+import type { SidebarProps } from "./types";
 
 const noScrollHeight = 238;
 const toggleHeight = 50;
@@ -50,8 +50,8 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
   return (
     <Flex
       _dark={{
-        bgColor: 'brand.bgDarkNavyGray',
-        border: 'none',
+        bgColor: "brand.bgDarkNavyGray",
+        border: "none",
       }}
       align="center"
       bgColor="white"
@@ -68,7 +68,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
       sx={sx}
       top={0}
       transition={easeInOutTransition}
-      width={collapsed ? '72px' : '180px'}
+      width={collapsed ? "72px" : "180px"}
     >
       <Box
         cursor="pointer"
@@ -80,7 +80,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         px={5}
       >
         <img alt="Logo" className="dark:hidden" src={collapsed ? Logo : LogoTsDark} />
-        <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />{' '}
+        <img alt="Logo" className="hidden dark:block" src={collapsed ? Logo : LogoTsWhite} />{" "}
       </Box>
       <Box h="calc(100vh - 182px)" w="full">
         <SidebarItems
@@ -112,7 +112,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
           collapsed={collapsed}
           href="/"
           iconName="infoCircle"
-          label={t('common.support')}
+          label={t("common.support")}
           onClick={(e) => {
             e.preventDefault();
             setIsSupportModalOpened(true);
@@ -125,7 +125,7 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
       <Flex
         borderTop="1px solid"
         borderTopColor="borderPrimary"
-        direction={collapsed ? 'column' : 'row'}
+        direction={collapsed ? "column" : "row"}
         gap={collapsed ? 1 : 0}
         justify="space-between"
         px="6"
@@ -145,15 +145,15 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
             <Text
               fontWeight="semibold"
               textAlign="center"
-              textStyle={isMdActive && !collapsed ? 'caption' : 'caption-xs'}
+              textStyle={isMdActive && !collapsed ? "caption" : "caption-xs"}
               transition={easeInOutTransition}
             >
-              ${runePrice?.toFixed(3) || '-'}
+              ${runePrice?.toFixed(3) || "-"}
             </Text>
           </Flex>
         </Tooltip>
         {isLoading && (
-          <Box alignSelf="center" bottom="7" pos={collapsed ? 'absolute' : 'inherit'} right="6">
+          <Box alignSelf="center" bottom="7" pos={collapsed ? "absolute" : "inherit"} right="6">
             <Icon spin name="loader" size={16} />
           </Box>
         )}
@@ -170,31 +170,31 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
             <Text
               fontWeight="semibold"
               textAlign="center"
-              textStyle={isMdActive && !collapsed ? 'caption' : 'caption-xs'}
+              textStyle={isMdActive && !collapsed ? "caption" : "caption-xs"}
               transition={easeInOutTransition}
             >
-              ${thorPrice?.toFixed(3) || '-'}
+              ${thorPrice?.toFixed(3) || "-"}
             </Text>
           </Flex>
         </Tooltip>
       </Flex>
 
       <Box
-        _hover={{ bg: 'bgLightGrayLight', _dark: { bg: 'borderPrimary' } }}
+        _hover={{ bg: "bgLightGrayLight", _dark: { bg: "borderPrimary" } }}
         bg="bgSecondary"
         borderRadius="md"
         bottom="38px"
         cursor="pointer"
-        display={{ base: 'none', md: 'flex' }}
+        display={{ base: "none", md: "flex" }}
         onClick={toggle}
         position="absolute"
         right="-11px"
         zIndex={10}
       >
         <Tooltip
-          content={collapsed ? t('components.sidebar.expand') : t('components.sidebar.collapse')}
+          content={collapsed ? t("components.sidebar.expand") : t("components.sidebar.collapse")}
         >
-          <Flex align="center" justify="center" transform={!collapsed ? 'scaleX(-1)' : 'none'}>
+          <Flex align="center" justify="center" transform={collapsed ? "none" : "scaleX(-1)"}>
             <Icon name="chevronRight" size={18} />
           </Flex>
         </Tooltip>

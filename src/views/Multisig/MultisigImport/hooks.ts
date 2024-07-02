@@ -1,10 +1,10 @@
-import { showErrorToast } from 'components/Toast';
-import { useCallback, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { multisig } from 'services/multisig';
-import { useMultisig } from 'store/multisig/hooks';
-import type { MultisigMember } from 'store/multisig/types';
+import { showErrorToast } from "components/Toast";
+import { useCallback, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { multisig } from "services/multisig";
+import { useMultisig } from "store/multisig/hooks";
+import type { MultisigMember } from "store/multisig/types";
 
 type WalletData = {
   treshold?: number; // backward compatiiblity with old wallets
@@ -17,24 +17,24 @@ type Props = {
 };
 
 export const useMultisigImport = ({ onSuccess }: Props) => {
-  const [fileError, setFileError] = useState('');
+  const [fileError, setFileError] = useState("");
   const [walletData, setWalletData] = useState<WalletData | null>(null);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const { addMultisigWallet } = useMultisig();
 
   const parseData = useCallback((data: WalletData) => {
-    if (!data.members || !Array.isArray(data.members) || data.members.some((m) => !m.pubKey)) {
-      throw Error('Incorrect wallet members');
+    if (!(data.members && Array.isArray(data.members)) || data.members.some((m) => !m.pubKey)) {
+      throw Error("Incorrect wallet members");
     }
 
     const threshold = Number(data.threshold) || Number(data.treshold);
     if (!threshold || threshold > data.members.length) {
-      throw Error('Incorrect threshold');
+      throw Error("Incorrect threshold");
     }
 
     const parsedData: WalletData = {
       threshold,
-      members: data.members.map(({ pubKey, name = '' }) => ({ pubKey, name })),
+      members: data.members.map(({ pubKey, name = "" }) => ({ pubKey, name })),
     };
 
     return parsedData;
@@ -45,11 +45,11 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       try {
         const rawData = JSON.parse(fileContent as string);
         const data = parseData(rawData);
-        setFileError('');
+        setFileError("");
         setWalletData(data);
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        setFileError(t('views.multisig.jsonError'));
+        setFileError(t("views.multisig.jsonError"));
         setWalletData(null);
       }
     },
@@ -59,7 +59,7 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
   const onError = useCallback((errorName: string) => {
     if (!errorName) return;
 
-    setFileError(`${t('views.multisig.selectingKeyError')}: ${errorName}`);
+    setFileError(`${t("views.multisig.selectingKeyError")}: ${errorName}`);
     setWalletData(null);
   }, []);
 
@@ -73,14 +73,14 @@ export const useMultisigImport = ({ onSuccess }: Props) => {
       const address = await multisig.createMultisigWallet(members, threshold);
 
       if (!address) {
-        throw Error('Incorrect wallet data');
+        throw Error("Incorrect wallet data");
       }
 
       addMultisigWallet({ members, threshold, address, name });
       onSuccess();
-    } catch (error: NotWorth) {
+    } catch (error) {
       logException(error as Error);
-      showErrorToast('Handle connect Wallet failed', undefined, undefined, error as Error);
+      showErrorToast("Handle connect Wallet failed", undefined, undefined, error as Error);
     }
   }, [addMultisigWallet, name, onSuccess, walletData]);
 

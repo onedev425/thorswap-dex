@@ -1,35 +1,35 @@
-import { Box } from 'components/Atomic';
-import { Chart } from 'components/Chart';
-import type { ChartData, ChartDetail } from 'components/Chart/types';
-import { ChartType } from 'components/Chart/types';
-import dayjs from 'dayjs';
-import { memo, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
+import { Box } from "components/Atomic";
+import { Chart } from "components/Chart";
+import type { ChartData, ChartDetail } from "components/Chart/types";
+import { ChartType } from "components/Chart/types";
+import dayjs from "dayjs";
+import { memo, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
 import {
   useGetHistoryEarningsQuery,
   useGetHistoryLiquidityChangesQuery,
   useGetHistorySwapsQuery,
   useGetHistoryTvlQuery,
-} from 'store/midgard/api';
+} from "store/midgard/api";
 
 import {
   LiquidityChartIndex,
-  liquidityChartIndexes,
   VolumeChartIndex,
+  liquidityChartIndexes,
   volumeChartIndexes,
-} from './types';
+} from "./types";
 
-export const parseBaseValueToNumber = (value: string = '0') => parseInt(value) / 1e8;
+export const parseBaseValueToNumber = (value = "0") => Number.parseInt(value) / 1e8;
 
 export const GlobalChart = memo(() => {
   const { hideCharts } = useApp();
 
-  const { isLoading: swapGlobalLoading, data: swapGlobalHistory } = useGetHistorySwapsQuery();
+  const { isLoading: swapGlobalLoading, data: swapGlobalHistory } = useGetHistorySwapsQuery({});
   const { isLoading: liquidityLoading, data: liquidityHistory } =
-    useGetHistoryLiquidityChangesQuery();
-  const { isLoading: earningsLoading, data: earningsHistory } = useGetHistoryEarningsQuery();
-  const { isLoading: tvlLoading, data: tvlHistory } = useGetHistoryTvlQuery();
+    useGetHistoryLiquidityChangesQuery({});
+  const { isLoading: earningsLoading, data: earningsHistory } = useGetHistoryEarningsQuery({});
+  const { isLoading: tvlLoading, data: tvlHistory } = useGetHistoryTvlQuery({});
 
   const initialChartData = useMemo(() => {
     const defaultData = { values: [], loading: true };
@@ -63,9 +63,9 @@ export const GlobalChart = memo(() => {
       const synthValue =
         (parseBaseValueToNumber(item.synthMintVolume) +
           parseBaseValueToNumber(item.synthRedeemVolume)) *
-        parseFloat(item.runePriceUSD);
+        Number.parseFloat(item.runePriceUSD);
       const totalValue = parseBaseValueToNumber(item.totalVolumeUsd);
-      const time = dayjs.unix(parseInt(item.startTime)).format('MMM DD');
+      const time = dayjs.unix(Number.parseInt(item.startTime)).format("MMM DD");
 
       synthsVolume.push({ time, value: synthValue });
       swapVolume.push({ time, value: totalValue });
@@ -74,10 +74,10 @@ export const GlobalChart = memo(() => {
     });
 
     return {
-      [VolumeChartIndex.Swap]: { values: swapVolume, unit: '$', type: ChartType.Bar },
-      [VolumeChartIndex.Add]: { values: lpAddVolume, unit: '$', type: ChartType.Bar },
-      [VolumeChartIndex.Synth]: { values: synthsVolume, unit: '$', type: ChartType.Bar },
-      [VolumeChartIndex.Withdraw]: { values: lpWithdrawVolume, unit: '$', type: ChartType.Bar },
+      [VolumeChartIndex.Swap]: { values: swapVolume, unit: "$", type: ChartType.Bar },
+      [VolumeChartIndex.Add]: { values: lpAddVolume, unit: "$", type: ChartType.Bar },
+      [VolumeChartIndex.Synth]: { values: synthsVolume, unit: "$", type: ChartType.Bar },
+      [VolumeChartIndex.Withdraw]: { values: lpWithdrawVolume, unit: "$", type: ChartType.Bar },
     };
   }, [
     initialChartData,
@@ -99,12 +99,12 @@ export const GlobalChart = memo(() => {
 
     // @ts-expect-error
     earningsData.forEach((item, index) => {
-      const time = dayjs.unix(parseInt(item.startTime)).format('MMM DD');
+      const time = dayjs.unix(Number.parseInt(item.startTime)).format("MMM DD");
       // // Wed Sep 15 2021 00:00:00 GMT+0000 (https://www.unixtimestamp.com)
       // if (time < 1631664000) return;
 
       const tvlValue = tvlData[index];
-      const runeUSDPrice = parseFloat(tvlValue?.runePriceUSD);
+      const runeUSDPrice = Number.parseFloat(tvlValue?.runePriceUSD);
       const liquidityPooled = parseBaseValueToNumber(tvlValue?.totalValuePooled) * runeUSDPrice;
       const bondingValue = parseBaseValueToNumber(item?.bondingEarnings) * runeUSDPrice;
       const liquidityValue = parseBaseValueToNumber(item?.liquidityEarnings) * runeUSDPrice;
@@ -115,9 +115,9 @@ export const GlobalChart = memo(() => {
     });
 
     return {
-      [LiquidityChartIndex.Liquidity]: { values: liquidity, unit: '$' },
-      [LiquidityChartIndex.LpEarning]: { values: liquidityEarning, unit: '$' },
-      [LiquidityChartIndex.BondEarning]: { values: bondingEarnings, unit: '$' },
+      [LiquidityChartIndex.Liquidity]: { values: liquidity, unit: "$" },
+      [LiquidityChartIndex.LpEarning]: { values: liquidityEarning, unit: "$" },
+      [LiquidityChartIndex.BondEarning]: { values: bondingEarnings, unit: "$" },
     };
   }, [
     tvlLoading,
@@ -139,7 +139,7 @@ export const GlobalChart = memo(() => {
           chartIndexes={volumeChartIndexes}
           selectChart={setVolumeChartIndex}
           selectedIndex={volumeChartIndex}
-          title={t('views.home.chart_volume')}
+          title={t("views.home.chart_volume")}
         />
       </Box>
 
@@ -152,7 +152,7 @@ export const GlobalChart = memo(() => {
           previewChartType={ChartType.CurvedLine}
           selectChart={setLiquidityChartIndex}
           selectedIndex={liquidityChartIndex}
-          title={t('views.home.chart_liquidity')}
+          title={t("views.home.chart_liquidity")}
         />
       </Box>
     </Box>

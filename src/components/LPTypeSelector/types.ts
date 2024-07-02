@@ -1,5 +1,5 @@
-import type { AssetValue } from '@swapkit/core';
-import type { PoolShareType } from 'store/midgard/types';
+import type { AssetValue } from "@swapkit/sdk";
+import type { PoolShareType } from "store/midgard/types";
 
 export type LPTypeSelectorProps = {
   poolAsset: AssetValue;

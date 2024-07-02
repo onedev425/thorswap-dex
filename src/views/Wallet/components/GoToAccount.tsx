@@ -1,7 +1,7 @@
-import type { Chain } from '@swapkit/core';
-import { HoverIcon } from 'components/HoverIcon';
-import { useEffect, useState } from 'react';
-import { t } from 'services/i18n';
+import type { Chain } from "@swapkit/sdk";
+import { HoverIcon } from "components/HoverIcon";
+import { useEffect, useState } from "react";
+import { t } from "services/i18n";
 
 type Props = {
   chain: Chain;
@@ -9,13 +9,13 @@ type Props = {
 };
 
 export const GoToAccount = ({ chain, address }: Props) => {
-  const [accountUrl, setAccountUrl] = useState('');
+  const [accountUrl, setAccountUrl] = useState("");
 
   useEffect(() => {
-    import('services/swapKit')
+    import("services/swapKit")
       .then(({ getSwapKitClient }) => getSwapKitClient())
       .then(({ getExplorerAddressUrl }) =>
-        setAccountUrl(getExplorerAddressUrl({ chain, address }) || ''),
+        setAccountUrl(getExplorerAddressUrl({ chain, address }) || ""),
       );
   }, [address, chain]);
 
@@ -24,7 +24,7 @@ export const GoToAccount = ({ chain, address }: Props) => {
       iconName="external"
       size={16}
       to={accountUrl}
-      tooltip={t('views.wallet.goToAccount')}
+      tooltip={t("views.wallet.goToAccount")}
     />
   );
 };

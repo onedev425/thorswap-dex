@@ -1,4 +1,4 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
 
 export interface PoolDetail {
   annualPercentageRate: string;

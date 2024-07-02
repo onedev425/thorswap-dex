@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useGetNetworkQuery } from 'store/midgard/api';
+import { useMemo } from "react";
+import { useGetNetworkQuery } from "store/midgard/api";
 
 export const useCheckHardCap = () => {
   const hardCapPercentage = useHardCapPercentage();
@@ -14,7 +14,7 @@ export const useHardCapPercentage = () => {
 
   return useMemo(() => {
     const activeBonds = networkData?.activeBonds;
-    const numActiveBonds = activeBonds?.map((string) => parseInt(string));
+    const numActiveBonds = activeBonds?.map((string) => Number.parseInt(string));
 
     const sortedBonds = numActiveBonds?.sort((a, b) => a - b);
     const securityBonds = sortedBonds?.slice(0, (sortedBonds?.length * 2) / 3);

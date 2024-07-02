@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import type { AssetSelectProps } from 'components/AssetSelect/types';
-import { useAssetSelect } from 'components/AssetSelect/useAssetSelect';
-import { Box, Icon, Switch } from 'components/Atomic';
-import { genericBgClasses, styledScrollbarClass } from 'components/constants';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { useGetProvidersQuery } from 'store/thorswap/api';
-import { DISABLED_TOKENLIST_PROVIDERS } from 'views/Swap/hooks/useTokenList';
+import { Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import type { AssetSelectProps } from "components/AssetSelect/types";
+import { useAssetSelect } from "components/AssetSelect/useAssetSelect";
+import { Box, Icon, Switch } from "components/Atomic";
+import { genericBgClasses, styledScrollbarClass } from "components/constants";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { useGetProvidersQuery } from "store/thorswap/api";
+import { DISABLED_TOKENLIST_PROVIDERS } from "views/Swap/hooks/useTokenList";
 
-const PROD_DISABLED_PROVIDERS = ['Stargatearb'];
+const PROD_DISABLED_PROVIDERS = ["Stargatearb"];
 
 export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSelectProps) => {
   const { data, isLoading } = useGetProvidersQuery();
@@ -24,8 +24,10 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
     const providers =
       data?.filter(
         ({ provider }) =>
-          !provider.toLowerCase().includes('whitelist') &&
-          !PROD_DISABLED_PROVIDERS.includes(provider),
+          !(
+            provider.toLowerCase().includes("whitelist") ||
+            PROD_DISABLED_PROVIDERS.includes(provider)
+          ),
       ) || [];
 
     return providers
@@ -42,16 +44,16 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
   return (
     <div
       className={classNames(
-        'flex flex-col flex-1 rounded-box-lg pb-10 pt-10',
+        "flex flex-col flex-1 rounded-box-lg pb-10 pt-10",
         genericBgClasses.secondary,
       )}
     >
       <div
         className={classNames(
-          'h-full overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100',
+          "h-full overflow-y-auto bg-light-gray-light dark:bg-dark-asset-select bg-opacity-70 dark:bg-opacity-100",
           styledScrollbarClass,
-          'scrollbar-track-light-gray-light dark:scrollbar-track-dark-asset-select',
-          'border-solid border-b border-t border-l-0 border-r-0 border-light-border-primary dark:border-dark-gray-light',
+          "scrollbar-track-light-gray-light dark:scrollbar-track-dark-asset-select",
+          "border-solid border-b border-t border-l-0 border-r-0 border-light-border-primary dark:border-dark-gray-light",
         )}
       >
         <Box col className="flex-1 pt-2">
@@ -76,16 +78,16 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
                   fontWeight="light"
                   textStyle="caption-xs"
                   textTransform="uppercase"
-                  variant={provider ? 'primaryBtn' : 'secondary'}
+                  variant={provider ? "primaryBtn" : "secondary"}
                 >
-                  {nbTokens} {t('common.tokens')}{' '}
-                  {version ? `| v${version.major}.${version.minor}.${version.patch}` : ''}
+                  {nbTokens} {t("common.tokens")}{" "}
+                  {version ? `| v${version.major}.${version.minor}.${version.patch}` : ""}
                 </Text>
               </Box>
 
               <Switch
                 checked={!disabledTokenLists.includes(provider)}
-                onChange={() => {}}
+                onChange={() => undefined}
                 selectedText="ON"
                 unselectedText="OFF"
               />
@@ -99,7 +101,7 @@ export const TokenListProviderSelect = ({ onSelect, onClose, assets }: AssetSele
               </Box>
             ) : (
               <Box justifyCenter className="pt-4">
-                <Text>{t('components.assetSelect.noResultsFound')}</Text>
+                <Text>{t("components.assetSelect.noResultsFound")}</Text>
               </Box>
             ))}
         </Box>

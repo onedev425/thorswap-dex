@@ -1,5 +1,5 @@
-import type { Element } from 'chart.js';
-import * as styles from 'components/Chart/styles/styles';
+import type { Element } from "chart.js";
+import * as styles from "components/Chart/styles/styles";
 
 export const getChartOptions = (
   hideLabel: boolean,
@@ -16,7 +16,7 @@ export const getChartOptions = (
   };
 
   const tickOptions = {
-    display: hideLabel ? false : true,
+    display: !hideLabel,
     maxRotation: 0,
     minRotation: 0,
     sampleSize: 1,
@@ -30,27 +30,27 @@ export const getChartOptions = (
     normalized: true,
     interaction: {
       intersect: false,
-      axis: 'x' as const,
+      axis: "x" as const,
     },
     plugins: {
       legend: { display: false },
       tooltip: {
-        enabled: hideTooltip ? false : true,
+        enabled: !hideTooltip,
       },
     },
     scales: {
       x: {
-        display: hideAxisLines ? false : true,
+        display: !hideAxisLines,
         grid: gridOptions,
         ticks: { ...styles.chartXTicksStyles, ...tickOptions },
       },
       y: {
-        display: hideAxisLines ? false : true,
+        display: !hideAxisLines,
         grid: gridOptions,
         ticks: { ...styles.chartYTicksStyles, ...tickOptions },
       },
     },
-    onHover: (_e: any, elements: { element: Element; datasetIndex: number; index: number }[]) => {
+    onHover: (_e: Todo, elements: { element: Element; datasetIndex: number; index: number }[]) => {
       if (elements[0]?.index === hoveredIndex || !onHover || elements[0]?.index === 0) return;
       onHover(elements[0]?.index);
     },

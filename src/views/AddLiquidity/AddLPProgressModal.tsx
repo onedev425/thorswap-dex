@@ -1,20 +1,20 @@
-import { Text } from '@chakra-ui/react';
-import { TransactionType } from '@swapkit/api';
-import { type AssetValue, Chain, WalletOption } from '@swapkit/core';
-import { Box, Button, Icon, Modal } from 'components/Atomic';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { showErrorToast, showSuccessToast } from 'components/Toast';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { chainName } from 'helpers/chainName';
-import { useCallback, useMemo, useState } from 'react';
-import { LoaderIcon } from 'react-hot-toast';
-import { t } from 'services/i18n';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { v4 } from 'uuid';
+import { Text } from "@chakra-ui/react";
+import { TransactionType } from "@swapkit/api";
+import { type AssetValue, Chain, WalletOption } from "@swapkit/sdk";
+import { Box, Button, Icon, Modal } from "components/Atomic";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { showErrorToast, showSuccessToast } from "components/Toast";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { chainName } from "helpers/chainName";
+import { useCallback, useMemo, useState } from "react";
+import { LoaderIcon } from "react-hot-toast";
+import { t } from "services/i18n";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { v4 } from "uuid";
 
 type Params = {
   isOpened: boolean;
@@ -28,11 +28,11 @@ type Params = {
 };
 
 enum Step {
-  AddRune = 'addRune',
-  AddAsset = 'addAsset',
-  PendingAsset = 'pendingAsset',
-  PendingRune = 'pendingRune',
-  Completed = 'completed',
+  AddRune = "addRune",
+  AddAsset = "addAsset",
+  PendingAsset = "pendingAsset",
+  PendingRune = "pendingRune",
+  Completed = "completed",
 }
 
 export const AddLPProgressModal = ({
@@ -55,8 +55,8 @@ export const AddLPProgressModal = ({
   const handleLPAdd = useCallback(async () => {
     if (Step.Completed === step) return onClose();
 
-    const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-    if (!thorchain) throw new Error('SwapKit client not found');
+    const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+    if (!thorchain) throw new Error("SwapKit client not found");
     const symmetric = isSymmetric || !!(runeAssetValue && poolAssetValue);
     const runeId = v4();
     const assetId = v4();
@@ -68,7 +68,7 @@ export const AddLPProgressModal = ({
           id: runeId,
           type: TransactionType.TC_LP_ADD,
           inChain: runeAssetValue.chain,
-          label: t('txManager.addAmountAsset', {
+          label: t("txManager.addAmountAsset", {
             asset: runeAssetValue.ticker,
             amount: runeAssetValue.toSignificant(6),
           }),
@@ -84,29 +84,29 @@ export const AddLPProgressModal = ({
         });
 
         if (runeTx) {
-          appDispatch(updateTransaction({ id: runeId, txid: runeTx, status: 'pending' }));
+          appDispatch(updateTransaction({ id: runeId, txid: runeTx, status: "pending" }));
           setStep(symmetric ? Step.AddAsset : Step.Completed);
           showSuccessToast(
-            t('txManager.addLiquidity'),
-            t('txManager.addedAmountAsset', {
+            t("txManager.addLiquidity"),
+            t("txManager.addedAmountAsset", {
               asset: runeAssetValue.ticker,
               amount: runeAssetValue.toSignificant(6),
             }),
           );
         } else {
           setStep(Step.AddRune);
-          showErrorToast(t('txManager.addLiquidity'), t('txManager.failed'));
-          appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+          showErrorToast(t("txManager.addLiquidity"), t("txManager.failed"));
+          appDispatch(completeTransaction({ id: runeId, status: "error" }));
         }
       } catch (error) {
         setStep(Step.AddRune);
         showErrorToast(
-          t('txManager.addLiquidity'),
-          t('txManager.failed'),
+          t("txManager.addLiquidity"),
+          t("txManager.failed"),
           undefined,
           error as Error,
         );
-        appDispatch(completeTransaction({ id: runeId, status: 'error' }));
+        appDispatch(completeTransaction({ id: runeId, status: "error" }));
       }
     }
 
@@ -117,7 +117,7 @@ export const AddLPProgressModal = ({
           id: assetId,
           type: TransactionType.TC_LP_ADD,
           inChain: poolAssetValue.chain,
-          label: t('txManager.addAmountAsset', {
+          label: t("txManager.addAmountAsset", {
             asset: poolAssetValue.ticker,
             amount: poolAssetValue.toSignificant(6),
           }),
@@ -133,28 +133,28 @@ export const AddLPProgressModal = ({
 
         if (assetTx) {
           setStep(Step.Completed);
-          appDispatch(updateTransaction({ id: assetId, txid: assetTx, status: 'pending' }));
+          appDispatch(updateTransaction({ id: assetId, txid: assetTx, status: "pending" }));
           showSuccessToast(
-            t('txManager.addLiquidity'),
-            t('txManager.addedAmountAsset', {
+            t("txManager.addLiquidity"),
+            t("txManager.addedAmountAsset", {
               asset: poolAssetValue.ticker,
               amount: poolAssetValue.toSignificant(6),
             }),
           );
         } else {
           setStep(Step.AddAsset);
-          showErrorToast(t('txManager.addLiquidity'), t('txManager.failed'));
-          appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+          showErrorToast(t("txManager.addLiquidity"), t("txManager.failed"));
+          appDispatch(completeTransaction({ id: assetId, status: "error" }));
         }
       } catch (error) {
         setStep(Step.AddAsset);
         showErrorToast(
-          t('txManager.addLiquidity'),
-          t('txManager.failed'),
+          t("txManager.addLiquidity"),
+          t("txManager.failed"),
           undefined,
           error as Error,
         );
-        appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+        appDispatch(completeTransaction({ id: assetId, status: "error" }));
       }
     }
   }, [
@@ -186,7 +186,7 @@ export const AddLPProgressModal = ({
               )}
             </Box>
             <Text>
-              {t('views.addLiquidity.addAssetStatusLabel', { asset: runeAssetValue.ticker })}
+              {t("views.addLiquidity.addAssetStatusLabel", { asset: runeAssetValue.ticker })}
             </Text>
           </Box>
         ),
@@ -208,7 +208,7 @@ export const AddLPProgressModal = ({
               )}
             </Box>
             <Text>
-              {t('views.addLiquidity.addAssetStatusLabel', { asset: poolAssetValue.ticker })}
+              {t("views.addLiquidity.addAssetStatusLabel", { asset: poolAssetValue.ticker })}
             </Text>
           </Box>
         ),
@@ -222,15 +222,15 @@ export const AddLPProgressModal = ({
   const actionLabel = useMemo(() => {
     switch (step) {
       case Step.AddRune:
-        return t('views.addLiquidity.addAssetLabel', { asset: runeAssetValue?.ticker });
+        return t("views.addLiquidity.addAssetLabel", { asset: runeAssetValue?.ticker });
       case Step.AddAsset:
-        return t('views.addLiquidity.addAssetLabel', { asset: poolAssetValue?.ticker });
+        return t("views.addLiquidity.addAssetLabel", { asset: poolAssetValue?.ticker });
       case Step.PendingAsset:
-        return t('views.addLiquidity.pendingAssetLabel', { asset: poolAssetValue?.ticker });
+        return t("views.addLiquidity.pendingAssetLabel", { asset: poolAssetValue?.ticker });
       case Step.PendingRune:
-        return t('views.addLiquidity.pendingAssetLabel', { asset: runeAssetValue?.ticker });
+        return t("views.addLiquidity.pendingAssetLabel", { asset: runeAssetValue?.ticker });
       case Step.Completed:
-        return t('common.close');
+        return t("common.close");
     }
   }, [poolAssetValue, runeAssetValue, step]);
 
@@ -239,7 +239,7 @@ export const AddLPProgressModal = ({
       case Step.AddRune:
       case Step.PendingRune:
         return getWallet(Chain.THORChain)?.walletType === WalletOption.LEDGER
-          ? t('views.addLiquidity.openLedgerWallet', {
+          ? t("views.addLiquidity.openLedgerWallet", {
               chain: chainName(Chain.THORChain),
               asset: RUNEAsset.ticker,
               wallet: WalletOption.LEDGER,
@@ -248,7 +248,7 @@ export const AddLPProgressModal = ({
       case Step.AddAsset:
       case Step.PendingAsset:
         return poolAssetValue && getWallet(poolAssetValue.chain)?.walletType === WalletOption.LEDGER
-          ? t('views.addLiquidity.openLedgerWallet', {
+          ? t("views.addLiquidity.openLedgerWallet", {
               chain: chainName(poolAssetValue.chain),
               asset: poolAssetValue.ticker,
               wallet: WalletOption.LEDGER,
@@ -265,33 +265,33 @@ export const AddLPProgressModal = ({
     <Modal
       isOpened={isOpened}
       onClose={onClose}
-      title={t('views.addLiquidity.lpProgressModalTitle')}
+      title={t("views.addLiquidity.lpProgressModalTitle")}
     >
       <Box col>
         <InfoTable items={items} />
         <Box className="py-4">
-          <InfoTip content={t('views.addLiquidity.lpProgressModalDescription')} type="info" />
+          <InfoTip content={t("views.addLiquidity.lpProgressModalDescription")} type="info" />
         </Box>
         {openWalletReminder && (
           <Box className="py-4">
             <InfoTip content={openWalletReminder} type="warn" />
           </Box>
         )}
-        <Box row className="pt-4" justify={completed ? 'around' : 'between'}>
+        <Box row className="pt-4" justify={completed ? "around" : "between"}>
           {!completed && (
             <Button
               onClick={() => setIsConnectModalOpen(true)}
               size="md"
               variant="outlineSecondary"
             >
-              {t('common.changeWallet')}
+              {t("common.changeWallet")}
             </Button>
           )}
 
           <Button
             loading={isWalletLoading || [Step.PendingAsset, Step.PendingRune].includes(step)}
             onClick={handleLPAdd}
-            size={completed ? 'lg' : 'md'}
+            size={completed ? "lg" : "md"}
             variant="fancy"
           >
             {actionLabel}

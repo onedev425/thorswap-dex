@@ -1,7 +1,7 @@
-import { useThemeState } from 'context/theme/useThemeState';
-import type { ReactNode } from 'react';
-import { createContext, useContext } from 'react';
-import { ThemeType } from 'types/app';
+import { useThemeState } from "context/theme/useThemeState";
+import type { ReactNode } from "react";
+import { createContext, useContext } from "react";
+import { ThemeType } from "types/app";
 
 type Props = {
   children: ReactNode;

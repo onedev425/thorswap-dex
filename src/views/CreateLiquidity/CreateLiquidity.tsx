@@ -1,50 +1,50 @@
-import { AssetValue, Chain, getMinAmountByChain, SwapKitNumber } from '@swapkit/core';
-import { Box, Button } from 'components/Atomic';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { InfoTable } from 'components/InfoTable';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { useApproveInfoItems } from 'components/Modals/ConfirmModal/useApproveInfoItems';
-import { PanelView } from 'components/PanelView';
-import { showErrorToast, showInfoToast } from 'components/Toast';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { getEstimatedTxTime } from 'helpers/getEstimatedTxTime';
-import { getAssetBalance, isTokenWhitelisted } from 'helpers/wallet';
-import { useBalance } from 'hooks/useBalance';
-import { useCheckHardCap } from 'hooks/useCheckHardCap';
-import { useMimir } from 'hooks/useMimir';
-import { useNetworkFee } from 'hooks/useNetworkFee';
-import { usePools } from 'hooks/usePools';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useExternalConfig } from 'store/externalConfig/hooks';
-import { getInboundData } from 'store/midgard/actions';
-import { LiquidityTypeOption } from 'store/midgard/types';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
-import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
-import { useIsAssetApproved } from 'views/Swap/hooks/useIsAssetApproved';
-import { useTokenAddresses } from 'views/Swap/hooks/useTokenAddresses';
-import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import { AssetValue, Chain, SwapKitNumber, getMinAmountByChain } from "@swapkit/sdk";
+import { Box, Button } from "components/Atomic";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { InfoTable } from "components/InfoTable";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { useApproveInfoItems } from "components/Modals/ConfirmModal/useApproveInfoItems";
+import { PanelView } from "components/PanelView";
+import { showErrorToast, showInfoToast } from "components/Toast";
+import { ViewHeader } from "components/ViewHeader";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { useFormatPrice } from "helpers/formatPrice";
+import { getEstimatedTxTime } from "helpers/getEstimatedTxTime";
+import { getAssetBalance, isTokenWhitelisted } from "helpers/wallet";
+import { useBalance } from "hooks/useBalance";
+import { useCheckHardCap } from "hooks/useCheckHardCap";
+import { useMimir } from "hooks/useMimir";
+import { useNetworkFee } from "hooks/useNetworkFee";
+import { usePools } from "hooks/usePools";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useExternalConfig } from "store/externalConfig/hooks";
+import { getInboundData } from "store/midgard/actions";
+import { LiquidityTypeOption } from "store/midgard/types";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
+import { useAssetsWithBalanceFromTokens } from "views/Swap/hooks/useAssetsWithBalanceFromTokens";
+import { useIsAssetApproved } from "views/Swap/hooks/useIsAssetApproved";
+import { useTokenAddresses } from "views/Swap/hooks/useTokenAddresses";
+import { useTokenList } from "views/Swap/hooks/useTokenList";
 
-import { AssetInputs } from './AssetInputs';
-import { PoolInfo } from './PoolInfo';
-import { useConfirmInfoItems } from './useConfirmInfoItems';
+import { AssetInputs } from "./AssetInputs";
+import { PoolInfo } from "./PoolInfo";
+import { useConfirmInfoItems } from "./useConfirmInfoItems";
 
 export const CreateLiquidity = () => {
   const appDispatch = useAppDispatch();
   const [inputAssets, setInputAssets] = useState<AssetValue[]>([]);
-  const [contract, setContract] = useState('');
+  const [contract, setContract] = useState("");
   const { setIsConnectModalOpen } = useWalletConnectModal();
   const { hasWallet, wallet, getWallet } = useWallet();
   const { poolAssets } = usePools();
-  const poolWhitelist = useTokenAddresses('pools');
+  const poolWhitelist = useTokenAddresses("pools");
   const { tokens } = useTokenList();
   const hardCapReached = useCheckHardCap();
   const formatPrice = useFormatPrice();
@@ -84,16 +84,16 @@ export const CreateLiquidity = () => {
     const { router, halted } = inboundData.find((item) => item.chain === chain) || {};
 
     if (halted && !router) {
-      throw new Error('Trading & LP is temporarily halted, please try again later.');
+      throw new Error("Trading & LP is temporarily halted, please try again later.");
     }
 
-    setContract(router || '');
+    setContract(router || "");
   }, []);
 
   const handleInputAssetUpdate = useCallback(() => {
     if (hasWallet) {
       const assetsToSet =
-        createInputAssets.filter((asset) => asset.ticker !== 'RUNE' && !asset.isSynthetic) || [];
+        createInputAssets.filter((asset) => asset.ticker !== "RUNE" && !asset.isSynthetic) || [];
       setInputAssets(assetsToSet);
     } else {
       setInputAssets([]);
@@ -144,7 +144,7 @@ export const CreateLiquidity = () => {
   );
 
   const approveAssetAmount = useMemo(
-    () => poolAsset.set(assetAmount?.getValue('string') || 0),
+    () => poolAsset.set(assetAmount?.getValue("string") || 0),
     [poolAsset, assetAmount],
   );
 
@@ -165,8 +165,8 @@ export const CreateLiquidity = () => {
     return {
       assetUnitPrice,
       runeUnitPrice,
-      assetUSDPrice: assetAmount ? assetAmount.getValue('number') * assetUnitPrice : 0,
-      runeUSDPrice: runeAmount ? runeAmount.getValue('number') * runeUnitPrice : 0,
+      assetUSDPrice: assetAmount ? assetAmount.getValue("number") * assetUnitPrice : 0,
+      runeUSDPrice: runeAmount ? runeAmount.getValue("number") * runeUnitPrice : 0,
     };
   }, [pricesData, poolAsset, assetAmount, runeAmount]);
 
@@ -215,7 +215,7 @@ export const CreateLiquidity = () => {
       const baseAssetAmount =
         maxPoolAssetBalance && amount.gt(maxPoolAssetBalance)
           ? maxPoolAssetBalance
-          : poolAsset.set(amount.getValue('string'));
+          : poolAsset.set(amount.getValue("string"));
       const baseRuneAmount = baseAssetAmount.mul(assetUnitPrice).div(runeUnitPrice);
       const exceedsRuneAmount = maxRuneBalance && baseRuneAmount.gt(maxRuneBalance);
 
@@ -234,7 +234,7 @@ export const CreateLiquidity = () => {
       const baseRuneAmount =
         maxRuneBalance && amount.gt(maxRuneBalance)
           ? maxRuneBalance
-          : RUNEAsset.set(amount.getValue('string'));
+          : RUNEAsset.set(amount.getValue("string"));
       const baseAssetAmount = baseRuneAmount.mul(runeUnitPrice).div(assetUnitPrice);
       const exceedsAssetAmount = maxPoolAssetBalance && baseAssetAmount.gt(maxPoolAssetBalance);
 
@@ -253,10 +253,10 @@ export const CreateLiquidity = () => {
       const { assetAmount, runeAmount } = getBalancedAmountsForAsset(amount);
 
       setAssetAmount(
-        new SwapKitNumber({ value: assetAmount.getValue('string'), decimal: assetAmount.decimal }),
+        new SwapKitNumber({ value: assetAmount.getValue("string"), decimal: assetAmount.decimal }),
       );
       setRuneAmount(
-        new SwapKitNumber({ value: runeAmount.getValue('string'), decimal: runeAmount.decimal }),
+        new SwapKitNumber({ value: runeAmount.getValue("string"), decimal: runeAmount.decimal }),
       );
     },
     [getBalancedAmountsForAsset],
@@ -267,10 +267,10 @@ export const CreateLiquidity = () => {
       const { assetAmount, runeAmount } = getBalancedAmountsForRune(amount);
 
       setAssetAmount(
-        new SwapKitNumber({ value: assetAmount.getValue('string'), decimal: assetAmount.decimal }),
+        new SwapKitNumber({ value: assetAmount.getValue("string"), decimal: assetAmount.decimal }),
       );
       setRuneAmount(
-        new SwapKitNumber({ value: runeAmount.getValue('string'), decimal: runeAmount.decimal }),
+        new SwapKitNumber({ value: runeAmount.getValue("string"), decimal: runeAmount.decimal }),
       );
     },
     [getBalancedAmountsForRune],
@@ -279,15 +279,15 @@ export const CreateLiquidity = () => {
   const handleConfirmAdd = useCallback(async () => {
     setVisibleConfirmModal(false);
     if (wallet) {
-      const runeAssetAmount = RUNEAsset.set(runeAmount.getValue('string')) as AssetValue;
-      const poolAssetAmount = poolAsset.set(assetAmount?.getValue('string') || 0) as AssetValue;
+      const runeAssetAmount = RUNEAsset.set(runeAmount.getValue("string")) as AssetValue;
+      const poolAssetAmount = poolAsset.set(assetAmount?.getValue("string") || 0) as AssetValue;
       const runeId = v4();
       const assetId = v4();
 
       appDispatch(
         addTransaction({
           id: runeId,
-          label: t('txManager.addAmountAsset', {
+          label: t("txManager.addAmountAsset", {
             asset: RUNEAsset.ticker,
             amount: runeAssetAmount.toSignificant(6),
           }),
@@ -299,7 +299,7 @@ export const CreateLiquidity = () => {
       appDispatch(
         addTransaction({
           id: assetId,
-          label: t('txManager.addAmountAsset', {
+          label: t("txManager.addAmountAsset", {
             asset: poolAsset.ticker,
             amount: poolAssetAmount.toSignificant(6),
           }),
@@ -308,14 +308,17 @@ export const CreateLiquidity = () => {
         }),
       );
 
-      let runeTx, assetTx;
+      // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
+      let runeTx: string | void;
+      // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
+      let assetTx: string | void;
 
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-      if (!thorchain) throw new Error('SwapKit client not found');
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+      if (!thorchain) throw new Error("SwapKit client not found");
 
       try {
         const response = await thorchain.createLiquidity({
-          runeAssetValue: runeAssetAmount,
+          baseAssetValue: runeAssetAmount,
           assetValue: poolAssetAmount,
         });
 
@@ -324,12 +327,12 @@ export const CreateLiquidity = () => {
 
         runeTx && appDispatch(updateTransaction({ id: runeId, txid: runeTx }));
         assetTx && appDispatch(updateTransaction({ id: assetId, txid: assetTx }));
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        !runeTx && appDispatch(completeTransaction({ id: runeId, status: 'error' }));
-        !assetTx && appDispatch(completeTransaction({ id: assetId, status: 'error' }));
+        appDispatch(completeTransaction({ id: runeId, status: "error" }));
+        appDispatch(completeTransaction({ id: assetId, status: "error" }));
 
-        showErrorToast(t('notification.submitFail'), error?.toString(), undefined, error as Error);
+        showErrorToast(t("notification.submitFail"), error?.toString(), undefined, error as Error);
       }
     }
   }, [wallet, runeAmount, poolAsset, assetAmount, appDispatch]);
@@ -347,32 +350,32 @@ export const CreateLiquidity = () => {
       appDispatch(
         addTransaction({
           id,
-          label: `${t('txManager.approve')} ${poolAsset.ticker}`,
+          label: `${t("txManager.approve")} ${poolAsset.ticker}`,
           inChain: poolAsset.chain,
           type,
         }),
       );
 
-      const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
-      if (!thorchain) throw new Error('SwapKit client not found');
+      const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
+      if (!thorchain) throw new Error("SwapKit client not found");
 
       try {
         const txid = await thorchain.approveAssetValue({ assetValue: poolAsset });
 
-        if (typeof txid === 'string') {
+        if (typeof txid === "string") {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        showErrorToast(t('notification.approveFailed'), undefined, undefined, error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        showErrorToast(t("notification.approveFailed"), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: "error" }));
       }
     }
   }, [isWalletAssetConnected, poolAsset, appDispatch]);
 
   const handleCreateLiquidity = useCallback(() => {
     if (!isWalletConnected) {
-      return showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      return showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
 
     setVisibleConfirmModal(true);
@@ -382,7 +385,7 @@ export const CreateLiquidity = () => {
     if (wallet) {
       setVisibleApproveModal(true);
     } else {
-      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
   }, [wallet]);
 
@@ -391,7 +394,7 @@ export const CreateLiquidity = () => {
   const depositAssetInputs = useMemo(
     () => [
       { asset: RUNEAsset, value: runeAmount.toSignificant(6) },
-      { asset: poolAsset, value: assetAmount?.toSignificant(6) || '' },
+      { asset: poolAsset, value: assetAmount?.toSignificant(6) || "" },
     ],
     [poolAsset, assetAmount, runeAmount],
   );
@@ -412,14 +415,14 @@ export const CreateLiquidity = () => {
     if (isLPActionPaused) {
       return {
         valid: false,
-        msg: t('notification.notAvailableDeposit'),
+        msg: t("notification.notAvailableDeposit"),
       };
     }
 
     if (inputAssets.length === 0) {
       return {
         valid: false,
-        msg: t('notification.assetNotFound'),
+        msg: t("notification.assetNotFound"),
       };
     }
 
@@ -427,10 +430,10 @@ export const CreateLiquidity = () => {
     // 1. rune asym
     // 2. rune-asset sym
 
-    if (!runeAmount.gt(minRuneAmount) || !assetAmount?.gt(minAssetAmount)) {
+    if (!(runeAmount.gt(minRuneAmount) && assetAmount?.gt(minAssetAmount))) {
       return {
         valid: false,
-        msg: t('notification.invalidAmount'),
+        msg: t("notification.invalidAmount"),
       };
     }
 
@@ -474,16 +477,16 @@ export const CreateLiquidity = () => {
   );
 
   const title = useMemo(
-    () => `${t('common.create')} ${poolAsset.ticker} ${t('common.liquidity')}`,
+    () => `${t("common.create")} ${poolAsset.ticker} ${t("common.liquidity")}`,
     [poolAsset],
   );
 
   const btnLabel = useMemo(() => {
     if (!isValidDeposit.valid) return isValidDeposit.msg;
 
-    if (isApproveRequired) return t('common.create');
+    if (isApproveRequired) return t("common.create");
 
-    return t('common.createLiquidity');
+    return t("common.createLiquidity");
   }, [isValidDeposit, isApproveRequired]);
 
   const estimatedTime = useMemo(
@@ -493,8 +496,8 @@ export const CreateLiquidity = () => {
 
   const confirmInfo = useConfirmInfoItems({
     assets: depositAssetInputs,
-    poolShare: '100%',
-    slippage: 'N/A',
+    poolShare: "100%",
+    slippage: "N/A",
     estimatedTime,
     totalFee: feeInUSD,
     fees: [
@@ -506,7 +509,7 @@ export const CreateLiquidity = () => {
 
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.ticker,
-    assetValue: assetAmount?.toSignificant(6) || '0',
+    assetValue: assetAmount?.toSignificant(6) || "0",
     // TODO Make sure this works
     fee: inboundAssetFee.toSignificant(),
   });
@@ -521,7 +524,7 @@ export const CreateLiquidity = () => {
   return (
     <PanelView
       header={
-        <ViewHeader actionsComponent={actionsComponent} title={t('common.createLiquidity')} />
+        <ViewHeader actionsComponent={actionsComponent} title={t("common.createLiquidity")} />
       }
       title={title}
     >
@@ -553,10 +556,10 @@ export const CreateLiquidity = () => {
             loading={isLoading}
             onClick={handleApprove}
             size="lg"
-            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
             variant="fancy"
           >
-            {t('common.approve')}
+            {t("common.approve")}
           </Button>
         </Box>
       )}
@@ -569,7 +572,7 @@ export const CreateLiquidity = () => {
             error={!isValidDeposit.valid || hardCapReached}
             onClick={handleCreateLiquidity}
             size="lg"
-            tooltip={hardCapReached ? t('views.liquidity.hardCapReachedTooltip') : undefined}
+            tooltip={hardCapReached ? t("views.liquidity.hardCapReachedTooltip") : undefined}
             variant="fancy"
           >
             {btnLabel}
@@ -580,7 +583,7 @@ export const CreateLiquidity = () => {
       {!isWalletConnected && (
         <Box className="w-full pt-5">
           <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         </Box>
       )}

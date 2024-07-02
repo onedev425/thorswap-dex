@@ -1,16 +1,16 @@
-import { type Action, combineReducers, configureStore, type ThunkAction } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import type { TypedUseSelectorHook } from 'react-redux';
-import { useDispatch, useSelector } from 'react-redux';
-import { midgardApi } from 'store/midgard/api';
-import { trpcApi } from 'store/trpcApi/api';
+import { type Action, type ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import type { TypedUseSelectorHook } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { midgardApi } from "store/midgard/api";
+import { trpcApi } from "store/trpcApi/api";
 
-import appReducer from './app/slice';
-import assetsReducer from './assets/slice';
-import multisigReducer from './multisig/slice';
-import { staticApi } from './static/api';
-import { thorswapApi } from './thorswap/api';
-import transactionsReducer from './transactions/slice';
+import appReducer from "./app/slice";
+import assetsReducer from "./assets/slice";
+import multisigReducer from "./multisig/slice";
+import { staticApi } from "./static/api";
+import { thorswapApi } from "./thorswap/api";
+import transactionsReducer from "./transactions/slice";
 
 const devTools = import.meta.env.DEV;
 

@@ -1,12 +1,12 @@
-import type { Chain } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { Box, Button, Table } from 'components/Atomic';
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { memo, useCallback, useState } from 'react';
-import { t } from 'services/i18n';
-import type { GetTokenPriceResponseItem } from 'store/thorswap/types';
+import type { Chain } from "@swapkit/sdk";
+import { AssetValue } from "@swapkit/sdk";
+import { Box, Button, Table } from "components/Atomic";
+import { CollapseChevron } from "components/Atomic/Collapse/CollapseChevron";
+import { memo, useCallback, useState } from "react";
+import { t } from "services/i18n";
+import type { GetTokenPriceResponseItem } from "store/thorswap/types";
 
-import { useColumns } from './useColumns';
+import { useColumns } from "./useColumns";
 
 type Props = {
   chainInfo: AssetValue[];
@@ -46,7 +46,7 @@ export const ChainInfoTable = memo(({ priceData, chainInfo, chain, chainAddress 
           onClick={handleToggleTokens}
           variant="tint"
         >
-          {showAllTokens ? t('views.wallet.hideTokens') : t('views.wallet.showAllTokens')}
+          {showAllTokens ? t("views.wallet.hideTokens") : t("views.wallet.showAllTokens")}
         </Button>
       )}
     </Box>

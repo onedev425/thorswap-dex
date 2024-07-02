@@ -47,9 +47,9 @@ import type {
   UseSortByInstanceProps,
   UseSortByOptions,
   UseSortByState,
-} from 'react-table';
+} from "react-table";
 
-declare module 'react-table' {
+declare module "react-table" {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
 
   export interface TableOptions<D extends Record<string, unknown>>
@@ -102,7 +102,7 @@ declare module 'react-table' {
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
       UseSortByColumnOptions<D> {
-    align?: 'left' | 'center' | 'right';
+    align?: "left" | "center" | "right";
   }
 
   export interface ColumnInstance<D extends Record<string, unknown> = Record<string, unknown>>

@@ -1,6 +1,6 @@
-import { RequestClient } from '@swapkit/core';
-import { getBlockRewards } from 'services/contract';
-import { logException } from 'services/logger';
+import { RequestClient } from "@swapkit/sdk";
+import { getBlockRewards } from "services/contract";
+import { logException } from "services/logger";
 
 type FlipSideData = {
   DATE: string;
@@ -38,23 +38,23 @@ const getEstimatedYearlyThorBuyback = (data: FlipSideData[]) => {
 };
 
 const getThorBuybackYear = async () => {
-  const { timestamp, cacheData } = JSON.parse(localStorage.getItem('thorBuybackData') || '{}');
+  const { timestamp, cacheData } = JSON.parse(localStorage.getItem("thorBuybackData") || "{}");
 
   if (cacheData && Date.now() < timestamp) return getEstimatedYearlyThorBuyback(cacheData);
 
   try {
     const data: FlipSideData[] = await RequestClient.get(
       // 'https://api.flipsidecrypto.com/api/v2/queries/9daa6cd4-8e78-4432-bdd7-a5f0fc480229/data/latest', // OLD QUERY
-      'https://api.flipsidecrypto.com/api/v2/queries/e9f162da-2217-4855-9258-7f2dc144996f/data/latest',
+      "https://api.flipsidecrypto.com/api/v2/queries/e9f162da-2217-4855-9258-7f2dc144996f/data/latest",
     );
 
     localStorage.setItem(
-      'thorBuybackData',
+      "thorBuybackData",
       JSON.stringify({ timestamp: Date.now() + 1000 * 60 * 60, cacheData: data }),
     );
 
     return getEstimatedYearlyThorBuyback(data);
-  } catch (error: NotWorth) {
+  } catch (error) {
     logException(error as Error);
     return 0;
   }

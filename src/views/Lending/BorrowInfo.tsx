@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import { Box } from 'components/Atomic';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoTip } from 'components/InfoTip';
-import { memo } from 'react';
-import { t } from 'services/i18n';
-import type { SaverProvider } from 'store/midgard/types';
+import { Text } from "@chakra-ui/react";
+import { Box } from "components/Atomic";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoTip } from "components/InfoTip";
+import { memo } from "react";
+import { t } from "services/i18n";
+import type { SaverProvider } from "store/midgard/types";
 
 type Props = {
   address: string;
@@ -24,19 +24,23 @@ export const BorrowInfo = memo(({ depositValue, providerData, address }: Props) 
             justify="between"
           >
             <Text fontWeight="semibold" textStyle="subtitle2">
-              {t('views.savings.yourPosition')}
+              {t("views.savings.yourPosition")}
             </Text>
 
-            <HoverIcon iconName="refresh" onClick={() => {}} spin={!!address && !providerData} />
+            <HoverIcon
+              iconName="refresh"
+              onClick={() => undefined}
+              spin={!!address && !providerData}
+            />
           </Box>
 
           <Box alignCenter row className="gap-2" justify="between">
             <Text fontWeight="medium" textStyle="caption" variant="secondary">
-              {t('views.savings.yourDeposit')}
+              {t("views.savings.yourDeposit")}
             </Text>
 
             <Text fontWeight="medium" textStyle="subtitle2">
-              {depositValue || '-'}
+              {depositValue || "-"}
             </Text>
           </Box>
         </Box>

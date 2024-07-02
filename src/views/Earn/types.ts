@@ -1,5 +1,5 @@
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import type { SaverProvider, ThornodePoolType } from 'store/midgard/types';
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import type { SaverProvider, ThornodePoolType } from "store/midgard/types";
 
 export type SaverPosition = {
   asset: AssetValue;
@@ -12,8 +12,8 @@ export type SaverPosition = {
 };
 
 export enum EarnTab {
-  Deposit = 'deposit',
-  Withdraw = 'withdraw',
+  Deposit = "deposit",
+  Withdraw = "withdraw",
 }
 
 export enum EarnViewTab {

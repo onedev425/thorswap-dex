@@ -1,7 +1,7 @@
-import { DropdownMenu } from 'components/Atomic/Dropdown/DropdownMenu';
-import { useMemo } from 'react';
-import { t } from 'services/i18n';
-import { MultisigTxType } from 'views/Multisig/TxCreate/types';
+import { DropdownMenu } from "components/Atomic/Dropdown/DropdownMenu";
+import { useMemo } from "react";
+import { t } from "services/i18n";
+import { MultisigTxType } from "views/Multisig/TxCreate/types";
 
 type Props = {
   onChange: (v: MultisigTxType) => void;
@@ -11,12 +11,12 @@ type Props = {
 export const TxTypeSelect = ({ onChange, selected }: Props) => {
   const options: { label: string; value: MultisigTxType }[] = useMemo(
     () => [
-      { label: t('views.multisig.send'), value: MultisigTxType.send },
-      { label: t('views.multisig.nodeActions'), value: MultisigTxType.bond },
-      { label: t('views.multisig.deposit'), value: MultisigTxType.deposit },
-      { label: t('views.multisig.withdraw'), value: MultisigTxType.withdraw },
+      { label: t("views.multisig.send"), value: MultisigTxType.send },
+      { label: t("views.multisig.nodeActions"), value: MultisigTxType.bond },
+      { label: t("views.multisig.deposit"), value: MultisigTxType.deposit },
+      { label: t("views.multisig.withdraw"), value: MultisigTxType.withdraw },
       {
-        label: t('views.multisig.customDeposit'),
+        label: t("views.multisig.customDeposit"),
         value: MultisigTxType.msgDeposit,
       },
     ],

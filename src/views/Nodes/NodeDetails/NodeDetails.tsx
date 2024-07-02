@@ -1,19 +1,19 @@
-import classNames from 'classnames';
-import { Box, Button, useCollapse } from 'components/Atomic';
-import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
-import { CollapseChevron } from 'components/Atomic/Collapse/CollapseChevron';
-import { HoverIcon } from 'components/HoverIcon';
-import { InfoTable } from 'components/InfoTable';
-import { PanelView } from 'components/PanelView';
-import { ViewHeader } from 'components/ViewHeader';
-import { useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
-import { useGetNodesQuery } from 'store/midgard/api';
-import type { ProxiedNode } from 'store/midgard/types';
-import { useNodeStats } from 'views/Nodes/hooks/hooks';
-import { NodeDetailsActionPanel } from 'views/Nodes/NodeDetails/NodeDetailsActionPanel';
+import classNames from "classnames";
+import { Box, Button, useCollapse } from "components/Atomic";
+import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
+import { CollapseChevron } from "components/Atomic/Collapse/CollapseChevron";
+import { HoverIcon } from "components/HoverIcon";
+import { InfoTable } from "components/InfoTable";
+import { PanelView } from "components/PanelView";
+import { ViewHeader } from "components/ViewHeader";
+import { useCallback, useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
+import { useGetNodesQuery } from "store/midgard/api";
+import type { ProxiedNode } from "store/midgard/types";
+import { NodeDetailsActionPanel } from "views/Nodes/NodeDetails/NodeDetailsActionPanel";
+import { useNodeStats } from "views/Nodes/hooks/hooks";
 
 const NodeDetails = () => {
   const { nodeWatchList, setWatchList } = useApp();
@@ -32,17 +32,17 @@ const NodeDetails = () => {
   );
 
   const isFavorite = useMemo(() => {
-    return nodeWatchList.includes(nodeAddress || '#');
+    return nodeWatchList.includes(nodeAddress || "#");
   }, [nodeAddress, nodeWatchList]);
 
   const handleAddToWatchList = useCallback(
     (address: string) => {
       const isSelected = nodeWatchList.includes(address);
-      if (!isSelected) {
-        setWatchList([address, ...nodeWatchList]);
-      } else {
+      if (isSelected) {
         const newList = nodeWatchList.filter((addr) => addr !== address);
         setWatchList(newList);
+      } else {
+        setWatchList([address, ...nodeWatchList]);
       }
     },
     [setWatchList, nodeWatchList],
@@ -61,15 +61,15 @@ const NodeDetails = () => {
             actionsComponent={
               <Box row>
                 <HoverIcon
-                  color={isFavorite ? 'pink' : 'secondary'}
+                  color={isFavorite ? "pink" : "secondary"}
                   iconHoverHighlight={false}
-                  iconName={isFavorite ? 'heartFilled' : 'heart'}
-                  onClick={() => handleAddToWatchList(nodeAddress ? nodeAddress : '')}
+                  iconName={isFavorite ? "heartFilled" : "heart"}
+                  onClick={() => handleAddToWatchList(nodeAddress ? nodeAddress : "")}
                   size={26}
                 />
               </Box>
             }
-            title={t('views.nodes.detail.nodeInformation')}
+            title={t("views.nodes.detail.nodeInformation")}
           />
         }
         title="Node Detail"
@@ -78,7 +78,7 @@ const NodeDetails = () => {
           <InfoTable horizontalInset items={nodeTableData.slice(0, 6)} size="md" />
 
           <div
-            className={classNames('w-full', maxHeightTransitionClass)}
+            className={classNames("w-full", maxHeightTransitionClass)}
             ref={contentTableRef}
             style={maxTableHeightStyle}
           >
@@ -95,8 +95,8 @@ const NodeDetails = () => {
               variant="borderlessPrimary"
             >
               {isTableActive
-                ? t('views.nodes.detail.hideDetails')
-                : t('views.nodes.detail.showDetails')}
+                ? t("views.nodes.detail.hideDetails")
+                : t("views.nodes.detail.showDetails")}
             </Button>
           </Box>
         </Box>

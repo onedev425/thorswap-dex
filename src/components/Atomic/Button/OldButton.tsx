@@ -1,23 +1,23 @@
-import classNames from 'classnames';
-import { Icon, Typography } from 'components/Atomic';
-import { Tooltip } from 'components/Atomic/Tooltip/Tooltip';
-import type { MouseEvent } from 'react';
-import { useLayoutEffect, useRef } from 'react';
+import classNames from "classnames";
+import { Icon, Typography } from "components/Atomic";
+import { Tooltip } from "components/Atomic/Tooltip/Tooltip";
+import type { MouseEvent } from "react";
+import { useLayoutEffect, useRef } from "react";
 
-import type { ButtonProps } from './types';
-import { useButtonClasses } from './useButtonClasses';
+import type { ButtonProps } from "./types";
+import { useButtonClasses } from "./useButtonClasses";
 
 export const OldButton = ({
-  className = '',
+  className = "",
   disabled = false,
-  size = 'sm',
+  size = "sm",
   startIcon,
   endIcon,
   textColor,
-  transform = 'capitalize',
-  type = 'default',
+  transform = "capitalize",
+  type = "default",
   stretch = false,
-  variant = 'primary',
+  variant = "primary",
   children,
   onClick,
   tooltip,
@@ -25,15 +25,15 @@ export const OldButton = ({
   loading,
   isFancy = false,
   error = false,
-  tooltipClasses = '',
+  tooltipClasses = "",
   ...rest
 }: ButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { backgroundClass, buttonClass, outlinedClass, typographyVariant, typographyClasses } =
     useButtonClasses({ size, variant, isFancy, error });
 
-  const isOutlined = type === 'outline';
-  const isBorderless = type === 'borderless';
+  const isOutlined = type === "outline";
+  const isBorderless = type === "borderless";
 
   const timeoutBlur = (timeout = 0) => {
     setTimeout(() => buttonRef.current?.blur(), timeout);
@@ -53,15 +53,15 @@ export const OldButton = ({
     <Tooltip className={tooltipClasses} content={tooltip} place={tooltipPlacement}>
       <button
         className={classNames(
-          'bg-btn-primary-light dark:bg-btn-primary flex border border-solid items-center justify-center outline-none p-0',
-          'transition group disabled:opacity-75 dark:disabled:opacity-60',
+          "bg-btn-primary-light dark:bg-btn-primary flex border border-solid items-center justify-center outline-none p-0",
+          "transition group disabled:opacity-75 dark:disabled:opacity-60",
           buttonClass,
-          disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer',
+          disabled || loading ? "cursor-not-allowed" : "cursor-pointer",
           {
-            [backgroundClass]: type === 'default',
+            [backgroundClass]: type === "default",
             [outlinedClass]: isOutlined || isBorderless,
-            'w-full': stretch,
-            '!border-transparent': !isOutlined,
+            "w-full": stretch,
+            "!border-transparent": !isOutlined,
           },
           className,
         )}
@@ -80,17 +80,17 @@ export const OldButton = ({
           : children && (
               <Typography
                 className={classNames(
-                  'transition !no-underline',
-                  isOutlined || isBorderless || variant === 'tint'
-                    ? 'text-light-typo-primary dark:text-dark-typo-primary'
+                  "transition !no-underline",
+                  isOutlined || isBorderless || variant === "tint"
+                    ? "text-light-typo-primary dark:text-dark-typo-primary"
                     : typographyClasses,
                   {
-                    'ml-2': startIcon,
-                    'mr-2': endIcon,
+                    "ml-2": startIcon,
+                    "mr-2": endIcon,
                   },
                 )}
                 color={textColor}
-                fontWeight={isFancy ? 'semibold' : 'bold'}
+                fontWeight={isFancy ? "semibold" : "bold"}
                 transform={transform}
                 variant={typographyVariant}
               >

@@ -1,14 +1,14 @@
-import { RUNEAsset } from 'helpers/assets';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { useApp } from 'store/app/hooks';
+import { RUNEAsset } from "helpers/assets";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { useApp } from "store/app/hooks";
 
-const THORCHAIN_POOL_ADDRESS = '';
+const THORCHAIN_POOL_ADDRESS = "";
 
 export const useCustomSend = () => {
   const { customSendVisible } = useApp();
-  const [customMemo, setCustomMemo] = useState('');
+  const [customMemo, setCustomMemo] = useState("");
   const [customTxEnabled, setCustomTxEnabled] = useState(false);
   const { data } = useTokenPrices([RUNEAsset]);
   const runePrice = useMemo(() => data[RUNEAsset.ticker]?.price_usd || 0, [data]);
@@ -21,7 +21,7 @@ export const useCustomSend = () => {
 
   const switchCustomTxEnabledMenu = [
     {
-      label: t('views.send.toggleCustomTxForm'),
+      label: t("views.send.toggleCustomTxForm"),
       status: customTxEnabled,
       onClick: () => setCustomTxEnabled((v) => !v),
     },

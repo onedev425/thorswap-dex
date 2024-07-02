@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useTransactionsState } from 'store/transactions/hooks';
-import type { CompletedTransactionType, PendingTransactionType } from 'store/transactions/types';
-import { findTxIndexById } from 'store/transactions/utils';
+import type { ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useTransactionsState } from "store/transactions/hooks";
+import type { CompletedTransactionType, PendingTransactionType } from "store/transactions/types";
+import { findTxIndexById } from "store/transactions/utils";
 
 type WalletDrawerContextType = {
   isOpened: boolean;
@@ -21,14 +21,14 @@ type WalletDrawerContextType = {
 
 export const TransactionsModalContext = createContext({
   isOpened: false,
-  setIsDrawerVisible: (_: boolean) => {},
-  close: () => {},
-  open: () => {},
-  selectedTxId: '',
-  setSelectedTxId: (_: string) => {},
+  setIsDrawerVisible: (_: boolean) => undefined,
+  close: () => undefined,
+  open: () => undefined,
+  selectedTxId: "",
+  setSelectedTxId: (_: string) => undefined,
   selectedTx: null,
-  next: () => {},
-  previous: () => {},
+  next: () => undefined,
+  previous: () => undefined,
   hasNext: false,
   hasPrev: false,
   selectedIndex: null,
@@ -42,7 +42,7 @@ type Props = {
 export const TransactionsModalProvider = ({ children }: Props) => {
   const [isOpened, setIsOpened] = useState(false);
   const { advancedTracking: transactions } = useTransactionsState();
-  const [selectedTxId, setSelectedTxId] = useState('');
+  const [selectedTxId, setSelectedTxId] = useState("");
   const [selectedTx, setSelectedTx] = useState<
     PendingTransactionType | CompletedTransactionType | null
   >(null);
@@ -56,7 +56,7 @@ export const TransactionsModalProvider = ({ children }: Props) => {
     const idx = findTxIndexById(transactions, selectedTxId);
     if (idx === -1) {
       const firstTx = transactions[0];
-      setSelectedTxId(firstTx?.txid || '');
+      setSelectedTxId(firstTx?.txid || "");
       return setSelectedTx(firstTx || null);
     }
 
@@ -65,19 +65,19 @@ export const TransactionsModalProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (!transactions.length) {
-      setSelectedTxId('');
+      setSelectedTxId("");
       setSelectedTx(null);
       setIsOpened(false);
     }
   }, [transactions.length]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpened ? 'hidden' : 'unset';
+    document.body.style.overflow = isOpened ? "hidden" : "unset";
   }, [isOpened]);
 
   const open = useCallback((txId?: string) => {
     setIsOpened(true);
-    setSelectedTxId(txId || '');
+    setSelectedTxId(txId || "");
   }, []);
 
   const close = useCallback(() => {
@@ -87,14 +87,14 @@ export const TransactionsModalProvider = ({ children }: Props) => {
   const next = useCallback(() => {
     if (hasNext) {
       const nextTx = transactions[selectedIndex + 1];
-      setSelectedTxId(nextTx?.txid || '');
+      setSelectedTxId(nextTx?.txid || "");
     }
   }, [hasNext, selectedIndex, transactions]);
 
   const previous = useCallback(() => {
     if (hasPrev) {
       const prevTx = transactions[selectedIndex - 1];
-      setSelectedTxId(prevTx?.txid || '');
+      setSelectedTxId(prevTx?.txid || "");
     }
   }, [hasPrev, selectedIndex, transactions]);
 

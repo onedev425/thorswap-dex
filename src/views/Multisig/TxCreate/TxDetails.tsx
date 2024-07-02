@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react';
-import { Box, Card } from 'components/Atomic';
-import { useState } from 'react';
-import { t } from 'services/i18n';
-import { TxBond } from 'views/Multisig/TxBond/TxBond';
-import { MultisigTxType } from 'views/Multisig/TxCreate/types';
-import { TxDeposit } from 'views/Multisig/TxDeposit/TxDeposit';
-import { TxDepositCustom } from 'views/Multisig/TxDepositCustom/TxDepositCustom';
-import { TxSend } from 'views/Multisig/TxSend/TxSend';
-import { TxTypeSelect } from 'views/Multisig/TxTypeSelect';
-import { TxWithdraw } from 'views/Multisig/TxWithdraw/TxWithdraw';
+import { Text } from "@chakra-ui/react";
+import { Box, Card } from "components/Atomic";
+import { useState } from "react";
+import { t } from "services/i18n";
+import { TxBond } from "views/Multisig/TxBond/TxBond";
+import { MultisigTxType } from "views/Multisig/TxCreate/types";
+import { TxDeposit } from "views/Multisig/TxDeposit/TxDeposit";
+import { TxDepositCustom } from "views/Multisig/TxDepositCustom/TxDepositCustom";
+import { TxSend } from "views/Multisig/TxSend/TxSend";
+import { TxTypeSelect } from "views/Multisig/TxTypeSelect";
+import { TxWithdraw } from "views/Multisig/TxWithdraw/TxWithdraw";
 
 export const TxDetails = () => {
   const [txType, setTxType] = useState(MultisigTxType.send);
@@ -17,7 +17,7 @@ export const TxDetails = () => {
     <Box col className="w-full gap-1 self-stretch" flex={1}>
       <Box center className="self-stretch mx-2 mb-2" flex={1}>
         <Box flex={1}>
-          <Text variant="secondary">{`${t('views.multisig.txType')}:`}</Text>
+          <Text variant="secondary">{`${t("views.multisig.txType")}:`}</Text>
         </Box>
         <Box className="z-20" flex={1}>
           <TxTypeSelect onChange={setTxType} selected={txType} />

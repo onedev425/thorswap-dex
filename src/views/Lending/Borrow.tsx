@@ -1,63 +1,63 @@
-import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { Announcement } from 'components/Announcements/Announcement/Announcement';
-import { AssetInput } from 'components/AssetInput';
-import { Box, Button, Card, Icon, Link, Switch, Tooltip } from 'components/Atomic';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { Helmet } from 'components/Helmet';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { Input } from 'components/Input';
-import { showErrorToast } from 'components/Toast';
-import { TxOptimizeSection } from 'components/TxOptimize/TxOptimizeSection';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import dayjs from 'dayjs';
-import { ETHAsset } from 'helpers/assets';
-import { useAssetListSearch } from 'hooks/useAssetListSearch';
-import { useBalance } from 'hooks/useBalance';
-import { useMimir } from 'hooks/useMimir';
-import { useRouteAssetParams } from 'hooks/useRouteAssetParams';
-import { useTCBlockTimer } from 'hooks/useTCBlockTimer';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { ROUTES } from 'settings/router';
-import { useApp } from 'store/app/hooks';
-import { AnnouncementType } from 'store/externalConfig/types';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
-import { BorrowAssetSelectList } from 'views/Lending/BorrowAssetSelectList';
-import { BorrowConfirmModal } from 'views/Lending/BorrowConfirmModal';
-import { HIGH_LENDING_SLIPPAGE } from 'views/Lending/constants';
-import { useLendingAssets } from 'views/Lending/useLendingAssets';
-import { useLoans } from 'views/Lending/useLoans';
-import { VirtualDepthSlippageInfo } from 'views/Lending/VirtualDepthSippageInfo';
-import { CustomRecipientInput } from 'views/Swap/CustomRecipientInput';
-import { useAssetsWithBalanceFromTokens } from 'views/Swap/hooks/useAssetsWithBalanceFromTokens';
-import { useTokenList } from 'views/Swap/hooks/useTokenList';
+import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Announcement } from "components/Announcements/Announcement/Announcement";
+import { AssetInput } from "components/AssetInput";
+import { Box, Button, Card, Icon, Link, Switch, Tooltip } from "components/Atomic";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { Helmet } from "components/Helmet";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { Input } from "components/Input";
+import { showErrorToast } from "components/Toast";
+import { TxOptimizeSection } from "components/TxOptimize/TxOptimizeSection";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import dayjs from "dayjs";
+import { ETHAsset } from "helpers/assets";
+import { useAssetListSearch } from "hooks/useAssetListSearch";
+import { useBalance } from "hooks/useBalance";
+import { useMimir } from "hooks/useMimir";
+import { useRouteAssetParams } from "hooks/useRouteAssetParams";
+import { useTCBlockTimer } from "hooks/useTCBlockTimer";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { ROUTES } from "settings/router";
+import { useApp } from "store/app/hooks";
+import { AnnouncementType } from "store/externalConfig/types";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
+import { BorrowAssetSelectList } from "views/Lending/BorrowAssetSelectList";
+import { BorrowConfirmModal } from "views/Lending/BorrowConfirmModal";
+import { VirtualDepthSlippageInfo } from "views/Lending/VirtualDepthSippageInfo";
+import { HIGH_LENDING_SLIPPAGE } from "views/Lending/constants";
+import { useLendingAssets } from "views/Lending/useLendingAssets";
+import { useLoans } from "views/Lending/useLoans";
+import { CustomRecipientInput } from "views/Swap/CustomRecipientInput";
+import { useAssetsWithBalanceFromTokens } from "views/Swap/hooks/useAssetsWithBalanceFromTokens";
+import { useTokenList } from "views/Swap/hooks/useTokenList";
 
-import { isLedgerLiveSupportedInputAsset } from '../../../ledgerLive/wallet/LedgerLive';
+import { isLedgerLiveSupportedInputAsset } from "../../../ledgerLive/wallet/LedgerLive";
 
-import { ActionButton } from './ActionButton';
-import { BorrowPositionsTab } from './BorrowPositionsTab';
-import { LendingTab, LendingViewTab } from './types';
-import { useBorrow } from './useBorrow';
+import { ActionButton } from "./ActionButton";
+import { BorrowPositionsTab } from "./BorrowPositionsTab";
+import { LendingTab, LendingViewTab } from "./types";
+import { useBorrow } from "./useBorrow";
 
-export const LENDING_DOCS = 'https://docs.thorchain.org/thorchain-finance/lending';
-export const ETH_USDC_IDENTIFIER = 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48';
+export const LENDING_DOCS = "https://docs.thorchain.org/thorchain-finance/lending";
+export const ETH_USDC_IDENTIFIER = "ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48";
 export const MATURITY_BLOCKS = 432000;
 const MANUAL_PAUSE = false;
 
 export const slippageOptions = [
-  { value: 1, text: '1%' },
-  { value: 3, text: '3%' },
-  { value: 5, text: '5%' },
-  { value: 10, text: '10%' },
+  { value: 1, text: "1%" },
+  { value: 3, text: "3%" },
+  { value: 5, text: "5%" },
+  { value: 10, text: "10%" },
 ];
 
 const Borrow = () => {
@@ -89,9 +89,9 @@ const Borrow = () => {
   } = useRouteAssetParams(ROUTES.Lending, ETHAsset);
 
   const [borrowAsset, setBorrowAsset] = useState(
-    AssetValue.fromIdentifierSync(ETH_USDC_IDENTIFIER) as AssetValue,
+    AssetValue.from({ asset: "ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" }),
   );
-  const [recipient, setRecipient] = useState('');
+  const [recipient, setRecipient] = useState("");
 
   const [collateralBalance, setCollateralBalance] = useState<AssetValue | undefined>();
   const [borrowBalance, setBorrowBalance] = useState<AssetValue | undefined>();
@@ -104,10 +104,11 @@ const Borrow = () => {
   const [tab, setTab] = useState(LendingTab.Borrow);
   const [viewTab, setViewTab] = useState(LendingViewTab.Borrow);
   const { data: tokenPricesData } = useTokenPrices([collateralAsset, borrowAsset]);
+  const [isValidRecipient, setIsValidRecipient] = useState(true);
   const collateralUsdPrice = useMemo(() => {
     const price = tokenPricesData[collateralAsset.toString()]?.price_usd || 0;
 
-    return price * amount.getValue('number');
+    return price * amount.getValue("number");
   }, [amount, collateralAsset, tokenPricesData]);
 
   const { refreshLoans, totalBorrowed, totalCollateral, loansData, isLoading } = useLoans();
@@ -128,7 +129,7 @@ const Borrow = () => {
   );
 
   useEffect(() => {
-    setRecipient(borrowAddress || '');
+    setRecipient(borrowAddress || "");
   }, [borrowAddress]);
 
   const {
@@ -174,27 +175,27 @@ const Borrow = () => {
   }, [borrowAddress, borrowAsset, getMaxBalance]);
 
   const expectedDebtInfo = useMemo(
-    () => (expectedDebt?.gt(0) ? expectedDebt?.toCurrency() : '-'),
+    () => (expectedDebt?.gt(0) ? expectedDebt?.toCurrency() : "-"),
     [expectedDebt],
   );
 
   const handleSwapkitAction = useCallback(async () => {
     const { thorchain, validateAddress } = await (
-      await import('services/swapKit')
+      await import("services/swapKit")
     ).getSwapKitClient();
-    if (!thorchain) throw new Error('SwapKit client not found');
+    if (!thorchain) throw new Error("SwapKit client not found");
 
     const validAddress = validateAddress({ chain: borrowAsset.chain, address: recipient });
-    if (typeof validAddress === 'boolean' && !validAddress) {
-      throw new Error('Invalid recipient address');
+    if (typeof validAddress === "boolean" && !validAddress) {
+      throw new Error("Invalid recipient address");
     }
 
     if (!borrowQuote) {
-      throw new Error('Invalid lending quote');
+      throw new Error("Invalid lending quote");
     }
 
     return thorchain.loan({
-      type: 'open',
+      type: "open",
       assetValue: collateralAsset.add(amount),
       minAmount: borrowAsset.add(expectedOutput),
       memo: stream
@@ -210,7 +211,7 @@ const Borrow = () => {
       appDispatch(
         addTransaction({
           id,
-          label: t('txManager.openLoan', {
+          label: t("txManager.openLoan", {
             asset: collateralAsset.ticker,
             amount: expectedAmount,
           }),
@@ -237,8 +238,8 @@ const Borrow = () => {
           );
       } catch (error) {
         logException(error as Error);
-        showErrorToast(t('txManager.failed'), undefined, undefined, error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        showErrorToast(t("txManager.failed"), undefined, undefined, error as Error);
+        appDispatch(completeTransaction({ id, status: "error" }));
       }
     },
     [
@@ -255,16 +256,24 @@ const Borrow = () => {
 
   const buttonDisabled = useMemo(
     () =>
-      !recipient ||
+      !(recipient && isValidRecipient) ||
       isLendingPaused ||
       MANUAL_PAUSE ||
       amount.lte(0) ||
       (collateralBalance && amount.gt(collateralBalance)) ||
       isChainHalted[collateralAsset.chain],
-    [recipient, isLendingPaused, amount, collateralAsset.chain, collateralBalance, isChainHalted],
+    [
+      recipient,
+      isLendingPaused,
+      amount,
+      collateralAsset.chain,
+      collateralBalance,
+      isChainHalted,
+      isValidRecipient,
+    ],
   );
 
-  const tabLabel = tab === LendingTab.Borrow ? t('common.borrow') : t('common.repay');
+  const tabLabel = tab === LendingTab.Borrow ? t("common.borrow") : t("common.repay");
   const selectedCollateralAsset = useMemo(
     () => ({
       asset: collateralAsset,
@@ -286,11 +295,11 @@ const Borrow = () => {
 
   const buttonLabel = useMemo(() => {
     if (!recipient) {
-      return t('views.swap.connectOrFillRecipient');
+      return t("views.swap.connectOrFillRecipient");
     }
 
     if (!borrowQuote) {
-      return t('views.swap.noValidQuote');
+      return t("views.swap.noValidQuote");
     }
 
     return tabLabel;
@@ -304,11 +313,11 @@ const Borrow = () => {
   const summary = useMemo(
     () => [
       {
-        label: t('views.lending.expectedDebt'),
+        label: t("views.lending.expectedDebt"),
         value: `${expectedDebtInfo}`,
       },
       {
-        label: t('views.lending.borrowSlippage'),
+        label: t("views.lending.borrowSlippage"),
         value: (
           <VirtualDepthSlippageInfo
             depth={collateralLendingAsset?.derivedDepthPercentage || 0}
@@ -318,14 +327,14 @@ const Borrow = () => {
         ),
       },
       {
-        label: t('views.lending.repayMaturity'),
+        label: t("views.lending.repayMaturity"),
         value: (
           <Box center>
             <InfoWithTooltip
-              tooltip={t('views.lending.maturityDescription', { days: maturityDays })}
+              tooltip={t("views.lending.maturityDescription", { days: maturityDays })}
               value={
                 <Text textStyle="caption">
-                  {maturityDays} {t('views.savings.days')}
+                  {maturityDays} {t("views.savings.days")}
                 </Text>
               }
             />
@@ -333,7 +342,7 @@ const Borrow = () => {
         ),
       },
       {
-        label: t('views.lending.exchangeFee'),
+        label: t("views.lending.exchangeFee"),
         value: exchangeFeeUsd.gt(0) ? (
           <Text textStyle="caption">{exchangeFeeUsd.toCurrency()}</Text>
         ) : (
@@ -369,20 +378,20 @@ const Borrow = () => {
       <Helmet
         content="Deposit and borrow native assets with THORSwap LENDING"
         keywords="Borrow, Lending, THORSwap, APY, Native assets"
-        title={t('views.lending.borrow')}
+        title={t("views.lending.borrow")}
       />
 
       {(isLendingPaused || MANUAL_PAUSE) && (
         <Announcement
-          announcement={{ type: AnnouncementType.Error, message: t('views.lending.lendingPaused') }}
+          announcement={{ type: AnnouncementType.Error, message: t("views.lending.lendingPaused") }}
           showClose={false}
         />
       )}
 
       <Tabs index={viewTab} onChange={setViewTab}>
         <TabList>
-          <Tab>{t('views.lending.borrow')}</Tab>
-          <Tab>{t('views.lending.myLoans')}</Tab>
+          <Tab>{t("views.lending.borrow")}</Tab>
+          <Tab>{t("views.lending.myLoans")}</Tab>
         </TabList>
 
         <TabPanels>
@@ -391,7 +400,7 @@ const Borrow = () => {
               <Box className="flex w-full justify-between">
                 <Box alignCenter>
                   <Text className="ml-3 mr-2" textStyle="h3">
-                    {t('views.lending.header', { asset: borrowAsset.ticker })}
+                    {t("views.lending.header", { asset: borrowAsset.ticker })}
                   </Text>
                 </Box>
               </Box>
@@ -399,26 +408,26 @@ const Borrow = () => {
               <Flex direction="row" justify="space-between">
                 <Flex alignItems="center" direction="row" flexWrap="wrap" gap={1} px={3}>
                   <Text fontWeight="medium" noOfLines={1} textStyle="body" variant="primary">
-                    {t('views.lending.liquidationDisclaimer', {
+                    {t("views.lending.liquidationDisclaimer", {
                       asset: collateralAsset.ticker,
                       borrowAsset: borrowAsset.ticker,
                     })}
                   </Text>
                   <Link className="text-twitter-blue cursor-pointer" to={LENDING_DOCS}>
                     <Text fontWeight="medium" noOfLines={1} textStyle="caption" variant="blue">
-                      {`${t('common.learnMore')} →`}
+                      {`${t("common.learnMore")} →`}
                     </Text>
                   </Link>
                 </Flex>
 
                 <GlobalSettingsPopover>
                   <Box>
-                    <Text textStyle="caption">{t('views.swap.transactionSettings')}</Text>
+                    <Text textStyle="caption">{t("views.swap.transactionSettings")}</Text>
                   </Box>
 
                   <Box className="space-x-2">
                     <Text textStyle="caption-xs" variant="secondary">
-                      {t('views.swap.slippageTolerance')}
+                      {t("views.swap.slippageTolerance")}
                     </Text>
                   </Box>
 
@@ -429,7 +438,7 @@ const Borrow = () => {
                       className="text-right"
                       containerClassName="bg-light-gray-light dark:bg-dark-gray-light bg-opacity-40"
                       onChange={(e) => setSlippage(Number(e.target.value))}
-                      placeholder={t('common.percentage')}
+                      placeholder={t("common.percentage")}
                       symbol="%"
                       type="number"
                       value={slippage}
@@ -440,7 +449,7 @@ const Borrow = () => {
                         key={value}
                         onClick={() => setSlippage(value)}
                         size="sm"
-                        variant={slippage === value ? 'primary' : 'outlineTint'}
+                        variant={slippage === value ? "primary" : "outlineTint"}
                       >
                         <Text textStyle="caption-xs">{text}</Text>
                       </Button>
@@ -449,15 +458,15 @@ const Borrow = () => {
 
                   <>
                     <Box>
-                      <Text textStyle="caption">{t('views.setting.transactionMode')}</Text>
+                      <Text textStyle="caption">{t("views.setting.transactionMode")}</Text>
                     </Box>
 
                     <Box alignCenter justify="between">
                       <Box alignCenter className="space-x-2">
                         <Text textStyle="caption-xs" variant="secondary">
-                          {t('views.setting.customRecipientMode')}
+                          {t("views.setting.customRecipientMode")}
                         </Text>
-                        <Tooltip content={t('common.customRecipientTooltip')} place="top">
+                        <Tooltip content={t("common.customRecipientTooltip")} place="top">
                           <Icon color="secondary" name="questionCircle" size={16} />
                         </Tooltip>
                       </Box>
@@ -474,7 +483,7 @@ const Borrow = () => {
               </Flex>
 
               <Box row className="justify-center gap-5">
-                <Box col className={classNames('flex h-full')}>
+                <Box col className={classNames("flex h-full")}>
                   <Card
                     className="!rounded-2xl md:!rounded-3xl !p-4 flex-col items-center self-stretch mt-2 space-y-1 shadow-lg md:w-full md:h-auto max-w-[480px]"
                     size="lg"
@@ -488,7 +497,7 @@ const Borrow = () => {
                           mr={2}
                         >
                           <Text mb={1} ml={5} textStyle="caption">
-                            {t('views.lending.collateral')}
+                            {t("views.lending.collateral")}
                           </Text>
                         </Flex>
 
@@ -511,7 +520,7 @@ const Borrow = () => {
                               <Text textStyle="caption" variant="primaryBtn">
                                 {collateralLendingAsset?.ltvPercentage
                                   ? `${collateralLendingAsset.ltvPercentage}%`
-                                  : 'N/A'}
+                                  : "N/A"}
                               </Text>
                             </Box>
                           }
@@ -524,7 +533,7 @@ const Borrow = () => {
 
                       <Flex direction="column" mb={2}>
                         <Text mb={1} ml={5} textStyle="caption">
-                          {t('views.lending.borrow')}
+                          {t("views.lending.borrow")}
                         </Text>
 
                         <AssetInput
@@ -532,7 +541,7 @@ const Borrow = () => {
                           disabled
                           assets={outputAssets
                             .filter((asset) => isLedgerLiveSupportedInputAsset(asset.asset))
-                            .filter((outputAsset) => outputAsset.asset.type !== 'Synth')}
+                            .filter((outputAsset) => outputAsset.asset.type !== "Synth")}
                           className="flex-1 !py-1"
                           onAssetChange={setBorrowAsset}
                           poolAsset={selectedBorrowAsset}
@@ -545,6 +554,7 @@ const Borrow = () => {
                               isOutputWalletConnected={!!borrowAddress}
                               outputAssetChain={borrowAsset.chain}
                               recipient={recipient}
+                              setIsValidRecipient={setIsValidRecipient}
                               setRecipient={setRecipient}
                             />
                           </Flex>
@@ -556,7 +566,7 @@ const Borrow = () => {
                         outputAsset={borrowAsset}
                         quote={borrowQuote}
                         stream={stream}
-                        title={t('views.lending.txOptimizeTitle')}
+                        title={t("views.lending.txOptimizeTitle")}
                         toggleStream={toggleStream}
                       />
 
@@ -567,7 +577,7 @@ const Borrow = () => {
                           <InfoTip
                             title={
                               <Text color="brand.yellow" mx={2} textStyle="caption">
-                                {t('views.lending.slippageBorrowWarning')}
+                                {t("views.lending.slippageBorrowWarning")}
                               </Text>
                             }
                             type="warn"

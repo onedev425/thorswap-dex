@@ -1,27 +1,27 @@
-import type { TxTrackerDetails } from '@swapkit/api';
-import { TxStatus } from '@swapkit/api';
+import type { TxTrackerDetails } from "@swapkit/api";
+import { TxStatus } from "@swapkit/api";
 import type {
   TrackerParams,
   TrackerResponse,
   TxnMeta,
   TxnTransient,
-} from '@swapkit/api/src/thorswapApiV2/types';
-import { TrackingStatus } from '@swapkit/api/src/thorswapApiV2/types';
-import { AssetValue, ChainIdToChain } from '@swapkit/core';
-import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
-import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
-import { useEffect, useMemo, useState } from 'react';
-import { useAppDispatch } from 'store/store';
-import { useGetTxStatusV2Query } from 'store/thorswap/api';
-import { updateTransaction } from 'store/transactions/slice';
-import type { PendingTransactionType } from 'store/transactions/types';
+} from "@swapkit/api/src/thorswapApiV2/types";
+import { TrackingStatus } from "@swapkit/api/src/thorswapApiV2/types";
+import { AssetValue, ChainIdToChain } from "@swapkit/core";
+import { getSimpleTxStatus } from "components/TransactionManager/helpers";
+import { useCompleteTransaction } from "components/TransactionManager/useCompleteTransaction";
+import { useEffect, useMemo, useState } from "react";
+import { useAppDispatch } from "store/store";
+import { useGetTxStatusV2Query } from "store/thorswap/api";
+import { updateTransaction } from "store/transactions/slice";
+import type { PendingTransactionType } from "store/transactions/types";
 
 export const useTrackerV2 = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
   const { id, txid, type, label, route, details, completed } = tx || {};
 
   // @ts-expect-error
-  const sellAssetString = route?.sellAsset || '';
+  const sellAssetString = route?.sellAsset || "";
   const canFetchDetails = !!txid && !!sellAssetString;
   const { onCompleteTransaction } = useCompleteTransaction(tx);
   const sellAsset = sellAssetString ? AssetValue.fromStringSync(sellAssetString) : null;
@@ -48,11 +48,9 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
 
     if (isCompleted) {
       onCompleteTransaction({ status, details: data });
-    } else {
-      if (id) {
-        const txDetails = data;
-        appDispatch(updateTransaction({ id, details: txDetails }));
-      }
+    } else if (id) {
+      const txDetails = data;
+      appDispatch(updateTransaction({ id, details: txDetails }));
     }
   }, [appDispatch, data, id, isCompleted, onCompleteTransaction]);
 
@@ -76,7 +74,7 @@ export const useTransactionDetailsV2 = (payload: TrackerParams | null, skip?: bo
 
   const apiError =
     resData?.trackingStatus === TrackingStatus.parsing_error
-      ? { message: 'An error occured' }
+      ? { message: "An error occured" }
       : null;
 
   const data = useMemo(() => {
@@ -103,14 +101,16 @@ function mapToV1TrackerDetails(
   const transient = payload.transient ? { ...payload.transient, estimatedFinalizedAt } : undefined;
 
   return {
-    quoteId: '',
+    quoteId: "",
     firstTransactionHash: payload.hash,
+    currentLegIndex: transient?.currentLegIndex || 0,
     legs: payload.legs.map((leg) => ({
       ...leg,
       chain: ChainIdToChain[leg.chainId],
       fromAssetImage: leg.meta?.images?.from,
       toAssetImage: leg.meta?.images?.to,
       provider: leg.meta?.provider,
+      status: mapTxStatusToV1Status(leg.trackingStatus),
     })),
     status: mapTxStatusToV1Status(payload.trackingStatus),
     startTimestamp: null,

@@ -1,18 +1,18 @@
-import classNames from 'classnames';
-import { Box, Icon } from 'components/Atomic';
-import useWindowSize from 'hooks/useWindowSize';
-import { useEffect, useMemo } from 'react';
-import { useSortBy, useTable } from 'react-table';
+import classNames from "classnames";
+import { Box, Icon } from "components/Atomic";
+import useWindowSize from "hooks/useWindowSize";
+import { useEffect, useMemo } from "react";
+import { useSortBy, useTable } from "react-table";
 
-import { TableHeaderGroup } from './TableHeaderGroup';
-import { TableRows } from './TableRows';
+import { TableHeaderGroup } from "./TableHeaderGroup";
+import { TableRows } from "./TableRows";
 import type {
   InitialTableSort,
   TableColumnsConfig,
   TableData,
   TableHeaderGroupType,
   TableRowType,
-} from './types';
+} from "./types";
 
 export type TableProps = {
   data: TableData[];
@@ -84,7 +84,7 @@ export const Table = ({
   return (
     <table
       {...tableProps}
-      className={classNames('relative border-separate border-spacing-y-1', { 'w-full': stretch })}
+      className={classNames("relative border-separate border-spacing-y-1", { "w-full": stretch })}
     >
       <thead>
         {headerGroups.map((headerGroup: TableHeaderGroupType) => (
@@ -92,7 +92,7 @@ export const Table = ({
         ))}
       </thead>
 
-      <tbody {...bodyProps} className={classNames({ 'opacity-30': loading })}>
+      <tbody {...bodyProps} className={classNames({ "opacity-30": loading })}>
         <TableRows
           hasShadow={hasShadow}
           onRowClick={onRowClick}

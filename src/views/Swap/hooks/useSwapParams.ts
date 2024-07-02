@@ -1,8 +1,8 @@
-import type { AssetValue } from '@swapkit/core';
-import { BaseDecimal, SwapKitNumber } from '@swapkit/core';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useApp } from 'store/app/hooks';
+import type { AssetValue } from "@swapkit/sdk";
+import { BaseDecimal, SwapKitNumber } from "@swapkit/sdk";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useApp } from "store/app/hooks";
 
 type Props = {
   selectedRoute?: RouteWithApproveType;
@@ -28,7 +28,7 @@ export const useSwapParams = ({
 }: Props) => {
   const isDexAgg = useMemo(
     () =>
-      selectedRoute?.calldata?.memo ? selectedRoute.calldata.memo.split(':').length >= 8 : false,
+      selectedRoute?.calldata?.memo ? selectedRoute.calldata.memo.split(":").length >= 8 : false,
     [selectedRoute?.calldata?.memo],
   );
   const [streamSwap, setStreamSwap] = useState(false);
@@ -61,7 +61,7 @@ export const useSwapParams = ({
       return 3;
     }
 
-    return Number(limit.split('/')[1]) || 3;
+    return Number(limit.split("/")[1]) || 3;
   }, [selectedRoute?.calldata?.memoStreamingSwap]);
 
   const streamingValue = useMemo(() => {
@@ -106,7 +106,7 @@ export const useSwapParams = ({
       decimal: outputAsset.decimal,
     });
 
-    if (!selectedRoute || inputAmount.getValue('number') === 0) {
+    if (!selectedRoute || inputAmount.getValue("number") === 0) {
       return new SwapKitNumber({ value: 0, decimal: outputAsset.decimal });
     }
 
@@ -218,9 +218,9 @@ export const useSwapParams = ({
           from: outputAsset.decimal || BaseDecimal.THOR,
           to: BaseDecimal.THOR,
         })
-          .getValue('bigint')
+          .getValue("bigint")
           .toString()
-      : '0';
+      : "0";
 
     const updatedStreamingSwapMemo = updateMemoLimit(selectedRoute.calldata?.memoStreamingSwap, {
       minAmount: memoMinAmount,
@@ -230,7 +230,7 @@ export const useSwapParams = ({
 
     // @ts-expect-error TODO fix typing v2 quotes
     const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo || selectedRoute.memo, {
-      minAmount: noSlipProtection ? '' : memoMinAmount,
+      minAmount: noSlipProtection ? "" : memoMinAmount,
     });
 
     const calldata = streamSwap
@@ -276,37 +276,37 @@ export function updateMemoLimit(
   memo: string,
   { minAmount, interval, subswaps }: { minAmount?: string; interval?: number; subswaps?: number },
 ) {
-  const memoParts = memo?.split(':');
+  const memoParts = memo?.split(":");
   const memoLimitIndex = 3;
 
   if (!memoParts || memoParts?.length < memoLimitIndex + 1) {
     return memo;
   }
 
-  const isStreamingSwapLimit = memoParts[memoLimitIndex].includes('/');
+  const isStreamingSwapLimit = memoParts[memoLimitIndex].includes("/");
 
   const initialLimitValue = memoParts[memoLimitIndex];
 
   if (isStreamingSwapLimit) {
-    const updatedLimit = minAmount || initialLimitValue.split('/')[0];
-    const updatedInterval = interval || initialLimitValue.split('/')[1];
-    const updatedSubswaps = subswaps || initialLimitValue.split('/')[2];
+    const updatedLimit = minAmount || initialLimitValue.split("/")[0];
+    const updatedInterval = interval || initialLimitValue.split("/")[1];
+    const updatedSubswaps = subswaps || initialLimitValue.split("/")[2];
 
-    memoParts[memoLimitIndex] = `${updatedLimit || '0'}/${updatedInterval || '0'}/${
-      updatedSubswaps || '0'
+    memoParts[memoLimitIndex] = `${updatedLimit || "0"}/${updatedInterval || "0"}/${
+      updatedSubswaps || "0"
     }`;
   } else {
-    memoParts[memoLimitIndex] = minAmount || '0';
+    memoParts[memoLimitIndex] = minAmount || "0";
   }
 
-  return memoParts.join(':');
+  return memoParts.join(":");
 }
 
 export function getMemoPart(memo?: string, partNumber?: number) {
-  if (!memo || !partNumber) {
+  if (!(memo && partNumber)) {
     return null;
   }
 
-  const memoParts = memo.split(':');
+  const memoParts = memo.split(":");
   return memoParts[partNumber];
 }

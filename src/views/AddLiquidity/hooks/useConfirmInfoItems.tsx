@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { t } from "services/i18n";
 
 type Params = {
   assets: { asset: AssetValue; value: string }[];
@@ -24,7 +24,7 @@ export const useConfirmInfoItems = ({
   estimatedTime,
 }: Params) => {
   const assetsInfo = assets.map((data) => ({
-    label: `${t('views.liquidity.depositAmount')} ${data.asset.symbol}`,
+    label: `${t("views.liquidity.depositAmount")} ${data.asset.symbol}`,
     value: (
       <Box alignCenter justify="between">
         <Text className="mx-2" fontWeight="semibold">
@@ -36,11 +36,11 @@ export const useConfirmInfoItems = ({
   }));
 
   const feesInfo = fees.map((data) => ({
-    label: `${data.chain === 'THOR' ? 'THORChain' : data.chain} ${t('common.fee')}`,
+    label: `${data.chain === "THOR" ? "THORChain" : data.chain} ${t("common.fee")}`,
     value: (
       <InfoWithTooltip
-        tooltip={t('views.liquidity.chainFeeTooltip', {
-          chain: data.chain === 'THOR' ? 'THORChain' : data.chain,
+        tooltip={t("views.liquidity.chainFeeTooltip", {
+          chain: data.chain === "THOR" ? "THORChain" : data.chain,
         })}
         value={data.fee}
       />
@@ -50,26 +50,26 @@ export const useConfirmInfoItems = ({
   const confirmInfoItems: InfoRowConfig[] = [
     ...assetsInfo,
     {
-      label: t('views.wallet.slip'),
+      label: t("views.wallet.slip"),
       value: (
-        <InfoWithTooltip tooltip={t('views.wallet.slippageTooltip')} value={slippage || 'N/A'} />
+        <InfoWithTooltip tooltip={t("views.wallet.slippageTooltip")} value={slippage || "N/A"} />
       ),
     },
     {
-      label: t('views.liquidity.poolShareEstimated'),
-      value: <InfoWithTooltip tooltip={t('views.liquidity.poolShareTooltip')} value={poolShare} />,
+      label: t("views.liquidity.poolShareEstimated"),
+      value: <InfoWithTooltip tooltip={t("views.liquidity.poolShareTooltip")} value={poolShare} />,
     },
     ...feesInfo,
     {
-      label: t('views.wallet.totalFee'),
+      label: t("views.wallet.totalFee"),
       value: (
-        <InfoWithTooltip tooltip={t('views.wallet.totalFeeTooltip')} value={totalFee || 'N/A'} />
+        <InfoWithTooltip tooltip={t("views.wallet.totalFeeTooltip")} value={totalFee || "N/A"} />
       ),
     },
     {
-      label: t('views.wallet.estimatedTime'),
+      label: t("views.wallet.estimatedTime"),
       value: (
-        <InfoWithTooltip tooltip={t('views.wallet.estimatedTimeTooltip')} value={estimatedTime} />
+        <InfoWithTooltip tooltip={t("views.wallet.estimatedTimeTooltip")} value={estimatedTime} />
       ),
     },
   ];

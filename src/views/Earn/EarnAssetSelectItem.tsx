@@ -1,13 +1,13 @@
-import { CircularProgress, Flex, Spinner, Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Tooltip } from 'components/Atomic';
-import { memo } from 'react';
-import { t } from 'services/i18n';
-import { getFormattedPercent } from 'views/Earn/utils';
+import { CircularProgress, Flex, Spinner, Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Tooltip } from "components/Atomic";
+import { memo } from "react";
+import { t } from "services/i18n";
+import { getFormattedPercent } from "views/Earn/utils";
 
-import type { AssetSelectType } from '../../components/AssetSelect/types';
+import type { AssetSelectType } from "../../components/AssetSelect/types";
 
 type Props = AssetSelectType & {
   select: (asset: AssetValue) => void;
@@ -20,9 +20,9 @@ export const EarnAssetSelectItem = memo(
       <Box
         alignCenter
         className={classNames(
-          'dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent',
+          "dark:bg-dark-dark-gray bg-btn-light-tint z-0 lig rounded-3xl p-2 hover:duration-150 transition cursor-pointer  dark:hover:bg-dark-border-primary hover:bg-btn-light-tint-active border border-transparent",
           {
-            'brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary':
+            "brightness-90 dark:brightness-110 dark:!bg-dark-border-primary !bg-btn-light-tint-active border-btn-primary":
               isSelected,
           },
         )}
@@ -47,11 +47,11 @@ export const EarnAssetSelectItem = memo(
                   textTransform="uppercase"
                   variant="secondary"
                 >
-                  {t('common.APR')}
+                  {t("common.APR")}
                 </Text>
-                {typeof apr !== 'undefined' ? (
+                {typeof apr !== "undefined" ? (
                   <Text textStyle="caption" variant="primaryBtn">
-                    {apr ? apr : 'N/A'}
+                    {apr ? apr : "N/A"}
                   </Text>
                 ) : (
                   <Spinner size="xs" />
@@ -67,8 +67,8 @@ export const EarnAssetSelectItem = memo(
               </Text>
             )}
 
-            {typeof filled !== 'undefined' && (
-              <Tooltip content={`${t('common.filled')}: ${getFormattedPercent(filled) || 'N/A'}`}>
+            {typeof filled !== "undefined" && (
+              <Tooltip content={`${t("common.filled")}: ${getFormattedPercent(filled) || "N/A"}`}>
                 <Flex position="relative">
                   <CircularProgress
                     color="brand.btnPrimary"
@@ -86,7 +86,7 @@ export const EarnAssetSelectItem = memo(
                     top={0}
                   >
                     <Text
-                      className={classNames('text-[10px]', { 'text-[9px]': filled >= 100 })}
+                      className={classNames("text-[10px]", { "text-[9px]": filled >= 100 })}
                       fontWeight="semibold"
                       textStyle="caption-xs"
                       variant="secondary"

@@ -1,7 +1,7 @@
-import * as colors from '../styles/colors';
-import type { CurvedLineChartType } from '../types';
+import * as colors from "../styles/colors";
+import type { CurvedLineChartType } from "../types";
 
-import { getColor } from './utils';
+import { getColor } from "./utils";
 
 const primaryStrokeColors = [
   colors.StrokeColor1,
@@ -28,18 +28,18 @@ export const getDataForCurvedLineChart = (
     labels: dataLabels.length === 1 ? Array(dataValues.length).fill(dataLabels[0]) : dataLabels,
     datasets: [
       {
-        label: '',
-        backgroundColor: getColor(activeBgColors, 'background'),
-        borderColor: getColor(activeStrokeColors, 'stroke'),
+        label: "",
+        backgroundColor: getColor(activeBgColors, "background"),
+        borderColor: getColor(activeStrokeColors, "stroke"),
         borderWidth: 2,
         data: dataValues,
         fill: true,
-        cubicInterpolationMode: 'default',
+        cubicInterpolationMode: "default",
         tension: 0.4,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 6,
-        pointBackgroundColor: 'transparent',
-        pointBorderColor: 'transparent',
+        pointBackgroundColor: "transparent",
+        pointBorderColor: "transparent",
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,

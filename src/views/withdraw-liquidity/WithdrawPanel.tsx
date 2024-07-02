@@ -1,44 +1,44 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from "@chakra-ui/react";
 import {
   AssetValue,
   Chain,
+  SwapKitNumber,
   getAsymmetricAssetWithdrawAmount,
   getAsymmetricRuneWithdrawAmount,
   getSymmetricWithdraw,
-  SwapKitNumber,
-} from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button } from 'components/Atomic';
-import { GlobalSettingsPopover } from 'components/GlobalSettings';
-import { InfoTable } from 'components/InfoTable';
-import { InfoTip } from 'components/InfoTip';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { LiquidityType } from 'components/LiquidityType/LiquidityType';
-import { LPTypeSelector } from 'components/LPTypeSelector';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import { PanelView } from 'components/PanelView';
-import { showErrorToast, showInfoToast } from 'components/Toast';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { RUNEAsset } from 'helpers/assets';
-import { parseAssetToToken } from 'helpers/parseHelpers';
-import { useMimir } from 'hooks/useMimir';
-import { useNetworkFee } from 'hooks/useNetworkFee';
-import { useTokenPrices } from 'hooks/useTokenPrices';
-import { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { getAddLiquidityRoute } from 'settings/router';
-import { useExternalConfig } from 'store/externalConfig/hooks';
-import type { FullMemberPool } from 'store/midgard/types';
-import { LiquidityTypeOption, PoolShareType } from 'store/midgard/types';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+} from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button } from "components/Atomic";
+import { GlobalSettingsPopover } from "components/GlobalSettings";
+import { InfoTable } from "components/InfoTable";
+import { InfoTip } from "components/InfoTip";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { LPTypeSelector } from "components/LPTypeSelector";
+import { LiquidityType } from "components/LiquidityType/LiquidityType";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import { PanelView } from "components/PanelView";
+import { showErrorToast, showInfoToast } from "components/Toast";
+import { ViewHeader } from "components/ViewHeader";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { RUNEAsset } from "helpers/assets";
+import { parseAssetToToken } from "helpers/parseHelpers";
+import { useMimir } from "hooks/useMimir";
+import { useNetworkFee } from "hooks/useNetworkFee";
+import { useTokenPrices } from "hooks/useTokenPrices";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { getAddLiquidityRoute } from "settings/router";
+import { useExternalConfig } from "store/externalConfig/hooks";
+import type { FullMemberPool } from "store/midgard/types";
+import { LiquidityTypeOption, PoolShareType } from "store/midgard/types";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
-import { AssetInputs } from './AssetInputs';
+import { AssetInputs } from "./AssetInputs";
 
 export const WithdrawPanel = ({
   poolAsset,
@@ -64,7 +64,7 @@ export const WithdrawPanel = ({
   const { isChainPauseLPAction } = useMimir();
   const { getChainWithdrawLPPaused } = useExternalConfig();
 
-  const isLPActionPaused: boolean = useMemo(() => {
+  const isLPActionPaused = useMemo(() => {
     return (
       isChainPauseLPAction(poolAsset.chain) || getChainWithdrawLPPaused(poolAsset.chain as Chain)
     );
@@ -99,7 +99,7 @@ export const WithdrawPanel = ({
 
   const { feeInUSD } = useNetworkFee({
     inputAsset: withdrawType === LiquidityTypeOption.ASSET ? poolAsset : RUNEAsset,
-    type: 'outbound',
+    type: "outbound",
   });
 
   const { runeAmount, assetAmount } = useMemo(() => {
@@ -123,9 +123,9 @@ export const WithdrawPanel = ({
     const params = {
       percent: percent / 100,
       liquidityUnits: sharedUnits,
-      poolUnits: poolUnits || '0',
-      assetDepth: poolAssetDepth || '0',
-      runeDepth: poolRuneDepth || '0',
+      poolUnits: poolUnits || "0",
+      assetDepth: poolAssetDepth || "0",
+      runeDepth: poolRuneDepth || "0",
     };
 
     return withdrawType === LiquidityTypeOption.SYMMETRICAL
@@ -173,11 +173,11 @@ export const WithdrawPanel = ({
     switch (lpType) {
       case PoolShareType.PENDING:
       case PoolShareType.SYM:
-        return 'sym';
+        return "sym";
       case PoolShareType.RUNE_ASYM:
-        return 'rune';
+        return "baseAsset";
       case PoolShareType.ASSET_ASYM:
-        return 'asset';
+        return "asset";
     }
   }, [lpType]);
 
@@ -188,11 +188,11 @@ export const WithdrawPanel = ({
 
     switch (withdrawType) {
       case LiquidityTypeOption.SYMMETRICAL:
-        return 'sym';
+        return "sym";
       case LiquidityTypeOption.RUNE:
-        return 'rune';
+        return "baseAsset";
       case LiquidityTypeOption.ASSET:
-        return 'asset';
+        return "asset";
     }
   }, [lpType, withdrawFrom, withdrawType]);
 
@@ -203,44 +203,44 @@ export const WithdrawPanel = ({
 
     const runeObject = AssetValue.fromChainOrSignature(
       Chain.THORChain,
-      runeAmount.getValue('string'),
+      runeAmount.getValue("string"),
     );
     const assetObject = poolAsset.add(assetAmount);
-    const withdrawChain = withdrawTo === 'asset' ? poolAsset.chain : Chain.THORChain;
+    const withdrawChain = withdrawTo === "asset" ? poolAsset.chain : Chain.THORChain;
     const outAssets =
-      withdrawTo === 'sym'
+      withdrawTo === "sym"
         ? [runeObject, assetObject]
-        : withdrawTo === 'rune'
+        : withdrawTo === "baseAsset"
           ? [runeObject]
           : [assetObject];
 
     const label = outAssets
       .map((outAsset) => `${outAsset.toSignificant(6)} ${outAsset.ticker}`)
-      .join(' & ');
+      .join(" & ");
 
     const id = v4();
     appDispatch(
       addTransaction({ id, type: TransactionType.TC_LP_WITHDRAW, inChain: withdrawChain, label }),
     );
-    const { thorchain } = await (await import('services/swapKit')).getSwapKitClient();
+    const { thorchain } = await (await import("services/swapKit")).getSwapKitClient();
 
     try {
       if (!thorchain) {
-        throw new Error('THORChain Provider not found');
+        throw new Error("THORChain Provider not found");
       }
       const txid = await thorchain.withdraw({
         assetValue: poolAsset,
-        percent: new SwapKitNumber({ value: percent, decimal: 2 }).getValue('number'),
+        percent: new SwapKitNumber({ value: percent, decimal: 2 }).getValue("number"),
         from: withdrawFrom,
         to: withdrawTo,
       });
 
       appDispatch(updateTransaction({ id, txid }));
-    } catch (error: NotWorth) {
+    } catch (error) {
       logException(error as Error);
-      const message = error?.data?.originMessage || error;
-      showErrorToast(t('notification.submitFail'), message, undefined, error as Error);
-      appDispatch(completeTransaction({ id, status: 'error' }));
+      const message = (error as Todo)?.data?.originMessage || error;
+      showErrorToast(t("notification.submitFail"), message, undefined, error as Error);
+      appDispatch(completeTransaction({ id, status: "error" }));
     }
   }, [
     hasWallet,
@@ -257,12 +257,12 @@ export const WithdrawPanel = ({
     if (hasWallet) {
       setVisibleConfirmModal(true);
     } else {
-      showInfoToast(t('notification.walletNotFound'), t('notification.connectWallet'));
+      showInfoToast(t("notification.walletNotFound"), t("notification.connectWallet"));
     }
   }, [hasWallet]);
 
   const title = useMemo(
-    () => `${t('common.withdraw')} ${poolAsset.ticker} ${t('common.liquidity')}`,
+    () => `${t("common.withdraw")} ${poolAsset.ticker} ${t("common.liquidity")}`,
     [poolAsset],
   );
 
@@ -289,9 +289,7 @@ export const WithdrawPanel = ({
     ) {
       withdrawArray.push({
         asset: AssetValue.fromChainOrSignature(Chain.THORChain),
-        value: `${runeAmount.toSignificant(6)} RUNE ($${(
-          (runePrice || 0) * runeAmount.getValue('number')
-        )?.toFixed(2)})`,
+        value: `${runeAmount.toSignificant(6)} RUNE ($${((runePrice || 0) * runeAmount.getValue("number"))?.toFixed(2)})`,
       });
     }
 
@@ -301,9 +299,7 @@ export const WithdrawPanel = ({
     ) {
       withdrawArray.push({
         asset: poolAsset,
-        value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} ($${(
-          (assetPrice || 0) * assetAmount.getValue('number')
-        )?.toFixed(2)})`,
+        value: `${assetAmount.toSignificant(6)} ${poolAsset.ticker} ($${((assetPrice || 0) * assetAmount.getValue("number"))?.toFixed(2)})`,
       });
     }
 
@@ -319,7 +315,7 @@ export const WithdrawPanel = ({
     () =>
       withdrawAssets
         .map((data) => ({
-          label: `${t('common.withdraw')} ${data.asset.ticker} (${data.asset.type})`,
+          label: `${t("common.withdraw")} ${data.asset.ticker} (${data.asset.type})`,
           value: (
             <Box alignCenter justify="between">
               <Text className="mx-2" fontWeight="semibold">
@@ -331,9 +327,9 @@ export const WithdrawPanel = ({
         }))
         .concat([
           {
-            label: t('common.transactionFee'),
+            label: t("common.transactionFee"),
             value: (
-              <InfoWithTooltip tooltip={t('views.liquidity.gasFeeTooltip')} value={feeInUSD} />
+              <InfoWithTooltip tooltip={t("views.liquidity.gasFeeTooltip")} value={feeInUSD} />
             ),
           },
         ]),
@@ -346,10 +342,10 @@ export const WithdrawPanel = ({
         warningWithPendingWithdraw
           ? [
               {
-                label: '',
+                label: "",
                 value: (
                   <Flex alignSelf="center" justify="center" p="4">
-                    <Text color="yellow.400">{t('pendingLiquidity.withdrawWarning')}</Text>
+                    <Text color="yellow.400">{t("pendingLiquidity.withdrawWarning")}</Text>
                   </Flex>
                 ),
               },
@@ -362,14 +358,14 @@ export const WithdrawPanel = ({
   return (
     <PanelView
       header={<ViewHeader withBack actionsComponent={<GlobalSettingsPopover />} title={title} />}
-      title={t('views.liquidity.withdrawLiquidity')}
+      title={t("views.liquidity.withdrawLiquidity")}
     >
       <LiquidityType
         onChange={setWithdrawType}
         options={withdrawOptions}
         poolAsset={poolAsset}
         selected={withdrawType}
-        title={`${t('views.liquidity.withdraw')}:`}
+        title={`${t("views.liquidity.withdraw")}:`}
       />
 
       <LPTypeSelector
@@ -377,7 +373,7 @@ export const WithdrawPanel = ({
         options={Object.keys(shares) as PoolShareType[]}
         poolAsset={poolAsset}
         selected={lpType}
-        title={`${t('views.liquidity.from')}:`}
+        title={`${t("views.liquidity.from")}:`}
       />
 
       <AssetInputs
@@ -392,7 +388,7 @@ export const WithdrawPanel = ({
       {shares.pending && (
         <InfoTip
           onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
-          title={t('pendingLiquidity.content', { asset: `${poolAsset.ticker} or RUNE` })}
+          title={t("pendingLiquidity.content", { asset: `${poolAsset.ticker} or RUNE` })}
           type="warn"
         />
       )}
@@ -400,7 +396,7 @@ export const WithdrawPanel = ({
       {warningWithPendingWithdraw && (
         <InfoTip
           onClick={() => navigate(getAddLiquidityRoute(poolAsset))}
-          title={t('pendingLiquidity.withdrawWarning')}
+          title={t("pendingLiquidity.withdrawWarning")}
           type="warn"
         />
       )}
@@ -412,15 +408,15 @@ export const WithdrawPanel = ({
       <Box className="self-stretch gap-4 pt-5">
         {isLPActionPaused ? (
           <Button stretch size="lg" variant="secondary">
-            {t('views.liquidity.withdrawNotAvailable')}
+            {t("views.liquidity.withdrawNotAvailable")}
           </Button>
         ) : isWalletConnected ? (
           <Button stretch onClick={handleWithdrawLiquidity} size="lg" variant="secondary">
-            {t('common.withdraw')}
+            {t("common.withdraw")}
           </Button>
         ) : (
           <Button stretch onClick={() => setIsConnectModalOpen(true)} size="lg" variant="fancy">
-            {t('common.connectWallet')}
+            {t("common.connectWallet")}
           </Button>
         )}
       </Box>

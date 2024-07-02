@@ -1,15 +1,15 @@
-import { Text } from '@chakra-ui/react';
-import { FeeOption } from '@swapkit/core';
-import { Box, Button, Collapse, Icon, Select } from 'components/Atomic';
-import type { InfoRowConfig } from 'components/InfoRow/types';
-import { InfoTable } from 'components/InfoTable';
-import { InfoWithTooltip } from 'components/InfoWithTooltip';
-import { useFormatPrice } from 'helpers/formatPrice';
-import type { MouseEventHandler } from 'react';
-import { useCallback, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { IS_LEDGER_LIVE } from 'settings/config';
-import { useApp } from 'store/app/hooks';
+import { Text } from "@chakra-ui/react";
+import { FeeOption } from "@swapkit/sdk";
+import { Box, Button, Collapse, Icon, Select } from "components/Atomic";
+import type { InfoRowConfig } from "components/InfoRow/types";
+import { InfoTable } from "components/InfoTable";
+import { InfoWithTooltip } from "components/InfoWithTooltip";
+import { useFormatPrice } from "helpers/formatPrice";
+import type { MouseEventHandler } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { IS_LEDGER_LIVE } from "settings/config";
+import { useApp } from "store/app/hooks";
 
 type Props = {
   affiliateBasisPoints: number;
@@ -66,7 +66,7 @@ export const SwapInfo = ({
     const price = reverted ? outputUnitPrice : inputUnitPrice;
 
     return {
-      rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : '-',
+      rateDesc: rate > 0 ? `1 ${firstAsset} = ${rate.toFixed(decimals)} ${secondAsset}` : "-",
       ratePrice: `(${formatPrice(price)})`,
     };
   }, [formatPrice, inputAsset, inputUnitPrice, outputAsset, outputUnitPrice, reverted]);
@@ -78,36 +78,37 @@ export const SwapInfo = ({
   }, [networkFee, affiliateFee, setFeeModalOpened]);
 
   const discountLabel = useMemo(() => {
-    if (whaleDiscount && vTHORDiscount) return 'vTHOR + 🐳 Whale 50% Off';
-    if (whaleDiscount) return '🐳 Whale 50% Off';
-    if (vTHORDiscount) return 'vTHOR';
-    return '';
+    if (whaleDiscount && vTHORDiscount) return "vTHOR + 🐳 Whale 50% Off";
+    if (whaleDiscount) return "🐳 Whale 50% Off";
+    if (vTHORDiscount) return "vTHOR";
+    return "";
   }, [vTHORDiscount, whaleDiscount]);
 
   const rows = useMemo(
     () =>
       [
         {
-          label: t('views.wallet.expectedOutput'),
+          label: t("views.wallet.expectedOutput"),
           value: (
             <InfoWithTooltip
-              tooltip={t('views.wallet.expectedOutputTooltip')}
+              tooltip={t("views.wallet.expectedOutputTooltip")}
               value={expectedOutput}
             />
           ),
         },
-        !streamSwap
-          ? {
-              label: t('views.swap.minReceivedAfterSlip', {
-                slippage: minReceiveSlippage > 0 ? `${minReceiveSlippage}%` : '-',
+        streamSwap
+          ? null
+          : {
+              label: t("views.swap.minReceivedAfterSlip", {
+                slippage: minReceiveSlippage > 0 ? `${minReceiveSlippage}%` : "-",
               }),
               value: (
                 <InfoWithTooltip
-                  tooltip={t('views.wallet.minReceivedTooltip')}
+                  tooltip={t("views.wallet.minReceivedTooltip")}
                   value={
                     minReceiveSlippage === 0 ? (
                       <Text color="brand.yellow" fontWeight="semibold" textStyle="caption">
-                        {t('views.swap.noProtection')}
+                        {t("views.swap.noProtection")}
                       </Text>
                     ) : (
                       minReceive
@@ -115,12 +116,11 @@ export const SwapInfo = ({
                   }
                 />
               ),
-            }
-          : null,
+            },
         showTransactionFeeSelect
           ? {
-              key: 'keystoreFee',
-              label: t('common.transactionFee'),
+              key: "keystoreFee",
+              label: t("common.transactionFee"),
               value: (
                 <Select
                   activeIndex={feeOptions.indexOf(feeOptionType)}
@@ -136,7 +136,7 @@ export const SwapInfo = ({
           label: (
             <Box center className="gap-2 group">
               <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                {t('views.wallet.networkFee')}
+                {t("views.wallet.networkFee")}
               </Text>
               {!IS_LEDGER_LIVE && (
                 <Box center>
@@ -157,7 +157,7 @@ export const SwapInfo = ({
           onClick: openFeeModal,
           value: (
             <InfoWithTooltip
-              tooltip={t('views.swap.networkFeeTooltip')}
+              tooltip={t("views.swap.networkFeeTooltip")}
               value={
                 <Box center>
                   <Text textStyle="caption">{formatPrice(networkFee)}</Text>
@@ -167,15 +167,15 @@ export const SwapInfo = ({
           ),
         },
         {
-          label: t('views.swap.exchangeFee'),
+          label: t("views.swap.exchangeFee"),
           value: (
             <InfoWithTooltip
               tooltip={
                 affiliateBasisPoints
-                  ? t('views.swap.affiliateFee', {
+                  ? t("views.swap.affiliateFee", {
                       percent: `${(affiliateBasisPoints / 100).toFixed(2)}%`,
                     })
-                  : ''
+                  : ""
               }
               value={
                 <Box center row className="gap-1">
@@ -185,7 +185,7 @@ export const SwapInfo = ({
                         {discountLabel}
                       </Text>
                       <Text textStyle="caption-xs" variant="secondary">
-                        {t('views.swap.discountApplied')}
+                        {t("views.swap.discountApplied")}
                       </Text>
                     </Box>
                   )}
@@ -230,7 +230,7 @@ export const SwapInfo = ({
             className="!p-1 !h-auto"
             leftIcon={<Icon name="switch" size={16} />}
             onClick={toggle}
-            tooltip={t('views.swap.swapAssets')}
+            tooltip={t("views.swap.swapAssets")}
             variant="outlinePrimary"
           />
           {isLoading ? (
@@ -254,7 +254,7 @@ export const SwapInfo = ({
             <Button
               className="h-[30px] px-2"
               leftIcon={<Icon color="secondary" name="fees" size={18} />}
-              tooltip={t('views.swap.totalFeeTooltip')}
+              tooltip={t("views.swap.totalFeeTooltip")}
               variant="tint"
             >
               <Text>{formatPrice(networkFee + affiliateFee)}</Text>

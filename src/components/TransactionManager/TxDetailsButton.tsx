@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/react';
-import { Button, Icon } from 'components/Atomic';
-import { useTransactionsModal } from 'context/txManager/useTransactionsModal';
-import { t } from 'services/i18n';
+import { Box } from "@chakra-ui/react";
+import { Button, Icon } from "components/Atomic";
+import { useTransactionsModal } from "context/txManager/useTransactionsModal";
+import { t } from "services/i18n";
 
 type Props = {
   txid?: string;
@@ -24,7 +24,7 @@ export const TxDetailsButton = ({ txid }: Props) => {
       size="xs"
       variant="outlinePrimary"
     >
-      {t('txManager.details')}
+      {t("txManager.details")}
     </Button>
   );
 };

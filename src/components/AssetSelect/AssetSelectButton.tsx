@@ -1,12 +1,13 @@
-import type { AssetValue } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetButton } from 'components/AssetSelect/AssetButton';
-import { Button, Icon } from 'components/Atomic';
-import { t } from 'services/i18n';
+import type { AssetValue } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetButton } from "components/AssetSelect/AssetButton";
+import { Button, Icon } from "components/Atomic";
+import { t } from "services/i18n";
 
 type Props = {
   className?: string;
   onClick?: () => void;
+  // biome-ignore lint/correctness/noUndeclaredVariables:
   selected?: Maybe<AssetValue>;
   showAssetType?: boolean;
   logoURI?: string;
@@ -36,7 +37,7 @@ export const AssetSelectButton = ({
   }
 
   return (
-    <div className={classNames('pl-8 pr-4', className)}>
+    <div className={classNames("pl-8 pr-4", className)}>
       <Button
         stretch
         onClick={onClick}
@@ -49,7 +50,7 @@ export const AssetSelectButton = ({
         textTransform="uppercase"
         variant="secondary"
       >
-        {t('components.assetSelect.selectAToken')}
+        {t("components.assetSelect.selectAToken")}
       </Button>
     </div>
   );

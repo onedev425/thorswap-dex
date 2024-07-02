@@ -1,14 +1,14 @@
-import { useCallback, useMemo } from 'react';
-import { useGetQueueQuery } from 'store/midgard/api';
+import { useCallback, useMemo } from "react";
+import { useGetQueueQuery } from "store/midgard/api";
 
 const QUEUE_BUSY_LEVEL = 30;
 const QUEUE_SLOW_LEVEL = 10;
 
 export enum StatusType {
-  Good = 'Good',
-  Slow = 'Slow',
-  Busy = 'Busy',
-  Offline = 'Offline',
+  Good = "Good",
+  Slow = "Slow",
+  Busy = "Busy",
+  Offline = "Offline",
 }
 
 export const useNetwork = () => {

@@ -1,12 +1,12 @@
-import type { AssetInputType } from 'components/AssetInput/types';
-import { ConfirmModal } from 'components/Modals/ConfirmModal';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useWallet } from 'context/wallet/hooks';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppSelector } from 'store/store';
-import { useLazyGetAddressVerifyQuery } from 'store/thorswap/api';
+import type { AssetInputType } from "components/AssetInput/types";
+import { ConfirmModal } from "components/Modals/ConfirmModal";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useWallet } from "context/wallet/hooks";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "store/store";
+import { useLazyGetAddressVerifyQuery } from "store/thorswap/api";
 
-import { ConfirmContent } from './ConfirmContent';
+import { ConfirmContent } from "./ConfirmContent";
 
 type Props = {
   estimatedTime?: number;
@@ -71,12 +71,12 @@ export const ConfirmSwapModal = memo(
     const addresses = useMemo(() => [from, recipient], [from, recipient]);
 
     const memo = useMemo(() => {
-      if (!selectedRoute) return '';
+      if (!selectedRoute) return "";
       // @ts-expect-error wrong typing on calldata
       const { memoStreamingSwap, memo, tcMemo } = selectedRoute.calldata;
 
       return (
-        (streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || (tcMemo as string)) || ''
+        (streamSwap && memoStreamingSwap ? memoStreamingSwap : memo || (tcMemo as string)) || ""
       );
     }, [selectedRoute, streamSwap]);
 
@@ -88,7 +88,7 @@ export const ConfirmSwapModal = memo(
         chains: [inputAsset.chain, outputAsset.chain],
       });
 
-      const { list } = await import('./addressList');
+      const { list } = await import("./addressList");
 
       if (data?.confirm && !addresses.some((address) => list.includes(address))) {
         setVisible(false);
@@ -107,13 +107,13 @@ export const ConfirmSwapModal = memo(
 
     const estimatedInfo = useMemo(() => {
       const estimatedTotal: number = (
-        estimatedTime && typeof estimatedTime === 'object' && 'total' in estimatedTime
+        estimatedTime && typeof estimatedTime === "object" && "total" in estimatedTime
           ? // @ts-expect-error wrong typing on estimatedTime
             estimatedTime.total
           : estimatedTime
       ) as number;
 
-      if (!estimatedTotal) return '<5s';
+      if (!estimatedTotal) return "<5s";
       if (estimatedTotal < 60) return `<${estimatedTotal}s`;
       return `<${Math.ceil(estimatedTotal / 60)}m`;
     }, [estimatedTime]);

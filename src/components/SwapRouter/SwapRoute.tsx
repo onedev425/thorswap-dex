@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import { type AssetValue, SwapKitNumber } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box } from 'components/Atomic';
-import { HighlightCard } from 'components/HighlightCard';
-import { HoverIcon } from 'components/HoverIcon';
-import { GasPriceIndicator } from 'components/SwapRouter/GasPriceIndicator';
-import { RouteTimeEstimate } from 'components/SwapRouter/RouteTimeEstimate';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { useFormatPrice } from 'helpers/formatPrice';
-import { tokenLogoURL } from 'helpers/logoURL';
-import { memo, useMemo } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { type AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box } from "components/Atomic";
+import { HighlightCard } from "components/HighlightCard";
+import { HoverIcon } from "components/HoverIcon";
+import { GasPriceIndicator } from "components/SwapRouter/GasPriceIndicator";
+import { RouteTimeEstimate } from "components/SwapRouter/RouteTimeEstimate";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { useFormatPrice } from "helpers/formatPrice";
+import { tokenLogoURL } from "helpers/logoURL";
+import { memo, useMemo } from "react";
+import { t } from "services/i18n";
 
-import { ProviderLogos } from './ProviderLogos';
+import { ProviderLogos } from "./ProviderLogos";
 
 type Props = RouteWithApproveType & {
   selected?: boolean;
@@ -38,7 +38,7 @@ export const SwapRoute = memo(
     timeEstimates,
   }: Props) => {
     const formatPrice = useFormatPrice();
-    const [, address] = outputAsset.symbol.split('-');
+    const [, address] = outputAsset.symbol.split("-");
 
     const outputValue = useMemo(
       () => Number.parseFloat((streamSwap && streamingSwap?.expectedOutput) || expectedOutput),
@@ -56,7 +56,7 @@ export const SwapRoute = memo(
     });
 
     const shortPath = useMemo(() => {
-      const pathParts = path.split(' -> ')?.map((part) => part.split('-')?.[0]);
+      const pathParts = path.split(" -> ")?.map((part) => part.split("-")?.[0]);
       return `${pathParts[0]} → ${pathParts[pathParts.length - 1]}`;
     }, [path]);
 
@@ -74,7 +74,7 @@ export const SwapRoute = memo(
               <HoverIcon
                 iconName="approved"
                 size={18}
-                tooltip={t('views.swap.routeContractApproved')}
+                tooltip={t("views.swap.routeContractApproved")}
               />
             )}
           </Box>
@@ -107,7 +107,7 @@ export const SwapRoute = memo(
           </Text>
 
           <RouteTimeEstimate
-            streamSwap={typeof streamSwap === 'boolean' ? streamSwap : !!streamingSwap}
+            streamSwap={typeof streamSwap === "boolean" ? streamSwap : !!streamingSwap}
             timeEstimates={timeEstimates}
           />
         </Box>

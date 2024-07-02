@@ -1,9 +1,9 @@
-import { chakra, Flex, shouldForwardProp, Text } from '@chakra-ui/react';
-import { Tooltip } from 'components/Atomic/Tooltip';
-import { isValidMotionProp, motion } from 'framer-motion';
-import { useCallback, useState } from 'react';
+import { Flex, Text, chakra, shouldForwardProp } from "@chakra-ui/react";
+import { Tooltip } from "components/Atomic/Tooltip";
+import { isValidMotionProp, motion } from "framer-motion";
+import { useCallback, useState } from "react";
 
-import PrizeImg from './gift2.png';
+import PrizeImg from "./gift2.png";
 
 const Box = chakra(motion.div, {
   /**
@@ -44,18 +44,18 @@ export const Gift = ({ onOpen }: Props) => {
 
   return (
     <Flex>
-      <Tooltip content={open ? '' : '?!'}>
+      <Tooltip content={open ? "" : "?!"}>
         <Box
           animate={{
             rotate: open ? wiggleFast : wiggle,
             transition: {
               duration: open ? 1.5 : 3,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: open ? 0 : Number.POSITIVE_INFINITY,
-              repeatType: 'loop',
+              repeatType: "loop",
             },
           }}
-          cursor={onOpen ? 'pointer' : 'default'}
+          cursor={onOpen ? "pointer" : "default"}
           height={`${height}px`}
           onClick={handleOpen}
           position="relative"
@@ -70,7 +70,7 @@ export const Gift = ({ onOpen }: Props) => {
                     scale: [0, 2],
                     translateY: [-45],
                     translateX: [20, 135],
-                    transition: { duration: 0.3, ease: 'easeInOut', delay: 1 },
+                    transition: { duration: 0.3, ease: "easeInOut", delay: 1 },
                   }
                 : { scale: 0 }
             }
@@ -87,11 +87,11 @@ export const Gift = ({ onOpen }: Props) => {
               open
                 ? {
                     scale: [1.8, 2.5],
-                    transition: { duration: 0.3, ease: 'easeInOut', delay: 1 },
+                    transition: { duration: 0.3, ease: "easeInOut", delay: 1 },
                   }
                 : { scale: 1.8 }
             }
-            animation={open ? 'open' : 'stop'}
+            animation={open ? "open" : "stop"}
             bottom={0}
             left={0}
             position="absolute"

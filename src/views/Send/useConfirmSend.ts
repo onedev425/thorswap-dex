@@ -1,12 +1,12 @@
-import type { AssetValue } from '@swapkit/core';
-import { showErrorToast } from 'components/Toast';
-import { useCallback } from 'react';
-import { t } from 'services/i18n';
-import { logException } from 'services/logger';
-import { useAppDispatch } from 'store/store';
-import { addTransaction, completeTransaction, updateTransaction } from 'store/transactions/slice';
-import { TransactionType } from 'store/transactions/types';
-import { v4 } from 'uuid';
+import type { AssetValue, WalletChain } from "@swapkit/sdk";
+import { showErrorToast } from "components/Toast";
+import { useCallback } from "react";
+import { t } from "services/i18n";
+import { logException } from "services/logger";
+import { useAppDispatch } from "store/store";
+import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { TransactionType } from "store/transactions/types";
+import { v4 } from "uuid";
 
 type Params = {
   sendAsset: AssetValue;
@@ -29,10 +29,10 @@ export const useConfirmSend = ({
 
   const handleConfirmSend = useCallback(async () => {
     setIsOpenConfirmModal(false);
-    if (sendAsset && (customTxEnabled || sendAsset.getValue('bigint') > 0)) {
+    if (sendAsset && (customTxEnabled || sendAsset.getValue("bigint") > 0)) {
       const id = v4();
-      const label = `${t('txManager.send')} ${sendAsset.toSignificant(6)} ${
-        sendAsset.isSynthetic ? 'Synth ' : ''
+      const label = `${t("txManager.send")} ${sendAsset.toSignificant(6)} ${
+        sendAsset.isSynthetic ? "Synth " : ""
       }${sendAsset.ticker}`;
 
       appDispatch(
@@ -44,11 +44,11 @@ export const useConfirmSend = ({
           label,
         }),
       );
-      const { thorchain, getWallet } = await (await import('services/swapKit')).getSwapKitClient();
+      const { thorchain, getWallet } = await (await import("services/swapKit")).getSwapKitClient();
 
       try {
         if (!thorchain) {
-          throw new Error('THORChain Provider not found');
+          throw new Error("THORChain Provider not found");
         }
 
         const txid = customTxEnabled
@@ -58,7 +58,7 @@ export const useConfirmSend = ({
               memo,
               from,
             })
-          : ((await getWallet(sendAsset.chain)?.transfer({
+          : ((await getWallet(sendAsset.chain as WalletChain)?.transfer({
               assetValue: sendAsset,
               recipient,
               memo,
@@ -68,11 +68,11 @@ export const useConfirmSend = ({
         if (txid) {
           appDispatch(updateTransaction({ id, txid }));
         }
-      } catch (error: NotWorth) {
+      } catch (error) {
         logException(error as Error);
-        appDispatch(completeTransaction({ id, status: 'error' }));
+        appDispatch(completeTransaction({ id, status: "error" }));
         showErrorToast(
-          t('notification.sendTxFailed'),
+          t("notification.sendTxFailed"),
           error?.toString(),
           undefined,
           error as Error,

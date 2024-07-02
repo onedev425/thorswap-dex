@@ -1,14 +1,14 @@
-import * as colors from 'components/Chart/styles/colors';
+import * as colors from "components/Chart/styles/colors";
 import type {
   AreaChartType,
   BarChartType,
   CurvedLineChartType,
   DataPoint,
   LineChartType,
-} from 'components/Chart/types';
-import { ChartType } from 'components/Chart/types';
+} from "components/Chart/types";
+import { ChartType } from "components/Chart/types";
 
-import { getColor } from './utils';
+import { getColor } from "./utils";
 
 const lightStrokeColors = [colors.LightStrokeColor1];
 
@@ -29,7 +29,7 @@ const getDataForBarChart = (
     labels: dataLabels,
     datasets: [
       {
-        label: '',
+        label: "",
         data: data,
         // @ts-expect-error // TODO @(Faizan)
         backgroundColor: dataInProgress
@@ -38,15 +38,15 @@ const getDataForBarChart = (
                 if (index === data.length - 1)
                   return getColor(
                     [colors.barChartGradientColor3, colors.barChartGradientColor4],
-                    'background',
+                    "background",
                   )(ctx);
                 return getColor(
                   [colors.barChartGradientColor1, colors.barChartGradientColor2],
-                  'background',
+                  "background",
                 )(ctx);
               });
             }
-          : getColor([colors.barChartGradientColor1, colors.barChartGradientColor2], 'background'),
+          : getColor([colors.barChartGradientColor1, colors.barChartGradientColor2], "background"),
         borderWidth: 0,
         borderRadius: 0,
         borderSkipped: false,
@@ -65,21 +65,21 @@ const getDataForAreaChart = (
     labels: dataLabels,
     datasets: [
       {
-        label: '',
+        label: "",
         data: data,
         backgroundColor: getColor(
           [colors.areaChartGradientColor2, colors.areaChartGradientColor1],
-          'background',
+          "background",
         ),
-        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, "stroke"),
         borderWidth: 3,
         fill: true,
-        cubicInterpolationMode: 'monotone',
+        cubicInterpolationMode: "monotone",
         tension: 0.4,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 6,
-        pointBackgroundColor: 'transparent',
-        pointBorderColor: 'transparent',
+        pointBackgroundColor: "transparent",
+        pointBorderColor: "transparent",
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,
@@ -100,22 +100,22 @@ const getDataForLineChart = (
     datasets: [
       {
         data: dataValues,
-        label: '',
+        label: "",
         backgroundColor: getColor(
           isLight
             ? [colors.lightLineChartGradColor1, colors.lightLineChartGradColor2]
             : [colors.lineChartGradientColor1, colors.lineChartGradientColor2],
-          'background',
+          "background",
         ),
-        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, "stroke"),
         borderWidth: 3,
         fill: true,
-        cubicInterpolationMode: 'default',
+        cubicInterpolationMode: "default",
         tension: 0,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 6,
-        pointBackgroundColor: 'transparent',
-        pointBorderColor: 'transparent',
+        pointBackgroundColor: "transparent",
+        pointBorderColor: "transparent",
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,
@@ -135,21 +135,21 @@ const getDataForCurvedLineChart = (
     labels: dataLabels,
     datasets: [
       {
-        label: '',
+        label: "",
         backgroundColor: getColor(
           [colors.curvedLineChartGradientColor1, colors.curvedLineChartGradientColor2],
-          'background',
+          "background",
         ),
-        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, 'stroke'),
+        borderColor: getColor(isLight ? lightStrokeColors : darkStrokeColors, "stroke"),
         borderWidth: 3,
         data: dataValues,
         fill: true,
-        cubicInterpolationMode: 'default',
+        cubicInterpolationMode: "default",
         tension: 0.4,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 6,
-        pointBackgroundColor: 'transparent',
-        pointBorderColor: 'transparent',
+        pointBackgroundColor: "transparent",
+        pointBorderColor: "transparent",
         pointBorderWidth: 4,
         pointHoverRadius: 6,
         pointHoverBorderWidth: 4,

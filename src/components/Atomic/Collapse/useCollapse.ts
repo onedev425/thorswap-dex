@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-const collapseClasses = 'ease-in-out transition-all';
+const collapseClasses = "ease-in-out transition-all";
 
 type Props = {
   defaultExpanded?: boolean;
@@ -36,7 +36,7 @@ export const useCollapse = ({ defaultExpanded, isOpened }: Props = {}) => {
   }, []);
 
   useEffect(() => {
-    if (typeof isOpened !== 'undefined') {
+    if (typeof isOpened !== "undefined") {
       setIsActive(isOpened);
     }
   }, [isOpened]);
@@ -60,10 +60,10 @@ export const useCollapse = ({ defaultExpanded, isOpened }: Props = {}) => {
     measure();
   });
 
-  const maxHeightActive = maxHeight ? `${maxHeight}px` : 'unset';
+  const maxHeightActive = maxHeight ? `${maxHeight}px` : "unset";
   const maxHeightStyle = {
-    maxHeight: isActive ? maxHeightActive : '0px',
-    overflow: 'hidden',
+    maxHeight: isActive ? maxHeightActive : "0px",
+    overflow: "hidden",
   };
 
   return {

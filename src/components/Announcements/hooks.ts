@@ -1,15 +1,15 @@
-import { Chain } from '@swapkit/core';
-import hmacSHA512 from 'crypto-js/hmac-sha512';
-import { chainName } from 'helpers/chainName';
-import { useMimir } from 'hooks/useMimir';
-import { StatusType, useNetwork } from 'hooks/useNetwork';
-import { useCallback, useEffect, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { SUPPORTED_CHAINS } from 'settings/chain';
-import { useApp } from 'store/app/hooks';
-import { useExternalConfig } from 'store/externalConfig/hooks';
-import type { AnnouncementItem, ChainStatusAnnouncements } from 'store/externalConfig/types';
-import { AnnouncementType } from 'store/externalConfig/types';
+import { Chain } from "@swapkit/sdk";
+import hmacSHA512 from "crypto-js/hmac-sha512";
+import { chainName } from "helpers/chainName";
+import { useMimir } from "hooks/useMimir";
+import { StatusType, useNetwork } from "hooks/useNetwork";
+import { useCallback, useEffect, useMemo } from "react";
+import { t } from "services/i18n";
+import { SUPPORTED_CHAINS } from "settings/chain";
+import { useApp } from "store/app/hooks";
+import { useExternalConfig } from "store/externalConfig/hooks";
+import type { AnnouncementItem, ChainStatusAnnouncements } from "store/externalConfig/types";
+import { AnnouncementType } from "store/externalConfig/types";
 
 const REFRESH_INTERVAL = 1000 * 50 * 5; //5min
 const sortOrder = {
@@ -31,7 +31,7 @@ const getOutboundAnnouncement = ({
   return [
     {
       key: `${new Date().getTime()}`,
-      message: t('components.announcements.outboundQueue', { outboundQueue }),
+      message: t("components.announcements.outboundQueue", { outboundQueue }),
       type: AnnouncementType.Warn,
     },
   ];
@@ -55,7 +55,7 @@ export const useAnnouncementsList = () => {
           ? [
               {
                 key: `${new Date().getTime()}`,
-                message: t('components.announcements.tradingGloballyDisabled'),
+                message: t("components.announcements.tradingGloballyDisabled"),
                 type: AnnouncementType.Error,
               },
             ]
@@ -68,7 +68,9 @@ export const useAnnouncementsList = () => {
                 chainStatus: storedAnnouncements.chainStatus,
               }),
             ]),
-      ].sort((a, b) => sortOrder[a.type!] - sortOrder[b.type!]),
+      ].sort(
+        (a, b) => sortOrder[a.type as AnnouncementType] - sortOrder[b.type as AnnouncementType],
+      ),
     [
       isChainHalted,
       isChainPauseLP,
@@ -115,8 +117,8 @@ const getChainAnnouncement = ({
       message:
         chainStatus[chain]?.message ||
         (chain === Chain.THORChain
-          ? t('components.announcements.thorChainHalted')
-          : t('components.announcements.chainHalted', { chain: chainName(chain, true) })),
+          ? t("components.announcements.thorChainHalted")
+          : t("components.announcements.chainHalted", { chain: chainName(chain, true) })),
       type: chain === Chain.THORChain ? AnnouncementType.Error : AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
@@ -126,7 +128,7 @@ const getChainAnnouncement = ({
   if (pausedLP[chain]) {
     return {
       message:
-        chainStatus[chain]?.message || t('components.announcements.chainLPHalted', { chain }),
+        chainStatus[chain]?.message || t("components.announcements.chainLPHalted", { chain }),
       type: AnnouncementType.Warn,
       chain,
       link: chainStatus[chain]?.link,
@@ -137,7 +139,7 @@ const getChainAnnouncement = ({
     return {
       message:
         chainStatus[chain]?.message ||
-        t('components.announcements.chainTradeHalted', {
+        t("components.announcements.chainTradeHalted", {
           chain: chainName(chain),
         }),
       type: AnnouncementType.Warn,
@@ -151,17 +153,16 @@ const getChainAnnouncement = ({
 const getAnnouncementId = (ann: AnnouncementItem) => {
   const annId =
     ann.message +
-    (ann.type || '') +
-    (ann.link?.name || '') +
-    (ann.link?.url || '') +
-    (ann.chain || '');
+    (ann.type || "") +
+    (ann.link?.name || "") +
+    (ann.link?.url || "") +
+    (ann.chain || "");
 
-  return hmacSHA512(annId, 'announcements').toString().slice(-10);
+  return hmacSHA512(annId, "announcements").toString().slice(-10);
 };
 
 const getAnnouncementsByChain = (props: GetAnnouncementsByChainProps) =>
-  SUPPORTED_CHAINS.filter((chain) => chain !== Chain.Binance)
-    .map((chain) => getChainAnnouncement({ chain, ...props }))
+  SUPPORTED_CHAINS.map((chain) => getChainAnnouncement({ chain, ...props }))
     .map((ann) => ann && { ...ann, key: getAnnouncementId(ann) })
     .filter(Boolean) as AnnouncementItem[];
 
@@ -179,17 +180,17 @@ export const useDismissedAnnouncements = () => {
 
   const dismissAnnouncement = useCallback(
     (id: string) => {
-      if (!id || !dismissedAnnList) {
+      if (!(id && dismissedAnnList)) {
         return;
       }
 
       const isDismissed = dismissedAnnList.includes(id);
 
-      if (!isDismissed) {
-        setAnnDismissedList([id, ...dismissedAnnList]);
-      } else {
+      if (isDismissed) {
         const newList = dismissedAnnList.filter((key) => key !== id);
         setAnnDismissedList(newList);
+      } else {
+        setAnnDismissedList([id, ...dismissedAnnList]);
       }
     },
     [setAnnDismissedList, dismissedAnnList],
@@ -201,7 +202,7 @@ export const useDismissedAnnouncements = () => {
         return;
       }
 
-      const allIds = allAnnouncements.map((ann) => ann.key || '').filter(Boolean);
+      const allIds = allAnnouncements.map((ann) => ann.key || "").filter(Boolean);
 
       const updatedList = dismissedAnnList.filter((id) => allIds.includes(id));
       if (updatedList.length !== dismissedAnnList.length) {
@@ -219,22 +220,22 @@ export const useSeenAnnouncements = () => {
 
   const seeAnnouncements = useCallback(
     (ids: string[] | string) => {
-      if (!ids || !seenAnnList) {
+      if (!(ids && seenAnnList)) {
         return;
       }
       const parsedSeenAnnList: string[] =
-        typeof seenAnnList === 'string' ? JSON.parse(seenAnnList) : seenAnnList;
+        typeof seenAnnList === "string" ? JSON.parse(seenAnnList) : seenAnnList;
 
       let filtered: string[] = [];
-      if (typeof ids === 'string') {
+      if (typeof ids === "string") {
         if (parsedSeenAnnList.includes(ids)) return;
         filtered = [ids];
       } else {
-        ids.forEach((annId) => {
-          if (!parsedSeenAnnList.includes(annId)) {
-            filtered.push(annId);
+        for (const id of ids) {
+          if (!parsedSeenAnnList.includes(id)) {
+            filtered.push(id);
           }
-        });
+        }
       }
 
       setAnnSeenList([...parsedSeenAnnList, ...filtered]);
@@ -248,7 +249,7 @@ export const useSeenAnnouncements = () => {
         return;
       }
 
-      const allIds = allAnnouncements.map((ann) => ann.key || '').filter(Boolean);
+      const allIds = allAnnouncements.map((ann) => ann.key || "").filter(Boolean);
 
       const updatedList = seenAnnList.filter((id) => allIds.includes(id));
       if (updatedList.length !== seenAnnList.length) {

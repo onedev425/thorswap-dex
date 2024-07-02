@@ -1,18 +1,18 @@
-import { Text } from '@chakra-ui/react';
-import type { QuoteRoute } from '@swapkit/api';
-import { AssetValue, Chain } from '@swapkit/core';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Modal } from 'components/Atomic';
-import { SwapGraph } from 'components/SwapRouter/SwapGraph';
-import { chainName } from 'helpers/chainName';
-import { providerLogoURL, tokenLogoURL } from 'helpers/logoURL';
-import { Fragment, memo, useMemo } from 'react';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import type { QuoteRoute } from "@swapkit/api";
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Modal } from "components/Atomic";
+import { SwapGraph } from "components/SwapRouter/SwapGraph";
+import { chainName } from "helpers/chainName";
+import { providerLogoURL, tokenLogoURL } from "helpers/logoURL";
+import { Fragment, memo, useMemo } from "react";
+import { t } from "services/i18n";
 
-import { normalizedProviderName } from './ProviderLogos';
-import type { SwapGraphType } from './types';
+import { normalizedProviderName } from "./ProviderLogos";
+import type { SwapGraphType } from "./types";
 
-type QuoteSwaps = QuoteRoute['swaps'];
+type QuoteSwaps = QuoteRoute["swaps"];
 
 type Props = {
   isOpened: boolean;
@@ -31,7 +31,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
       Object.entries(swaps).reduce((acc, [chain, value]) => {
         const name = chainName(chain, true);
         const chainAsset = AssetValue.fromChainOrSignature(
-          chain === 'THORCHAIN' ? Chain.THORChain : (chain as Chain),
+          chain === "THORCHAIN" ? Chain.THORChain : (chain as Chain),
         );
         const chainSwaps = (value as QuoteSwaps[string]).map((swapParts) =>
           // @ts-expect-error - missing in type
@@ -43,8 +43,8 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
               .sort((a, b) => b.percentage - a.percentage)
               .map(({ percentage, provider }) => ({
                 percentage,
-                providerLogoURL: provider ? providerLogoURL(provider) : '',
-                provider: (normalizedProviderName[provider as 'THORCHAIN'] || provider) as string,
+                providerLogoURL: provider ? providerLogoURL(provider) : "",
+                provider: (normalizedProviderName[provider as "THORCHAIN"] || provider) as string,
               })),
           })),
         );
@@ -60,7 +60,7 @@ export const RouteGraphModal = memo(({ isOpened, onClose, swaps }: Props) => {
   );
 
   return (
-    <Modal isOpened={isOpened} onClose={onClose} title={t('common.swapPath')}>
+    <Modal isOpened={isOpened} onClose={onClose} title={t("common.swapPath")}>
       <Box className="gap-x-4 max-h-[80vh] max-w-[80vw]">
         {swapGraph.map(({ name, logoURL, chainSwaps }, index) => (
           <div key={name}>

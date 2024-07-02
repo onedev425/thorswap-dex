@@ -1,20 +1,20 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { TxTrackerDetails } from '@swapkit/api';
-import { getFromStorage, saveInStorage } from 'helpers/storage';
-import type { TxnResult } from 'store/thorswap/types';
-import { filterInitialTransactions, findTxIndexById } from 'store/transactions/utils';
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
+import type { TxTrackerDetails } from "@swapkit/api";
+import { getFromStorage, saveInStorage } from "helpers/storage";
+import type { TxnResult } from "store/thorswap/types";
+import { filterInitialTransactions, findTxIndexById } from "store/transactions/utils";
 
-import type { PendingTransactionType, TransactionsState, TransactionStatus } from './types';
+import type { PendingTransactionType, TransactionStatus, TransactionsState } from "./types";
 
-const initialState = filterInitialTransactions(getFromStorage('txHistory') as TransactionsState);
+const initialState = filterInitialTransactions(getFromStorage("txHistory") as TransactionsState);
 
 const transactionsSlice = createSlice({
-  name: 'transactions',
+  name: "transactions",
   initialState,
   reducers: {
-    addTransaction(state, { payload }: PayloadAction<Omit<PendingTransactionType, 'timestamp'>>) {
+    addTransaction(state, { payload }: PayloadAction<Omit<PendingTransactionType, "timestamp">>) {
       state.push({ ...payload, timestamp: new Date() });
-      saveInStorage({ key: 'txHistory', value: state });
+      saveInStorage({ key: "txHistory", value: state });
     },
     updateTransaction(state, { payload }: PayloadAction<Partial<PendingTransactionType>>) {
       const index = findTxIndexById(state, payload.id);
@@ -22,12 +22,12 @@ const transactionsSlice = createSlice({
       if (index !== -1) {
         state[index] = { ...state[index], ...payload };
       }
-      saveInStorage({ key: 'txHistory', value: state });
+      saveInStorage({ key: "txHistory", value: state });
     },
     removeTransaction(state, { payload }: PayloadAction<string>) {
       const index = findTxIndexById(state, payload);
       const filtered = state.filter((_, i) => i !== index);
-      saveInStorage({ key: 'txHistory', value: filtered });
+      saveInStorage({ key: "txHistory", value: filtered });
 
       return filtered;
     },
@@ -48,10 +48,10 @@ const transactionsSlice = createSlice({
       if (index !== -1) {
         state[index] = { ...state[index], ...payload, timestamp: new Date(), completed: true };
       }
-      saveInStorage({ key: 'txHistory', value: state });
+      saveInStorage({ key: "txHistory", value: state });
     },
     clearTransactions() {
-      saveInStorage({ key: 'txHistory', value: [] });
+      saveInStorage({ key: "txHistory", value: [] });
       return [];
     },
   },

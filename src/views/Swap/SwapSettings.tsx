@@ -1,5 +1,6 @@
 import {
   Card,
+  Tooltip as ChakraTooltip,
   Flex,
   Slider,
   SliderFilledTrack,
@@ -7,22 +8,21 @@ import {
   SliderTrack,
   Stack,
   Text,
-  Tooltip as ChakraTooltip,
-} from '@chakra-ui/react';
-import type { AssetValue, SwapKitNumber } from '@swapkit/core';
-import classNames from 'classnames';
-import { Box, Button, Icon, Tooltip, useCollapse } from 'components/Atomic';
-import { maxHeightTransitionClass } from 'components/Atomic/Collapse/Collapse';
-import type { RouteWithApproveType } from 'components/SwapRouter/types';
-import { formatDuration } from 'components/TransactionTracker/helpers';
-import { STREAMING_SWAPS_URL } from 'config/constants';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { t } from 'services/i18n';
-import { navigateToExternalLink } from 'settings/router';
-import { useApp } from 'store/app/hooks';
-import type { StreamSwapParams } from 'views/Swap/hooks/useSwapParams';
-import { useSwapTimeEstimate } from 'views/Swap/hooks/useSwapTimeEstimate';
-import { SwapSlippage } from 'views/Swap/SwapSlippage';
+} from "@chakra-ui/react";
+import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
+import classNames from "classnames";
+import { Box, Button, Icon, Tooltip, useCollapse } from "components/Atomic";
+import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
+import type { RouteWithApproveType } from "components/SwapRouter/types";
+import { formatDuration } from "components/TransactionTracker/helpers";
+import { STREAMING_SWAPS_URL } from "config/constants";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "services/i18n";
+import { navigateToExternalLink } from "settings/router";
+import { useApp } from "store/app/hooks";
+import { SwapSlippage } from "views/Swap/SwapSlippage";
+import type { StreamSwapParams } from "views/Swap/hooks/useSwapParams";
+import { useSwapTimeEstimate } from "views/Swap/hooks/useSwapTimeEstimate";
 
 type Props = {
   route?: RouteWithApproveType;
@@ -99,7 +99,7 @@ export const SwapSettings = ({
     }));
 
     swapsOptions.unshift({
-      label: 'Streaming swap turned off',
+      label: "Streaming swap turned off",
       subswaps: 0,
       interval: 0,
       value: 0,
@@ -163,19 +163,19 @@ export const SwapSettings = ({
 
   return (
     <Flex w="100%">
-      <Card gap={1} p={3} sx={{ w: 'full', borderRadius: 16 }} variant="filledContainerTertiary">
-        <Flex className="justify-between" ml={2} mt={1} onClick={toggle} sx={{ cursor: 'pointer' }}>
+      <Card gap={1} p={3} sx={{ w: "full", borderRadius: 16 }} variant="filledContainerTertiary">
+        <Flex className="justify-between" ml={2} mt={1} onClick={toggle} sx={{ cursor: "pointer" }}>
           <Flex alignItems="center" direction="row" gap={2}>
             <Icon color="secondary" name="settings" size={18} />
             <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
-              {t('views.swap.swapSettings')}
+              {t("views.swap.swapSettings")}
             </Text>
           </Flex>
 
           <Flex alignItems="center" gap={1}>
             {noSlipProtection && !isChainflip ? (
               <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                {t('views.swap.noPriceProtection')}
+                {t("views.swap.noPriceProtection")}
               </Text>
             ) : (
               <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
@@ -184,26 +184,26 @@ export const SwapSettings = ({
             )}
 
             <Icon
-              className={classNames('transform duration-300 ease -mr-2', {
-                '-rotate-180': isActive,
+              className={classNames("transform duration-300 ease -mr-2", {
+                "-rotate-180": isActive,
               })}
               color="secondary"
               name="chevronDown"
             />
           </Flex>
         </Flex>
-        <div className={classNames('w-full', maxHeightTransitionClass)} style={maxHeightStyle}>
+        <div className={classNames("w-full", maxHeightTransitionClass)} style={maxHeightStyle}>
           <Flex direction="column" ref={contentRef}>
             <Flex direction="column" mt={2}>
               {canStreamSwap && (
                 <>
                   <Flex pb={1}>
                     <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                      {t('views.swap.streamingSettings')}
+                      {t("views.swap.streamingSettings")}
                     </Text>
 
                     <Tooltip
-                      content={t('views.swap.priceOptimizationInfo')}
+                      content={t("views.swap.priceOptimizationInfo")}
                       onClick={() => navigateToExternalLink(STREAMING_SWAPS_URL)}
                       place="bottom"
                     >
@@ -230,7 +230,7 @@ export const SwapSettings = ({
                         >
                           <SliderTrack bg="textSecondary" boxSize={2}>
                             <SliderFilledTrack
-                              bg={value > 50 ? 'brand.yellow' : 'brand.btnSecondary'}
+                              bg={value > 50 ? "brand.yellow" : "brand.btnSecondary"}
                               boxSize={2}
                               width="50%"
                             />
@@ -272,12 +272,12 @@ export const SwapSettings = ({
                             sx={{
                               w: 3,
                               h: 3,
-                              borderRadius: '50%',
-                              bg: value > 50 ? 'brand.yellow' : 'brand.btnSecondary',
-                              position: 'absolute',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              left: '-8px',
+                              borderRadius: "50%",
+                              bg: value > 50 ? "brand.yellow" : "brand.btnSecondary",
+                              position: "absolute",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              left: "-8px",
                             }}
                           />
 
@@ -285,12 +285,12 @@ export const SwapSettings = ({
                             sx={{
                               w: 4,
                               h: 4,
-                              borderRadius: '50%',
-                              bg: value > 50 ? 'brand.yellow' : 'textSecondary',
-                              position: 'absolute',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              left: 'calc(50% - 7px)',
+                              borderRadius: "50%",
+                              bg: value > 50 ? "brand.yellow" : "textSecondary",
+                              position: "absolute",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              left: "calc(50% - 7px)",
                             }}
                           />
 
@@ -298,12 +298,12 @@ export const SwapSettings = ({
                             sx={{
                               w: 3,
                               h: 3,
-                              borderRadius: '50%',
-                              backgroundColor: 'textSecondary',
-                              position: 'absolute',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              right: '-8px',
+                              borderRadius: "50%",
+                              backgroundColor: "textSecondary",
+                              position: "absolute",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              right: "-8px",
                             }}
                           />
                         </Slider>
@@ -318,7 +318,7 @@ export const SwapSettings = ({
                             sx={{ px: 2 }}
                             variant="borderlessPrimary"
                           >
-                            {t('views.swap.fastest')}
+                            {t("views.swap.fastest")}
                           </Button>
                         </Flex>
                         <Flex>
@@ -327,7 +327,7 @@ export const SwapSettings = ({
                             size="xs"
                             variant="borderlessPrimary"
                           >
-                            {t('views.swap.optimal')}
+                            {t("views.swap.optimal")}
                           </Button>
                         </Flex>
                         <Flex>
@@ -337,7 +337,7 @@ export const SwapSettings = ({
                             sx={{ px: 2 }}
                             variant="borderlessPrimary"
                           >
-                            {t('views.swap.slowest')}
+                            {t("views.swap.slowest")}
                           </Button>
                         </Flex>
                       </Flex>
@@ -350,15 +350,15 @@ export const SwapSettings = ({
                 <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
                   <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
                     {isChainflip
-                      ? t('common.slippageSettingsChainflip')
-                      : t('views.swap.noPriceProtection')}
+                      ? t("common.slippageSettingsChainflip")
+                      : t("views.swap.noPriceProtection")}
                   </Text>
 
                   <Tooltip
                     content={
                       isChainflip
-                        ? t('common.slippageTooltipChainflip')
-                        : t('views.swap.noPriceProtectionTooltip')
+                        ? t("common.slippageTooltipChainflip")
+                        : t("views.swap.noPriceProtectionTooltip")
                     }
                     place="bottom"
                   >
@@ -385,14 +385,14 @@ export const SwapSettings = ({
                       slippageTolerance === 0 ||
                       (noSlipProtection && !isChainflip) ||
                       (recommendedSlippage > 0 && recommendedSlippage < slippageTolerance)
-                        ? 'brand.yellow'
-                        : 'textPrimary'
+                        ? "brand.yellow"
+                        : "textPrimary"
                     }
                     textStyle="caption-xs"
                   >
                     {slippageTolerance === 0 || (noSlipProtection && !isChainflip)
-                      ? t('views.swap.noProtection')
-                      : `${minReceive.toCurrency('')} ${outputAsset?.ticker || ''}`}
+                      ? t("views.swap.noProtection")
+                      : `${minReceive.toCurrency("")} ${outputAsset?.ticker || ""}`}
                   </Text>
                 </Flex>
                 <Flex flex={1} flexDirection="column">
@@ -402,11 +402,11 @@ export const SwapSettings = ({
                   <Flex>
                     <Text
                       color={
-                        value < 50 ? 'brand.yellow' : value > 50 ? 'brand.green' : 'textPrimary'
+                        value < 50 ? "brand.yellow" : value > 50 ? "brand.green" : "textPrimary"
                       }
                       textStyle="caption-xs"
                     >
-                      {outputAmount.toCurrency('')} {outputAsset?.ticker || ''}
+                      {outputAmount.toCurrency("")} {outputAsset?.ticker || ""}
                     </Text>
                   </Flex>
                 </Flex>
@@ -417,10 +417,10 @@ export const SwapSettings = ({
                   </Text>
                   <Flex>
                     <Text
-                      color={value > 50 ? 'brand.yellow' : 'textPrimary'}
+                      color={value > 50 ? "brand.yellow" : "textPrimary"}
                       textStyle="caption-xs"
                     >
-                      {estimatedTime ? formatDuration(estimatedTime) : 'n/a'}
+                      {estimatedTime ? formatDuration(estimatedTime) : "n/a"}
                     </Text>
                   </Flex>
                 </Flex>
@@ -428,14 +428,14 @@ export const SwapSettings = ({
 
               {value > 50 && slippageTolerance > 0 && (
                 <Box row className="w-full my-3 px-2">
-                  <Icon color="yellow" name="infoCircle" size={26} />{' '}
+                  <Icon color="yellow" name="infoCircle" size={26} />{" "}
                   <Text
                     className="ml-2"
                     color="brand.yellow"
                     fontWeight="medium"
                     textStyle="caption"
                   >
-                    {t('views.swap.slippageMarketRateWarning')}
+                    {t("views.swap.slippageMarketRateWarning")}
                   </Text>
                 </Box>
               )}

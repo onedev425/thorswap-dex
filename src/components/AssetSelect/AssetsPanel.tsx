@@ -1,7 +1,7 @@
-import { Text } from '@chakra-ui/react';
-import type { AssetValue } from '@swapkit/core';
-import { AssetButton } from 'components/AssetSelect/AssetButton';
-import { Box } from 'components/Atomic';
+import { Text } from "@chakra-ui/react";
+import type { AssetValue } from "@swapkit/sdk";
+import { AssetButton } from "components/AssetSelect/AssetButton";
+import { Box } from "components/Atomic";
 
 type Props = {
   assets: AssetValue[];

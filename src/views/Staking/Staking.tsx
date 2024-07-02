@@ -1,24 +1,24 @@
-import { Text } from '@chakra-ui/react';
-import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from '@swapkit/core';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import { Box, Button, Card, Icon, Tooltip } from 'components/Atomic';
-import { baseTextHoverClass } from 'components/constants';
-import { Helmet } from 'components/Helmet';
-import { HighlightCard } from 'components/HighlightCard';
-import { InputAmount } from 'components/InputAmount';
-import { TabsSelect } from 'components/TabsSelect';
-import { ViewHeader } from 'components/ViewHeader';
-import { useWallet, useWalletConnectModal } from 'context/wallet/hooks';
-import { stakingV2Addr, VestingType } from 'helpers/assets';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getCustomContract } from 'services/contract';
-import { t } from 'services/i18n';
+import { Text } from "@chakra-ui/react";
+import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from "@swapkit/sdk";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import { Box, Button, Card, Icon, Tooltip } from "components/Atomic";
+import { Helmet } from "components/Helmet";
+import { HighlightCard } from "components/HighlightCard";
+import { InputAmount } from "components/InputAmount";
+import { TabsSelect } from "components/TabsSelect";
+import { ViewHeader } from "components/ViewHeader";
+import { baseTextHoverClass } from "components/constants";
+import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { VestingType, stakingV2Addr } from "helpers/assets";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getCustomContract } from "services/contract";
+import { t } from "services/i18n";
 
-import { ConfirmVThorButton } from './ConfirmVThorButton';
-import { ConfirmVThorModal } from './ConfirmVThorModal';
-import { StakeActions, useVthorUtil } from './hooks';
-import { VThorInfo } from './VThorInfo';
+import { ConfirmVThorButton } from "./ConfirmVThorButton";
+import { ConfirmVThorModal } from "./ConfirmVThorModal";
+import { VThorInfo } from "./VThorInfo";
+import { StakeActions, useVthorUtil } from "./hooks";
 
 const getTokenBalance = async (contractType: VestingType, ethAddr: string) => {
   try {
@@ -33,8 +33,8 @@ const getTokenBalance = async (contractType: VestingType, ethAddr: string) => {
 
 const Staking = () => {
   const tabs = [
-    { label: t('views.stakingVThor.stakeVThor'), value: StakeActions.Deposit },
-    { label: t('views.stakingVThor.unstake'), value: StakeActions.Unstake },
+    { label: t("views.stakingVThor.stakeVThor"), value: StakeActions.Deposit },
+    { label: t("views.stakingVThor.unstake"), value: StakeActions.Unstake },
   ];
 
   const [action, setAction] = useState(StakeActions.Deposit);
@@ -47,7 +47,7 @@ const Staking = () => {
   const [inputAmount, setInputAmount] = useState(
     new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }),
   );
-  const [outputAmount, setOutputAmount] = useState('0');
+  const [outputAmount, setOutputAmount] = useState("0");
   const [isReverted, setReverted] = useState(true);
   const [isModalOpened, setModalOpened] = useState(false);
 
@@ -58,8 +58,8 @@ const Staking = () => {
 
   const [stakingAsset, outputAsset] = useMemo(
     () => [
-      AssetValue.fromChainOrSignature(isDeposit ? 'ETH.THOR' : 'ETH.vTHOR'),
-      AssetValue.fromChainOrSignature(isDeposit ? 'ETH.vTHOR' : 'ETH.THOR'),
+      AssetValue.fromChainOrSignature(isDeposit ? "ETH.THOR" : "ETH.vTHOR"),
+      AssetValue.fromChainOrSignature(isDeposit ? "ETH.vTHOR" : "ETH.THOR"),
     ],
     [isDeposit],
   );
@@ -70,18 +70,18 @@ const Staking = () => {
   );
 
   const getTokenInfo = useCallback(
-    async (contractType: VestingType, address: string, type: 'thor' | 'vthor') => {
+    async (contractType: VestingType, address: string, type: "thor" | "vthor") => {
       const tokenBalance = await getTokenBalance(contractType, address);
 
-      type === 'thor' ? setThorBalBn(tokenBalance) : setVthorBalBn(tokenBalance);
+      type === "thor" ? setThorBalBn(tokenBalance) : setVthorBalBn(tokenBalance);
     },
     [],
   );
 
   useEffect(() => {
     if (ethAddress) {
-      getTokenInfo(VestingType.THOR, ethAddress, 'thor');
-      getTokenInfo(VestingType.VTHOR, ethAddress, 'vthor');
+      getTokenInfo(VestingType.THOR, ethAddress, "thor");
+      getTokenInfo(VestingType.VTHOR, ethAddress, "vthor");
     } else {
       setThorBalBn(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
       setVthorBalBn(new SwapKitNumber({ value: 0, decimal: BaseDecimal.ETH }));
@@ -150,19 +150,19 @@ const Staking = () => {
   return (
     <Box col className="self-center w-full max-w-[480px] mt-2">
       <Helmet
-        content={t('views.stakingVThor.description')}
+        content={t("views.stakingVThor.description")}
         keywords="THOR, vTHOR, Staking, THORSwap, DEFI, DEX"
-        title={t('views.stakingVThor.title')}
+        title={t("views.stakingVThor.title")}
       />
 
-      <ViewHeader title={t('views.stakingVThor.stakeVThorTitle')} />
+      <ViewHeader title={t("views.stakingVThor.stakeVThorTitle")} />
 
       <Box alignCenter className="px-3" justify="between">
         <Text fontWeight="medium" textStyle="caption" variant="secondary">
-          {t('views.stakingVThor.stakeVThorSubtitle')}
+          {t("views.stakingVThor.stakeVThorSubtitle")}
         </Text>
 
-        <Tooltip content={t('views.stakingVThor.stakeInfo')} place="bottom">
+        <Tooltip content={t("views.stakingVThor.stakeInfo")} place="bottom">
           <Icon color="primaryBtn" name="infoCircle" size={24} />
         </Tooltip>
       </Box>
@@ -182,15 +182,15 @@ const Staking = () => {
           <Box
             center
             className={classNames(
-              'z-10 absolute -mt-0.5 -bottom-6 left-1/2 -translate-x-1/2',
-              'p-1 md:p-2 rounded-xl md:rounded-[18px] cursor-pointer',
-              'border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent hover:brightness-125 transition',
+              "z-10 absolute -mt-0.5 -bottom-6 left-1/2 -translate-x-1/2",
+              "p-1 md:p-2 rounded-xl md:rounded-[18px] cursor-pointer",
+              "border-10 border-solid bg-blue dark:border-dark-border-primary border-transparent hover:brightness-125 transition",
             )}
             onClick={handleStakeTypeChange}
           >
             <Icon
-              className={classNames('p-1 transition-all', {
-                '-scale-x-100': isDeposit,
+              className={classNames("p-1 transition-all", {
+                "-scale-x-100": isDeposit,
               })}
               color="white"
               name="arrowDown"
@@ -199,17 +199,17 @@ const Staking = () => {
           </Box>
 
           <HighlightCard
-            className={classNames('!gap-1 !justify-start flex-1 !px-4 md:!px-6 !py-4')}
+            className={classNames("!gap-1 !justify-start flex-1 !px-4 md:!px-6 !py-4")}
           >
             <Box alignCenter col className="self-stretch flex-1 md:pl-0">
               <Box className="gap-3 self-stretch !mb-3">
                 <Box alignCenter flex={1} justify="between">
                   <Text className="-ml-1" fontWeight="normal" variant="secondary">
-                    {t('views.stakingVThor.send')}
+                    {t("views.stakingVThor.send")}
                   </Text>
                   <Box center row className="gap-1 pr-2 md:pr-0">
                     <Text fontWeight="medium" variant="secondary">
-                      {t('common.balance')}:{' '}
+                      {t("common.balance")}:{" "}
                       {isDeposit ? thorBalBn.toSignificant(6) : vthorBalBn.toSignificant(6)}
                     </Text>
 
@@ -219,7 +219,7 @@ const Staking = () => {
                       textTransform="uppercase"
                       variant="outlineSecondary"
                     >
-                      {t('common.max')}
+                      {t("common.max")}
                     </Button>
                   </Box>
                 </Box>
@@ -230,7 +230,7 @@ const Staking = () => {
                   <InputAmount
                     stretch
                     amountValue={inputAmount}
-                    className={classNames('-ml-1 !text-2xl font-normal text-left flex-1')}
+                    className={classNames("-ml-1 !text-2xl font-normal text-left flex-1")}
                     containerClassName="!py-0"
                     onAmountChange={(val) => onAmountChange(val, action)}
                   />
@@ -249,7 +249,7 @@ const Staking = () => {
           <Box col className="self-stretch flex-1 md:pl-0">
             <Box className="gap-3 self-stretch !mb-3">
               <Text className="-ml-1" fontWeight="normal" variant="secondary">
-                {t('views.stakingVThor.receive')}:
+                {t("views.stakingVThor.receive")}:
               </Text>
             </Box>
 
@@ -283,7 +283,7 @@ const Staking = () => {
               </Text>
             </Box>
 
-            <Tooltip content={t('views.wallet.priceRate')}>
+            <Tooltip content={t("views.wallet.priceRate")}>
               <Icon className={baseTextHoverClass} color="secondary" name="infoCircle" size={20} />
             </Tooltip>
           </Box>

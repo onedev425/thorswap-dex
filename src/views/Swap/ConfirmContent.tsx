@@ -1,14 +1,14 @@
-import { Flex, Text } from '@chakra-ui/react';
-import classNames from 'classnames';
-import { AssetIcon } from 'components/AssetIcon';
-import type { AssetInputType } from 'components/AssetInput/types';
-import { Box, Checkbox, Icon, Tooltip } from 'components/Atomic';
-import { ChainBadge } from 'components/ChainBadge';
-import { hexlify, toUtf8Bytes } from 'ethers';
-import { shortenAddress } from 'helpers/shortenAddress';
-import { memo, useMemo } from 'react';
-import { t } from 'services/i18n';
-import { ChainflipSlippageConfirm } from 'views/Swap/ChainflipSlippageConfirm';
+import { Flex, Text } from "@chakra-ui/react";
+import classNames from "classnames";
+import { AssetIcon } from "components/AssetIcon";
+import type { AssetInputType } from "components/AssetInput/types";
+import { Box, Checkbox, Icon, Tooltip } from "components/Atomic";
+import { ChainBadge } from "components/ChainBadge";
+import { hexlify, toUtf8Bytes } from "ethers";
+import { shortenAddress } from "helpers/shortenAddress";
+import { memo, useMemo } from "react";
+import { t } from "services/i18n";
+import { ChainflipSlippageConfirm } from "views/Swap/ChainflipSlippageConfirm";
 
 type Props = {
   inputAsset: AssetInputType;
@@ -52,7 +52,7 @@ export const ConfirmContent = memo(
       <>
         {streamSwap && (
           <Flex
-            _groupHover={{ bgColor: 'transparent' }}
+            _groupHover={{ bgColor: "transparent" }}
             align="center"
             bgColor="brand.btnSecondary"
             borderRadius="xl"
@@ -66,7 +66,7 @@ export const ConfirmContent = memo(
             w={24}
           >
             <Text
-              _groupHover={{ color: 'white' }}
+              _groupHover={{ color: "white" }}
               fontSize="12px"
               fontWeight={500}
               lineHeight="16px"
@@ -111,21 +111,21 @@ export const ConfirmContent = memo(
             <Box row className="w-full">
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('common.estimateTime')}
+                  {t("common.estimateTime")}
                 </Text>
                 <Text textStyle="caption">{estimatedTime}</Text>
               </Box>
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('common.fee')}
+                  {t("common.fee")}
                 </Text>
                 <Text textStyle="caption">{totalFee}</Text>
               </Box>
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('common.maxSlippage')}
+                  {t("common.maxSlippage")}
                 </Text>
-                <Text color={slipHigherThanTolerance ? 'red' : ''} textStyle="caption">
+                <Text color={slipHigherThanTolerance ? "red" : ""} textStyle="caption">
                   {(Math.round(slippagePercent * 100) / 100).toFixed(2)}%
                 </Text>
               </Box>
@@ -138,29 +138,29 @@ export const ConfirmContent = memo(
             <Box row className="w-full py-2">
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('views.swap.exchangeFee')}
+                  {t("views.swap.exchangeFee")}
                 </Text>
 
                 <Text
                   className={classNames({
-                    'line-through': affiliateFee === '$0.00',
+                    "line-through": affiliateFee === "$0.00",
                   })}
                   textStyle="caption"
                 >
-                  {affiliateFee === '$0.00' || affiliateFee === '0' ? 'FREE' : affiliateFee}
+                  {affiliateFee === "$0.00" || affiliateFee === "0" ? "FREE" : affiliateFee}
                 </Text>
               </Box>
 
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('common.recipient')}
+                  {t("common.recipient")}
                 </Text>
                 <Text textStyle="caption">{shortenAddress(recipient)}</Text>
               </Box>
 
               <Box center col className="flex-1 gap-y-2">
                 <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                  {t('views.swap.txAssetsFee')}
+                  {t("views.swap.txAssetsFee")}
                 </Text>
                 <Text textStyle="caption">{feeAssets}</Text>
               </Box>
@@ -175,7 +175,7 @@ export const ConfirmContent = memo(
                 <Box row className="w-full">
                   <Box center col className="flex-1 gap-y-2 px-4 w-[100%]">
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                      {t('common.memo')}
+                      {t("common.memo")}
                     </Text>
                     <Tooltip content={swapMemo}>
                       <Text maxWidth="full" textStyle="caption">
@@ -192,7 +192,7 @@ export const ConfirmContent = memo(
                 <Box row className="w-full">
                   <Box center col className="flex-1 gap-y-2 px-4 w-[100%]">
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                      {t('common.memoHex')}
+                      {t("common.memoHex")}
                     </Text>
                     <Tooltip content={memoHex}>
                       <Text maxWidth="100%" textStyle="caption">
@@ -212,11 +212,11 @@ export const ConfirmContent = memo(
                 <Box row className="w-full">
                   <Box center col className="flex-1 gap-y-2">
                     <Text fontWeight="medium" textStyle="caption" variant="secondary">
-                      {t('common.minReceived')}
+                      {t("common.minReceived")}
                     </Text>
                     {slippagePercent === 0 ? (
                       <Text color="brand.yellow" textStyle="caption">
-                        {t('views.swap.noProtection')}
+                        {t("views.swap.noProtection")}
                       </Text>
                     ) : (
                       <Text textStyle="caption">{minReceive}</Text>
@@ -232,7 +232,7 @@ export const ConfirmContent = memo(
               className="pt-4 pb-2"
               label={
                 <Box alignCenter>
-                  <Text>{t('views.swap.slippageConfirmationWarning')}</Text>
+                  <Text>{t("views.swap.slippageConfirmationWarning")}</Text>
                 </Box>
               }
               onValueChange={setConfirmedSlippage}

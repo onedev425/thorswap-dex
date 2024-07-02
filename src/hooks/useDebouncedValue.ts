@@ -1,13 +1,12 @@
-import type { DebouncedFunc, DebounceSettings } from 'lodash';
-import debounce from 'lodash.debounce';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import type { DebounceSettings, DebouncedFunc } from "lodash";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export function useDebouncedCallback<T extends (...args: any[]) => any>(
+export function useDebouncedCallback<T extends (...args: Todo[]) => Todo>(
   callback: T,
   delay = 0,
   options?: DebounceSettings,
 ): DebouncedFunc<T> {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback(debounce(callback, delay, options), [callback, delay, options]);
 }
 
@@ -15,6 +14,7 @@ export function useDebouncedValue<T>(value: T, delay = 0, options?: DebounceSett
   const previousValue = useRef(value);
   const [current, setCurrent] = useState(value);
   const debouncedCallback = useDebouncedCallback((value: T) => setCurrent(value), delay, options);
+
   useEffect(() => {
     // doesn't trigger the debounce timer initially
     if (value !== previousValue.current) {
@@ -23,7 +23,6 @@ export function useDebouncedValue<T>(value: T, delay = 0, options?: DebounceSett
       // cancel the debounced callback on clean up
       return debouncedCallback.cancel;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return current;

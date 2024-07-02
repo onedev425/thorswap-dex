@@ -1,5 +1,5 @@
-import { SidebarWidgetOption } from 'components/Sidebar/types';
-import { ThorBurn } from 'components/Sidebar/widgets/ThorBurn';
+import { SidebarWidgetOption } from "components/Sidebar/types";
+import { ThorBurn } from "components/Sidebar/widgets/ThorBurn";
 
 type Props = {
   type: SidebarWidgetOption;

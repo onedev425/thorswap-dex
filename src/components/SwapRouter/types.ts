@@ -1,4 +1,4 @@
-import type { GetTokensQuoteResponse } from 'store/thorswap/types';
+import type { GetTokensQuoteResponse } from "store/thorswap/types";
 
 export type RouteAssetType = { identifier: string; logoURL: string };
 export type SwapPartsType = {
@@ -17,6 +17,6 @@ export type SwapGraphType = {
   }[][];
 }[];
 
-export type RouteWithApproveType = GetTokensQuoteResponse['routes'][number] & {
+export type RouteWithApproveType = GetTokensQuoteResponse["routes"][number] & {
   isApproved: boolean;
 };

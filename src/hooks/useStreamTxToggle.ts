@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useStreamTxToggle = (streamTxMemo?: string) => {
   const [stream, setStream] = useState(false);

@@ -1,7 +1,7 @@
-import { AssetValue, Chain } from '@swapkit/core';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getAddLiquidityRoute } from 'settings/router';
+import { AssetValue, Chain } from "@swapkit/sdk";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAddLiquidityRoute } from "settings/router";
 
 type Props = {
   assetRouteGetter?: (asset: AssetValue) => string;
@@ -16,10 +16,10 @@ export const useAddLiquidityPools = ({ assetRouteGetter = getAddLiquidityRoute }
   const [poolAsset, setPoolAsset] = useState<AssetValue>();
 
   useEffect(() => {
-    const getAssetEntity = async () => {
+    const getAssetEntity = () => {
       const assetEntity = assetParam
-        ? AssetValue.fromStringSync(assetParam)
-        : AssetValue.fromChainOrSignature(Chain.Bitcoin);
+        ? AssetValue.from({ asset: assetParam })
+        : AssetValue.from({ chain: Chain.Bitcoin });
 
       setPoolAsset(assetEntity);
     };

@@ -1,7 +1,7 @@
-import { TableRow } from 'components/Atomic/Table/TableRow';
-import type { TableRowType } from 'components/Atomic/Table/types';
-import { memo } from 'react';
-import type { Row } from 'react-table';
+import { TableRow } from "components/Atomic/Table/TableRow";
+import type { TableRowType } from "components/Atomic/Table/types";
+import { memo } from "react";
+import type { Row } from "react-table";
 
 type Props = {
   rows: Row[];

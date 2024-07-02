@@ -17,7 +17,7 @@ import {
   AiOutlineStar,
   AiOutlineSwap,
   AiOutlineUnorderedList,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 import {
   BiArrowBack,
   BiBell,
@@ -30,7 +30,7 @@ import {
   BiSelectMultiple,
   BiTimer,
   BiUndo,
-} from 'react-icons/bi';
+} from "react-icons/bi";
 import {
   BsAirplane,
   BsCoin,
@@ -48,8 +48,8 @@ import {
   BsTelegram,
   BsTrash,
   BsYoutube,
-} from 'react-icons/bs';
-import { CgArrowsExchangeAltV, CgEye, CgMenu } from 'react-icons/cg';
+} from "react-icons/bs";
+import { CgArrowsExchangeAltV, CgEye, CgMenu } from "react-icons/cg";
 import {
   FaArrowDown,
   FaChartArea,
@@ -60,7 +60,7 @@ import {
   FaSortDown,
   FaSortUp,
   FaWifi,
-} from 'react-icons/fa';
+} from "react-icons/fa";
 import {
   FiCheck,
   FiChevronDown,
@@ -73,11 +73,11 @@ import {
   FiRefreshCw,
   FiSettings,
   FiX,
-} from 'react-icons/fi';
-import { GiReceiveMoney } from 'react-icons/gi';
-import { GoBook } from 'react-icons/go';
-import { HiEyeOff, HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from 'react-icons/hi';
-import { ImBlocked } from 'react-icons/im';
+} from "react-icons/fi";
+import { GiReceiveMoney } from "react-icons/gi";
+import { GoBook } from "react-icons/go";
+import { HiEyeOff, HiOutlineChartPie, HiOutlineCog, HiOutlineDocumentText } from "react-icons/hi";
+import { ImBlocked } from "react-icons/im";
 import {
   IoCart,
   IoCheckmarkCircleOutline,
@@ -85,7 +85,7 @@ import {
   IoLanguage,
   IoRocketOutline,
   IoWalletOutline,
-} from 'react-icons/io5';
+} from "react-icons/io5";
 import {
   MdAreaChart,
   MdHistory,
@@ -98,7 +98,7 @@ import {
   MdOutlineHdrAuto,
   MdOutlineLockOpen,
   MdSpaceBar,
-} from 'react-icons/md';
+} from "react-icons/md";
 import {
   RiCheckboxMultipleLine,
   RiFileList3Fill,
@@ -106,8 +106,8 @@ import {
   RiSave2Line,
   RiShareBoxLine,
   RiSurveyLine,
-} from 'react-icons/ri';
-import { RxCountdownTimer } from 'react-icons/rx';
+} from "react-icons/ri";
+import { RxCountdownTimer } from "react-icons/rx";
 import {
   TbChartBar,
   TbChartBarOff,
@@ -115,7 +115,7 @@ import {
   TbGasStationOff,
   TbListDetails,
   TbPlugConnected,
-} from 'react-icons/tb';
+} from "react-icons/tb";
 import {
   VscAdd,
   VscCloudUpload,
@@ -126,9 +126,9 @@ import {
   VscLock,
   VscSignOut,
   VscSymbolMethod,
-} from 'react-icons/vsc';
+} from "react-icons/vsc";
 
-import { SvgIcons } from './svg/svgIconList';
+import { SvgIcons } from "./svg/svgIconList";
 
 const Icons = {
   add: VscAdd,

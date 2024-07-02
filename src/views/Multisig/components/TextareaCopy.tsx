@@ -1,12 +1,12 @@
-import classNames from 'classnames';
-import { Box, Button, Icon } from 'components/Atomic';
-import { FieldLabel } from 'components/Form';
-import { PanelTextarea } from 'components/PanelTextarea';
-import type { TextAreaProps } from 'components/PanelTextarea/PanelTextarea';
-import { showSuccessToast } from 'components/Toast';
-import copy from 'copy-to-clipboard';
-import { forwardRef } from 'react';
-import { t } from 'services/i18n';
+import classNames from "classnames";
+import { Box, Button, Icon } from "components/Atomic";
+import { FieldLabel } from "components/Form";
+import { PanelTextarea } from "components/PanelTextarea";
+import type { TextAreaProps } from "components/PanelTextarea/PanelTextarea";
+import { showSuccessToast } from "components/Toast";
+import copy from "copy-to-clipboard";
+import { forwardRef } from "react";
+import { t } from "services/i18n";
 
 type Props = TextAreaProps & {
   error?: string;
@@ -15,12 +15,12 @@ type Props = TextAreaProps & {
 
 export const TextareaCopy = forwardRef<HTMLTextAreaElement, Props>(
   ({ className, error, copyMessage, value, ...props }, ref) => {
-    const handleCopy = async () => {
+    const handleCopy = () => {
       const text = value?.toString();
 
       if (text) {
         copy(text);
-        const message = copyMessage || t('common.valueCopied');
+        const message = copyMessage || t("common.valueCopied");
         showSuccessToast(message);
       }
     };
@@ -29,7 +29,7 @@ export const TextareaCopy = forwardRef<HTMLTextAreaElement, Props>(
       <Box col className="relative" flex={1}>
         <PanelTextarea
           {...props}
-          className={classNames('flex-1 min-h-[100px]', className)}
+          className={classNames("flex-1 min-h-[100px]", className)}
           ref={ref}
           value={value}
         />
@@ -41,7 +41,7 @@ export const TextareaCopy = forwardRef<HTMLTextAreaElement, Props>(
             rightIcon={<Icon name="copy" size={14} />}
             variant="borderlessTint"
           >
-            {t('common.copy')}
+            {t("common.copy")}
           </Button>
         </Box>
 

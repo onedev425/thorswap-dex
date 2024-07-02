@@ -1,8 +1,8 @@
-import { useAnnouncementsList } from 'components/Announcements/hooks';
-import type { AnnouncementsState } from 'components/Announcements/types';
-import type { ReactNode } from 'react';
-import { createContext, useContext, useEffect, useMemo } from 'react';
-import { useApp } from 'store/app/hooks';
+import { useAnnouncementsList } from "components/Announcements/hooks";
+import type { AnnouncementsState } from "components/Announcements/types";
+import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
+import { useApp } from "store/app/hooks";
 
 const AnnouncementsContext = createContext<AnnouncementsState>({
   all: [],
@@ -32,7 +32,7 @@ export const AnnouncementsProvider = ({ children }: Props) => {
       }
 
       const parsedSeenAnnList: string[] =
-        typeof seenAnnList === 'string' ? JSON.parse(seenAnnList) : seenAnnList;
+        typeof seenAnnList === "string" ? JSON.parse(seenAnnList) : seenAnnList;
       const filteredSeen = parsedSeenAnnList.filter((key) =>
         announcementsList.some((ann) => ann.key === key),
       );
@@ -54,14 +54,14 @@ export const AnnouncementsProvider = ({ children }: Props) => {
     () => ({
       all: announcementsList,
       // Dismissed - user clicked "x" button (displayed in popup, not dashboard)
-      dismissed: announcementsList.filter((ann) => dismissedAnnList?.includes(ann.key || '')) || [],
+      dismissed: announcementsList.filter((ann) => dismissedAnnList?.includes(ann.key || "")) || [],
       // Fresh - not dismissed, displayed on dashboard and popup
       fresh:
         announcementsList.filter(
-          (ann) => dismissedAnnList && !dismissedAnnList.includes(ann.key || ''),
+          (ann) => dismissedAnnList && !dismissedAnnList.includes(ann.key || ""),
         ) || [],
       // Seen - not counted in notification badge couter
-      seen: announcementsList.filter((ann) => seenAnnList?.includes(ann.key || '')) || [],
+      seen: announcementsList.filter((ann) => seenAnnList?.includes(ann.key || "")) || [],
     }),
     [announcementsList, seenAnnList, dismissedAnnList],
   );
