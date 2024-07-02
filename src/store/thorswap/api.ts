@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { TrackerPayload, TxDetails } from 'components/TransactionTrackerV2/types';
+import type { TrackerParams, TrackerResponse } from '@swapkit/api/src/thorswapApiV2/types';
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from 'config/constants';
 import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from 'settings/config';
 import type { AnnouncementsData } from 'store/externalConfig/types';
@@ -106,7 +106,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getTxStatusV2: build.query<TxDetails, TrackerPayload | null>({
+    getTxStatusV2: build.query<TrackerResponse, TrackerParams | null>({
       query: (params) => {
         return {
           method: 'POST',

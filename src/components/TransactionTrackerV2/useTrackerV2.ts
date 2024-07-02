@@ -1,15 +1,15 @@
 import type { TxTrackerDetails } from '@swapkit/api';
 import { TxStatus } from '@swapkit/api';
-import { AssetValue } from '@swapkit/core';
-import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
-import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import type {
-  TrackerPayload,
-  TxDetails,
+  TrackerParams,
+  TrackerResponse,
   TxnMeta,
   TxnTransient,
-} from 'components/TransactionTrackerV2/types';
-import { TrackingStatus } from 'components/TransactionTrackerV2/types';
+} from '@swapkit/api/src/thorswapApiV2/types';
+import { TrackingStatus } from '@swapkit/api/src/thorswapApiV2/types';
+import { AssetValue, ChainIdToChain } from '@swapkit/core';
+import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
+import { useCompleteTransaction } from 'components/TransactionManager/useCompleteTransaction';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/store';
 import { useGetTxStatusV2Query } from 'store/thorswap/api';
@@ -29,7 +29,7 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
   const chainId = sellAsset?.chainId;
   const skipFetchingDetails = completed || !canFetchDetails || !chainId;
 
-  const txnPayload: TrackerPayload | null =
+  const txnPayload: TrackerParams | null =
     canFetchDetails && sellAsset && chainId
       ? {
           // TODO: handle polkadot
@@ -61,7 +61,7 @@ export const useTrackerV2 = (tx: PendingTransactionType | null) => {
     : null;
 };
 
-export const useTransactionDetailsV2 = (payload: TrackerPayload | null, skip?: boolean) => {
+export const useTransactionDetailsV2 = (payload: TrackerParams | null, skip?: boolean) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const {
@@ -96,19 +96,22 @@ export const useTransactionDetailsV2 = (payload: TrackerPayload | null, skip?: b
 };
 
 function mapToV1TrackerDetails(
-  payload: TxDetails,
+  payload: TrackerResponse,
 ): TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta; isV2?: boolean } {
   const estimatedFinalizedAt =
-    payload.legs[1]?.transient?.estimatedFinalizedAt || Date.now() / 1000;
+    payload.legs[1]?.transient?.estimatedfinalisedAt || Date.now() / 1000;
   const transient = payload.transient ? { ...payload.transient, estimatedFinalizedAt } : undefined;
 
   return {
     quoteId: '',
     firstTransactionHash: payload.hash,
-    currentLegIndex: 0,
-    legs: payload.legs.map(
-      (leg) => ({ ...leg, status: mapTxStatusToV1Status(leg.trackingStatus) }) as Todo,
-    ),
+    legs: payload.legs.map((leg) => ({
+      ...leg,
+      chain: ChainIdToChain[leg.chainId],
+      fromAssetImage: leg.meta?.images?.from,
+      toAssetImage: leg.meta?.images?.to,
+      provider: leg.meta?.provider,
+    })),
     status: mapTxStatusToV1Status(payload.trackingStatus),
     startTimestamp: null,
     estimatedDuration: null,

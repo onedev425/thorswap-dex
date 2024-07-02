@@ -42,12 +42,12 @@ export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { label, type, details } = txData;
   const transactionUrl = 'txUrl' in txData ? txData.txUrl : '';
 
-  const v2TimeLeft = useTimeLeft((details?.transient?.estimatedFinalizedAt || 0) * 1000);
+  const v2TimeLeft = useTimeLeft((details?.transient?.estimatedfinalisedAt || 0) * 1000);
 
   const timeLeft = v2TimeLeft !== null ? v2TimeLeft : totalTimeLeft;
 
   const estimatedDuration = details?.transient
-    ? details.transient.estimatedTimeToCompleteMs
+    ? details.transient.estimatedTimeToComplete * 1000
     : getEstimatedTxDuration(txDetails);
 
   return (

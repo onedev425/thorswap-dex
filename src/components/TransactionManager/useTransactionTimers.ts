@@ -80,6 +80,11 @@ export const useTransactionTimers = (
 function getLegTimeLeft(leg: TxTrackerLeg) {
   const now = Date.now();
 
+  // v2 - simplified logic
+  if (leg.transient?.estimatedfinalisedAt) {
+    return Math.max(0, leg.transient.estimatedfinalisedAt * 1000 - now);
+  }
+
   // leg finished
   if (leg.endTimestamp) {
     return 0;

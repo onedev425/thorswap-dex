@@ -32,7 +32,7 @@ type Props = {
   leg: TxTrackerLeg;
   isLast: boolean;
   index: number;
-  currentLegIndex: number;
+  currentLegIndex?: number;
   txStatus?: TxStatus;
   legTimeLeft?: number | null;
   horizontalView?: boolean;
@@ -144,8 +144,9 @@ export const TxLegPreview = ({
   const outAssetIdentifier = leg.toAsset;
   const transactionUrl = useTxUrl({
     txHash:
-      (invalidRuneTxHash ? txDetails?.legs[Math.max(currentLegIndex - 1, 0)]?.hash : leg?.hash) ||
-      '',
+      (invalidRuneTxHash
+        ? txDetails?.legs[Math.max(txDetails.legs.length - 2, 0)]?.hash
+        : leg?.hash) || '',
     chain: leg.chain,
   });
   const fromAssetTicker = getTickerFromIdentifier(inAssetIdentifier || '') || '??';
@@ -155,16 +156,19 @@ export const TxLegPreview = ({
   const isStreamming = leg.status === TxStatus.STREAMING;
 
   const status = useMemo(() => {
-    if (!isTxFinished && currentLegIndex === index) {
-      return 'pending';
-    }
+    if (typeof currentLegIndex !== 'undefined') {
+      // logic for v1 tracker
+      if (!isTxFinished && currentLegIndex === index) {
+        return 'pending';
+      }
 
-    if (leg.status === 'pending' && txStatus === TxStatus.ERROR) {
-      return 'error';
-    }
+      if (leg.status === 'pending' && txStatus === TxStatus.ERROR) {
+        return 'error';
+      }
 
-    if (currentLegIndex > -1 && currentLegIndex < index) {
-      return 'notStarted';
+      if (currentLegIndex > -1 && currentLegIndex < index) {
+        return 'notStarted';
+      }
     }
 
     return leg.status ? getSimpleTxStatus(leg.status) : 'unknown';

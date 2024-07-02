@@ -1,4 +1,5 @@
 import { TxStatus } from '@swapkit/api';
+import { TxnStatus } from '@swapkit/api/src/thorswapApiV2/types';
 import { getSimpleTxStatus } from 'components/TransactionManager/helpers';
 import dayjs from 'dayjs';
 import { t } from 'services/i18n';
@@ -41,12 +42,15 @@ export const getTxStatusLabel = (status: TransactionStatus | null) => {
   }
 };
 
-export const getTxState = (status?: TxStatus) => {
+export const getTxState = (status?: TxStatus | TxnStatus) => {
   if (!status) return { completed: false, error: false, finished: false, timedOut: false };
 
   const error = status === TxStatus.ERROR || status === TxStatus.CANCELLED;
   const completed =
-    status === TxStatus.SUCCESS || status === TxStatus.REFUNDED || status === TxStatus.REPLACED;
+    status === TxStatus.SUCCESS ||
+    status === TxStatus.REFUNDED ||
+    status === TxStatus.REPLACED ||
+    status === TxnStatus.completed;
   const timedOut = status === TxStatus.RETRIES_EXCEEDED;
   const finished = completed || error || timedOut;
 

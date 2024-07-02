@@ -1,7 +1,8 @@
 import type { TxTrackerDetails } from '@swapkit/api';
 import { TxStatus } from '@swapkit/api';
+import type { TxnTransient } from '@swapkit/api/src/thorswapApiV2/types';
+import { TxnStatus } from '@swapkit/api/src/thorswapApiV2/types';
 import { AssetValue, BaseDecimal, Chain } from '@swapkit/core';
-import type { TxnTransient } from 'components/TransactionTrackerV2/types';
 import { useCallback, useState } from 'react';
 import { getCustomContract } from 'services/contract';
 import { t } from 'services/i18n';
@@ -184,11 +185,14 @@ export const useTxLabelUpdate = ({
   return { isLoading, handleLabelUpdate };
 };
 
-export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
+export const getSimpleTxStatus = (status: TxStatus | TxnStatus): TransactionStatus => {
   switch (status) {
     case TxStatus.SUCCESS:
+    case TxnStatus.completed:
       return 'mined';
     case TxStatus.PENDING:
+    case TxnStatus.swappping:
+    case TxnStatus.pending:
       return 'pending';
     case TxStatus.REFUNDED:
     case TxStatus.REPLACED:
@@ -200,6 +204,7 @@ export const getSimpleTxStatus = (status: TxStatus): TransactionStatus => {
     case TxStatus.RETRIES_EXCEEDED:
       return 'unknown';
     case TxStatus.NOT_STARTED:
+    case TxnStatus.not_started:
       return 'notStarted';
     default:
       return 'pending';

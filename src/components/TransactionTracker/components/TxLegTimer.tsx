@@ -12,10 +12,12 @@ type Props = {
 };
 
 export const TxLegTimer = ({ leg, isTxFinished, timeLeft }: Props) => {
+  const transient = leg?.transient;
   const startTimestamp = leg?.startTimestamp || null;
   const endTimestamp = leg?.endTimestamp || null;
   const estimatedDuration = leg?.estimatedDuration ? leg?.estimatedDuration : null;
   const { finished: isLegFinished, timedOut } = getTxState(leg.status);
+
   // final duration
   const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : null;
   const timeLabel = useMemo(() => {
@@ -46,7 +48,7 @@ export const TxLegTimer = ({ leg, isTxFinished, timeLeft }: Props) => {
             <>
               <Icon name="timer" size={14} />
               <Text fontWeight="light" textStyle="caption-xs">
-                {formatDuration(duration)}
+                {formatDuration(transient ? transient.estimatedTimeToComplete * 1000 : duration)}
               </Text>
             </>
           ) : (
