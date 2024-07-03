@@ -106,6 +106,7 @@
     "connected": "Connected",
     "copied": "Copied",
     "copy": "Copy",
+    "copyErrorCode": "Copy Error code",
     "create": "Create",
     "createLiquidity": "Create Liquidity",
     "customRecipientTooltip": "Receive asset to your custom address.",

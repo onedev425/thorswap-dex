@@ -1,11 +1,11 @@
 import { Text } from "@chakra-ui/react";
 import classNames from "classnames";
-import { Box, Icon } from "components/Atomic";
+import { Box, Button, Icon } from "components/Atomic";
 import { t } from "i18next";
 import type { ReactNode } from "react";
 import React from "react";
 import type { ToastOptions } from "react-hot-toast";
-import { ToastBar, Toaster, toast } from "react-hot-toast";
+import { toast, ToastBar, Toaster } from "react-hot-toast";
 
 export enum ToastType {
   Info = "info",
@@ -91,34 +91,41 @@ const showToast: ShowToastFunction = ({
             </Box>
             {type === ToastType.Error && error && (
               <Box className="pt-4">
-                <Box width="80%">
-                  <Text fontWeight="light" textStyle="caption-xs">
-                    {t("skErrorMessages.core_error")}
-                    {" ( "}
-                    <a
-                      className="underline"
-                      href="https://discord.gg/thorswap"
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      https://discord.gg/thorswap
-                    </a>
-                    {" )."}
-                    <div className="pt-4">{t("skErrorMessages.core_error_copy")}</div>
-                  </Text>
-                </Box>
-                <Box style={{ alignItems: "flex-end" }} width="20%">
-                  <Icon
-                    color="primary"
-                    name="copy"
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        JSON.stringify(error, Object.getOwnPropertyNames(error)),
-                      )
-                    }
-                    size={18}
-                  />
-                </Box>
+                <Text fontWeight="light" textStyle="caption-xs">
+                  {t('skErrorMessages.core_error')}
+                  {' ( '}
+                  <a
+                    className="underline"
+                    href="https://discord.gg/thorswap"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    https://discord.gg/thorswap
+                  </a>
+                  {' ).'}
+                  <Box className="pt-4">
+                    {t('skErrorMessages.core_error_copy')}
+                    <Box style={{ alignItems: 'flex-end' }}>
+                      <Button
+                        className="!rounded-xl"
+                        leftIcon={
+                          <Icon
+                            color="primary"
+                            name="copy"
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                JSON.stringify(error, Object.getOwnPropertyNames(error)),
+                              )
+                            }
+                            size={18}
+                          />
+                        }
+                      >
+                        {t('common.copyErrorCode')}
+                      </Button>
+                    </Box>
+                  </Box>
+                </Text>
               </Box>
             )}
           </Box>
