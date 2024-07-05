@@ -260,13 +260,13 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         )?.balance;
 
         return [
-          AssetValue.fromChainOrSignature(
-            Chain.Cosmos,
-            SwapKitNumber.fromBigInt(
+          AssetValue.from({
+            chain: Chain.Cosmos,
+            value: SwapKitNumber.fromBigInt(
               BigInt(balance?.toString(10) || "0"),
               BaseDecimal.GAIA,
             ).getValue("string"),
-          ),
+          }),
         ];
       };
 
@@ -338,13 +338,13 @@ const getWalletMethods = async (chain: Chain, ledgerLiveAccount: LedgerAccount) 
         )?.balance;
 
         return [
-          AssetValue.fromChainOrSignature(
+          AssetValue.from({
             chain,
-            SwapKitNumber.fromBigInt(
+            value: SwapKitNumber.fromBigInt(
               BigInt(balance?.toString(10) || "0"),
               BaseDecimal.BTC,
             ).getValue("string"),
-          ),
+          }),
         ];
       };
 

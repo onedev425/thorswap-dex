@@ -136,6 +136,7 @@ const ConnectWalletModal = () => {
         [
           WalletType.Ledger,
           WalletType.MetaMask,
+          WalletType.Brave,
           WalletType.Trezor,
           WalletType.TrustWalletExtension,
           WalletType.CoinbaseExtension,
@@ -361,6 +362,7 @@ const ConnectWalletModal = () => {
                   disabled={[
                     WalletType.Ledger,
                     WalletType.MetaMask,
+                    WalletType.Brave,
                     WalletType.Trezor,
                     WalletType.TrustWalletExtension,
                     WalletType.CoinbaseExtension,

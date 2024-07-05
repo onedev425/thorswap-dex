@@ -50,7 +50,7 @@ export const AccountCard = memo(({ thornames, chain }: Props) => {
   } = useAccountData(chain);
 
   const { handleRefreshChain } = useWalletChainActions(chain);
-  const sigAsset = AssetValue.fromChainOrSignature(chain);
+  const sigAsset = AssetValue.from({ chain });
 
   const toggleConnect = useCallback(() => {
     if (chainAddress) {
