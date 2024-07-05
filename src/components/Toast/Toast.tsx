@@ -92,8 +92,8 @@ const showToast: ShowToastFunction = ({
             {type === ToastType.Error && error && (
               <Box className="pt-4">
                 <Text fontWeight="light" textStyle="caption-xs">
-                  {t('skErrorMessages.core_error')}
-                  {' ( '}
+                  {t("skErrorMessages.core_error")}
+                  {" ( "}
                   <a
                     className="underline"
                     href="https://discord.gg/thorswap"
@@ -102,26 +102,20 @@ const showToast: ShowToastFunction = ({
                   >
                     https://discord.gg/thorswap
                   </a>
-                  {' ).'}
+                  {" )."}
                   <Box className="pt-4">
-                    {t('skErrorMessages.core_error_copy')}
-                    <Box style={{ alignItems: 'flex-end' }}>
+                    {t("skErrorMessages.core_error_copy")}
+                    <Box style={{ alignItems: "flex-end" }}>
                       <Button
                         className="!rounded-xl"
-                        leftIcon={
-                          <Icon
-                            color="primary"
-                            name="copy"
-                            onClick={() =>
-                              navigator.clipboard.writeText(
-                                JSON.stringify(error, Object.getOwnPropertyNames(error)),
-                              )
-                            }
-                            size={18}
-                          />
+                        onClick={() =>
+                          navigator.clipboard.writeText(
+                            JSON.stringify(error, Object.getOwnPropertyNames(error)),
+                          )
                         }
+                        leftIcon={<Icon color="primary" name="copy" size={18} />}
                       >
-                        {t('common.copyErrorCode')}
+                        {t("common.copyErrorCode")}
                       </Button>
                     </Box>
                   </Box>
