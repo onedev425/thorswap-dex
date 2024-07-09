@@ -20,7 +20,7 @@ export const ConnectKeystoreView = ({ loading, onConnect, onCreate }: Props) => 
     openFilePicker,
     filesContent: [{ content } = { content: "" }],
     loading: filesLoading,
-  } = useFilePicker({ accept: [".txt", ".json"] });
+  } = useFilePicker({ accept: "*" });
   const [keystore, setKeystore] = useState<Keystore>();
   const [password, setPassword] = useState<string>("");
   const [invalidStatus, setInvalidStatus] = useState(false);
