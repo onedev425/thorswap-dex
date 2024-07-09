@@ -1,6 +1,6 @@
 import { QueryStatus } from "@reduxjs/toolkit/query";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IS_LEDGER_LIVE, IS_PROD } from "settings/config";
+import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD } from "settings/config";
 import { useLazyGetTokenListQuery } from "store/static/api";
 import { useAppSelector } from "store/store";
 import { useGetProvidersQuery } from "store/thorswap/api";
@@ -65,7 +65,7 @@ export const useTokenList = (withTradingPairs = false) => {
     if (withTradingPairs) {
       const chainableTokens = providersData
         .filter(({ data }) => {
-          return !UNCHAINABLE_PROVIDERS.includes(data?.provider || "");
+          return IS_DEV_API || !UNCHAINABLE_PROVIDERS.includes(data?.provider || "");
         })
         .reduce(
           (acc, { data, status }) =>
@@ -76,7 +76,7 @@ export const useTokenList = (withTradingPairs = false) => {
         );
       for (const { data, status } of providersData) {
         if (!data?.tokens || status === QueryStatus.rejected) return;
-        const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider);
+        const isProviderChainable = !(UNCHAINABLE_PROVIDERS.includes(data.provider) || IS_DEV_API);
 
         for (const token of data.tokens) {
           const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || {

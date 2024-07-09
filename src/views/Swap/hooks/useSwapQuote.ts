@@ -5,7 +5,7 @@ import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "confi
 import { useDebouncedValue } from "hooks/useDebouncedValue";
 import { useVTHORBalance } from "hooks/useHasVTHOR";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
+import { IS_BETA, IS_DEV_API, IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
 import { useApp } from "store/app/hooks";
 import { useAppSelector } from "store/store";
 import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from "store/thorswap/api";
@@ -114,7 +114,10 @@ export const useSwapQuote = ({
     isUninitialized,
   } = useGetTokensQuoteQuery(params, {
     skip:
-      params.sellAmount === "0" || inputAmount.lte(0) || !providers.includes(Provider.V1_PROVIDERS),
+      IS_DEV_API ||
+      params.sellAmount === "0" ||
+      inputAmount.lte(0) ||
+      !providers.includes(Provider.V1_PROVIDERS),
   });
 
   const {
@@ -125,10 +128,12 @@ export const useSwapQuote = ({
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, providers: ["CHAINFLIP"] },
+    { ...params, providers: IS_DEV_API ? providers : ["CHAINFLIP"] },
     {
       skip:
-        params.sellAmount === "0" || inputAmount.lte(0) || !providers.includes(Provider.CHAINFLIP),
+        params.sellAmount === "0" ||
+        inputAmount.lte(0) ||
+        (providers.includes(Provider.MAYACHAIN) && !IS_DEV_API),
     },
   );
 
@@ -144,6 +149,7 @@ export const useSwapQuote = ({
     {
       skip:
         // TODO move ledger live integration to SK
+        IS_DEV_API ||
         IS_LEDGER_LIVE ||
         params.sellAmount === "0" ||
         inputAmount.lte(0) ||

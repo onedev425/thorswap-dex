@@ -5,7 +5,7 @@ import { t } from "i18next";
 import type { ReactNode } from "react";
 import React from "react";
 import type { ToastOptions } from "react-hot-toast";
-import { toast, ToastBar, Toaster } from "react-hot-toast";
+import { ToastBar, Toaster, toast } from "react-hot-toast";
 
 export enum ToastType {
   Info = "info",

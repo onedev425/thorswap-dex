@@ -13,6 +13,7 @@ type Props = {
 
 export const normalizedProviderName = {
   THORCHAIN: "THORChain",
+  THORCHAIN_STREAMING: "THORChain Streaming",
   ONEINCH: "1inch",
   UNISWAP: "UniswapV1",
   UNISWAP_V1: "UniswapV1",

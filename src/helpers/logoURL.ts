@@ -31,6 +31,7 @@ const providersInfoMap = {
   synthetix: "ETH.SNX-0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
   synthetixatomicsip288: "ETH.SNX-0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
   thorchain: "ETH.RUNE-0x3155ba85d5f96b2d030a4966af206230e46849cb",
+  thorchainstreaming: "ETH.RUNE-0x3155ba85d5f96b2d030a4966af206230e46849cb",
   uniswap: "ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
   uniswapv1: "ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
   uniswapv2: "ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
