@@ -26,6 +26,7 @@ const walletIcons: Record<SupportedWalletOptions, IconName> = {
   [WalletOption.KEEPKEY]: "keepkey",
   [WalletOption.KEYSTORE]: "keystore",
   [WalletOption.WALLETCONNECT]: "walletConnect",
+  [WalletOption.TALISMAN]: "talisman",
   [WalletOption.TREZOR]: "trezor",
   [WalletOption.XDEFI]: "xdefi",
   [WalletOption.KEPLR]: "keplr",

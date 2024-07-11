@@ -17,11 +17,7 @@ export type Wallet = BaseWallet<
 
 export type SupportedWalletOptions = Exclude<
   WalletOption,
-  | WalletOption.EXODUS
-  | WalletOption.EIP6963
-  | WalletOption.RADIX_WALLET
-  | WalletOption.TALISMAN
-  | WalletOption.PHANTOM
+  WalletOption.EXODUS | WalletOption.EIP6963 | WalletOption.RADIX_WALLET | WalletOption.PHANTOM
 >;
 
 type LiquidityTxResult<T extends TransactionType> = {

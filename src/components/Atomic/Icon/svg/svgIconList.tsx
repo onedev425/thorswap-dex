@@ -63,6 +63,7 @@ import Squares from "./squares.svg?react";
 import Station from "./station.svg?react";
 import Sun from "./sun.svg?react";
 import Swap from "./swap.svg?react";
+import Talisman from "./talisman.svg?react";
 import Thoryield from "./thoryield.svg?react";
 import ThoryieldColor from "./thoryieldColor.svg?react";
 import ThreeDots from "./threedots.svg?react";
@@ -125,6 +126,7 @@ export const Svgs = {
   station: Station,
   sun: Sun,
   swap: Swap,
+  talisman: Talisman,
   threedots: ThreeDots,
   tick: Tick,
   tradeLightning: TradeLightning,

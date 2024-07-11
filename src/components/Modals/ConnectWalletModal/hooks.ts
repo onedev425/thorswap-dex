@@ -57,6 +57,11 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             label: t("views.walletModal.walletConnect"),
           },
           {
+            type: WalletType.Talisman,
+            icon: "talisman",
+            label: t("views.walletModal.talisman"),
+          },
+          {
             type: WalletType.TrustWallet,
             icon: "trustWallet",
             label: t("views.walletModal.trustWallet"),
@@ -185,6 +190,7 @@ export const useHandleWalletConnect = ({
     connectKeplr,
     connectKeepkey,
     connectLedger,
+    connectTalismanWallet,
     connectTrezor,
     connectWalletconnect,
     connectEVMWalletExtension,
@@ -230,6 +236,8 @@ export const useHandleWalletConnect = ({
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
+          case WalletType.Talisman:
+            return connectTalismanWallet(selectedChains);
           case WalletType.Keplr:
             return connectKeplr(selectedChains as (Chain.Cosmos | Chain.Kujira)[]);
           case WalletType.Okx:
@@ -280,6 +288,7 @@ export const useHandleWalletConnect = ({
       connectLedger,
       connectOkx,
       connectTrezor,
+      connectTalismanWallet,
       connectWalletconnect,
       connectXdefiWallet,
       derivationPathType,
@@ -318,6 +327,7 @@ const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.OkxMobile]: WalletOption.OKX_MOBILE,
   [WalletType.Phrase]: WalletOption.KEYSTORE,
   [WalletType.Rainbow]: WalletOption.WALLETCONNECT,
+  [WalletType.Talisman]: WalletOption.TALISMAN,
   [WalletType.Trezor]: WalletOption.TREZOR,
   [WalletType.TrustWallet]: WalletOption.WALLETCONNECT,
   [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
@@ -343,6 +353,8 @@ export const useHandleWalletTypeSelect = ({
         return window.open("https://www.coinbase.com/wallet/articles/getting-started-extension");
       case WalletType.Xdefi:
         return window.open("https://xdefi.io");
+      case WalletType.Talisman:
+        return window.open("https://www.talisman.xyz/");
       case WalletType.Brave:
         return window.open("brave://wallet/");
       case WalletType.OkxMobile:

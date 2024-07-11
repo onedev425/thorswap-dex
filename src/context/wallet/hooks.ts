@@ -231,6 +231,20 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
+  const connectTalismanWallet = useCallback(
+    async (chains: Chain[]) => {
+      const { connectTalisman: swapKitConnectTalisman } = await (
+        await import("services/swapKit")
+      ).getSwapKitClient();
+
+      // @ts-expect-error
+      await swapKitConnectTalisman(chains);
+
+      reloadAllWallets(chains);
+    },
+    [reloadAllWallets],
+  );
+
   const connectCoinbaseMobile = useCallback(
     async (chains: EVMChain[]) => {
       const skclient = await (await import("services/swapKit")).getSwapKitClient();
@@ -413,6 +427,7 @@ export const useConnectWallet = () => {
     connectXdefiWallet,
     connectEVMWalletExtension,
     connectBraveWallet,
+    connectTalismanWallet,
     connectTrustWalletExtension,
     connectCoinbaseMobile,
     connectCoinbaseWalletExtension,
