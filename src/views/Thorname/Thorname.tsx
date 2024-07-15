@@ -17,6 +17,8 @@ import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { t } from "services/i18n";
 
+import { isThornameExpired } from "store/midgard/actions";
+import { useGetLastblockQuery } from "store/midgard/api";
 import { ChainDropdown } from "./ChainDropdown";
 import { RegisteredThornames } from "./RegisteredThornames";
 import { useThornameInfoItems } from "./useThornameInfoItems";
@@ -27,6 +29,7 @@ const Thorname = () => {
   const { isWalletLoading, getWalletAddress } = useWallet();
   const { signingRequired } = useKeystore();
   const thorAddress = getWalletAddress(Chain.THORChain);
+  const { data: lastBlock } = useGetLastblockQuery();
   const {
     available,
     chain,
@@ -60,10 +63,14 @@ const Thorname = () => {
     thorname: searchedThorname,
     details,
     available,
+    thorAddress,
   });
 
   const unavailableForPurchase = useMemo(
-    () => details && details?.owner !== thorAddress,
+    () =>
+      details &&
+      details.owner !== thorAddress &&
+      !isThornameExpired({ expire: details.expire, lastThorchainBlock: lastBlock?.[0]?.thorchain }),
     [details, thorAddress],
   );
 

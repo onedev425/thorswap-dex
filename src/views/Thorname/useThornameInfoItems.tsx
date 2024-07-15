@@ -20,9 +20,17 @@ type Params = {
   thorname: string;
   setYears: (years: number) => void;
   years: number;
+  thorAddress: string;
 };
 
-export const useThornameInfoItems = ({ thorname, details, available, years, setYears }: Params) => {
+export const useThornameInfoItems = ({
+  thorname,
+  details,
+  available,
+  years,
+  setYears,
+  thorAddress,
+}: Params) => {
   const { data: lastBlock } = useGetLastblockQuery();
   const isAvailable = !details || available;
 
@@ -42,7 +50,11 @@ export const useThornameInfoItems = ({ thorname, details, available, years, setY
           <Text variant={isAvailable ? "green" : "red"}>
             {t(
               `views.thorname.${
-                isAvailable ? (details ? "ownedByYou" : "available") : "unavailable"
+                isAvailable
+                  ? details?.owner === thorAddress
+                    ? "ownedByYou"
+                    : "available"
+                  : "unavailable"
               }`,
             )}
           </Text>

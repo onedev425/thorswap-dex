@@ -6,7 +6,8 @@ import usePrevious from "hooks/usePrevious";
 import { useCallback, useEffect, useReducer } from "react";
 import { t } from "services/i18n";
 import { logException } from "services/logger";
-import { useLazyGetTNSDetailQuery } from "store/midgard/api";
+import { isThornameExpired } from "store/midgard/actions";
+import { useGetLastblockQuery, useLazyGetTNSDetailQuery } from "store/midgard/api";
 import { useAppDispatch } from "store/store";
 import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
 import { TransactionType } from "store/transactions/types";
@@ -90,6 +91,7 @@ export const useThornameLookup = (owner?: string) => {
   ] = useReducer(reducer, initialState);
 
   const [getTNSDetail] = useLazyGetTNSDetailQuery();
+  const { data: lastBlock } = useGetLastblockQuery();
 
   const setChain = useCallback((chain: Chain) => {
     dispatch({ type: "setChain", payload: chain });
@@ -114,13 +116,21 @@ export const useThornameLookup = (owner?: string) => {
       const payload =
         Array.isArray(details) || !details || typeof details === "boolean"
           ? { details: null, available: true }
-          : { details, available: owner ? details.owner === owner : false };
+          : {
+              details,
+              available: owner
+                ? details.owner === owner
+                : isThornameExpired({
+                    expire: details.expire,
+                    lastThorchainBlock: lastBlock?.[0]?.thorchain,
+                  }),
+            };
       dispatch({
         type: "setDetails",
         payload,
       });
     },
-    [getTNSDetail, owner, searchedThorname],
+    [getTNSDetail, owner, searchedThorname, lastBlock],
   );
 
   const lookupForTNS = useCallback(

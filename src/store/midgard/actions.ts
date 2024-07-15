@@ -4,7 +4,7 @@ import { THORNODE_URL } from "settings/config";
 
 import type { InboundAddressesItem, SaverProvider, ThornodePoolType } from "./types";
 
-export const getThornameExpireDate = ({
+const getThornameExpireDayjs = ({
   expire,
   lastThorchainBlock = 0,
 }: {
@@ -15,7 +15,27 @@ export const getThornameExpireDate = ({
   const blocksDiff = lastThorchainBlock - Number.parseInt(expire);
   const days = (blocksDiff / blocksPerYear) * -365;
 
-  return dayjs().add(days, "days").format("YYYY-MM-DD");
+  return dayjs().add(days, "days");
+};
+
+export const getThornameExpireDate = ({
+  expire,
+  lastThorchainBlock = 0,
+}: {
+  expire: string;
+  lastThorchainBlock: number;
+}) => {
+  return getThornameExpireDayjs({ expire, lastThorchainBlock }).format("YYYY-MM-DD");
+};
+
+export const isThornameExpired = ({
+  expire,
+  lastThorchainBlock = 0,
+}: {
+  expire: string;
+  lastThorchainBlock: number;
+}) => {
+  return getThornameExpireDayjs({ expire, lastThorchainBlock }).isBefore(dayjs());
 };
 
 export const getInboundData = () =>
