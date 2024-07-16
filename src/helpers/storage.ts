@@ -16,7 +16,6 @@ type StorageType = {
   affTimestamp: string;
   customRecipientMode: boolean;
   customSendVisible: boolean;
-  customDerivationVisible: boolean;
   disabledTokenLists: string[];
   dismissedAnnList: string[];
   expertMode: boolean;
@@ -84,7 +83,6 @@ type StoragePayload =
         | "statsHidden"
         | "multisigVisible"
         | "customSendVisible"
-        | "customDerivationVisible"
         | "tradingHaltStatus"
         | "restorePreviousWallet";
       value: boolean;
@@ -102,7 +100,6 @@ const defaultValues: StorageType = {
   expertMode: false,
   multisigVisible: true,
   customSendVisible: false,
-  customDerivationVisible: false,
   readStatus: false,
   restorePreviousWallet: false,
   sidebarCollapsed: false,
@@ -156,7 +153,6 @@ export const saveInStorage = ({ key, value }: StoragePayload) => {
     case "expertMode":
     case "multisigVisible":
     case "customSendVisible":
-    case "customDerivationVisible":
     case "readStatus":
     case "restorePreviousWallet":
     case "sidebarCollapsed":
@@ -203,7 +199,6 @@ export const getFromStorage = (key: keyof StorageType): StorageType[keyof Storag
     case "customRecipientMode":
     case "multisigVisible":
     case "customSendVisible":
-    case "customDerivationVisible":
     case "readStatus":
     case "restorePreviousWallet":
     case "sidebarCollapsed":

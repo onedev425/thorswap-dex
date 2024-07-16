@@ -25,7 +25,6 @@ export interface State {
   hideStats: boolean;
   multisigVisible: boolean;
   customSendVisible: boolean;
-  customDerivationVisible: boolean;
   hideCharts: boolean;
   dismissedAnnList: string[];
   seenAnnList: string[];

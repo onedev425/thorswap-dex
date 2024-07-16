@@ -1,8 +1,8 @@
 import { Text } from "@chakra-ui/react";
 import { Chain } from "@swapkit/sdk";
 import { Box, DropdownMenu } from "components/Atomic";
-import { useMemo } from "react";
-
+import { useCallback, useMemo } from "react";
+import { t } from "services/i18n";
 import type { DerivationPathType } from "./hooks";
 
 const CHAINS_WITH_CUSTOM_DERIVATION_PATH = [
@@ -53,17 +53,33 @@ type Props = {
   chain: Chain;
   ledgerIndex: number;
   derivationPathType?: DerivationPathType;
+  customDerivationVisible: boolean;
   setDerivationPathType: (path?: DerivationPathType) => void;
+  setCustomDerivationVisible: (visible: boolean) => void;
 };
 
 export const DerivationPathDropdown = ({
   derivationPathType,
   chain,
+  customDerivationVisible,
   ledgerIndex,
   setDerivationPathType,
+  setCustomDerivationVisible,
 }: Props) => {
-  const types = useLedgerTypes(chain);
+  const customDerivationOption = { value: "customDerivation", label: t("common.customDerivation") };
+  const types = [...useLedgerTypes(chain), customDerivationOption];
 
+  const handleOptionChange = useCallback(
+    (v: string) => {
+      if (v === customDerivationOption.value) {
+        setCustomDerivationVisible(true);
+        return;
+      }
+      setDerivationPathType(v as DerivationPathType);
+      setCustomDerivationVisible(false);
+    },
+    [derivationPathType, chain, customDerivationOption, ledgerIndex],
+  );
   if (!CHAINS_WITH_CUSTOM_DERIVATION_PATH.includes(chain)) return null;
 
   return (
@@ -71,13 +87,15 @@ export const DerivationPathDropdown = ({
       <DropdownMenu
         stretch
         menuItems={types}
-        onChange={(v) => setDerivationPathType(v as DerivationPathType)}
+        onChange={handleOptionChange}
         openComponent={
           <Box alignCenter className="gap-2 w-fit">
             <Text textStyle="caption">
-              {types
-                .find(({ value }) => !derivationPathType || value === derivationPathType)
-                ?.label?.replace("{index}", (ledgerIndex || 0).toString())}
+              {customDerivationVisible
+                ? customDerivationOption.label
+                : types
+                    .find(({ value }) => !derivationPathType || value === derivationPathType)
+                    ?.label?.replace("{index}", (ledgerIndex || 0).toString())}
             </Text>
           </Box>
         }

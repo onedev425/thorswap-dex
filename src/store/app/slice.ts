@@ -16,7 +16,6 @@ const initialState: State = {
   hideStats: getFromStorage("statsHidden") as boolean,
   multisigVisible: getFromStorage("multisigVisible") as boolean,
   customSendVisible: getFromStorage("customSendVisible") as boolean,
-  customDerivationVisible: getFromStorage("customDerivationVisible") as boolean,
   hideCharts: getFromStorage("chartsHidden") as boolean,
   dismissedAnnList: getFromStorage("dismissedAnnList") as string[],
   seenAnnList: getFromStorage("seenAnnList") as string[],
@@ -132,10 +131,6 @@ const appSlice = createSlice({
     setCustomMemoShowStatus(state, action: PayloadAction<boolean>) {
       state.customSendVisible = action.payload;
       saveInStorage({ key: "customSendVisible", value: action.payload });
-    },
-    setCustomDerivationShowStatus(state, action: PayloadAction<boolean>) {
-      state.customDerivationVisible = action.payload;
-      saveInStorage({ key: "customDerivationVisible", value: action.payload });
     },
     setChartsShowStatus(state, action: PayloadAction<boolean>) {
       state.hideCharts = action.payload;

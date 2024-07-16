@@ -109,6 +109,7 @@
     "copyErrorCode": "Copy Error code",
     "create": "Create",
     "createLiquidity": "Create Liquidity",
+    "customDerivation": "Custom Derivation",
     "customRecipientTooltip": "Receive asset to your custom address.",
     "day": "day",
     "days": "days",

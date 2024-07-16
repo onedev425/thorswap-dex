@@ -16,7 +16,6 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { t } from "services/i18n";
 import { logException } from "services/logger";
 import { SUPPORTED_CHAINS } from "settings/chain";
-import { useApp } from "store/app/hooks";
 import type { SupportedWalletOptions } from "store/thorswap/types";
 
 import ChainItem from "./ChainItem";
@@ -29,13 +28,13 @@ import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } f
 import { WalletType, availableChainsByWallet } from "./types";
 
 const ConnectWalletModal = () => {
-  const { customDerivationVisible } = useApp();
   const { isMdActive } = useWindowSize();
   const { getWallet, isWalletLoading } = useWallet();
   const { unlockKeystore } = useConnectWallet();
   const { setIsConnectModalOpen, isConnectModalOpen } = useWalletConnectModal();
 
   const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
+  const [customDerivationVisible, setCustomDerivationVisible] = useState(false);
   const [selectedWalletType, setSelectedWalletType] = useState<WalletType>();
   const [ledgerIndex, setLedgerIndex] = useState(0);
   const [customDerivationPath, setCustomDerivationPath] = useState("m/0'/0'/0'/0/0");
@@ -452,48 +451,42 @@ const ConnectWalletModal = () => {
                     ),
                 )}
               </Box>
-
               {selectedWalletType &&
                 [WalletType.Ledger, WalletType.Trezor, WalletType.Keepkey].includes(
                   selectedWalletType,
                 ) &&
-                selectedChains.length === 1 &&
-                !customDerivationVisible && (
+                selectedChains.length === 1 && (
                   <Box center>
-                    <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                      <Text>{t("common.index")}:</Text>
-                      <Input
-                        stretch
-                        border="rounded"
-                        onChange={(e) => setLedgerIndex(Number.parseInt(e.target.value))}
-                        type="number"
-                        value={ledgerIndex}
-                      />
-                    </Box>
-
+                    {customDerivationVisible ? (
+                      <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
+                        <Text>{t("common.derivationPath")}:</Text>
+                        <Input
+                          stretch
+                          border="rounded"
+                          onChange={(e) => setCustomDerivationPath(e.target.value)}
+                          type="text"
+                          value={customDerivationPath}
+                        />
+                      </Box>
+                    ) : (
+                      <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
+                        <Text>{t("common.index")}:</Text>
+                        <Input
+                          stretch
+                          border="rounded"
+                          onChange={(e) => setLedgerIndex(Number.parseInt(e.target.value))}
+                          type="number"
+                          value={ledgerIndex}
+                        />
+                      </Box>
+                    )}
                     <DerivationPathDropdown
                       chain={selectedChains[0]}
                       derivationPathType={derivationPathType}
+                      customDerivationVisible={customDerivationVisible}
                       ledgerIndex={ledgerIndex}
                       setDerivationPathType={setDerivationPathType}
-                    />
-                  </Box>
-                )}
-
-              {selectedWalletType &&
-                [WalletType.Ledger, WalletType.Trezor, WalletType.Keepkey].includes(
-                  selectedWalletType,
-                ) &&
-                selectedChains.length === 1 &&
-                customDerivationVisible && (
-                  <Box alignCenter className="pt-2 mx-6 gap-x-2" flex={1} justify="between">
-                    <Text>{t("common.derivationPath")}:</Text>
-                    <Input
-                      stretch
-                      border="rounded"
-                      onChange={(e) => setCustomDerivationPath(e.target.value)}
-                      type="text"
-                      value={customDerivationPath}
+                      setCustomDerivationVisible={setCustomDerivationVisible}
                     />
                   </Box>
                 )}
