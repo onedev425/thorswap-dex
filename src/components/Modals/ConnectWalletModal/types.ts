@@ -124,7 +124,7 @@ export const availableChainsByWallet: Record<WalletType, Chain[]> = {
   [WalletType.Okx]: [...EVMChainsSupported, Chain.Bitcoin, Chain.Cosmos],
   [WalletType.Phrase]: AllChainsSupported,
   [WalletType.Rainbow]: [Chain.Ethereum],
-  [WalletType.Talisman]: [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Arbitrum, Chain.Polkadot],
+  [WalletType.Talisman]: [...EVMChainsSupported, Chain.Polkadot],
   [WalletType.Trezor]: [...EVMChainsSupported, ...UTXOChainsSupported, Chain.Dash],
   [WalletType.TrustWalletExtension]: EVMChainsSupported,
   [WalletType.TrustWallet]: [...EVMChainsSupported, Chain.THORChain],
