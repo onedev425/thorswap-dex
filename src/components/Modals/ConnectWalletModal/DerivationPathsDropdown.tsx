@@ -21,7 +21,7 @@ const evmLedgerTypes = [
 
 const utxoLedgerTypes = (network = 0) => [
   { value: "", label: `Native Segwit (m/84'/${network}'/0'/0/{index})` },
-  { value: "nativeSegwitMiddle", label: `Native Segwit (m/84'/${network}'/{index}'/0/0)` },
+  { value: "nativeSegwitMiddleAccount", label: `Native Segwit (m/84'/${network}'/{index}'/0/0)` },
   { value: "segwit", label: `Segwit (m/49'/${network}'/0'/0/{index})` },
   { value: "legacy", label: `Legacy (m/44'/${network}'/0'/0/{index})` },
 ];
