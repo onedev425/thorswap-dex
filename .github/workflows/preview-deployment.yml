@@ -43,7 +43,7 @@ jobs:
           VITE_COVALENT_API_KEY: ${{ secrets.VITE_COVALENT_API_KEY }}
           TARGET_VITE_COVALENT_API_KEY: production,preview,development
           TYPE_VITE_COVALENT_API_KEY: encrypted
-          VITE_EXODUS_APP_ID: ${{ secrets.EXODUS_APP_ID }}
+          VITE_EXODUS_APP_ID: ${{ secrets.VITE_EXODUS_APP_ID }}
           TARGET_VITE_EXODUS_APP_ID: production,preview,development
           TYPE_VITE_EXODUS_APP_ID: encrypted
           VITE_ETHPLORER_API_KEY: ${{ secrets.VITE_ETHPLORER_API_KEY }}
