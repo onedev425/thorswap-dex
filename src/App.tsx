@@ -1,6 +1,6 @@
 import { withProfiler } from "@sentry/react";
 import { AssetValue } from "@swapkit/sdk";
-import { createWallet } from "@swapkit/wallet-exodus";
+import { type Wallet, createWallet } from "@swapkit/wallet-exodus";
 import { Box } from "components/Atomic";
 import { TransactionTrackerModal } from "components/TransactionTracker/TransactionTrackerModal";
 import { AnnouncementsProvider } from "context/announcements/AnnouncementsContext";
@@ -15,19 +15,21 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useCallback, useEffect, useState } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider as ReduxProvider } from "react-redux";
-import { IS_LOCAL } from "settings/config";
+import { IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
 import { store as reduxStore } from "store/store";
 
 import DrawerProvider from "./hooks/useWalletDrawer";
 import { PublicRoutes } from "./router";
 
-export const exodusWallet = createWallet({
-  appId: import.meta.env.EXODUS_APP_ID,
-  networks: {
-    bitcoin: true,
-    ethereum: true,
-  },
-});
+export const exodusWallet = IS_LEDGER_LIVE
+  ? ({} as Wallet)
+  : createWallet({
+      appId: import.meta.env.VITE_EXODUS_APP_ID ?? process.env.VITE_EXODUS_APP_ID,
+      networks: {
+        bitcoin: true,
+        ethereum: true,
+      },
+    });
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);

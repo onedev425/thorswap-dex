@@ -16,7 +16,13 @@ import { useWalletDrawer } from "hooks/useWalletDrawer";
 import useWindowSize from "hooks/useWindowSize";
 import { memo, useCallback } from "react";
 import { t } from "services/i18n";
-import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL, IS_PROTECTED, TEST_ENVIRONMENT_NAME } from "settings/config";
+import {
+  IS_BETA,
+  IS_LEDGER_LIVE,
+  IS_LOCAL,
+  IS_PROTECTED,
+  TEST_ENVIRONMENT_NAME,
+} from "settings/config";
 import { useApp } from "store/app/hooks";
 import { useAppSelector } from "store/store";
 import { ThemeType } from "types/app";
@@ -122,7 +128,7 @@ export const Header = memo(({ openMenu }: Props) => {
 
         <Flex flex={1} gap={1} justify="end">
           <div className="min-w-[48px] h-4 mr-2 ">
-            {(IS_BETA || IS_LOCAL) && (
+            {(IS_BETA || IS_LOCAL) && !IS_LEDGER_LIVE && (
               <WalletWidget
                 size="large"
                 theme={{
