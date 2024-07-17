@@ -1,5 +1,6 @@
 import { withProfiler } from "@sentry/react";
 import { AssetValue } from "@swapkit/sdk";
+import { createWallet } from "@swapkit/wallet-exodus";
 import { Box } from "components/Atomic";
 import { TransactionTrackerModal } from "components/TransactionTracker/TransactionTrackerModal";
 import { AnnouncementsProvider } from "context/announcements/AnnouncementsContext";
@@ -19,6 +20,14 @@ import { store as reduxStore } from "store/store";
 
 import DrawerProvider from "./hooks/useWalletDrawer";
 import { PublicRoutes } from "./router";
+
+export const exodusWallet = createWallet({
+  appId: import.meta.env.EXODUS_APP_ID,
+  networks: {
+    bitcoin: true,
+    ethereum: true,
+  },
+});
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);

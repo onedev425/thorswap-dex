@@ -19,7 +19,6 @@ import { getInboundData } from "store/midgard/actions";
 import type { PoolDetail } from "store/midgard/types";
 import { LiquidityTypeOption } from "store/midgard/types";
 import { useAppDispatch } from "store/store";
-import type { Wallet } from "store/thorswap/types";
 import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
 import { TransactionType } from "store/transactions/types";
 import { v4 } from "uuid";
@@ -36,7 +35,7 @@ type Props = {
   poolData?: PoolDetail;
   setLiquidityType: (option: LiquidityTypeOption) => void;
   skipWalletCheck?: boolean;
-  wallet?: Wallet | null;
+  wallet?: Todo | null;
 };
 
 const toTCSwapKitNumber = (value: string) =>

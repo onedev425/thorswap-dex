@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import { t } from "services/i18n";
 import { logEvent, logException } from "services/logger";
 
+import { IS_BETA, IS_LOCAL } from "settings/config";
 import {
   WalletNameByWalletOption,
   WalletOptionByWalletType,
@@ -143,6 +144,12 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
             type: WalletType.Keplr,
             visible: isMdActive || isIframe(),
           },
+          {
+            icon: "exodus",
+            label: t("views.walletModal.passkeys"),
+            visible: IS_BETA || IS_LOCAL,
+            type: WalletType.Exodus,
+          },
         ],
       },
       {
@@ -195,6 +202,7 @@ export const useHandleWalletConnect = ({
     connectWalletconnect,
     connectEVMWalletExtension,
     connectXdefiWallet,
+    connectExodus,
     connectOkx,
     connectCoinbaseMobile,
   } = useConnectWallet();
@@ -236,6 +244,10 @@ export const useHandleWalletConnect = ({
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
+          case WalletType.Exodus:
+            return connectExodus(
+              selectedChains as (Chain.Bitcoin | Chain.BinanceSmartChain | Chain.Ethereum)[],
+            );
           case WalletType.Talisman:
             return connectTalismanWallet(selectedChains);
           case WalletType.Keplr:
@@ -286,6 +298,7 @@ export const useHandleWalletConnect = ({
       connectKeplr,
       connectKeepkey,
       connectLedger,
+      connectExodus,
       connectOkx,
       connectTrezor,
       connectTalismanWallet,
@@ -333,6 +346,7 @@ const WalletTypeToOption: Record<WalletType, WalletOption> = {
   [WalletType.TrustWalletExtension]: WalletOption.TRUSTWALLET_WEB,
   [WalletType.Walletconnect]: WalletOption.WALLETCONNECT,
   [WalletType.Xdefi]: WalletOption.XDEFI,
+  [WalletType.Exodus]: WalletOption.EXODUS,
 };
 
 export const useHandleWalletTypeSelect = ({

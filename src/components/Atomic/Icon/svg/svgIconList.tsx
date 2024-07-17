@@ -26,6 +26,7 @@ import Comma from "./comma.svg?react";
 import Ethereum3d from "./ethereum.svg?react";
 import EtherScan from "./etherscan.svg?react";
 import EtherScanLight from "./etherscanLight.svg?react";
+import Exodus from "./exodus-wallet-icon.svg?react";
 import Fees from "./fees.svg?react";
 import Brazil from "./flags/brazil.svg?react";
 import Cambodia from "./flags/cambodia.svg?react";
@@ -108,6 +109,7 @@ export const Svgs = {
   cloud: Cloud,
   collapse: Collapse,
   ethereum: Ethereum3d,
+  exodus: Exodus,
   gwei: Gwei,
   inIcon: InIcon,
   keepkey: Keepkey,

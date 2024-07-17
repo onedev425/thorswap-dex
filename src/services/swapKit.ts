@@ -3,56 +3,18 @@ import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import type { ConnectWalletParams } from "@swapkit/sdk";
 import { SwapKit } from "@swapkit/sdk";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
-import { evmWallet } from "@swapkit/wallet-evm-extensions";
-import { keepkeyWallet } from "@swapkit/wallet-keepkey";
-import { keplrWallet } from "@swapkit/wallet-keplr";
-import { keystoreWallet } from "@swapkit/wallet-keystore";
-import { ledgerWallet } from "@swapkit/wallet-ledger";
-import { okxWallet } from "@swapkit/wallet-okx";
-import { talismanWallet } from "@swapkit/wallet-talisman";
-import { trezorWallet } from "@swapkit/wallet-trezor";
-import { walletconnectWallet } from "@swapkit/wallet-wc";
-import { xdefiWallet } from "@swapkit/wallet-xdefi";
+import { exodusWallet } from "@swapkit/wallet-exodus";
+import { wallets } from "@swapkit/wallets";
 import { IS_LOCAL, IS_STAGENET } from "settings/config";
 import { apiV2BaseUrl } from "store/thorswap/api";
-
-const wallets = {
-  connectCoinbaseWallet: ({ addChain, config, rpcUrls, apis }: ConnectWalletParams) =>
-    coinbaseWallet.connectCoinbaseWallet({
-      addChain,
-      config,
-      rpcUrls,
-      apis,
-      coinbaseWalletSettings: {
-        appName: "THORSwap",
-        appLogoUrl: "https://www.thorswap.finance/logo.png",
-        overrideIsMetaMask: false,
-      },
-    }),
-  ...evmWallet,
-  ...keepkeyWallet,
-  ...keplrWallet,
-  ...keystoreWallet,
-  ...ledgerWallet,
-  ...okxWallet,
-  ...trezorWallet,
-  ...walletconnectWallet,
-  ...xdefiWallet,
-  ...talismanWallet,
-} as const;
 
 const plugins = {
   ...ThorchainPlugin,
   ...MayachainPlugin,
-  chainflip: {
-    ...ChainflipPlugin.chainflip,
-    config: { brokerEndpoint: `${apiV2BaseUrl}/channel` },
-  },
-} as const;
+  ...ChainflipPlugin,
+};
 
-type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
-
-let sdkClient: Client;
+let sdkClient: ReturnType<typeof SwapKit<typeof plugins, typeof wallets & typeof exodusWallet>>;
 
 export const getSwapKitClient = () => {
   if (sdkClient) return sdkClient;
@@ -79,12 +41,28 @@ export const getSwapKitClient = () => {
           url: "https://app.thorswap.finance",
         },
       },
+      chainflipBrokerUrl: `${apiV2BaseUrl}/channel`,
     },
-    wallets,
+    wallets: {
+      ...wallets,
+      connectCoinbaseWallet: ({ addChain, config, rpcUrls, apis }: ConnectWalletParams) =>
+        coinbaseWallet.connectCoinbaseWallet({
+          addChain,
+          config,
+          rpcUrls,
+          apis,
+          coinbaseWalletSettings: {
+            appName: "THORSwap",
+            appLogoUrl: "https://www.thorswap.finance/logo.png",
+            overrideIsMetaMask: false,
+          },
+        }),
+      ...exodusWallet,
+    },
     plugins,
   });
 
   sdkClient = core;
 
-  return sdkClient;
+  return core;
 };

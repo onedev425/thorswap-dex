@@ -14,26 +14,34 @@ export type ChainWalletWithLedger<T> =
   | null;
 
 export const initialWallet = {
-  [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Ethereum]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet>,
-  [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet>,
+  [Chain.Arbitrum]: null as ChainWalletWithLedger<ChainWallet<Chain.Arbitrum>>,
+  [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet<Chain.Avalanche>>,
+  [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet<Chain.BinanceSmartChain>>,
+  [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet<Chain.BitcoinCash>>,
+  [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Bitcoin>>,
+  [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet<Chain.Cosmos>>,
+  [Chain.Dash]: null as ChainWalletWithLedger<ChainWallet<Chain.Dash>>,
+  [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Dogecoin>>,
+  [Chain.Ethereum]: null as ChainWalletWithLedger<ChainWallet<Chain.Ethereum>>,
+  [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Litecoin>>,
+  [Chain.Maya]: null as ChainWalletWithLedger<ChainWallet<Chain.Maya>>,
+  [Chain.Kujira]: null as ChainWalletWithLedger<ChainWallet<Chain.Kujira>>,
+  [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet<Chain.THORChain>>,
 };
 
 const chainLoading = {
+  [Chain.Arbitrum]: false,
   [Chain.Avalanche]: false,
   [Chain.BinanceSmartChain]: false,
   [Chain.BitcoinCash]: false,
   [Chain.Bitcoin]: false,
   [Chain.Cosmos]: false,
+  [Chain.Dash]: false,
   [Chain.Dogecoin]: false,
   [Chain.Ethereum]: false,
   [Chain.Litecoin]: false,
+  [Chain.Maya]: false,
+  [Chain.Kujira]: false,
   [Chain.THORChain]: false,
 };
 
@@ -69,7 +77,7 @@ type Action =
   | { type: "restoreHiddenAssets"; payload: Chain }
   | {
       type: "setChainWallet";
-      payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet> };
+      payload: { chain: Chain; data: ChainWalletWithLedger<ChainWallet<Chain>> };
     }
   | { type: "setChainWalletLoading"; payload: { chain: Chain; loading: boolean } }
   | { type: "setTHORVesting"; payload: typeof defaultVestingInfo }

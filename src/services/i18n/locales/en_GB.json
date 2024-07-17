@@ -1157,6 +1157,7 @@
       "okxWallet": "OKX Wallet",
       "okxWalletWarning": "Please ensure that your Okx wallet is configured to the 'Native Segwit' setting for your Bitcoin address. THORChain does not support Taproot at the moment.",
       "okxWalletWarningTitle": "Set correct Bitcoin address format",
+      "passkeys": "Passkeys",
       "phrase": "Phrase",
       "phraseCopied": "Phrase Copied",
       "prioritiseXdefi": "Prioritise XDEFI",

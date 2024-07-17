@@ -21,6 +21,7 @@ const walletIcons: Record<SupportedWalletOptions, IconName> = {
   [WalletOption.TRUSTWALLET_WEB]: "trustWallet",
   [WalletOption.COINBASE_WEB]: "coinbaseWallet",
   [WalletOption.COINBASE_MOBILE]: "coinbaseWallet",
+  [WalletOption.EXODUS]: "exodus",
   [WalletOption.LEDGER]: "ledger",
   // [WalletOption.LEDGER_LIVE]: 'ledger',
   [WalletOption.KEEPKEY]: "keepkey",

@@ -280,7 +280,9 @@ export const TxLegPreview = ({
               <Flex>
                 {leg.chain ? (
                   <AssetIcon
-                    logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
+                    logoURI={tokenLogoURL({
+                      identifier: getChainIdentifier(leg.chain),
+                    })}
                     size={18}
                     ticker={leg.chain}
                   />
@@ -407,7 +409,9 @@ export const TxLegPreview = ({
                       {leg.chain || "unknown"}
                     </Text>
                     <AssetIcon
-                      logoURI={tokenLogoURL({ identifier: getChainIdentifier(leg.chain) })}
+                      logoURI={tokenLogoURL({
+                        identifier: getChainIdentifier(leg.chain),
+                      })}
                       size={22}
                       ticker={leg.chain}
                     />

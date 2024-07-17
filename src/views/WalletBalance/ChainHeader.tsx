@@ -53,7 +53,11 @@ export const ChainHeader = memo(
             tooltip={t("common.refresh")}
           />
 
-          <WalletIcon onClick={handleClickWalletIcon} size={16} walletType={walletType} />
+          <WalletIcon
+            onClick={handleClickWalletIcon}
+            size={16}
+            walletType={walletType as SupportedWalletOptions}
+          />
 
           <Text className="ml-1" textStyle="caption">
             {chainName(chain, true)}

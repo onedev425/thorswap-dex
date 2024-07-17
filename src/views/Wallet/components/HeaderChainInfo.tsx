@@ -13,7 +13,7 @@ import type { SupportedWalletOptions } from "store/thorswap/types";
 type Props = {
   chain: Chain;
   // biome-ignore lint/correctness/noUndeclaredVariables:
-  chainWallet: Maybe<ChainWallet>;
+  chainWallet: Maybe<ChainWallet<Chain>>;
   balance: string;
 };
 

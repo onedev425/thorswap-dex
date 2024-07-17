@@ -7,7 +7,7 @@ import { useTokenPrices } from "hooks/useTokenPrices";
 import { useCallback, useMemo } from "react";
 
 export const useAccountData = (chain: Chain) => {
-  const sigAsset = AssetValue.fromChainOrSignature(chain);
+  const sigAsset = AssetValue.from({ chain });
   const formatPrice = useFormatPrice();
   const { wallet, getWalletAddress, chainLoading } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();

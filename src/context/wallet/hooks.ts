@@ -1,5 +1,6 @@
 import type { AssetValue, DerivationPathArray, EVMChain, WalletChain } from "@swapkit/sdk";
 import { Chain, WalletOption } from "@swapkit/sdk";
+import type { EVMWalletOptions } from "@swapkit/wallet-evm-extensions";
 import type { Keystore } from "@swapkit/wallet-keystore";
 import { isMobile, okxWalletDetected } from "components/Modals/ConnectWalletModal/hooks";
 import { showErrorToast, showInfoToast } from "components/Toast";
@@ -12,6 +13,7 @@ import { logEvent, logException } from "services/logger";
 
 import type { LedgerLiveChain } from "../../../ledgerLive/wallet/LedgerLive";
 import { connectLedgerLive, mapLedgerChainToChain } from "../../../ledgerLive/wallet/LedgerLive";
+import { exodusWallet } from "../../App";
 
 export const useWallet = () => {
   const { wallet, chainLoading } = useWalletState();
@@ -266,8 +268,7 @@ export const useConnectWallet = () => {
         await import("services/swapKit")
       ).getSwapKitClient();
 
-      // @ts-expect-error
-      await swapKitConnectEVMWallet(chains, wallet);
+      await swapKitConnectEVMWallet(chains, wallet as EVMWalletOptions);
 
       reloadAllWallets(chains);
     },
@@ -291,7 +292,7 @@ export const useConnectWallet = () => {
     async (chains: Chain[]) => {
       const { connectWalletconnect } = await (await import("services/swapKit")).getSwapKitClient();
 
-      //@ts-expect-error
+      // @ts-expect-error
       await connectWalletconnect(chains, {
         listeners: {
           disconnect: () => walletDispatch({ type: "disconnect", payload: undefined }),
@@ -348,6 +349,19 @@ export const useConnectWallet = () => {
       await swapKitConnectEVMWallet([chain], WalletOption.METAMASK);
 
       reloadAllWallets([chain]);
+    },
+    [reloadAllWallets],
+  );
+
+  const connectExodus = useCallback(
+    async (chains: (Chain.Ethereum | Chain.Bitcoin | Chain.BinanceSmartChain)[]) => {
+      const { connectExodusWallet: swapKitConnectExodus } = await (
+        await import("services/swapKit")
+      ).getSwapKitClient();
+
+      await swapKitConnectExodus(chains, exodusWallet);
+
+      reloadAllWallets(chains);
     },
     [reloadAllWallets],
   );
@@ -436,5 +450,6 @@ export const useConnectWallet = () => {
     connectWalletconnect,
     connectOkx,
     connectKeepkey,
+    connectExodus,
   };
 };
