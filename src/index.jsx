@@ -32,7 +32,6 @@ const renderApp = () => {
 };
 
 const checkAppRender = () => {
-  renderApp();
   if (IS_LOCAL || IS_STAGENET || IS_PROD) {
     renderApp();
   } else {
