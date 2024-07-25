@@ -12,8 +12,11 @@ type Props = {
 };
 
 export const normalizedProviderName = {
+  MAYACHAIN: "MAYAChain",
+  MAYACHAIN_STREAMING: "MAYAChain Streaming",
   THORCHAIN: "THORChain",
   THORCHAIN_STREAMING: "THORChain Streaming",
+  CHAINFLIP: "Chainflip",
   ONEINCH: "1inch",
   UNISWAP: "UniswapV1",
   UNISWAP_V1: "UniswapV1",

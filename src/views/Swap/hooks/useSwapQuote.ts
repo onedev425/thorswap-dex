@@ -128,7 +128,7 @@ export const useSwapQuote = ({
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, providers: IS_DEV_API ? providers : ["CHAINFLIP"] },
+    { ...params, providers: IS_DEV_API ? undefined : ["CHAINFLIP"] },
     {
       skip:
         params.sellAmount === "0" ||

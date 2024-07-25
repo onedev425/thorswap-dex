@@ -97,7 +97,7 @@ export const thorswapApi = createApi({
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
             affiliateFee: Number.parseInt(affiliateBasisPoints || "0"),
-            providers: providers || V2Providers,
+            ...(providers ? { providers: providers || V2Providers } : {}),
             slippage: Number(rest.slippage) || 5,
           }),
           url: `${apiV2BaseUrl}/quote`,

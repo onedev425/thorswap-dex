@@ -9,6 +9,7 @@ const twBaseUri = "https://raw.githubusercontent.com/trustwallet/assets/master/b
 const providersInfoMap = {
   // MAYA
   mayachain: "MAYA.MAYA",
+  mayachainstreaming: "MAYA.MAYA",
   // AVAX
   pangolin: "AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982",
   platypus: "AVAX.AVAX",

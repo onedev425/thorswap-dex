@@ -7,7 +7,7 @@ import { translateErrorMsg } from "helpers/error";
 import { useCallback } from "react";
 import { t } from "services/i18n";
 import { logEvent, logException } from "services/logger";
-import { IS_LEDGER_LIVE } from "settings/config";
+import { IS_DEV_API, IS_LEDGER_LIVE } from "settings/config";
 import { useApp } from "store/app/hooks";
 import { useAppDispatch } from "store/store";
 import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
@@ -114,7 +114,7 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({
-            pluginName: isV1Aggregator ? "thorchain" : undefined,
+            pluginName: !IS_DEV_API && isV1Aggregator ? "thorchain" : undefined,
             feeOptionKey,
             recipient,
             route,
