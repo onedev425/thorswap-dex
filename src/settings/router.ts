@@ -38,6 +38,7 @@ export enum ROUTES {
   Lending = "/lending",
   LendingAsset = "/lending/:asset",
   Transaction = "/tx/:txid",
+  RunePool = "/rune-pool",
 }
 
 export const THORYIELD_ROUTE = "https://app.thoryield.com";

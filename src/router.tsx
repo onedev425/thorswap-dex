@@ -37,6 +37,7 @@ const Wallet = lazy(() => import("views/Wallet"));
 const MultisigCreate = lazy(() => import("views/Multisig/MultisigCreate/MultisigCreate"));
 const MultisigImport = lazy(() => import("views/Multisig/MultisigImport/MultisigImport"));
 const Transaction = lazy(() => import("views/Transaction/Transaction"));
+const RunePool = lazy(() => import("views/RunePool"));
 
 // New LP
 const Liquidity = lazy(() => import("views/new-liquidity"));
@@ -92,6 +93,7 @@ const routes: RouteType = isIframe()
       { path: ROUTES.Wallet, element: Wallet },
       { path: ROUTES.WithdrawLiquidity, element: WithdrawLiquidity },
       { path: ROUTES.WithdrawLiquidityPool, element: WithdrawLiquidity },
+      { path: ROUTES.RunePool, element: RunePool },
     ];
 
 const iframeParamsSchema = z.object({

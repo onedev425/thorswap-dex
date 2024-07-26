@@ -8,7 +8,7 @@ import type { PropsWithChildren } from "react";
 
 type Props = {
   place?: TooltipPlacement;
-  content?: string;
+  content?: string | React.JSX.Element;
   className?: string;
   wrapperClassName?: string;
   disabled?: boolean;

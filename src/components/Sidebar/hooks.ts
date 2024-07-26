@@ -171,6 +171,11 @@ export const useSidebarOptions = () => {
             href: ROUTES.Liquidity,
             label: t("components.sidebar.liquidity"),
           },
+          {
+            iconName: "vault",
+            href: ROUTES.RunePool,
+            label: t("components.sidebar.runePool"),
+          },
         ],
       },
       {

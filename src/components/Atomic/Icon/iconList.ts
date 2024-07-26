@@ -99,6 +99,7 @@ import {
   MdOutlineLockOpen,
   MdSpaceBar,
 } from "react-icons/md";
+import { PiVaultBold } from "react-icons/pi";
 import {
   RiCheckboxMultipleLine,
   RiFileList3Fill,
@@ -232,6 +233,7 @@ const Icons = {
   trash: BsTrash,
   unlock: MdOutlineLockOpen,
   valid: IoCheckmarkCircleOutline,
+  vault: PiVaultBold,
   wallet: IoWalletOutline,
   warn: BsExclamationCircle,
   wifi: FaWifi,

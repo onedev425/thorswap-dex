@@ -1,6 +1,6 @@
 // https://docs.thorchain.org/how-it-works/governance#mimir
 
-import { Chain, SwapKitNumber } from "@swapkit/sdk";
+import { BaseDecimal, Chain, SwapKitNumber } from "@swapkit/sdk";
 import { useMemo } from "react";
 import { useGetMimirQuery, useGetNetworkQuery } from "store/midgard/api";
 import type { MimirData } from "store/midgard/types";
@@ -36,6 +36,7 @@ export const useMimir = () => {
   const isBCHChainHalted = isEntryPaused("HALTBCHCHAIN") || isEntryPaused("SOLVENCYHALTBCHCHAIN");
   const isDOGEChainHalted = isEntryPaused("HALTDOGECHAIN");
   const isBSCChainHalted = isEntryPaused("HALTBSCCHAIN");
+  const isRunePoolHalted = !isEntryPaused("RUNEPOOLENABLED");
   const isChainHalted: {
     [key: string]: boolean;
   } = {
@@ -93,6 +94,22 @@ export const useMimir = () => {
   const synthCap = 2 * ((mimir?.MAXSYNTHPERPOOLDEPTH || 0) / 10000);
   const isLendingPaused = typeof mimir?.PAUSELOANS !== "number" ? true : mimir?.PAUSELOANS > 0;
 
+  const runePoolDepositMaturityBlocks = useMemo(
+    () => mimir?.RUNEPOOLDEPOSITMATURITYBLOCKS ?? 0,
+    [mimir],
+  );
+
+  const runePoolMaxReserveBackstop = useMemo(
+    () =>
+      SwapKitNumber.fromBigInt(BigInt(mimir?.RUNEPOOLMAXRESERVEBACKSTOP || 0), BaseDecimal.THOR),
+    [mimir?.RUNEPOOLMAXRESERVEBACKSTOP],
+  );
+
+  const polMaxNetworkDeposit = useMemo(
+    () => SwapKitNumber.fromBigInt(BigInt(mimir?.POLMAXNETWORKDEPOSIT || 0), BaseDecimal.THOR),
+    [mimir?.POLMAXNETWORKDEPOSIT],
+  );
+
   return {
     isBCHChainHalted,
     isBNBChainHalted,
@@ -115,5 +132,9 @@ export const useMimir = () => {
     totalPooledRune,
     synthCap,
     isLendingPaused,
+    isRunePoolHalted,
+    runePoolDepositMaturityBlocks,
+    runePoolMaxReserveBackstop,
+    polMaxNetworkDeposit,
   };
 };
