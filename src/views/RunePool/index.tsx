@@ -193,7 +193,7 @@ const RunePool = () => {
       value: amount,
       balance,
       asset: RUNEAsset,
-      usdPrice: +amountUsd(amount),
+      usdPrice: (tokenPrices?.[RUNEAsset.toString()]?.price_usd || 0) * amount.getValue("number"),
     };
   }, [amount, balance, amountUsd]);
 
