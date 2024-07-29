@@ -73,6 +73,7 @@ export const transactionTitle = (type: TransactionType): string => {
 
     case TransactionType.TC_SAVINGS_WITHDRAW:
     case TransactionType.TC_LP_WITHDRAW:
+    case TransactionType.TC_RUNEPOOL_WITHDRAW:
       return t("txManager.withdraw");
 
     case TransactionType.AVAX_APPROVAL:
@@ -86,6 +87,9 @@ export const transactionTitle = (type: TransactionType): string => {
     case TransactionType.BSC_STATUS:
     case TransactionType.UNSUPPORTED:
       return t("appMenu.transaction");
+
+    case TransactionType.TC_RUNEPOOL_ADD:
+      return t("txManager.addRunePool");
 
     default:
       return t("txManager.swap");

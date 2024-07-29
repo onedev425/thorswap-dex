@@ -135,7 +135,7 @@ export const useRunePoolStats = () => {
         ),
       },
       {
-        label: "Total RunePool PnL",
+        label: "Total RUNEPool PnL",
         value: data
           ? `${Object.values(data)
               .reduce(
@@ -147,7 +147,7 @@ export const useRunePoolStats = () => {
         tooltip: (
           <Flex className="flex flex-col">
             <Text fontSize="10px" variant="primary">
-              Breakdown of RunePool PnL by source.
+              Breakdown of RUNEPool PnL by source.
             </Text>
             <InfoTable items={pnlItems} />
           </Flex>

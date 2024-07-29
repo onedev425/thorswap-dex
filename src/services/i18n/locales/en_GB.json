@@ -263,6 +263,7 @@
       "joinDiscord": "Join Discord Server",
       "liquidity": "Liquidity",
       "pool": "Pool",
+      "runePool": "RUNEPool",
       "send": "Send",
       "staking": "Staking",
       "stats": "Stats",
@@ -367,6 +368,7 @@
   "txManager": {
     "addAmountAsset": "Add %{amount} %{asset}",
     "addEarn": "Add Savings",
+    "addRunePool": "Deposit RUNEPool",
     "addLiquidity": "Add Liquidity",
     "addedAmountAsset": "Added %{amount} %{asset}",
     "approve": "Approve",
@@ -513,11 +515,11 @@
     },
     "runePool": {
       "aprTooltip": "APR calculation based on the\nlast 7 days",
-      "description": "Deposit RUNE into the Rune Pool",
-      "confirmModalInfoTitle": "Rune Pool withdrawal fee",
-      "confirmModalInfoContent": "A 2% fee will be deducted from your Rune Pool withdrawal profit. No Fee is charged if you exit without profit. No fee is charged for depositing to the Rune Pool.",
-      "warningTitle": "Rune Pool is a new and experimental feature.",
-      "warningContent": "Rune Pool deposits have a minimum lock up period of 90 days. Please be aware that you might lose RUNE to permanent loss"
+      "description": "Deposit RUNE into the RUNEPool",
+      "confirmModalInfoTitle": "RUNEPool withdrawal fee",
+      "confirmModalInfoContent": "A 2% fee will be deducted from your RUNEPool withdrawal profit. No Fee is charged if you exit without profit. No fee is charged for depositing to the RUNEPool.",
+      "warningTitle": "RUNEPool is a new and experimental feature.",
+      "warningContent": "RUNEPool deposits have a minimum lock up period of 90 days. Please be aware that you might lose RUNE to permanent loss"
     },
     "home": {
       "aprExplanation": "Based on 30 day average LUVI metrics, past performance is not an exact project of future yield. Click on ? to learn more.",
