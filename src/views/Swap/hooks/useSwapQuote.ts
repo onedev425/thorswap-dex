@@ -130,10 +130,7 @@ export const useSwapQuote = ({
   } = useGetV2QuoteQuery(
     { ...params, providers: IS_DEV_API ? undefined : ["CHAINFLIP"] },
     {
-      skip:
-        params.sellAmount === "0" ||
-        inputAmount.lte(0) ||
-        (providers.includes(Provider.MAYACHAIN) && !IS_DEV_API),
+      skip: params.sellAmount === "0" || inputAmount.lte(0),
     },
   );
 
@@ -145,7 +142,11 @@ export const useSwapQuote = ({
     isFetching: isFetchingMayaSpecial,
     isUninitialized: isMayaSpecialUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, affiliateBasisPoints: "0", providers: ["MAYACHAIN"] },
+    {
+      ...params,
+      affiliateBasisPoints: "0",
+      providers: [ProviderName.MAYACHAIN, "MAYACHAIN_STREAMING"],
+    },
     {
       skip:
         // TODO move ledger live integration to SK

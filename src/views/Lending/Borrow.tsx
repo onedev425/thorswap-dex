@@ -503,6 +503,7 @@ const Borrow = () => {
 
                         <AssetInput
                           noFilters
+                          hideZeroPrice
                           AssetListComponent={BorrowAssetSelectList}
                           assets={lendingAssets}
                           className="flex-1 !py-1"
@@ -537,6 +538,7 @@ const Borrow = () => {
                         </Text>
 
                         <AssetInput
+                          hideZeroPrice
                           {...assetInputProps}
                           disabled
                           assets={outputAssets

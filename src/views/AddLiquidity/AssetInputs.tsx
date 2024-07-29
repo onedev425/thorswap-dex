@@ -58,6 +58,7 @@ export const AssetInputs = memo(
           })}
         >
           <AssetInput
+            hideZeroPrice
             {...assetInputProps}
             assets={assets}
             className="!mb-1 flex-1"
@@ -80,6 +81,7 @@ export const AssetInputs = memo(
           })}
         >
           <AssetInput
+            hideZeroPrice
             singleAsset
             assets={poolAssetList}
             className="!mb-1 flex-1"

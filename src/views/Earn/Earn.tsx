@@ -367,6 +367,7 @@ const Earn = () => {
 
                       <AssetInput
                         noFilters
+                        hideZeroPrice
                         AssetListComponent={EarnAssetSelectList}
                         assets={listAssets}
                         className="flex-1"

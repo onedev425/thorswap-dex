@@ -24,7 +24,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { t } from "services/i18n";
 import { logException } from "services/logger";
 import { useAppDispatch } from "store/store";
-import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
+import { addTransaction, completeTransaction } from "store/transactions/slice";
 import { TransactionType } from "store/transactions/types";
 import { zeroAmount } from "types/app";
 import { v4 } from "uuid";
@@ -68,6 +68,7 @@ const RunePool = () => {
   const address = useMemo(() => getWalletAddress(Chain.THORChain), [getWalletAddress]);
 
   const switchTab = useCallback((tab: RunePoolTab) => {
+    setAmount(amount.set(0));
     setTab(tab);
   }, []);
 
@@ -95,7 +96,7 @@ const RunePool = () => {
   }, [withdrawPercent, isDeposit]);
 
   const handleDepositSubmit = useCallback(async () => {
-    const { thorchain } = (await import("services/swapKit")).getSwapKitClient();
+    const { thorchain, getExplorerTxUrl } = (await import("services/swapKit")).getSwapKitClient();
     if (!thorchain) throw new Error("SwapKit client not found");
     setIsConfirmOpen(false);
 
@@ -123,9 +124,17 @@ const RunePool = () => {
           }
         : { assetValue: RUNEAsset, type: "withdraw" as const, percent };
 
-      const txid = await thorchain.deposit({ ...params, recipient: "" });
+      const txHash = await thorchain.deposit({ ...params, recipient: "" });
+
       setAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
-      if (txid) appDispatch(updateTransaction({ id, txid }));
+      if (txHash)
+        appDispatch(
+          completeTransaction({
+            id,
+            status: "mined",
+            txUrl: getExplorerTxUrl({ chain: Chain.THORChain, txHash }),
+          }),
+        );
     } catch (error) {
       logException(error as Error);
       appDispatch(completeTransaction({ id, status: "error" }));
@@ -343,6 +352,7 @@ const RunePool = () => {
 
               <AssetInput
                 noFilters
+                hideZeroPrice
                 singleAsset
                 assets={[{ asset: AssetValue.from({ asset: "THOR.RUNE" }) }]}
                 className="flex-1"
