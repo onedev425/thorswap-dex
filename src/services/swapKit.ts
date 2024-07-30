@@ -3,7 +3,7 @@ import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import type { ConnectWalletParams } from "@swapkit/sdk";
 import { SwapKit } from "@swapkit/sdk";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
-import { exodusWallet } from "@swapkit/wallet-exodus";
+// import { exodusWallet } from "@swapkit/wallet-exodus";
 import { wallets } from "@swapkit/wallets";
 import { IS_LOCAL, IS_STAGENET } from "settings/config";
 import { apiV2BaseUrl } from "store/thorswap/api";
@@ -14,7 +14,9 @@ const plugins = {
   ...ChainflipPlugin,
 };
 
-let sdkClient: ReturnType<typeof SwapKit<typeof plugins, typeof wallets & typeof exodusWallet>>;
+let sdkClient: ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
+
+// & typeof exodusWallet
 
 export const getSwapKitClient = () => {
   if (sdkClient) return sdkClient;
@@ -57,7 +59,7 @@ export const getSwapKitClient = () => {
             overrideIsMetaMask: false,
           },
         }),
-      ...exodusWallet,
+      //   ...exodusWallet,
     },
     plugins,
   });

@@ -202,7 +202,7 @@ export const useHandleWalletConnect = ({
     connectWalletconnect,
     connectEVMWalletExtension,
     connectXdefiWallet,
-    connectExodus,
+    // connectExodus,
     connectOkx,
     connectCoinbaseMobile,
   } = useConnectWallet();
@@ -244,10 +244,10 @@ export const useHandleWalletConnect = ({
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
-          case WalletType.Exodus:
-            return connectExodus(
-              selectedChains as (Chain.Bitcoin | Chain.BinanceSmartChain | Chain.Ethereum)[],
-            );
+          //   case WalletType.Exodus:
+          //     return connectExodus(
+          //       selectedChains as (Chain.Bitcoin | Chain.BinanceSmartChain | Chain.Ethereum)[],
+          //     );
           case WalletType.Talisman:
             return connectTalismanWallet(selectedChains);
           case WalletType.Keplr:
@@ -298,7 +298,7 @@ export const useHandleWalletConnect = ({
       connectKeplr,
       connectKeepkey,
       connectLedger,
-      connectExodus,
+      //   connectExodus,
       connectOkx,
       connectTrezor,
       connectTalismanWallet,

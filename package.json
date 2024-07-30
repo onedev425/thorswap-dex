@@ -18,7 +18,6 @@
     "@sentry/vite-plugin": "2.16.1",
     "@swapkit/sdk": "1.1.8",
     "@swapkit/wallets": "1.0.13",
-    "@swapkit/wallet-exodus": "1.0.11",
     "@tanstack/react-query": "4.36.1",
     "buffer": "6.0.3",
     "bignumber.js": "9.1.2",

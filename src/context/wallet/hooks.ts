@@ -13,7 +13,7 @@ import { logEvent, logException } from "services/logger";
 
 import type { LedgerLiveChain } from "../../../ledgerLive/wallet/LedgerLive";
 import { connectLedgerLive, mapLedgerChainToChain } from "../../../ledgerLive/wallet/LedgerLive";
-import { exodusWallet } from "../../App";
+// import { exodusWallet } from "../../App";
 
 export const useWallet = () => {
   const { wallet, chainLoading } = useWalletState();
@@ -353,18 +353,18 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
-  const connectExodus = useCallback(
-    async (chains: (Chain.Ethereum | Chain.Bitcoin | Chain.BinanceSmartChain)[]) => {
-      const { connectExodusWallet: swapKitConnectExodus } = await (
-        await import("services/swapKit")
-      ).getSwapKitClient();
+  //   const connectExodus = useCallback(
+  //     async (chains: (Chain.Ethereum | Chain.Bitcoin | Chain.BinanceSmartChain)[]) => {
+  //       const { connectExodusWallet: swapKitConnectExodus } = await (
+  //         await import("services/swapKit")
+  //       ).getSwapKitClient();
 
-      await swapKitConnectExodus(chains, exodusWallet);
+  //       await swapKitConnectExodus(chains, exodusWallet);
 
-      reloadAllWallets(chains);
-    },
-    [reloadAllWallets],
-  );
+  //       reloadAllWallets(chains);
+  //     },
+  //     [reloadAllWallets],
+  //   );
 
   const connectKeplr = useCallback(
     async (chains: (Chain.Cosmos | Chain.Kujira)[]) => {
@@ -450,6 +450,6 @@ export const useConnectWallet = () => {
     connectWalletconnect,
     connectOkx,
     connectKeepkey,
-    connectExodus,
+    // connectExodus,
   };
 };

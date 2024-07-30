@@ -76,7 +76,7 @@ export const useTokenList = (withTradingPairs = false) => {
         );
       for (const { data, status } of providersData) {
         if (!data?.tokens || status === QueryStatus.rejected) return;
-        const isProviderChainable = !(UNCHAINABLE_PROVIDERS.includes(data.provider) || IS_DEV_API);
+        const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider) || IS_DEV_API;
 
         for (const token of data.tokens) {
           const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || {

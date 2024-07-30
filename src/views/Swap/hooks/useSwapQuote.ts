@@ -241,15 +241,18 @@ export const useSwapQuote = ({
     const chainFlipRoutes: Todo[] = chainFlipRoutesRaw
       .concat(mayaSpecialRoutes)
       .map((fullRoute: QuoteResponseRoute) => {
-        const route = fullRoute?.legs[0];
+        const route = fullRoute?.legs[fullRoute?.legs.length - 1];
+        const meta = fullRoute.meta;
 
         const chainFlipFees = route?.fees?.reduce(
           (acc, fee) => {
+            const assetPriceUsd =
+              meta.assets?.find((assetMetaData) => assetMetaData.name === fee.asset)?.price || 0;
             if (fee.type === FeeTypeEnum.INBOUND) {
               const inboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
                 acc.inbound.networkFee,
               );
-              const inboundFeeUSD = inboundFee.mul(inputUnitPrice);
+              const inboundFeeUSD = inboundFee.mul(assetPriceUsd);
               acc.inbound = {
                 ...acc.inbound,
                 networkFee: inboundFee.getValue("number"),
@@ -268,7 +271,7 @@ export const useSwapQuote = ({
                   fullRoute.providers.includes(ProviderName.MAYACHAIN) ? 0 : affiliateBasisPoints,
                 )
                 .div(10_000);
-              const affiliateFeeUSD = affiliateFee.mul(inputUnitPrice);
+              const affiliateFeeUSD = affiliateFee.mul(assetPriceUsd);
               acc.inbound = {
                 ...acc.inbound,
                 affiliateFee: affiliateFee.getValue("number"),
@@ -283,7 +286,7 @@ export const useSwapQuote = ({
               const outboundFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
                 acc.outbound.networkFee,
               );
-              const outboundFeeUSD = outboundFee.mul(outputUnitPrice);
+              const outboundFeeUSD = outboundFee.mul(assetPriceUsd);
               acc.outbound = {
                 ...acc.outbound,
                 networkFee: outboundFee.getValue("number"),
@@ -312,7 +315,7 @@ export const useSwapQuote = ({
               const networkFee = AssetValue.fromStringSync(fee.asset, fee.amount).add(
                 acc.slippage.slipFee,
               );
-              const networkFeeUSD = networkFee.mul(inputUnitPrice);
+              const networkFeeUSD = networkFee.mul(assetPriceUsd);
               acc.slippage = {
                 ...acc.slippage,
                 slipFee: networkFee.getValue("number"),
@@ -348,8 +351,8 @@ export const useSwapQuote = ({
           ...route,
           timeEstimates: fullRoute.estimatedTime,
           path: `${route.sellAsset} -> ${route.buyAsset}`,
-          providers: [route.provider],
-          expectedOutput: route.buyAmount,
+          providers: fullRoute.providers.toReversed(),
+          expectedOutput: fullRoute.expectedBuyAmount,
           isApproved: true,
           fees: {
             [fullRoute?.providers?.includes(ProviderName.CHAINFLIP) ? "FLIP" : "MAYA"]: [
