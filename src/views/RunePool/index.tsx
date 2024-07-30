@@ -15,9 +15,11 @@ import { ConfirmModal } from "components/Modals/ConfirmModal";
 import { PercentageSlider } from "components/PercentageSlider";
 import { TabsSelect } from "components/TabsSelect";
 import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import dayjs, { duration } from "dayjs";
 import { RUNEAsset } from "helpers/assets";
 import { blockTime } from "helpers/getEstimatedTxTime";
 import { useBalance } from "hooks/useBalance";
+import useInterval from "hooks/useInterval";
 import { useTokenPrices } from "hooks/useTokenPrices";
 import useWindowSize from "hooks/useWindowSize";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -34,6 +36,30 @@ import {
   useRunePoolStats,
 } from "views/RunePool/hooks";
 import { RunePoolTab } from "views/RunePool/types";
+
+dayjs.extend(duration);
+
+// const Countdown: React.FC<{ endTime: Dayjs }> = ({ endTime }) => {
+//   const [time, setTime] = useState<string>();
+
+//   useMemo(() => {
+//     const currentTime = dayjs();
+//     const diffTime = endTime.unix() - currentTime.unix();
+
+//     let duration = dayjs.duration(diffTime * 1000, "milliseconds");
+//     const interval = 1000;
+//     const twoDP = (n: number) => (n > 9 ? n : `0${n}`);
+
+//     setInterval(() => {
+//       duration = dayjs.duration(duration.asMilliseconds() - interval, "milliseconds");
+//       const timestamp = `${
+//         duration.days() && `${duration.days()}d `
+//       }${duration.hours()}h ${twoDP(duration.minutes())} m ${twoDP(duration.seconds())}s`;
+//       setTime(timestamp);
+//     }, interval);
+//   }, [endTime]);
+//   return <>{time}</>;
+// };
 
 const RunePool = () => {
   const { isLgActive } = useWindowSize();
@@ -141,16 +167,11 @@ const RunePool = () => {
     }
   }, [amount, appDispatch, isDeposit, runePoolDepositMemo, withdrawPercent]);
 
-  useEffect(() => {
+  useInterval(() => {
     refreshStats();
     refreshPosition();
     refreshAvailability();
-    setInterval(() => {
-      refreshStats();
-      refreshPosition();
-      refreshAvailability();
-    }, 30_000);
-  }, [refreshPosition, refreshStats, refreshAvailability]);
+  }, 30_000);
 
   const { data: tokenPrices } = useTokenPrices([position.asset]);
 
@@ -377,7 +398,13 @@ const RunePool = () => {
                       tooltipClasses="text-center mx-[-2px]"
                       variant="fancy"
                     >
-                      {isDeposit ? t("common.deposit") : t("common.withdraw")}
+                      {isDeposit
+                        ? t("common.deposit")
+                        : //    : !withdrawalAvailability &&
+                          //     dayjs(withdrawalAvailabilityDateMs).isAfter(dayjs()) ? (
+                          //     <Countdown endTime={dayjs(withdrawalAvailabilityDateMs + 100000)} />
+                          //   )
+                          t("common.withdraw")}
                     </Button>
                   </Box>
                 ) : (

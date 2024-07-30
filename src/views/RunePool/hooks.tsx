@@ -5,8 +5,9 @@ import { AssetValue, BaseDecimal } from "@swapkit/sdk";
 import { InfoTable } from "components/InfoTable";
 import { useWallet } from "context/wallet/hooks";
 import { useMimir } from "hooks/useMimir";
+import debounce from "lodash.debounce";
 import type React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useGetLastblockQuery } from "store/midgard/api";
 import type { RunePoolPosition } from "views/RunePool/types";
 
@@ -82,7 +83,15 @@ export const useRunePoolStats = () => {
   const [stats, setStats] = useState<StatsType[]>([]);
 
   const refreshStats = useCallback(async () => {
-    const data = await fetchRunePoolStats();
+    const dataPromise = await debounce(
+      async () => {
+        return await fetchRunePoolStats();
+      },
+      5000,
+      { leading: true, trailing: false },
+    );
+
+    const data = await dataPromise();
 
     const runePoolItems = [
       {
@@ -173,20 +182,10 @@ export const useRunePoolPosition = () => {
     if (!connectedThorAddress) return EMPTY_POSITION;
 
     const position = await fetchRunePoolProviderPosition(connectedThorAddress);
-    // const position = EMPTY_POSITION;
-
     setPosition(position);
   }, [getWalletAddress, isWalletLoading]);
 
-  const getPosition = useCallback(() => {
-    const connectedThorAddress = getWalletAddress(Chain.THORChain);
-    if (!connectedThorAddress) return EMPTY_POSITION;
-
-    return position;
-  }, [getWalletAddress, position]);
-
   return {
-    getPosition,
     position,
     refreshPosition,
   };
@@ -199,15 +198,19 @@ export const useRunePoolAvailability = () => {
     isRunePoolHalted,
     polMaxNetworkDeposit,
   } = useMimir();
-  const { data: lastBlock } = useGetLastblockQuery();
+  const { data } = useGetLastblockQuery();
   const { position } = useRunePoolPosition();
   const [availability, setAvailability] = useState<{
     depositAvailability: boolean;
     withdrawalAvailability: boolean;
+    // withdrawalAvailabilityDateMs: number;
   }>({
     depositAvailability: false,
     withdrawalAvailability: false,
+    // withdrawalAvailabilityDateMs: 0,
   });
+
+  const lastBlock = useMemo(() => data?.[0]?.thorchain, [data]);
 
   const refreshAvailability = useCallback(async () => {
     const runePoolStats = await fetchRunePoolStats();
@@ -215,16 +218,22 @@ export const useRunePoolAvailability = () => {
     // Check the position last_withdrawal_height, if exist
     const depositAvailability = true;
     let withdrawalAvailability = true;
+    // let withdrawalAvailabilityDateMs = dayjs().valueOf();
     if (isRunePoolHalted) {
       setAvailability({
         depositAvailability: false,
         withdrawalAvailability: false,
+        // withdrawalAvailabilityDateMs: 0,
       });
       return;
     }
 
     const hasPositionMatured =
-      (position?.lastWithdrawHeight ?? 0) + runePoolDepositMaturityBlocks > lastBlock;
+      (position?.lastDepositHeight ?? 0) + runePoolDepositMaturityBlocks <= lastBlock;
+
+    // withdrawalAvailabilityDateMs +=
+    //   ((position?.lastDepositHeight ?? 0) + runePoolDepositMaturityBlocks - lastBlock) * 6000;
+
     if (!hasPositionMatured) {
       withdrawalAvailability = false;
     }
@@ -236,6 +245,7 @@ export const useRunePoolAvailability = () => {
     setAvailability({
       depositAvailability,
       withdrawalAvailability,
+      //   withdrawalAvailabilityDateMs,
     });
   }, [
     isRunePoolHalted,
