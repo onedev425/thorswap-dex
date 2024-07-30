@@ -4,7 +4,7 @@ import { AssetValue, getMemoForRunePoolDeposit, getMemoForRunePoolWithdraw } fro
 import classNames from "classnames";
 import { AssetIcon } from "components/AssetIcon";
 import { AssetInput } from "components/AssetInput";
-import { Box, Button, Card, Icon, Tooltip } from "components/Atomic";
+import { Box, Button, Card, Icon, Link, Tooltip } from "components/Atomic";
 import { HighlightCard } from "components/HighlightCard";
 import { InfoRow } from "components/InfoRow";
 import type { InfoRowConfig } from "components/InfoRow/types";
@@ -301,24 +301,15 @@ const RunePool = () => {
           <Text className="ml-3 mr-2" textStyle="h3">
             {t("common.pool")} RUNE
           </Text>
-          {/* <Text textStyle="h3" variant="primaryBtn">
-            {t('common.apr').toUpperCase()}
-          </Text>
-
-          <Tooltip content={t('views.runePool.aprTooltip', { asset: 'RUNE' })} place="bottom">
-            <Icon className="ml-1" color="primaryBtn" name="infoCircle" size={24} />
-          </Tooltip> */}
         </Box>
 
-        <Box alignCenter className="px-3" justify="between">
+        <Box alignCenter className="px-3" justify="start">
           <Text fontWeight="medium" textStyle="caption" variant="secondary">
             {t("views.runePool.description", { asset: "RUNE" })}
-            {/* <Link className="text-twitter-blue cursor-pointer" to={SAVERS_MEDIUM}>
-              <Text fontWeight="medium" textStyle="caption" variant="blue">
-                {`${t('common.learnMore')} →`}
-              </Text>
-            </Link> */}
           </Text>
+          <Link to="https://docs.thorswap.finance/thorswap/thorswap/runepool">
+            <Icon className="ml-1 my-auto" color="primaryBtn" name="infoCircle" size={18} />
+          </Link>
         </Box>
       </Box>
 

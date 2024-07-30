@@ -519,7 +519,7 @@
       "confirmModalInfoTitle": "RUNEPool withdrawal fee",
       "confirmModalInfoContent": "A 2% fee will be deducted from your RUNEPool withdrawal profit. No Fee is charged if you exit without profit. No fee is charged for depositing to the RUNEPool.",
       "warningTitle": "RUNEPool is a new and experimental feature.",
-      "warningContent": "RUNEPool deposits have a minimum lock up period of 90 days. Please be aware that you might lose RUNE to permanent loss"
+      "warningContent": "RUNEPool deposits have a minimum lock up period of 90 days. Please be aware that you might lose RUNE to impermanent loss"
     },
     "home": {
       "aprExplanation": "Based on 30 day average LUVI metrics, past performance is not an exact project of future yield. Click on ? to learn more.",
