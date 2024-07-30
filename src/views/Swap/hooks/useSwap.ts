@@ -91,6 +91,7 @@ export const useSwap = ({
           ProviderName.THORCHAIN_STREAMING,
           ProviderName.THORCHAIN,
           ProviderName.MAYACHAIN,
+          ProviderName.MAYACHAIN_STREAMING,
           ProviderName.CHAINFLIP,
         ].includes(route.providers[0] as ProviderName);
 
