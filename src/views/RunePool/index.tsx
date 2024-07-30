@@ -173,6 +173,12 @@ const RunePool = () => {
     refreshAvailability();
   }, 30_000);
 
+  useEffect(() => {
+    refreshStats();
+    refreshPosition();
+    refreshAvailability();
+  }, [position.address, address]);
+
   const { data: tokenPrices } = useTokenPrices([position.asset]);
 
   const amountUsd = useCallback(

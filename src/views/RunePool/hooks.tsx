@@ -87,7 +87,7 @@ export const useRunePoolStats = () => {
       async () => {
         return await fetchRunePoolStats();
       },
-      5000,
+      1000,
       { leading: true, trailing: false },
     );
 
@@ -181,8 +181,8 @@ export const useRunePoolPosition = () => {
     const connectedThorAddress = getWalletAddress(Chain.THORChain);
     if (!connectedThorAddress) return EMPTY_POSITION;
 
-    const position = await fetchRunePoolProviderPosition(connectedThorAddress);
-    setPosition(position);
+    const newPositionData = await fetchRunePoolProviderPosition(connectedThorAddress);
+    setPosition(newPositionData);
   }, [getWalletAddress, isWalletLoading]);
 
   return {
