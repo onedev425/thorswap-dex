@@ -17,8 +17,8 @@ import type {
 
 const microgardUrl = "https://mu.thorswap.net";
 
-export const midgardApi = createApi({
-  reducerPath: "midgardApi",
+export const microgardApi = createApi({
+  reducerPath: "microgardApi",
   baseQuery: fetchBaseQuery({
     baseUrl: microgardUrl,
     headers: { referer: "https://app.thorswap.finance" },
@@ -31,7 +31,7 @@ export const midgardApi = createApi({
     }),
     getNetwork: build.query<NetworkResponse, void>({
       keepUnusedDataFor: 3600,
-      query: () => `${MIDGARD_URL}/v2/network`,
+      query: () => "/network",
     }),
     getHistoryEarnings: build.query<Todo, HistoryParams>({
       keepUnusedDataFor: 3600,
@@ -111,4 +111,4 @@ export const {
   useGetMimirQuery,
   useGetNodesQuery,
   useGetQueueQuery,
-} = midgardApi;
+} = microgardApi;
