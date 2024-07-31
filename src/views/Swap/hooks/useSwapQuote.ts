@@ -128,7 +128,12 @@ export const useSwapQuote = ({
     isFetching: isFetchingChainflip,
     isUninitialized: isChainflipUninitialized,
   } = useGetV2QuoteQuery(
-    { ...params, providers: IS_DEV_API ? undefined : ["CHAINFLIP"] },
+    {
+      ...params,
+      providers: IS_DEV_API
+        ? undefined
+        : [ProviderName.CHAINFLIP, ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
+    },
     {
       skip: params.sellAmount === "0" || inputAmount.lte(0),
     },
@@ -154,7 +159,7 @@ export const useSwapQuote = ({
         IS_LEDGER_LIVE ||
         params.sellAmount === "0" ||
         inputAmount.lte(0) ||
-        !providers.includes(Provider.MAYACHAIN),
+        !!providers,
     },
   );
 
