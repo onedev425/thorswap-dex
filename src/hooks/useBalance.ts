@@ -56,7 +56,8 @@ export const useBalance = (skipFees?: boolean) => {
       if (balance.eqValue(0)) return balance;
 
       const maxSpendableAmount = IS_LEDGER_LIVE
-        ? (chainWallet?.balance.find((balance) => balance.eqAsset(asset)) as AssetValue) || asset.set(0)
+        ? (chainWallet?.balance.find((balance) => balance.eqAsset(asset)) as AssetValue) ||
+          asset.set(0)
         : isGasAsset(asset)
           ? balance.sub(parseFeeToAssetAmount({ gasRate, asset }))
           : balance;
