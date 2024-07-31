@@ -365,8 +365,8 @@ const SwapView = () => {
   const handleSelectAsset = useCallback(
     (type: "input" | "output") => async (asset: AssetValue) => {
       const isInput = type === "input";
-      const input = isInput ? asset : asset.eq(inputAsset) ? outputAsset : inputAsset;
-      const output = isInput ? (asset.eq(outputAsset) ? inputAsset : outputAsset) : asset;
+      const input = isInput ? asset : asset.eqAsset(inputAsset) ? outputAsset : inputAsset;
+      const output = isInput ? (asset.eqAsset(outputAsset) ? inputAsset : outputAsset) : asset;
 
       if (isInput) {
         const maxNewInputBalance = (await getMaxBalance(asset)) || zeroAmount;

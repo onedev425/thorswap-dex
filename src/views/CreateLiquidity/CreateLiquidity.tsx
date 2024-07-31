@@ -63,7 +63,7 @@ export const CreateLiquidity = () => {
           // 1. if non-pool asset exists
           // 2. asset shouldn't be THORChain asset
           if (
-            !poolAssets.find((poolAsset) => poolAsset.eq(balance)) &&
+            !poolAssets.find((poolAsset) => poolAsset.eqAsset(balance)) &&
             balance.chain !== Chain.THORChain
           ) {
             // if erc20 token is whitelisted for THORChain

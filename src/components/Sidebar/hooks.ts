@@ -176,6 +176,7 @@ export const useSidebarOptions = () => {
             iconName: "vault",
             href: ROUTES.RunePool,
             label: t("components.sidebar.runePool"),
+            beta: true,
           },
         ],
       },

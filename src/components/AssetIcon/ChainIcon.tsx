@@ -11,11 +11,12 @@ type ChainIconProps = {
   size?: number;
   withoutBackground?: boolean;
   style?: React.CSSProperties;
+  iconName?: string;
 };
 
 export const FORCE_ICON_CHAINS = [];
 
-const Icon = ({ withoutBackground = false, chain, style, size = 16 }: ChainIconProps) => {
+const Icon = ({ withoutBackground = false, chain, style, size = 16, iconName }: ChainIconProps) => {
   const logoURI = useMemo(
     () => tokenLogoURL({ identifier: getChainIdentifier(chain), isChainBadge: true }),
     [chain],

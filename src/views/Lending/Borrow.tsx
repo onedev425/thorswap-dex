@@ -97,7 +97,7 @@ const Borrow = () => {
   const [borrowBalance, setBorrowBalance] = useState<AssetValue | undefined>();
 
   const collateralLendingAsset = useMemo(() => {
-    return lendingAssets.find((asset) => asset.asset.eq(collateralAsset));
+    return lendingAssets.find((asset) => asset.asset.eqAsset(collateralAsset));
   }, [collateralAsset, lendingAssets]);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);

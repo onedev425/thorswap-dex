@@ -172,7 +172,7 @@ export const bepIconMapping = {
 
 // TODO: @Chillios what about Pool?
 export const poolByAsset = (asset: AssetValue, pools: Pool[]) =>
-  pools.find((pool) => asset.eq(pool.asset));
+  pools.find((pool) => asset.eqAsset(pool.asset));
 
 export const isETHAsset = ({ ticker, chain }: AssetValue) =>
   ticker === "ETH" && chain === Chain.Ethereum;

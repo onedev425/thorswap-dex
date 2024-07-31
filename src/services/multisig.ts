@@ -136,13 +136,13 @@ const loadMultisigBalances = async () =>
   _multisigAddress ? (await getThorchainToolbox()).loadAddressBalances(_multisigAddress) : [];
 
 const getAssetBalance = (asset: AssetValue, balances: AssetValue[]) => {
-  const assetBalance = balances.find((balance) => balance.eq(asset));
+  const assetBalance = balances.find((balance) => balance.eqAsset(asset));
 
   return assetBalance || asset.set(0);
 };
 
 const hasAsset = (asset: AssetValue, balances: AssetValue[]): boolean => {
-  const assetBalance = balances.find((balance: AssetValue) => balance.eq(asset));
+  const assetBalance = balances.find((balance: AssetValue) => balance.eqAsset(asset));
 
   return !!assetBalance;
 };

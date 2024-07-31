@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import { ProviderName } from "@swapkit/sdk";
 import classNames from "classnames";
 import { AssetIcon } from "components/AssetIcon";
 import { Box, Tooltip } from "components/Atomic";
@@ -62,7 +63,17 @@ export const ProviderLogos = memo(({ className, size = 24, providers }: Props) =
             key={provider}
           >
             <Tooltip content={providerDisplayName}>
-              <AssetIcon logoURI={providerLogoURL(provider)} size={size} />
+              <AssetIcon
+                logoURI={providerLogoURL(provider)}
+                size={size}
+                secondaryIcon={
+                  [ProviderName.MAYACHAIN_STREAMING, ProviderName.THORCHAIN_STREAMING].includes(
+                    provider as ProviderName,
+                  )
+                    ? "dollarOutlined"
+                    : undefined
+                }
+              />
             </Tooltip>
           </Box>
         );

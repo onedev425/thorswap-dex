@@ -1,4 +1,4 @@
-import type { QuoteResponseRoute, SwapKitNumber } from "@swapkit/sdk";
+import type { QuoteResponse, QuoteResponseRoute, SwapKitNumber } from "@swapkit/sdk";
 import { AssetValue, FeeTypeEnum, ProviderName } from "@swapkit/sdk";
 import type { RouteWithApproveType } from "components/SwapRouter/types";
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "config/constants";
@@ -235,10 +235,15 @@ export const useSwapQuote = ({
       return;
     }
 
-    const chainFlipRoutesRaw: Todo[] = chainflipData?.routes || [];
-    const mayaSpecialRoutes: Todo[] = mayaSpecialData?.routes || [];
+    const chainFlipRoutesRaw: QuoteResponseRoute[] = chainflipData?.routes || [];
+    const mayaSpecialRoutes: QuoteResponseRoute[] =
+      (mayaSpecialData as QuoteResponse)?.routes.filter((route, _i, routes) =>
+        routes.every((r) => r.expectedBuyAmount === route.expectedBuyAmount)
+          ? route.providers.includes(ProviderName.MAYACHAIN)
+          : true,
+      ) || [];
 
-    const chainFlipRoutes: Todo[] = chainFlipRoutesRaw
+    const chainFlipRoutes = chainFlipRoutesRaw
       .concat(mayaSpecialRoutes)
       .map((fullRoute: QuoteResponseRoute) => {
         const route = fullRoute?.legs[fullRoute?.legs.length - 1];

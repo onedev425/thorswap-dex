@@ -23,6 +23,7 @@ export type AssetIconProps = (
   | { logoURI: string; asset?: AssetValue }
 ) & {
   badge?: string;
+  secondaryIcon?: string;
   hasChainIcon?: boolean;
   secondaryIconPlacement?: SecondaryIconPlacement;
   hasShadow?: boolean;

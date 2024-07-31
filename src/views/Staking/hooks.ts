@@ -196,7 +196,7 @@ export const useVthorUtil = () => {
 
   const stakeThor = useCallback(
     async (stakeAmount: SwapKitNumber, receiverAddr: string) => {
-      if (stakeAmount.eq(0)) return;
+      if (stakeAmount.eqAsset(0)) return;
 
       const id = v4();
       const thorAsset = AssetValue.fromChainOrSignature("ETH.THOR", stakeAmount.getValue("string"));

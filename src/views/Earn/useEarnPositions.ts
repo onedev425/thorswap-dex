@@ -73,7 +73,7 @@ export const useSaverPositions = () => {
   }, [isWalletLoading, pools]);
 
   const getPosition = useCallback(
-    (asset: AssetValue) => saverPositions.find((item) => item.asset.eq(asset)),
+    (asset: AssetValue) => saverPositions.find((item) => item.asset.eqAsset(asset)),
     [saverPositions],
   );
 

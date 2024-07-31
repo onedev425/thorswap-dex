@@ -56,7 +56,7 @@ export const BorrowAssetSelectList = ({
           {filteredAssets.map((item) => (
             <BorrowAssetSelectItem
               {...item}
-              isSelected={selectedAsset?.eq(item.asset)}
+              isSelected={selectedAsset?.eqAsset(item.asset)}
               key={`${item.asset.symbol}${item.asset.type}`}
               select={handleSelect}
             />

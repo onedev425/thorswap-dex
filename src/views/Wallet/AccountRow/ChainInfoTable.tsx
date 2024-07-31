@@ -19,9 +19,9 @@ export const ChainInfoTable = memo(({ priceData, chainInfo, chain, chainAddress 
   const [showAllTokens, setShowAllTokens] = useState(false);
   const sigAsset = AssetValue.fromChainOrSignature(chain);
 
-  const altAssets = chainInfo.filter((item) => !item.eq(sigAsset));
+  const altAssets = chainInfo.filter((item) => !item.eqAsset(sigAsset));
   const sigAssetAmount =
-    chainInfo.find((item) => item.eq(sigAsset)) ||
+    chainInfo.find((item) => item.eqAsset(sigAsset)) ||
     AssetValue.fromChainOrSignature(sigAsset.chain, 0);
 
   const handleToggleTokens = useCallback(() => {

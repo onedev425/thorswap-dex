@@ -51,7 +51,7 @@ export const EarnAssetSelectList = ({
           {filteredAssets.map((item) => (
             <EarnAssetSelectItem
               {...item}
-              isSelected={selectedAsset?.eq(item.asset)}
+              isSelected={selectedAsset?.eqAsset(item.asset)}
               key={item.asset.toString()}
               select={handleSelect}
             />

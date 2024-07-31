@@ -77,7 +77,7 @@ const SelectList = ({
     () =>
       assetFilterTypesWithChain
         .filter((assetFilter) =>
-          assets?.find((asset) => assetFilter.chainAsset && asset.asset.eq(assetFilter.chainAsset)),
+          assets?.find((asset) => assetFilter.chainAsset && asset.asset.eqAsset(assetFilter.chainAsset)),
         )
         .map((assetFilter) => assetFilter.value)
         .concat(["all"]),

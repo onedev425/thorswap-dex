@@ -50,7 +50,7 @@ export const AddLiquidity = () => {
       poolAssets
         .map(
           (asset) =>
-            assetsWithBalances.find((a) => a.asset.eq(asset)) || { asset, balance: undefined },
+            assetsWithBalances.find((a) => a.asset.eqAsset(asset)) || { asset, balance: undefined },
         )
         // type === 'Native' should be first
         .sort((a, b) => Number(b.asset.type === "Native") - Number(a.asset.type === "Native")),

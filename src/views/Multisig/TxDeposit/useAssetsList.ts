@@ -11,7 +11,7 @@ export const useAssetsList = ({ poolAssets }: Props) => {
   // Multisig wallet can hold only THORChain assets, so we do not have info about other potential assets
   const poolAssetList = poolAssets.map((asset) => ({
     asset,
-    balance: assetsWithBalance.find((a) => a.balance.eq(asset)) || undefined,
+    balance: assetsWithBalance.find((a) => a.balance.eqAsset(asset)) || undefined,
   }));
 
   return poolAssetList;

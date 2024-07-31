@@ -2,7 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { Chain } from "@swapkit/sdk";
 import classNames from "classnames";
 import { FallbackIcon } from "components/AssetIcon/FallbackIcon";
-import { Box } from "components/Atomic";
+import { Box, Icon, type IconName } from "components/Atomic";
 import { RUNEAsset } from "helpers/assets";
 import { tokenLogoURL } from "helpers/logoURL";
 import { memo, useMemo } from "react";
@@ -26,6 +26,7 @@ const AssetIconComponent = ({
   bgColor,
   badge,
   ticker,
+  secondaryIcon,
   secondaryIconPlacement = "br",
   size = 40,
 }: Pick<
@@ -37,6 +38,7 @@ const AssetIconComponent = ({
   | "hasShadow"
   | "shadowPosition"
   | "className"
+  | "secondaryIcon"
 > & {
   chain: Chain;
   iconUrl: string;
@@ -115,6 +117,16 @@ const AssetIconComponent = ({
 
       {showChainIcon ? (
         <ChainIcon chain={chain} size={secondaryIconSize} style={secondaryIconPlacementStyle} />
+      ) : secondaryIcon ? (
+        <Box
+          center
+          style={{ ...secondaryIconPlacementStyle, position: "absolute", zIndex: 10 }}
+          className={classNames({
+            "rounded-full scale-[65%] bg-light-gray-light dark:bg-dark-gray-light absolute z-10": true,
+          })}
+        >
+          <Icon size={secondaryIconSize} name={secondaryIcon as IconName} color={"green"} />
+        </Box>
       ) : badge ? (
         <Box
           center
@@ -139,6 +151,7 @@ export const AssetIcon = memo(
     asset,
     bgColor,
     className,
+    secondaryIcon,
     hasChainIcon = true,
     hasShadow = false,
     logoURI,
@@ -170,6 +183,7 @@ export const AssetIcon = memo(
         badge={badge}
         bgColor={bgColor}
         chain={assetChain}
+        secondaryIcon={secondaryIcon}
         className={className}
         hasShadow={hasShadow}
         iconUrl={canShowIcon ? iconUrl : ""}

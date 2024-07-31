@@ -17,7 +17,7 @@ export const useAccountData = (chain: Chain) => {
   const chainInfo = useMemo(() => {
     const info =
       chainWallet?.balance.reduce((acc, item) => {
-        if (item.eq(sigAsset)) {
+        if (item.eqAsset(sigAsset)) {
           acc.unshift(item);
         } else {
           acc.push(item);

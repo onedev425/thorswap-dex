@@ -66,7 +66,7 @@ export const useTxWithdraw = () => {
       const assetEntity = await AssetValue.fromString(assetParam);
 
       if (assetEntity) {
-        if (assetEntity.eq(RUNEAsset)) return;
+        if (assetEntity.eqAsset(RUNEAsset)) return;
         setPoolAsset(assetEntity);
       }
     };

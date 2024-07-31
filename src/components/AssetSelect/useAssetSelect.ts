@@ -31,7 +31,7 @@ export function useAssetSelect({
     );
 
     if (assetFilterType.chainAsset) {
-      const chainAssetSelectType = assets.find((a) => assetFilterType.chainAsset?.eq(a.asset));
+      const chainAssetSelectType = assets.find((a) => assetFilterType.chainAsset?.eqAsset(a.asset));
       if (chainAssetSelectType) {
         filtered.unshift(chainAssetSelectType);
       }
