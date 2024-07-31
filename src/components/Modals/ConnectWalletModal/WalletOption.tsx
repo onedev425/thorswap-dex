@@ -15,6 +15,7 @@ type Props = {
   selected: boolean;
   disabled?: boolean;
   connected?: boolean;
+  id?: string;
 };
 
 const WalletOption = ({
@@ -25,6 +26,7 @@ const WalletOption = ({
   type,
   selected,
   disabled,
+  id,
 }: Props) => {
   const { isMdActive } = useWindowSize();
   const handleClick = useCallback(() => {
@@ -33,6 +35,7 @@ const WalletOption = ({
 
   return (
     <Box
+      id={id}
       alignCenter
       className={classNames(
         "cursor-pointer relative bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110",

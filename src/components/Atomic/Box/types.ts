@@ -22,6 +22,7 @@ export type BoxProps = PropsWithChildren<
     col?: boolean;
     row?: boolean;
     flex?: number;
+    id?: string;
   } & (
     | ({
         justify: CustomJustifyType;

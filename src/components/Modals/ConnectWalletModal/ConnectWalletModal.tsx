@@ -3,7 +3,7 @@ import type { DerivationPathArray, WalletChain } from "@swapkit/sdk";
 import { Chain, DerivationPath, derivationPathToString } from "@swapkit/sdk";
 import type { Keystore } from "@swapkit/wallet-keystore";
 import classNames from "classnames";
-import { Box, Button, Checkbox, Modal, Tooltip } from "components/Atomic";
+import { Box, Button, Checkbox, Icon, Modal, Tooltip } from "components/Atomic";
 import { HoverIcon } from "components/HoverIcon";
 import { InfoTip } from "components/InfoTip";
 import { Input } from "components/Input";
@@ -23,7 +23,7 @@ import { ConnectKeystoreView } from "./ConnectKeystore";
 import { CreateKeystoreView } from "./CreateKeystore";
 import { PhraseView } from "./Phrase";
 import WalletOption from "./WalletOption";
-import type { DerivationPathType, HandleWalletConnectParams } from "./hooks";
+import type { DerivationPathType, HandleWalletConnectParams, WalletCategory } from "./hooks";
 import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from "./hooks";
 import { WalletType, availableChainsByWallet } from "./types";
 
@@ -42,6 +42,7 @@ const ConnectWalletModal = () => {
   const [tos, setTos] = useState(false);
   const [derivationPathType, setDerivationPathType] = useState<DerivationPathType>();
   const [customFlow, setCustomFlow] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<WalletCategory>();
   const [saveWallet, setSaveWallet] = useState(getFromStorage("restorePreviousWallet") as boolean);
 
   const walletOptions = useWalletOptions({ isMdActive });
@@ -87,7 +88,7 @@ const ConnectWalletModal = () => {
   };
 
   const clearState = useCallback(
-    (closeModal = true) => {
+    (closeModal = true, keepSelectedChains = false) => {
       if (closeModal) setIsConnectModalOpen(false);
       setTimeout(
         () => {
@@ -95,8 +96,9 @@ const ConnectWalletModal = () => {
           setCustomFlow(false);
           setLedgerIndex(0);
           setLoading(false);
-          setSelectedChains([]);
+          !keepSelectedChains && setSelectedChains([]);
           setSelectedWalletType(undefined);
+          setSelectedCategory(undefined);
         },
         closeModal ? 400 : 0,
       );
@@ -302,7 +304,7 @@ const ConnectWalletModal = () => {
           )}
         </Box>
       }
-      className="md:!max-w-[700px] -mt-24"
+      className="md:!max-w-[510px] -mt-24"
       isOpened={isConnectModalOpen}
       onBack={customFlow ? () => setCustomFlow(false) : undefined}
       onClose={clearState}
@@ -336,20 +338,9 @@ const ConnectWalletModal = () => {
             {selectedWalletType === WalletType.Phrase && <PhraseView />}
           </Box>
         ) : (
-          <Box col={!isMdActive}>
-            <Box
-              alignCenter
-              col
-              className={classNames(
-                "bg-light-bg-primary dark:bg-dark-bg-primary z-10",
-                isMdActive ? "dark:drop-shadow-4xl pb-4 rounded-l-3xl px-4" : "rounded-t-3xl pb-2",
-              )}
-            >
-              <Box
-                alignCenter
-                className="p-2 w-[90%] md:p-4 md:w-[100%] md:gap-4 box-content"
-                col={isMdActive}
-              >
+          <Box col className="md:p-2">
+            <Box alignCenter col className="px-4">
+              <Box alignCenter className="p-2 w-[100%] md:p-4 md:gap-4 box-content">
                 <Box flex={1}>
                   <Text textStyle={isMdActive ? "h4" : "subtitle2"}>
                     {t("views.walletModal.selectChains")}
@@ -375,7 +366,11 @@ const ConnectWalletModal = () => {
                 </Button>
               </Box>
 
-              <Box className="flex-wrap justify-center w-[80%] md:w-48">
+              <Box
+                className={classNames(
+                  "flex-wrap justify-center bg-light-bg-primary dark:bg-dark-bg-primary rounded-3xl z-10",
+                )}
+              >
                 {SUPPORTED_CHAINS.map((chain) => (
                   <ChainItem
                     chain={chain}
@@ -393,7 +388,7 @@ const ConnectWalletModal = () => {
             </Box>
 
             <Box col>
-              <Box alignCenter className="pr-6 md:pr-10 px-4">
+              <Box alignCenter className="px-4">
                 <Box flex={1}>
                   <Text className="md:py-4 pt-4" textStyle={isMdActive ? "h4" : "subtitle2"}>
                     {t("views.walletModal.selectWallet")}
@@ -422,33 +417,115 @@ const ConnectWalletModal = () => {
                 </Box>
               </Box>
 
-              <Box className="pl-6 pr-4 flex-wrap">
-                {walletOptions.map(
-                  ({ visible = true, title, items }) =>
-                    visible && (
-                      <Box col className="md:py-1" key={title}>
-                        {isMdActive && <Text fontWeight="semibold">{title}</Text>}
-
-                        <Box className="flex-wrap">
-                          {items.map(
-                            ({ visible = true, tooltip, type, disabled, icon, label }) =>
-                              visible && (
-                                <Tooltip content={tooltip} key={type}>
+              <Box className="px-4 mb-2" col>
+                {selectedCategory ? (
+                  <Box
+                    col
+                    className="justify-center bg-light-bg-primary dark:bg-dark-bg-primary rounded-3xl z-10 p-4"
+                  >
+                    <Box>
+                      <Icon
+                        className="mr-2 text-light-typo-primary dark:text-dark-typo-primary"
+                        name="arrowBack"
+                        onClick={() => clearState(false, true)}
+                      />
+                      <Text fontWeight="semibold">
+                        {
+                          walletOptions.find((section) => section.category === selectedCategory)
+                            ?.title
+                        }
+                      </Text>
+                    </Box>
+                    <Box className="flex-wrap gap-1">
+                      {walletOptions
+                        .find((section) => section.category === selectedCategory)
+                        ?.items.map((item) => {
+                          if ("items" in item) {
+                            return (
+                              <Box col className="pt-2" key={item.title}>
+                                <Text>{item.title}</Text>
+                                <Box className="flex-wrap">
+                                  {item.items.map(
+                                    ({
+                                      visible = true,
+                                      tooltip,
+                                      type,
+                                      disabled,
+                                      icon,
+                                      id,
+                                      label,
+                                    }) =>
+                                      visible && (
+                                        <Tooltip content={tooltip} key={type}>
+                                          <WalletOption
+                                            id={id}
+                                            connected={connectedWallets.includes(
+                                              type.toLowerCase(),
+                                            )}
+                                            disabled={disabled || isWalletTypeDisabled(type)}
+                                            handleTypeSelect={handleWalletTypeSelect}
+                                            icon={icon}
+                                            label={label}
+                                            selected={type === selectedWalletType}
+                                            type={type}
+                                          />
+                                        </Tooltip>
+                                      ),
+                                  )}
+                                </Box>
+                              </Box>
+                            );
+                          }
+                          return (
+                            <Box key={item.label}>
+                              {item.visible && (
+                                <Tooltip content={item.tooltip} key={item.type}>
                                   <WalletOption
-                                    connected={connectedWallets.includes(type.toLowerCase())}
-                                    disabled={disabled || isWalletTypeDisabled(type)}
+                                    connected={connectedWallets.includes(item.type.toLowerCase())}
+                                    disabled={item.disabled || isWalletTypeDisabled(item.type)}
                                     handleTypeSelect={handleWalletTypeSelect}
-                                    icon={icon}
-                                    label={label}
-                                    selected={type === selectedWalletType}
-                                    type={type}
+                                    id={item.id}
+                                    icon={item.icon}
+                                    label={item.label}
+                                    selected={item.type === selectedWalletType}
+                                    type={item.type}
                                   />
                                 </Tooltip>
-                              ),
+                              )}
+                            </Box>
+                          );
+                        })}
+                    </Box>
+                  </Box>
+                ) : (
+                  walletOptions.map(
+                    ({ visible = true, title, category, icon }) =>
+                      visible && (
+                        <Box
+                          row
+                          alignCenter
+                          onClick={() => setSelectedCategory(category)}
+                          key={category}
+                          className={classNames(
+                            "cursor-pointer bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110",
+                            "w-[100%] px-4 md:px-6 py-4 rounded-xl my-2",
+                            {
+                              "!bg-cyan !bg-opacity-20": false,
+                              "opacity-40 cursor-not-allowed": false,
+                            },
                           )}
+                        >
+                          <Text
+                            flex={1}
+                            fontWeight="semibold"
+                            textStyle={isMdActive ? "subtitle2" : "body"}
+                          >
+                            {title}
+                          </Text>
+                          <Icon className="p-2.5 rounded-2xl transform " name={icon} />
                         </Box>
-                      </Box>
-                    ),
+                      ),
+                  )
                 )}
               </Box>
               {selectedWalletType &&

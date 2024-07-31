@@ -20,6 +20,7 @@ export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
       flex,
       style,
       color,
+      id,
       ...rest
     },
     ref,
@@ -44,6 +45,7 @@ export const Box = forwardRef<HTMLDivElement, ChakraProps & BoxProps>(
         color={color as string}
         ref={ref}
         style={styles}
+        id={id}
       >
         {children}
       </div>

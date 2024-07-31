@@ -18,6 +18,7 @@ import {
 } from "./types";
 
 type WalletItem = {
+  id?: string;
   type: WalletType;
   icon: IconName;
   label: string;
@@ -26,14 +27,24 @@ type WalletItem = {
   tooltip?: string;
 };
 
+type SubCategory = {
+  title: string;
+  items: WalletItem[];
+  tooltip?: string;
+};
+
 type UseWalletOptionsParams = {
   isMdActive: boolean;
 };
 
+export type WalletCategory = "browserWallets" | "mobileWallets" | "hardwareWallets" | "keystore";
+
 export type WalletSection = {
+  category: WalletCategory;
   title: string;
   visible?: boolean;
-  items: WalletItem[];
+  items: WalletItem[] | SubCategory[];
+  icon: IconName;
 };
 
 export type DerivationPathType = "nativeSegwitMiddleAccount" | "segwit" | "legacy" | "ledgerLive";
@@ -47,36 +58,28 @@ export const okxWalletDetected = window.okxwallet || /OKApp/i.test(navigator.use
 export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
   const [walletOptions, setWalletOptions] = useState<WalletSection[]>([]);
 
+  const generateIdFromLabel = (label: string) => `thor-${label.replace(/\s+/g, "-").toLowerCase()}`;
+
+  const addUniqueId = (items: WalletItem[]): WalletItem[] => {
+    return items.map((item) => {
+      return {
+        ...item,
+        id: generateIdFromLabel(item.label),
+      };
+    });
+  };
+
   useEffect(() => {
     setWalletOptions([
       {
-        title: t("views.walletModal.softwareWallets"),
-        items: [
-          {
-            type: WalletType.Walletconnect,
-            icon: "walletConnect",
-            label: t("views.walletModal.walletConnect"),
-          },
+        category: "browserWallets",
+        title: t("views.walletModal.browserWallets"),
+        icon: "browser",
+        items: addUniqueId([
           {
             type: WalletType.Talisman,
             icon: "talisman",
             label: t("views.walletModal.talisman"),
-          },
-          {
-            type: WalletType.TrustWallet,
-            icon: "trustWallet",
-            label: t("views.walletModal.trustWallet"),
-          },
-          {
-            type: WalletType.Rainbow,
-            icon: "rainbow",
-            label: t("views.walletModal.rainbow"),
-          },
-          {
-            visible: isMdActive || isIframe(),
-            type: WalletType.TrustWalletExtension,
-            icon: "trustWalletWhite",
-            label: t("views.walletModal.trustWalletExtension"),
           },
           {
             type: WalletType.MetaMask,
@@ -92,6 +95,29 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
                   })
                 : "",
           },
+          {
+            icon: "xdefi",
+            type: WalletType.Xdefi,
+            visible: isMdActive || isIframe(),
+            label: t("views.walletModal.xdefi"),
+          },
+          {
+            icon: "keplr",
+            label: t("views.walletModal.keplr"),
+            type: WalletType.Keplr,
+            visible: isMdActive || isIframe(),
+          },
+          {
+            type: WalletType.Rainbow,
+            icon: "rainbow",
+            label: t("views.walletModal.rainbow"),
+          },
+          {
+            visible: isMdActive || isIframe(),
+            type: WalletType.TrustWalletExtension,
+            icon: "trustWalletWhite",
+            label: t("views.walletModal.trustWalletExtension"),
+          },
           //   {
           //     disabled: !isDetected(WalletOption.COINBASE_WEB),
           //     icon: 'coinbaseWallet' as IconName,
@@ -104,18 +130,6 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
           //         })
           //       : '',
           //   },
-          {
-            icon: "coinbaseWallet" as IconName,
-            type: WalletType.CoinbaseMobile,
-            visible: isMdActive || isIframe(),
-            label: t("views.walletModal.coinbaseWalletApp"),
-          },
-          {
-            icon: "xdefi",
-            type: WalletType.Xdefi,
-            visible: isMdActive || isIframe(),
-            label: t("views.walletModal.xdefi"),
-          },
           {
             disabled:
               !isDetected(WalletOption.BRAVE) || getETHDefaultWallet() !== WalletOption.BRAVE,
@@ -131,46 +145,86 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               : t("views.walletModal.installBraveBrowser"),
           },
           {
-            disabled: !(okxWalletDetected || isMobile),
-            visible: !isIframe(),
-            icon: "okx" as IconName,
-            type: isMobile ? WalletType.OkxMobile : WalletType.Okx,
-            label: t("views.walletModal.okxWallet"),
-            tooltip: window.okxwallet ? "" : t("views.walletModal.installOkxWallet"),
-          },
-          {
-            icon: "keplr",
-            label: t("views.walletModal.keplr"),
-            type: WalletType.Keplr,
-            visible: isMdActive || isIframe(),
-          },
-          {
             icon: "exodus",
             label: t("views.walletModal.passkeys"),
             visible: IS_BETA || IS_LOCAL,
             type: WalletType.Exodus,
           },
-        ],
-      },
-      {
-        title: t("views.walletModal.hardwareWallets"),
-        visible: isMdActive || isIframe(),
-        items: [
-          { type: WalletType.Ledger, icon: "ledger", label: t("views.walletModal.ledger") },
-          { type: WalletType.Trezor, icon: "trezor", label: t("views.walletModal.trezor") },
-          { type: WalletType.Keepkey, icon: "keepkey", label: t("views.walletModal.keepkey") },
-        ],
-      },
-      {
-        title: "Keystore",
-        items: [
-          { type: WalletType.Keystore, icon: "keystore", label: t("views.walletModal.keystore") },
           {
-            type: WalletType.CreateKeystore,
-            icon: "plusCircle",
-            label: t("views.walletModal.createKeystore"),
+            disabled: !okxWalletDetected,
+            visible: !isIframe(),
+            icon: "okx" as IconName,
+            type: WalletType.Okx,
+            label: t("views.walletModal.okxWallet"),
+            tooltip: window.okxwallet ? "" : t("views.walletModal.installOkxWallet"),
           },
-          { type: WalletType.Phrase, icon: "import", label: t("views.walletModal.importPhrase") },
+        ]),
+      },
+      {
+        category: "mobileWallets",
+        title: t("views.walletModal.mobileWallets"),
+        icon: "mobile",
+        items: addUniqueId([
+          {
+            type: WalletType.Walletconnect,
+            icon: "walletConnect",
+            label: t("views.walletModal.walletConnect"),
+          },
+          {
+            type: WalletType.TrustWallet,
+            icon: "trustWallet",
+            label: t("views.walletModal.trustWallet"),
+          },
+          {
+            icon: "coinbaseWallet" as IconName,
+            type: WalletType.CoinbaseMobile,
+            visible: isMdActive || isIframe(),
+            label: t("views.walletModal.coinbaseWalletApp"),
+          },
+          {
+            disabled: !(okxWalletDetected || isMobile),
+            visible: !isIframe(),
+            icon: "okx" as IconName,
+            type: WalletType.OkxMobile,
+            label: t("views.walletModal.okxWallet"),
+            tooltip: window.okxwallet ? "" : t("views.walletModal.installOkxWallet"),
+          },
+        ]),
+      },
+      {
+        category: "hardwareWallets",
+        title: `${t("views.walletModal.hardwareWallets")} & Keystore`,
+        visible: isMdActive || isIframe(),
+        icon: "hardware",
+        items: [
+          {
+            title: t("views.walletModal.hardwareWallets"),
+            items: addUniqueId([
+              { type: WalletType.Ledger, icon: "ledger", label: t("views.walletModal.ledger") },
+              { type: WalletType.Trezor, icon: "trezor", label: t("views.walletModal.trezor") },
+              { type: WalletType.Keepkey, icon: "keepkey", label: t("views.walletModal.keepkey") },
+            ]),
+          },
+          {
+            title: "Keystore",
+            items: addUniqueId([
+              {
+                type: WalletType.Keystore,
+                icon: "keystore",
+                label: t("views.walletModal.keystore"),
+              },
+              {
+                type: WalletType.CreateKeystore,
+                icon: "plusCircle",
+                label: t("views.walletModal.createKeystore"),
+              },
+              {
+                type: WalletType.Phrase,
+                icon: "import",
+                label: t("views.walletModal.importPhrase"),
+              },
+            ]),
+          },
         ],
       },
     ]);

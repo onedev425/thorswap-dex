@@ -15,6 +15,7 @@ import App from "./app.svg?react";
 import Binance3d from "./binance.svg?react";
 import Bitcoin3d from "./bitcoin.svg?react";
 import Brave from "./brave.png";
+import Browser from "./browser.svg?react";
 import BscScan from "./bscscan.svg?react";
 import BscScanLight from "./bscscanLight.svg?react";
 import Bulb from "./bulb.svg?react";
@@ -46,13 +47,16 @@ import Saudi from "./flags/saudi.svg?react";
 import Spain from "./flags/spain.png";
 import USA from "./flags/usa.svg?react";
 import Gwei from "./gwei.svg?react";
+import Hardware from "./hardware.svg?react";
 import InIcon from "./inIcon.svg?react";
 import Keepkey from "./keepkey.svg?react";
 import Keplr from "./keplr.svg?react";
+import Keyshield from "./keyshield.svg?react";
 import Keystore from "./keystore.svg?react";
 import Ledger from "./ledger.svg?react";
 import Lightning from "./lightningThorswap.svg?react";
 import Metamask from "./metamask.svg?react";
+import Mobile from "./mobile.svg?react";
 import Moon from "./moon.svg?react";
 import Rainbow from "./rainbow.svg?react";
 import Receive from "./receive.svg?react";
@@ -140,6 +144,10 @@ export const Svgs = {
   xdefi: XDefi,
   comma: Comma,
   fees: Fees,
+  browser: Browser,
+  hardware: Hardware,
+  keyshield: Keyshield,
+  mobile: Mobile,
   // flags
   brazil: Brazil,
   cambodia: Cambodia,
