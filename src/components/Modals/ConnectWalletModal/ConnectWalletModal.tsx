@@ -478,7 +478,7 @@ const ConnectWalletModal = () => {
                           }
                           return (
                             <Box key={item.label}>
-                              {item.visible && (
+                              {(item.visible ?? true) && (
                                 <Tooltip content={item.tooltip} key={item.type}>
                                   <WalletOption
                                     connected={connectedWallets.includes(item.type.toLowerCase())}
