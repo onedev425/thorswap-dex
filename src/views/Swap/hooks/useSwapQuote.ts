@@ -139,33 +139,33 @@ export const useSwapQuote = ({
     },
   );
 
-  const {
-    refetch: refetchMayaSpecial,
-    error: errorMayaSpecial,
-    isLoading: isLoadingMayaSpecial,
-    currentData: mayaSpecialData,
-    isFetching: isFetchingMayaSpecial,
-    isUninitialized: isMayaSpecialUninitialized,
-  } = useGetV2QuoteQuery(
-    {
-      ...params,
-      affiliateBasisPoints: "0",
-      providers: [ProviderName.MAYACHAIN, "MAYACHAIN_STREAMING"],
-    },
-    {
-      skip:
-        // TODO move ledger live integration to SK
-        IS_DEV_API ||
-        IS_LEDGER_LIVE ||
-        params.sellAmount === "0" ||
-        inputAmount.lte(0) ||
-        !!providers,
-    },
-  );
+  //   const {
+  //     refetch: refetchMayaSpecial,
+  //     error: errorMayaSpecial,
+  //     isLoading: isLoadingMayaSpecial,
+  //     currentData: mayaSpecialData,
+  //     isFetching: isFetchingMayaSpecial,
+  //     isUninitialized: isMayaSpecialUninitialized,
+  //   } = useGetV2QuoteQuery(
+  //     {
+  //       ...params,
+  //       affiliateBasisPoints: "0",
+  //       providers: [ProviderName.MAYACHAIN, "MAYACHAIN_STREAMING"],
+  //     },
+  //     {
+  //       skip:
+  //         // TODO move ledger live integration to SK
+  //         IS_DEV_API ||
+  //         IS_LEDGER_LIVE ||
+  //         params.sellAmount === "0" ||
+  //         inputAmount.lte(0) ||
+  //         !!providers,
+  //     },
+  //   );
 
   const quoteError = useMemo(
-    () => (error && errorChainflip && errorMayaSpecial ? error : undefined),
-    [error, errorChainflip, errorMayaSpecial],
+    () => (error && errorChainflip ? error : undefined),
+    [error, errorChainflip],
   );
 
   const refetchAllQuotes = useMemo(
@@ -177,18 +177,8 @@ export const useSwapQuote = ({
       if (!isChainflipUninitialized) {
         refetchChainflip();
       }
-      if (!isMayaSpecialUninitialized) {
-        refetchMayaSpecial();
-      }
     },
-    [
-      isChainflipUninitialized,
-      isUninitialized,
-      refetch,
-      refetchChainflip,
-      refetchMayaSpecial,
-      isMayaSpecialUninitialized,
-    ],
+    [isChainflipUninitialized, isUninitialized, refetch, refetchChainflip],
   );
 
   const setSortedRoutes = useCallback(
@@ -236,17 +226,21 @@ export const useSwapQuote = ({
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
-    if (isFetching && isFetchingChainflip && isFetchingMayaSpecial && !!routes.length) {
+    if (isFetching && isFetchingChainflip && !!routes.length) {
       return;
     }
 
     const chainFlipRoutesRaw: QuoteResponseRoute[] = chainflipData?.routes || [];
     const mayaSpecialRoutes: QuoteResponseRoute[] =
-      (mayaSpecialData as QuoteResponse)?.routes.filter((route, _i, routes) =>
-        routes.every((r) => r.expectedBuyAmount === route.expectedBuyAmount)
-          ? route.providers.includes(ProviderName.MAYACHAIN)
-          : true,
-      ) || [];
+      (chainflipData as QuoteResponse)?.routes
+        .filter((route) =>
+          [ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING].includes(route.providers[0]),
+        )
+        .filter((route, _i, routes) =>
+          routes.every((r) => r.expectedBuyAmount === route.expectedBuyAmount)
+            ? route.providers.includes(ProviderName.MAYACHAIN)
+            : true,
+        ) || [];
 
     const chainFlipRoutes = chainFlipRoutesRaw
       .concat(mayaSpecialRoutes)
@@ -404,13 +398,11 @@ export const useSwapQuote = ({
     setApprovalsLoading(true);
   }, [
     chainflipData,
-    mayaSpecialData,
     data,
     inputAsset,
     inputUnitPrice,
     isFetching,
     isFetchingChainflip,
-    isFetchingMayaSpecial,
     isInputZero,
     // isLoading,
     // isLoadingChainflip,
@@ -423,22 +415,10 @@ export const useSwapQuote = ({
   ]);
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      quoteError ||
-      isLoading ||
-      isLoadingChainflip ||
-      isLoadingMayaSpecial ||
-      inputAmount.getValue("number") === 0
+      quoteError || isLoading || isLoadingChainflip || inputAmount.getValue("number") === 0
         ? undefined
         : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
-    [
-      quoteError,
-      inputAmount,
-      isLoading,
-      isLoadingChainflip,
-      isLoadingMayaSpecial,
-      routes,
-      selectedProvider,
-    ],
+    [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, selectedProvider],
   );
 
   useEffect(() => {
@@ -451,7 +431,7 @@ export const useSwapQuote = ({
   useEffect(() => {
     const errorMessage =
       // @ts-expect-error
-      quoteError?.data?.message || errorChainflip?.data?.message || errorMayaSpecial?.data?.message;
+      quoteError?.data?.message || errorChainflip?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;
@@ -462,7 +442,7 @@ export const useSwapQuote = ({
       }, 3000);
     }
     // @ts-expect-error
-  }, [errorChainflip?.data?.message, errorMayaSpecial?.data?.message, quoteError?.data?.message]);
+  }, [errorChainflip?.data?.message, quoteError?.data?.message]);
 
   return {
     refetch: refetchAllQuotes,
