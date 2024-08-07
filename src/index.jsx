@@ -26,7 +26,7 @@ const renderApp = () => {
         <ColorModeScript />
         <App />
       </Sentry.ErrorBoundary>
-    </StrictMode>
+    </StrictMode>,
     // </WalletProvider>,
   );
 };
