@@ -10,6 +10,7 @@ export enum Provider {
   V1_PROVIDERS = "V1_PROVIDERS",
   CHAINFLIP = "CHAINFLIP",
   MAYACHAIN = "MAYACHAIN",
+  MAYACHAIN_STREAMING = "MAYACHAIN_STREAMING",
 }
 
 /**
@@ -21,7 +22,7 @@ export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
     ? ["Stargatearb", "Pancakeswap", "Pancakeswapeth", "Traderjoe", "Pangolin"]
     : [];
 
-const UNCHAINABLE_PROVIDERS = ["CHAINFLIP", "MAYACHAIN"];
+const UNCHAINABLE_PROVIDERS = ["CHAINFLIP", "MAYACHAIN", "MAYACHAIN_STREAMING"];
 
 export const useTokenList = (withTradingPairs = false) => {
   const [tokens, setTokens] = useState<Token[]>([]);

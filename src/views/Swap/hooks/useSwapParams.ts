@@ -228,7 +228,7 @@ export const useSwapParams = ({
       subswaps: streamingSwapParams?.subswaps,
     });
 
-    // @ts-expect-error TODO fix typing v2 quotes
+    // @ts-expect-error wrong typing on memo
     const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo || selectedRoute.memo, {
       minAmount: noSlipProtection ? "" : memoMinAmount,
     });

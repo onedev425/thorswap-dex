@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { TrackerParams, TrackerResponse } from "@swapkit/api/src/thorswapApiV2/types";
+import type { QuoteResponse } from "@swapkit/sdk";
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "config/constants";
 import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from "settings/config";
 import type { AnnouncementsData } from "store/externalConfig/types";
@@ -80,7 +81,7 @@ export const thorswapApi = createApi({
       },
     }),
 
-    getV2Quote: build.query<Todo, GetTokensQuoteParams>({
+    getV2Quote: build.query<QuoteResponse, GetTokensQuoteParams>({
       query: ({
         senderAddress = "",
         recipientAddress = "",
@@ -93,7 +94,7 @@ export const thorswapApi = createApi({
           body: JSON.stringify({
             sellAsset: rest.sellAsset,
             buyAsset: rest.buyAsset,
-            sellAmount: Number(rest.sellAmount),
+            sellAmount: rest.sellAmount,
             sourceAddress: senderAddress,
             destinationAddress: recipientAddress,
             affiliateFee: Number.parseInt(affiliateBasisPoints || "0"),

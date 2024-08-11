@@ -386,7 +386,7 @@ export const useConnectWallet = () => {
       const { getPubKeyFromMnemonic } = ThorchainToolbox({});
       const pubKey = await getPubKeyFromMnemonic(phrase);
 
-      await connectKeystore(chains, phrase);
+      await connectKeystore(chains, phrase, 0);
       walletDispatch({ type: "connectKeystore", payload: { keystore, phrase, pubKey } });
       logEvent("connect_wallet", { type: WalletOption.KEYSTORE, chains });
       reloadAllWallets(chains);

@@ -19,7 +19,7 @@ const colorBurn = keyframes`
   }
 `;
 
-const TARGET_AMOUNT = new SwapKitNumber({ value: 97_240_500 });
+const TARGET_AMOUNT = new SwapKitNumber({ value: 102_102_525 });
 const currentMonth = dayjs().format("MMMM");
 const INFO_ARTICLE_URL = "https://docs.thorswap.finance/thorswap/thor/about/thor-burn";
 

@@ -11,8 +11,8 @@ export const usePools = (period?: (typeof POOLS_TIME_PERIODS_OPTIONS)[number]) =
       pools.reduce(
         (acc, { status, asset }) => {
           const [chain, symbol] = asset.split(".");
-          const poolAsset = AssetValue.fromStringSync(asset) as AssetValue;
-          const synthAsset = AssetValue.fromStringSync(`${chain}/${symbol}`) as AssetValue;
+          const poolAsset = AssetValue.from({ asset });
+          const synthAsset = AssetValue.from({ asset: `THOR.${chain}/${symbol}` });
           const isStaged = status.toLowerCase() === "staged";
 
           if (isStaged && poolAsset) {
