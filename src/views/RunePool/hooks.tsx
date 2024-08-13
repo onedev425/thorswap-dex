@@ -94,45 +94,42 @@ export const useRunePoolStats = () => {
     const data = await dataPromise();
 
     const runePoolItems = [
-      {
-        label: "POL",
-        value: `${data.pol.value.toCurrency("")} RUNE`,
-      },
+      //   {
+      //     label: "POL",
+      //     value: `${data.pol.value.toCurrency("")} RUNE`,
+      //   },
       {
         label: "Users",
         value: `${data.providers.value.toCurrency("")} RUNE`,
       },
-      {
-        label: "Reserve",
-        value: `${data.reserve.value.toCurrency("")} RUNE`,
-      },
+      //   {
+      //     label: "Reserve",
+      //     value: `${data.reserve.value.toCurrency("")} RUNE`,
+      //   },
     ];
 
     const pnlItems = [
-      {
-        label: "POL",
-        value: `${data.pol.pnl.toCurrency("")} RUNE`,
-      },
+      //   {
+      //     label: "POL",
+      //     value: `${data.pol.pnl.toCurrency("")} RUNE`,
+      //   },
       {
         label: "Users",
         value: `${data.providers.pnl.toCurrency("")} RUNE`,
       },
-      {
-        label: "Reserve",
-        value: `${data.reserve.pnl.toCurrency("")} RUNE`,
-      },
+      //   {
+      //     label: "Reserve",
+      //     value: `${data.reserve.pnl.toCurrency("")} RUNE`,
+      //   },
     ];
 
     const statsList = [
       {
         label: "Total Rune in Pool",
         value: data
-          ? `${Object.values(data)
-              .reduce(
-                (acc, curr) => acc.add(curr.value),
-                AssetValue.from({ asset: "THOR.RUNE", value: 0 }),
-              )
-              .toCurrency("")} RUNE`
+          ? `${AssetValue.from({ asset: "THOR.RUNE", value: data.providers.value }).toCurrency(
+              "",
+            )} RUNE`
           : "-",
         tooltip: (
           <Flex className="flex flex-col">
@@ -146,12 +143,9 @@ export const useRunePoolStats = () => {
       {
         label: "Total RUNEPool PnL",
         value: data
-          ? `${Object.values(data)
-              .reduce(
-                (acc, curr) => acc.add(curr.pnl),
-                AssetValue.from({ asset: "THOR.RUNE", value: 0 }),
-              )
-              .toCurrency("")} RUNE`
+          ? `${AssetValue.from({ asset: "THOR.RUNE", value: data.providers.pnl }).toCurrency(
+              "",
+            )} RUNE`
           : "-",
         tooltip: (
           <Flex className="flex flex-col">

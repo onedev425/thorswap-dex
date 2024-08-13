@@ -40,6 +40,7 @@ export const ledgerLiveSwap = async ({
       sellAsset,
       recipient: recipient || route.destinationAddress,
       brokerEndpoint: `${apiV2BaseUrl}/channel`,
+      maxBoostFeeBps: 0,
     });
 
     return walletInstance.transfer({

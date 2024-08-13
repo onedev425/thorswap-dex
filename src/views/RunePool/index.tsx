@@ -4,7 +4,7 @@ import { AssetValue, getMemoForRunePoolDeposit, getMemoForRunePoolWithdraw } fro
 import classNames from "classnames";
 import { AssetIcon } from "components/AssetIcon";
 import { AssetInput } from "components/AssetInput";
-import { Box, Button, Card, Icon, Link, Tooltip } from "components/Atomic";
+import { Box, Button, Card, Icon, Link } from "components/Atomic";
 import { HighlightCard } from "components/HighlightCard";
 import { InfoRow } from "components/InfoRow";
 import type { InfoRowConfig } from "components/InfoRow/types";
@@ -271,21 +271,33 @@ const RunePool = () => {
   return (
     <Box col className="w-full max-w-[880px] flex self-center gap-3 mt-2">
       <div className="grid grid-cols-2 gap-4">
-        {stats.map((item) => (
-          <Card className="!rounded-2xl p-4 flex flex-col gap-2" key={item.label}>
-            <Text fontSize="20px" variant="primary">
-              {item.label}
-            </Text>
-            <Flex className="flex-row gap-1 my-auto">
-              <Text fontSize="14px" variant="secondary">
-                {item.value}
+        {stats ? (
+          stats.map((item) => (
+            <Card className="!rounded-2xl p-4 flex flex-col gap-2" key={item.label}>
+              <Text fontSize="20px" variant="primary">
+                {item.label}
               </Text>
-              <Tooltip className="my-auto" content={item.tooltip} place="bottom">
-                <Icon className="ml-1 my-auto" color="primaryBtn" name="infoCircle" size={18} />
-              </Tooltip>
-            </Flex>
-          </Card>
-        ))}
+              <Flex className="flex-row gap-1 my-auto">
+                <Text fontSize="14px" variant="secondary">
+                  {item.value}
+                </Text>
+              </Flex>
+            </Card>
+          ))
+        ) : (
+          <>
+            <Card className="!rounded-2xl p-4 flex flex-col gap-2" key={1}>
+              <div className="flex w-full p-6">
+                <Icon spin color="primary" name="loader" size={16} />
+              </div>
+            </Card>
+            <Card className="!rounded-2xl p-4 flex flex-col gap-2" key={1}>
+              <div className="flex w-full p-6">
+                <Icon spin color="primary" name="loader" size={16} />
+              </div>
+            </Card>
+          </>
+        )}
       </div>
 
       <div className="w-full my-2 border-0 border-b-2 border-solid !border-opacity-25 dark:border-dark-border-primary" />

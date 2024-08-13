@@ -127,7 +127,8 @@ export const thorswapApi = createApi({
     getProviders: build.query<GetProvidersResponse, void>({
       query: () => {
         return {
-          url: `${apiV2BaseUrl}/providers`,
+          //   url: `${apiV2BaseUrl}/providers`,
+          url: "https://dev-api.swapkit.dev/providers",
         };
       },
     }),

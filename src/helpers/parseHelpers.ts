@@ -2,7 +2,7 @@ import type { AssetValue } from "@swapkit/sdk";
 import type { GetTokenPriceIdentifiers } from "store/thorswap/types";
 
 export const parseAssetToToken = (asset: AssetValue): GetTokenPriceIdentifiers => ({
-  identifier: asset.isSynthetic ? asset.symbol : asset.toString(),
+  identifier: asset.toString({ includeSynthProtocol: true }),
 });
 
 export const parseToPercent = (basis: number | string = 0, decimals = 2) => {

@@ -192,8 +192,12 @@ const SwapView = () => {
   //   }, [inputAsset, outputAsset]);
 
   const providers = useMemo(() => {
-    const outputProviders = tradingPairs.get(outputAsset.toString().toLowerCase())?.providers;
-    const inputProviders = tradingPairs.get(inputAsset.toString().toLowerCase())?.providers;
+    const outputProviders = tradingPairs.get(
+      outputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
+    )?.providers;
+    const inputProviders = tradingPairs.get(
+      inputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
+    )?.providers;
     const commonProviders = outputProviders?.filter((provider) =>
       inputProviders?.includes(provider),
     );

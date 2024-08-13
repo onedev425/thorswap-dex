@@ -1,4 +1,4 @@
-import type { QuoteResponse, QuoteResponseRoute, SwapKitNumber } from "@swapkit/sdk";
+import type { QuoteResponseRoute, SwapKitNumber } from "@swapkit/sdk";
 import { AssetValue, FeeTypeEnum, ProviderName } from "@swapkit/sdk";
 import type { RouteWithApproveType } from "components/SwapRouter/types";
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "config/constants";
@@ -84,8 +84,8 @@ export const useSwapQuote = ({
       affiliateAddress:
         iframeData?.address ||
         (IS_LEDGER_LIVE ? THORSWAP_AFFILIATE_ADDRESS_LL : THORSWAP_AFFILIATE_ADDRESS),
-      sellAsset: inputAsset.isSynthetic ? inputAsset.symbol : inputAsset.toString(),
-      buyAsset: outputAsset.isSynthetic ? outputAsset.symbol : outputAsset.toString(),
+      sellAsset: inputAsset.toString(),
+      buyAsset: outputAsset.toString(),
       sellAmount: debouncedSellAmount,
       senderAddress,
       recipientAddress,
@@ -129,7 +129,11 @@ export const useSwapQuote = ({
     isUninitialized: isChainflipUninitialized,
   } = useGetV2QuoteQuery(
     {
-      ...params,
+      ...{
+        ...params,
+        sellAsset: inputAsset.toString({ includeSynthProtocol: true }),
+        buyAsset: outputAsset.toString({ includeSynthProtocol: true }),
+      },
       providers: IS_DEV_API
         ? undefined
         : [ProviderName.CHAINFLIP, ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
@@ -138,30 +142,6 @@ export const useSwapQuote = ({
       skip: params.sellAmount === "0" || inputAmount.lte(0),
     },
   );
-
-  //   const {
-  //     refetch: refetchMayaSpecial,
-  //     error: errorMayaSpecial,
-  //     isLoading: isLoadingMayaSpecial,
-  //     currentData: mayaSpecialData,
-  //     isFetching: isFetchingMayaSpecial,
-  //     isUninitialized: isMayaSpecialUninitialized,
-  //   } = useGetV2QuoteQuery(
-  //     {
-  //       ...params,
-  //       affiliateBasisPoints: "0",
-  //       providers: [ProviderName.MAYACHAIN, "MAYACHAIN_STREAMING"],
-  //     },
-  //     {
-  //       skip:
-  //         // TODO move ledger live integration to SK
-  //         IS_DEV_API ||
-  //         IS_LEDGER_LIVE ||
-  //         params.sellAmount === "0" ||
-  //         inputAmount.lte(0) ||
-  //         !!providers,
-  //     },
-  //   );
 
   const quoteError = useMemo(
     () => (error && errorChainflip ? error : undefined),
