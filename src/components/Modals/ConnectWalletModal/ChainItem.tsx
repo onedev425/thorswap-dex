@@ -51,7 +51,7 @@ const ChainItem = ({
             "bg-gradient-teal": selected,
           })}
         >
-          <ChainIcon withoutBackground chain={chain} size={isMdActive ? 42 : 32} />
+          <ChainIcon withoutBackground chain={chain} size={isMdActive ? 38 : 28} />
 
           <Box
             className={classNames(

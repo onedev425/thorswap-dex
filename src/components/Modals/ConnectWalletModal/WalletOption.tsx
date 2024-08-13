@@ -70,7 +70,7 @@ const WalletOption = ({
         <Icon color="green" name="connect" size={14} />
       </Box>
 
-      <Icon name={icon} size={isMdActive ? 24 : 18} />
+      <Icon name={icon} size={isMdActive ? 20 : 14} />
 
       <Text className="text-center !text-caption-xs md:!text-caption">{label}</Text>
     </Box>
