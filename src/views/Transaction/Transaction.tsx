@@ -1,20 +1,27 @@
 import { CircularProgress, Flex, Text } from "@chakra-ui/react";
 import type { TxTrackerDetails } from "@swapkit/api";
+import type { ChainId } from "@swapkit/sdk";
 import { Card } from "components/Atomic";
 import { Helmet } from "components/Helmet";
 import { useTransactionDetails } from "components/TransactionManager/useAdvancedTracker";
 import { TxTrackerDetailsProvider } from "components/TransactionTracker/TxTrackerDetailsContext";
 import { TxPreview } from "components/TransactionTracker/components/TxPreview";
+import { useTransactionDetailsV2 } from "components/TransactionTrackerV2/useTrackerV2";
 import { ViewHeader } from "components/ViewHeader";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { t } from "services/i18n";
+import type { TrackerV2Details } from "store/transactions/types";
 
 const Transaction = () => {
   const { txid = "" } = useParams<{
     txid: string;
   }>();
-  const [tx, setTx] = useState<TxTrackerDetails | null>(null);
+  const [searchParams] = useSearchParams();
+  const chainId = searchParams.get("chainId") as ChainId;
+  const useApiV2 = !!chainId;
+
+  const [tx, setTx] = useState<(TxTrackerDetails & TrackerV2Details) | null>(null);
   const [hasError, setHasError] = useState(false);
 
   const {
@@ -22,13 +29,21 @@ const Transaction = () => {
     isCompleted,
     error: fetchError,
     isLoading,
-  } = useTransactionDetails({ hash: txid }, !txid.length);
+  } = useTransactionDetails({ hash: txid }, !txid.length || useApiV2);
+
+  const v2Data = useTransactionDetailsV2(
+    {
+      hash: txid,
+      chainId,
+    },
+    !useApiV2,
+  );
 
   useEffect(() => {
-    if (data) {
-      setTx(data.result as TxTrackerDetails);
+    if (data || v2Data.data) {
+      setTx(data?.result || (v2Data.data as TxTrackerDetails));
     }
-  }, [data]);
+  }, [data, v2Data.data]);
 
   useEffect(() => {
     if (fetchError) {

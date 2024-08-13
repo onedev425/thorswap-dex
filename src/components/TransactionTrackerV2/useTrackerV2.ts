@@ -1,11 +1,6 @@
 import type { TxTrackerDetails } from "@swapkit/api";
 import { TxStatus } from "@swapkit/api";
-import type {
-  TrackerParams,
-  TrackerResponse,
-  TxnMeta,
-  TxnTransient,
-} from "@swapkit/api/src/thorswapApiV2/types";
+import type { TrackerParams, TrackerResponse } from "@swapkit/api/src/thorswapApiV2/types";
 import { TrackingStatus } from "@swapkit/api/src/thorswapApiV2/types";
 import { AssetValue, ChainIdToChain } from "@swapkit/core";
 import { getSimpleTxStatus } from "components/TransactionManager/helpers";
@@ -14,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch } from "store/store";
 import { useGetTxStatusV2Query } from "store/thorswap/api";
 import { updateTransaction } from "store/transactions/slice";
-import type { PendingTransactionType } from "store/transactions/types";
+import type { PendingTransactionType, TrackerV2Details } from "store/transactions/types";
 
 export const useTrackerV2 = (tx: PendingTransactionType | null) => {
   const appDispatch = useAppDispatch();
@@ -93,9 +88,7 @@ export const useTransactionDetailsV2 = (payload: TrackerParams | null, skip?: bo
   return { data: apiError ? null : data, error: error || apiError, isLoading, isCompleted };
 };
 
-function mapToV1TrackerDetails(
-  payload: TrackerResponse,
-): TxTrackerDetails & { transient?: TxnTransient; meta?: TxnMeta; isV2?: boolean } {
+function mapToV1TrackerDetails(payload: TrackerResponse): TxTrackerDetails & TrackerV2Details {
   const estimatedFinalizedAt =
     payload.legs[1]?.transient?.estimatedfinalisedAt || Date.now() / 1000;
   const transient = payload.transient ? { ...payload.transient, estimatedFinalizedAt } : undefined;
@@ -119,6 +112,7 @@ function mapToV1TrackerDetails(
     transient,
     meta: payload.meta || {},
     isV2: true,
+    chainId: payload.chainId,
   };
 }
 

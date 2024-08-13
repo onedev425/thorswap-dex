@@ -3,9 +3,10 @@ import { TransactionType } from "@swapkit/api";
 import { TrackerTxDisplayType } from "components/TransactionTracker/types";
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
+import type { TrackerV2Details } from "store/transactions/types";
 
 type TxTrackerDetailsState = {
-  txDetails: TxTrackerDetails | undefined | null;
+  txDetails: (TxTrackerDetails & TrackerV2Details) | undefined | null;
   txDisplayType: TrackerTxDisplayType | undefined;
 };
 

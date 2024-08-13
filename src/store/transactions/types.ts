@@ -1,6 +1,7 @@
 import type { QuoteRoute, TxStatus, TxTrackerDetails } from "@swapkit/api";
 import type { TxnMeta, TxnStatus, TxnTransient } from "@swapkit/api/src/thorswapApiV2/types";
 import type { Chain } from "@swapkit/core";
+import type { ChainId } from "@swapkit/sdk";
 import type { BorrowQuoteResponse, RepayQuoteResponse, TxnResult } from "store/thorswap/types";
 
 export type TransactionStatus = "error" | "mined" | "refund" | "pending" | "unknown" | "notStarted";
@@ -87,7 +88,12 @@ export enum TransactionType {
   TC_LENDING = "TC:LENDING",
 }
 
-export type TrackerV2Details = { transient?: TxnTransient; meta?: TxnMeta; isV2?: boolean };
+export type TrackerV2Details = {
+  transient?: TxnTransient;
+  meta?: TxnMeta;
+  isV2?: boolean;
+  chainId?: ChainId;
+};
 
 export type PendingTransactionType = {
   from?: string;

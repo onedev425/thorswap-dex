@@ -67,7 +67,8 @@ export const TxDetailsInfo = ({ isCompleted, totalTimeLeft }: Props) => {
     "";
 
   const swapLabelValue = `${firstLegInfo}${lastLegInfo ? ` -> ${lastLegInfo}` : ""}`;
-  const txUrl = `${window.location.origin}/tx/${firstTransactionHash}`;
+  const txUrlQUery = txDetails?.chainId ? `?chainId=${txDetails.chainId}` : "";
+  const txUrl = `${window.location.origin}/tx/${firstTransactionHash}${txUrlQUery}`;
 
   return (
     <Flex direction="column" w="full">
