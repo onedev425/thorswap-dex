@@ -1,4 +1,5 @@
 import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
+import { EVMPlugin } from "@swapkit/plugin-evm";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import type { ConnectWalletParams } from "@swapkit/sdk";
 import { SwapKit } from "@swapkit/sdk";
@@ -12,6 +13,7 @@ const plugins = {
   ...ThorchainPlugin,
   ...MayachainPlugin,
   ...ChainflipPlugin,
+  ...EVMPlugin,
 };
 
 let sdkClient: ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;

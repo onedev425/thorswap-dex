@@ -25,6 +25,7 @@ export const SwapRouter = memo(
           title={
             <SelectedRoute
               {...selectedRoute}
+              providers={selectedRoute.providers.toReversed()}
               assetTicker={outputAsset.ticker}
               outputAssetDecimal={outputAsset.decimal || 8}
               streamSwap={streamSwap}

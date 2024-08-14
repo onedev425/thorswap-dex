@@ -100,6 +100,7 @@ export const thorswapApi = createApi({
             affiliateFee: Number.parseInt(affiliateBasisPoints || "0"),
             ...(providers ? { providers: providers || V2Providers } : {}),
             slippage: Number(rest.slippage) || 5,
+            includeTx: true,
           }),
           url: `${apiV2BaseUrl}/quote`,
           headers: { "Content-Type": "application/json" },

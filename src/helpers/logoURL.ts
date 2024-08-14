@@ -12,8 +12,10 @@ const providersInfoMap = {
   mayachainstreaming: "MAYA.MAYA",
   // AVAX
   pangolin: "AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982",
+  pangolinv1: "AVAX.PNG-0x60781C2586D68229fde47564546784ab3fACA982",
   platypus: "AVAX.AVAX",
   traderjoe: "AVAX.JOE-0X6E84A6216EA6DACC71EE8E6B0A5B7322EEBC0FDD",
+  traderjoev2: "AVAX.JOE-0X6E84A6216EA6DACC71EE8E6B0A5B7322EEBC0FDD",
   woofi: "ETH.WOO-0x4691937a7508860f876c9c0a2a617e7d9e945d4b",
   // ETH
   balancerv2: "ETH.BAL-0xba100000625a3754423978a60c9317c58a424e3d",
@@ -28,6 +30,7 @@ const providersInfoMap = {
   shibaswap: "ETH.SHIB-0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce",
   sushi: "ETH.SUSHI-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
   sushiswap: "ETH.SUSHI-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
+  sushiswapv2: "ETH.SUSHI-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
   synapse: "ETH.SYN-0x0f2d719407fdbeff09d87557abb7232601fd9f29",
   synthetix: "ETH.SNX-0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
   synthetixatomicsip288: "ETH.SNX-0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",

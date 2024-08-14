@@ -121,12 +121,12 @@ export const useSwapQuote = ({
   });
 
   const {
-    refetch: refetchChainflip,
-    error: errorChainflip,
-    isLoading: isLoadingChainflip,
-    currentData: chainflipData,
-    isFetching: isFetchingChainflip,
-    isUninitialized: isChainflipUninitialized,
+    refetch: refetchV2,
+    error: errorV2,
+    isLoading: isLoadingV2,
+    currentData: v2Data,
+    isFetching: isFetchingV2,
+    isUninitialized: isV2Uninitialized,
   } = useGetV2QuoteQuery(
     {
       ...{
@@ -143,10 +143,7 @@ export const useSwapQuote = ({
     },
   );
 
-  const quoteError = useMemo(
-    () => (error && errorChainflip ? error : undefined),
-    [error, errorChainflip],
-  );
+  const quoteError = useMemo(() => (error && errorV2 ? error : undefined), [error, errorV2]);
 
   const refetchAllQuotes = useMemo(
     () => () => {
@@ -154,11 +151,11 @@ export const useSwapQuote = ({
       if (!isUninitialized) {
         refetch();
       }
-      if (!isChainflipUninitialized) {
-        refetchChainflip();
+      if (!isV2Uninitialized) {
+        refetchV2();
       }
     },
-    [isChainflipUninitialized, isUninitialized, refetch, refetchChainflip],
+    [isV2Uninitialized, isUninitialized, refetch, refetchV2],
   );
 
   const setSortedRoutes = useCallback(
@@ -166,10 +163,12 @@ export const useSwapQuote = ({
       try {
         const routesWithApprovePromise = routes.map(async (route) => {
           const isApproved =
-            senderAddress && !route.providers.includes("CHAINFLIP")
+            senderAddress && !route.providers.includes(ProviderName.CHAINFLIP)
               ? await checkAssetApprove({
                   assetValue: inputAsset.set(inputAmount),
                   contract:
+                    // @ts-expect-error
+                    route.meta.approvalAddress ||
                     route.approvalTarget ||
                     route.allowanceTarget ||
                     route.targetAddress ||
@@ -206,168 +205,171 @@ export const useSwapQuote = ({
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
-    if (isFetching && isFetchingChainflip && !!routes.length) {
+    if (isFetching && isFetchingV2 && !!routes.length) {
       return;
     }
 
-    const chainFlipRoutes = (chainflipData?.routes || []).map((fullRoute: QuoteResponseRoute) => {
-      const route = fullRoute?.legs[fullRoute?.legs.length - 1];
-      const meta = fullRoute.meta;
+    const v2Routes = (v2Data?.routes || [])
+      //   .filter((route) => {
+      //     const providerMatch = route.providers.some((provider) => /.*_STREAMING/.test(provider));
+      //     return !(providerMatch && route.expectedBuyAmount === inputAmount.getValue("number"));
+      //   })
+      .map((route: QuoteResponseRoute) => {
+        const meta = route.meta;
 
-      const chainFlipFees = route?.fees?.reduce(
-        (acc, fee) => {
-          const assetPriceUsd =
-            meta.assets?.find((assetMetaData) => assetMetaData.asset === fee.asset)?.price || 0;
+        const v2Fees = route?.fees?.reduce(
+          (acc, fee) => {
+            const assetPriceUsd =
+              meta.assets?.find(
+                (assetMetaData) => assetMetaData.asset.toLowerCase() === fee.asset.toLowerCase(),
+              )?.price || 0;
 
-          if (fee.type === FeeTypeEnum.INBOUND) {
-            const inboundFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
-              acc.inbound.networkFee,
-            );
-            const inboundFeeUSD = inboundFee.mul(assetPriceUsd);
-            acc.inbound = {
-              ...acc.inbound,
-              networkFee: inboundFee.getValue("number"),
-              networkFeeUSD: inboundFeeUSD.getValue("number"),
-            };
-            acc.total = {
-              totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
-            };
+            if (fee.type === FeeTypeEnum.INBOUND) {
+              const inboundFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
+                acc.inbound.networkFee,
+              );
+              const inboundFeeUSD = inboundFee.mul(assetPriceUsd);
+              acc.inbound = {
+                ...acc.inbound,
+                networkFee: inboundFee.getValue("number"),
+                networkFeeUSD: inboundFeeUSD.getValue("number"),
+              };
+              acc.total = {
+                totalFeeUSD: inboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
+              };
+              return acc;
+            }
+            if (fee.type === FeeTypeEnum.AFFILIATE) {
+              const affiliateFee = inputAsset.set(fee.amount);
+              const affiliateFeeUSD = affiliateFee.mul(assetPriceUsd);
+              acc.inbound = {
+                ...acc.inbound,
+                affiliateFee: affiliateFee.getValue("number"),
+                affiliateFeeUSD: affiliateFeeUSD.getValue("number"),
+              };
+              acc.total = {
+                totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
+              };
+              return acc;
+            }
+            if (fee.type === FeeTypeEnum.OUTBOUND) {
+              const outboundFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
+                acc.outbound.networkFee,
+              );
+              const outboundFeeUSD = outboundFee.mul(assetPriceUsd);
+              acc.outbound = {
+                ...acc.outbound,
+                networkFee: outboundFee.getValue("number"),
+                networkFeeUSD: outboundFeeUSD.getValue("number"),
+              };
+              acc.total = {
+                totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
+              };
+              return acc;
+            }
+            if (fee.type === FeeTypeEnum.NETWORK) {
+              const networkFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
+                acc.slippage.slipFee,
+              );
+              acc.slippage = {
+                ...acc.slippage,
+                slipFee: networkFee.getValue("number"),
+                slipFeeUSD: networkFee.getValue("number"),
+              };
+              acc.total = {
+                totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue("number"),
+              };
+              return acc;
+            }
+            if (fee.type === FeeTypeEnum.LIQUIDITY) {
+              const networkFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
+                acc.slippage.slipFee,
+              );
+              const networkFeeUSD = networkFee.mul(assetPriceUsd);
+              acc.slippage = {
+                ...acc.slippage,
+                slipFee: networkFee.getValue("number"),
+                slipFeeUSD: networkFeeUSD.getValue("number"),
+              };
+              acc.total = {
+                totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
+              };
+              return acc;
+            }
             return acc;
-          }
-          if (fee.type === FeeTypeEnum.AFFILIATE) {
-            // TODO change as soon as API will return affiliate fee in USD
-            const affiliateFee = inputAsset.set(inputAmount).mul(affiliateBasisPoints).div(10_000);
-            const affiliateFeeUSD = affiliateFee.mul(assetPriceUsd);
-            acc.inbound = {
-              ...acc.inbound,
-              affiliateFee: affiliateFee.getValue("number"),
-              affiliateFeeUSD: affiliateFeeUSD.getValue("number"),
-            };
-            acc.total = {
-              totalFeeUSD: affiliateFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
-            };
-            return acc;
-          }
-          if (fee.type === FeeTypeEnum.OUTBOUND) {
-            const outboundFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
-              acc.outbound.networkFee,
-            );
-            const outboundFeeUSD = outboundFee.mul(assetPriceUsd);
-            acc.outbound = {
-              ...acc.outbound,
-              networkFee: outboundFee.getValue("number"),
-              networkFeeUSD: outboundFeeUSD.getValue("number"),
-            };
-            acc.total = {
-              totalFeeUSD: outboundFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
-            };
-            return acc;
-          }
-          if (fee.type === FeeTypeEnum.NETWORK) {
-            const networkFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
-              acc.slippage.slipFee,
-            );
-            acc.slippage = {
-              ...acc.slippage,
-              slipFee: networkFee.getValue("number"),
-              slipFeeUSD: networkFee.getValue("number"),
-            };
-            acc.total = {
-              totalFeeUSD: networkFee.add(acc.total.totalFeeUSD).getValue("number"),
-            };
-            return acc;
-          }
-          if (fee.type === FeeTypeEnum.LIQUIDITY) {
-            const networkFee = AssetValue.from({ asset: fee.asset, value: fee.amount }).add(
-              acc.slippage.slipFee,
-            );
-            const networkFeeUSD = networkFee.mul(assetPriceUsd);
-            acc.slippage = {
-              ...acc.slippage,
-              slipFee: networkFee.getValue("number"),
-              slipFeeUSD: networkFeeUSD.getValue("number"),
-            };
-            acc.total = {
-              totalFeeUSD: networkFeeUSD.add(acc.total.totalFeeUSD).getValue("number"),
-            };
-            return acc;
-          }
-          return acc;
-        },
-        {
-          inbound: {
-            networkFee: 0,
-            networkFeeUSD: 0,
-            affiliateFee: 0,
-            affiliateFeeUSD: 0,
           },
-          outbound: {
-            networkFee: 0,
-            networkFeeUSD: 0,
-            affiliateFee: 0,
-            affiliateFeeUSD: 0,
-          },
-          slippage: { slipFee: 0, slipFeeUSD: 0 },
-          total: { totalFeeUSD: 0 },
-        },
-      );
-
-      return {
-        ...fullRoute,
-        ...route,
-        timeEstimates: fullRoute.estimatedTime,
-        path: `${route.sellAsset} -> ${route.buyAsset}`,
-        providers: fullRoute.providers.toReversed(),
-        expectedOutput: fullRoute.expectedBuyAmount,
-        isApproved: true,
-        fees: {
-          [fullRoute?.providers?.includes(ProviderName.CHAINFLIP) ? "FLIP" : "MAYA"]: [
-            {
-              type: "inbound",
-              asset: route.sellAsset,
-              networkFee: chainFlipFees?.inbound.networkFee,
-              networkFeeUSD: chainFlipFees?.inbound.networkFeeUSD,
-              affiliateFee: chainFlipFees?.inbound.affiliateFee,
-              affiliateFeeUSD: chainFlipFees?.inbound.affiliateFeeUSD,
-              totalFee: chainFlipFees?.inbound.networkFee,
-              totalFeeUSD: chainFlipFees?.inbound.networkFeeUSD,
-              isOutOfPocket: true,
-            },
-            {
-              type: "outbound",
-              asset: route.buyAsset,
-              networkFee: chainFlipFees?.outbound.networkFee,
-              networkFeeUSD: chainFlipFees?.outbound.networkFeeUSD,
+          {
+            inbound: {
+              networkFee: 0,
+              networkFeeUSD: 0,
               affiliateFee: 0,
               affiliateFeeUSD: 0,
-              slipFee: chainFlipFees?.slippage.slipFee,
-              slipFeeUSD: chainFlipFees?.slippage.slipFeeUSD,
-              totalFee: 0,
-              totalFeeUSD: chainFlipFees?.total.totalFeeUSD,
-              isOutOfPocket: false,
             },
-          ],
-        },
-      };
-    });
-    if (!(data?.routes || chainFlipRoutes) || isInputZero) return setRoutes([]);
+            outbound: {
+              networkFee: 0,
+              networkFeeUSD: 0,
+              affiliateFee: 0,
+              affiliateFeeUSD: 0,
+            },
+            slippage: { slipFee: 0, slipFeeUSD: 0 },
+            total: { totalFeeUSD: 0 },
+          },
+        );
+
+        return {
+          ...route,
+          timeEstimates: route.estimatedTime,
+          path: `${route.sellAsset} -> ${route.buyAsset}`,
+          expectedOutput: route.expectedBuyAmount,
+          isApproved: true,
+          fees: {
+            [route?.providers[0]]: [
+              {
+                type: "inbound",
+                asset: route.sellAsset,
+                networkFee: v2Fees?.inbound.networkFee,
+                networkFeeUSD: v2Fees?.inbound.networkFeeUSD,
+                affiliateFee: v2Fees?.inbound.affiliateFee,
+                affiliateFeeUSD: v2Fees?.inbound.affiliateFeeUSD,
+                totalFee: v2Fees?.inbound.networkFee,
+                totalFeeUSD: v2Fees?.inbound.networkFeeUSD,
+                isOutOfPocket: true,
+              },
+              {
+                type: "outbound",
+                asset: route.buyAsset,
+                networkFee: v2Fees?.outbound.networkFee,
+                networkFeeUSD: v2Fees?.outbound.networkFeeUSD,
+                affiliateFee: 0,
+                affiliateFeeUSD: 0,
+                slipFee: v2Fees?.slippage.slipFee,
+                slipFeeUSD: v2Fees?.slippage.slipFeeUSD,
+                totalFee: 0,
+                totalFeeUSD: v2Fees?.total.totalFeeUSD,
+                isOutOfPocket: false,
+              },
+            ],
+          },
+        };
+      });
+    if (!(data?.routes || v2Routes) || isInputZero) return setRoutes([]);
 
     setSortedRoutes(
       // @ts-expect-error
-      [...(data ? data.routes : []), ...(chainFlipRoutes ? chainFlipRoutes : [])],
+      [...(data ? data.routes : []), ...(v2Routes ? v2Routes : [])],
     );
 
     setApprovalsLoading(true);
   }, [
-    chainflipData,
+    v2Data,
     data,
     inputAsset,
     inputUnitPrice,
     isFetching,
-    isFetchingChainflip,
+    isFetchingV2,
     isInputZero,
     // isLoading,
-    // isLoadingChainflip,
+    // isLoadingV2,
     // outputAsset?.decimal,
     outputUnitPrice,
     routes?.length,
@@ -377,10 +379,10 @@ export const useSwapQuote = ({
   ]);
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      quoteError || isLoading || isLoadingChainflip || inputAmount.getValue("number") === 0
+      quoteError || isLoading || isLoadingV2 || inputAmount.getValue("number") === 0
         ? undefined
         : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
-    [quoteError, inputAmount, isLoading, isLoadingChainflip, routes, selectedProvider],
+    [quoteError, inputAmount, isLoading, isLoadingV2, routes, selectedProvider],
   );
 
   useEffect(() => {
@@ -393,7 +395,7 @@ export const useSwapQuote = ({
   useEffect(() => {
     const errorMessage =
       // @ts-expect-error
-      quoteError?.data?.message || errorChainflip?.data?.message;
+      quoteError?.data?.message || errorV2?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;
@@ -404,7 +406,7 @@ export const useSwapQuote = ({
       }, 3000);
     }
     // @ts-expect-error
-  }, [errorChainflip?.data?.message, quoteError?.data?.message]);
+  }, [errorV2?.data?.message, quoteError?.data?.message]);
 
   return {
     refetch: refetchAllQuotes,
@@ -413,8 +415,7 @@ export const useSwapQuote = ({
     error: quoteError,
     estimatedTime: (selectedRoute || routes[0])?.estimatedTime,
     isFetching:
-      (approvalsLoading ||
-        ((isLoading || isFetching || isFetchingChainflip) && routes.length === 0)) &&
+      (approvalsLoading || ((isLoading || isFetching || isFetchingV2) && routes.length === 0)) &&
       !quoteError,
     routes,
     selectedRoute: selectedRoute || routes[0],

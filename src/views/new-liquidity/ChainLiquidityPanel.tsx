@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { Chain } from "@swapkit/sdk";
+import type { Chain } from "@swapkit/sdk";
 import { Box, Button, Icon, Link } from "components/Atomic";
 import { InfoRow } from "components/InfoRow";
 import { chainName } from "helpers/chainName";
@@ -34,9 +34,7 @@ export const ChainLiquidityPanel = ({ chain, data, hardCapReached }: Props) => {
 
   const lpLink = useMemo(
     () =>
-      `${getThorYieldLPInfoBaseRoute()}?${
-        runeAddress ? `${Chain.THORChain.toLowerCase()}=${runeAddress}` : ""
-      }${assetAddress ? `${chain.toLowerCase()}=${assetAddress}` : ""}`,
+      `${getThorYieldLPInfoBaseRoute()}?${runeAddress || assetAddress ? `${chain.toLowerCase()}=${runeAddress || assetAddress}` : ""}`,
     [assetAddress, chain, runeAddress],
   );
 

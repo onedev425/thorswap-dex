@@ -158,7 +158,6 @@ export const CreateLiquidity = () => {
   const { data: pricesData } = useTokenPrices(assets);
 
   const { assetUnitPrice, runeUnitPrice, assetUSDPrice, runeUSDPrice } = useMemo(() => {
-    // TODO this might be wrong
     const assetUnitPrice = pricesData?.[poolAsset.toString()]?.price_usd || 0;
     const runeUnitPrice = pricesData?.[RUNEAsset.toString()]?.price_usd || 0;
 

@@ -88,8 +88,8 @@ export const useSwap = ({
 
         const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
         const isV1Aggregator = ![
-          ProviderName.THORCHAIN_STREAMING,
-          ProviderName.THORCHAIN,
+          //   ProviderName.THORCHAIN_STREAMING,
+          //   ProviderName.THORCHAIN,
           ProviderName.MAYACHAIN,
           ProviderName.MAYACHAIN_STREAMING,
           ProviderName.CHAINFLIP,

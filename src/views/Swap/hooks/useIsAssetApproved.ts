@@ -14,8 +14,7 @@ export const checkAssetApprove = async ({ contract, assetValue }: Params) => {
   const { isAssetValueApproved } = await (await import("services/swapKit")).getSwapKitClient();
   const isApproved = await isAssetValueApproved(assetValue, contract || "thorchain");
 
-  // TODO sk might need update
-  return !!isApproved;
+  return isApproved;
 };
 
 let prevNumberOfPendingApprovals = 0;

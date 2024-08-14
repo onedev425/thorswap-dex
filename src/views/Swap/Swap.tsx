@@ -344,7 +344,7 @@ const SwapView = () => {
     [outputAsset, outputToken?.logoURI, outputAmount, outputUSDPrice, isFetching, isPriceLoading],
   );
 
-  const { approvalTarget, allowanceTarget, targetAddress } = selectedRoute || {};
+  const { approvalTarget, allowanceTarget, targetAddress, meta } = selectedRoute || {};
 
   const quoteMode = useMemo(
     () => (selectedRoute?.meta?.quoteMode || "") as QuoteMode,
@@ -354,7 +354,13 @@ const SwapView = () => {
   const { firstNetworkFee, affiliateFee, networkFee, totalFee } = useRouteFees(fees);
 
   const handleApprove = useSwapApprove({
-    contract: approvalTarget || allowanceTarget || targetAddress || selectedRoute?.providers?.[0],
+    contract:
+    //@ts-expect-error TODO fix typing v2 quotes
+      meta?.approvalAddress ||
+      approvalTarget ||
+      allowanceTarget ||
+      targetAddress ||
+      selectedRoute?.providers?.[0],
     inputAsset,
   });
 

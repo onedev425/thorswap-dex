@@ -863,7 +863,6 @@ export const useAddLiquidity = ({
     estimatedTime,
     totalFee: feeInUSD,
     fees: [
-      // TODO make sure this works
       { chain: poolAsset.chain, fee: inboundAssetFee.toSignificant() },
       { chain: Chain.THORChain, fee: inboundRuneFee.toSignificant() },
     ],
@@ -872,7 +871,6 @@ export const useAddLiquidity = ({
   const approveConfirmInfo = useApproveInfoItems({
     assetName: poolAsset.ticker,
     assetValue: assetAmount.toSignificant(6),
-    // TODO make sure this works
     fee: inboundAssetFee.toSignificant(),
   });
 
