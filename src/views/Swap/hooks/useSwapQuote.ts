@@ -105,6 +105,7 @@ export const useSwapQuote = ({
     ],
   );
 
+  // TODO remove after we raised dev api to prod
   const {
     refetch,
     error,
@@ -115,6 +116,7 @@ export const useSwapQuote = ({
   } = useGetTokensQuoteQuery(params, {
     skip:
       IS_DEV_API ||
+      IS_BETA ||
       params.sellAmount === "0" ||
       inputAmount.lte(0) ||
       !providers.includes(Provider.V1_PROVIDERS),
@@ -134,9 +136,11 @@ export const useSwapQuote = ({
         sellAsset: inputAsset.toString({ includeSynthProtocol: true }),
         buyAsset: outputAsset.toString({ includeSynthProtocol: true }),
       },
-      providers: IS_DEV_API
-        ? undefined
-        : [ProviderName.CHAINFLIP, ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
+      providers:
+        // TODO remove beta after we raised dev api to prod
+        IS_DEV_API || IS_BETA
+          ? undefined
+          : [ProviderName.CHAINFLIP, ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
     },
     {
       skip: params.sellAmount === "0" || inputAmount.lte(0),

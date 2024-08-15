@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { TrackerParams, TrackerResponse } from "@swapkit/api/src/thorswapApiV2/types";
 import type { QuoteResponse } from "@swapkit/sdk";
 import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "config/constants";
-import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from "settings/config";
+import { IS_BETA, IS_DEV_API, IS_LEDGER_LIVE, IS_PROD, IS_STAGENET } from "settings/config";
 import type { AnnouncementsData } from "store/externalConfig/types";
 
 import type {
@@ -35,7 +35,9 @@ const baseUrl = IS_STAGENET
     ? "https://dev-api.thorswap.net"
     : "https://api.thorswap.net";
 
-export const apiV2BaseUrl = IS_DEV_API ? "https://dev-api.swapkit.dev" : "https://api.swapkit.dev";
+// TODO remove after we raised dev api to prod
+export const apiV2BaseUrl =
+  IS_DEV_API || IS_BETA ? "https://dev-api.swapkit.dev" : "https://api.swapkit.dev";
 
 export const thorswapApi = createApi({
   reducerPath: "thorswap",
