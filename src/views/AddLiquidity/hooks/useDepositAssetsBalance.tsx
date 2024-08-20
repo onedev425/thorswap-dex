@@ -26,7 +26,6 @@ export const useDepositAssetsBalance = ({ poolAsset }: Props): DepositAssetsBala
   const [runeBalance, setMaxRuneBalance] = useState(RUNEAsset.set(0));
 
   const maxPoolAssetBalance = useMemo(() => {
-    //@ts-expect-error
     if (wallet[poolAsset?.chain || BTCAsset.chain]) {
       return getAssetBalance(poolAsset || BTCAsset, wallet);
     }

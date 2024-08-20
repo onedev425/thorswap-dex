@@ -82,7 +82,7 @@ export const useSaverPositions = () => {
 
     setThornodePools(response);
 
-    const availability = response.reduce(
+    const availability = response?.reduce(
       (acc, pool) => {
         acc[pool.asset] = pool.synth_mint_paused;
         return acc;

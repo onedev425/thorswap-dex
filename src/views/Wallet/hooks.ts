@@ -1,4 +1,4 @@
-import type { Chain } from "@swapkit/sdk";
+import type { Chain, FullWallet } from "@swapkit/sdk";
 import { AssetValue } from "@swapkit/sdk";
 import { useWalletDispatch } from "context/wallet/WalletProvider";
 import { useWallet, useWalletBalance, useWalletConnectModal } from "context/wallet/hooks";
@@ -12,7 +12,10 @@ export const useAccountData = (chain: Chain) => {
   const { wallet, getWalletAddress, chainLoading } = useWallet();
   const { setIsConnectModalOpen } = useWalletConnectModal();
 
-  const chainWallet = useMemo(() => wallet[chain as keyof typeof wallet], [chain, wallet]);
+  const chainWallet = useMemo(
+    () => wallet[chain as keyof typeof wallet],
+    [chain, wallet],
+  ) as FullWallet[Chain];
 
   const chainInfo = useMemo(() => {
     const info =

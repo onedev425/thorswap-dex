@@ -355,7 +355,7 @@ const SwapView = () => {
 
   const handleApprove = useSwapApprove({
     contract:
-    //@ts-expect-error TODO fix typing v2 quotes
+      //@ts-expect-error TODO fix typing v2 quotes
       meta?.approvalAddress ||
       approvalTarget ||
       allowanceTarget ||
