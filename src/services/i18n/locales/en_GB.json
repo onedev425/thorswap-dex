@@ -850,6 +850,8 @@
       "days": "days",
       "description": "Deposit %{asset} and earn more %{asset} with Savers Vaults",
       "earn": "Earn",
+      "feeTooltipDescription": "Total fees based on inbound and outbound network fees + slippage.",
+      "highOutboundFee": "Outbound Fees are higher than expected. Are you sure you want to continue?",
       "myPositions": "My Positions",
       "notEnoughForOutboundFee": "Not enough amount to cover outbound fee",
       "positionTooSmall": "Position too small to calculate",

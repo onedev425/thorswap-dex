@@ -1,10 +1,10 @@
 import { Text } from "@chakra-ui/react";
 import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
 import { AssetIcon } from "components/AssetIcon";
-import { Box, Icon } from "components/Atomic";
+import { Box, Checkbox, Icon } from "components/Atomic";
 import { InfoRow } from "components/InfoRow";
 import { ConfirmModal } from "components/Modals/ConfirmModal";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { t } from "services/i18n";
 
 type Props = {
@@ -19,6 +19,7 @@ type Props = {
   expectedOutputAmount?: SwapKitNumber;
   expectedAmountOut?: string;
   networkFee: AssetValue;
+  outboundFee: SwapKitNumber;
   timeToBreakEvenInfo: React.ReactNode;
 };
 
@@ -34,8 +35,11 @@ export const EarnConfirmModal = ({
   slippage,
   expectedOutputAmount,
   networkFee,
+  outboundFee,
   timeToBreakEvenInfo,
 }: Props) => {
+  const [tos, setTos] = useState(false);
+
   const estimatedTime = useMemo(() => {
     if (!outboundDelay) return undefined;
     const minutes = Math.floor(outboundDelay / 60);
@@ -55,6 +59,10 @@ export const EarnConfirmModal = ({
     {
       label: t("views.wallet.networkFee"),
       value: `${networkFee.toSignificant(6)} ${networkFee.ticker}`,
+    },
+    {
+      label: `${t("common.outbound")} ${t("common.fee")}`,
+      value: `${outboundFee.toSignificant(6)} ${asset.ticker}`,
     },
     {
       label: t("common.slippage"),
@@ -78,7 +86,7 @@ export const EarnConfirmModal = ({
 
   return (
     <ConfirmModal
-      buttonDisabled={!Number.parseInt(expectedAmountOut || "0")}
+      buttonDisabled={!(Number.parseInt(expectedAmountOut || "0") && tos)}
       inputAssets={[asset]}
       isOpened={isOpened}
       onClose={onClose}
@@ -98,6 +106,16 @@ export const EarnConfirmModal = ({
           />
         ))}
       </Box>
+      <Checkbox
+        className="py-1"
+        label={
+          <Box alignCenter>
+            <Text>{t("views.savings.highOutboundFee")}</Text>
+          </Box>
+        }
+        onValueChange={setTos}
+        value={tos}
+      />
     </ConfirmModal>
   );
 };

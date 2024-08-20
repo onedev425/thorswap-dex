@@ -67,6 +67,11 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
     BaseDecimal.THOR,
   );
 
+  const outboundFee = SwapKitNumber.fromBigInt(
+    BigInt(saverQuote?.fees?.outbound || "0"),
+    BaseDecimal.THOR,
+  );
+
   const { inputFee } = useNetworkFee({ inputAsset: asset, outputAsset: asset });
 
   const daysToBreakEven = useMemo(() => {
@@ -80,6 +85,7 @@ export const useEarnCalculations = ({ isDeposit, asset, withdrawPercent, amount,
 
   return {
     slippage,
+    outboundFee,
     getConfirmData,
     saverQuote,
     expectedOutputAmount,

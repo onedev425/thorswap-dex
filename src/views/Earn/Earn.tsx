@@ -77,11 +77,6 @@ const Earn = () => {
 
   const isDeposit = tab === EarnTab.Deposit;
   const { data: tokenPricesData } = useTokenPrices([asset]);
-  const usdPrice = useMemo(() => {
-    const price = tokenPricesData[asset.toString()]?.price_usd || 0;
-
-    return price * amount.getValue("number");
-  }, [amount, asset, tokenPricesData]);
 
   const { isApproved, isLoading } = useIsAssetApproved({
     assetValue: asset.set(amount.getValue("string")),
@@ -95,7 +90,7 @@ const Earn = () => {
     [asset, listAssets],
   );
 
-  const { slippage, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
+  const { slippage, outboundFee, saverQuote, expectedOutputAmount, networkFee, daysToBreakEven } =
     useEarnCalculations({
       isDeposit,
       asset,
@@ -103,6 +98,16 @@ const Earn = () => {
       amount,
       apr: currentAsset?.aprRaw,
     });
+
+  const toUsdPrice = useCallback(
+    (assetAmount: SwapKitNumber) => {
+      const price = tokenPricesData[asset.toString()]?.price_usd || 0;
+
+      return price * assetAmount.getValue("number");
+    },
+    [asset, tokenPricesData],
+  );
+
   const { isLgActive } = useWindowSize();
 
   const address = useMemo(() => getWalletAddress(asset.chain), [getWalletAddress, asset.chain]);
@@ -238,22 +243,31 @@ const Earn = () => {
   const selectedAsset = useMemo(
     () => ({
       asset,
-      value: amount,
+      value: expectedOutputAmount,
       balance,
-      usdPrice,
+      usdPrice: toUsdPrice(expectedOutputAmount),
     }),
-    [asset, amount, balance, usdPrice],
+    [asset, expectedOutputAmount, balance, toUsdPrice],
   );
 
   const timeToBreakEvenInfo = useMemo(
     () => (
       <Box center>
-        <Text textStyle="caption" textTransform="uppercase">
+        <Text textStyle="caption">
           <InfoWithTooltip
             tooltip={t("views.savings.timeToBrakeEvenTip")}
-            value={`${Number.isFinite(daysToBreakEven) ? daysToBreakEven : 0} ${
-              daysToBreakEven === 1 ? t("views.savings.day") : t("views.savings.days")
-            }`}
+            value={
+              <Text
+                variant={daysToBreakEven > 20 ? "red" : daysToBreakEven > 10 ? "orange" : "primary"}
+                textStyle="caption"
+                textTransform="uppercase"
+              >
+                {" "}
+                {`${Number.isFinite(daysToBreakEven) ? daysToBreakEven : 0} ${
+                  daysToBreakEven === 1 ? t("views.savings.day") : t("views.savings.days")
+                }`}
+              </Text>
+            }
           />
         </Text>
       </Box>
@@ -264,11 +278,22 @@ const Earn = () => {
   const summary = useMemo(
     () => [
       {
-        label: t("common.slippage"),
+        label: t("common.fee"),
         value: (
           <Box center>
             <Text textStyle="caption">
-              {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.ticker}`}
+              <InfoWithTooltip
+                tooltip={t("views.savings.feeTooltipDescription")}
+                value={
+                  <Text
+                    variant={slippage.eqValue(zeroAmount) ? "primary" : "red"}
+                    textStyle="caption"
+                    textTransform="uppercase"
+                  >
+                    {`${slippage ? slippage?.toSignificant(6) : 0} ${asset.ticker}`}
+                  </Text>
+                }
+              />
             </Text>
           </Box>
         ),
@@ -362,6 +387,11 @@ const Earn = () => {
                           onChange={handlePercentWithdrawChange}
                           percent={withdrawPercent}
                           title={t("common.withdrawPercent")}
+                          subTitle={
+                            amount.eqValue(zeroAmount)
+                              ? undefined
+                              : `${amount.toSignificant(6)} ${asset.ticker} ($${toUsdPrice(amount)})`
+                          }
                         />
                       )}
 
@@ -430,6 +460,7 @@ const Earn = () => {
                     onConfirm={handleEarnSubmit}
                     outboundDelay={saverQuote?.outbound_delay_seconds || 0}
                     slippage={slippage}
+                    outboundFee={outboundFee}
                     tabLabel={tabLabel}
                     timeToBreakEvenInfo={timeToBreakEvenInfo}
                   />

@@ -14,6 +14,7 @@ type Props = {
   highlightDisabled?: boolean;
   className?: string;
   slideClassName?: string;
+  subTitle?: string;
 };
 
 export const PercentageSlider = ({
@@ -23,6 +24,7 @@ export const PercentageSlider = ({
   highlightDisabled,
   className,
   slideClassName,
+  subTitle,
 }: Props) => {
   const handlePercentChange = useCallback(
     (value: SwapKitNumber) => {
@@ -68,7 +70,8 @@ export const PercentageSlider = ({
         alignCenter
         row
         className={classNames(
-          "flex-row pb-8 row-span-1 w-full sm:items-start md:items-center gap-x-6",
+          "flex-row row-span-1 w-full sm:items-start md:items-center gap-x-6",
+          subTitle ? "pb-2" : "pb-8",
           slideClassName,
         )}
       >
@@ -78,6 +81,12 @@ export const PercentageSlider = ({
 
         <MaxPopover onChange={(v) => handlePercentChange(new SwapKitNumber(v * 100))} />
       </Box>
+
+      {subTitle && (
+        <Text className="inline-flex w-full" fontSize="md" textStyle="caption">
+          {subTitle}
+        </Text>
+      )}
     </HighlightCard>
   );
 };
