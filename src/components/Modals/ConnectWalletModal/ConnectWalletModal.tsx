@@ -22,8 +22,15 @@ import ChainItem from "./ChainItem";
 import { ConnectKeystoreView } from "./ConnectKeystore";
 import { CreateKeystoreView } from "./CreateKeystore";
 import { PhraseView } from "./Phrase";
+import WalletCategorySelector from "./WalletCategorySelector";
 import WalletOption from "./WalletOption";
-import type { DerivationPathType, HandleWalletConnectParams, WalletCategory } from "./hooks";
+import type {
+  DerivationPathType,
+  HandleWalletConnectParams,
+  SubCategory,
+  WalletCategory,
+  WalletItem,
+} from "./hooks";
 import { useHandleWalletConnect, useHandleWalletTypeSelect, useWalletOptions } from "./hooks";
 import { WalletType, availableChainsByWallet } from "./types";
 
@@ -270,6 +277,29 @@ const ConnectWalletModal = () => {
     [selectedChains],
   );
 
+  const flattenItems = (items: (WalletItem | SubCategory)[]): WalletItem[] => {
+    return items.reduce<WalletItem[]>((acc, item) => {
+      if ("items" in item) {
+        return acc.concat(flattenItems(item.items));
+      }
+      return acc.concat(item);
+    }, []);
+  };
+
+  const isWalletCategoryDisabled = useCallback(
+    (category: WalletCategory): boolean => {
+      if (selectedChains.length === 0) return false;
+
+      const categoryItems =
+        walletOptions.find((section) => section.category === category)?.items || [];
+      const flattenedItems = flattenItems(categoryItems);
+      return !flattenedItems.some((item) =>
+        selectedChains.every((chain) => availableChainsByWallet[item.type].includes(chain)),
+      );
+    },
+    [selectedChains],
+  );
+
   const walletWarning = useMemo(() => {
     switch (selectedWalletType) {
       case WalletType.Ledger:
@@ -501,29 +531,14 @@ const ConnectWalletModal = () => {
                   walletOptions.map(
                     ({ visible = true, title, category, icon }) =>
                       visible && (
-                        <Box
-                          row
-                          alignCenter
-                          onClick={() => setSelectedCategory(category)}
-                          key={category}
-                          className={classNames(
-                            "cursor-pointer bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110",
-                            "w-[100%] px-4 md:px-6 py-4 rounded-xl my-2",
-                            {
-                              "!bg-cyan !bg-opacity-20": false,
-                              "opacity-40 cursor-not-allowed": false,
-                            },
-                          )}
-                        >
-                          <Text
-                            flex={1}
-                            fontWeight="semibold"
-                            textStyle={isMdActive ? "subtitle2" : "body"}
-                          >
-                            {title}
-                          </Text>
-                          <Icon className="p-2.5 rounded-2xl transform " name={icon} />
-                        </Box>
+                        <WalletCategorySelector
+                          label={title}
+                          id={category}
+                          icon={icon}
+                          category={category}
+                          handleCategorySelect={setSelectedCategory}
+                          disabled={isWalletCategoryDisabled(category)}
+                        />
                       ),
                   )
                 )}

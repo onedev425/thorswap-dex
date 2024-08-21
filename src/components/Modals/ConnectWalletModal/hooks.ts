@@ -17,7 +17,7 @@ import {
   availableChainsByWallet,
 } from "./types";
 
-type WalletItem = {
+export type WalletItem = {
   id?: string;
   type: WalletType;
   icon: IconName;
@@ -27,7 +27,7 @@ type WalletItem = {
   tooltip?: string;
 };
 
-type SubCategory = {
+export type SubCategory = {
   title: string;
   items: WalletItem[];
   tooltip?: string;
