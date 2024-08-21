@@ -961,6 +961,7 @@
     },
     "swap": {
       "affiliateFee": "%{percent} affiliate fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
+      "chainflipBoost": "Boost decreases blocktime for BTC swaps by up to 75%. Click to learn more.",
       "chainflipFee": "0.3% broker fee is charged by THORSwap. 75% of fees are redistributed back to vTHOR stakers.",
       "chainflipSlippageWarning": "Chainflip typically expects to meet the expected quote amount, however the protocol uses 5% fixed price protection as a backstop.",
       "amountToApprove": "Amount to Approve",

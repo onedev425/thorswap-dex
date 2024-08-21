@@ -11,11 +11,11 @@ import {
 } from "@chakra-ui/react";
 import type { AssetValue, SwapKitNumber } from "@swapkit/sdk";
 import classNames from "classnames";
-import { Box, Button, Icon, Tooltip, useCollapse } from "components/Atomic";
+import { Box, Button, Icon, Link, SwitchToggle, Tooltip, useCollapse } from "components/Atomic";
 import { maxHeightTransitionClass } from "components/Atomic/Collapse/Collapse";
 import type { RouteWithApproveType } from "components/SwapRouter/types";
 import { formatDuration } from "components/TransactionTracker/helpers";
-import { STREAMING_SWAPS_URL } from "config/constants";
+import { CHAINFLIP_BOOST_URL, STREAMING_SWAPS_URL } from "config/constants";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { t } from "services/i18n";
 import { navigateToExternalLink } from "settings/router";
@@ -27,6 +27,7 @@ import { useSwapTimeEstimate } from "views/Swap/hooks/useSwapTimeEstimate";
 type Props = {
   route?: RouteWithApproveType;
   onSettingsChange?: (value: StreamSwapParams) => void;
+  setIsChainflipBoostEnable?: (value: boolean) => void;
   outputAmount: SwapKitNumber;
   outputAsset: AssetValue;
   minReceive: SwapKitNumber;
@@ -35,6 +36,7 @@ type Props = {
   streamingSwapParams: StreamSwapParams | null;
   streamSwap: boolean;
   isChainflip: boolean;
+  isChainflipBoostEnable?: boolean;
   noSlipProtection?: boolean;
 };
 
@@ -48,6 +50,7 @@ type SwapOption = {
 export const SwapSettings = ({
   route,
   onSettingsChange,
+  setIsChainflipBoostEnable,
   outputAmount,
   outputAsset,
   //   slippagePercent,
@@ -58,6 +61,7 @@ export const SwapSettings = ({
   streamingSwapParams,
   streamSwap,
   isChainflip,
+  isChainflipBoostEnable = false,
   noSlipProtection,
 }: Props) => {
   const { isActive, contentRef, toggle, maxHeightStyle } = useCollapse({});
@@ -130,6 +134,13 @@ export const SwapSettings = ({
     [setSlippage],
   );
 
+  const handleChainflipBoostChange = useCallback(
+    (checked: boolean) => {
+      setIsChainflipBoostEnable?.(checked);
+    },
+    [setIsChainflipBoostEnable],
+  );
+
   const onChange = (val: number) => {
     // find closest number from values array
 
@@ -178,9 +189,26 @@ export const SwapSettings = ({
                 {t("views.swap.noPriceProtection")}
               </Text>
             ) : (
-              <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                {`${isChainflip ? 5 : slippageTolerance}% Price Protection`}
-              </Text>
+              <>
+                {isChainflip ? (
+                  <Flex alignItems="center" direction="row">
+                    <Icon name="chainflipBoost" />
+                    <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+                      Boost Available
+                    </Text>
+
+                    <Tooltip content={t("views.swap.chainflipBoost")} place="bottom">
+                      <Link to={CHAINFLIP_BOOST_URL}>
+                        <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
+                      </Link>
+                    </Tooltip>
+                  </Flex>
+                ) : (
+                  <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
+                    `${slippageTolerance}% Price Protection`
+                  </Text>
+                )}
+              </>
             )}
 
             <Icon
@@ -347,23 +375,46 @@ export const SwapSettings = ({
               )}
 
               {isChainflip || noSlipProtection ? (
-                <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
-                  <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
-                    {isChainflip
-                      ? t("common.slippageSettingsChainflip")
-                      : t("views.swap.noPriceProtection")}
-                  </Text>
+                <Flex direction="column">
+                  <Flex flex={1} flexWrap="wrap" mb={2} ml={2}>
+                    <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+                      {isChainflip
+                        ? t("common.slippageSettingsChainflip")
+                        : t("views.swap.noPriceProtection")}
+                    </Text>
 
-                  <Tooltip
-                    content={
-                      isChainflip
-                        ? t("common.slippageTooltipChainflip")
-                        : t("views.swap.noPriceProtectionTooltip")
-                    }
-                    place="bottom"
-                  >
-                    <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
-                  </Tooltip>
+                    <Tooltip
+                      content={
+                        isChainflip
+                          ? t("common.slippageTooltipChainflip")
+                          : t("views.swap.noPriceProtectionTooltip")
+                      }
+                      place="bottom"
+                    >
+                      <Icon className="ml-1" color="secondary" name="infoCircle" size={18} />
+                    </Tooltip>
+                  </Flex>
+                  {isChainflip && (
+                    <Flex
+                      justifyContent="space-between"
+                      className="gap-x-2 w-full rounded-2xl"
+                      mb={2}
+                      px={2}
+                    >
+                      <Flex alignItems="center" direction="row">
+                        <Icon name="chainflipBoost" />
+                        <Text color="textSecondary" fontWeight="semibold" textStyle="caption">
+                          Activate Boost
+                        </Text>
+                      </Flex>
+                      <SwitchToggle
+                        size="md"
+                        checked={isChainflipBoostEnable}
+                        onChange={handleChainflipBoostChange}
+                        variant="secondary"
+                      />
+                    </Flex>
+                  )}
                 </Flex>
               ) : (
                 <SwapSlippage

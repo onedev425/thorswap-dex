@@ -19,6 +19,7 @@ import Browser from "./browser.svg?react";
 import BscScan from "./bscscan.svg?react";
 import BscScanLight from "./bscscanLight.svg?react";
 import Bulb from "./bulb.svg?react";
+import ChainflipBoost from "./chainflipBoost.svg?react";
 import ChartCandle from "./chartCandle.svg?react";
 import Cloud from "./cloud.svg?react";
 import CoinbaseWallet from "./coinbaseWallet.svg?react";
@@ -109,6 +110,7 @@ export const Svgs = {
   binance: Binance3d,
   bitcoin: Bitcoin3d,
   bulb: Bulb,
+  chainflipBoost: ChainflipBoost,
   chartCandle: ChartCandle,
   cloud: Cloud,
   collapse: Collapse,

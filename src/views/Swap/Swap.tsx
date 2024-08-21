@@ -104,6 +104,7 @@ const SwapView = () => {
   const [feeModalOpened, setFeeModalOpened] = useState(false);
   const [priceImpact, setPriceImpact] = useState("0");
   const formatPrice = useFormatPrice();
+  const [isChainflipBoostEnable, setIsChainflipBoostEnable] = useState(false);
   const ethAddress = useMemo(() => getWalletAddress(Chain.Ethereum), [getWalletAddress]);
 
   const { tokens, tradingPairs } = useTokenList(true);
@@ -427,6 +428,7 @@ const SwapView = () => {
     route: selectedRoute as unknown as QuoteRoute,
     quoteId,
     streamSwap,
+    isChainflipBoostEnable,
   });
 
   useEffect(() => {
@@ -583,6 +585,8 @@ const SwapView = () => {
               canStreamSwap={canStreamSwap}
               defaultInterval={defaultInterval}
               isChainflip={isChainflip}
+              isChainflipBoostEnable={isChainflipBoostEnable}
+              setIsChainflipBoostEnable={setIsChainflipBoostEnable}
               minReceive={minReceive}
               noSlipProtection={amountTooLowForLimit || noPriceProtection}
               onSettingsChange={setStreamingSwapParams}

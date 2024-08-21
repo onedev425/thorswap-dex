@@ -25,3 +25,4 @@ export const INTRODUCTION_TO_LUVI_URL =
   "https://medium.com/thorchain/introduction-to-luvi-and-midgard-apr-calculation-update-cf15e743276d";
 export const STREAMING_SWAPS_URL =
   "https://docs.thorswap.finance/thorswap/thorswap/streaming-swaps";
+export const CHAINFLIP_BOOST_URL = "https://docs.thorswap.finance/thorswap/thorswap/boosted-swaps";

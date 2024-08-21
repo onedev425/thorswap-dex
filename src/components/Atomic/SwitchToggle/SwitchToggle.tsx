@@ -6,16 +6,17 @@ type SwitchToggleProps = {
   onChange: (checked: boolean) => void;
   checked: boolean;
   variant?: string;
+  size?: "sm" | "md" | "lg";
 };
 
 export const SwitchToggle = memo(
-  ({ checked = false, disabled = false, onChange, variant }: SwitchToggleProps) => {
+  ({ checked = false, disabled = false, size = "lg", onChange, variant }: SwitchToggleProps) => {
     return (
       <Switch
         disabled={disabled}
         isChecked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        size="lg"
+        size={size}
         variant={variant}
       />
     );

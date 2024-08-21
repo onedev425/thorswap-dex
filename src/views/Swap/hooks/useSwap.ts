@@ -24,6 +24,7 @@ type SwapParams = {
   outputAsset: AssetValue;
   quoteId?: string;
   streamSwap?: boolean;
+  isChainflipBoostEnable?: boolean;
 };
 
 const quoteModeToTransactionType = {
@@ -52,6 +53,7 @@ export const useSwap = ({
   route,
   quoteId,
   streamSwap,
+  isChainflipBoostEnable,
 }: SwapParams) => {
   const appDispatch = useAppDispatch();
   const { feeOptionType: feeOptionKey } = useApp();
@@ -119,6 +121,7 @@ export const useSwap = ({
             feeOptionKey,
             recipient,
             route,
+            ...(isChainflipBoostEnable && isChainflip ? { maxBoostFeeBps: 10 } : {}),
             // @ts-expect-error TODO support stream swap with apiv2
             streamSwap,
             wallet,
