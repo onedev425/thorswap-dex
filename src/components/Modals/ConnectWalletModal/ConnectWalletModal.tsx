@@ -1,6 +1,6 @@
 import { Link, Text } from "@chakra-ui/react";
 import type { DerivationPathArray, WalletChain } from "@swapkit/sdk";
-import { Chain, DerivationPath, derivationPathToString } from "@swapkit/sdk";
+import { Chain, DerivationPath, derivationPathToString, getEIP6963Wallets } from "@swapkit/sdk";
 import type { Keystore } from "@swapkit/wallet-keystore";
 import classNames from "classnames";
 import { Box, Button, Checkbox, Icon, Modal, Tooltip } from "components/Atomic";
@@ -290,9 +290,14 @@ const ConnectWalletModal = () => {
     (category: WalletCategory): boolean => {
       if (selectedChains.length === 0) return false;
 
-      const categoryItems =
-        walletOptions.find((section) => section.category === category)?.items || [];
-      const flattenedItems = flattenItems(categoryItems);
+      const walletSection = walletOptions.find((section) => section.category === category);
+
+      if (!walletSection) return true;
+
+      const flattenedItems = walletSection.subCategories
+        ? flattenItems(walletSection.subCategories)
+        : walletSection.items || [];
+
       return !flattenedItems.some((item) =>
         selectedChains.every((chain) => availableChainsByWallet[item.type].includes(chain)),
       );
@@ -318,6 +323,10 @@ const ConnectWalletModal = () => {
         return;
     }
   }, [selectedWalletType, selectedChains]);
+
+  const selectedWalletSection = useMemo(() => {
+    return walletOptions.find((section) => section.category === selectedCategory);
+  }, [walletOptions, selectedCategory]);
 
   return (
     <Modal
@@ -448,7 +457,7 @@ const ConnectWalletModal = () => {
               </Box>
 
               <Box className="px-4 mb-2" col>
-                {selectedCategory ? (
+                {selectedWalletSection ? (
                   <Box
                     col
                     className="justify-center bg-light-bg-primary dark:bg-dark-bg-primary rounded-3xl z-10 p-4"
@@ -459,88 +468,119 @@ const ConnectWalletModal = () => {
                         name="arrowBack"
                         onClick={() => clearState(false, true)}
                       />
-                      <Text fontWeight="semibold">
-                        {
-                          walletOptions.find((section) => section.category === selectedCategory)
-                            ?.title
-                        }
-                      </Text>
+                      <Text fontWeight="semibold">{selectedWalletSection.title}</Text>
                     </Box>
                     <Box className="flex-wrap gap-1">
-                      {walletOptions
-                        .find((section) => section.category === selectedCategory)
-                        ?.items.map((item) => {
-                          if ("items" in item) {
-                            return (
-                              <Box col className="pt-2" key={item.title}>
-                                <Text>{item.title}</Text>
-                                <Box className="flex-wrap">
-                                  {item.items.map(
-                                    ({
-                                      visible = true,
-                                      tooltip,
-                                      type,
-                                      disabled,
-                                      icon,
-                                      id,
-                                      label,
-                                    }) =>
-                                      visible && (
-                                        <Tooltip content={tooltip} key={type}>
-                                          <WalletOption
-                                            id={id}
-                                            connected={connectedWallets.includes(
-                                              type.toLowerCase(),
-                                            )}
-                                            disabled={disabled || isWalletTypeDisabled(type)}
-                                            handleTypeSelect={handleWalletTypeSelect}
-                                            icon={icon}
-                                            label={label}
-                                            selected={type === selectedWalletType}
-                                            type={type}
-                                          />
-                                        </Tooltip>
-                                      ),
-                                  )}
-                                </Box>
-                              </Box>
-                            );
-                          }
-                          return (
-                            <Box key={item.label}>
-                              {(item.visible ?? true) && (
-                                <Tooltip content={item.tooltip} key={item.type}>
-                                  <WalletOption
-                                    connected={connectedWallets.includes(item.type.toLowerCase())}
-                                    disabled={item.disabled || isWalletTypeDisabled(item.type)}
-                                    handleTypeSelect={handleWalletTypeSelect}
-                                    id={item.id}
-                                    icon={item.icon}
-                                    label={item.label}
-                                    selected={item.type === selectedWalletType}
-                                    type={item.type}
-                                  />
-                                </Tooltip>
-                              )}
-                            </Box>
-                          );
-                        })}
+                      {selectedWalletSection.subCategories?.map((subCategory) => (
+                        <Box col className="pt-2" key={subCategory.title}>
+                          <Text>{subCategory.title}</Text>
+                          <Box className="flex-wrap">
+                            {subCategory.items.map(
+                              ({ visible = true, tooltip, type, disabled, icon, id, label }) =>
+                                visible && (
+                                  <Tooltip content={tooltip} key={type}>
+                                    <WalletOption
+                                      id={id}
+                                      connected={connectedWallets.includes(type.toLowerCase())}
+                                      disabled={disabled || isWalletTypeDisabled(type)}
+                                      handleTypeSelect={handleWalletTypeSelect}
+                                      icon={icon}
+                                      label={label}
+                                      selected={type === selectedWalletType}
+                                      type={type}
+                                    />
+                                  </Tooltip>
+                                ),
+                            )}
+                          </Box>
+                        </Box>
+                      ))}
+                      {selectedWalletSection.items?.map((item) => (
+                        <Box key={item.label}>
+                          {(item.visible ?? true) && (
+                            <Tooltip content={item.tooltip} key={item.type}>
+                              <WalletOption
+                                connected={connectedWallets.includes(item.type.toLowerCase())}
+                                disabled={item.disabled || isWalletTypeDisabled(item.type)}
+                                handleTypeSelect={handleWalletTypeSelect}
+                                id={item.id}
+                                icon={item.icon}
+                                label={item.label}
+                                selected={item.type === selectedWalletType}
+                                type={item.type}
+                              />
+                            </Tooltip>
+                          )}
+                        </Box>
+                      ))}
                     </Box>
                   </Box>
                 ) : (
-                  walletOptions.map(
-                    ({ visible = true, title, category, icon }) =>
-                      visible && (
-                        <WalletCategorySelector
-                          label={title}
-                          id={category}
-                          icon={icon}
-                          category={category}
-                          handleCategorySelect={setSelectedCategory}
-                          disabled={isWalletCategoryDisabled(category)}
-                        />
-                      ),
-                  )
+                  <>
+                    {getEIP6963Wallets().providers && (
+                      <Box
+                        col
+                        className={classNames(
+                          "px-4 py-2 flex-wrap justify-center bg-light-bg-primary dark:bg-dark-bg-primary rounded-3xl z-10",
+                        )}
+                      >
+                        <Box className="pl-2">
+                          <Text fontWeight="semibold">Instant Wallets (no install required)</Text>
+                        </Box>
+                        <Box>
+                          {getEIP6963Wallets()
+                            .providers.filter((a) => a.info.name === "Passkey")
+                            .map((provider) => (
+                              <WalletOption
+                                //   connected={connectedWallets.includes(item.type.toLowerCase())}
+                                handleTypeSelect={handleWalletTypeSelect}
+                                key={provider.info.uuid}
+                                label={provider.info.name}
+                                type={WalletType.MetaMask}
+                                icon={"add"}
+                                imgData={provider.info.icon}
+                                selected={false}
+                              />
+                            ))}
+                        </Box>
+                        <Box className="pl-2">
+                          <Text fontWeight="semibold">Detected Wallets (EVM)</Text>
+                        </Box>
+                        <Box>
+                          {getEIP6963Wallets()
+                            .providers.filter((a) => a.info.name !== "Passkey")
+                            // .map((provider) => (
+                            //     walletOptions.find((section) => section.items.find((item) => item.items === provider.info.name
+                            // ))
+                            .map((provider) => (
+                              <WalletOption
+                                //   connected={connectedWallets.includes(item.type.toLowerCase())}
+                                handleTypeSelect={handleWalletTypeSelect}
+                                key={provider.info.uuid}
+                                label={provider.info.name}
+                                type={WalletType.MetaMask}
+                                icon={"add"}
+                                imgData={provider.info.icon}
+                                selected={false}
+                              />
+                            ))}
+                        </Box>
+                      </Box>
+                    )}
+                    {walletOptions.map(
+                      ({ visible = true, title, category, icon }) =>
+                        visible && (
+                          <WalletCategorySelector
+                            label={title}
+                            id={category}
+                            icon={icon}
+                            category={category}
+                            handleCategorySelect={setSelectedCategory}
+                            disabled={isWalletCategoryDisabled(category)}
+                          />
+                        ),
+                    )}
+                  </>
                 )}
               </Box>
               {selectedWalletType &&

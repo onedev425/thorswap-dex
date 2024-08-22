@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-// import { WalletWidget } from "@swapkit/wallet-exodus";
+import { WalletWidget } from "@swapkit/wallet-exodus";
 import LogoTsDark from "assets/images/header_logo_black.png";
 import LogoTsWhite from "assets/images/header_logo_white.png";
 import Logo from "assets/images/logo.png";
@@ -122,7 +122,7 @@ export const Header = memo(({ openMenu }: Props) => {
 
         <Flex flex={1} gap={1} justify="end">
           <div className="min-w-[48px] h-4 mr-2 ">
-            {/* {(IS_BETA || IS_LOCAL) && !IS_LEDGER_LIVE && (
+            {!IS_LEDGER_LIVE && (
               <WalletWidget
                 size="large"
                 theme={{
@@ -134,7 +134,7 @@ export const Header = memo(({ openMenu }: Props) => {
                   },
                 }}
               />
-            )} */}
+            )}
           </div>
           <Button
             mr={2}

@@ -39,7 +39,7 @@ const WalletCategorySelector = ({
       key={category}
       className={classNames(
         "cursor-pointer bg-light-gray-light dark:bg-dark-gray-light hover:brightness-90 dark:hover:brightness-110",
-        "w-[100%] px-4 md:px-6 py-4 rounded-xl my-2",
+        "w-[100%] px-4 md:px-6 py-2 rounded-xl my-2",
         {
           "opacity-40 cursor-not-allowed": disabled,
         },

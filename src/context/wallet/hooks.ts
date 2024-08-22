@@ -7,13 +7,13 @@ import { showErrorToast, showInfoToast } from "components/Toast";
 import { useWalletContext, useWalletDispatch, useWalletState } from "context/wallet/WalletProvider";
 import { chainName } from "helpers/chainName";
 import { t } from "i18next";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ledgerLive } from "services/ledgerLive";
 import { logEvent, logException } from "services/logger";
 
 import type { LedgerLiveChain } from "../../../ledgerLive/wallet/LedgerLive";
 import { connectLedgerLive, mapLedgerChainToChain } from "../../../ledgerLive/wallet/LedgerLive";
-// import { exodusWallet } from "../../App";
+import { exodusWallet } from "../../App";
 
 const useIsMounted = () => {
   const isMounted = useRef(false);
@@ -27,15 +27,31 @@ const useIsMounted = () => {
 };
 
 export const useWallet = () => {
-  const { wallet, chainLoading } = useWalletState();
+  const { wallet: initialWallet, chainLoading: initialChainLoading } = useWalletState();
+  const [wallet, setWallet] = useState(initialWallet);
+  const [chainLoading, setChainLoading] = useState(initialChainLoading);
+  const [isWalletLoading, setIsWalletLoading] = useState(false);
   const isMounted = useIsMounted();
   const walletRef = useRef(wallet);
   const chainLoadingRef = useRef(chainLoading);
 
   useEffect(() => {
-    walletRef.current = wallet;
-    chainLoadingRef.current = chainLoading;
-  }, [wallet, chainLoading]);
+    if (isMounted.current) {
+      setWallet(initialWallet);
+      walletRef.current = initialWallet;
+    }
+  }, [initialWallet]);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      setChainLoading(initialChainLoading);
+      chainLoadingRef.current = initialChainLoading;
+
+      // Update isWalletLoading based on chainLoading
+      const loading = Object.values(initialChainLoading).some(Boolean);
+      setIsWalletLoading(loading);
+    }
+  }, [initialChainLoading]);
 
   const getWallet = useCallback(
     (chain: Chain) => {
@@ -73,15 +89,6 @@ export const useWallet = () => {
     }
     return [];
   }, [wallet, isMounted.current, walletRef.current, chainLoadingRef.current]);
-
-  const isWalletLoading = useMemo(() => {
-    if (isMounted.current) {
-      return Object.keys(walletRef.current).some((key) => {
-        return chainLoadingRef.current[key as keyof typeof wallet];
-      });
-    }
-    return false;
-  }, [chainLoading, wallet, chainLoadingRef.current, walletRef.current]);
 
   const walletState = useMemo(() => {
     return isMounted.current ? walletRef.current : ({} as Todo);
@@ -481,18 +488,18 @@ export const useConnectWallet = () => {
     [reloadAllWallets],
   );
 
-  //   const connectExodus = useCallback(
-  //     async (chains: (Chain.Ethereum | Chain.Bitcoin | Chain.BinanceSmartChain)[]) => {
-  //       const { connectExodusWallet: swapKitConnectExodus } = await (
-  //         await import("services/swapKit")
-  //       ).getSwapKitClient();
+  const connectExodus = useCallback(
+    async (chains: (Chain.Ethereum | Chain.Bitcoin | Chain.BinanceSmartChain)[]) => {
+      const { connectExodusWallet: swapKitConnectExodus } = await (
+        await import("services/swapKit")
+      ).getSwapKitClient();
 
-  //       await swapKitConnectExodus(chains, exodusWallet);
+      await swapKitConnectExodus(chains, exodusWallet);
 
-  //       reloadAllWallets(chains);
-  //     },
-  //     [reloadAllWallets],
-  //   );
+      reloadAllWallets(chains);
+    },
+    [reloadAllWallets],
+  );
 
   const connectKeplr = useCallback(
     async (chains: (Chain.Cosmos | Chain.Kujira)[]) => {
@@ -584,6 +591,6 @@ export const useConnectWallet = () => {
     connectWalletconnect,
     connectOkx,
     connectKeepkey,
-    // connectExodus,
+    connectExodus,
   };
 };

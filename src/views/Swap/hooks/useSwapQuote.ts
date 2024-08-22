@@ -11,7 +11,6 @@ import { useAppSelector } from "store/store";
 import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from "store/thorswap/api";
 import type { GetTokensQuoteResponse } from "store/thorswap/types";
 import { checkAssetApprove } from "views/Swap/hooks/useIsAssetApproved";
-import { Provider } from "views/Swap/hooks/useTokenList";
 
 type Params = {
   inputAsset: AssetValue;
@@ -22,9 +21,6 @@ type Params = {
   senderAddress?: string;
   skipAffiliate?: boolean;
   inputUSDPrice: number;
-  inputUnitPrice: number;
-  outputUnitPrice: number;
-  providers: Provider[];
 };
 
 export const useSwapQuote = ({
@@ -35,9 +31,6 @@ export const useSwapQuote = ({
   recipientAddress,
   senderAddress,
   inputUSDPrice,
-  inputUnitPrice,
-  outputUnitPrice,
-  providers,
 }: Params) => {
   const showingQuoteError = useRef(false);
   const { slippageTolerance } = useApp();
@@ -114,12 +107,7 @@ export const useSwapQuote = ({
     isFetching,
     isUninitialized,
   } = useGetTokensQuoteQuery(params, {
-    skip:
-      IS_DEV_API ||
-      IS_BETA ||
-      params.sellAmount === "0" ||
-      inputAmount.lte(0) ||
-      !providers.includes(Provider.V1_PROVIDERS),
+    skip: IS_DEV_API || IS_BETA || params.sellAmount === "0" || inputAmount.lte(0),
   });
 
   const {
@@ -368,14 +356,9 @@ export const useSwapQuote = ({
     v2Data,
     data,
     inputAsset,
-    inputUnitPrice,
     isFetching,
     isFetchingV2,
     isInputZero,
-    // isLoading,
-    // isLoadingV2,
-    // outputAsset?.decimal,
-    outputUnitPrice,
     routes?.length,
     setSortedRoutes,
     inputAmount,

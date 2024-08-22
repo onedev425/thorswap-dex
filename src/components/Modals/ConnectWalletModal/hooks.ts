@@ -8,8 +8,6 @@ import { getFromStorage, saveInStorage } from "helpers/storage";
 import { useCallback, useEffect, useState } from "react";
 import { t } from "services/i18n";
 import { logEvent, logException } from "services/logger";
-
-import { IS_BETA, IS_LOCAL } from "settings/config";
 import {
   WalletNameByWalletOption,
   WalletOptionByWalletType,
@@ -43,8 +41,9 @@ export type WalletSection = {
   category: WalletCategory;
   title: string;
   visible?: boolean;
-  items: WalletItem[] | SubCategory[];
   icon: IconName;
+  items?: WalletItem[];
+  subCategories?: SubCategory[];
 };
 
 export type DerivationPathType = "nativeSegwitMiddleAccount" | "segwit" | "legacy" | "ledgerLive";
@@ -77,9 +76,10 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
         icon: "browser",
         items: addUniqueId([
           {
-            type: WalletType.Talisman,
-            icon: "talisman",
-            label: t("views.walletModal.talisman"),
+            icon: "exodus",
+            label: t("views.walletModal.passkeys"),
+            visible: isMdActive || isIframe(),
+            type: WalletType.Exodus,
           },
           {
             type: WalletType.MetaMask,
@@ -145,10 +145,9 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
               : t("views.walletModal.installBraveBrowser"),
           },
           {
-            icon: "exodus",
-            label: t("views.walletModal.passkeys"),
-            visible: IS_BETA || IS_LOCAL,
-            type: WalletType.Exodus,
+            type: WalletType.Talisman,
+            icon: "talisman",
+            label: t("views.walletModal.talisman"),
           },
           {
             disabled: !okxWalletDetected,
@@ -196,7 +195,7 @@ export const useWalletOptions = ({ isMdActive }: UseWalletOptionsParams) => {
         title: `${t("views.walletModal.hardwareWallets")} & Keystore`,
         visible: isMdActive || isIframe(),
         icon: "hardware",
-        items: [
+        subCategories: [
           {
             title: t("views.walletModal.hardwareWallets"),
             items: addUniqueId([
@@ -256,7 +255,7 @@ export const useHandleWalletConnect = ({
     connectWalletconnect,
     connectEVMWalletExtension,
     connectXdefiWallet,
-    // connectExodus,
+    connectExodus,
     connectOkx,
     connectCoinbaseMobile,
   } = useConnectWallet();
@@ -298,10 +297,10 @@ export const useHandleWalletConnect = ({
             return connectTrezor(selectedChains[0], derivationPath, ledgerIndex);
           case WalletType.Xdefi:
             return connectXdefiWallet(selectedChains);
-          //   case WalletType.Exodus:
-          //     return connectExodus(
-          //       selectedChains as (Chain.Bitcoin | Chain.BinanceSmartChain | Chain.Ethereum)[],
-          //     );
+          case WalletType.Exodus:
+            return connectExodus(
+              selectedChains as (Chain.Bitcoin | Chain.BinanceSmartChain | Chain.Ethereum)[],
+            );
           case WalletType.Talisman:
             return connectTalismanWallet(selectedChains);
           case WalletType.Keplr:
@@ -352,7 +351,7 @@ export const useHandleWalletConnect = ({
       connectKeplr,
       connectKeepkey,
       connectLedger,
-      //   connectExodus,
+      connectExodus,
       connectOkx,
       connectTrezor,
       connectTalismanWallet,

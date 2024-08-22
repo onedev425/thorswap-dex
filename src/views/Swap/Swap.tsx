@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import type { QuoteRoute } from "@swapkit/api";
+import type { QuoteResponseRoute, QuoteRoute } from "@swapkit/api";
 import type { QuoteMode } from "@swapkit/sdk";
 import { AssetValue, BaseDecimal, Chain, SwapKitNumber, WalletOption } from "@swapkit/sdk";
 import { Analysis } from "components/Analysis/Analysis";
@@ -176,14 +176,9 @@ const SwapView = () => {
   const {
     refetch: refetchPrice,
     isLoading: isPriceLoading,
-    inputUnitPrice,
-    outputUnitPrice,
+    inputUnitPrice: inputUnitPriceFallback,
+    outputUnitPrice: outputUnitPriceFallback,
   } = useTokenPrices([inputAsset, outputAsset]);
-
-  const inputUSDPrice = useMemo(
-    () => inputUnitPrice * inputAmount.getValue("number"),
-    [inputAmount, inputUnitPrice],
-  );
 
   //   useEffect(() => {
   //     // reset slippage if assets change
@@ -192,19 +187,19 @@ const SwapView = () => {
   //     }
   //   }, [inputAsset, outputAsset]);
 
-  const providers = useMemo(() => {
-    const outputProviders = tradingPairs.get(
-      outputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
-    )?.providers;
-    const inputProviders = tradingPairs.get(
-      inputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
-    )?.providers;
-    const commonProviders = outputProviders?.filter((provider) =>
-      inputProviders?.includes(provider),
-    );
+  //   const providers = useMemo(() => {
+  //     const outputProviders = tradingPairs.get(
+  //       outputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
+  //     )?.providers;
+  //     const inputProviders = tradingPairs.get(
+  //       inputAsset.toString({ includeSynthProtocol: true }).toLowerCase(),
+  //     )?.providers;
+  //     const commonProviders = outputProviders?.filter((provider) =>
+  //       inputProviders?.includes(provider),
+  //     );
 
-    return commonProviders || [];
-  }, [tradingPairs, outputAsset, inputAsset]);
+  //     return commonProviders || [];
+  //   }, [tradingPairs, outputAsset, inputAsset]);
 
   const {
     affiliateBasisPoints,
@@ -221,14 +216,27 @@ const SwapView = () => {
     ethAddress,
     inputAmount,
     inputAsset,
-    providers,
-    inputUSDPrice,
-    inputUnitPrice,
-    outputUnitPrice,
+    inputUSDPrice: inputUnitPriceFallback,
     outputAsset,
     recipientAddress: recipient || walletRecipient,
     senderAddress: sender,
   });
+
+  const inputUnitPrice = useMemo(() => {
+    return (
+      (selectedRouteRaw as unknown as QuoteResponseRoute)?.meta?.assets?.find(
+        (asset) => asset.asset.toUpperCase() === inputAsset.toString().toUpperCase(),
+      )?.price || inputUnitPriceFallback
+    );
+  }, [selectedRouteRaw, inputUnitPriceFallback]);
+
+  const outputUnitPrice = useMemo(() => {
+    return (
+      (selectedRouteRaw as unknown as QuoteResponseRoute)?.meta?.assets?.find(
+        (asset) => asset.asset.toUpperCase() === outputAsset.toString().toUpperCase(),
+      )?.price || outputUnitPriceFallback
+    );
+  }, [selectedRouteRaw, outputUnitPriceFallback]);
 
   const isChainflip = useMemo(
     () => selectedRouteRaw?.providers?.includes("CHAINFLIP"),
@@ -245,6 +253,11 @@ const SwapView = () => {
       [Chain.Litecoin, Chain.Dogecoin, Chain.BitcoinCash, Chain.Dash].includes(inputAsset.chain) &&
       getWallet(inputAsset.chain)?.walletType === WalletOption.LEDGER,
     [getWallet, inputAsset.chain],
+  );
+
+  const inputUSDPrice = useMemo(
+    () => inputAmount.mul(inputUnitPrice).getValue("number"),
+    [inputAmount, inputUnitPrice],
   );
 
   const amountTooLowForLimit = useMemo(
@@ -290,6 +303,11 @@ const SwapView = () => {
     noSlipProtection: amountTooLowForLimit,
   });
 
+  const outputUSDPrice = useMemo(
+    () => outputAmount.mul(outputUnitPrice).getValue("number"),
+    [outputUnitPrice, outputAmount],
+  );
+
   //   const { isApproved, isLoading } = useIsAssetApproved({
   //     assetValue: inputAsset.set(inputAmount.getValue('string')),
   //     contract:
@@ -298,11 +316,6 @@ const SwapView = () => {
   //       selectedRoute?.targetAddress ||
   //       selectedRoute?.providers[0].toLowerCase(),
   //   });
-
-  const outputUSDPrice = useMemo(
-    () => outputUnitPrice * outputAmount.getValue("number"),
-    [outputUnitPrice, outputAmount],
-  );
 
   const isInputWalletConnected = useMemo(
     () => !!getWallet(inputAsset.chain),

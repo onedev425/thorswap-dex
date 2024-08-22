@@ -16,6 +16,7 @@ type Props = {
   disabled?: boolean;
   connected?: boolean;
   id?: string;
+  imgData?: string;
 };
 
 const WalletOption = ({
@@ -27,6 +28,7 @@ const WalletOption = ({
   selected,
   disabled,
   id,
+  imgData,
 }: Props) => {
   const { isMdActive } = useWindowSize();
   const handleClick = useCallback(() => {
@@ -70,7 +72,19 @@ const WalletOption = ({
         <Icon color="green" name="connect" size={14} />
       </Box>
 
-      <Icon name={icon} size={isMdActive ? 20 : 14} />
+      {imgData ? (
+        <img
+          src={imgData}
+          alt={label}
+          className={classNames("transition-all box-content")}
+          style={{
+            width: isMdActive ? 20 : 14,
+            height: isMdActive ? 20 : 14,
+          }}
+        />
+      ) : (
+        <Icon name={icon} size={isMdActive ? 20 : 14} />
+      )}
 
       <Text className="text-center !text-caption-xs md:!text-caption">{label}</Text>
     </Box>
