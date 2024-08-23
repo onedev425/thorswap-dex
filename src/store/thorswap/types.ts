@@ -167,6 +167,23 @@ export type GetAirdropVerifyParams = {
   address: string;
 };
 
+export type SwapWarning = { code: string; tooltip: string; display: string };
+
+export type StreamingSwapRouteParams = {
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedOutputUSD: string;
+  expectedOutputMaxSlippageUSD: string;
+  estimatedTime: number;
+  fees: QuoteRoute["fees"];
+  maxQuantity?: number;
+  maxIntervalForMaxQuantity?: number;
+  savingsInAsset?: string;
+  savingsInUSD?: string;
+  memo?: string;
+  warnings?: SwapWarning[];
+};
+
 export type GetTokensQuoteResponse = {
   quoteId: string;
   routes: [
@@ -225,18 +242,7 @@ export type GetTokensQuoteResponse = {
       contractInfo: string;
       index: number;
       estimatedTime: number;
-      streamingSwap?: {
-        expectedOutput: string;
-        expectedOutputMaxSlippage: string;
-        expectedOutputUSD: string;
-        expectedOutputMaxSlippageUSD: string;
-        estimatedTime: number;
-        fees: QuoteRoute["fees"];
-        maxQuantity?: number;
-        maxIntervalForMaxQuantity?: number;
-        savingsInAsset?: string;
-        savingsInUSD?: string;
-      };
+      streamingSwap?: StreamingSwapRouteParams;
       timeEstimates: {
         inboundMs: number;
         swapMs: number;

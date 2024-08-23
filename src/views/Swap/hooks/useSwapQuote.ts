@@ -11,6 +11,7 @@ import { useAppSelector } from "store/store";
 import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from "store/thorswap/api";
 import type { GetTokensQuoteResponse } from "store/thorswap/types";
 import { checkAssetApprove } from "views/Swap/hooks/useIsAssetApproved";
+import { reduceV2StreamingRoutes } from "views/Swap/utils/reduceV2StreamingRoutes";
 
 type Params = {
   inputAsset: AssetValue;
@@ -346,9 +347,12 @@ export const useSwapQuote = ({
       });
     if (!(data?.routes || v2Routes) || isInputZero) return setRoutes([]);
 
+    // @ts-expect-error
+    const reducedV2Routes = reduceV2StreamingRoutes(v2Routes);
+
     setSortedRoutes(
       // @ts-expect-error
-      [...(data ? data.routes : []), ...(v2Routes ? v2Routes : [])],
+      [...(data ? data.routes : []), ...reducedV2Routes],
     );
 
     setApprovalsLoading(true);

@@ -23,6 +23,7 @@ import { ROUTES, getSwapRoute } from "settings/router";
 import { useApp } from "store/app/hooks";
 import { useAppSelector } from "store/store";
 import { V2Providers } from "store/thorswap/api";
+import type { SwapWarning } from "store/thorswap/types";
 import { zeroAmount } from "types/app";
 import { FeeModal } from "views/Swap/FeeModal";
 import RUNEInfoContent from "views/Swap/RUNEInfoContent";
@@ -504,6 +505,11 @@ const SwapView = () => {
 
   const isWidget = useAppSelector(({ app }) => app.iframeData?.isWidget);
 
+  const swapWarnings: SwapWarning[] = streamSwap
+    ? selectedRoute?.streamingSwap?.warnings
+    : // @ts-ignore TODO add typings for new v2 response
+      selectedRoute?.warnings;
+
   return (
     <Flex alignSelf="center" gap={3} w="full">
       <Flex flex={1} justify="center" transition={easeInOutTransition}>
@@ -613,26 +619,24 @@ const SwapView = () => {
 
           {
             // @ts-ignore TODO add typings for new v2 response
-            selectedRoute?.warnings?.map(
-              (warning: { code: string; display: string; tooltip: string }) => (
-                <InfoTip
-                  className="!mt-2"
-                  key={warning.code}
-                  title={
-                    warning.code === "highPriceImpact" ? (
-                      <Box row className="pl-4 self-stretch w-[100%]" justify="between">
-                        <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{" "}
-                        <Text color="red">{warning.display}</Text>
-                      </Box>
-                    ) : (
-                      t(`views.swap.warning.${warning.code}`)
-                    )
-                  }
-                  tooltip={warning.tooltip}
-                  type="warn"
-                />
-              ),
-            )
+            swapWarnings?.map((warning: { code: string; display: string; tooltip: string }) => (
+              <InfoTip
+                className="!mt-2"
+                key={warning.code}
+                title={
+                  warning.code === "highPriceImpact" ? (
+                    <Box row className="pl-4 self-stretch w-[100%]" justify="between">
+                      <Text>{t(`views.swap.warning.${warning.code}`)}</Text>{" "}
+                      <Text color="red">{warning.display}</Text>
+                    </Box>
+                  ) : (
+                    t(`views.swap.warning.${warning.code}`)
+                  )
+                }
+                tooltip={warning.tooltip}
+                type="warn"
+              />
+            ))
           }
 
           {highValueImpact &&

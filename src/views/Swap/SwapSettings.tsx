@@ -507,7 +507,7 @@ function getAvailableOptionsArray({
   maxQuantity: number;
   maxSteps?: number;
 }) {
-  const numElements = Math.min(maxQuantity, maxSteps);
+  const numElements = Math.min(maxQuantity - minQuantity, maxSteps);
 
   const step = Math.floor((maxQuantity - minQuantity) / numElements);
   const values = Array.from(

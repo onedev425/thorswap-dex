@@ -37,11 +37,14 @@ export const useSwapParams = ({
     selectedRoute?.streamingSwap?.maxQuantity &&
     selectedRoute?.streamingSwap?.maxIntervalForMaxQuantity;
 
+  const defaultStreamingMemo =
+    selectedRoute?.calldata?.memoStreamingSwap || selectedRoute?.streamingSwap?.memo || "";
+
   const { setSlippage, slippageTolerance } = useApp();
 
   const canStreamSwap = useMemo(
-    () => !noPriceProtection && !!selectedRoute?.calldata?.memoStreamingSwap,
-    [noPriceProtection, selectedRoute?.calldata?.memoStreamingSwap],
+    () => !noPriceProtection && !!defaultStreamingMemo,
+    [defaultStreamingMemo, noPriceProtection],
   );
 
   const toggleStreamSwap = useCallback(
@@ -56,13 +59,13 @@ export const useSwapParams = ({
   //   }, [selectedRoute?.path, toggleStreamSwap]);
 
   const defaultInterval = useMemo(() => {
-    const limit = getMemoPart(selectedRoute?.calldata?.memoStreamingSwap, 3);
+    const limit = getMemoPart(defaultStreamingMemo, 3);
     if (!limit) {
       return 3;
     }
 
     return Number(limit.split("/")[1]) || 3;
-  }, [selectedRoute?.calldata?.memoStreamingSwap]);
+  }, [defaultStreamingMemo]);
 
   const streamingValue = useMemo(() => {
     const optimalStreamingValue = new SwapKitNumber({
@@ -161,27 +164,6 @@ export const useSwapParams = ({
   //     selectedRoute,
   //     setSlippage,
   //   ]);
-  const savingsInUSD = useMemo(() => {
-    const savingsValue = Number(selectedRoute?.streamingSwap?.savingsInUSD || 0);
-    if (!streamingSwapParams) {
-      return savingsValue;
-    }
-
-    if (streamingSwapParams.subswaps === 0 || !streamSwap) {
-      return 0;
-    }
-
-    const optimizationRatio = selectedRoute?.streamingSwap?.maxQuantity
-      ? streamingSwapParams.subswaps / selectedRoute?.streamingSwap?.maxQuantity
-      : 1;
-
-    return savingsValue * optimizationRatio;
-  }, [
-    selectedRoute?.streamingSwap?.maxQuantity,
-    selectedRoute?.streamingSwap?.savingsInUSD,
-    streamSwap,
-    streamingSwapParams,
-  ]);
 
   const minReceive = useMemo(() => {
     return outputAmount.mul(1 - (isChainflip ? 5 : slippageTolerance) / 100);
@@ -222,14 +204,14 @@ export const useSwapParams = ({
           .toString()
       : "0";
 
-    const updatedStreamingSwapMemo = updateMemoLimit(selectedRoute.calldata?.memoStreamingSwap, {
+    const updatedStreamingSwapMemo = updateMemoLimit(defaultStreamingMemo, {
       minAmount: memoMinAmount,
       interval: streamingSwapParams?.interval,
       subswaps: streamingSwapParams?.subswaps,
     });
 
     // @ts-expect-error wrong typing on memo
-    const updatedMemo = updateMemoLimit(selectedRoute.calldata?.memo || selectedRoute.memo, {
+    const updatedMemo = updateMemoLimit(defaultStreamingMemo || selectedRoute.memo, {
       minAmount: noSlipProtection ? "" : memoMinAmount,
     });
 
@@ -248,10 +230,11 @@ export const useSwapParams = ({
     slippageTolerance,
     minReceive,
     outputAsset.decimal,
+    defaultStreamingMemo,
     streamingSwapParams?.interval,
     streamingSwapParams?.subswaps,
-    streamSwap,
     noSlipProtection,
+    streamSwap,
   ]);
 
   return {
@@ -265,7 +248,6 @@ export const useSwapParams = ({
     setStreamingSwapParams,
     route,
     hasStreamingSettings,
-    savingsInUSD,
     slippagePercent: slippageTolerance,
     setSlippagePercent: setSlippage,
     defaultInterval,
