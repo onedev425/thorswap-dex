@@ -1,5 +1,4 @@
-import type { AssetValue } from "@swapkit/sdk";
-import type { AssetFilterOptionType, AssetFilterType } from "components/AssetSelect/assetTypes";
+import type { AssetValue, Chain } from "@swapkit/sdk";
 import { assetFilterTypes } from "components/AssetSelect/assetTypes";
 import type { AssetSelectProps } from "components/AssetSelect/types";
 import { useCallback, useMemo, useState } from "react";
@@ -12,33 +11,25 @@ export function useAssetSelect({
   onClose,
   typeFilter: initTypeFilter,
 }: Pick<AssetSelectProps, "assets" | "onClose" | "onSelect"> & {
-  typeFilter?: AssetFilterOptionType;
+  typeFilter?: Chain | "all";
 }) {
   const disabledTokenLists = useAppSelector(({ assets }) => assets.disabledTokenLists);
-  const [typeFilter, setTypeFilter] = useState<AssetFilterOptionType>(initTypeFilter || "all");
+  const [typeFilter, setTypeFilter] = useState<Chain | "all">(initTypeFilter || "all");
   const { toggleTokenList } = useAssets();
   const assetFilterType = useMemo(() => {
-    return assetFilterTypes.find((item) => item.value === typeFilter) as AssetFilterType;
+    return assetFilterTypes.find(
+      (item) => item.chainAsset?.chain === typeFilter || item.value === typeFilter,
+    );
   }, [typeFilter]);
 
   const filteredAssets = useMemo(() => {
     if (typeFilter === "all") return assets;
-
     const filtered = assets.filter(
-      ({ asset: { type } }) =>
-        type.toLowerCase() === typeFilter.toLowerCase() ||
-        (type.toLowerCase() === "synth" && typeFilter.toLowerCase() === "thor"),
+      ({ asset: { chain } }) => chain.toLowerCase() === typeFilter.toLowerCase(),
     );
 
-    if (assetFilterType.chainAsset) {
-      const chainAssetSelectType = assets.find((a) => assetFilterType.chainAsset?.eqAsset(a.asset));
-      if (chainAssetSelectType) {
-        filtered.unshift(chainAssetSelectType);
-      }
-    }
-
     return filtered;
-  }, [assetFilterType.chainAsset, assets, typeFilter]);
+  }, [assetFilterType?.chainAsset, assets, typeFilter]);
 
   const close = useCallback(() => {
     onClose?.();

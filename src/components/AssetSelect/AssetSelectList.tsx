@@ -1,7 +1,6 @@
 import { Text } from "@chakra-ui/react";
-import type { AssetValue } from "@swapkit/sdk";
+import type { AssetValue, Chain } from "@swapkit/sdk";
 import classNames from "classnames";
-import type { AssetFilterOptionType } from "components/AssetSelect/assetTypes";
 import { assetFilterTypes as assetFilterTypesWithChain } from "components/AssetSelect/assetTypes";
 import { useAssetFilterTypes } from "components/AssetSelect/useAssetFilterTypes";
 import { Box, Icon } from "components/Atomic";
@@ -117,7 +116,7 @@ const SelectList = ({
             <TabsSelect
               buttonStyle={{ px: 2 }}
               enabledTabs={enabledTabs}
-              onChange={(value) => setTypeFilter(value as AssetFilterOptionType)}
+              onChange={(value) => setTypeFilter((value as Chain) || "all")}
               tabs={assetFilterTypes}
               value={typeFilter}
             />

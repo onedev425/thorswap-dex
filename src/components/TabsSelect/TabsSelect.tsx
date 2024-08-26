@@ -1,5 +1,6 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 import { Text, useTheme } from "@chakra-ui/react";
+import type { Chain } from "@swapkit/sdk";
 import classNames from "classnames";
 import { Box, Button } from "components/Atomic";
 import type { TabSelectType } from "components/TabsSelect/types";
@@ -10,8 +11,8 @@ type Props = {
   titleWidth?: string;
   tabs: TabSelectType[];
   tabWidth?: string;
-  value: string;
-  onChange: (value: string) => void;
+  value: Chain | string;
+  onChange: (value: Chain | string) => void;
   buttonStyle?: SystemStyleObject;
   enabledTabs?: string[];
 };
@@ -54,23 +55,23 @@ export const TabsSelect = memo(
             flex={1}
             justify="between"
           >
-            {tabs.map(({ value, label, tooltip }) => (
+            {tabs.map(({ value, label, tooltip, chain }) => (
               <Button
                 _dark={{
-                  bgColor: value === selectedValue && `${theme.colors.brand.btnPrimary}80`,
+                  bgColor: chain === selectedValue && `${theme.colors.brand.btnPrimary}80`,
                 }}
                 _light={{ color: theme.colors.brand.light.textPrimary }}
                 alignSelf="stretch"
                 disabled={enabledTabs && !enabledTabs?.includes(value)}
                 flex={tabWidth ? "initial" : 1}
                 key={value}
-                onClick={() => onChange(value)}
+                onClick={() => onChange(chain || "all")}
                 style={tabWidth ? { width: tabWidth } : {}}
                 sx={buttonStyle}
                 textTransform="none"
                 tooltip={tooltip}
                 tooltipWrapperClasses={classNames("w-[17%]")}
-                variant={value === selectedValue ? "primary" : "borderlessTint"}
+                variant={chain === selectedValue ? "primary" : "borderlessTint"}
                 width="100%"
               >
                 {label}

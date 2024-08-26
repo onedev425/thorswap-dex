@@ -1,4 +1,3 @@
-import { Chain } from "@swapkit/sdk";
 import type { AssetSelectType } from "components/AssetSelect/types";
 import type { IFuseOptions } from "fuse.js";
 import Fuse from "fuse.js";
@@ -74,10 +73,8 @@ export const useAssetListSearch = (
 
     const uniqueAssets: AssetSelectType[] = uniqBy(sortedAssets, ({ asset }) => asset.toString());
 
-    const supportedAssets = uniqueAssets.filter(
-      ({ asset }) =>
-        SUPPORTED_CHAINS.includes(asset.chain) &&
-        !(asset.chain === Chain.Avalanche && asset.symbol.includes("THOR-")),
+    const supportedAssets = uniqueAssets.filter(({ asset }) =>
+      SUPPORTED_CHAINS.includes(asset.chain),
     );
 
     return supportedAssets;

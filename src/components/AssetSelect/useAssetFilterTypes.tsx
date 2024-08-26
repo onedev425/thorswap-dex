@@ -93,7 +93,13 @@ export const useAssetFilterTypes = () => {
       case "maya": {
         return (
           <FilterTypeLabel
-            icon={<AssetIcon asset={AssetValue.fromStringSync("MAYA.MAYA")} size={20} />}
+            icon={
+              <AssetIcon
+                asset={AssetValue.from({ asset: "MAYA.MAYA" })}
+                size={20}
+                hasChainIcon={false}
+              />
+            }
             label="MAYA"
           />
         );
@@ -161,6 +167,7 @@ export const useAssetFilterTypes = () => {
     value: filterType.value,
     label: getTypeLabel(filterType),
     tooltip: filterType.tooltip,
+    chain: filterType.chainAsset?.chain,
   }));
 
   return filterTypes;
