@@ -45,9 +45,7 @@ import { useSwapQuote } from "./hooks/useSwapQuote";
 
 const baseInput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum });
 const baseOutput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin });
-
 const chainsWithSynths = [Chain.THORChain, Chain.Maya];
-
 const SwapView = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();

@@ -113,7 +113,8 @@ const Send = () => {
 
       if (assetParam) {
         const [chain, synthChain, symbol] = assetParam.split(".");
-        const isSynth = chain === Chain.THORChain && symbol;
+        const chainsWithSynths = [Chain.THORChain, Chain.Maya];
+        const isSynth = chainsWithSynths.includes(chain as Chain) && symbol;
         const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : assetParam;
         const assetEntity = AssetValue.from({ asset: assetString });
 
