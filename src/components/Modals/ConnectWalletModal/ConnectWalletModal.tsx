@@ -549,25 +549,40 @@ const ConnectWalletModal = () => {
                         <Box>
                           {getEIP6963Wallets()
                             .providers.filter((a) => a.info.name !== "Passkey")
-                            .flatMap((provider) =>
-                              walletOptions.flatMap(
-                                (section) =>
-                                  section.items?.filter(
-                                    (item) => item.label === provider.info.name,
-                                  ) || [],
-                              ),
-                            )
-                            .map((item) => (
-                              <WalletOption
-                                connected={connectedWallets.includes(item.type.toLowerCase())}
-                                handleTypeSelect={handleWalletTypeSelect}
-                                key={item.id}
-                                label={item.label}
-                                type={item.type}
-                                icon={item.icon}
-                                selected={false}
-                              />
-                            ))}
+                            .map((provider) => {
+                              const matchedWallet = walletOptions.flatMap((section) =>
+                                section.items?.filter((item) => item.label === provider.info.name),
+                              )[0];
+
+                              if (matchedWallet) {
+                                return (
+                                  <WalletOption
+                                    connected={connectedWallets.includes(
+                                      matchedWallet.type.toLowerCase(),
+                                    )}
+                                    handleTypeSelect={handleWalletTypeSelect}
+                                    key={matchedWallet.id}
+                                    label={matchedWallet.label}
+                                    type={matchedWallet.type}
+                                    icon={matchedWallet.icon}
+                                    selected={false}
+                                  />
+                                );
+                              }
+
+                              // Fallback for MetaMask like wallets
+                              return (
+                                <WalletOption
+                                  handleTypeSelect={handleWalletTypeSelect}
+                                  key={provider.info.uuid}
+                                  label={provider.info.name}
+                                  type={WalletType.MetaMask}
+                                  icon={"add"}
+                                  imgData={provider.info.icon}
+                                  selected={false}
+                                />
+                              );
+                            })}
                         </Box>
                       </Box>
                     )}
