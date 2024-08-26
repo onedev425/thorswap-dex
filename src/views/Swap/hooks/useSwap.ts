@@ -2,6 +2,7 @@ import type { QuoteRoute } from "@swapkit/api";
 import type { AssetValue } from "@swapkit/sdk";
 import { ProviderName, QuoteMode } from "@swapkit/sdk";
 import { showErrorToast } from "components/Toast";
+import { isV2TrackerSupported } from "components/TransactionTrackerV2/helpers";
 import { useWallet } from "context/wallet/hooks";
 import { translateErrorMsg } from "helpers/error";
 import { useCallback } from "react";
@@ -144,7 +145,7 @@ export const useSwap = ({
                 quoteId,
                 route,
                 timestamp,
-                advancedTracker: isChainflip,
+                advancedTracker: isV2TrackerSupported(route.providers),
               }),
             );
           } else {
@@ -200,6 +201,7 @@ export const useSwap = ({
     quoteId,
     streamSwap,
     feeOptionKey,
+    isChainflipBoostEnable,
   ]);
 
   return handleSwap;

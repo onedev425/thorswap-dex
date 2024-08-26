@@ -1,4 +1,3 @@
-import { trackerUnsupportedProviders } from "components/TransactionManager/PendingTransaction";
 import { cutTxPrefix } from "components/TransactionManager/helpers";
 import { useCompleteTransaction } from "components/TransactionManager/useCompleteTransaction";
 import { useTxUrl } from "hooks/useTxUrl";
@@ -41,32 +40,21 @@ export const useSimpleTracker = (tx: PendingTransactionType | null) => {
 
   const txUrl = useTxUrl({ txHash: tx?.txid || "", chain: inChain });
 
-  // TODO remove after tracker supports providers
-  const isTrackerWorkaround = useMemo(
-    () => trackerUnsupportedProviders.includes(tx?.route?.providers[0] || ""),
-    [tx],
-  );
-  const txUrlOverwrite =
-    isTrackerWorkaround && txid
-      ? `https://www.mayascan.org/tx/${txid.replace("0x", "")}`
-      : undefined;
-
   useEffect(() => {
     const transactionCompleted = data?.ok && ["mined", "refund"].includes(data.status);
-    const instantComplete =
-      type && ([TransactionType.TC_SEND].includes(type) || isTrackerWorkaround);
+    const instantComplete = type && [TransactionType.TC_SEND].includes(type);
     const status = data?.status || "mined";
 
     if (transactionCompleted || (instantComplete && txUrl)) {
-      onCompleteTransaction({ status, result: data?.result, txUrl: txUrlOverwrite });
+      onCompleteTransaction({ status, result: data?.result, txUrl });
     }
-  }, [data, onCompleteTransaction, txUrl, type, isTrackerWorkaround, txUrlOverwrite]);
+  }, [data, onCompleteTransaction, txUrl, type]);
 
   return tx
     ? {
         type,
         label,
-        txUrl: txUrlOverwrite || txUrl,
+        txUrl,
         details: null,
       }
     : null;

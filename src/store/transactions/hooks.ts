@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/store";
 import { updateTransaction } from "store/transactions/slice";
 import type { CompletedTransactionType, PendingTransactionType } from "store/transactions/types";
@@ -6,35 +6,28 @@ import { TransactionType } from "store/transactions/types";
 import { isTxCompleted, isTxPending } from "store/transactions/utils";
 
 const useIsMounted = () => {
-  const isMounted = useRef(false);
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
+    setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
   return isMounted;
 };
 
 export const useTransactionsState = () => {
-  const transactions = useAppSelector(({ transactions }) => transactions);
+  const transactions = useAppSelector(({ transactions }) => transactions || []);
   const appDispatch = useAppDispatch();
   const isMounted = useIsMounted();
-  const transactionsRef = useRef(transactions);
-
-  useEffect(() => {
-    transactionsRef.current = transactions;
-  }, [transactions]);
 
   const sortedTransactions = useMemo(() => {
-    if (!isMounted.current) return [];
-    return [...transactionsRef.current].sort(
+    if (!isMounted) return [];
+    return [...transactions].sort(
       (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
     );
-  }, [transactions, transactionsRef.current, isMounted]);
+  }, [isMounted, transactions]);
 
   const [pending, completed] = useMemo(() => {
-    if (!isMounted.current) return [[], []];
+    if (!isMounted) return [[], []];
     return sortedTransactions.reduce(
       (acc, tx) => {
         if (isTxPending(tx)) {
@@ -46,22 +39,22 @@ export const useTransactionsState = () => {
       },
       [[] as PendingTransactionType[], [] as CompletedTransactionType[]],
     );
-  }, [sortedTransactions, transactionsRef.current, isMounted]);
+  }, [sortedTransactions, isMounted]);
 
   const advancedTracking = useMemo(() => {
-    if (!isMounted.current) return [];
+    if (!isMounted) return [];
     return sortedTransactions.filter((t) => (t.txid && t.route && t.quoteId) || t.details);
-  }, [sortedTransactions, transactionsRef.current, isMounted]);
+  }, [sortedTransactions, isMounted]);
 
   const numberOfPendingApprovals = useMemo(() => {
-    if (!isMounted.current) return 0;
+    if (!isMounted) return 0;
     return pending.filter(({ type }) =>
       [TransactionType.ETH_APPROVAL, TransactionType.AVAX_APPROVAL].includes(type),
     ).length;
-  }, [pending, transactionsRef.current, isMounted]);
+  }, [pending, isMounted]);
 
   const updateOldTransactions = useCallback(() => {
-    if (!isMounted.current) return;
+    if (!isMounted) return;
     const now = Date.now();
     const oneDayAgo = now - 86400000;
     for (const tx of pending) {
@@ -69,7 +62,7 @@ export const useTransactionsState = () => {
         appDispatch(updateTransaction({ id: tx.id, status: "unknown", completed: true }));
       }
     }
-  }, [appDispatch, pending, transactionsRef.current, isMounted]);
+  }, [appDispatch, pending, isMounted]);
 
   useEffect(() => {
     updateOldTransactions();

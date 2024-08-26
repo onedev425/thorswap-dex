@@ -33,7 +33,7 @@ export const TxPreview = ({ txDetails, isCompleted }: Props) => {
         {hasLegs &&
           txDetails.legs.map((leg, index) => (
             <TxLegPreview
-              currentLegIndex={txDetails.currentLegIndex}
+              currentLegIndex={txDetails.isV2 ? undefined : txDetails.currentLegIndex}
               horizontalView={horizontalView}
               index={index}
               isLast={(txDetails.legs.length || 1) - 1 === index}

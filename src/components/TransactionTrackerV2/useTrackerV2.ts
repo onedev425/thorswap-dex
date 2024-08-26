@@ -96,7 +96,7 @@ function mapToV1TrackerDetails(payload: TrackerResponse): TxTrackerDetails & Tra
   return {
     quoteId: "",
     firstTransactionHash: payload.hash,
-    currentLegIndex: transient?.currentLegIndex || 0,
+    currentLegIndex: transient?.currentLegIndex || -1,
     legs: payload.legs.map((leg) => ({
       ...leg,
       chain: ChainIdToChain[leg.chainId],

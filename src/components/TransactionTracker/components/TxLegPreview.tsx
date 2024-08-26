@@ -157,7 +157,7 @@ export const TxLegPreview = ({
   const isStreamming = leg.status === TxStatus.STREAMING;
 
   const status = useMemo(() => {
-    if (typeof currentLegIndex !== "undefined") {
+    if (typeof currentLegIndex !== "undefined" && currentLegIndex >= 0) {
       // logic for v1 tracker
       if (!isTxFinished && currentLegIndex === index) {
         return "pending";

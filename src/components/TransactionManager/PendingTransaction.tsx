@@ -6,30 +6,25 @@ import { useAdvancedTracker } from "components/TransactionManager/useAdvancedTra
 import { useSimpleTracker } from "components/TransactionManager/useSimpleTracker";
 import { useTimeLeft } from "components/TransactionManager/useTimeLeft";
 import { useTransactionTimers } from "components/TransactionManager/useTransactionTimers";
+import { isV2TrackerSupported } from "components/TransactionTrackerV2/helpers";
 import { useTrackerV2 } from "components/TransactionTrackerV2/useTrackerV2";
 import { CircularCountdown } from "components/TxTracker/components/CircularCountdown";
 import { baseHoverClass } from "components/constants";
 import { memo } from "react";
 import type { PendingTransactionType } from "store/transactions/types";
 
-const trackerV2Providers = ["CHAINFLIP"];
-
-export const trackerUnsupportedProviders = ["MAYACHAIN"];
-
 export const PendingTransaction = memo((pendingTx: PendingTransactionType) => {
   const { quoteId, route, txid, details: txDetails, advancedTracker } = pendingTx;
   // keep it backward compatible with old cached txs
   const hasDetailsParams = (txid && route && quoteId) || txDetails;
   const provider = route?.providers[0] || "";
-  const isV2Tracker = trackerV2Providers.includes(provider);
-
-  const isTrackerWorkaround = trackerUnsupportedProviders.includes(route?.providers[0] || "");
+  const isV2Tracker = isV2TrackerSupported(provider);
 
   const simpleTrackerData = useSimpleTracker(
     hasDetailsParams || advancedTracker || isV2Tracker ? null : pendingTx,
   );
   const advancedTrackerData = useAdvancedTracker(
-    !(hasDetailsParams || advancedTracker) || isV2Tracker || isTrackerWorkaround ? null : pendingTx,
+    !(hasDetailsParams || advancedTracker) || isV2Tracker ? null : pendingTx,
   );
   const trackerV2Data = useTrackerV2(isV2Tracker ? pendingTx : null);
 
