@@ -18,18 +18,20 @@ import { Provider as ReduxProvider } from "react-redux";
 import { IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
 import { store as reduxStore } from "store/store";
 
+import { isMobile } from "components/Modals/ConnectWalletModal/hooks";
 import DrawerProvider from "./hooks/useWalletDrawer";
 import { PublicRoutes } from "./router";
 
-export const exodusWallet = IS_LEDGER_LIVE
-  ? ({} as Wallet)
-  : createWallet({
-      appId: import.meta.env.VITE_EXODUS_APP_ID ?? process.env.VITE_EXODUS_APP_ID,
-      providers: {
-        bitcoin: true,
-        ethereum: true,
-      },
-    });
+export const exodusWallet =
+  IS_LEDGER_LIVE || isMobile
+    ? ({} as Wallet)
+    : createWallet({
+        appId: import.meta.env.VITE_EXODUS_APP_ID ?? process.env.VITE_EXODUS_APP_ID,
+        providers: {
+          bitcoin: true,
+          ethereum: true,
+        },
+      });
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
