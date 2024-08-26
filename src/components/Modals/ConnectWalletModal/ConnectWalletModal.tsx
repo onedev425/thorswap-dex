@@ -525,7 +525,7 @@ const ConnectWalletModal = () => {
                         )}
                       >
                         <Box className="pl-2">
-                          <Text fontWeight="semibold">Instant Wallets (no install required)</Text>
+                          <Text fontWeight="semibold">Instant Wallets</Text>
                         </Box>
                         <Box>
                           {getEIP6963Wallets()
@@ -544,23 +544,27 @@ const ConnectWalletModal = () => {
                             ))}
                         </Box>
                         <Box className="pl-2">
-                          <Text fontWeight="semibold">Detected Wallets (EVM)</Text>
+                          <Text fontWeight="semibold">Detected Wallets</Text>
                         </Box>
                         <Box>
                           {getEIP6963Wallets()
                             .providers.filter((a) => a.info.name !== "Passkey")
-                            // .map((provider) => (
-                            //     walletOptions.find((section) => section.items.find((item) => item.items === provider.info.name
-                            // ))
-                            .map((provider) => (
+                            .flatMap((provider) =>
+                              walletOptions.flatMap(
+                                (section) =>
+                                  section.items?.filter(
+                                    (item) => item.label === provider.info.name,
+                                  ) || [],
+                              ),
+                            )
+                            .map((item) => (
                               <WalletOption
-                                //   connected={connectedWallets.includes(item.type.toLowerCase())}
+                                connected={connectedWallets.includes(item.type.toLowerCase())}
                                 handleTypeSelect={handleWalletTypeSelect}
-                                key={provider.info.uuid}
-                                label={provider.info.name}
-                                type={WalletType.MetaMask}
-                                icon={"add"}
-                                imgData={provider.info.icon}
+                                key={item.id}
+                                label={item.label}
+                                type={item.type}
+                                icon={item.icon}
                                 selected={false}
                               />
                             ))}
