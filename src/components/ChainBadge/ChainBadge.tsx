@@ -27,6 +27,7 @@ const colorMapping: Record<Chain, string> = {
   FLIP: "bg-",
   SOL: "bg-",
   XRD: "bg-",
+  BASE: "bg-",
 };
 
 export const ChainBadge = ({ asset }: Props) => {

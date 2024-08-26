@@ -202,10 +202,11 @@ export const unitToValue = (
   {
     decimals = BaseDecimal.THOR,
     toFixed,
-  }: { decimals?: BaseDecimal | number; toFixed?: number } = {},
+  }: { decimals?: typeof BaseDecimal | number; toFixed?: number } = {},
 ) => {
   const value = typeof unit === "string" ? Number.parseFloat(unit) : unit;
-  const valueWithDecimalShift = decimals > 1 ? value / 10 ** decimals : value;
+  const decimalValue = typeof decimals === "number" ? decimals : BaseDecimal.THOR;
+  const valueWithDecimalShift = decimalValue > 1 ? value / 10 ** decimalValue : value;
 
   return toFixed
     ? Number.parseFloat(valueWithDecimalShift.toFixed(toFixed))

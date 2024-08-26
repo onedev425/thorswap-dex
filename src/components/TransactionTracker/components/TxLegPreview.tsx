@@ -105,6 +105,7 @@ const getBadge = ({
 const colorSchemeForChain = {
   [Chain.Avalanche]: "red",
   [Chain.BinanceSmartChain]: "yellow",
+  [Chain.Base]: "blue",
   [Chain.Bitcoin]: "orange",
   [Chain.BitcoinCash]: "greenLight",
   [Chain.Cosmos]: "cyan",

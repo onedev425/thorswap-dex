@@ -21,12 +21,14 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Polkadot]: 0,
   [Chain.Solana]: 0,
   [Chain.Radix]: 0,
+  [Chain.Base]: 0,
 };
 
 // time secs for 1 block confirmation
 export const blockTime: Record<Chain, number> = {
   [Chain.Arbitrum]: 50,
   [Chain.Avalanche]: 3,
+  [Chain.Base]: 2,
   [Chain.BinanceSmartChain]: 3,
   [Chain.Bitcoin]: 600,
   [Chain.BitcoinCash]: 600,
