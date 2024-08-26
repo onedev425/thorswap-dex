@@ -534,24 +534,31 @@ const ConnectWalletModal = () => {
                               <WalletOption
                                 //   connected={connectedWallets.includes(item.type.toLowerCase())}
                                 handleTypeSelect={handleWalletTypeSelect}
+                                disabled={isWalletTypeDisabled(WalletType.Exodus)}
                                 key={provider.info.uuid}
                                 label={provider.info.name}
                                 type={WalletType.Exodus}
                                 icon={"add"}
                                 imgData={provider.info.icon}
-                                selected={false}
+                                selected={WalletType.Exodus === selectedWalletType}
                               />
                             ))}
                         </Box>
                         <Box className="pl-2">
                           <Text fontWeight="semibold">Detected Wallets</Text>
                         </Box>
-                        <Box>
+                        <Box className={"flex-wrap"}>
                           {getEIP6963Wallets()
                             .providers.filter((a) => a.info.name !== "Passkey")
                             .map((provider) => {
                               const matchedWallet = walletOptions.flatMap((section) =>
-                                section.items?.filter((item) => item.label === provider.info.name),
+                                section.items?.filter(
+                                  (item) =>
+                                    item.label ===
+                                    (provider.info.name === "Trust Wallet"
+                                      ? "Trust Browser"
+                                      : provider.info.name),
+                                ),
                               )[0];
 
                               if (matchedWallet) {
@@ -560,12 +567,16 @@ const ConnectWalletModal = () => {
                                     connected={connectedWallets.includes(
                                       matchedWallet.type.toLowerCase(),
                                     )}
+                                    disabled={
+                                      matchedWallet.disabled ||
+                                      isWalletTypeDisabled(matchedWallet.type)
+                                    }
                                     handleTypeSelect={handleWalletTypeSelect}
                                     key={matchedWallet.id}
                                     label={matchedWallet.label}
                                     type={matchedWallet.type}
                                     icon={matchedWallet.icon}
-                                    selected={false}
+                                    selected={matchedWallet.type === selectedWalletType}
                                   />
                                 );
                               }
@@ -574,6 +585,7 @@ const ConnectWalletModal = () => {
                               return (
                                 <WalletOption
                                   handleTypeSelect={handleWalletTypeSelect}
+                                  disabled={isWalletTypeDisabled(WalletType.MetaMask)}
                                   key={provider.info.uuid}
                                   label={provider.info.name}
                                   type={WalletType.MetaMask}

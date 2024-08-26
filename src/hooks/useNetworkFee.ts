@@ -28,7 +28,8 @@ const getTxSizeByAsset = (asset: AssetValue): number => {
 };
 
 const getGasFeeAssetForAsset = (asset?: AssetValue) => {
-  if (!asset || asset.isSynthetic) return AssetValue.from({ chain: Chain.THORChain });
+  if (!asset) return AssetValue.from({ chain: Chain.THORChain });
+  if (asset.isSynthetic) return AssetValue.from({ chain: asset.chain });
   return AssetValue.fromChainOrSignature(asset.chain);
 };
 

@@ -46,6 +46,8 @@ import { useSwapQuote } from "./hooks/useSwapQuote";
 const baseInput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Bitcoin : Chain.Ethereum });
 const baseOutput = AssetValue.from({ chain: IS_LEDGER_LIVE ? Chain.Ethereum : Chain.Bitcoin });
 
+const chainsWithSynths = [Chain.THORChain, Chain.Maya];
+
 const SwapView = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -67,7 +69,7 @@ const SwapView = () => {
     if (!(pair && inputString)) return baseInput;
 
     const [chain, synthChain, symbol] = inputString.split(".");
-    const isSynth = chain === Chain.THORChain && symbol;
+    const isSynth = chainsWithSynths.includes(chain as Chain) && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : inputString;
 
     return AssetValue.from({ asset: assetString }) || baseInput;
@@ -77,7 +79,7 @@ const SwapView = () => {
     if (!(pair && outputString)) return baseOutput;
 
     const [chain, synthChain, symbol] = outputString.split(".");
-    const isSynth = chain === Chain.THORChain && symbol;
+    const isSynth = chainsWithSynths.includes(chain as Chain) && symbol;
     const assetString = isSynth ? `${chain}.${synthChain}/${symbol}` : outputString;
 
     return AssetValue.from({ asset: assetString }) || baseOutput;

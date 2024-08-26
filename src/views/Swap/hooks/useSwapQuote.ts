@@ -5,10 +5,10 @@ import { THORSWAP_AFFILIATE_ADDRESS, THORSWAP_AFFILIATE_ADDRESS_LL } from "confi
 import { useDebouncedValue } from "hooks/useDebouncedValue";
 import { useVTHORBalance } from "hooks/useHasVTHOR";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { IS_BETA, IS_DEV_API, IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
+import { IS_BETA, IS_LEDGER_LIVE, IS_LOCAL } from "settings/config";
 import { useApp } from "store/app/hooks";
 import { useAppSelector } from "store/store";
-import { useGetTokensQuoteQuery, useGetV2QuoteQuery } from "store/thorswap/api";
+import { useGetV2QuoteQuery } from "store/thorswap/api";
 import type { GetTokensQuoteResponse } from "store/thorswap/types";
 import { checkAssetApprove } from "views/Swap/hooks/useIsAssetApproved";
 import { reduceV2StreamingRoutes } from "views/Swap/utils/reduceV2StreamingRoutes";
@@ -99,7 +99,6 @@ export const useSwapQuote = ({
     ],
   );
 
-  // TODO remove after we raised dev api to prod
   const {
     refetch,
     error,
@@ -107,17 +106,6 @@ export const useSwapQuote = ({
     currentData: data,
     isFetching,
     isUninitialized,
-  } = useGetTokensQuoteQuery(params, {
-    skip: IS_DEV_API || IS_BETA || params.sellAmount === "0" || inputAmount.lte(0),
-  });
-
-  const {
-    refetch: refetchV2,
-    error: errorV2,
-    isLoading: isLoadingV2,
-    currentData: v2Data,
-    isFetching: isFetchingV2,
-    isUninitialized: isV2Uninitialized,
   } = useGetV2QuoteQuery(
     {
       ...{
@@ -125,18 +113,13 @@ export const useSwapQuote = ({
         sellAsset: inputAsset.toString({ includeSynthProtocol: true }),
         buyAsset: outputAsset.toString({ includeSynthProtocol: true }),
       },
-      providers:
-        // TODO remove beta after we raised dev api to prod
-        IS_DEV_API || IS_BETA
-          ? undefined
-          : [ProviderName.CHAINFLIP, ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
     },
     {
       skip: params.sellAmount === "0" || inputAmount.lte(0),
     },
   );
 
-  const quoteError = useMemo(() => (error && errorV2 ? error : undefined), [error, errorV2]);
+  const quoteError = useMemo(() => error, [error]);
 
   const refetchAllQuotes = useMemo(
     () => () => {
@@ -144,11 +127,8 @@ export const useSwapQuote = ({
       if (!isUninitialized) {
         refetch();
       }
-      if (!isV2Uninitialized) {
-        refetchV2();
-      }
     },
-    [isV2Uninitialized, isUninitialized, refetch, refetchV2],
+    [isUninitialized, refetch],
   );
 
   const setSortedRoutes = useCallback(
@@ -198,15 +178,24 @@ export const useSwapQuote = ({
   const isInputZero = useMemo(() => inputAmount.lte(0), [inputAmount]);
 
   useEffect(() => {
-    if (isFetching && isFetchingV2 && !!routes.length) {
+    if (isFetching && !!routes.length) {
       return;
     }
 
-    const v2Routes = (v2Data?.routes || [])
-      //   .filter((route) => {
-      //     const providerMatch = route.providers.some((provider) => /.*_STREAMING/.test(provider));
-      //     return !(providerMatch && route.expectedBuyAmount === inputAmount.getValue("number"));
-      //   })
+    const filteredRoutes = (data?.routes || [])
+      .filter((route) => {
+        const streamingProvider = route.providers.find((provider) => /.*_STREAMING/.test(provider));
+        if (!streamingProvider) return true;
+
+        const nonStreamingProvider = streamingProvider.replace("_STREAMING", "");
+        const nonStreamingRoute = data?.routes.find((r) =>
+          r.providers.includes(nonStreamingProvider as ProviderName),
+        );
+
+        return !(
+          nonStreamingRoute && route.expectedBuyAmount === nonStreamingRoute.expectedBuyAmount
+        );
+      })
       .map((route: QuoteResponseRoute) => {
         const meta = route.meta;
 
@@ -345,10 +334,10 @@ export const useSwapQuote = ({
           },
         };
       });
-    if (!(data?.routes || v2Routes) || isInputZero) return setRoutes([]);
+    if (!(data?.routes || filteredRoutes) || isInputZero) return setRoutes([]);
 
     // @ts-expect-error
-    const reducedV2Routes = reduceV2StreamingRoutes(v2Routes);
+    const reducedV2Routes = reduceV2StreamingRoutes(filteredRoutes);
 
     setSortedRoutes(
       // @ts-expect-error
@@ -357,11 +346,9 @@ export const useSwapQuote = ({
 
     setApprovalsLoading(true);
   }, [
-    v2Data,
     data,
     inputAsset,
     isFetching,
-    isFetchingV2,
     isInputZero,
     routes?.length,
     setSortedRoutes,
@@ -370,10 +357,10 @@ export const useSwapQuote = ({
   ]);
   const selectedRoute: RouteWithApproveType | undefined = useMemo(
     () =>
-      quoteError || isLoading || isLoadingV2 || inputAmount.getValue("number") === 0
+      quoteError || isLoading || inputAmount.getValue("number") === 0
         ? undefined
         : routes.find((route) => route.providers.join() === selectedProvider.join()) || routes[0],
-    [quoteError, inputAmount, isLoading, isLoadingV2, routes, selectedProvider],
+    [quoteError, inputAmount, isLoading, routes, selectedProvider],
   );
 
   useEffect(() => {
@@ -386,7 +373,7 @@ export const useSwapQuote = ({
   useEffect(() => {
     const errorMessage =
       // @ts-expect-error
-      quoteError?.data?.message || errorV2?.data?.message;
+      quoteError?.data?.message;
 
     if (errorMessage && !showingQuoteError.current) {
       showingQuoteError.current = true;
@@ -397,7 +384,7 @@ export const useSwapQuote = ({
       }, 3000);
     }
     // @ts-expect-error
-  }, [errorV2?.data?.message, quoteError?.data?.message]);
+  }, [quoteError?.data?.message]);
 
   return {
     refetch: refetchAllQuotes,
@@ -406,8 +393,7 @@ export const useSwapQuote = ({
     error: quoteError,
     estimatedTime: (selectedRoute || routes[0])?.estimatedTime,
     isFetching:
-      (approvalsLoading || ((isLoading || isFetching || isFetchingV2) && routes.length === 0)) &&
-      !quoteError,
+      (approvalsLoading || ((isLoading || isFetching) && routes.length === 0)) && !quoteError,
     routes,
     selectedRoute: selectedRoute || routes[0],
     setSwapRoute,

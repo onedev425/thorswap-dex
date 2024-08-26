@@ -8,7 +8,7 @@ import { translateErrorMsg } from "helpers/error";
 import { useCallback } from "react";
 import { t } from "services/i18n";
 import { logEvent, logException } from "services/logger";
-import { IS_DEV_API, IS_LEDGER_LIVE } from "settings/config";
+import { IS_LEDGER_LIVE } from "settings/config";
 import { useApp } from "store/app/hooks";
 import { useAppDispatch } from "store/store";
 import { addTransaction, completeTransaction, updateTransaction } from "store/transactions/slice";
@@ -64,7 +64,7 @@ export const useSwap = ({
     const id = v4();
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
-      const isChainflip = route?.providers?.includes("CHAINFLIP");
+      const isChainflip = route?.providers?.includes(ProviderName.CHAINFLIP);
 
       if (route) {
         if (!from) throw new Error("No address found");
@@ -90,13 +90,6 @@ export const useSwap = ({
         }
 
         const swapMethod = IS_LEDGER_LIVE ? ledgerLiveSwap : swap;
-        const isV1Aggregator = ![
-          //   ProviderName.THORCHAIN_STREAMING,
-          //   ProviderName.THORCHAIN,
-          ProviderName.MAYACHAIN,
-          ProviderName.MAYACHAIN_STREAMING,
-          ProviderName.CHAINFLIP,
-        ].includes(route.providers[0] as ProviderName);
 
         appDispatch(
           addTransaction({
@@ -118,7 +111,6 @@ export const useSwap = ({
 
         try {
           const txid = await swapMethod({
-            pluginName: !IS_DEV_API && isV1Aggregator ? "thorchain" : undefined,
             feeOptionKey,
             recipient,
             route,
