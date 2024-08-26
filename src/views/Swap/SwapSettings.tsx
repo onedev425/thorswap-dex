@@ -205,7 +205,7 @@ export const SwapSettings = ({
                   </Flex>
                 ) : (
                   <Text color="textSecondary" fontWeight="semibold" ml={2} textStyle="caption">
-                    `${slippageTolerance}% Price Protection`
+                    {`${slippageTolerance}% Price Protection`}
                   </Text>
                 )}
               </>
