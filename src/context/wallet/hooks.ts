@@ -67,7 +67,11 @@ export const useWallet = () => {
   const getWalletAddress = useCallback(
     (chain: Chain) => {
       if (isMounted.current) {
-        return walletRef.current[chain as keyof typeof wallet]?.address || "";
+        return (
+          walletRef.current[chain as keyof typeof wallet]?.address ||
+          wallet[chain as keyof typeof wallet]?.address ||
+          ""
+        );
       }
       return "";
     },
