@@ -60,6 +60,8 @@ export const useAssetListSearch = (
         return SORTED_CHAINS.indexOf(aAsset.chain) - SORTED_CHAINS.indexOf(bAsset.chain) || 0;
       }
 
+      if (a.asset.isGasAsset && !b.asset.isGasAsset) return -1;
+
       if (a.balance || b.balance) {
         return a.balance ? (b?.balance?.gt(a.balance) ? 1 : -1) : 0;
       }
