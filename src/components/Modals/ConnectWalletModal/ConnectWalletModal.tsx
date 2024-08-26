@@ -536,7 +536,7 @@ const ConnectWalletModal = () => {
                                 handleTypeSelect={handleWalletTypeSelect}
                                 key={provider.info.uuid}
                                 label={provider.info.name}
-                                type={WalletType.MetaMask}
+                                type={WalletType.Exodus}
                                 icon={"add"}
                                 imgData={provider.info.icon}
                                 selected={false}
