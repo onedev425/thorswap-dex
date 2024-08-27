@@ -100,9 +100,7 @@ export const tokenLogoURL = ({
   const logoSymbol = bepIconMapping[ticker as "TWT"] || ticker;
 
   return address?.toLocaleLowerCase() !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-    ? `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}${
-        address ? `-${address.toLowerCase()}` : ""
-      }.png`
+    ? `https://static.thorswap.net/token-list/images/${identifier.toLowerCase()}.png`
     : `${twBaseUri}/binance/assets/${logoSymbol}/logo.png`;
 };
 

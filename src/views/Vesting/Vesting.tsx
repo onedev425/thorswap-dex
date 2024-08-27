@@ -184,7 +184,7 @@ const Vesting = () => {
     (percent: number) => {
       setAmount(
         new SwapKitNumber({
-          value: (claimableAmount.getValue("number") * percent) / 100,
+          value: claimableAmount.mul(percent).div(100).getValue("string"),
           decimal: BaseDecimal.ETH,
         }),
       );

@@ -1,6 +1,7 @@
 import { QueryStatus } from "@reduxjs/toolkit/query";
+import { ProviderName } from "@swapkit/sdk";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IS_DEV_API, IS_LEDGER_LIVE, IS_PROD } from "settings/config";
+import { IS_LEDGER_LIVE, IS_PROD } from "settings/config";
 import { useLazyGetTokenListQuery } from "store/static/api";
 import { useAppSelector } from "store/store";
 import { useGetProvidersQuery } from "store/thorswap/api";
@@ -22,7 +23,12 @@ export const DISABLED_TOKENLIST_PROVIDERS = IS_PROD
     ? ["Stargatearb", "Pancakeswap", "Pancakeswapeth", "Traderjoe", "Pangolin"]
     : [];
 
-const UNCHAINABLE_PROVIDERS = ["CHAINFLIP", "MAYACHAIN", "MAYACHAIN_STREAMING"];
+const UNCHAINABLE_PROVIDERS = [
+  ProviderName.CAVIAR_V1,
+  ProviderName.MAYACHAIN,
+  ProviderName.MAYACHAIN_STREAMING,
+  ProviderName.CHAINFLIP,
+];
 
 export const useTokenList = (withTradingPairs = false) => {
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -51,9 +57,20 @@ export const useTokenList = (withTradingPairs = false) => {
   const fetchTokens = useCallback(async () => {
     if (!providers.length) return;
 
-    const providerRequests = providers.map(async (provider) => fetchTokenList(provider));
+    const providerRequests = providers.map(async (provider) => await fetchTokenList(provider));
 
-    const providersData = await Promise.all(providerRequests);
+    const providersData = (await Promise.all(providerRequests)).map(({ data, ...rest }, index) => ({
+      data: {
+        ...data,
+        tokens: data?.tokens.map(({ address, ...rest }) => ({
+          ...rest,
+          ...(address?.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            ? {}
+            : { address }),
+        })),
+      },
+      ...rest,
+    }));
 
     const tokensByProvider = new Map<
       string,
@@ -66,7 +83,7 @@ export const useTokenList = (withTradingPairs = false) => {
     if (withTradingPairs) {
       const chainableTokens = providersData
         .filter(({ data }) => {
-          return IS_DEV_API || !UNCHAINABLE_PROVIDERS.includes(data?.provider || "");
+          return !UNCHAINABLE_PROVIDERS.includes((data?.provider || "") as ProviderName);
         })
         .reduce(
           (acc, { data, status }) =>
@@ -77,7 +94,8 @@ export const useTokenList = (withTradingPairs = false) => {
         );
       for (const { data, status } of providersData) {
         if (!data?.tokens || status === QueryStatus.rejected) return;
-        const isProviderChainable = !UNCHAINABLE_PROVIDERS.includes(data.provider) || IS_DEV_API;
+        const isProviderChainable =
+          data.provider && !UNCHAINABLE_PROVIDERS.includes(data.provider as ProviderName);
 
         for (const token of data.tokens) {
           const existingTradingPairs = tokensByProvider.get(token.identifier.toLowerCase()) || {

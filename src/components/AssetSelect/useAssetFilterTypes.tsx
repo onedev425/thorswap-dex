@@ -125,9 +125,9 @@ export const useAssetFilterTypes = () => {
           <FilterTypeLabel
             icon={
               <AssetIcon
-                asset={AssetValue.fromStringSync(
-                  "ARB.ARB-0x912ce59144191c1204e64559fe8253a0e49e6548",
-                )}
+                asset={AssetValue.from({
+                  asset: "ARB.ARB-0x912ce59144191c1204e64559fe8253a0e49e6548",
+                })}
                 hasChainIcon={false}
                 size={20}
               />
