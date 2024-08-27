@@ -338,11 +338,8 @@ export const useSwapQuote = ({
 
     // @ts-expect-error
     const reducedV2Routes = reduceV2StreamingRoutes(filteredRoutes);
-
-    setSortedRoutes(
-      // @ts-expect-error
-      [...(data ? data.routes : []), ...reducedV2Routes],
-    );
+    // @ts-expect-error
+    setSortedRoutes(reducedV2Routes);
 
     setApprovalsLoading(true);
   }, [
