@@ -16,91 +16,70 @@ import { connectLedgerLive, mapLedgerChainToChain } from "../../../ledgerLive/wa
 import { exodusWallet } from "../../App";
 
 const useIsMounted = () => {
-  const isMounted = useRef(false);
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
+    setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
   return isMounted;
 };
 
 export const useWallet = () => {
-  const { wallet: initialWallet, chainLoading: initialChainLoading } = useWalletState();
-  const [wallet, setWallet] = useState(initialWallet);
-  const [chainLoading, setChainLoading] = useState(initialChainLoading);
-  const [isWalletLoading, setIsWalletLoading] = useState(false);
+  const { wallet, chainLoading } = useWalletState();
   const isMounted = useIsMounted();
-  const walletRef = useRef(wallet);
-  const chainLoadingRef = useRef(chainLoading);
 
-  useEffect(() => {
-    if (isMounted.current) {
-      setWallet(initialWallet);
-      walletRef.current = initialWallet;
-    }
-  }, [initialWallet]);
-
-  useEffect(() => {
-    if (isMounted.current) {
-      setChainLoading(initialChainLoading);
-      chainLoadingRef.current = initialChainLoading;
-
-      // Update isWalletLoading based on chainLoading
-      const loading = Object.values(initialChainLoading).some(Boolean);
-      setIsWalletLoading(loading);
-    }
-  }, [initialChainLoading]);
+  const isWalletLoading = useMemo(
+    () =>
+      Object.keys(wallet).some((key) => {
+        return chainLoading[key as keyof typeof wallet];
+      }),
+    [chainLoading, wallet],
+  );
 
   const getWallet = useCallback(
     (chain: Chain) => {
-      if (isMounted.current) {
-        return walletRef.current[chain as keyof typeof wallet];
+      if (isMounted) {
+        return wallet[chain as keyof typeof wallet];
       }
 
       return null;
     },
-    [isMounted.current, walletRef.current, chainLoadingRef.current],
+    [wallet, isMounted],
   );
 
   const getWalletAddress = useCallback(
     (chain: Chain) => {
-      if (isMounted.current) {
-        return (
-          walletRef.current[chain as keyof typeof wallet]?.address ||
-          wallet[chain as keyof typeof wallet]?.address ||
-          ""
-        );
+      if (isMounted) {
+        return wallet[chain as keyof typeof wallet]?.address || "";
       }
       return "";
     },
-    [isMounted.current, walletRef.current, chainLoadingRef.current],
+    [isMounted, wallet],
   );
 
   const hasWallet = useMemo(() => {
-    if (isMounted.current) {
-      return Object.values(walletRef.current).some((w) => !!w);
+    if (isMounted) {
+      return Object.values(wallet).some((w) => !!w);
     }
     return false;
-  }, [wallet, isMounted.current, walletRef.current, chainLoadingRef.current]);
+  }, [wallet, isMounted]);
 
   const walletAddresses = useMemo(() => {
-    if (isMounted.current) {
-      return Object.entries(walletRef.current)
+    if (isMounted) {
+      return Object.entries(wallet)
         .map(([chain, w]) => (chain === Chain.Ethereum ? w?.address?.toLowerCase() : w?.address))
         .filter((a): a is string => !!a);
     }
     return [];
-  }, [wallet, isMounted.current, walletRef.current, chainLoadingRef.current]);
+  }, [wallet, isMounted]);
 
   const walletState = useMemo(() => {
-    return isMounted.current ? walletRef.current : ({} as Todo);
-  }, [wallet, isMounted.current, walletRef.current, chainLoadingRef.current]);
+    return isMounted ? wallet : ({} as Todo);
+  }, [wallet, isMounted]);
 
   return {
     wallet: walletState,
-    chainLoading: chainLoadingRef.current,
+    chainLoading,
     walletAddresses,
     isWalletLoading,
     getWalletAddress,
@@ -183,7 +162,7 @@ export const useWalletBalance = () => {
 
   const getWalletByChain = useCallback(
     async (chain: Chain) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const abortController = new AbortController();
       const signal = abortController.signal;
@@ -212,7 +191,7 @@ export const useWalletBalance = () => {
           }),
         ]);
 
-        if (isMounted.current && !signal.aborted && data) {
+        if (isMounted && !signal.aborted && data) {
           walletDispatch({
             type: "setChainWallet",
             payload: {
@@ -233,7 +212,7 @@ export const useWalletBalance = () => {
 
         logException(error as Error);
       } finally {
-        if (isMounted.current) {
+        if (isMounted) {
           walletDispatch({ type: "setChainWalletLoading", payload: { chain, loading: false } });
         }
       }
@@ -279,7 +258,7 @@ export const useConnectWallet = () => {
 
   const connectLedger = useCallback(
     async (chain: Chain, derivationPath: DerivationPathArray, index: number) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const options = { chain: chainName(chain), index };
 
@@ -299,7 +278,7 @@ export const useConnectWallet = () => {
 
   const connectLedgerLiveWallet = useCallback(
     async (chains?: Chain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const account = await ledgerLive().requestAccount(chains);
       const chain = mapLedgerChainToChain(account.currency as LedgerLiveChain);
@@ -312,7 +291,7 @@ export const useConnectWallet = () => {
 
   const connectTrezor = useCallback(
     async (chain: Chain, derivationPath: DerivationPathArray, index: number) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const options = { chain: chainName(chain), index };
       const { connectTrezor: swapKitConnectTrezor } = await (
@@ -340,7 +319,7 @@ export const useConnectWallet = () => {
 
   const connectXdefiWallet = useCallback(
     async (chains: Chain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectXDEFI: swapKitConnectXDEFI } = await (
         await import("services/swapKit")
@@ -356,7 +335,7 @@ export const useConnectWallet = () => {
 
   const connectTalismanWallet = useCallback(
     async (chains: Chain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectTalisman: swapKitConnectTalisman } = await (
         await import("services/swapKit")
@@ -372,7 +351,7 @@ export const useConnectWallet = () => {
 
   const connectCoinbaseMobile = useCallback(
     async (chains: EVMChain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const skclient = await (await import("services/swapKit")).getSwapKitClient();
 
@@ -385,7 +364,7 @@ export const useConnectWallet = () => {
 
   const connectEVMWalletExtension = useCallback(
     async (chains: EVMChain[], wallet: WalletOption) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       if (wallet === WalletOption.OKX_MOBILE && isMobile && !okxWalletDetected) {
         window.open("okx://wallet/dapp/details?dappUrl=https://app.thorswap.finance/swap");
@@ -404,7 +383,7 @@ export const useConnectWallet = () => {
 
   const connectBraveWallet = useCallback(
     async (chains: EVMChain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import("services/swapKit")
@@ -419,7 +398,7 @@ export const useConnectWallet = () => {
 
   const connectWalletconnect = useCallback(
     async (chains: Chain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectWalletconnect } = await (await import("services/swapKit")).getSwapKitClient();
 
@@ -437,7 +416,7 @@ export const useConnectWallet = () => {
 
   const connectOkx = useCallback(
     async (chains: Chain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectOkx } = await (await import("services/swapKit")).getSwapKitClient();
       // @ts-expect-error
@@ -449,7 +428,7 @@ export const useConnectWallet = () => {
 
   const connectTrustWalletExtension = useCallback(
     async (chain: Chain) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import("services/swapKit")
@@ -464,7 +443,7 @@ export const useConnectWallet = () => {
 
   const connectCoinbaseWalletExtension = useCallback(
     async (chain: EVMChain) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import("services/swapKit")
@@ -479,7 +458,7 @@ export const useConnectWallet = () => {
 
   const connectMetamask = useCallback(
     async (chain: EVMChain) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectEVMWallet: swapKitConnectEVMWallet } = await (
         await import("services/swapKit")
@@ -507,7 +486,7 @@ export const useConnectWallet = () => {
 
   const connectKeplr = useCallback(
     async (chains: (Chain.Cosmos | Chain.Kujira)[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectKeplr: swapKitConnectKeplr } = await (
         await import("services/swapKit")
@@ -522,7 +501,7 @@ export const useConnectWallet = () => {
 
   const unlockKeystore = useCallback(
     async (keystore: Keystore, phrase: string, chains: WalletChain[]) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectKeystore } = await (await import("services/swapKit")).getSwapKitClient();
       const { ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
@@ -557,7 +536,7 @@ export const useConnectWallet = () => {
       )[],
       derivationPath?: DerivationPathArray,
     ) => {
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       const { connectKeepkey: swapKitConnectKeepkey } = await (
         await import("services/swapKit")

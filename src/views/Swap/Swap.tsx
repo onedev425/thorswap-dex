@@ -435,8 +435,14 @@ const SwapView = () => {
   }, [refetchPrice, refetchQuote]);
 
   const handleSwap = useSwap({
-    inputAsset: inputAsset.set(inputAmount.getValue("string")),
-    outputAsset: outputAsset.set(outputAmount.getValue("string")),
+    inputAsset: AssetValue.from({
+      asset: inputAsset.toString({ includeSynthProtocol: true }),
+      value: inputAmount.getValue("string"),
+    }),
+    outputAsset: AssetValue.from({
+      asset: outputAsset.toString({ includeSynthProtocol: true }),
+      value: outputAmount.getValue("string"),
+    }),
     quoteMode,
     recipient,
     route: selectedRoute as unknown as QuoteRoute,
