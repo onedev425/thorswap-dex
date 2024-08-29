@@ -168,8 +168,13 @@ export const AssetIcon = memo(
       symbol,
     } = useMemo(() => asset || RUNEAsset, [asset]);
     const address = symbol.slice(symbol.indexOf("-") + 1).toLowerCase();
-    const identifier = `${chain}.${symbol}`;
-    const iconUrl = logoURI ? logoURI : tokenLogoURL({ address, identifier });
+    const identifier = asset?.toString().replaceAll("/", ".") || `${chain}.${symbol}`;
+    const iconUrl = logoURI
+      ? logoURI
+      : tokenLogoURL({
+          address,
+          identifier,
+        });
 
     const assetChain = useMemo(
       () => (isSynthetic ? symbol.split("/")[0] : chain) as Chain,

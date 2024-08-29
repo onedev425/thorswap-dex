@@ -27,7 +27,6 @@ const renderApp = () => {
           <App />
         </Sentry.ErrorBoundary>
       </StrictMode>
-      ,
     </WalletProvider>,
   );
 };

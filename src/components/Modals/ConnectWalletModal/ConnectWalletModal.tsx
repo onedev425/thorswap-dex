@@ -580,20 +580,6 @@ const ConnectWalletModal = () => {
                                   />
                                 );
                               }
-
-                              // Fallback for MetaMask like wallets
-                              return (
-                                <WalletOption
-                                  handleTypeSelect={handleWalletTypeSelect}
-                                  disabled={isWalletTypeDisabled(WalletType.MetaMask)}
-                                  key={provider.info.uuid}
-                                  label={provider.info.name}
-                                  type={WalletType.MetaMask}
-                                  icon={"add"}
-                                  imgData={provider.info.icon}
-                                  selected={false}
-                                />
-                              );
                             })}
                         </Box>
                       </Box>

@@ -59,7 +59,7 @@ export const useTokenList = (withTradingPairs = false) => {
 
     const providerRequests = providers.map(async (provider) => await fetchTokenList(provider));
 
-    const providersData = (await Promise.all(providerRequests)).map(({ data, ...rest }, index) => ({
+    const providersData = (await Promise.all(providerRequests)).map(({ data, ...rest }) => ({
       data: {
         ...data,
         tokens: data?.tokens.map(({ address, ...rest }) => ({
