@@ -110,10 +110,9 @@ export const providerLogoURL = (provider: string) => {
     .toLowerCase()
     .split("-")[0] as "thorchain";
 
-  const providerData = providersInfoMap[parsedProvider];
+  const identifier = providersInfoMap[parsedProvider];
 
-  if (!providerData) return "";
-  const [identifier, address] = providerData.split("-");
+  if (!identifier) return "";
 
-  return tokenLogoURL({ address, identifier });
+  return tokenLogoURL({ identifier });
 };
