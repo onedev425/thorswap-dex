@@ -58,14 +58,16 @@ export const TabsSelect = memo(
             {tabs.map(({ value, label, tooltip, chain }) => (
               <Button
                 _dark={{
-                  bgColor: chain === selectedValue && `${theme.colors.brand.btnPrimary}80`,
+                  bgColor:
+                    (chain === selectedValue || value === selectedValue) &&
+                    `${theme.colors.brand.btnPrimary}80`,
                 }}
                 _light={{ color: theme.colors.brand.light.textPrimary }}
                 alignSelf="stretch"
                 disabled={enabledTabs && !enabledTabs?.includes(value)}
                 flex={tabWidth ? "initial" : 1}
                 key={value}
-                onClick={() => onChange(chain || "all")}
+                onClick={() => onChange(chain || value)}
                 style={tabWidth ? { width: tabWidth } : {}}
                 sx={buttonStyle}
                 textTransform="none"

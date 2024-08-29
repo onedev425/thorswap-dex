@@ -65,7 +65,7 @@ export const EarnConfirmModal = ({
       value: `${outboundFee.toSignificant(6)} ${asset.ticker}`,
     },
     {
-      label: t("common.slippage"),
+      label: t("common.totalFees"),
       value: `${slippage?.toSignificant(6) || 0} ${asset.ticker}`,
     },
     {

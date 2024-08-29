@@ -83,7 +83,7 @@ export const PercentageSlider = ({
       </Box>
 
       {subTitle && (
-        <Text className="inline-flex w-full" fontSize="md" textStyle="caption">
+        <Text className="inline-flex w-full" fontSize="sm" textStyle="caption">
           {subTitle}
         </Text>
       )}

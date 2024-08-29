@@ -11,6 +11,7 @@ import { PercentageSlider } from "components/PercentageSlider";
 import { TabsSelect } from "components/TabsSelect";
 import { SAVERS_MEDIUM } from "config/constants";
 import { useWallet, useWalletConnectModal } from "context/wallet/hooks";
+import { useFormatPrice } from "helpers/formatPrice";
 import { useAssetsWithBalance } from "hooks/useAssetsWithBalance";
 import { useBalance } from "hooks/useBalance";
 import { useCheckHardCap } from "hooks/useCheckHardCap";
@@ -62,6 +63,7 @@ const Earn = () => {
   );
   const [availableToWithdraw, setAvailableToWithdraw] = useState(zeroAmount);
   const [balance, setBalance] = useState<AssetValue | undefined>();
+  const formatPrice = useFormatPrice();
 
   const listAssets = useMemo(
     () =>
@@ -390,7 +392,7 @@ const Earn = () => {
                           subTitle={
                             amount.eqValue(zeroAmount)
                               ? undefined
-                              : `${amount.toSignificant(6)} ${asset.ticker} ($${toUsdPrice(amount)})`
+                              : `${amount.toSignificant(6)} ${asset.ticker} (${formatPrice(toUsdPrice(amount))})`
                           }
                         />
                       )}
