@@ -151,8 +151,6 @@ const RunePool = () => {
         : { assetValue: RUNEAsset, type: "withdraw" as const, percent };
 
       const txHash = await thorchain.deposit({ ...params, recipient: "" });
-
-      setAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
       if (txHash)
         appDispatch(
           completeTransaction({
@@ -164,6 +162,8 @@ const RunePool = () => {
     } catch (error) {
       logException(error as Error);
       appDispatch(completeTransaction({ id, status: "error" }));
+    } finally {
+      setAmount(new SwapKitNumber({ value: 0, decimal: 8 }));
     }
   }, [amount, appDispatch, isDeposit, runePoolDepositMemo, withdrawPercent]);
 
@@ -251,12 +251,12 @@ const RunePool = () => {
     },
     {
       label: t("common.amount"),
-      value: `${amount.toSignificant(6)} ${runeAsset.asset.ticker}`,
+      value: `${amount.gt(0) ? amount.toSignificant(6) : position.value?.mul(withdrawPercent).div(100).toSignificant(6)} ${runeAsset.asset.ticker}`,
     },
   ];
 
   const handleDepositButtonClick = () => {
-    if (amount.getValue("number") > 0) setIsConfirmOpen(true);
+    if (amount.gt(0) || withdrawPercent.gt(0)) setIsConfirmOpen(true);
 
     return;
   };
@@ -370,26 +370,25 @@ const RunePool = () => {
                 value={tab}
               />
 
-              {tab === RunePoolTab.Withdraw && (
+              {tab === RunePoolTab.Withdraw ? (
                 <PercentageSlider
                   onChange={handlePercentWithdrawChange}
                   percent={withdrawPercent}
                   title={t("common.withdrawPercent")}
                 />
+              ) : (
+                <AssetInput
+                  noFilters
+                  hideZeroPrice
+                  singleAsset
+                  assets={[{ asset: AssetValue.from({ asset: "THOR.RUNE" }) }]}
+                  className="flex-1"
+                  onAssetChange={() => false}
+                  onValueChange={setAmount}
+                  poolAsset={runeAsset}
+                  selectedAsset={runeAsset}
+                />
               )}
-
-              <AssetInput
-                noFilters
-                hideZeroPrice
-                singleAsset
-                assets={[{ asset: AssetValue.from({ asset: "THOR.RUNE" }) }]}
-                className="flex-1"
-                disabled={tab === RunePoolTab.Withdraw}
-                onAssetChange={() => false}
-                onValueChange={setAmount}
-                poolAsset={runeAsset}
-                selectedAsset={runeAsset}
-              />
 
               {/* <InfoTable horizontalInset items={summary} /> */}
 
