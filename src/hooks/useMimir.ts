@@ -2,12 +2,15 @@
 
 import { BaseDecimal, Chain, SwapKitNumber } from "@swapkit/sdk";
 import { useMemo } from "react";
-import { useGetMimirQuery, useGetNetworkQuery } from "store/midgard/api";
+import { useGetLastblockQuery, useGetMimirQuery, useGetNetworkQuery } from "store/midgard/api";
 import type { MimirData } from "store/midgard/types";
 
 export const useMimir = () => {
   const { data } = useGetMimirQuery(undefined, { pollingInterval: 60000 });
   const { data: networkData } = useGetNetworkQuery(undefined, { pollingInterval: 60000 });
+  const { data: lastBlock } = useGetLastblockQuery();
+  const tcLastBlock = lastBlock?.[0]?.thorchain;
+
   const mimir = useMemo(() => data || ({} as MimirData), [data]);
 
   const totalPooledRune = SwapKitNumber.fromBigInt(BigInt(networkData?.totalPooledRune || 0), 8);
@@ -17,7 +20,7 @@ export const useMimir = () => {
       return false;
     }
 
-    return mimir?.HALTCHAINGLOBAL === 1 || mimir[entry] !== 0;
+    return mimir?.HALTCHAINGLOBAL === 1 || (mimir[entry] !== 0 && tcLastBlock >= mimir[entry]);
   };
 
   // halt status
