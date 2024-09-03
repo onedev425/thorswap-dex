@@ -88,6 +88,10 @@ export const microgardApi = createApi({
       query: () => `${THORNODE_URL}/mimir`,
       keepUnusedDataFor: 60,
     }),
+    getConstants: build.query<MimirData, void>({
+      query: () => `${THORNODE_URL}/constants`,
+      keepUnusedDataFor: 60,
+    }),
     getNodes: build.query<ProxiedNode[], void>({
       query: () => `${THORNODE_URL}/nodes`,
       keepUnusedDataFor: 3600,
@@ -109,6 +113,7 @@ export const {
   useLazyGetTNSDetailQuery,
   useGetLastblockQuery,
   useGetMimirQuery,
+  useGetConstantsQuery,
   useGetNodesQuery,
   useGetQueueQuery,
 } = microgardApi;

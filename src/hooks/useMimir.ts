@@ -2,16 +2,34 @@
 
 import { BaseDecimal, Chain, SwapKitNumber } from "@swapkit/sdk";
 import { useMemo } from "react";
-import { useGetLastblockQuery, useGetMimirQuery, useGetNetworkQuery } from "store/midgard/api";
+import {
+  useGetConstantsQuery,
+  useGetLastblockQuery,
+  useGetMimirQuery,
+  useGetNetworkQuery,
+} from "store/midgard/api";
 import type { MimirData } from "store/midgard/types";
 
 export const useMimir = () => {
-  const { data } = useGetMimirQuery(undefined, { pollingInterval: 60000 });
+  const { data: mimirData } = useGetMimirQuery(undefined, { pollingInterval: 60000 });
+  const { data: constantsData } = useGetConstantsQuery(undefined, { pollingInterval: 60000 });
   const { data: networkData } = useGetNetworkQuery(undefined, { pollingInterval: 60000 });
   const { data: lastBlock } = useGetLastblockQuery();
   const tcLastBlock = lastBlock?.[0]?.thorchain;
 
-  const mimir = useMemo(() => data || ({} as MimirData), [data]);
+  const mimir = useMemo(() => {
+    const mergedConfig = {
+      ...(constantsData
+        ? Object.fromEntries(
+            Object.entries(constantsData).flatMap(([_, value]) =>
+              Object.entries(value).map(([key, val]) => [key.toUpperCase(), val]),
+            ),
+          )
+        : {}),
+      ...mimirData,
+    };
+    return mergedConfig || ({} as MimirData);
+  }, [mimirData, constantsData]);
 
   const totalPooledRune = SwapKitNumber.fromBigInt(BigInt(networkData?.totalPooledRune || 0), 8);
 

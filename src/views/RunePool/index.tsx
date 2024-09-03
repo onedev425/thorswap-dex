@@ -79,7 +79,7 @@ const RunePool = () => {
 
   const { stats, refreshStats } = useRunePoolStats();
   const [amount, setAmount] = useState<SwapKitNumber>(new SwapKitNumber({ value: 0, decimal: 8 }));
-  const { position, refreshPosition } = useRunePoolPosition();
+  const { position } = useRunePoolPosition();
   const [balance, setBalance] = useState<AssetValue | undefined>();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -169,13 +169,11 @@ const RunePool = () => {
 
   useInterval(() => {
     refreshStats();
-    refreshPosition();
     refreshAvailability();
   }, 30_000);
 
   useEffect(() => {
     refreshStats();
-    refreshPosition();
     refreshAvailability();
   }, [position.address, address]);
 

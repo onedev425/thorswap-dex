@@ -7,7 +7,7 @@ import { useWallet } from "context/wallet/hooks";
 import { useMimir } from "hooks/useMimir";
 import debounce from "lodash.debounce";
 import type React from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGetLastblockQuery } from "store/midgard/api";
 import type { RunePoolPosition } from "views/RunePool/types";
 
@@ -94,33 +94,17 @@ export const useRunePoolStats = () => {
     const data = await dataPromise();
 
     const runePoolItems = [
-      //   {
-      //     label: "POL",
-      //     value: `${data.pol.value.toCurrency("")} RUNE`,
-      //   },
       {
         label: "Users",
         value: `${data.providers.value.toCurrency("")} RUNE`,
       },
-      //   {
-      //     label: "Reserve",
-      //     value: `${data.reserve.value.toCurrency("")} RUNE`,
-      //   },
     ];
 
     const pnlItems = [
-      //   {
-      //     label: "POL",
-      //     value: `${data.pol.pnl.toCurrency("")} RUNE`,
-      //   },
       {
         label: "Users",
         value: `${data.providers.pnl.toCurrency("")} RUNE`,
       },
-      //   {
-      //     label: "Reserve",
-      //     value: `${data.reserve.pnl.toCurrency("")} RUNE`,
-      //   },
     ];
 
     const statsList = [
@@ -166,22 +150,23 @@ export const useRunePoolStats = () => {
 };
 
 export const useRunePoolPosition = () => {
-  const { getWalletAddress, isWalletLoading } = useWallet();
+  const { wallet, isWalletLoading } = useWallet();
   const [position, setPosition] = useState<RunePoolPosition>(EMPTY_POSITION);
 
-  const refreshPosition = useCallback(async () => {
+  useEffect(() => {
     if (isWalletLoading) return;
 
-    const connectedThorAddress = getWalletAddress(Chain.THORChain);
-    if (!connectedThorAddress) return EMPTY_POSITION;
+    const thorWallet = wallet[Chain.THORChain];
+    if (!thorWallet) {
+      setPosition(EMPTY_POSITION);
+      return;
+    }
 
-    const newPositionData = await fetchRunePoolProviderPosition(connectedThorAddress);
-    setPosition(newPositionData);
-  }, [getWalletAddress, isWalletLoading]);
+    fetchRunePoolProviderPosition(thorWallet.address).then(setPosition);
+  }, [wallet, isWalletLoading]);
 
   return {
     position,
-    refreshPosition,
   };
 };
 
@@ -192,32 +177,29 @@ export const useRunePoolAvailability = () => {
     isRunePoolHalted,
     polMaxNetworkDeposit,
   } = useMimir();
+
   const { data } = useGetLastblockQuery();
   const { position } = useRunePoolPosition();
   const [availability, setAvailability] = useState<{
     depositAvailability: boolean;
     withdrawalAvailability: boolean;
-    // withdrawalAvailabilityDateMs: number;
   }>({
     depositAvailability: false,
     withdrawalAvailability: false,
-    // withdrawalAvailabilityDateMs: 0,
   });
 
   const lastBlock = useMemo(() => data?.[0]?.thorchain, [data]);
 
   const refreshAvailability = useCallback(async () => {
     const runePoolStats = await fetchRunePoolStats();
-    // return deposit & withdrawal global availability
-    // Check the position last_withdrawal_height, if exist
+
     const depositAvailability = true;
     let withdrawalAvailability = true;
-    // let withdrawalAvailabilityDateMs = dayjs().valueOf();
+
     if (isRunePoolHalted) {
       setAvailability({
         depositAvailability: false,
         withdrawalAvailability: false,
-        // withdrawalAvailabilityDateMs: 0,
       });
       return;
     }
@@ -225,27 +207,21 @@ export const useRunePoolAvailability = () => {
     const hasPositionMatured =
       (position?.lastDepositHeight ?? 0) + runePoolDepositMaturityBlocks <= lastBlock;
 
-    // withdrawalAvailabilityDateMs +=
-    //   ((position?.lastDepositHeight ?? 0) + runePoolDepositMaturityBlocks - lastBlock) * 6000;
+    withdrawalAvailability = hasPositionMatured;
 
-    if (!hasPositionMatured) {
-      withdrawalAvailability = false;
-    }
-
-    if (runePoolStats.reserve.value.add(polMaxNetworkDeposit).gte(runePoolMaxReserveBackstop)) {
+    if (runePoolStats.reserve.value.gte(runePoolMaxReserveBackstop.add(polMaxNetworkDeposit))) {
       withdrawalAvailability = false;
     }
 
     setAvailability({
       depositAvailability,
       withdrawalAvailability,
-      //   withdrawalAvailabilityDateMs,
     });
   }, [
     isRunePoolHalted,
     lastBlock,
     polMaxNetworkDeposit,
-    position,
+    position?.lastDepositHeight,
     runePoolDepositMaturityBlocks,
     runePoolMaxReserveBackstop,
   ]);

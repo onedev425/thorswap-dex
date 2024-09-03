@@ -74,7 +74,7 @@ export const useWallet = () => {
   }, [wallet, isMounted]);
 
   const walletState = useMemo(() => {
-    return isMounted ? wallet : ({} as Todo);
+    return wallet;
   }, [wallet, isMounted]);
 
   return {
