@@ -429,7 +429,7 @@ const RunePool = () => {
 
           {isConfirmOpen && (
             <ConfirmModal
-              buttonDisabled={!(amount.getValue("number") > 0)}
+              buttonDisabled={!(amount.gt(0) || withdrawPercent.gt(0))}
               inputAssets={[RUNEAsset]}
               isOpened={isConfirmOpen}
               onClose={() => setIsConfirmOpen(false)}
