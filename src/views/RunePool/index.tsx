@@ -133,7 +133,9 @@ const RunePool = () => {
         id,
         label: t(isDeposit ? "txManager.addAmountAsset" : "txManager.withdrawAmountAsset", {
           asset: RUNEAsset.ticker,
-          amount: amount.getValue("string"),
+          amount: isDeposit
+            ? amount.getValue("string")
+            : withdrawPercent.mul(position?.value).div(100).toSignificant(6),
         }),
         type: isDeposit ? TransactionType.TC_RUNEPOOL_ADD : TransactionType.TC_RUNEPOOL_WITHDRAW,
         inChain: RUNEAsset.chain,
