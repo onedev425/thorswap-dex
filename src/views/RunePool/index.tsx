@@ -117,7 +117,7 @@ const RunePool = () => {
     return getMemoForRunePoolWithdraw({
       basisPoints: withdrawPercent.mul(100).getValue("number"),
       affiliateAddress: "t",
-      affiliateBasisPoints: 30,
+      affiliateBasisPoints: 200,
     });
   }, [withdrawPercent, isDeposit]);
 

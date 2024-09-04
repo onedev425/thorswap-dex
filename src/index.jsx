@@ -13,6 +13,8 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { initialiseLogger } from "./services/logger";
 import { IS_LOCAL, IS_PROD, IS_STAGENET } from "./settings/config";
 
+import { isMobile } from "components/Modals/ConnectWalletModal/hooks";
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -20,14 +22,23 @@ const renderApp = () => {
   initialiseLogger();
 
   root.render(
-    <WalletProvider wallet={exodusWallet}>
+    isMobile ? (
       <StrictMode>
         <Sentry.ErrorBoundary fallback={(error) => <ErrorBoundary error={error} />}>
           <ColorModeScript />
           <App />
         </Sentry.ErrorBoundary>
       </StrictMode>
-    </WalletProvider>,
+    ) : (
+      <WalletProvider wallet={exodusWallet}>
+        <StrictMode>
+          <Sentry.ErrorBoundary fallback={(error) => <ErrorBoundary error={error} />}>
+            <ColorModeScript />
+            <App />
+          </Sentry.ErrorBoundary>
+        </StrictMode>
+      </WalletProvider>
+    ),
   );
 };
 

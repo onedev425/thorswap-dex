@@ -8,6 +8,7 @@ import { HoverIcon } from "components/HoverIcon";
 import { InfoTip } from "components/InfoTip";
 import { Input } from "components/Input";
 import { DerivationPathDropdown } from "components/Modals/ConnectWalletModal/DerivationPathsDropdown";
+import { isMobile } from "components/Modals/ConnectWalletModal/hooks";
 import { showErrorToast } from "components/Toast";
 import { useConnectWallet, useWallet, useWalletConnectModal } from "context/wallet/hooks";
 import { getFromStorage, saveInStorage } from "helpers/storage";
@@ -524,26 +525,30 @@ const ConnectWalletModal = () => {
                           "px-4 py-2 flex-wrap justify-center bg-light-bg-primary dark:bg-dark-bg-primary rounded-3xl z-10",
                         )}
                       >
-                        <Box className="pl-2">
-                          <Text fontWeight="semibold">Instant Wallets</Text>
-                        </Box>
-                        <Box>
-                          {getEIP6963Wallets()
-                            .providers.filter((a) => a.info.name === "Passkey")
-                            .map((provider) => (
-                              <WalletOption
-                                //   connected={connectedWallets.includes(item.type.toLowerCase())}
-                                handleTypeSelect={handleWalletTypeSelect}
-                                disabled={isWalletTypeDisabled(WalletType.Exodus)}
-                                key={provider.info.uuid}
-                                label={provider.info.name}
-                                type={WalletType.Exodus}
-                                icon={"add"}
-                                imgData={provider.info.icon}
-                                selected={WalletType.Exodus === selectedWalletType}
-                              />
-                            ))}
-                        </Box>
+                        {!isMobile && (
+                          <>
+                            <Box className="pl-2">
+                              <Text fontWeight="semibold">Instant Wallets</Text>
+                            </Box>
+                            <Box>
+                              {getEIP6963Wallets()
+                                .providers.filter((a) => a.info.name === "Passkey")
+                                .map((provider) => (
+                                  <WalletOption
+                                    //   connected={connectedWallets.includes(item.type.toLowerCase())}
+                                    handleTypeSelect={handleWalletTypeSelect}
+                                    disabled={isWalletTypeDisabled(WalletType.Exodus)}
+                                    key={provider.info.uuid}
+                                    label={provider.info.name}
+                                    type={WalletType.Exodus}
+                                    icon={"add"}
+                                    imgData={provider.info.icon}
+                                    selected={WalletType.Exodus === selectedWalletType}
+                                  />
+                                ))}
+                            </Box>
+                          </>
+                        )}
                         <Box className="pl-2">
                           <Text fontWeight="semibold">Detected Wallets</Text>
                         </Box>

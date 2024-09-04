@@ -45,17 +45,19 @@ export const useAnnouncementsList = () => {
     isLoaded: isConfigLoaded,
   } = useExternalConfig();
   const { outboundQueue, outboundQueueLevel } = useNetwork();
-  const { isChainHalted, isChainPauseLP, isChainTradingHalted } = useMimir();
+  const { isChainHalted, isChainPauseLP, isChainTradingHalted, isTradingHalted } = useMimir();
 
   const announcements = useMemo(
     () =>
       [
         ...storedAnnouncements.manual,
-        ...(isTradingGloballyDisabled
+        ...(isTradingGloballyDisabled || isTradingHalted
           ? [
               {
                 key: `${new Date().getTime()}`,
-                message: t("components.announcements.tradingGloballyDisabled"),
+                message: isTradingHalted
+                  ? t("components.announcements.tradingDisabledMimir")
+                  : t("components.announcements.tradingGloballyDisabled"),
                 type: AnnouncementType.Error,
               },
             ]
