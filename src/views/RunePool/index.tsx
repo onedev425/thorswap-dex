@@ -141,14 +141,10 @@ const RunePool = () => {
     );
 
     try {
-      const percent = withdrawPercent.getValue("number");
-      const params = isDeposit
-        ? {
-            memo: runePoolDepositMemo,
-            assetValue: RUNEAsset.set(amount.getValue("string")),
-            type: "add" as const,
-          }
-        : { assetValue: RUNEAsset, type: "withdraw" as const, percent };
+      const params = {
+        memo: runePoolDepositMemo,
+        assetValue: isDeposit ? RUNEAsset.set(amount.getValue("string")) : RUNEAsset,
+      };
 
       const txHash = await thorchain.deposit({ ...params, recipient: "" });
       if (txHash)
