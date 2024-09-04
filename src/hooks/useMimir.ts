@@ -38,7 +38,11 @@ export const useMimir = () => {
       return false;
     }
 
-    return mimir?.HALTCHAINGLOBAL === 1 || (mimir[entry] !== 0 && tcLastBlock >= mimir[entry]);
+    const mimirEntry = mimir[entry] as number;
+
+    return (
+      mimir.HALTCHAINGLOBAL === 1 || (mimirEntry >= 0 && mimirEntry <= (tcLastBlock as number))
+    );
   };
 
   // halt status

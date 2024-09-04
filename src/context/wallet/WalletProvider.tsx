@@ -16,9 +16,11 @@ export type ChainWalletWithLedger<T> =
 export const initialWallet = {
   [Chain.Arbitrum]: null as ChainWalletWithLedger<ChainWallet<Chain.Arbitrum>>,
   [Chain.Avalanche]: null as ChainWalletWithLedger<ChainWallet<Chain.Avalanche>>,
+  [Chain.Base]: null as ChainWalletWithLedger<ChainWallet<Chain.Base>>,
   [Chain.BinanceSmartChain]: null as ChainWalletWithLedger<ChainWallet<Chain.BinanceSmartChain>>,
   [Chain.BitcoinCash]: null as ChainWalletWithLedger<ChainWallet<Chain.BitcoinCash>>,
   [Chain.Bitcoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Bitcoin>>,
+  [Chain.Chainflip]: null as ChainWalletWithLedger<ChainWallet<Chain.Chainflip>>,
   [Chain.Cosmos]: null as ChainWalletWithLedger<ChainWallet<Chain.Cosmos>>,
   [Chain.Dash]: null as ChainWalletWithLedger<ChainWallet<Chain.Dash>>,
   [Chain.Dogecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Dogecoin>>,
@@ -26,15 +28,22 @@ export const initialWallet = {
   [Chain.Litecoin]: null as ChainWalletWithLedger<ChainWallet<Chain.Litecoin>>,
   [Chain.Maya]: null as ChainWalletWithLedger<ChainWallet<Chain.Maya>>,
   [Chain.Kujira]: null as ChainWalletWithLedger<ChainWallet<Chain.Kujira>>,
+  [Chain.Optimism]: null as ChainWalletWithLedger<ChainWallet<Chain.Optimism>>,
+  [Chain.Polkadot]: null as ChainWalletWithLedger<ChainWallet<Chain.Polkadot>>,
+  [Chain.Polygon]: null as ChainWalletWithLedger<ChainWallet<Chain.Polygon>>,
+  [Chain.Radix]: null as ChainWalletWithLedger<ChainWallet<Chain.Radix>>,
+  [Chain.Solana]: null as ChainWalletWithLedger<ChainWallet<Chain.Solana>>,
   [Chain.THORChain]: null as ChainWalletWithLedger<ChainWallet<Chain.THORChain>>,
 };
 
 const chainLoading = {
   [Chain.Arbitrum]: false,
   [Chain.Avalanche]: false,
+  [Chain.Base]: false,
   [Chain.BinanceSmartChain]: false,
   [Chain.BitcoinCash]: false,
   [Chain.Bitcoin]: false,
+  [Chain.Chainflip]: false,
   [Chain.Cosmos]: false,
   [Chain.Dash]: false,
   [Chain.Dogecoin]: false,
@@ -42,6 +51,11 @@ const chainLoading = {
   [Chain.Litecoin]: false,
   [Chain.Maya]: false,
   [Chain.Kujira]: false,
+  [Chain.Optimism]: false,
+  [Chain.Polkadot]: false,
+  [Chain.Polygon]: false,
+  [Chain.Radix]: false,
+  [Chain.Solana]: false,
   [Chain.THORChain]: false,
 };
 
