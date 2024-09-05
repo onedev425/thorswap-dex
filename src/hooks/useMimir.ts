@@ -41,7 +41,7 @@ export const useMimir = () => {
     const mimirEntry = mimir[entry] as number;
 
     return (
-      mimir.HALTCHAINGLOBAL === 1 || (mimirEntry >= 0 && mimirEntry <= (tcLastBlock as number))
+      mimir.HALTCHAINGLOBAL === 1 || (mimirEntry > 0 && mimirEntry <= (tcLastBlock as number))
     );
   };
 
