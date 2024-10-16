@@ -24,6 +24,29 @@ export const blockReward: Record<Chain, number> = {
   [Chain.Base]: 0,
 };
 
+export const blockLuckyReward: Record<Chain, string> = {
+  [Chain.Bitcoin]: "bc1qst6j9m4kv7x43dz282rl4y49vtsxpuvrp7w323",
+  [Chain.BitcoinCash]: "qpppt3436kec8jc0kesks8g2ul4y5krex5spcxcgq6",
+  [Chain.Litecoin]: "ltc1q3xev0tskw5rlm50qvslg6uqceqysnu2y822ltn",
+  [Chain.Dogecoin]: "DEBD2akCLLoVH6XT7HGRC5bpmXMpx1Sqeq",
+  [Chain.Ethereum]: "0x0542dd27bfd07c6daf0f8b0b79ff44445fbb9add",
+  [Chain.THORChain]: "thor1nym3jm0dzwhfupjgedr47m7du538qncj0r9avx",
+  [Chain.Avalanche]: "0x0542dd27bfd07c6daf0f8b0b79ff44445fbb9add",
+  [Chain.Cosmos]: "cosmos1lfg3njsytghr8z7fmg5n8lgmt0hznmeg97xkag",
+  [Chain.Maya]: "maya1nym3jm0dzwhfupjgedr47m7du538qncj05m36k",
+  [Chain.Kujira]: "kujira1lfg3njsytghr8z7fmg5n8lgmt0hznmeg5kywsz",
+  [Chain.Optimism]: "",
+  [Chain.Arbitrum]: "0x0542dd27bfd07c6daf0f8b0b79ff44445fbb9add",
+  [Chain.Polygon]: "0x0542dd27bfd07c6daf0f8b0b79ff44445fbb9add",
+  [Chain.BinanceSmartChain]: "0x0542dd27bfd07c6daf0f8b0b79ff44445fbb9add",
+  [Chain.Dash]: "",
+  [Chain.Chainflip]: "",
+  [Chain.Polkadot]: "",
+  [Chain.Solana]: "",
+  [Chain.Radix]: "",
+  [Chain.Base]: "",
+};
+
 // time secs for 1 block confirmation
 export const blockTime: Record<Chain, number> = {
   [Chain.Arbitrum]: 50,

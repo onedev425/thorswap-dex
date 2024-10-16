@@ -16,7 +16,7 @@
   "icon": "https://static.thorswap.net/logo.png",
   "id": "thorswap",
   "manifestVersion": "2",
-  "name": "THORSwap",
+  "name": "CONICSwap",
   "permissions": [
     "account.list",
     "account.request",

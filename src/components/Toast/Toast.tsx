@@ -96,11 +96,11 @@ const showToast: ShowToastFunction = ({
                   {" ( "}
                   <a
                     className="underline"
-                    href="https://discord.gg/thorswap"
+                    href="https://discord.gg"
                     rel="noreferrer"
                     target="_blank"
                   >
-                    https://discord.gg/thorswap
+                    https://discord.gg
                   </a>
                   {" )."}
                   <Box className="pt-4">

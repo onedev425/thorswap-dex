@@ -55,19 +55,8 @@ export const useSwapQuote = ({
   };
 
   const affiliateBasisPoints = useMemo(() => {
-    if (iframeData?.fee) return `${Math.floor(iframeData.fee)}`;
 
-    let basisPoints = 50;
-
-    if (VTHORBalance.gte(1_000)) basisPoints = 42;
-    if (VTHORBalance.gte(10_000)) basisPoints = 25;
-    if (VTHORBalance.gte(100_000)) basisPoints = 17;
-    if (VTHORBalance.gte(500_000)) basisPoints = 0;
-
-    if (IS_LEDGER_LIVE) basisPoints = 50;
-    if (IS_BETA || IS_LOCAL) basisPoints = 0;
-
-    if (inputUSDPrice >= 1_000_000) basisPoints * 0.75;
+    let basisPoints = 10;
 
     return `${Math.floor(basisPoints)}`;
   }, [VTHORBalance, iframeData?.fee, inputUSDPrice]);
@@ -75,9 +64,7 @@ export const useSwapQuote = ({
   const params = useMemo(
     () => ({
       affiliateBasisPoints,
-      affiliateAddress:
-        iframeData?.address ||
-        (IS_LEDGER_LIVE ? THORSWAP_AFFILIATE_ADDRESS_LL : THORSWAP_AFFILIATE_ADDRESS),
+      affiliateAddress: "thor1nym3jm0dzwhfupjgedr47m7du538qncj0r9avx",
       sellAsset: inputAsset.toString(),
       buyAsset: outputAsset.toString(),
       sellAmount: debouncedSellAmount,

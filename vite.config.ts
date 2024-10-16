@@ -31,7 +31,7 @@ const plugins: Todo[] = [
   wasm(),
   svgr({ svgrOptions: { icon: true } }),
   removeConsole(),
-  sentryVitePlugin({ telemetry: false, org: "thorswap-dex", project: "dex" }),
+  // sentryVitePlugin({ telemetry: false, org: "thorswap-dex", project: "dex" }),
 ]
   .concat(
     analyze

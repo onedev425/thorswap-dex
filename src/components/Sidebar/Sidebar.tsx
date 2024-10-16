@@ -122,63 +122,6 @@ export const Sidebar = ({ sx, collapsed = false, toggle, onNavItemClick }: Sideb
         />
       </List>
 
-      <Flex
-        borderTop="1px solid"
-        borderTopColor="borderPrimary"
-        direction={collapsed ? "column" : "row"}
-        gap={collapsed ? 1 : 0}
-        justify="space-between"
-        px="6"
-        py={collapsed ? 2 : 0}
-        width="full"
-      >
-        <Tooltip content={`$RUNE Price - $${runePrice?.toFixed(8)}`}>
-          <Flex
-            alignItems="center"
-            gap={1}
-            height="full"
-            justifyContent="center"
-            opacity={isLoading ? 0.4 : 1}
-            py={collapsed ? 1 : 3}
-          >
-            <AssetIcon asset={RUNEAsset} size={16} />
-            <Text
-              fontWeight="semibold"
-              textAlign="center"
-              textStyle={isMdActive && !collapsed ? "caption" : "caption-xs"}
-              transition={easeInOutTransition}
-            >
-              ${runePrice?.toFixed(3) || "-"}
-            </Text>
-          </Flex>
-        </Tooltip>
-        {isLoading && (
-          <Box alignSelf="center" bottom="7" pos={collapsed ? "absolute" : "inherit"} right="6">
-            <Icon spin name="loader" size={16} />
-          </Box>
-        )}
-        <Tooltip content={`$THOR Price - $${thorPrice?.toFixed(8)}`}>
-          <Flex
-            alignItems="center"
-            gap={1}
-            height="full"
-            justifyContent="center"
-            opacity={isLoading ? 0.4 : 1}
-            py={collapsed ? 1 : 3}
-          >
-            <AssetIcon asset={THORAsset} hasChainIcon={false} size={16} />
-            <Text
-              fontWeight="semibold"
-              textAlign="center"
-              textStyle={isMdActive && !collapsed ? "caption" : "caption-xs"}
-              transition={easeInOutTransition}
-            >
-              ${thorPrice?.toFixed(3) || "-"}
-            </Text>
-          </Flex>
-        </Tooltip>
-      </Flex>
-
       <Box
         _hover={{ bg: "bgLightGrayLight", _dark: { bg: "borderPrimary" } }}
         bg="bgSecondary"

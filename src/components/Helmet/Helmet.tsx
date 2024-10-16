@@ -10,7 +10,7 @@ export const Helmet = ({
   content: string;
 }) => (
   <ReactHelmet>
-    <title>THORSwap - {title}</title>
+    <title>CONICSwap - {title}</title>
     <meta content={content} name="description" />
     {keywords && <meta content={keywords} name="keywords" />}
   </ReactHelmet>

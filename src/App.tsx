@@ -37,16 +37,7 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 const checkOrigin = () => {
-  const [, site, dns] = window.location.host.split(".");
-
-  return (
-    ["localhost", "-thorswap.vercel.app", ".thorswap.finance"].some((s) =>
-      window.location.host.includes(s),
-    ) ||
-    !window.location.href.includes(".") ||
-    Number.parseInt(site) === 0 ||
-    HmacSHA512(`${site}.${dns}`, "!%Zfh5EKmv7LoX9b*x75DQhK").toString().slice(-10) === "6240a643b9"
-  );
+  return true;
 };
 
 const MainApp = () => {

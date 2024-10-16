@@ -449,6 +449,7 @@ const SwapView = () => {
     quoteId,
     streamSwap,
     isChainflipBoostEnable,
+    inputUSDPrice: inputUSDPrice,
   });
 
   useEffect(() => {
@@ -536,7 +537,7 @@ const SwapView = () => {
               />
             )
           }
-          keywords={`${inputAsset.ticker}, ${outputAsset.ticker}, SWAP, THORSwap, THORChain, DEX, DeFi`}
+          keywords={`${inputAsset.ticker}, ${outputAsset.ticker}, SWAP, CONICSWAP, THORChain, DEX, DeFi`}
           title={`${t("common.swap")} ${inputAsset.ticker} to ${outputAsset.ticker}`}
         >
           <AssetInputs

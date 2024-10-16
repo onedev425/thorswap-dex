@@ -85,33 +85,6 @@ export const useSidebarOptions = () => {
     };
   }, []);
 
-  const thorMenu: SidebarItemProps = useMemo(() => {
-    const vestingItems: SidebarItemProps[] =
-      hasWallet && hasVestingAlloc
-        ? [
-            {
-              iconName: "chartPieOutline",
-              href: ROUTES.Vesting,
-              label: t("components.sidebar.vesting"),
-            },
-          ]
-        : [];
-
-    return {
-      iconName: "tradeLightning",
-      label: t("components.sidebar.thor"),
-      children: [
-        {
-          iconName: "vthor",
-          href: ROUTES.Stake,
-          label: t("components.sidebar.staking"),
-        },
-        ...vestingItems,
-      ],
-      widgets: [SidebarWidgetOption.ThorBurn],
-    };
-  }, [hasWallet, hasVestingAlloc]);
-
   const stickyMenu: SidebarItemProps = {
     // Leave it for key
     label: " ",
@@ -126,13 +99,7 @@ export const useSidebarOptions = () => {
         iconName: "piggyBank",
         href: ROUTES.Earn,
         label: t("components.sidebar.earn"),
-      },
-      {
-        iconName: "lending",
-        href: ROUTES.Lending,
-        label: t("components.sidebar.borrow"),
-        beta: true,
-      },
+      }
     ],
   };
 
@@ -148,76 +115,18 @@ export const useSidebarOptions = () => {
         href: ROUTES.Send,
         label: t("components.sidebar.send"),
       },
-      {
-        transform: "none",
-        iconName: "thor",
-        href: ROUTES.Thorname,
-        label: "THORName",
-      },
     ];
 
     const menu: SidebarItemProps[] = [
-      {
-        iconName: "tradeLightning",
-        label: t("components.sidebar.pool"),
-        children: [
-          {
-            iconName: "inIcon",
-            href: ROUTES.AddLiquidity,
-            label: t("components.sidebar.addLiquidity"),
-          },
-          {
-            iconName: "sputnik",
-            href: ROUTES.Liquidity,
-            label: t("components.sidebar.liquidity"),
-          },
-          {
-            transform: "none",
-            iconName: "vault",
-            href: ROUTES.RunePool,
-            label: t("components.sidebar.runePool"),
-            beta: true,
-          },
-        ],
-      },
       {
         iconName: "wallet",
         label: t("components.sidebar.wallet"),
         children: walletItems,
       },
-      {
-        iconName: "settings",
-        label: t("components.sidebar.stats"),
-        children: [
-          {
-            iconName: "app",
-            href: ROUTES.Home,
-            label: t("components.sidebar.dashboard"),
-          },
-          {
-            transform: "none",
-            label: t("components.sidebar.stats"),
-            navLabel: "THORYield",
-            iconName: "thoryield",
-            rightIconName: "external",
-            href: THORYIELD_STATS_ROUTE,
-          },
-          {
-            iconName: "cloud",
-            href: ROUTES.Nodes,
-            transform: "none",
-            label: "THORNode",
-          },
-        ],
-      },
     ];
 
-    if (multisigVisible) {
-      menu.push({ ...multisigMenu });
-    }
-
-    return [...menu, thorMenu];
-  }, [multisigVisible, multisigMenu, thorMenu]);
+    return [...menu];
+  }, [multisigVisible, multisigMenu]);
 
   return { sidebarOptions, stickyMenu };
 };
